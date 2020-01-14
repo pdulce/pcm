@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ent:entities xmlns:ent="http://pcm.framework.org/ent"
+			  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://pcm.framework.org/ent entities.xsd">
+  
+  <entity>
+    <entityname>rol</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="25" required="true"/>
+  </entity>
+    
+   <entity>
+    <entityname>administrador</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="login_name" type="string" length="10" required="true"/>
+    <field mappingTo="3" name="password" type="string" length="10" required="true" passwordType="true"/>
+    <field mappingTo="4" name="profile" type="long" length="11" required="true"
+    	fkParentEntities="rol" fkParentFields="1"/>
+    <field mappingTo="5" name="nombreCompleto" type="string" length="100" required="true"/>
+  </entity>
+  
+  <entity>
+    <entityname>invertia_import</entityname>
+    <field mappingTo="1" name="identificador" type="long" length="6" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="grupo" type="string" length="25" required="false"/>
+    <field mappingTo="3" name="num_entradas" type="integer" length="6" required="false"/>
+    <field mappingTo="4" name="fec_importacion" type="date" length="10" required="false"/>
+    <field mappingTo="5" name="excel_file" type="blob" length="25" required="true"/>
+    <field mappingTo="6" name="filename" type="string" length="50" required="false"/>
+  </entity>
+  
+  <entity>
+    <entityname>invertia_data</entityname>
+    <field mappingTo="1" name="IDENTIFICADOR" type="long" length="10" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="GRUPO" type="string" length="25" required="true"/>
+    <field mappingTo="3" name="FECHA" type="date" length="10" required="true"/>
+    <field mappingTo="4" name="LAST_PUNTAJE" type="double" length="10" required="true"/>
+    <field mappingTo="5" name="INICIAL_PUNTAJE" type="double" length="10" required="true"/>
+    <field mappingTo="6" name="PORCENTAJE_DIF" type="double" length="8" required="true"/>
+    <field mappingTo="7" name="MAX_PUNTAJE" type="double" length="10" required="true"/>
+    <field mappingTo="8" name="MIN_PUNTAJE" type="double" length="10" required="true"/>
+    <field mappingTo="9" name="VOLUMEN" type="long" length="14" required="true"/>
+    <field mappingTo="10" name="FEC_IMPORTACION" type="date" length="10" required="false"/>
+    <field mappingTo="11" name="ANYO_MES" type="string" length="7" required="false"/>
+  </entity>
+  
+  <entity>
+    <entityname>importacionesGEDEON</entityname>
+    <field mappingTo="1" name="rochade" type="string" length="5" belongsPK="true" required="true"/>
+    <field mappingTo="2" name="filename" type="string" length="100" required="false"/>
+    <field mappingTo="3" name="numEntradas" type="integer" length="6" required="false"/>
+    <field mappingTo="4" name="fechaImportacion" type="date" length="10" required="false"/>
+    <field mappingTo="5" name="excelFile" type="blob" length="25" required="true"/>
+    <field mappingTo="6" name="servicioDestino" type="string" length="20" required="true"/>    
+  </entity>
+  
+  <entity>
+    <entityname>incidenciasProyecto</entityname>
+    <field mappingTo="1" name="id" type="string" length="15" belongsPK="true" required="true"/>
+    <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
+    <field mappingTo="3" name="Descripcion" type="string" length="1000" required="false"/>
+    <field mappingTo="4" name="Observaciones" type="string" length="1000" required="false"/>
+    <field mappingTo="5" name="Usuario_creador" type="string" length="80" required="false"/>
+    <field mappingTo="6" name="Solicitante" type="string" length="200" required="false"/>
+    <field mappingTo="7" name="Estado" type="string" length="50" required="false"/>        
+    <field mappingTo="8" name="Entidad_origen" type="string" length="100" required="false"/>
+    <field mappingTo="9" name="Unidad_origen" type="long" length="11" required="false"
+    	fkParentEntities="subdireccion" fkParentFields="1"/>
+    <field mappingTo="10" name="Area_origen" type="long" length="11" required="false"
+    	fkParentEntities="servicio" fkParentFields="1"/>
+    <field mappingTo="11" name="Centro_destino" type="string" length="100" required="false"/>
+    <field mappingTo="12" name="Area_destino" type="string" length="100" required="false"/>    
+    <field mappingTo="13" name="Tipo" type="string" length="50" required="false"/>        
+    <field mappingTo="14" name="Tipo_inicial" type="string" length="50" required="false"/>
+    <field mappingTo="15" name="Urgente" type="string" length="25" required="false"/>
+    <field mappingTo="16" name="Prioridad" type="string" length="25" required="false"/>
+    <field mappingTo="17" name="Fecha_de_alta" type="date" length="10" required="false"/>
+    <field mappingTo="18" name="Fecha_de_tramitacion" type="date" length="10" required="false"/>
+    <field mappingTo="19" name="Fecha_de_necesidad" type="date" length="10" required="false"/>     
+    <field mappingTo="20" name="Fecha_fin_de_desarrollo" type="date" length="10" required="false"/>
+    <field mappingTo="21" name="Fecha_de_finalizacion" type="date" length="10" required="false"/>
+    <field mappingTo="22" name="Des_fecha_prevista_inicio" type="date" length="10" required="false"/>
+    <field mappingTo="23" name="Des_fecha_prevista_fin" type="date" length="10" required="false"/>
+    <field mappingTo="24" name="Des_fecha_real_inicio" type="date" length="10" required="false"/>
+    <field mappingTo="25" name="Des_fecha_real_fin" type="date" length="10" required="false"/>
+    <field mappingTo="26" name="Proyecto_ID" type="string" length="10" required="true"/>        
+    <field mappingTo="27" name="Proyecto_Name" type="string" length="50" required="false"/>    
+    <field mappingTo="28" name="Horas_estimadas_actuales" type="double" length="10" required="false"/>
+    <field mappingTo="29" name="Horas_reales" type="double" length="10" required="false"/>
+    <field mappingTo="30" name="anyo_mes" type="string" length="7" required="false"/>
+    <field mappingTo="31" name="fecha_export" type="date" length="10" required="false"/>
+    <field mappingTo="32" name="version_analysis" type="string" length="20" required="false"/>
+    <field mappingTo="33" name="servicio_atiende_pet" type="string" length="20" required="false"/>
+    <field mappingTo="34" name="con_entrega" type="boolean" length="1" required="false"/>
+    <field mappingTo="35" name="id_entrega_asociada" type="string" length="15" required="false"/>
+    <field mappingTo="36" name="pets_relacionadas" type="string" length="250" required="false"/>
+    <field mappingTo="37" name="fecha_estado_modif" type="timestamp" length="19" required="false"/>
+    <field mappingTo="38" name="tipo_fecha" type="integer" length="2" required="false"/>
+    <field mappingTo="39" name="fecha_informe" type="date" length="10" required="false"/>
+    <field mappingTo="40" name="estado_informe" type="string" length="100" required="false"/>
+    <field mappingTo="41" name="entorno" type="long" length="11" required="false" 
+       fkParentEntities="tipoAplicacion" fkParentFields="1"/>
+    <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
+  </entity>
+	
+  <entity>
+    <entityname>sabana</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
+    <field mappingTo="3" name="Fecha_Necesidad" type="date" length="10" required="false"/>
+    <field mappingTo="4" name="Entrada_en_CDISM" type="date" length="10" required="false"/>
+    <field mappingTo="5" name="Estado_Peticion" type="string" length="25" required="false"/>            
+    <field mappingTo="6" name="Prevision_Fin_Estado" type="date" length="10" required="false"/>
+    <field mappingTo="7" name="Fecha_Prev_Implantacion" type="date" length="10" required="false"/>
+    <field mappingTo="8" name="Fecha_Real_Implantacion" type="date" length="10" required="false"/>
+    <field mappingTo="9" name="Observaciones" type="string" length="500" required="false"/>
+    <field mappingTo="10" name="Aplicacion" type="long" length="11" required="true" 
+	    	   fkParentEntities="proyecto" fkParentFields="1"/>
+    <field mappingTo="11" name="Origen" type="string" length="50" required="false"/>
+    <field mappingTo="12" name="ID_Origen" type="string" length="15" required="false"    	
+    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>
+    <field mappingTo="13" name="Peticion_AES" type="string" length="15" required="false"
+    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>           
+    <field mappingTo="14" name="Fecha_Prev_Ini_Analisis" type="date" length="10" required="false"/>
+    <field mappingTo="15" name="Fecha_Real_Ini_Analisis" type="date" length="10" required="false"/>    
+    <field mappingTo="16" name="Fecha_Prev_Fin_Analisis" type="date" length="10" required="false"/>    
+    <field mappingTo="17" name="Fecha_Real_Fin_Analisis" type="date" length="10" required="false"/>
+    <field mappingTo="18" name="Prev_Ini_Pruebas_CD" type="date" length="10" required="false"/>
+    <field mappingTo="19" name="Real_Ini_Pruebas_CD" type="date" length="10" required="false"/>
+    <field mappingTo="20" name="Prev_Fin_Pruebas_CD" type="date" length="10" required="false"/>
+    <field mappingTo="21" name="Real_Fin_Pruebas_CD" type="date" length="10" required="false"/>
+    <field mappingTo="22" name="Peticion_DG" type="string" length="15" required="false"
+    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>
+    <field mappingTo="23" name="Fecha_Prev_Fin_DG" type="date" length="10" required="false"/>
+    <field mappingTo="24" name="Fecha_Real_Fin_DG" type="date" length="10" required="false"/>
+    <field mappingTo="25" name="UTS_Estimadas" type="double" length="10" required="false"/>
+    <field mappingTo="26" name="Peticion_Entrega" type="string" length="15" required="false"    	
+    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>
+    <field mappingTo="27" name="Fec_Entrega" type="date" length="10" required="false"/>
+    <field mappingTo="28" name="Estado_peticion_Entrega" type="string" length="25" required="false"/>
+    <field mappingTo="29" name="Subdireccion" type="long" length="11" required="true" 
+	    	   fkParentEntities="subdireccion" fkParentFields="1"/>
+ </entity>
+
+ <entity>
+    <entityname>categoria_profesional</entityname>
+    <field mappingTo="1" name="id_categoria" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="tipo_categoria" type="string" length="8" required="true"/>
+    <field mappingTo="3" name="descripcion" type="string" length="50" required="true"/>
+    <field mappingTo="4" name="importe_hora" type="double" length="10" required="true" default="0"/>
+  </entity>
+  
+  <entity>  
+    <entityname>empresaUTE</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="50" required="true"/>
+    <field mappingTo="3" name="responsable" type="string" length="150" required="false"/>
+  </entity>
+   
+  <entity>
+    <entityname>IVA</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="fecha_vigencia_desde" type="date" length="10" required="true"/>
+    <field mappingTo="3" name="fecha_vigencia_hasta" type="date" length="10" required="true"/>
+    <field mappingTo="4" name="porcentaje" type="double" length="10" required="true"/>
+  </entity>
+   
+  <entity>
+    <entityname>concurso</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="codigo" type="string" length="50" required="true"/>
+    <field mappingTo="3" name="fecha_inicio_vigencia" type="date" length="10" required="true"/>
+    <field mappingTo="4" name="fecha_fin_vigencia" type="date" length="10" required="true"/>
+    <field mappingTo="5" name="contrato" type="string" length="100" required="true"/>    
+    <field mappingTo="6" name="observaciones" type="string" length="250" required="false"/>    
+    <field mappingTo="7" name="recursos_por_categoria_C" type="integer" length="3" required="false"/>
+    <field mappingTo="8" name="recursos_por_categoria_CJ" type="integer" length="3" required="false"/>
+    <field mappingTo="9" name="recursos_por_categoria_AF" type="integer" length="3" required="false"/>
+    <field mappingTo="10" name="recursos_por_categoria_AP" type="integer" length="3" required="false"/>    
+    <field mappingTo="11" name="recursos_totales" type="integer" length="3" required="false"/>        
+    <field mappingTo="12" name="horas_totales_por_categoria_C" type="double" length="10" required="false"/>
+    <field mappingTo="13" name="horas_totales_por_categoria_CJ" type="double" length="10" required="false"/>
+    <field mappingTo="14" name="horas_totales_por_categoria_AF" type="double" length="10" required="false"/>
+    <field mappingTo="15" name="horas_totales_por_categoria_AP" type="double" length="10" required="false"/>
+    <field mappingTo="16" name="horas_totales" type="double" length="10" required="false"/> 
+    <field mappingTo="17" name="importe_por_categoria_C_sin_IVA" type="double" length="18" required="false"/>
+    <field mappingTo="18" name="importe_por_categoria_CJ_sin_IVA" type="double" length="18" required="false"/>
+    <field mappingTo="19" name="importe_por_categoria_AF_sin_IVA" type="double" length="18" required="false"/>
+    <field mappingTo="20" name="importe_por_categoria_AP_sin_IVA" type="double" length="18" required="false"/>
+    <field mappingTo="21" name="importe_total_sin_IVA" type="double" length="18" required="false"/>
+   </entity>
+   
+   <entity>
+    	<entityname>unidadOrg</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="nombre" type="string" length="100" required="true"/>    
+    </entity>
+   
+    <entity>
+	    <entityname>subdireccion</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="unidadOrg" type="long" length="11" required="false" 
+	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>
+	    <field mappingTo="3" name="nombre" type="string" length="150" required="true"/>
+    </entity>
+   
+	<entity>
+    	<entityname>servicio</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="nombre" type="string" length="50" required="true"/>    
+	    <field mappingTo="3" name="unidadOrg" type="long" length="11" required="true"
+	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>
+	    <field mappingTo="4" name="subdireccion" type="long" length="11" required="false"
+	    	   fkParentEntities="subdireccion" fkParentFields="1"/>
+    </entity>
+       
+    <entity>
+    	<entityname>departamento</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="nombre" type="string" length="50" required="true"/>    
+	    <field mappingTo="3" name="servicio" type="long" length="11" required="true"
+	    	   fkParentEntities="servicio" fkParentFields="1"/>
+    </entity>
+   
+   <entity>
+    <entityname>responsableCentro</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="32" required="true"/>
+    <field mappingTo="3" name="apellidos" type="string" length="32" required="true"/>
+    <field mappingTo="4" name="servicio" type="long" length="11" required="true"
+    	fkParentEntities="servicio" fkParentFields="1"/>
+    <field mappingTo="5" name="cargo" type="string" length="100" required="false"/>
+    <field mappingTo="6" name="id_ubicacion" type="long" length="11" required="false"
+           fkParentEntities="edificio" fkParentFields="1"/>
+    <field mappingTo="7" name="observaciones" type="string" length="150" required="false"/>
+   </entity>
+   
+   <entity>
+   	<entityname>responsabilidad</entityname>
+   	<field mappingTo="1" name="ID" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+   	<field mappingTo="2" name="TIPO" type="string" length="32" required="true"/>
+   </entity>
+   
+   <entity>
+    <entityname>edificio</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="localizacion" type="string" length="100" required="true"/>
+   </entity>
+   
+   <entity>
+    <entityname>tipoAplicacion</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="descripcion" type="string" length="60" required="true"/>
+   </entity>
+   
+   <entity>
+    <entityname>proyecto</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="codigo" type="string" length="40" required="true"/>
+    <field mappingTo="3" name="nombreProyecto" type="string" length="100" required="true"/>
+    <field mappingTo="4" name="responsable" type="long" length="11" required="false" 
+    	   fkParentEntities="colaborador" fkParentFields="1"/>
+    <field mappingTo="5" name="id_concurso" type="long" length="11" required="true"
+           fkParentEntities="concurso" fkParentFields="1"/>
+    <field mappingTo="6" name="responsableCentro" type="long" length="11" required="false"
+    	   fkParentEntities="responsableCentro" fkParentFields="1"/>
+    <field mappingTo="7" name="departamento" type="long" length="11" required="true"
+    	   fkParentEntities="departamento" fkParentFields="1"/>    
+    <field mappingTo="8" name="RET_en_DG" type="long" length="11" required="false" 
+    	   fkParentEntities="colaborador" fkParentFields="1"/>
+    <field mappingTo="9" name="Plan_FILE" type="blob" length="45" required="false"/>
+    <field mappingTo="10" name="FILE_1" type="blob" length="45" required="false"/>
+    <field mappingTo="11" name="FILE_2" type="blob" length="45" required="false"/>
+    <field mappingTo="12" name="FILE_3" type="blob" length="45" required="false"/>
+    <field mappingTo="13" name="observaciones" type="string" length="10000" required="true"/>
+    <field mappingTo="14" name="tipoApp" type="long" length="11" required="true" 
+    	   fkParentEntities="tipoAplicacion" fkParentFields="1"/>
+    <field mappingTo="15" name="fecha_update" type="timestamp" length="19" required="true"/>   
+    <field mappingTo="16" name="id_subdireccion" type="long" length="11" required="true"
+           fkParentEntities="subdireccion" fkParentFields="1"/>    
+   </entity>
+   
+   <entity>
+    <entityname>colaborador</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="32" required="true"/>
+    <field mappingTo="3" name="apellidos" type="string" length="64" required="true"/>
+    <field mappingTo="4" name="responsabilidad" type="long" length="11" required="true"
+           fkParentEntities="responsabilidad" fkParentFields="1"/> 
+    <field mappingTo="5" name="relacion_extinguida" type="boolean" length="1" required="true"/>
+    <field mappingTo="6" name="id_categoria" type="long" length="11" required="true"
+           fkParentEntities="categoria_profesional" fkParentFields="1"/>
+    <field mappingTo="8" name="id_empresa_facturacion" type="long" length="11" required="true"
+           fkParentEntities="empresaUTE" fkParentFields="1"/>
+    <field mappingTo="9" name="fecha_alta" type="date" length="10" required="false"/>
+    <field mappingTo="10" name="fecha_baja" type="date" length="10" required="false"/>
+    <field mappingTo="11" name="email" type="string" length="100" required="false"/>
+    <field mappingTo="12" name="observaciones" type="string" length="250" required="false"/>
+    <field mappingTo="13" name="id_concurso" type="long" length="11" required="true"
+    	 fkParentEntities="concurso" fkParentFields="1"/> 
+  </entity>
+   
+  <entity>
+	<entityname>appColaborador</entityname>
+   	<field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	<field mappingTo="2" name="colaborador" type="long" length="11" required="true" 
+ 	   fkParentEntities="colaborador" fkParentFields="1"/>
+ 	<field mappingTo="3" name="proyecto" type="long" length="11" required="true" 
+ 	   fkParentEntities="proyecto" fkParentFields="1"/>
+   </entity>
+   
+    <entity>
+    <entityname>facturacionMesPorApp</entityname>
+    <field mappingTo="1" name="id" type="long" length="10" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="anyo" type="int" length="4" required="true"/>
+    <field mappingTo="3" name="mes" type="long" length="11" required="true" 
+    	   fkParentEntities="mes" fkParentFields="1"/>
+    <field mappingTo="4" name="id_concurso" type="long" length="11" required="true" 
+    	   fkParentEntities="concurso" fkParentFields="1"/>
+    <field mappingTo="5" name="id_servicio" type="long" length="11" required="true" 
+    	   fkParentEntities="servicio" fkParentFields="1"/>
+    <field mappingTo="6" name="id_dpto" type="long" length="11" required="true" 
+    	   fkParentEntities="departamento" fkParentFields="1"/>
+    <field mappingTo="7" name="id_app" type="long" length="11" required="true" 
+    	   fkParentEntities="proyecto" fkParentFields="1"/>
+    <field mappingTo="8" name="ejecutado" type="double" length="10" required="true"/>
+    <field mappingTo="9" name="porcentaje_dpto" type="double" length="10" required="true"/>
+    <field mappingTo="10" name="UTs" type="double" length="10" required="true"/>
+    <field mappingTo="11" name="idFactMesDpto" type="long" length="11" required="true" 
+    	   fkParentEntities="facturacionMesPorDpto" fkParentFields="1"/>
+  </entity>
+   
+   <entity>
+    <entityname>facturacionMesPorColaboradoryApp</entityname>
+    <field mappingTo="1" name="id" type="long" length="10" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="idFacturacionColab" type="long" length="11" required="true"
+    	   fkParentEntities="facturacionMesPorColaborador" fkParentFields="1"/>   	   
+    <field mappingTo="3" name="id_colaborador" type="long" length="11" required="true" 
+    	   fkParentEntities="colaborador" fkParentFields="1"/>
+    <field mappingTo="4" name="id_proyecto" type="long" length="11" required="true" 
+    	   fkParentEntities="proyecto" fkParentFields="1"/>
+    <field mappingTo="5" name="UTs" type="double" length="10" required="true"/>
+    <field mappingTo="6" name="idFacturacionMesApp" type="long" length="11" required="true"
+    	   fkParentEntities="facturacionMesPorApp" fkParentFields="1"/>   	   
+    <field mappingTo="7" name="ejecutado" type="double" length="10" required="true"/>
+    <field mappingTo="8" name="mesanyo" type="string" length="50" required="true"/>
+  </entity>
+   
+   <entity>
+    <entityname>facturacionMesPorColaborador</entityname>
+    <field mappingTo="1" name="id" type="long" length="10" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="anyo" type="int" length="4" required="true"/>
+    <field mappingTo="3" name="mes" type="long" length="11" required="true" 
+    	   fkParentEntities="mes" fkParentFields="1"/>
+    <field mappingTo="4" name="id_colaborador" type="long" length="11" required="true" 
+    	   fkParentEntities="colaborador" fkParentFields="1"/>
+   	<field mappingTo="5" name="ejecutado" type="double" length="10" required="true"/>
+    <field mappingTo="6" name="porcentaje_concurso" type="double" length="10" required="true"/>
+    <field mappingTo="7" name="porcentaje_servicio" type="double" length="10" required="true"/>
+    <field mappingTo="8" name="porcentaje_dpto" type="double" length="10" required="true"/>
+    <field mappingTo="9" name="porcentaje_app" type="double" length="10" required="true"/>
+    <field mappingTo="10" name="UTs" type="double" length="10" required="true"/>
+  </entity>
+  
+  <entity>
+    <entityname>facturacionMesPorConcurso</entityname>
+    <field mappingTo="1" name="id" type="long" length="10" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="anyo" type="int" length="4" required="true"/>
+    <field mappingTo="3" name="mes" type="long" length="11" required="true" 
+    	   fkParentEntities="mes" fkParentFields="1"/>
+    <field mappingTo="4" name="id_concurso" type="long" length="11" required="true" 
+    	   fkParentEntities="concurso" fkParentFields="1"/>
+    <field mappingTo="5" name="presupuesto" type="double" length="10" required="true"/>
+    <field mappingTo="6" name="ejecutado" type="double" length="10" required="true"/>
+    <field mappingTo="7" name="porcentaje" type="double" length="10" required="true"/>
+    <field mappingTo="8" name="desviacion" type="double" length="10" required="true"/>
+    <field mappingTo="9" name="UTs" type="double" length="10" required="true"/>
+  </entity>
+  
+   <entity>
+    <entityname>facturacionMesPorServicio</entityname>
+    <field mappingTo="1" name="id" type="long" length="10" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="anyo" type="int" length="4" required="true"/>
+    <field mappingTo="3" name="mes" type="long" length="11" required="true" 
+    	   fkParentEntities="mes" fkParentFields="1"/>
+    <field mappingTo="4" name="id_concurso" type="long" length="11" required="true" 
+    	   fkParentEntities="concurso" fkParentFields="1"/>
+    <field mappingTo="5" name="id_servicio" type="long" length="11" required="true" 
+    	   fkParentEntities="servicio" fkParentFields="1"/>
+    <field mappingTo="6" name="ejecutado" type="double" length="10" required="true"/>
+    <field mappingTo="7" name="porcentaje_concurso" type="double" length="10" required="true"/>
+    <field mappingTo="8" name="UTs" type="double" length="10" required="true"/>
+    <field mappingTo="9" name="idFactMesConcurso" type="long" length="11" required="true" 
+    	   fkParentEntities="facturacionMesPorConcurso" fkParentFields="1"/>    
+  </entity>
+  
+  <entity>
+    <entityname>facturacionMesPorDpto</entityname>
+    <field mappingTo="1" name="id" type="long" length="10" belongsPK="true" autoinc="true"/>
+    <field mappingTo="2" name="anyo" type="int" length="4" required="true"/>
+    <field mappingTo="3" name="mes" type="long" length="11" required="true" 
+    	   fkParentEntities="mes" fkParentFields="1"/>
+    <field mappingTo="4" name="id_concurso" type="long" length="11" required="true" 
+    	   fkParentEntities="concurso" fkParentFields="1"/>
+    <field mappingTo="5" name="id_servicio" type="long" length="11" required="true" 
+    	   fkParentEntities="servicio" fkParentFields="1"/>
+    <field mappingTo="6" name="id_dpto" type="long" length="11" required="true" 
+    	   fkParentEntities="departamento" fkParentFields="1"/>
+    <field mappingTo="7" name="ejecutado" type="double" length="10" required="true"/>
+    <field mappingTo="8" name="porcentaje_servicio" type="double" length="10" required="true"/>
+    <field mappingTo="9" name="UTs" type="double" length="10" required="true"/>
+    <field mappingTo="10" name="idFactMesServicio" type="long" length="11" required="true" 
+    	   fkParentEntities="facturacionMesPorServicio" fkParentFields="1"/>
+  </entity>
+   
+   <!-- fin nuevas entidades -->
+   <entity>
+    <entityname>ejercicio</entityname>
+    <field mappingTo="1" name="ejercicio" type="int" length="4" belongsPK="true" required="true"/>
+   </entity>
+   
+   <entity> <entityname>datos_prevision_contrato</entityname> 
+   	<field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/> 
+   	<field mappingTo="2" name="id_concurso" type="long" length="11" required="true" fkParentEntities="concurso" fkParentFields="1"/> 
+   	<field mappingTo="3" name="num_ejercicios" type="integer" length="2" required="false" default="3"/> 
+   	<field mappingTo="4" name="num_meses" type="integer" length="2" required="false" default="24"/> 
+   	<field mappingTo="5" name="num_recursos_por_defecto_consultor" type="integer" length="3" required="false"/> 
+   	<field mappingTo="6" name="num_recursos_por_defecto_cJunior" type="integer" length="3" required="false"/> 
+   	<field mappingTo="7" name="num_recursos_por_defecto_anFuncional" type="integer" length="3" required="false"/> 
+   	<field mappingTo="8" name="num_recursos_por_defecto_anProgramador" type="integer" length="3" required="false"/> 
+   	<field mappingTo="9" name="num_jornadas_por_defecto_mes_estandard" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="10" name="num_jornadas_por_defecto_mes_verano" type="integer" length="3" required="false" default="12"/> 
+   	<field mappingTo="11" name="jornada_verano" type="boolean" length="1" required="false" default="true"/> 
+   	<field mappingTo="12" name="horas_por_defecto_dia_estandard" type="double" length="8" required="false" default="8"/> 
+   	<field mappingTo="13" name="horas_por_defecto_dia_verano" type="double" length="8" required="false" default="7"/> 
+   	<field mappingTo="14" name="num_recursos_con_C_jornada_reducida" type="integer" length="3" required="false" default="0"/> 
+   	<field mappingTo="15" name="num_recursos_con_CJ_jornada_reducida" type="integer" length="3" required="false" default="0"/> 
+   	<field mappingTo="16" name="num_recursos_con_AF_jornada_reducida" type="integer" length="3" required="false" default="0"/> 
+   	<field mappingTo="17" name="num_recursos_con_AP_jornada_reducida" type="integer" length="3" required="false" default="0"/> 
+   	<field mappingTo="18" name="horas_por_defecto_jornada_reducida" type="double" length="8" required="false" default="6"/> 
+   	<field mappingTo="19" name="jornadas_enero" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="20" name="jornadas_febrero" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="21" name="jornadas_marzo" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="22" name="jornadas_abril" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="23" name="jornadas_mayo" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="24" name="jornadas_junio" type="integer" length="3" required="false" default="20"/>
+   	<field mappingTo="25" name="jornadas_julio" type="integer" length="3" required="false" default="16"/> 
+   	<field mappingTo="26" name="jornadas_agosto" type="integer" length="3" required="false" default="12"/> 
+   	<field mappingTo="27" name="jornadas_septiembre" type="integer" length="3" required="false" default="18"/> 
+   	<field mappingTo="28" name="jornadas_octubre" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="29" name="jornadas_noviembre" type="integer" length="3" required="false" default="20"/> 
+   	<field mappingTo="30" name="jornadas_diciembre" type="integer" length="3" required="false" default="13"/> 
+   	<field mappingTo="31" name="total_prevision" type="double" length="14" required="false" default="0"/> 
+   	<field mappingTo="32" name="total_facturado" type="double" length="14" required="false" default="0"/> 
+   	<field mappingTo="33" name="fecha" type="timestamp" length="19" required="true"/> 
+   	<field mappingTo="34" name="disponible" type="double" length="14" required="true"/> 
+   	<field mappingTo="35" name="texto" type="string" length="250" required="false"/>
+   </entity> 
+   
+   <entity>
+	    <entityname>resultado_prevision_anualidad</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="id_prevision_contrato" type="long" length="11" required="true" fkParentEntities="datos_prevision_contrato" fkParentFields="1"/>	    
+	    <field mappingTo="3" name="ejercicio" type="integer" length="4" required="true"/>
+	    <field mappingTo="4" name="num_meses" type="integer" length="2" required="true"/>
+	    <field mappingTo="15" name="horas_total_en_ejercicio_consultor" type="double" length="18" required="false"/>
+	    <field mappingTo="16" name="horas_total_en_ejercicio_cJunior" type="double" length="18" required="false"/>
+	    <field mappingTo="17" name="horas_total_en_ejercicio_anFuncional" type="double" length="18" required="false"/>
+	    <field mappingTo="18" name="horas_total_en_ejercicio_anProgramador" type="double" length="18" required="false"/>
+	    <field mappingTo="19" name="horas_total_en_ejercicio" type="double" length="18" required="false"/>
+	 	<field mappingTo="20" name="saldo_horas_en_ejercicio_consultor" type="double" length="18" required="false"/><!--lo total menos lo ejecutado -->
+	 	<field mappingTo="21" name="saldo_horas_en_ejercicio_cJunior" type="double" length="18" required="false"/><!--lo total menos lo ejecutado -->
+	 	<field mappingTo="22" name="saldo_horas_en_ejercicio_anFuncional" type="double" length="18" required="false"/><!--lo total menos lo ejecutado -->
+	 	<field mappingTo="23" name="saldo_horas_en_ejercicio_anProgramador" type="double" length="18" required="false"/><!--lo total menos lo ejecutado -->
+	 	<field mappingTo="24" name="saldo_horas_total_en_ejercicio" type="double" length="18" required="false"/><!--lo total menos lo ejecutado --> 	
+	 	<field mappingTo="25" name="importe_en_ejercicio_consultor" type="double" length="18" required="false"/>
+	    <field mappingTo="26" name="importe_en_ejercicio_cJunior" type="double" length="18" required="false"/>
+	    <field mappingTo="27" name="importe_en_ejercicio_anFuncional" type="double" length="18" required="false"/>
+	    <field mappingTo="28" name="importe_en_ejercicio_anProgramador" type="double" length="18" required="false"/>
+	    <field mappingTo="29" name="importe_total_en_ejercicio" type="double" length="18" required="false"/>
+	    <field mappingTo="30" name="saldo_importe_en_ejercicio_consultor" type="double" length="18" required="false"/>
+	    <field mappingTo="31" name="saldo_importe_en_ejercicio_cJunior" type="double" length="18" required="false"/>
+	    <field mappingTo="32" name="saldo_importe_en_ejercicio_anFuncional" type="double" length="18" required="false"/>
+	    <field mappingTo="33" name="saldo_importe_en_ejercicio_anProgramador" type="double" length="18" required="false"/>
+	    <field mappingTo="34" name="saldo_importe_total_en_ejercicio_" type="double" length="18" required="false"/>
+	    <field mappingTo="40" name="horas_ejecutadas_en_ejercicio_consultor" type="double" length="18" required="false"/>
+	    <field mappingTo="41" name="horas_ejecutadas_en_ejercicio_cJunior" type="double" length="18" required="false"/>
+	    <field mappingTo="42" name="horas_ejecutadas_en_ejercicio_anFuncional" type="double" length="18" required="false"/>
+	    <field mappingTo="43" name="horas_ejecutadas_en_ejercicio_anProgramador" type="double" length="18" required="false"/>
+	    <field mappingTo="44" name="horas_ejecutadas_total_en_ejercicio" type="double" length="18" required="false"/>
+	 	<field mappingTo="45" name="importe_ejecutado_en_ejercicio_consultor" type="double" length="18" required="false"/>
+	    <field mappingTo="46" name="importe_ejecutado_en_ejercicio_cJunior" type="double" length="18" required="false"/>
+	    <field mappingTo="47" name="importe_ejecutado_en_ejercicio_anFuncional" type="double" length="18" required="false"/>
+	    <field mappingTo="48" name="importe_ejecutado_en_ejercicio_anProgramador" type="double" length="18" required="false"/>
+	    <field mappingTo="49" name="importe_ejecutado_total_en_ejercicio" type="double" length="18" required="false"/>
+	    <field mappingTo="50" name="importe_concurso_en_ejercicio" type="double" length="18" required="false"/>
+	    <field mappingTo="52" name="saldo_pendiente_gastar_segun_prevision" type="double" length="18" required="false"/>	    
+   </entity>
+   
+    
+   <entity>
+    <entityname>resultado_prevision_mes</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="id_prevision_anualidad" type="long" length="11" required="true"
+    	fkParentEntities="resultado_prevision_anualidad" fkParentFields="1"/>
+    <field mappingTo="3" name="mes" type="integer" length="2" required="true" fkParentEntities="mes" fkParentFields="1"/>
+    <field mappingTo="4" name="mes_de_verano" type="boolean" length="1" required="true"/>    
+    <field mappingTo="10" name="num_horas_mes_consultor" type="double" length="18" required="true"/>
+    <field mappingTo="11" name="num_horas_mes_cJunior" type="double" length="18" required="true"/>
+    <field mappingTo="12" name="num_horas_mes_anFuncional" type="double" length="18" required="true"/>
+    <field mappingTo="13" name="num_horas_mes_anProgramador" type="double" length="18" required="true"/>
+    <field mappingTo="14" name="num_horas_mes_total" type="double" length="18" required="true"/>    
+    <field mappingTo="15" name="saldo_horas_mes_consultor" type="double" length="18" required="true"/>
+    <field mappingTo="16" name="saldo_horas_mes_cJunior" type="double" length="18" required="true"/>
+    <field mappingTo="17" name="saldo_horas_mes_anFuncional" type="double" length="18" required="true"/>
+    <field mappingTo="18" name="saldo_horas_mes_anProgramador" type="double" length="18" required="true"/>
+    <field mappingTo="19" name="saldo_total_horas_mes" type="double" length="18" required="true"/>    
+    <field mappingTo="20" name="importe_mes_consultor" type="double" length="18" required="true"/>
+    <field mappingTo="21" name="importe_mes_cJunior" type="double" length="18" required="true"/>
+    <field mappingTo="22" name="importe_mes_anFuncional" type="double" length="18" required="true"/>
+    <field mappingTo="23" name="importe_mes_anProgramador" type="double" length="18" required="true"/>
+    <field mappingTo="24" name="importe_total_mes" type="double" length="18" required="true"/>    
+    <field mappingTo="25" name="saldo_importe_mes_consultor" type="double" length="18" required="true"/>
+    <field mappingTo="26" name="saldo_importe_mes_cJunior" type="double" length="18" required="true"/>
+    <field mappingTo="27" name="saldo_importe_mes_anFuncional" type="double" length="18" required="true"/>
+    <field mappingTo="28" name="saldo_importe_mes_anProgramador" type="double" length="18" required="true"/>
+    <field mappingTo="29" name="saldo_total_importe_mes" type="double" length="18" required="true"/>
+    <field mappingTo="40" name="horas_ejecutadas_en_mes_consultor" type="double" length="18" required="true"/>
+    <field mappingTo="41" name="horas_ejecutadas_en_mes_cJunior" type="double" length="18" required="true"/>
+    <field mappingTo="42" name="horas_ejecutadas_en_mes_anFuncional" type="double" length="18" required="true"/>
+    <field mappingTo="43" name="horas_ejecutadas_en_mes_anProgramador" type="double" length="18" required="true"/>
+    <field mappingTo="44" name="horas_ejecutadas_total_en_mes" type="double" length="18" required="true"/>
+ 	<field mappingTo="45" name="importe_ejecutado_en_mes_consultor" type="double" length="18" required="true"/>
+    <field mappingTo="46" name="importe_ejecutado_en_mes_cJunior" type="double" length="18" required="true"/>
+    <field mappingTo="47" name="importe_ejecutado_en_mes_anFuncional" type="double" length="18" required="true"/>
+    <field mappingTo="48" name="importe_ejecutado_en_mes_anProgramador" type="double" length="18" required="true"/>
+    <field mappingTo="49" name="importe_ejecutado_total_en_mes" type="double" length="18" required="true"/>
+    <field mappingTo="50" name="nombre_mes" type="string" length="30" required="false"/>
+   </entity>
+    
+   
+   <entity>
+    <entityname>mes</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="50" required="true"/>
+    <field mappingTo="3" name="numero" type="int" length="2" required="true"/>
+   </entity>
+   
+   <entity>
+    <entityname>importacionesFacturacion</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="id_contrato" type="long" length="11" required="true"
+    	fkParentEntities="concurso" fkParentFields="1"/>
+    <field mappingTo="3" name="mes" type="long" length="11"	required="false" 
+    	fkParentEntities="mes" fkParentFields="1"/>	
+    <field mappingTo="4" name="anyo" type="int" length="4" required="false"/>
+    <field mappingTo="5" name="filename" type="string" length="100" required="true"/>
+    <field mappingTo="6" name="numEntradas" type="int" length="4" required="false"/>
+    <field mappingTo="7" name="fechaImportacion" type="date" length="10" required="false"/>
+    <field mappingTo="8" name="excelFile" type="blob" length="25" required="true"/>   
+   </entity>
+    
+     
+</ent:entities>

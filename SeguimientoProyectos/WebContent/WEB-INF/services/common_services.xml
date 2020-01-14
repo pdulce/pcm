@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+<!-- LOGON SERVICE -->
+	<service name="Autenticacion" profile="ADMINISTRADOR">
+
+		<action event="submitForm" submitError="Autenticacion.submitForm"
+			transactional="false" strategyPre="facturacionUte.strategies.StrategyLogin">
+			<viewComponent>
+				<form align="center" columns="1" title="Autenticación">
+					<fieldViewSet nameSpace="entryForm">
+						
+						<fieldView name="user" type="text" required="true"
+							value="" size="10" maxlength="20" detailed="true" persistsIn="%session%"
+							styleCss="font-weight: bold;color: #0404B4;" />
+						<fieldView name="password" type="password" required="true"
+							value="" size="4" maxlength="8" detailed="true"
+							styleCss="font-weight: bold;color: #0404B4;" />
+						<fieldView name="language" type="text" value="es_" 
+							required="true" hidden="true" persistsIn="%session%"/>
+							<!-- optionValues> 
+								<option code="es_" title="castellano" selected="true"></option>
+								<option code="en_" title="inglÃ©s"></option>
+							</optionValues> -->
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+	</service>
+	<!-- END OF LOGON SERVICE -->
+
+	<service name="GestionEntidades" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="GestionEntidades.query"
+			submitSucces="GestionEntidades.query">
+
+			<viewComponent>
+
+				<form columns="53" title="Formulario Consulta">
+
+					<fieldViewSet entitymodel="%request%" nameSpace="entityName">
+						<fieldView type="text" hidden="true" editable="false"
+							value="%request%" />
+					</fieldViewSet>
+
+				</form>
+
+				<grid title="Listado de registros de esta tabla" orderDirection="asc" eventsRegistered="detail,update,delete,create">
+					<fieldViewSet entitymodel="%request%" nameSpace="entityName">
+						<fieldView type="text" hidden="true" editable="false"
+							value="%request%" />
+					</fieldViewSet>
+				</grid>
+
+			</viewComponent>
+
+		</action>
+
+		<action event="detail" submitError="GestionEntidades.query"
+			submitSucces="GestionEntidades.detail">
+
+			<viewComponent>
+				<form columns="53" title="Detalle">
+					<fieldViewSet entitymodel="%request%" nameSpace="entityName">
+						<fieldView type="text" hidden="true" editable="false"
+							value="%request%" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="update" submitError="GestionEntidades.update"
+			submitSucces="GestionEntidades.update">
+
+			<viewComponent>
+				<form columns="53" title="Edición">
+					<fieldViewSet entitymodel="%request%" nameSpace="entityName">
+						<fieldView type="text" hidden="true" editable="false"
+							value="%request%" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="create" submitError="GestionEntidades.create"
+			submitSucces="GestionEntidades.query">
+
+			<viewComponent>
+				<form columns="53" title="Formulario Alta">
+					<fieldViewSet entitymodel="%request%" nameSpace="entityName">
+						<fieldView type="text" hidden="true" editable="false"
+							value="%request%" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="delete" submitError="GestionEntidades.delete"
+			submitSucces="GestionEntidades.query">
+
+			<viewComponent>
+				<form columns="53" title="Borrado">
+					<fieldViewSet entitymodel="%request%" nameSpace="entityName">
+						<fieldView type="text" hidden="true" editable="false"
+							value="%request%" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+	</service>
+
+</service:service-group>
+	

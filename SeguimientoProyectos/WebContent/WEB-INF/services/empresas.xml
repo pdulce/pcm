@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+	<service name="GestionEmpresasUTE" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="GestionEmpresasUTE.query"
+			submitSucces="GestionEmpresasUTE.query">
+
+			<viewComponent>
+
+				<form columns="548" title="Consulta de empresas UTE">
+					<fieldViewSet entitymodel="empresaUTE" nameSpace="empresaUTE">
+						<fieldset legend="Datos Empresa de Facturación">
+							<fieldView mappingTo="1" size="4" />
+							<fieldView mappingTo="2" size="25" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="3" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+				<grid title="Listado de empresas UTE" orderDirection="asc" eventsRegistered="update,delete,create">
+					<fieldViewSet entitymodel="empresaUTE" nameSpace="empresaUTE">
+						<fieldView mappingTo="1" size="4" />
+						<fieldView mappingTo="2" size="25" />
+						<fieldView mappingTo="3" />
+					</fieldViewSet>
+				</grid>
+			</viewComponent>
+		</action>
+
+		<action event="create" submitError="GestionEmpresasUTE.create"
+			submitSucces="GestionEmpresasUTE.query">
+
+			<viewComponent>
+				<form columns="58" title="Datos Empresa">
+					<fieldViewSet entitymodel="empresaUTE" nameSpace="empresaUTE">
+						<fieldset legend="Datos Empresa de Facturación">
+							<fieldView mappingTo="1" size="4" hidden="true" />
+							<fieldView mappingTo="2" size="25" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="3" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="delete" submitError="GestionEmpresasUTE.delete"
+			submitSucces="GestionEmpresasUTE.query">
+
+			<viewComponent>
+				<form columns="58" title="Datos Empresa">
+					<fieldViewSet entitymodel="empresaUTE" nameSpace="empresaUTE">
+						<fieldset legend="Datos Empresa de Facturación">
+							<fieldView mappingTo="1" size="4" editable="false" />
+							<fieldView mappingTo="2" size="25" editable="false" />
+							<fieldView mappingTo="3" editable="false" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="update" submitError="GestionEmpresasUTE.update"
+			submitSucces="GestionEmpresasUTE.update">
+
+			<viewComponent>
+				<form columns="58" title="Datos Empresa">
+					<fieldViewSet entitymodel="empresaUTE" nameSpace="empresaUTE">
+						<fieldset legend="Datos Empresa de Facturación">
+							<fieldView mappingTo="1" size="4" />
+							<fieldView mappingTo="2" size="25" />
+							<fieldView mappingTo="3" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+				<grid title="Listado de porcentajes de participación en la UTE" dependsOf="empresaUTE" orderDirection="asc"
+					defaultOrderField="porcentaje_facturacion.4" eventsRegistered="update"
+					serviceRef="GestionPorcentajesParticipacion">
+					<fieldViewSet entitymodel="porcentaje_facturacion"
+						nameSpace="porcentaje_facturacion">
+						<fieldView mappingTo="1" hidden="true" />
+						<fieldView mappingTo="4" />
+						<fieldView mappingTo="2" type="select" hidden="true"><!-- name="id_empresa" 
+								respeta el name del id-campo -->
+							<optionValues entitymodel="empresaUTE"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="3" type="select">
+							<optionValues entitymodel="concurso" descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+					</fieldViewSet>
+				</grid>
+			</viewComponent>
+		</action>
+
+	</service>
+	
+	<service name="GestionPorcentajesParticipacion" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="update" submitError="GestionPorcentajesParticipacion.update"
+			submitSucces="GestionPorcentajesParticipacion.update">
+
+			<viewComponent>
+				<form columns="52" title="Edición Participación en UTE">
+
+					<fieldViewSet entitymodel="porcentaje_facturacion"
+						nameSpace="porcentaje_facturacion">
+
+						<fieldset legend="Porcentaje de Participación en UTE">
+							<fieldView mappingTo="1" editable="false" />
+							<fieldView mappingTo="2" type="select" editable="false"><!-- name="id_empresa" 
+									respeta el name del id-campo -->
+								<optionValues entitymodel="empresaUTE"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" type="select" editable="false">
+								<optionValues entitymodel="concurso"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="4" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+	</service>
+	
+</service:service-group>
+	

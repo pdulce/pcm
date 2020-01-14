@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group 
+	xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+<service
+	name="GestionarImportacionesFacturacion" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+	<action event="query" submitError="GestionarImportacionesFacturacion.query"
+		submitSucces="GestionarImportacionesFacturacion.query">
+
+		<viewComponent>
+		
+			<form columns="44" title="Importaciones desde GEDEON">
+
+				<fieldViewSet entitymodel="importacionesFacturacion"
+					nameSpace="importacionesFacturacion">
+					
+					<fieldView mappingTo="2" type="select">
+					 	<optionValues selectionMultiple="true" entitymodel="concurso"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
+					
+					<fieldView mappingTo="3" type="select">
+					 	<optionValues selectionMultiple="true" entitymodel="mes"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
+					<fieldView mappingTo="4" />					
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					
+					<fieldView mappingTo="5" />
+					<fieldView mappingTo="7" />
+					
+					<fieldView separator="br" />
+					
+				</fieldViewSet>
+			</form>
+
+			<grid title="Listado de importaciones desde GEDEON" orderDirection="desc" defaultOrderField="ImportacionesFacturacion.4"
+				eventsRegistered="create,update, delete">
+
+				<fieldViewSet entitymodel="importacionesFacturacion"
+					nameSpace="importacionesFacturacion">
+					<fieldView mappingTo="1" hidden="true"/>
+					<fieldView mappingTo="2" type="select">
+					 	<optionValues selectionMultiple="true" entitymodel="concurso"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>					
+					<fieldView mappingTo="3" type="select">
+					 	<optionValues selectionMultiple="true" entitymodel="mes"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
+					<fieldView mappingTo="4" />					
+					<fieldView mappingTo="5" />
+					<fieldView mappingTo="6" />
+					<fieldView mappingTo="7" />
+				</fieldViewSet>
+			</grid>
+
+		</viewComponent>
+	</action>
+
+	<action event="create" submitError="GestionarImportacionesFacturacion.create"
+		submitSucces="GestionarImportacionesFacturacion.query" strategyPre="facturacionUte.strategies.StrategyImportacionFactura">
+
+		<viewComponent>
+			<form columns="8" title="Importación">
+				<fieldViewSet entitymodel="importacionesFacturacion"
+					nameSpace="importacionesFacturacion">
+					<fieldset legend="Datos Importación">
+					
+						<fieldView mappingTo="2" type="select">
+					 	<optionValues selectionMultiple="true" entitymodel="concurso"
+							descrMappingTo="2">
+						</optionValues>
+						</fieldView>
+						
+						<fieldView mappingTo="3" type="select">
+						 	<optionValues selectionMultiple="true" entitymodel="mes"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						
+						<fieldView mappingTo="4" />						
+						<fieldView mappingTo="8" />
+												
+						
+					</fieldset>
+				</fieldViewSet>
+			</form>
+		</viewComponent>
+	</action>
+
+	<action event="delete" submitError="GestionarImportacionesFacturacion.delete"
+		submitSucces="GestionarImportacionesFacturacion.query">
+
+		<viewComponent>
+			<form columns="18" title="Importación">
+				<fieldViewSet entitymodel="importacionesFacturacion"
+					nameSpace="importacionesFacturacion">
+					<fieldset legend="Datos Importación">
+						
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="2" type="select" editable="false">
+					 	<optionValues selectionMultiple="true" entitymodel="concurso"
+							descrMappingTo="2">
+						</optionValues>
+						</fieldView>
+						
+						<fieldView mappingTo="3" type="select" editable="false">
+						 	<optionValues selectionMultiple="true" entitymodel="mes"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="4" editable="false"/>
+										
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						
+						<fieldView mappingTo="5" editable="false"/>
+						<fieldView mappingTo="6" editable="false"/>
+						<fieldView mappingTo="7" editable="false"/>
+						
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						
+						<fieldView mappingTo="8" editable="false"/>
+
+						<fieldView separator="br" />
+						
+					</fieldset>
+				</fieldViewSet>
+			</form>
+		</viewComponent>
+	</action>
+
+	<action event="update" submitError="GestionarImportacionesFacturacion.update"
+		submitSucces="GestionarImportacionesFacturacion.update" 
+		strategyPre="facturacionUte.strategies.StrategyImportacionFactura">
+
+		<viewComponent>
+			<form columns="13" title="Edición Importación">
+				<fieldViewSet entitymodel="importacionesFacturacion"
+					nameSpace="importacionesFacturacion">
+					
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="2" type="select" editable="false">
+					 	<optionValues selectionMultiple="true" entitymodel="concurso"
+							descrMappingTo="2">
+						</optionValues>
+						</fieldView>
+						
+						<fieldView mappingTo="3" type="select" editable="false">
+						 	<optionValues selectionMultiple="true" entitymodel="mes"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="4" editable="false"/>
+										
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						
+						<fieldView mappingTo="5" editable="false"/>
+						<fieldView mappingTo="6" editable="false"/>
+						<fieldView mappingTo="7" editable="false"/>
+						
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						
+						<fieldView mappingTo="8" editable="true"/>
+
+						<fieldView separator="br" />
+					
+				</fieldViewSet>
+			</form>
+		</viewComponent>
+	</action>
+
+
+</service>
+
+</service:service-group>

@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+    <service name="GestionPrevisiones" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="delete" submitError="GestionPrevisiones.delete"
+			submitSucces="GestionConcursos.update"
+			strategy="facturacionUte.strategies.previsiones.StratBorrarAnualidadesPrevision">
+
+			<viewComponent>
+				<form columns="515" title="Simulación de un contrato/concurso">
+					<fieldViewSet entitymodel="datos_prevision_contrato"
+						nameSpace="datos_prevision_contrato">
+						
+						<fieldset legend="Simulación del contrato">
+							<fieldView mappingTo="33" styleCss="font-weight: bold;color: black;" editable="false" />
+							<fieldView mappingTo="35" styleCss="font-weight: bold;color: black;" editable="false"/>
+							<fieldView mappingTo="1" editable="false" />
+							<fieldView mappingTo="2" type="select" editable="false">
+								<optionValues entitymodel="concurso"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" editable="false" />
+							<fieldView mappingTo="4" editable="false" />							
+						</fieldset>
+
+						<fieldset legend="Recursos">
+							<fieldView mappingTo="5" editable="false" />
+							<fieldView mappingTo="6" editable="false" />
+							<fieldView mappingTo="7" editable="false" />
+							<fieldView mappingTo="8" editable="false" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="14" editable="false" />
+							<fieldView mappingTo="15" editable="false" />
+							<fieldView mappingTo="16" editable="false" />
+							<fieldView mappingTo="17" editable="false" />
+							
+						</fieldset>
+
+						<fieldset legend="Horas y Jornadas">
+							<fieldView mappingTo="11" editable="false" />
+							<fieldView mappingTo="12" editable="false" />
+							<fieldView mappingTo="13" editable="false" />
+							<fieldView mappingTo="18" editable="false" />
+						</fieldset>
+						
+						<fieldset legend="Jornadas por cada mes">
+							<fieldView mappingTo="19" editable="false" />
+							<fieldView mappingTo="20" editable="false" />
+							<fieldView mappingTo="21" editable="false" />
+							<fieldView mappingTo="22" editable="false" />
+														
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="23" editable="false" />
+							<fieldView mappingTo="24" editable="false" />
+							<fieldView mappingTo="25" editable="false" />
+							<fieldView mappingTo="26" editable="false" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="27" editable="false" />
+							<fieldView mappingTo="28" editable="false" />
+							<fieldView mappingTo="29" editable="false" />
+							<fieldView mappingTo="30" editable="false" />
+						</fieldset>
+						
+						<fieldset legend="Presupuestado según la simulación">
+							<fieldView mappingTo="31" labelStyle="font-size: 11px;color:#fgf;" editable="false" />
+							<fieldView mappingTo="32" labelStyle="font-size: 11px;color:#fgf;" editable="false" />
+							<fieldView mappingTo="34" labelStyle="font-size: 11px;color:#fgf;" editable="false" />						
+						</fieldset>
+						
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="create" submitError="GestionPrevisiones.create"
+			submitSucces="GestionConcursos.update"
+			strategyPre="facturacionUte.strategies.previsiones.StratProponerSimulacion"
+			strategy="facturacionUte.strategies.previsiones.StratCrearAnualidadesPrevision">
+
+			<viewComponent>
+				<form columns="514" title="Simulación de un contrato/concurso">
+					<fieldViewSet entitymodel="datos_prevision_contrato"
+						nameSpace="datos_prevision_contrato">
+
+						<fieldset legend="Simulación del contrato">							
+							<fieldView mappingTo="2" type="select" editable="false">
+								<optionValues entitymodel="concurso"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" editable="false" />
+							<fieldView mappingTo="4" editable="false" />
+							<fieldView mappingTo="35" editable="true"/>
+						</fieldset>
+
+						<fieldset legend="Recursos">
+							<fieldView mappingTo="5" editable="true" />
+							<fieldView mappingTo="6" editable="true" />
+							<fieldView mappingTo="7" editable="true" />
+							<fieldView mappingTo="8" editable="true" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="14" editable="true" />
+							<fieldView mappingTo="15" editable="true" />
+							<fieldView mappingTo="16" editable="true" />
+							<fieldView mappingTo="17" editable="true" />
+						</fieldset>
+
+						<fieldset legend="Horas y Jornadas">
+							<fieldView mappingTo="11" editable="true" />
+							<fieldView mappingTo="12" editable="true" />
+							<fieldView mappingTo="13" editable="true" />
+							<fieldView mappingTo="18" editable="true" />
+						</fieldset>
+						
+						<fieldset legend="Jornadas por cada mes">
+							<fieldView mappingTo="19" editable="true" />
+							<fieldView mappingTo="20" editable="true" />
+							<fieldView mappingTo="21" editable="true" />
+							<fieldView mappingTo="22" editable="true" />
+														
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="23" editable="true" />
+							<fieldView mappingTo="24" editable="true" />
+							<fieldView mappingTo="25" editable="true" />
+							<fieldView mappingTo="26" editable="true" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="27" editable="true" />
+							<fieldView mappingTo="28" editable="true" />
+							<fieldView mappingTo="29" editable="true" />
+							<fieldView mappingTo="30" editable="true" />					
+							<fieldView mappingTo="33" hidden="true"/>
+							<fieldView mappingTo="34" hidden="true"/>
+							
+						</fieldset>
+						
+					</fieldViewSet>
+					
+				</form>
+				
+			</viewComponent>
+		</action>
+
+		<action event="update" submitError="GestionPrevisiones.update"
+			submitSucces="GestionPrevisiones.update"
+			strategy="facturacionUte.strategies.previsiones.StratActualizarAnualidadesPrevision">
+
+			<viewComponent>
+				<form columns="56" title="Simulación de un contrato/concurso">
+				
+					<userbuttons>
+
+						<button	link="Histogram3DStatsServlet" id="histParam1" 
+							name="Histogram" >
+							<fieldViewSet nameSpace="histParam1">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
+								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select" editable="false">
+									<optionValues>
+										<option code="3" title="anualidad" selected="true"></option>					
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="19" title="horas estimadas en simulación"></option>
+									    <option code="44" title="horas ejecutadas en contrato"></option>
+										<option code="15" title="horas estimadas TSA"></option>
+									    <option code="16" title="horas estimadas TSB"></option>
+									    <option code="17" title="horas estimadas TSC"></option>
+									    <option code="18" title="horas estimadas TMA"></option>
+									    <option code="41" title="horas ejecutadas TSB"></option>
+									    <option code="40" title="horas ejecutadas TSA"></option>
+									    <option code="42" title="horas ejecutadas TSC"></option>
+									    <option code="43" title="horas ejecutadas TMA"></option>										   
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+						
+						<button link="PieChartStatsServlet" id="piechartParam2"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam2">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
+								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues>
+										 <!-- <option code="2" title="contrato"></option>-->
+										<option code="3" title="anualidad"></option>					
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="19" title="horas estimadas en simulación"></option>
+									    <option code="44" title="horas ejecutadas en contrato"></option>
+										<option code="15" title="horas estimadas TSA"></option>
+									    <option code="16" title="horas estimadas TSB"></option>
+									    <option code="17" title="horas estimadas TSC"></option>
+									    <option code="18" title="horas estimadas TMA"></option>
+									    <option code="41" title="horas ejecutadas TSB"></option>
+									    <option code="40" title="horas ejecutadas TSA"></option>
+									    <option code="42" title="horas ejecutadas TSC"></option>
+									    <option code="43" title="horas ejecutadas TMA"></option>
+									</optionValues>
+								</fieldView>							
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+						
+						<button	link="Histogram3DStatsServlet" id="histParam3" 
+								name="Histogram" >
+							<fieldViewSet nameSpace="histParam3">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
+							<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
+							<fieldView name="orderBy" hidden="true" value="3"/>							
+							<fieldView name="fieldForGroupBy" type="select" editable="false">
+								<optionValues>
+									<option code="3" title="anualidad" selected="true"></option>					
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>																			   
+								    <option code="29" title="total estimado en simulación"></option>																			
+								    <option code="49" title="total facturado"></option>
+								    <option code="50" title="presupuestado en contrato"></option>										    
+								    <option code="52" title="saldo presupuestario en simulación"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+						
+						<button	link="Histogram3DStatsServlet" id="histParam4" 
+								name="Histogram" >
+							<fieldViewSet nameSpace="histParam4">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
+								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select" editable="false">
+									<optionValues>
+										<option code="3" title="anualidad" selected="true"></option>					
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>										   
+									    <option code="48" title="facturado para TMA"></option>					
+										<option code="25" title="estimado para TSA"></option>
+										<option code="45" title="facturado para TSA"></option>
+									    <option code="26" title="estimado para TSB"></option>
+									    <option code="46" title="facturado para TSB"></option>
+									    <option code="27" title="estimado para TSC"></option>
+									    <option code="47" title="facturado para TSC"></option>
+									    <option code="28" title="estimado para TMA"></option>										    
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+															
+						<button link="PieChartStatsServlet" id="piechartParam5"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam5">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
+								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+								<optionValues>
+									<!-- <option code="2" title="contrato"></option> -->
+									<option code="3" title="anualidad"></option>					
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>																	   
+								    <option code="29" title="total estimado en simulación"></option>																			
+								    <option code="49" title="total facturado"></option>
+								    <option code="50" title="presupuestado en contrato"></option>
+								    <option code="52" title="saldo presupuestario en simulación"></option>								  					   
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" hidden="true" value="SUM"/>
+						</fieldViewSet>
+					</button>
+					
+						<button link="PieChartStatsServlet" id="piechartParam6"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam6">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
+								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues>
+										<!-- <option code="2" title="contrato"></option> -->
+										<option code="3" title="anualidad"></option>					
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>								    
+									    <option code="48" title="facturado para TMA"></option>
+										<option code="25" title="estimado para TSA"></option>
+										<option code="45" title="facturado para TSA"></option>
+									    <option code="26" title="estimado para TSB"></option>
+									    <option code="46" title="facturado para TSB"></option>
+									    <option code="27" title="estimado para TSC"></option>
+									    <option code="47" title="facturado para TSC"></option>
+									    <option code="28" title="estimado para TMA"></option>								    
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+
+					</userbuttons>
+					
+					<!--  FIN DE LOS DIAGRAMAS -->
+					
+					<fieldViewSet entitymodel="datos_prevision_contrato"
+						nameSpace="previsionForm">
+						
+						<fieldset legend="Simulación del contrato">
+							<fieldView mappingTo="33" styleCss="font-weight: bold;color: black;" editable="false" />
+							<fieldView mappingTo="35" editable="true"/>
+							<fieldView mappingTo="1" hidden="true" />							
+							<fieldView mappingTo="2" type="select" editable="false">
+								<optionValues entitymodel="concurso"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" editable="false" />
+							<fieldView mappingTo="4" editable="false" />							
+						</fieldset>
+
+						<fieldset legend="Recursos">
+							<fieldView mappingTo="5" editable="true" />
+							<fieldView mappingTo="6" editable="true" />
+							<fieldView mappingTo="7" editable="true" />
+							<fieldView mappingTo="8" editable="true" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="14" editable="true" />
+							<fieldView mappingTo="15" editable="true" />
+							<fieldView mappingTo="16" editable="true" />
+							<fieldView mappingTo="17" editable="true" />
+						</fieldset>
+
+						<fieldset legend="Horas y Jornadas">
+							<fieldView mappingTo="11" editable="true" />
+							<fieldView mappingTo="12" editable="true" />
+							<fieldView mappingTo="13" editable="true" />
+							<fieldView mappingTo="18" editable="true" />
+						</fieldset>
+						
+						<fieldset legend="Jornadas por cada mes">
+							<fieldView mappingTo="19" editable="true" />
+							<fieldView mappingTo="20" editable="true" />
+							<fieldView mappingTo="21" editable="true" />
+							<fieldView mappingTo="22" editable="true" />
+														
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="23" editable="true" />
+							<fieldView mappingTo="24" editable="true" />
+							<fieldView mappingTo="25" editable="true" />
+							<fieldView mappingTo="26" editable="true" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="27" editable="true" />
+							<fieldView mappingTo="28" editable="true" />
+							<fieldView mappingTo="29" editable="true" />
+							<fieldView mappingTo="30" editable="true" />
+						</fieldset>
+						
+						<fieldset legend="Presupuestado según la simulación">
+							<fieldView mappingTo="31" labelStyle="font-size: 11px;color:#fgf;" editable="false" />
+							<fieldView mappingTo="32" labelStyle="font-size: 11px;color:#fgf;" editable="false" />
+							<fieldView mappingTo="34" labelStyle="font-size: 11px;color:#fgf;" editable="false" />												
+						</fieldset>
+							
+					</fieldViewSet>
+					
+				</form>
+				
+				
+				<grid title="Anualidades de la simulación para este contrato" dependsOf="previsionForm" orderDirection="asc"
+					defaultOrderField="resultado_prevision_anualidad.3"
+					eventsRegistered="detail" serviceRef="GestionAnualidadesPrevision">
+					<fieldViewSet entitymodel="resultado_prevision_anualidad"
+						nameSpace="resultado_prevision_anualidad">
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="3" styleCss="font-weight: bold;" />
+						<fieldView mappingTo="4" />
+						<fieldView mappingTo="19" />
+						<fieldView mappingTo="44" />
+						<fieldView mappingTo="24" />
+						<fieldView mappingTo="29" styleCss="font-weight: bold;color: #0404B4;" />
+						<fieldView mappingTo="49" styleCss="font-weight: bold;color: #61380B;" />
+						<fieldView mappingTo="34" styleCss="font-weight: bold;color: NRPG;" />
+						<fieldView mappingTo="50" styleCss="font-weight: bold;color: black;" />
+						<fieldView mappingTo="52" styleCss="font-weight: bold;color: NRPG;" />
+ 						
+					</fieldViewSet>
+				</grid>
+
+			</viewComponent>
+		</action>
+
+	</service>
+
+	<service name="GestionAnualidadesPrevision" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="detail" submitError="GestionAnualidadesPrevision.detail"
+			submitSucces="GestionAnualidadesPrevision.detail">
+			
+			<viewComponent>
+				<form columns="56" title="Anualidad de la simulación">
+					<userbuttons>
+						<button link="BarChartStatsServlet" id="barchartParam1"
+							name="Barchart">
+							<fieldViewSet nameSpace="barchartParam1">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="filteredByField" hidden="true" value="2=resultado_prevision_anualidad.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select" editable="false">
+									<optionValues>
+										<option code="3" title="mensualidades" selected="true"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+									    <option code="14" title="horas estimadas segÃºn simulación"></option>
+									    <option code="44" title="horas ejecutadas en contrato"></option>
+										<option code="10" title="horas estimadas TSA"></option>
+									    <option code="11" title="horas estimadas TSB"></option>
+									    <option code="12" title="horas estimadas TSC"></option>
+									    <option code="13" title="horas estimadas TMA"></option>
+									    <option code="40" title="horas ejecutadas TSA"></option>
+									    <option code="41" title="horas ejecutadas TSB"></option>
+									    <option code="42" title="horas ejecutadas TSC"></option>
+									    <option code="43" title="horas ejecutadas TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+						
+						<button link="BarChartStatsServlet" id="barchartParam2"
+							name="Barchart">
+							<fieldViewSet nameSpace="barchartParam2">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="filteredByField" hidden="true" value="2=resultado_prevision_anualidad.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select" editable="false">
+									<optionValues>
+										<option code="3" title="mensualidades" selected="true"></option>					
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+									    <option code="24" title="estimado segÃºn simulación"></option>
+									    <option code="49" title="total facturado en contrato"></option>
+										<option code="20" title="estimado TSA"></option>
+									    <option code="21" title="estimado TSB"></option>
+									    <option code="22" title="estimado TSC"></option>
+									    <option code="23" title="estimado TMA"></option>
+									    <option code="45" title="facturado TSA"></option>
+									    <option code="46" title="facturado TSB"></option>
+									    <option code="47" title="facturado TSC"></option>
+									    <option code="48" title="facturado TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>								
+							</fieldViewSet>
+						</button>
+												
+						<button link="Histogram3DStatsServlet"	id="histParam3" 
+							name="Histogram" >
+							<fieldViewSet nameSpace="histParam3">						
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="filteredByField" hidden="true" value="2=resultado_prevision_anualidad.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues>
+										<option code="2" title="anualidad"></option>
+										<option code="3" title="mensualidades"></option>					
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="14" title="horas estimadas segÃºn simulación"></option>
+									    <option code="44" title="horas ejecutadas en contrato"></option>
+										<option code="10" title="horas estimadas TSA"></option>
+									    <option code="11" title="horas estimadas TSB"></option>
+									    <option code="12" title="horas estimadas TSC"></option>
+									    <option code="13" title="horas estimadas TMA"></option>
+									    <option code="40" title="horas ejecutadas TSA"></option>
+									    <option code="41" title="horas ejecutadas TSB"></option>
+									    <option code="42" title="horas ejecutadas TSC"></option>
+									    <option code="43" title="horas ejecutadas TMA"></option>									    
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+								<fieldView name="escalado" hidden="true" value="automatic"/>							
+						</fieldViewSet>
+					</button>
+					
+						<button	link="Histogram3DStatsServlet"	id="histParam4" 
+								name="Histogram" >
+								<fieldViewSet nameSpace="histParam4">						
+									<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+									<fieldView name="filteredByField" hidden="true" value="2=resultado_prevision_anualidad.1"/>
+									<fieldView name="orderBy" hidden="true" value="3"/>							
+									<fieldView name="fieldForGroupBy" type="select">
+										<optionValues>
+											<option code="2" title="anualidad"></option>
+											<option code="3" title="mensualidades"></option>					
+										</optionValues>
+									</fieldView>
+									<fieldView name="agregado" type="select">
+										<optionValues>
+											<option code="24" title="estimado segÃºn simulación"></option>
+										    <option code="49" title="total facturado en contrato"></option>
+											<option code="20" title="estimado TSA"></option>
+										    <option code="21" title="estimado TSB"></option>
+										    <option code="22" title="estimado TSC"></option>
+										    <option code="23" title="estimado TMA"></option>
+										    <option code="45" title="facturado TSA"></option>
+										    <option code="46" title="facturado TSB"></option>
+										    <option code="47" title="facturado TSC"></option>
+										    <option code="48" title="facturado TMA"></option>
+										</optionValues>
+									</fieldView>
+									<fieldView name="operation" hidden="true" value="SUM"/>
+									<fieldView name="escalado" hidden="true" value="automatic"/>							
+							</fieldViewSet>
+						</button>
+											
+						<button link="PieChartStatsServlet" id="piechartParam7"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam7">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="filteredByField" hidden="true" value="2=resultado_prevision_anualidad.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues>
+										<option code="2" title="anualidad"></option>
+										<option code="3" title="mensualidades"></option>					
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="14" title="horas estimadas segÃºn simulación"></option>
+									    <option code="44" title="horas ejecutadas en contrato"></option>
+										<option code="10" title="horas estimadas TSA"></option>
+									    <option code="11" title="horas estimadas TSB"></option>
+									    <option code="12" title="horas estimadas TSC"></option>
+									    <option code="13" title="horas estimadas TMA"></option>
+									    <option code="40" title="horas ejecutadas TSA"></option>
+									    <option code="41" title="horas ejecutadas TSB"></option>
+									    <option code="42" title="horas ejecutadas TSC"></option>
+									    <option code="43" title="horas ejecutadas TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+
+						<button link="PieChartStatsServlet" id="piechartParam8"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam8">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="filteredByField" hidden="true" value="2=resultado_prevision_anualidad.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues>
+										<option code="2" title="anualidad"></option>
+										<option code="3" title="mensualidades"></option>		
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="24" title="estimado segÃºn simulación"></option>
+									    <option code="49" title="total facturado en contrato"></option>
+										<option code="20" title="estimado TSA"></option>
+									    <option code="21" title="estimado TSB"></option>
+									    <option code="22" title="estimado TSC"></option>
+									    <option code="23" title="estimado TMA"></option>
+									    <option code="45" title="facturado TSA"></option>
+									    <option code="46" title="facturado TSB"></option>
+									    <option code="47" title="facturado TSC"></option>
+									    <option code="48" title="facturado TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+															
+					</userbuttons>
+
+					<fieldViewSet entitymodel="resultado_prevision_anualidad"
+						nameSpace="anualidadDetail">						
+						<fieldset legend="Simulación de la anualidad">						
+							<fieldView mappingTo="1" hidden="true" />
+							<!-- <fieldView mappingTo="2" editable="false" /> -->
+							<fieldView mappingTo="3" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="4" editable="false"
+								styleCss="font-size: 12px;color: black;" labelStyle="font-size: 11px;color:#fgf;" />
+						</fieldset>
+						
+						<fieldset legend="Horas previstas y saldos actuales">
+							<fieldView mappingTo="15" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="16" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="17" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="18" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="19" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" labelStyle="font-size: 12px;color:#fgf;" />
+
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="20" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="21" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="22" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="23" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="24" editable="false"
+								styleCss="font-weight: bold;color: NRPG;" labelStyle="font-size: 12px;color:#fgf;" />
+								
+						</fieldset>
+						
+						<fieldset legend="Presupuestado y saldos actuales">
+							<fieldView mappingTo="25" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="26" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="27" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="28" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="29" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" labelStyle="font-size: 11px;color:#fgf;" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="30" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="31" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="32" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="33" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="34" editable="false"
+								styleCss="font-weight: bold;color: NRPG;" labelStyle="font-size: 11px;color:#fgf;" />
+						</fieldset>
+						
+						
+						<fieldset legend="Ejecución y facturado">
+							<fieldView mappingTo="40" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="41" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="42" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="43" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="44" editable="false"
+								styleCss="font-weight: bold;color: #61380B;" labelStyle="font-size: 12px;color:#fgf;" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+
+							<fieldView mappingTo="45" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="46" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="47" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="48" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />							
+							<fieldView mappingTo="49" editable="false"
+								styleCss="font-size: 14px; font-weight: bold; color: #61380B;"
+								labelStyle="font-size: 12px;color:#fgf;" />
+															
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						
+							<fieldView mappingTo="50" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+							<fieldView mappingTo="52" editable="false"
+								styleCss="font-weight: bold;color: NRPG;" labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+						</fieldset>
+						
+					</fieldViewSet>
+				</form>
+
+				<grid title="Meses de la simulaciones para este contrato" dependsOf="anualidadDetail" orderDirection="desc"
+					defaultOrderField="resultado_prevision_mes.3" eventsRegistered="detail"
+					serviceRef="GestionMesesAnualidadPrevision">
+					<fieldViewSet entitymodel="resultado_prevision_mes"
+						nameSpace="resultado_prevision_mes">
+						<fieldView mappingTo="1" hidden="true" />						
+						<fieldView mappingTo="3" type="select">
+								<optionValues entitymodel="mes"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>						
+						<fieldView mappingTo="14" styleCss="font-weight: bold;color: #0404B4;" />
+						<fieldView mappingTo="44" styleCss="font-weight: bold;color: #61380B;" />
+						<fieldView mappingTo="15" styleCss="font-weight: bold;color: NRPG;" />
+						<fieldView mappingTo="16" styleCss="font-weight: bold;color: NRPG;" />
+						<fieldView mappingTo="17" styleCss="font-weight: bold;color: NRPG;" />
+						<fieldView mappingTo="18" styleCss="font-weight: bold;color: NRPG;" />
+						<fieldView mappingTo="19" styleCss="font-weight: bold;color: NRPG;" />
+						<fieldView mappingTo="24" styleCss="font-weight: bold;color: #0404B4;" />
+						<fieldView mappingTo="49" styleCss="font-weight: bold;color: #61380B;" />
+						<fieldView mappingTo="29" styleCss="font-weight: bold;color: NRPG;" />
+					</fieldViewSet>
+				</grid>
+
+			</viewComponent>
+		</action>
+	</service>
+
+	<service name="GestionMesesAnualidadPrevision" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="detail" submitError="GestionMesesAnualidadPrevision.detail"
+			submitSucces="GestionMesesAnualidadPrevision.detail">
+
+			<viewComponent>
+				<form columns="58" title="Mes de la anualidad de la simulación">
+				
+					<userbuttons>
+						<button	link="Histogram3DStatsServlet"	id="histParam1" 
+							name="Histogram" >
+							<fieldViewSet nameSpace="histParam1">						
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="3"/>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="24" title="estimado segÃºn mes simulación"></option>
+										<option code="49" title="facturado en mes"></option>
+										<option code="20" title="estimado TSA"></option>
+										<option code="21" title="estimado TSB"></option>		
+										<option code="22" title="estimado TSC"></option>
+										<option code="23" title="estimado TMA"></option>
+										<option code="45" title="facturado TSA"></option>
+										<option code="46" title="facturado TSB"></option>
+										<option code="47" title="facturado TSC"></option>
+										<option code="48" title="facturado TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+								<fieldView name="escalado" hidden="true" value="automatic"/>							
+							</fieldViewSet>
+						</button>
+						
+						<button link="PieChartStatsServlet" id="piechartParam2"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam2">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="3"/>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="24" title="estimado segÃºn mes simulación"></option>
+										<option code="49" title="facturado en mes"></option>
+										<option code="20" title="estimado TSA"></option>
+										<option code="21" title="estimado TSB"></option>		
+										<option code="22" title="estimado TSC"></option>
+										<option code="23" title="estimado TMA"></option>
+										<option code="45" title="facturado TSA"></option>
+										<option code="46" title="facturado TSB"></option>
+										<option code="47" title="facturado TSC"></option>
+										<option code="48" title="facturado TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>						
+										
+					</userbuttons>					
+				
+					<fieldViewSet entitymodel="resultado_prevision_mes"
+						nameSpace="mesPrevisionForm">
+						
+						<fieldset legend="Simulación de la mensualidad">
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" type="select" editable="false">
+								<optionValues entitymodel="resultado_prevision_anualidad"
+									descrMappingTo="3">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="50" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />							
+							<fieldView mappingTo="4" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+						</fieldset>
+					
+						<fieldset legend="Horas previstas y saldos actuales">
+							<fieldView mappingTo="10" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="11" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="12" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="13" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="14" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="15" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="16" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="17" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="18" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="19" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+						</fieldset>
+												
+						<fieldset legend="Presupuesto previsto y saldos actuales">
+							<fieldView mappingTo="20" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="21" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="22" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="23" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="24" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="25" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="26" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="27" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="28" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="29" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+						</fieldset>
+												
+						<fieldset legend="Ejecución y facturado">
+							<fieldView mappingTo="40" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="41" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="42" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="43" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="44" editable="false"
+								styleCss="font-weight: bold;color: #61380B;" labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />							
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+														
+							<fieldView mappingTo="45" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="46" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="47" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="48" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="49" editable="false"
+								styleCss="font-weight: bold;color: #61380B;" labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+						
+						</fieldset>
+						
+					</fieldViewSet>
+				</form>
+
+			</viewComponent>
+		</action>
+
+
+	</service>
+
+</service:service-group>
