@@ -39,7 +39,7 @@
 
 	<logo content="img/logoPCM.PNG" width="202" height="72" alt="Inicio" uri="SeguimientoProyectos"/>
 
-	<foot text="Seguimiento Proyectos v&lt;b&gt;&lt;i&gt;00.06&lt;/i&gt;&lt;/b&gt; [14/01/2020]" link="SeguimientoProyectos" />
+	<foot text="Seguimiento Proyectos v&lt;b&gt;&lt;i&gt;01.00&lt;/i&gt;&lt;/b&gt; [14/01/2020]" link="SeguimientoProyectos" />
 
 	<tree profile="ADMINISTRADOR" name="tree">
 
