@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://pcm.framework.org/service" 
+xmlns="http://pcm.framework.org/service">
+    
+    <xs:element name="service-group" type="ServiceGroupType"/>
+    
+    <xs:complexType name="ServiceGroupType">
+    	<xs:sequence>
+		    <xs:element maxOccurs="unbounded" minOccurs="1" name="service" type="ServiceType"/>
+		</xs:sequence>
+	</xs:complexType>
+    
+	<xs:complexType name="profileAndNAmeInfo">
+		<xs:attribute name="profile" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="link" type="xs:string"/>
+		<xs:attribute name="id" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="ServiceType">
+	  	<xs:complexContent>
+	   		<xs:extension base="profileAndNAmeInfo">
+		   		<xs:sequence>
+		    		<xs:element maxOccurs="unbounded" name="action" nillable="true" type="ActionType"/>
+		  		</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="ActionAttrsBaseType">
+  		<xs:attribute name="id" type="xs:string"/>
+  		<xs:attribute name="event" type="xs:string"/>
+  		<xs:attribute name="submitError" type="xs:string"/>
+  		<xs:attribute name="submitSucces" type="xs:string"/>
+  		<xs:attribute name="transactional" type="xs:boolean"/>
+  		<xs:attribute name="strategyPre" type="xs:string"/>
+  		<xs:attribute name="strategy" type="xs:string"/>
+  		<xs:attribute name="addressBook" type="xs:string"/>
+  		<xs:attribute name="filterResults" type="xs:string"/>
+  	</xs:complexType>
+  
+	<xs:complexType name="ActionType">
+	  	<xs:complexContent>
+	   		<xs:extension base="ActionAttrsBaseType">
+		   		<xs:sequence>		    		
+		    		<xs:element maxOccurs="unbounded" name="viewComponent" nillable="true" type="ComponentType"/>
+		  		</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>
+  
+  	<xs:complexType name="ComponentType">
+  		<xs:sequence>
+   			<xs:element maxOccurs="unbounded" minOccurs="0" name="form" nillable="true" type="FormType"/>
+   			<xs:element maxOccurs="unbounded" minOccurs="0" name="grid" nillable="true" type="GridType"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="FormAttrsBaseType">
+		<xs:attribute name="align" type="xs:string"/>
+		<xs:attribute name="columns" type="xs:integer"/>
+		<xs:attribute name="title" type="xs:string"/>		
+	</xs:complexType>
+	
+	<xs:complexType name="UserbuttonsType">
+	  	<xs:sequence>
+	  		<xs:element maxOccurs="unbounded" minOccurs="1" name="button" nillable="true" type="ButtonType"/>	    		
+		 </xs:sequence>	   	
+	</xs:complexType>
+	
+	
+	<xs:complexType name="ButtonAttrsType">
+		<xs:attribute name="link" type="xs:string"/>
+		<xs:attribute name="id" type="xs:integer"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="onClick" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="ButtonType">
+	  	<xs:complexContent>
+	   		<xs:extension base="ButtonAttrsType">
+		   		<xs:sequence>
+		    		<xs:element maxOccurs="unbounded" name="fieldViewSet" nillable="true" type="FieldViewSetType"/>
+		  		</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="FormType">
+	  	<xs:complexContent>
+	   		<xs:extension base="FormAttrsBaseType">
+		   		<xs:sequence>
+		   			<xs:element maxOccurs="1" minOccurs="0" name="userbuttons" nillable="true" type="UserbuttonsType"/>
+		    		<xs:element maxOccurs="unbounded" name="fieldViewSet" nillable="true" type="FieldViewSetType"/>
+		  		</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>	
+	
+	<xs:complexType name="GridAttrsBaseType">
+		<xs:attribute name="title" type="xs:string"/>		
+		<xs:attribute name="dependsOf" type="xs:string"/>
+		<xs:attribute name="serviceRef" type="xs:string"/>
+		<xs:attribute name="orderDirection" type="xs:string"/>
+		<xs:attribute name="defaultOrderField" type="xs:string"/>
+		<xs:attribute name="filterResults" type="xs:string"/>
+		<xs:attribute name="eventsRegistered" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="GridType">
+	  	<xs:complexContent>
+	   		<xs:extension base="GridAttrsBaseType">
+		   		<xs:sequence>
+		    		<xs:element maxOccurs="unbounded" name="fieldViewSet" nillable="true" type="FieldViewSetType"/>
+		  		</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="FieldViewSetBase">
+		<xs:attribute name="nameSpace" type="xs:string"/>
+		<xs:attribute name="entitymodel" type="xs:string"/>
+		<xs:attribute name="persist" type="xs:boolean"/>
+		<xs:attribute name="order" type="xs:int"/>
+	</xs:complexType>
+	
+	<xs:complexType name="FieldViewSetType">
+	  	<xs:complexContent>
+	   		<xs:extension base="FieldViewSetBase">
+		   		<xs:sequence>
+		    		<xs:element maxOccurs="unbounded" minOccurs="0" name="fieldset" nillable="true" type="FieldSetType"/>
+		    		<xs:element maxOccurs="unbounded" minOccurs="0" name="fieldView" nillable="true" type="FieldViewType"/>
+		  		</xs:sequence>
+	   		</xs:extension>	   		
+	   	</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="FieldSetAttrBaseType">
+		<xs:attribute name="legend" type="xs:string"/>
+		<xs:attribute name="style" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="FieldSetType">
+	  	<xs:complexContent>
+	   		<xs:extension base="FieldSetAttrBaseType">
+		   		<xs:sequence>
+		    		<xs:element maxOccurs="unbounded" name="fieldView" nillable="true" type="FieldViewType"/>
+		  		</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="FieldViewTypeBase">
+		<xs:attribute name="separator" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="required" type="xs:boolean"/>		
+		<xs:attribute name="hidden" type="xs:boolean"/>
+		<xs:attribute name="editable" type="xs:boolean"/>
+		<xs:attribute name="value" type="xs:string"/>
+		<xs:attribute name="firstOption" type="xs:string"/>
+		<xs:attribute name="size" type="xs:integer"/>
+		<xs:attribute name="maxlength" type="xs:integer"/>
+		<xs:attribute name="detailed" type="xs:boolean"/>
+		<xs:attribute name="persistsIn" type="xs:string"/>
+		<xs:attribute name="mappingTo" type="xs:integer"/>
+		<xs:attribute name="relationalOpe" type="xs:string"/>
+		<xs:attribute name="styleCss" type="xs:string"/>
+		<xs:attribute name="formatted" type="xs:string"/>		
+		<xs:attribute name="labelStyle" type="xs:string"/>	
+		<xs:attribute name="default" type="xs:string"/>	
+	</xs:complexType>
+	
+	<xs:complexType name="FieldViewType">
+	  	<xs:complexContent>
+	   		<xs:extension base="FieldViewTypeBase">
+		   		<xs:sequence>
+		    		<xs:element maxOccurs="unbounded" minOccurs="0" name="optionValues" nillable="true" type="OptionSetType"/>
+		  		</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>
+  
+  	<xs:complexType name="OptionSetType">
+  		<xs:complexContent>
+	   		<xs:extension base="OptionSetBase">
+	   			<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="option" nillable="true" type="OptionType"/>
+				</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+  		
+  	</xs:complexType>
+	
+	<xs:complexType name="OptionSetBase">
+  		<xs:attribute name="entitymodel" type="xs:string"/>
+  		<xs:attribute name="descrMappingTo" type="xs:string"/>
+  		<xs:attribute name="selectionMultiple" type="xs:boolean"/> 		  		
+  		<xs:attribute name="codeField" type="xs:integer"/>
+  		<xs:attribute name="editable" type="xs:boolean"/>
+  	</xs:complexType>
+  
+    <xs:complexType name="OptionType">
+    	<xs:complexContent>
+	   		<xs:extension base="OptionBase">
+	   		</xs:extension>
+	   	</xs:complexContent>
+  	</xs:complexType>
+  	
+  	<xs:complexType name="OptionBase">
+  		<xs:attribute name="code" type="xs:string"/>
+  		<xs:attribute name="title" type="xs:string"/>
+  		<xs:attribute name="selected" type="xs:string"/>
+  	</xs:complexType>
+	  
+	
+</xs:schema>

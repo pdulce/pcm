@@ -1,0 +1,155 @@
+/**
+ * 
+ */
+package pcm.context.viewmodel.components;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+
+import org.w3c.dom.Element;
+
+import pcm.common.InternalErrorsConstants;
+import pcm.common.exceptions.ClonePcmException;
+import pcm.common.exceptions.DatabaseException;
+import pcm.common.exceptions.MessageException;
+import pcm.common.exceptions.PCMConfigurationException;
+import pcm.common.exceptions.ParameterBindingException;
+import pcm.comunication.actions.IAction;
+import pcm.comunication.dispatcher.BasePCMServlet;
+import pcm.comunication.dispatcher.RequestWrapper;
+import pcm.context.logicmodel.IDataAccess;
+import pcm.context.viewmodel.IViewMetamodel;
+import pcm.context.viewmodel.Translator;
+import pcm.context.viewmodel.components.controls.ICtrl;
+import pcm.context.viewmodel.components.controls.html.Image;
+import pcm.context.viewmodel.components.controls.html.LinkButton;
+import pcm.context.viewmodel.definitions.FieldViewSet;
+
+/**
+ * @author 99GU3997
+ */
+public class LogoComponent extends AbstractComponent {
+
+	private static final long serialVersionUID = 999991112222L;
+
+	private static final String INIT = "Inicio", WIDTH = "width", HEIGHT = "height", ALT = "alt", URI_ATTR = "uri";
+
+	private static Map<String, String> logosCached = new HashMap<String, String>();
+
+	private String xhtml;
+
+	private LogoComponent() {
+		// nothing
+	}
+
+	public LogoComponent(final String lang, final Element logoElm) throws PCMConfigurationException {
+		try {
+			if (!LogoComponent.logosCached.containsKey(this.uri)) {
+				final Image imgCtrl = new Image();
+				imgCtrl.setAlt(logoElm.getAttribute(ALT));
+				imgCtrl.setWidth(Integer.parseInt(logoElm.getAttribute(WIDTH)));// 184
+				imgCtrl.setHeight(Integer.parseInt(logoElm.getAttribute(HEIGHT)));// 42
+				imgCtrl.setSrc(logoElm.getAttribute(IViewMetamodel.CONTENT_ATTR));
+				final LinkButton aLinkButton = new LinkButton();
+				this.uri = logoElm.getAttribute(URI_ATTR);
+				aLinkButton.setRef(this.uri);
+				aLinkButton.setOnMouseOver(ICtrl.CLEAN_STATUS);
+				aLinkButton.setOnMouseOut(ICtrl.CLEAN_STATUS);
+				aLinkButton.setInnerContent(imgCtrl.toHTML(Translator.traduceDictionaryModelDefined(lang, LogoComponent.INIT)));
+				synchronized (LogoComponent.logosCached) {
+					LogoComponent.logosCached.put(this.uri, aLinkButton.toHTML());
+				}
+			}
+			this.xhtml = LogoComponent.logosCached.get(this.uri);
+		}
+		catch (final Throwable parqExc) {
+			BasePCMServlet.log.log(Level.SEVERE, InternalErrorsConstants.XML_LOGO_GENERATION, parqExc);
+			throw new PCMConfigurationException(InternalErrorsConstants.XML_LOGO_GENERATION, parqExc);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#bindPrimaryKeys(
+	 * contextmodel.framework.comunication.actions.IAction) */
+	@Override
+	public void bindPrimaryKeys(final IAction accion, final List<MessageException> parqMensajes) throws ParameterBindingException {
+		// nothing
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see
+	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#bindUserInput(contextmodel
+	 * .framework.comunication.actions.IAction) */
+	@Override
+	public void bindUserInput(final IAction accion, final List<FieldViewSet> fs, final List<MessageException> parqMensajes)
+			throws ParameterBindingException {
+		// nothing
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#copyOf() */
+	@Override
+	public IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException {
+		final LogoComponent m = new LogoComponent();
+		m.uri = this.uri;
+		m.xhtml = this.xhtml;
+		return m;
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#getName() */
+	@Override
+	public String getName() {
+		return "logoDiv";
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see
+	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#initFieldViewSets(org
+	 * .w3c.dom.Element, RequestWrapper) */
+	@Override
+	protected void initFieldViewSets(final Element element_, final RequestWrapper request, final IDataAccess dataAccess)
+			throws PCMConfigurationException {
+		// TODO Auto-generated method stub
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#isForm() */
+	@Override
+	public boolean isForm() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#isGrid() */
+	@Override
+	public boolean isGrid() {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * 
+	 * @see
+	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#toXML(javax.servlet
+	 * .http.HttpServletRequest) */
+	@Override
+	public String toXHTML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+		try {
+			return this.xhtml;
+		}
+		catch (final Throwable exc) {
+			BasePCMServlet.log.log(Level.SEVERE, InternalErrorsConstants.XML_LOGO_GENERATION, exc);
+			return null;
+		}
+	}
+
+}

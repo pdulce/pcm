@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pcm.framework.org/metamodel" xmlns="http://pcm.framework.org/metamodel">
+            
+    <xs:element name="application" type="AppType"/>
+  
+	<xs:complexType name="AppType">
+   		<xs:sequence>
+   			<xs:element maxOccurs="1" name="configuration" nillable="false" type="ConfigurationType"/>
+   			<xs:element maxOccurs="1" name="profiles" nillable="false" type="ProfilesType"/>		    		
+			<xs:element name="logo" nillable="true" type="LogoType"/>
+			<xs:element name="foot" nillable="true" type="FootType"/>
+			<xs:element name="tree" nillable="true" type="TreeType"/>
+  		</xs:sequence>
+	</xs:complexType>
+   	
+   	<xs:complexType name="ConfigurationType">
+   		<xs:complexContent>
+    		<xs:extension base="serverPathInfoType">   	
+   				<xs:sequence>
+					<xs:element maxOccurs="unbounded" name="entry" nillable="false" type="EntryConfigType"/>
+   				</xs:sequence>
+	   		</xs:extension>
+	   	</xs:complexContent>
+	</xs:complexType>
+   		
+   		
+	<xs:complexType name="serverPathInfoType">
+		<xs:attribute name="serverPath" type="xs:string"/>
+	</xs:complexType>
+   		
+   	
+   	<xs:complexType name="EntryConfigType">
+		<xs:attribute name="key" type="xs:string"/>
+		<xs:attribute name="value" type="xs:string"/>
+	</xs:complexType>
+   	
+   	<xs:complexType name="LogoType">
+		<xs:attribute name="content" type="xs:string"/>
+		<xs:attribute name="width" type="xs:string"/>
+		<xs:attribute name="height" type="xs:string"/>
+		<xs:attribute name="alt" type="xs:string"/>
+		<xs:attribute name="uri" type="xs:string"/>
+	</xs:complexType>
+   	
+   	
+   	<xs:complexType name="profileAndNAmeInfo">
+		<xs:attribute name="profile" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="link" type="xs:string"/>
+		<xs:attribute name="id" type="xs:string"/>
+	</xs:complexType>
+   	
+   	<xs:complexType name="ProfilesType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="profile" nillable="true" type="ProfileType"/>
+		</xs:sequence>
+	</xs:complexType>
+  
+  <xs:complexType name="ProfileType">
+		<xs:attribute name="name" type="xs:string"/>		
+		<xs:attribute name="description" type="xs:string"/>		
+	</xs:complexType>
+  
+	<xs:complexType name="MenuType">
+		<xs:sequence>   
+	 		<xs:element maxOccurs="unbounded" name="menu_entry" nillable="true" type="MenuEntryType"/>
+	 	</xs:sequence>
+	</xs:complexType>
+	
+	 <xs:complexType name="MenuEntryType">
+		<xs:complexContent>
+    		<xs:extension base="profileAndNAmeInfo">
+    			<xs:attribute name="action" type="xs:string"/>
+    		</xs:extension>    		
+    	</xs:complexContent>
+	</xs:complexType>
+	 	
+	<xs:complexType name="FootType">
+		<xs:attribute name="text" type="xs:string"/>
+		<xs:attribute name="link" type="xs:string"/>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="TreeType">
+		<xs:complexContent>
+    		<xs:extension base="profileAndNAmeInfo">		
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="LEAF" nillable="true" type="LEAFType"/>	
+	 				<xs:element maxOccurs="unbounded" minOccurs="0" name="FOLDER" nillable="true" type="FOLDERType"/>
+	 			</xs:sequence>
+	 		</xs:extension>
+	 	</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="FOLDERType">
+		<xs:complexContent>
+    		<xs:extension base="profileAndNAmeInfo">			
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="LEAF" nillable="true" type="LEAFType"/>						
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="FOLDER" nillable="true" type="FOLDERType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="LEAFType">
+		<xs:attribute name="link" type="xs:string"/>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="id" type="xs:string"/>
+	</xs:complexType>
+	
+	
+  	
+  	
+ 	
+</xs:schema>
