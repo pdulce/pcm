@@ -56,10 +56,8 @@ public class LauncherServlet extends BasePCMServlet {
 
 	public static final String EVENTO_REGISTRO_INCID = "ConsultaRegistroIncidencias.query";
 
-	public static final String UTIL_URI_SERVLET = "/FacturacionUTE/LauncherUtility";
+	public static final String UTIL_URI_SERVLET = "LauncherUtility";
 
-	public static final String PCM_URI_SERVLET = "/FacturacionUTE/FactMensualUTE";
-	
 	public static final String[] ficheros_Excel_Seg_SSGG = new String[]{"SG ASM_SANI-FAMA-FAM2.xlsx", "SG ASM_FORMAR.xlsx"};
 	
 	public static final String BASE_PATH_PPT = "O:\\externos\\__Hojas SegDireccion";
