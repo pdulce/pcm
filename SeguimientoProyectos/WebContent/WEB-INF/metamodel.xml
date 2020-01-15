@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://pcm.framework.org/metamodel metamodel.xsd">
 
 	<configuration serverPath="C:\\apache-tomcat-7.0.85\\default">
-		<entry key="appTitle" value="Seguimiento de Proyectos"></entry>
+		<entry key="appTitle" value="Seguimiento de Proyectos Lote GISS"></entry>
 		<entry key="auditActivated" value="false"></entry>
 		<entry key="template" value="/jsp/template.jsp"></entry>
 		<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
