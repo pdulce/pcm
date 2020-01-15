@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <app:application xmlns:app="http://pcm.framework.org/metamodel"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
@@ -47,7 +47,7 @@
 			<LEAF link="exec=Configuration" name="Configuraciones" />
 			<LEAF link="event=GestionEntidades.query#entityName=rol" name="Roles" />
 			<LEAF link="event=GestionUsuarios.query" name="Usuarios" />
-			<LEAF link="event=GestionEntidades.query#entityName=tipoAplicacion" name="Tipología de aplicaciones" />
+			<LEAF link="event=GestionEntidades.query#entityName=tipoAplicacion" name="Technologies" />
 			<LEAF link="event=GestionEntidades.query#entityName=mes" name="Meses" />
 		</FOLDER>
 		
