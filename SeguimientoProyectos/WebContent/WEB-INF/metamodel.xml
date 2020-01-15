@@ -16,8 +16,8 @@
 		<entry key="url-connection" value="jdbc:sqlite:"></entry>
 		<entry key="dbPort" value="-1"></entry><!-- SQLite no requiere puerto -->
 		<entry key="esquemaDDBB" value="#serverPath#\\data\\sqlite\\factUTEDBLite.db"></entry>
-		<entry key="dbUserName" value=""></entry><!-- SQLite no requiere user -->
-		<entry key="dbPassword" value=""></entry><!-- SQLite no requiere passwd -->		
+		<entry key="dbUserName" value=""></entry><!-- without login -->
+		<entry key="dbPassword" value=""></entry><!-- without password -->		
 		<entry key="pageSize" value="25"></entry>		
 		<entry key="logAppFile"
 			value="#serverPath#\\log\\logSeguimientoUTE.xml"></entry>
@@ -79,13 +79,13 @@
 			<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
 		</FOLDER>
 					
-		<!-- FOLDER profile="ADMINISTRADOR"	name="Cotizaciones Bolsa">
+		<FOLDER profile="ADMINISTRADOR"	name="Cotizaciones Bolsa">
 			<LEAF link="event=ConsultaPeticionesDatosInvertia.query" name="Consultas/estad." />
-			<LEAF link="/SeguimientoProyectos/LauncherUtility?exec=allInfoBolsa" name="Actualizar autom. Valores" />
+			<LEAF link="LauncherUtility?exec=allInfoBolsa" name="Actualizar autom. Valores" />
 		</FOLDER>
 		<FOLDER profile="ADMINISTRADOR"	name="Bolsa Cartera Valores">
-			<LEAF link="/SeguimientoProyectos/LauncherUtility?exec=myInfoBolsa" name="Valores actuales en Mi Cartera" />
-		</FOLDER> -->
+			<LEAF link="LauncherUtility?exec=myInfoBolsa" name="Valores actuales en Mi Cartera" />
+		</FOLDER>
 
 	</tree>
 	
