@@ -120,7 +120,7 @@ public class MultipleRegressionModelTester {
 	}
 	
 	private String fibonnacci(final int position, final List<String> lista, final int nivel){
-		if (nivel==1 || lista.size()==(position+1)/*condición de parada*/){
+		if (nivel==1 || lista.size()==(position+1)/*condicion de parada*/){
 			return lista.get(position);
 		}		
 		//lanzamos la recursividad
@@ -133,7 +133,7 @@ public class MultipleRegressionModelTester {
 			if (expresionDeducida.equals("")){
 				continue;
 			}
-			//analizamos la expresion: puede ser una expresión simple (con operadores), o puede ser una lista
+			//analizamos la expresion: puede ser una expresion simple (con operadores), o puede ser una lista
 			String[] miniExpresiones = expresionDeducida.split(SEPARADOR);		
 			//multiplico (concateno expresion) con cada miniExpresion, y separo por comas
 			for (int miniCont=0;miniCont<miniExpresiones.length;miniCont++){				
@@ -162,7 +162,7 @@ public class MultipleRegressionModelTester {
 	public double predecirVariableY (final double[] vars, final boolean transfLogaritmic){
 		
 		if (this.coeficientes_regresion == null){
-			System.err.println("Debe invocar previamente al método makeLinearRegressionAnalysisTeams para resolver el modelo planteado");
+			System.err.println("Debe invocar previamente al metodo makeLinearRegressionAnalysisTeams para resolver el modelo planteado");
 			return -99999;
 		}
 		double constantTerm = this.coeficientes_regresion[0];
@@ -183,7 +183,7 @@ public class MultipleRegressionModelTester {
 
 	private double[] getXVarsNormalized2Model(final double[] vars)throws ParseException { 
 		if (vars.length < variables_independientes.length){
-			throw new RuntimeException("La dimensión de este registro del dataset no coincide con el número de variables independientes");
+			throw new RuntimeException("La dimension de este registro del dataset no coincide con el numero de variables independientes");
 		}
 		Map<String, List<Number>> valoresDataset = new HashMap<String, List<Number>>(variables_independientes.length);
 		for (int i=0;i<variables_independientes.length;i++){
@@ -223,7 +223,7 @@ public class MultipleRegressionModelTester {
 		final String varOfDummy = dummy.indexOf("_")==-1?dummy:dummy.substring(0, dummy.indexOf("_"));
 		List<Number> dataSetOfAVar = valoresDataset.get(varOfDummy);
 		if (recordPosition >= dataSetOfAVar.size()){
-			throw new RuntimeException("Registro posición " + recordPosition + " es mayor que el número de registros(" + dataSetOfAVar.size() + ") del dataset");
+			throw new RuntimeException("Registro posicion " + recordPosition + " es mayor que el numero de registros(" + dataSetOfAVar.size() + ") del dataset");
 		}
 		Number valorOfVar = dataSetOfAVar.get(recordPosition);
 		return obtenerValorParaDummy(varOfDummy, dummy, valorOfVar);
@@ -239,7 +239,7 @@ public class MultipleRegressionModelTester {
 		final int volumenMuestra = valoresDataset.values().iterator().next().size();
 		double[][] dataSet = new double[volumenMuestra][numeroCoeficientes];
 
-		/**Generamos tantos registros patrón como registros tiene el dataset, y cada registro será el conjunto de interacciones**/
+		/**Generamos tantos registros patron como registros tiene el dataset, y cada registro será el conjunto de interacciones**/
 		List<List<String>> modeloConInteraccionesASustituir = new ArrayList<List<String>>(volumenMuestra);
 		for (int v=0;v<volumenMuestra;v++){
 			List<String> modeloConInteracciones = new ArrayList<String>();
@@ -265,7 +265,7 @@ public class MultipleRegressionModelTester {
 			}
 		}
 		
-		//cuando llegamos aqui, vamos recorriendo cada registro y resolvemos las expresiones numéricas con la función de fibonacci
+		//cuando llegamos aqui, vamos recorriendo cada registro y resolvemos las expresiones numericas con la funcion de fibonacci
 		for (int v=0;v<volumenMuestra;v++){
 			List<String> registroConInteracciones = modeloConInteraccionesASustituir.get(v);
 			for (int interaccion=0;interaccion<registroConInteracciones.size();interaccion++){
@@ -462,7 +462,7 @@ public class MultipleRegressionModelTester {
 			Rsquared = regression.calculateRSquared();
 		}catch (Throwable exce){
 			if (exce.getMessage().indexOf("matrix is singular") != -1){
-				throw new RuntimeException("Matriz de datos singular: Existen columnas que siempre tienen valor CERO, elimine esas columnas o recopile más datos con esa columna con valor <> 0");
+				throw new RuntimeException("Matriz de datos singular: Existen columnas que siempre tienen valor CERO, elimine esas columnas o recopile mas datos con esa columna con valor <> 0");
 			}
 		}
 		retornoModelo.put(StatsConstants.R2_DETERMINANCE, Double.valueOf(Rsquared));
@@ -474,7 +474,7 @@ public class MultipleRegressionModelTester {
 		retornoModelo.put(StatsConstants.ESTIMATED_ERROR, Double.valueOf(sigma));
 		System.out.print("  Standard Error: " + CommonUtils.roundWith4Decimals(sigma));
 		System.out.println("  Observaciones: " + this.tamanioMuestra);
-		System.out.println("Grados libertad regresi�n: " + this.gradosLibertad);
+		System.out.println("Grados libertad regresion: " + this.gradosLibertad);
 		System.out.println("Grados libertad residuos: " + (this.tamanioMuestra - this.gradosLibertad - 1));
 		System.out.println("Grados libertad total: " + (this.tamanioMuestra - 1));
 		retornoModelo.put(StatsConstants.REGRESSION_SUM_OF_SQUARES,
@@ -494,12 +494,12 @@ public class MultipleRegressionModelTester {
 		System.out.print("F calculado(muestra): " + CommonUtils.roundWith4Decimals(valor_F_k_n));
 		FDistribution F_distribution = new FDistribution(this.gradosLibertad, this.tamanioMuestra - this.gradosLibertad - 1);
 		double valor_en_distrF_k_graLibert = F_distribution.inverseCumulativeProbability(1 - alfa);
-		System.out.println(" vs F_distrib(F ±=" + alfa + ", " + this.gradosLibertad + ", "
-				+ (this.tamanioMuestra - this.gradosLibertad - 1) + ") crítico: " + CommonUtils.roundWith4Decimals(valor_en_distrF_k_graLibert));
+		System.out.println(" vs F_distrib(F A(+/-)=" + alfa + ", " + this.gradosLibertad + ", "
+				+ (this.tamanioMuestra - this.gradosLibertad - 1) + ") critico: " + CommonUtils.roundWith4Decimals(valor_en_distrF_k_graLibert));
 		retornoModelo.put(StatsConstants.F_SNEDECOR_VALOR_CRITICO, Double.valueOf(valor_en_distrF_k_graLibert));
 		double regressandVariance = regression.estimateRegressandVariance();
 		retornoModelo.put(StatsConstants.REGRESSAND_VARIANCE, Double.valueOf(regressandVariance));
-		System.out.println("Varianza de la regresi�n: " + CommonUtils.roundWith4Decimals(regressandVariance));
+		System.out.println("Varianza de la regresion: " + CommonUtils.roundWith4Decimals(regressandVariance));
 		System.out.println("****************************************************************************");
 		System.out.println("");
 		System.out.println("*************************ANNALYSIS OF PARAMETERS****************************");
@@ -507,7 +507,7 @@ public class MultipleRegressionModelTester {
 		TDistribution T_distribution_n_k = new TDistribution(this.tamanioMuestra - this.gradosLibertad + 1);
 		double t = T_distribution_n_k.inverseCumulativeProbability(1 - (alfa / 2));
 		retornoModelo.put(StatsConstants.T_STUDENT_VALOR_CRITICO, Double.valueOf(t));
-		System.out.println("V.critico de T_distrib (T ±=" + (alfa / 2) + ", "
+		System.out.println("V.critico de T_distrib (T A (+/-)=" + (alfa / 2) + ", "
 				+ (this.tamanioMuestra - this.gradosLibertad + 1) + "): " + CommonUtils.roundWith4Decimals(t));
 		
 		this.coeficientes_regresion = regression.estimateRegressionParameters();
@@ -543,10 +543,10 @@ public class MultipleRegressionModelTester {
 				double rangoSuperior = this.coeficientes_regresion[i] + multiplicadorRango;
 				if (i > 0) {
 					if (BigDecimal.valueOf(rangoInferior).signum() == BigDecimal.valueOf(rangoSuperior).signum()) {
-						rechazosH0.add("Rechazamos la hipótesis nula, H0: b" + i + " = 0. " + "La variable " + nombres_Regresoras[i-1]
+						rechazosH0.add("Rechazamos la hipotesis nula, H0: b" + i + " = 0. " + "La variable " + nombres_Regresoras[i-1]
 								+ " resulta significativa para explicar " + NOMBRE_ESTIMADA);
 					} else {
-						rechazosH0.add("Aceptamos la hipótesis nula, H0: b" + i + " = 0. " + "La variable " + nombres_Regresoras[i-1]
+						rechazosH0.add("Aceptamos la hipotesis nula, H0: b" + i + " = 0. " + "La variable " + nombres_Regresoras[i-1]
 								+ " no parece significativa para explicar " + NOMBRE_ESTIMADA);
 					}
 				}
@@ -587,7 +587,7 @@ public class MultipleRegressionModelTester {
 					String regresorExpresion = interaccionesModelo.get(i-1);
 					mantenedorCoeficientes.append("Mantenemos el coeficiente beta_" + i + " asociado al regresor '" + regresorExpresion 
 							+ "'.\n");
-					// Debemos ver si es una interacción de nivel n, en cuyo caso, 
+					// Debemos ver si es una interaccion de nivel n, en cuyo caso, 
 					// se deberá indicar que mantenemos en el modelo sus interacciones de niveles n-1 hasta y sus términos independientes
 					int indexOfAsterisc = regresorExpresion.indexOf("*");
 					while (indexOfAsterisc != -1){
@@ -763,7 +763,7 @@ public class MultipleRegressionModelTester {
 			conclusionModeloSign.append(" es mayor que el valor cr�tico F_distrib (" + alfa + ", " + this.gradosLibertad + ", "
 					+ (this.tamanioMuestra - this.gradosLibertad - 1) + "), ");
 			conclusionModeloSign.append(CommonUtils.roundWith4Decimals(valor_en_distrF_k_graLibert));
-			conclusionModeloSign.append(";\nrechazamos la hip�tesis nula, H0: b1 = b2 = ...= b");
+			conclusionModeloSign.append(";\nrechazamos la hipotesis nula, H0: b1 = b2 = ...= b");
 			conclusionModeloSign.append(this.gradosLibertad);
 			conclusionModeloSign.append(" = 0. ");
 			conclusionModeloSign.append("\nConcluimos que el modelo es plausible para explicar la variabilidad de Y.");
@@ -772,7 +772,7 @@ public class MultipleRegressionModelTester {
 			conclusionModeloSign.append(" es menor que el valor cr�tico F_distrib (" + alfa + ", " + this.gradosLibertad + ", "
 					+ (this.tamanioMuestra - this.gradosLibertad - 1) + "), ");
 			conclusionModeloSign.append(CommonUtils.roundWith4Decimals(valor_en_distrF_k_graLibert));
-			conclusionModeloSign.append(";\naceptamos la hip�tesis nula, H0: b1 = b2 = ...= b");
+			conclusionModeloSign.append(";\naceptamos la hipotesis nula, H0: b1 = b2 = ...= b");
 			conclusionModeloSign.append(this.gradosLibertad);
 			conclusionModeloSign.append(" = 0. ");
 			conclusionModeloSign.append("\nConcluimos que el modelo no es apropiado para explicar la variabilidad de Y.");
@@ -781,13 +781,13 @@ public class MultipleRegressionModelTester {
 		conclusionModeloSign.append("\n");		
 		
 		if (autoOptimizing){
-			conclusionModeloSign.append("¿ Qué regresores mantener en el modelo ?");
+			conclusionModeloSign.append("� Que regresores mantener en el modelo ?");
 			conclusionModeloSign.append("\n");
 			conclusionModeloSign.append("\n");
 			conclusionModeloSign.append(mantenedorCoeficientes.toString());
 			conclusionModeloSign.append("\n");
 			conclusionModeloSign.append("\n");
-			conclusionModeloSign.append("Optimizamos el modelo, de manera que hacemos 0.0 los coeficientes de regresores que no resulten significativos según el " +
+			conclusionModeloSign.append("Optimizamos el modelo, de manera que hacemos 0.0 los coeficientes de regresores que no resulten significativos segun el " +
 					"estudio de los p-values \n");
 			conclusionModeloSign.append("\n");
 			for (int coef =0;coef<coeficientes_regresion.length;coef++){
@@ -827,7 +827,7 @@ public class MultipleRegressionModelTester {
 	}
 	
 	/**
-	 * Expresión del tipo: HrsDevelopment*AppType,HrsDevelopment*TaskType_I,HrsDevelopment*TaskType_II
+	 * Expresion del tipo: HrsDevelopment*AppType,HrsDevelopment*TaskType_I,HrsDevelopment*TaskType_II
 	 * @param expresion
 	 * @return
 	 */
