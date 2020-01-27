@@ -9,22 +9,22 @@ import pcm.common.utils.CommonUtils;
 
 public class SampleModel {
 	
-	/** elección de variables:
+	/** eleccion de variables:
 	 * proyecto
-	 * horas análisis
+	 * horas anolisis
 	 * tipo tarea
 	 * 
 	 */
 	private void testearModeloTiempoDesarrollo_varY() {
 
-		boolean transLog = false;//si se aplica o no transformación logarítmica del modelo de regresión
-		boolean autoptimizeOn = false;// aplicar o no auto-eliminación de coeficientes con p-values > 0.05(alfa)
+		boolean transLog = false;//si se aplica o no transformacion logarotmica del modelo de regresion
+		boolean autoptimizeOn = false;// aplicar o no auto-eliminacion de coeficientes con p-values > 0.05(alfa)
 		final String file2read_csv = "C:\\COORDINAC_PROYECTOS\\14.EXPERIMENTOS STATS\\datosGEDEON_Y_timeDG_2.CSV";
 				
-		/** definición de la variable y, y de las explicativas : estos títulos deben ser los que aparezcan en el .csv en la primera fila de títulos **/  
+		/** definicion de la variable y, y de las explicativas : estos totulos deben ser los que aparezcan en el .csv en la primera fila de totulos **/  
 		final String var_estimada = "UtsEstimadas";
 		
-		/** definición de los rangos permitidos para cada variable explicativa **/
+		/** definicion de los rangos permitidos para cada variable explicativa **/
 		Range rango_TIME = new Range(0, 10000);
 		
 		int i = 0;
@@ -32,7 +32,7 @@ public class SampleModel {
 		List<VariableDecisora> listaDecisoras = new ArrayList<VariableDecisora>();
 		listaDecisoras.add(i++, new VariableDecisoraContinua("HrsAnalysis", rango_TIME));
 		
-		/** mapeo de literales a valores numéricos para aquellas columnas de variables que estemos considerando en el análisis **/
+		/** mapeo de literales a valores numoricos para aquellas columnas de variables que estemos considerando en el anolisis **/
 		final Map<String, Integer> literalTaskTypeMappingsTo_ = new HashMap<String, Integer>();
 		literalTaskTypeMappingsTo_.put("Pequenyo evolutivo", 1);
 		literalTaskTypeMappingsTo_.put("Mejora desarrollo", 2);
@@ -53,21 +53,21 @@ public class SampleModel {
 				
 		MultipleRegressionModelTester modeloRM = new MultipleRegressionModelTester(var_estimada, rango_TIME, listaDecisoras, autoptimizeOn);
 		
-		/** RESOLVEMOS EL MODELO (COEFICIENTES DE REGRESIÓN) PARA LA MUESTRA PASADA COMO ARGUMENTO ***/
+		/** RESOLVEMOS EL MODELO (COEFICIENTES DE REGRESIoN) PARA LA MUESTRA PASADA COMO ARGUMENTO ***/
 		modeloRM.makeRegressionModel4Dataset(file2read_csv, transLog);
 		
 		/** PREDECIMOS CON EL MODELO OBTENIDO ***/
 		double[] vars = new double[] {128, literalTaskTypeMappingsTo_.get("Mejora desarrollo"), /*literalPrioridadMappingsTo_.get("Media")*/ 245, 2};
 		double y_expected = modeloRM.predecirVariableY(vars, transLog);
-		System.out.println("** Hrs. esfuerzo análisis de AYFL de 'Mejora desarrollo': 128 hrs AT --> " + CommonUtils.numberFormatter.format(CommonUtils.roundDouble(y_expected, 2)) + " uts estimadas en DG (app.Pros@) *********");
+		System.out.println("** Hrs. esfuerzo anolisis de AYFL de 'Mejora desarrollo': 128 hrs AT --> " + CommonUtils.numberFormatter.format(CommonUtils.roundDouble(y_expected, 2)) + " uts estimadas en DG (app.Pros@) *********");
 		
 		vars= new double[] {110, literalTaskTypeMappingsTo_.get("Documento simple"), /*literalPrioridadMappingsTo_.get("Media")*/ 229, -4};
 		y_expected = modeloRM.predecirVariableY(vars, transLog);
-		System.out.println("** Hrs. esfuerzo análisis de SANI de 'Documento simple': 110 hrs AT --> "+ CommonUtils.numberFormatter.format(CommonUtils.roundDouble(y_expected, 2)) + " uts estimadas en DG (app.Pros@) *********");
+		System.out.println("** Hrs. esfuerzo anolisis de SANI de 'Documento simple': 110 hrs AT --> "+ CommonUtils.numberFormatter.format(CommonUtils.roundDouble(y_expected, 2)) + " uts estimadas en DG (app.Pros@) *********");
 		
 		vars= new double[] {4, literalTaskTypeMappingsTo_.get("Pequenyo evolutivo"), /*literalPrioridadMappingsTo_.get("Alta"),*/ 4, 5};
 		y_expected = modeloRM.predecirVariableY(vars, transLog);
-		System.out.println("** Hrs. esfuerzo análisis en FAMA de 'Pequeño evolutivo': 4 hrs AT --> "+ CommonUtils.numberFormatter.format(CommonUtils.roundDouble(y_expected, 2)) + " uts estimadas en DG (app.Pros@) *********");
+		System.out.println("** Hrs. esfuerzo anolisis en FAMA de 'Pequeoo evolutivo': 4 hrs AT --> "+ CommonUtils.numberFormatter.format(CommonUtils.roundDouble(y_expected, 2)) + " uts estimadas en DG (app.Pros@) *********");
 	}
 	
 	public static void main(String[] args) {
