@@ -760,7 +760,7 @@ public class MultipleRegressionModelTester {
 		StringBuilder conclusionModeloSign = new StringBuilder();
 		if (valor_F_k_n > valor_en_distrF_k_graLibert) {
 			conclusionModeloSign.append("El valor obtenido F, " + CommonUtils.roundWith4Decimals(valor_F_k_n));
-			conclusionModeloSign.append(" es mayor que el valor crítico F_distrib (" + alfa + ", " + this.gradosLibertad + ", "
+			conclusionModeloSign.append(" es mayor que el valor critico F_distrib (" + alfa + ", " + this.gradosLibertad + ", "
 					+ (this.tamanioMuestra - this.gradosLibertad - 1) + "), ");
 			conclusionModeloSign.append(CommonUtils.roundWith4Decimals(valor_en_distrF_k_graLibert));
 			conclusionModeloSign.append(";\nrechazamos la hipotesis nula, H0: b1 = b2 = ...= b");
