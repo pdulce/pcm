@@ -45,6 +45,7 @@
         	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/img"/>
            	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/js"/>
            	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/jsp"/>
+        	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF"/>
             <lib dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/lib"/>
             <classes dir="${jenkins.workspace}/${app.work.path}/build/classes"/>
         </war>
