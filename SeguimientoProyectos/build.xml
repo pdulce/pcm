@@ -4,7 +4,7 @@
 	<property environment="env"/>
 	<property name="apache.home" value="${env.CATALINA_HOME}"/>
 	<property name="jenkins.workspace" value="${env.JENKINS_WORKSPACE_PATH}"/>
-	<property name="app.work.path" value="prjmanager/pcm/SeguimientoProyectos"/>
+	<property name="app.work.path" value="prjmanager/SeguimientoProyectos"/>
 		
 	<path id="compile.classpath">
 	    <fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/lib">
@@ -17,7 +17,7 @@
 	
     <target name="init">
     	<mkdir dir="${jenkins.workspace}/${app.work.path}/build/classes"/>
-        <mkdir dir="${jenkins.workspace}/prjmanager/pcm/dist" />
+        <mkdir dir="${jenkins.workspace}/prjmanager/dist" />
     </target>
 	
     <target name="compile" depends="init">
@@ -25,7 +25,7 @@
         	includeAntRuntime="false" debug="true">            
 			<compilerarg value="-Xlint"/>
         	<src>
-	          <pathelement location="${jenkins.workspace}/prjmanager/pcm/contextPropModel/src" />
+	          <pathelement location="${jenkins.workspace}/prjmanager/contextPropModel/src" />
 	          <pathelement location="${jenkins.workspace}/${app.work.path}/src" />
 	        </src>
         	<classpath refid="compile.classpath"/>
@@ -39,7 +39,7 @@
     </target>
      
     <target name="war" depends="compile">
-        <war duplicate="preserve" destfile="${jenkins.workspace}/prjmanager/pcm/dist/sg.war" 
+        <war duplicate="preserve" destfile="${jenkins.workspace}/prjmanager/dist/sg.war" 
         	webxml="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/web.xml">
             <fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/css"/>
         	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/img"/>
@@ -58,7 +58,7 @@
 	</target>
 	
     <target name="clean">
-        <delete dir="${jenkins.workspace}/prjmanager/pcm/dist" quiet="true"/>
+        <delete dir="${jenkins.workspace}/prjmanager/dist" quiet="true"/>
         <delete dir="${jenkins.workspace}/${app.work.path}/build/classes" quiet="true"/>
     </target>
      
