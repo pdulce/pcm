@@ -239,7 +239,7 @@ public class MultipleRegressionModelTester {
 		final int volumenMuestra = valoresDataset.values().iterator().next().size();
 		double[][] dataSet = new double[volumenMuestra][numeroCoeficientes];
 
-		/**Generamos tantos registros patron como registros tiene el dataset, y cada registro ser√° el conjunto de interacciones**/
+		/**Generamos tantos registros patron como registros tiene el dataset, y cada registro sera el conjunto de interacciones**/
 		List<List<String>> modeloConInteraccionesASustituir = new ArrayList<List<String>>(volumenMuestra);
 		for (int v=0;v<volumenMuestra;v++){
 			List<String> modeloConInteracciones = new ArrayList<String>();
@@ -294,13 +294,13 @@ public class MultipleRegressionModelTester {
 				for (int i=0;i<splitter.length;i++){//columnas
 					final String var = splitter[i]; 
 					if (this.categorias.containsKey(var)) {
-						//fila t√≠tulo: columna de variable explicativa
+						//fila titulo: columna de variable explicativa
 						if (this.rangos_permitidos.get(var) == null){
 							throw new RuntimeException("Debe haber seteado correctamente el rango permitidos para la variable " + var);
 						}
 						valoresDataset.put(var, new ArrayList<Number>());
 					}else if (var.equals(this.NOMBRE_ESTIMADA)){
-						//fila t√≠tulo: columna de variable Y
+						//fila titulo: columna de variable Y
 						if (this.rangos_permitidos.get(var) == null){
 							throw new RuntimeException("Debe haber seteado correctamente el rango permitidos para la variable Y " + var);
 						}
@@ -363,7 +363,7 @@ public class MultipleRegressionModelTester {
 		int nBetas = nombres_Regresoras.length + 1;//hay que incluir la beta_0
 		int coeficientes = nBetas - 1;
 		if (coeficientes > this.tamanioMuestra){
-			throw new RuntimeException("Necesita una muestra mayor que el n√∫mero de coeficientes de su modelo (" + coeficientes + ")");
+			throw new RuntimeException("Necesita una muestra mayor que el numero de coeficientes de su modelo (" + coeficientes + ")");
 		}
 		
 		try {
@@ -588,7 +588,7 @@ public class MultipleRegressionModelTester {
 					mantenedorCoeficientes.append("Mantenemos el coeficiente beta_" + i + " asociado al regresor '" + regresorExpresion 
 							+ "'.\n");
 					// Debemos ver si es una interaccion de nivel n, en cuyo caso, 
-					// se deber√° indicar que mantenemos en el modelo sus interacciones de niveles n-1 hasta y sus t√©rminos independientes
+					// se debera indicar que mantenemos en el modelo sus interacciones de niveles n-1 hasta y sus terminos independientes
 					int indexOfAsterisc = regresorExpresion.indexOf("*");
 					while (indexOfAsterisc != -1){
 						String firstPart = regresorExpresion.substring(0,indexOfAsterisc);
@@ -707,7 +707,7 @@ public class MultipleRegressionModelTester {
 		
 		List<Double> residualsList = new ArrayList<Double>();
 		double[] residuals = regression.estimateResiduals();
-		System.out.println("Residuos (µ0..µ" + this.tamanioMuestra +"): ");
+		System.out.println("Residuos (mu0..mu" + this.tamanioMuestra +"): ");
 		for (int i = 0; i < this.tamanioMuestra; i++) {
 			System.out.print(i+1);
 			System.out.print(";");
@@ -769,7 +769,7 @@ public class MultipleRegressionModelTester {
 			conclusionModeloSign.append("\nConcluimos que el modelo es plausible para explicar la variabilidad de Y.");
 		} else {
 			conclusionModeloSign.append("El valor obtenido de F, " + CommonUtils.roundWith4Decimals(valor_F_k_n));
-			conclusionModeloSign.append(" es menor que el valor crÌtico F_distrib (" + alfa + ", " + this.gradosLibertad + ", "
+			conclusionModeloSign.append(" es menor que el valor critico F_distrib (" + alfa + ", " + this.gradosLibertad + ", "
 					+ (this.tamanioMuestra - this.gradosLibertad - 1) + "), ");
 			conclusionModeloSign.append(CommonUtils.roundWith4Decimals(valor_en_distrF_k_graLibert));
 			conclusionModeloSign.append(";\naceptamos la hipotesis nula, H0: b1 = b2 = ...= b");
@@ -781,7 +781,7 @@ public class MultipleRegressionModelTester {
 		conclusionModeloSign.append("\n");		
 		
 		if (autoOptimizing){
-			conclusionModeloSign.append("ø Que regresores mantener en el modelo ?");
+			conclusionModeloSign.append("Regresores mantener en el modelo:");
 			conclusionModeloSign.append("\n");
 			conclusionModeloSign.append("\n");
 			conclusionModeloSign.append(mantenedorCoeficientes.toString());
