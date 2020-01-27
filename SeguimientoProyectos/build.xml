@@ -20,7 +20,7 @@
         <mkdir dir="${jenkins.workspace}/prjmanager/pcm/dist" />
     </target>
 	
-    <target name="compile" depends="init" >
+    <target name="compile" depends="init">
         <javac destdir="${jenkins.workspace}/${app.work.path}/build/classes"
         	includeAntRuntime="false" debug="true">            
 			<compilerarg value="-Xlint"/>
