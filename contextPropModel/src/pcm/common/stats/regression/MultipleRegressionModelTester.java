@@ -28,7 +28,7 @@ import pcm.common.utils.CommonUtils;
  * <h1>MultipleRegressionModelTester</h1> The MultipleRegressionModelTester class
  * is used for modelling and testing a multiple regression model.
  * <p>
- * 
+ * Changed hoy, 27/01/2020
  * @author Pedro Dulce
  * @version 1.0
  * @since 2019-04-12
