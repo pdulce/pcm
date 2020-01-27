@@ -10,7 +10,7 @@ import pcm.common.PCMConstants;
 
 /**
  * <h1>ThreadSafeNumberFormat</h1> The ThreadSafeNumberFormat class
- * is used for thread-safe use of a number formatter.
+ * is used for thread-safe use of a number formatter. Pd changed hoy
  * <p>
  * 
  * @author Pedro Dulce
