@@ -4,7 +4,7 @@ import pcm.common.PCMConstants;
 import pcm.context.logicmodel.definitions.IFieldLogic;
 
 /***
- * Métodos que dependen del gestor de BBDD: - getEntityFilter - getDateOfRightSqlExpression
+ * Motodos que dependen del gestor de BBDD: - getEntityFilter - getDateOfRightSqlExpression
  * 
  * @author 99GU3997
  */

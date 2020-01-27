@@ -170,7 +170,7 @@ public class TreeComponent extends AbstractComponent {
 				if (this.contadorNodos == 0) {
 					throw new Throwable(InternalErrorsConstants.XML_TREE_GENERATION, new PCMConfigurationException(
 							InternalErrorsConstants.XML_TREE_GENERATION, new Exception(
-									"You don´t have profile correctly configured for using any service of this app")));
+									"You donot have profile correctly configured for using any service of this app")));
 				}
 			}
 			this.xhtml = treesCached.get(keyComposed);

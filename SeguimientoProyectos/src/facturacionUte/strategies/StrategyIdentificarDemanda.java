@@ -33,7 +33,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 		public static String ERR_APP_NO_EXISTE = "ERR_APP_NO_EXISTE";
 
 		private static final String CDISM = "Centro de Desarrollo del ISM";
-		private static final String CDISM_OO = "7201 17G L2 ISM ATH Análisis Orientado a Objecto";
+		private static final String CDISM_OO = "7201 17G L2 ISM ATH Anolisis Orientado a Objecto";
 		private static final String SERVICIO_DG =  "Desarrollo Gestionado 7201/17 L2";
 		
 		@Override
@@ -56,9 +56,9 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 		}
 		
 		/***
-		 * Esta estrategia parte del hecho de que se han enlazado todas las peticiones en OO con su padre en Gestión e hijas en DG,
-		 * a través del campo pets-relacionadas.
-		 * Si eso no es así, este algoritmo de detección no funcionará
+		 * Esta estrategia parte del hecho de que se han enlazado todas las peticiones en OO con su padre en Gestion e hijas en DG,
+		 * a travos del campo pets-relacionadas.
+		 * Si eso no es aso, este algoritmo de deteccion no funcionaro
 		 */
 		@Override
 		public void doBussinessStrategy(final RequestWrapper request, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
@@ -112,16 +112,16 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					messageArguments.add(appRochade);
 					messageArguments.add(" seleccionada");
 					throw new StrategyException(ERR_APP_NO_EXISTE, messageArguments);
-					//esta combinación no existe
+					//esta combinacion no existe
 				}
 				
-				/** 1. Borramos todos los registros de la sábana de esa subdirección-app **/
+				/** 1. Borramos todos los registros de la sobana de esa subdireccion-app **/
 				FieldViewSet sabanaFSetFilter = new FieldViewSet(sabanaEntidad);
 				sabanaFSetFilter.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_29_Subdireccion).getName(), idSubdireccion);
 				sabanaFSetFilter.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_10_Aplicacion).getName(), idApp);
 				dataAccess.deleteEntity(sabanaFSetFilter);
 				
-				/** 2. Ejecutar algoritmo A) para obtener el listado de objetos FieldViewSet de entidad sabana para esa subdirección. **/
+				/** 2. Ejecutar algoritmo A) para obtener el listado de objetos FieldViewSet de entidad sabana para esa subdireccion. **/
 				List<FieldViewSet> listaDemandaEnSDG = obtenerSabana(dict, dataAccess, idSubdireccion, idApp, appRochade, fechaDesdeInicioTramite, fechaHastaInicioTramite);
 				
 				/** 3.	Grabar cada registro completo **/				
@@ -149,11 +149,11 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 		 * 
 		
 		1.	Buscar todas las peticiones en la BBDD Sqlite con destino en 
-			‘Centro Desarrollo ISM’ --> ’7201 17G L2 ISM ATH Análisis Orientado a Objecto’ 
+			oCentro Desarrollo ISMo --> o7201 17G L2 ISM ATH Anolisis Orientado a Objectoo 
 			y almacenarlas en una lista_pets_AES de tipo Map<String,Boolean>
 			
-		2.	Recorrer cada objeto de la lista lista_pets_AES, y por cada objeto petición_AES:
-		        2i.	Crear objeto sabana con toda la información de la petición_OO:
+		2.	Recorrer cada objeto de la lista lista_pets_AES, y por cada objeto peticion_AES:
+		        2i.	Crear objeto sabana con toda la informacion de la peticion_OO:
 		        `Peticion_AES`
 		        `Fecha_Prev_Ini_Analisis`
   				`Fecha_Real_Ini_Analisis`
@@ -166,16 +166,16 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
   				`Aplicacion`
   				`Subdireccion`
 		        	
-		       2ii.	Recuperar el campo-lista ‘pets_relacionadas’ del objeto petición_AES
+		       2ii.	Recuperar el campo-lista opets_relacionadaso del objeto peticion_AES
 		        	
-		        	1. Si la lista ‘pets_relacionadas' en nula o vacía:
+		        	1. Si la lista opets_relacionadas' en nula o vacoa:
 		        	    
-		        	    a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la petición_AES. 
-		        	       Normalizado a los valores [Toma Requisitos, Análisis, Desarrollo, Pruebas, Fin-Pte otras áreas, Pre-explotación, Implantada]
+		        	    a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la peticion_AES. 
+		        	       Normalizado a los valores [Toma Requisitos, Anolisis, Desarrollo, Pruebas, Fin-Pte otras oreas, Pre-explotacion, Implantada]
 		        	    
-		        		b) Añadir el objeto sabana en la lista de demanda, y continuar hasta la siguiente petición AES
+		        		b) Aoadir el objeto sabana en la lista de demanda, y continuar hasta la siguiente peticion AES
 		        		
-					2.	Si la lista_relacionadas no es vacía:
+					2.	Si la lista_relacionadas no es vacoa:
 					
 						declarar Lista peticionesADG
 						
@@ -183,7 +183,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					 	
 					 	2'a) Si se trata de una peticion_al_CDISM 
 					 	 (si tiene el campo Centro_destino = 'Centro de Desarrollo del ISM' y Area_destino='Desarrollo de Aplicaciones'), anotar 
-					 	 en el registro de sábana, los campos siguientes:
+					 	 en el registro de sobana, los campos siguientes:
 					 	 	 `Titulo`
   							 `Fecha_Necesidad`
   							 `Entrada_en_CDISM`
@@ -193,15 +193,15 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
   							 `Fecha_Real_Implantacion`
   							 `Observaciones`  	
   							 					
-  						 2'b) Si se trata de una petición a DG la guardo en otra lista					  
+  						 2'b) Si se trata de una peticion a DG la guardo en otra lista					  
   						  (si tiene el campo Centro_destino = 'Centro de Desarrollo del ISM' y Area_destino='Desarrollo Gestionado 7201/17 L2')
-  						   añadir a listaPeticionesADG
+  						   aoadir a listaPeticionesADG
   						   
-  					  2'') Si la lista de peticiones a DG es vacía:
-					 			a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la petición_AES. 
-		        				b) Añadir el objeto sabana en la lista de demanda
+  					  2'') Si la lista de peticiones a DG es vacoa:
+					 			a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la peticion_AES. 
+		        				b) Aoadir el objeto sabana en la lista de demanda
 		        				
-  					  2''') Si la lista de peticiones a DG no es vacía, recorrerla y
+  					  2''') Si la lista de peticiones a DG no es vacoa, recorrerla y
   						  crear un clon de la sabanaEntry y grabar estos campos de la peticionDG en el registro clon:
   						  	`Peticion_DG`
   							`Fecha_Prev_Fin_DG`
@@ -211,9 +211,9 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
   							`Fec_Entrega` (este valor lo has de sacar consultando la Peticion_Entrega, en caso de tener)
   							`Estado_peticion_Entrega` (este valor lo has de sacar consultando la Peticion_Entrega, en caso de tener)
   							
-  						   Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la petición_DG. 		        	       
+  						   Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la peticion_DG. 		        	       
 		        	    
-		        		   Añadir el objeto clon en la lista de demanda, y continuar hasta la siguiente petición relacionada
+		        		   Aoadir el objeto clon en la lista de demanda, y continuar hasta la siguiente peticion relacionada
 		        		   
   					 
 		
@@ -226,7 +226,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 			
 			final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
 			
-			/** 1. Buscar todas las peticiones en la BBDD Sqlite con destino en ’7201 17G L2 ISM ATH Análisis Orientado a Objecto’ ***/
+			/** 1. Buscar todas las peticiones en la BBDD Sqlite con destino en o7201 17G L2 ISM ATH Anolisis Orientado a Objectoo ***/
 			IFieldLogic fieldDesde = peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION);
 			IFieldView fViewEntradaEnCD =  new FieldViewSet(peticionGEDEONEntidad).getFieldView(fieldDesde);
 			
@@ -258,7 +258,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 			
 			/** 2.	Recorrer cada objeto de la lista lista_pets_OO **/
 			for (FieldViewSet peticion_AES: lista_pets_AES){
-				/** 2i. por cada objeto petición_OO: **/
+				/** 2i. por cada objeto peticion_OO: **/
 				FieldViewSet sabanaEntry = new FieldViewSet(sabanaEntidad);
 				//Relleenar la info exclusiva de la peticion AES
 				//setPeticion_AES
@@ -295,7 +295,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 				//setSubdireccion
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_29_Subdireccion).getName(), idSubdireccion);
 
-				/** 2ii.	Recuperar el campo-lista ‘pets_relacionadas’ del objeto petición_AES **/
+				/** 2ii.	Recuperar el campo-lista opets_relacionadaso del objeto peticion_AES **/
 				
 				String peticionesRelacionadas = (String) 
 						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
@@ -303,20 +303,20 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 				
 				if (pets_relacionadas == null || pets_relacionadas.isEmpty()){
         	    
-					/**a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la petición_AES. 
-        	           Normalizado a los valores [Toma Requisitos, Análisis, Desarrollo, Pruebas, Fin-Pte otras áreas, Pre-explotación, Implantada]        	    	
-        			   b) Añadir el objeto sabana en la lista de demanda, y continuar hasta la siguiente petición AES
+					/**a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la peticion_AES. 
+        	           Normalizado a los valores [Toma Requisitos, Anolisis, Desarrollo, Pruebas, Fin-Pte otras oreas, Pre-explotacion, Implantada]        	    	
+        			   b) Aoadir el objeto sabana en la lista de demanda, y continuar hasta la siguiente peticion AES
         			 **/
 					String estadoPeticionAES = (String) peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
 					sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_5_Estado_Peticion).getName(), "AES: "+ (estadoPeticionAES));
 					listaDemandaResultado.add(sabanaEntry);
 					//continue;
 					
-				}else{ //hay datos, examinamos primero si tiene petición origen, y luego, vemos las peticiones a DG que pueda tener
+				}else{ //hay datos, examinamos primero si tiene peticion origen, y luego, vemos las peticiones a DG que pueda tener
 					/**2') Recorrer la lista-de-relacionadas
 						 	a) Si se trata de una peticion_al_CDISM 
 						 	 (si tiene el campo Centro_destino = 'Centro de Desarrollo del ISM' y Area_destino='Desarrollo de Aplicaciones'), anotar 
-						 	 en el registro de sábana los campos de la petición ORIGEN
+						 	 en el registro de sobana los campos de la peticion ORIGEN
 					**/
 					// si la podemos examinar porque existe, miramos su destino, y guardamos las que van a DG, y la que viene de la SGD
 					List<FieldViewSet> listaPeticionesADG = new ArrayList<FieldViewSet>();
@@ -327,13 +327,13 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 						peticionRelacionada = dataAccess.searchEntityByPk(peticionRelacionada);
 						if (peticionRelacionada == null || 
 								peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName()) == null){
-							System.out.println("OJO: La petición con ident. " + codigoPeticionRelacionada + " no ha sido localizada.");
+							System.out.println("OJO: La peticion con ident. " + codigoPeticionRelacionada + " no ha sido localizada.");
 							continue;
 						}
 						String centroDestinoPetRelac = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
 						String areaDestinoPetRelac = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());
 						if (centroDestinoPetRelac.equals("Centro de Desarrollo del ISM")){
-							if (!origenEncontrado && areaDestinoPetRelac.equals("Desarrollo de Aplicaciones")){//Petición ORIGEN
+							if (!origenEncontrado && areaDestinoPetRelac.equals("Desarrollo de Aplicaciones")){//Peticion ORIGEN
 								origenEncontrado = true;
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_11_Origen).getName(), "Gedeon");//Gedeon, Remedy, Infraestructuras, Mejora CD, Canal no oficial
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_12_ID_Origen).getName(), codigoPeticionRelacionada);
@@ -348,7 +348,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 							}	
 						} else if (areaDestinoPetRelac.equals(SERVICIO_DG) ){
 							final String estadoPet = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
-							if (estadoPet.startsWith("Entrega") || estadoPet.startsWith("Petición de Entrega")){//extraemos la información de esta entrega
+							if (estadoPet.startsWith("Entrega") || estadoPet.startsWith("Peticion de Entrega")){//extraemos la informacion de esta entrega
 								
 								String trabajosAsocAEntrega = (String) 
 										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
@@ -361,7 +361,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 									listaPeticionesADG.add(petrabajoAsocAEntrega);
 								}
 								
-								//además, actualizamos los campos de fecha-entrega, pet-entrega, etc
+								//ademos, actualizamos los campos de fecha-entrega, pet-entrega, etc
 								String idPeticionEntrega = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());
 								
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_26_Peticion_Entrega).getName(), idPeticionEntrega);
@@ -379,16 +379,16 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 
 					}//fin recorrido lista-relacionadas
 					
-					//2'') Si lista peticionesADG es vacía
+					//2'') Si lista peticionesADG es vacoa
 					if (listaPeticionesADG.isEmpty()){
-						//a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la petición_AES
+						//a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la peticion_AES
 						final String estado = ((String) peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName())); 
 						sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_5_Estado_Peticion).getName(), "AES: "+ (estado));
 						if (sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName()) == null){
 							sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName(), 
 								peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName()));
 						}
-						//b) Añadir el objeto sabana en la lista de demanda
+						//b) Aoadir el objeto sabana en la lista de demanda
 						rellenarEstadoYFechasPrevision(sabanaEntry);
 						listaDemandaResultado.add(sabanaEntry);
 					}else{
@@ -441,10 +441,10 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 								
 							}
 							
-							//En este momento, podemos analizar toda la info del registro, para resolver el estado de la petición, y varias fechas previstas
+							//En este momento, podemos analizar toda la info del registro, para resolver el estado de la peticion, y varias fechas previstas
 							rellenarEstadoYFechasPrevision(sabanaEntryClon);
 							listaDemandaResultado.add(sabanaEntryClon);
-						}//else: lista relacionadas no es vacía
+						}//else: lista relacionadas no es vacoa
 						
 					}//else
 				}//for
@@ -454,7 +454,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 		}
 		
 		/**
-		 * [Toma Requisitos, Análisis, Desarrollo, Pruebas, Fin-Pte otras áreas, Pre-explotación, Implantada]
+		 * [Toma Requisitos, Anolisis, Desarrollo, Pruebas, Fin-Pte otras oreas, Pre-explotacion, Implantada]
 		 * @param sabanaEntry
 		 */
 		private void rellenarEstadoYFechasPrevision(FieldViewSet sabanaEntry){
@@ -462,7 +462,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 			final String estado = ((String) sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_5_Estado_Peticion).getName()));
 			String newEstadoPeticion = estado;
 			
-			if (estado.indexOf("Petición") != -1 && estado.toLowerCase().indexOf("finalizad") != -1){
+			if (estado.indexOf("Peticion") != -1 && estado.toLowerCase().indexOf("finalizad") != -1){
 				newEstadoPeticion = "Implantada";
 				if (estado.indexOf("AES:") != -1){
 					sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_8_Fecha_Real_Implantacion).getName(), 
@@ -475,7 +475,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 				if (estado.indexOf("DG:") != -1){
 					newEstadoPeticion = "Desarrollo";
 					if (estado.indexOf("Trabajo validado por CD") != -1){
-						newEstadoPeticion = "Pre-explotación";
+						newEstadoPeticion = "Pre-explotacion";
 					}else if (estado.indexOf("Trabajo entregado pendiente validar por CD") != -1){
 						newEstadoPeticion = "Pruebas";
 					}else if (estado.indexOf("Entrega anulada") != -1){
@@ -486,7 +486,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					if (sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_14_Fecha_Prev_Ini_Analisis).getName()) == null){
 						newEstadoPeticion = "Toma Requisitos";
 					}else {
-						newEstadoPeticion = "Análisis";	
+						newEstadoPeticion = "Anolisis";	
 					}
 				}				
 			}
@@ -504,15 +504,15 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 			
 			if (estado.equals("Toma Requisitos")){
 				fechaFinEstadoPrev = (Date) sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_14_Fecha_Prev_Ini_Analisis).getName());
-			}else if (estado.equals("Análisis")){
+			}else if (estado.equals("Anolisis")){
 				fechaFinEstadoPrev = (Date) sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_16_Fecha_Prev_Fin_Analisis).getName());
 			}else if (estado.equals("Desarrollo")){
 				fechaFinEstadoPrev = (Date) sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_23_Fecha_Prev_Fin_DG).getName());
 			}else if (estado.equals("Pruebas")){
 				fechaFinEstadoPrev = (Date) sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_20_Prev_Fin_Pruebas_CD).getName());
-			}else if (estado.equals("Fin-Pte otras áreas")){
-				//imposible saberlo...de forma automática
-			}else if (estado.equals("Pre-explotación")){
+			}else if (estado.equals("Fin-Pte otras oreas")){
+				//imposible saberlo...de forma automotica
+			}else if (estado.equals("Pre-explotacion")){
 				
 				Date fechaFinPruebaEstadoPrevisto = (Date) sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_20_Prev_Fin_Pruebas_CD).getName());
 				if (fechaFinPruebaEstadoPrevisto != null){								

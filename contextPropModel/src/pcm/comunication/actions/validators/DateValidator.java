@@ -38,7 +38,7 @@ public class DateValidator implements IValidator {
 				msg.addParameter(new Parameter(IAction.BINDING_CONCRETE_MSG, IValidator.DATA_NO_CORRECT_FORMAT));
 				msg.addParameter(new Parameter(IViewComponent.ZERO, nombreQ_));
 				final StringBuilder fec = new StringBuilder(IValidator.DATE_MSG);
-				fec.append("dia/mes/año").append(PCMConstants.CHAR_END_CORCH);
+				fec.append("dia/mes/aoo").append(PCMConstants.CHAR_END_CORCH);
 				msg.addParameter(new Parameter(IViewComponent.ONE, fec.toString()));
 				return false;
 			}

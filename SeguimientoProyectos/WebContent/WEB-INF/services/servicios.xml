@@ -13,7 +13,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 			<viewComponent>
 
-				<form columns="3" title="Gestión de responsables funcionarios de centros">
+				<form columns="3" title="Gestion de responsables funcionarios de centros">
 
 					<fieldViewSet entitymodel="responsableCentro"
 						nameSpace="responsableCentro">
@@ -152,7 +152,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionResponsablesCentros.update">
 
 			<viewComponent>
-				<form columns="3" title="Edición Responsable Centro">
+				<form columns="3" title="Edicion Responsable Centro">
 					<fieldViewSet entitymodel="responsableCentro"
 						nameSpace="responsableCentro">
 						<fieldView mappingTo="1" editable="false" />
@@ -184,7 +184,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 			<viewComponent>
 
-				<form columns="10" title="Gestión de servicios">
+				<form columns="10" title="Gestion de servicios">
 					<fieldViewSet entitymodel="servicio" nameSpace="servicio">
 						<fieldView mappingTo="1" size="4" />
 						<fieldView mappingTo="2" size="50" />
@@ -277,7 +277,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionServicios.update">
 
 			<viewComponent>
-				<form columns="53" title="Edición servicio">
+				<form columns="53" title="Edicion servicio">
 				
 					<userbuttons>
 
@@ -296,7 +296,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="agregado" type="select">
 									<optionValues>
 										<option code="6" title="facturado"></option>
-										<option code="7" title="% de la facturación del contrato"></option>
+										<option code="7" title="% de la facturacion del contrato"></option>
 										<option code="8" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -320,7 +320,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="agregado" type="select">
 									<optionValues>
 										<option code="6" title="facturado"></option>
-										<option code="7" title="% de la facturación del contrato"></option>
+										<option code="7" title="% de la facturacion del contrato"></option>
 										<option code="8" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -344,7 +344,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="agregado" type="select">
 									<optionValues>
 										<option code="6" title="facturado"></option>
-										<option code="7" title="% de la facturación del contrato"></option>
+										<option code="7" title="% de la facturacion del contrato"></option>
 										<option code="8" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -407,7 +407,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</grid>
 				
-				<grid title="Listado de mensualidades de facturación de este servicio" dependsOf="servicio" orderDirection="asc"
+				<grid title="Listado de mensualidades de facturacion de este servicio" dependsOf="servicio" orderDirection="asc"
 					defaultOrderField="facturacionMesPorServicio.2" eventsRegistered="">					
 					<fieldViewSet entitymodel="facturacionMesPorServicio"
 						nameSpace="facturacionMesPorServicio">
@@ -474,7 +474,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionDepartamentos.update">
 
 			<viewComponent>
-				<form columns="53" title="Edición departamento">
+				<form columns="53" title="Edicion departamento">
 				
 					<userbuttons>
 
@@ -493,7 +493,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="agregado" type="select">
 									<optionValues>
 										<option code="7" title="facturado"></option>
-										<option code="8" title="% de la facturación del servicio"></option>
+										<option code="8" title="% de la facturacion del servicio"></option>
 										<option code="9" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -516,7 +516,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="agregado" type="select">
 									<optionValues>
 										<option code="7" title="facturado"></option>
-										<option code="8" title="% de la facturación del servicio"></option>
+										<option code="8" title="% de la facturacion del servicio"></option>
 										<option code="9" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -540,7 +540,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="agregado" type="select">
 									<optionValues>
 										<option code="7" title="facturado"></option>
-										<option code="8" title="% de la facturación del servicio"></option>
+										<option code="8" title="% de la facturacion del servicio"></option>
 										<option code="9" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -612,7 +612,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</grid>
 				
-				<grid title="Listado de mensualidades de facturación de este dpto." dependsOf="departamento" orderDirection="asc"
+				<grid title="Listado de mensualidades de facturacion de este dpto." dependsOf="departamento" orderDirection="asc"
 					defaultOrderField="facturacionMesPorDpto.2" eventsRegistered="">					
 					<fieldViewSet entitymodel="facturacionMesPorDpto"
 						nameSpace="facturacionMesPorDpto">

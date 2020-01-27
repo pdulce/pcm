@@ -45,7 +45,7 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 		int valoresCategMayoresQueCero = 0;
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado : valoresAgregados) {
-			/** analizamos el registro totalizado, por si tiene más de una key (fieldviewset) ***/
+			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 			Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
 			Number subTotalPorCategoria = new Double(0.0);
 			String valueForEntidadFiltro = "", valueEntidadMaster = "";

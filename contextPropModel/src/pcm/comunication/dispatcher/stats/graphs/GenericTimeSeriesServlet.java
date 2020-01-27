@@ -82,7 +82,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 			long valores = 0;
 			
 			int posicionAgrupacion = 1;				
-			for (int i=0;i<periodos.size(); i++) {//pueden ser años, meses o días
+			for (int i=0;i<periodos.size(); i++) {//pueden ser aoos, meses o doas
 				String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
 				String inicioPeriodoDeAgrupacion = periodos.get(i);
 				String finPeriodoDeAgrupacion = "";
@@ -100,7 +100,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 						fieldsForGroupBy[1] = filtro_.getEntityDef().searchField(Integer.parseInt(field4Y_AxisParam));
 					}						
 					List<Map<FieldViewSet, Map<String,Double>>> resultadoAgregadosAgrupados = this._dataAccess.selectWithAggregateFuncAndGroupBy(filtroPorRangoFecha, null/*joinFViewSet*/, null /*joinFView*/, aggregateFunction, fieldsForAgregadoPor, fieldsForGroupBy, "ASC");
-					//resultado: una lista de fieldviewsets con varios fields (los de agrupación), y el agregado que es el valor
+					//resultado: una lista de fieldviewsets con varios fields (los de agrupacion), y el agregado que es el valor
 					int sizeOfTuplas = resultadoAgregadosAgrupados.size();
 					for (int k=0;k<sizeOfTuplas;k++){
 						Map<FieldViewSet, Map<String,Double>> entryMap = resultadoAgregadosAgrupados.get(k);
@@ -112,7 +112,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 						if (subTotal > 0 || this._dataAccess.countAll(filtroPorRangoFecha) > 0){//miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
 							valores++;
 							posicionAgrupacion++;
-							//extraigo los dos valores de los fields de agrupación
+							//extraigo los dos valores de los fields de agrupacion
 							String valueOfSecondAgrupateField = (String) claveFSet.getFieldvalue(fieldsForGroupBy[1]).getValue();//second agrupate field
 							subTotal = isLogarithmicScale(scaleParamValue) ? Math.log(subTotal): subTotal;
 							if (registrosJSON.get(valueOfSecondAgrupateField) == null){								
@@ -153,7 +153,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 			Map<String, Number> subtotalPorCategoria = new HashMap<String, Number>();
 			for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: listaValoresAgregados) {
 
-				/** analizamos el registro totalizado, por si tiene más de una key (fieldviewset) ***/
+				/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 				Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
 				double subTotalPorCategoriaAgrupacion = 0.0;
 				String valueForEntidadFiltro = "", valueEntidadMaster = "";
@@ -200,7 +200,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 			if (total_ == 0){
 				request_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else{
-				// el promedio por categoría es:
+				// el promedio por categoroa es:
 				request_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(listaValoresAgregados.size()))) + " de media por " + categoriaNombreTraslated + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
 			}
 			

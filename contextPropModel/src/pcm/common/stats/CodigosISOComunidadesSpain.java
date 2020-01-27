@@ -20,49 +20,49 @@ public class CodigosISOComunidadesSpain {
 	public static final Map<String, List<Integer>> comunidadesyProvincias = new HashMap<String, List<Integer>>();
 
 	static {
-		comunidadesCODES.put(new Integer("1"), "Andalucía");// "ES-AN");
-		comunidadesCODES.put(new Integer("2"), "Aragón");// , "ES-AR");
+		comunidadesCODES.put(new Integer("1"), "Andalucoa");// "ES-AN");
+		comunidadesCODES.put(new Integer("2"), "Aragon");// , "ES-AR");
 		comunidadesCODES.put(new Integer("3"), "Principado de Asturias");// , "ES-AS");
 		comunidadesCODES.put(new Integer("4"), "Canarias");// , "ES-CN");
 		comunidadesCODES.put(new Integer("5"), "Cantabria");// , "ES-CB");
 		comunidadesCODES.put(new Integer("6"), "Castilla-La Mancha");// , "ES-CM");
-		comunidadesCODES.put(new Integer("7"), "Castilla y León");// , "ES-CL");
-		comunidadesCODES.put(new Integer("8"), "Cataluña");// , "ES-CT");
+		comunidadesCODES.put(new Integer("7"), "Castilla y Leon");// , "ES-CL");
+		comunidadesCODES.put(new Integer("8"), "Cataluoa");// , "ES-CT");
 		comunidadesCODES.put(new Integer("9"), "Extremadura");// , "ES-EX");
 		comunidadesCODES.put(new Integer("10"), "Galicia");// , "ES-GA");
 		comunidadesCODES.put(new Integer("11"), "Illes Balears");// , "ES-IB");
 		comunidadesCODES.put(new Integer("12"), "La Rioja");// , "ES-RI");
 		comunidadesCODES.put(new Integer("13"), "Comunidad de Madrid");// , "ES-MD");
-		comunidadesCODES.put(new Integer("14"), "Región de Murcia");// , "ES-MC");
+		comunidadesCODES.put(new Integer("14"), "Region de Murcia");// , "ES-MC");
 		comunidadesCODES.put(new Integer("15"), "Comunidad Foral de Navarra");// , "ES-NC");
-		comunidadesCODES.put(new Integer("16"), "País Vasco");// , "ES-PV");
+		comunidadesCODES.put(new Integer("16"), "Paos Vasco");// , "ES-PV");
 		comunidadesCODES.put(new Integer("17"), "Comunidad Valenciana");// , "ES-VC");
-		comunidadesCODES.put(new Integer("18"), "Ciudad Autónoma de Ceuta");// , "ES-CE");
-		comunidadesCODES.put(new Integer("19"), "Ciudad Autónoma de Melilla");// , "ES-ML");
+		comunidadesCODES.put(new Integer("18"), "Ciudad Autonoma de Ceuta");// , "ES-CE");
+		comunidadesCODES.put(new Integer("19"), "Ciudad Autonoma de Melilla");// , "ES-ML");
 
 		List<Integer> ceuta = new ArrayList<Integer>();
 		ceuta.add(Integer.valueOf(51));
-		comunidadesyProvincias.put("Ciudad Autónoma de Ceuta", ceuta);
+		comunidadesyProvincias.put("Ciudad Autonoma de Ceuta", ceuta);
 		List<Integer> melilla = new ArrayList<Integer>();
 		melilla.add(Integer.valueOf(52));
-		comunidadesyProvincias.put("Ciudad Autónoma de Melilla", melilla);
+		comunidadesyProvincias.put("Ciudad Autonoma de Melilla", melilla);
 
 		List<Integer> andalucia = new ArrayList<Integer>();
 		andalucia.add(Integer.valueOf(21));// Huelva
 		andalucia.add(Integer.valueOf(41));// Sevilla
-		andalucia.add(Integer.valueOf(14));// Córdoba
-		andalucia.add(Integer.valueOf(23));// Jaén
+		andalucia.add(Integer.valueOf(14));// Cordoba
+		andalucia.add(Integer.valueOf(23));// Jaon
 		andalucia.add(Integer.valueOf(18));// Granada
-		andalucia.add(Integer.valueOf(4));// Almería
-		andalucia.add(Integer.valueOf(29));// Málaga
-		andalucia.add(Integer.valueOf(11));// Cádiz
-		comunidadesyProvincias.put("Andalucía", andalucia);
+		andalucia.add(Integer.valueOf(4));// Almeroa
+		andalucia.add(Integer.valueOf(29));// Molaga
+		andalucia.add(Integer.valueOf(11));// Codiz
+		comunidadesyProvincias.put("Andalucoa", andalucia);
 
 		List<Integer> aragon = new ArrayList<Integer>();
 		aragon.add(Integer.valueOf(44));// Teruel
 		aragon.add(Integer.valueOf(50));// Zaragoza
 		aragon.add(Integer.valueOf(22));// Huesca
-		comunidadesyProvincias.put("Aragón", aragon);
+		comunidadesyProvincias.put("Aragon", aragon);
 
 		List<Integer> asturias = new ArrayList<Integer>();
 		asturias.add(Integer.valueOf(33));// Asturias
@@ -86,31 +86,31 @@ public class CodigosISOComunidadesSpain {
 		comunidadesyProvincias.put("Castilla-La Mancha", castillaMancha);
 
 		List<Integer> castillaLeon = new ArrayList<Integer>();
-		castillaLeon.add(Integer.valueOf(5));// Ávila
+		castillaLeon.add(Integer.valueOf(5));// ovila
 		castillaLeon.add(Integer.valueOf(9));// Burgos
-		castillaLeon.add(Integer.valueOf(24));// León
+		castillaLeon.add(Integer.valueOf(24));// Leon
 		castillaLeon.add(Integer.valueOf(34));// Palencia
 		castillaLeon.add(Integer.valueOf(37));// Salamanca
 		castillaLeon.add(Integer.valueOf(40));// Segovia
 		castillaLeon.add(Integer.valueOf(42));// Soria
 		castillaLeon.add(Integer.valueOf(47));// Valladolid
 		castillaLeon.add(Integer.valueOf(49));// Zamora
-		comunidadesyProvincias.put("Castilla y León", castillaLeon);
+		comunidadesyProvincias.put("Castilla y Leon", castillaLeon);
 
 		List<Integer> cataluna = new ArrayList<Integer>();
 		cantabria.add(Integer.valueOf(8));// provincias de Barcelona
 		cantabria.add(Integer.valueOf(17));// Gerona
-		cantabria.add(Integer.valueOf(25));// Lérida
+		cantabria.add(Integer.valueOf(25));// Lorida
 		cantabria.add(Integer.valueOf(43));// y Tarragona
-		comunidadesyProvincias.put("Cataluña", cataluna);
+		comunidadesyProvincias.put("Cataluoa", cataluna);
 
 		List<Integer> extremadura = new ArrayList<Integer>();
-		extremadura.add(Integer.valueOf(10));// Cáceres
+		extremadura.add(Integer.valueOf(10));// Coceres
 		extremadura.add(Integer.valueOf(6));// Badajoz
 		comunidadesyProvincias.put("Extremadura", extremadura);
 
 		List<Integer> galicia = new ArrayList<Integer>();
-		galicia.add(Integer.valueOf(15));// de La Coruña,
+		galicia.add(Integer.valueOf(15));// de La Coruoa,
 		galicia.add(Integer.valueOf(27));// Lugo,
 		galicia.add(Integer.valueOf(32));// Orense
 		galicia.add(Integer.valueOf(36));// Pontevedra,
@@ -130,7 +130,7 @@ public class CodigosISOComunidadesSpain {
 
 		List<Integer> murcia = new ArrayList<Integer>();
 		murcia.add(Integer.valueOf(30));// murcia
-		comunidadesyProvincias.put("Región de Murcia", murcia);
+		comunidadesyProvincias.put("Region de Murcia", murcia);
 
 		List<Integer> navarra = new ArrayList<Integer>();
 		navarra.add(Integer.valueOf(31));// murcia
@@ -140,11 +140,11 @@ public class CodigosISOComunidadesSpain {
 		vascos.add(Integer.valueOf(1));// Alava
 		vascos.add(Integer.valueOf(20));// Guipuzcoa
 		vascos.add(Integer.valueOf(48));// Bizkaia
-		comunidadesyProvincias.put("País Vasco", vascos);
+		comunidadesyProvincias.put("Paos Vasco", vascos);
 
 		List<Integer> vals = new ArrayList<Integer>();
 		vals.add(Integer.valueOf(3));// Alicante,
-		vals.add(Integer.valueOf(12));// Castellón
+		vals.add(Integer.valueOf(12));// Castellon
 		vals.add(Integer.valueOf(46));// y Valencia
 		comunidadesyProvincias.put("Comunidad Valenciana", vals);
 

@@ -32,7 +32,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 	protected String getParamsPrefix (){
 		return PREFIX_NAME_OF_HISTOGRAM_PARAMS;
 	}
-	/***El campo agregación se coloca en el eje Z, los campos agregados son cada columna (eje X) ***/
+	/***El campo agregacion se coloca en el eje Z, los campos agregados son cada columna (eje X) ***/
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final RequestWrapper request_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
@@ -49,7 +49,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 		double minimal = 0.0;
 		Number total_ = new Double(0);
 		Number[] totalizacionColumnas = null;
-		//el tamanyo de la totalización será el núm. de valores distintos de categorias-agregado (eje X), y si hay más de un agregado, como se sitçuan en el ejz solo contabilizo el primero
+		//el tamanyo de la totalizacion sero el nom. de valores distintos de categorias-agregado (eje X), y si hay mos de un agregado, como se sitouan en el ejz solo contabilizo el primero
 		String lang = CommonUtils.getLanguage(request_), unidades = "";
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
@@ -85,7 +85,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 						: categoriaEnPeticion.getValue(agrupacionInterna.getName()).toString();
 				Map<String, Number> subtotalPorCategoriaDeEjeX = new HashMap<String, Number>();
 				int posicionAgrupacion = 1;				
-				for (int period_i=0;period_i<periodos.size(); period_i++) {//pueden ser años, meses o días
+				for (int period_i=0;period_i<periodos.size(); period_i++) {//pueden ser aoos, meses o doas
 					String inicioPeriodoDeAgrupacion = periodos.get(period_i);
 					String finPeriodoDeAgrupacion = "";
 					if ((period_i+1)== periodos.size()){
@@ -203,7 +203,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 						valorParaCategoria1EnEsteRegistroAgregado = unidades;
 					}
 					
-					/***inicio parte común con GenericPieChart ***/
+					/***inicio parte comon con GenericPieChart ***/
 					
 					Serializable valorIntrinseco = registroPorCategoria.getValue(agrupacionInterna.getName());
 					if (fieldsCategoriaDeAgrupacion.length > 1){
@@ -211,7 +211,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 						Serializable valorAgrupacionPral = registroPorCategoria.getFieldvalue(agrupacionPral).getValue();
 						if (agrupacionInterna.getAbstractField().isInteger() || agrupacionInterna.getAbstractField().isLong()){
 							Number numberValueOfCategoriaInterna = (Number) valorIntrinseco;
-							//veo si tengo una agrupación pral., y se lo concateno al nombre de la columna para que sepamos bien la coordenada 								
+							//veo si tengo una agrupacion pral., y se lo concateno al nombre de la columna para que sepamos bien la coordenada 								
 							if (agrupacionPral.getAbstractField().isInteger() || agrupacionPral.getAbstractField().isLong()){
 								Integer idAgrupacionPral = new Integer(valorAgrupacionPral.toString());
 								String operando_1 = CommonUtils.addLeftZeros(String.valueOf(idAgrupacionPral), agrupacionPral.getAbstractField().getMaxLength() > 6 ? 6: agrupacionPral.getAbstractField().getMaxLength());
@@ -236,7 +236,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 								positionClaveAgregacion++;	
 							}							
 						}
-					}else{//obtenemos la posición en base al valor de la agrupación interna
+					}else{//obtenemos la posicion en base al valor de la agrupacion interna
 						if (agrupacionInterna.getAbstractField().isInteger() || agrupacionInterna.getAbstractField().isLong()){	
 							positionClaveAgregacion = new Integer(((Number) valorIntrinseco).intValue());
 						}else{
@@ -249,7 +249,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 						}
 					}
 					valorParaCategoria1EnEsteRegistroAgregado = ((positionClaveAgregacion) < 10 ? "0" + (positionClaveAgregacion) : "" + (positionClaveAgregacion)) + ":" + valorParaCategoria1EnEsteRegistroAgregado;
-					/***fin parte común con GenericPieChart ***/
+					/***fin parte comon con GenericPieChart ***/
 					
 					Map<String, Number> agregadosDeEstaCategoria = new HashMap<String, Number>();
 					agregadosDeEstaCategoria.put(valorParaCategoria1EnEsteRegistroAgregado, valorAgregadoIesimo);
@@ -267,9 +267,9 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 			
 			}//por cada registro: OJO: si hay un agregado, entonces el valor del agregado es el valor en el eje y y eje Z=0, si hay dos agregados, entonces el valor de la segunda se monta sobre el eje Y y ejez Z=1
 			
-			/*** EN DEFINITIVA, el algoritmo ha de ser así:
-			 * a) Identificar el campo que se monta sobre eje X: la agrupación (solo tomamos la primer agrupación)
-			 * b) Habrá tantos stacks (valores o dimensiones en eje Z) como agregados			
+			/*** EN DEFINITIVA, el algoritmo ha de ser aso:
+			 * a) Identificar el campo que se monta sobre eje X: la agrupacion (solo tomamos la primer agrupacion)
+			 * b) Habro tantos stacks (valores o dimensiones en eje Z) como agregados			
 			 ***/
 			
 			String itemGrafico = entidadTraslated;

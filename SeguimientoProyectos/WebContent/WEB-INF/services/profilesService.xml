@@ -111,7 +111,7 @@
 			submitSucces="GestionUsuarios.update">
 
 			<viewComponent>
-				<form columns="53" title="Edición usuario">
+				<form columns="53" title="Edicion usuario">
 					<fieldViewSet entitymodel="administrador" nameSpace="administrador">
 						<fieldView mappingTo="1" size="4" />
 						<fieldView mappingTo="2" size="15" />

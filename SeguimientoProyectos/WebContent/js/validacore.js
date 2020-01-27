@@ -132,7 +132,7 @@ function validaDatos(oFormulario)
 				}
 			}
 			else if ( sTipoResultado.toUpperCase() == "OBJECT" )
-			{   // debería ser un objeto ParqMensaje			
+			{   // deberoa ser un objeto ParqMensaje			
 				if (sResultado.codigo != "")
 				{
 					if (sStringErrores == "")
@@ -201,7 +201,7 @@ function validaDatos(oFormulario)
 				
 				if (sStringErrores != "")
 				{				
-					showMessage(sStringErrores, iMsgTipoCerrar, 'Validación de datos', 'Se han producido los siguientes errores:');
+					showMessage(sStringErrores, iMsgTipoCerrar, 'Validacion de datos', 'Se han producido los siguientes errores:');
 				}
 				
 				return sStringErrores;
@@ -225,8 +225,8 @@ function validaDatos(oFormulario)
 
 				sStringErrores = sStringErrores + (sStringErrores.length==0?"":"\n") + sTextoMsg ;					
 					
-				// eval("showMessageCod('"+sRetorno.codigo+"', '"+sRetorno.dominio+"', "+iMsgTipoCerrar+", 'Validación de datos global', 'Se han producido los siguientes errores:',null,null"+oParamMsg+")");
-				showMessage(sStringErrores, iMsgTipoCerrar, 'Validación de datos', 'Se han producido los siguientes errores:');
+				// eval("showMessageCod('"+sRetorno.codigo+"', '"+sRetorno.dominio+"', "+iMsgTipoCerrar+", 'Validacion de datos global', 'Se han producido los siguientes errores:',null,null"+oParamMsg+")");
+				showMessage(sStringErrores, iMsgTipoCerrar, 'Validacion de datos', 'Se han producido los siguientes errores:');
 			}			
 		}
 		
@@ -239,7 +239,7 @@ function validaDatos(oFormulario)
 	}
 	else
 	{
-		showMessage(sStringErrores, iMsgTipoCerrar, 'Validación de datos', 'Se han producido los siguientes errores:');
+		showMessage(sStringErrores, iMsgTipoCerrar, 'Validacion de datos', 'Se han producido los siguientes errores:');
 		
 		try 
 		{ 
@@ -259,7 +259,7 @@ function validaDatos(oFormulario)
 
 
 //*************************************************************************
-// Valida si una validacion se puede ejecutar en función del boton pulsado*                                                                       *
+// Valida si una validacion se puede ejecutar en funcion del boton pulsado*                                                                       *
 //*************************************************************************
 
 function getEjecucionValidacion(oObjVali)
@@ -296,7 +296,7 @@ function validaDato(oElemen, oValidacion)
 		return new ParqMensaje('', null, null);
 
 	var sValor       = trim(oElemen.value);
-	// TEXTAREAS, quitamos retornos de carro y demás para que no fallen los EVAL
+	// TEXTAREAS, quitamos retornos de carro y demos para que no fallen los EVAL
 	if (oElemen.type == "textarea")
 		sValor = quitarRetornos(sValor);
 	
@@ -328,7 +328,7 @@ function validaDato(oElemen, oValidacion)
 		return new ParqMsgObligatorio(oValidacion.concepto);
 	}
 	
-	// Comprobamos que cumple la longitud minima esperada (si asi se especificó):
+	// Comprobamos que cumple la longitud minima esperada (si asi se especifico):
 	if ( oValidacion.longmin != null && sValor != '' )
 	{
 		if (trim(sValor).length < oValidacion.longmin)
@@ -382,7 +382,7 @@ function validaDato(oElemen, oValidacion)
 		else
 		{
 			// Puede ser que se deba a que es un nuevo tipo de datos definido por el 
-			//	usuario dinámicamente (mediante la función annadirTipoDatos():
+			//	usuario dinomicamente (mediante la funcion annadirTipoDatos():
 			var idex= getIndexFuncionDeTipoDato(sTipoDato);
 			if (idex != -1)
 			{
@@ -471,10 +471,10 @@ function oValida(id, nombre, longmin, obligatorio, tipodato, validacion, cualifi
 }
 
 //**************************************************************************
-//* annadirTipoDato: Añade un nuevo tipo de datos junto con la función que *
+//* annadirTipoDato: Aoade un nuevo tipo de datos junto con la funcion que *
 //*                      lo valida.                           	           *
 //* @param sTipoDato: nombre del tipo de dato                              *
-//* @param sFuncion:  Función de validación del tipo de datos			   *
+//* @param sFuncion:  Funcion de validacion del tipo de datos			   *
 //**************************************************************************
 function annadirTipoDato(sTipoDato, sFuncion)
 {
@@ -485,7 +485,7 @@ function annadirTipoDato(sTipoDato, sFuncion)
 }
 
 //**************************************************************************
-//* annadirVariosTiposDatos: Añade varios tipos de datos  junto con las    *
+//* annadirVariosTiposDatos: Aoade varios tipos de datos  junto con las    *
 //*                      funciones que los validan                         *
 //* @param sTiposDato:  nombre de los tipos de datos (separados por coma)  *
 //* @param sFunciones:  Funciones de validacion de los tipos de datos      *
@@ -497,7 +497,7 @@ function annadirVariosTiposDatos(sTiposDato, sFunciones)
 	var oArrayTD= sTiposDato.split(',');
 	var oArrayFunc= sFunciones.split(',');
 	if (oArrayTD.length != oArrayFunc.length)
-		// En la función de añadir tipos de datos, se ha especificado distinto número de tipos de datos y de funciones de validación
+		// En la funcion de aoadir tipos de datos, se ha especificado distinto nomero de tipos de datos y de funciones de validacion
 		showMessageCod(MSG_ERRORANNADIRTIPOSDATOS, iMsgTipoCerrar, getMensajeARQD(MSG_ERROR), getMensajeARQD(MSG_ERRORJS));
 	else
 		for (var k=0; k< oArrayTD.length; k++)
@@ -508,7 +508,7 @@ function annadirVariosTiposDatos(sTiposDato, sFunciones)
 			} 
 			catch (e)
 			{
-				// La función "+oArrayFunc[k]+" no existe (quizás deba insertar el fichero Javascript)
+				// La funcion "+oArrayFunc[k]+" no existe (quizos deba insertar el fichero Javascript)
 				showMessageCod(MSG_FUNCIONNOEXISTE, iMsgTipoCerrar, getMensajeARQD(MSG_ERROR), getMensajeARQD(MSG_ERRORJS), null, null, "FUNCION", oArrayFunc[k]);
 			}
 		}
@@ -577,8 +577,8 @@ function getIndexFuncionDeTipoDato(sTipoDato)
 //* @param buf: cadena de caracteres a validar   						  *
 //* @param sMatchP: patron de correspondencia contra el que validar		  *
 //* @param sFlag: cualificador de la Expresion regular					  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtFormatted(buf,parNombre,sMatchP,sFlag)
 {
@@ -606,8 +606,8 @@ oARQDFuncValidacion[getFnIndex(dtFormatted)]=isDtFormatted;
 //* isDtNumeric: Funcion encargada de comprobar	si la cadena pasada como  *
 //*					parametro se corresponde con un valor numerico entero *
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtNumeric(buf, parNombre)
 {
@@ -615,7 +615,7 @@ function isDtNumeric(buf, parNombre)
 		return new ParqMensaje("", null, null);
 	else
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "numérico", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "numorico", buf);
 	}
 }
 oARQDFuncValidacion[getFnIndex(dtNumeric)]=isDtNumeric;
@@ -624,8 +624,8 @@ oARQDFuncValidacion[getFnIndex(dtNumeric)]=isDtNumeric;
 //* isDtInteger: Funcion encargada de comprobar	si la cadena pasada como  *
 //*					parametro se corresponde con un valor numerico entero *
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtInteger(buf,parNombre,sCualif)
 {
@@ -650,7 +650,7 @@ function isDtInteger(buf,parNombre,sCualif)
 		return new ParqMensaje("",null);
 	else
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "númerico entero", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "nomerico entero", buf);
 	}
 }
 oARQDFuncValidacion[getFnIndex(dtInteger)]=isDtInteger;
@@ -661,8 +661,8 @@ oARQDFuncValidacion[getFnIndex(dtInteger)]=isDtInteger;
 //*				El separador de decimales es la coma (,) y NO SE          *
 //*					ESPECIFICA decimales.  								  *
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtReal(buf,parNombre,sCualif)
 {
@@ -685,7 +685,7 @@ function isDtReal(buf,parNombre,sCualif)
 		return new ParqMensaje("",null);
 	else
 	{		
-		return new ParqMsgFormatoIncorrecto(parNombre, "numérico real", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "numorico real", buf);
 	}
 }
 oARQDFuncValidacion[getFnIndex(dtReal)]=isDtReal;
@@ -694,8 +694,8 @@ oARQDFuncValidacion[getFnIndex(dtReal)]=isDtReal;
 //* isDtMonedaEuro: Funcion encargada de comprobar	si la cadena pasada como  
 //*					parametro se corresponde con una cantidad monetaria expresada en Euros.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtMonedaEuro(buf,parNombre)
 {		
@@ -713,8 +713,8 @@ oARQDFuncValidacion[getFnIndex(dtMonedaEuro)]=isDtMonedaEuro;
 //*					parametro se corresponde con valor Alfabetico exclusivamente.
 //* @param buf: cadena de caracteres a validar   						  *
 //* @param sCualif: cualificador del buffer.                              *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtAlpha(buf,parNombre,sCualif)
 {
@@ -745,7 +745,7 @@ function isDtAlpha(buf,parNombre,sCualif)
 		return new ParqMensaje("",null)
 	else
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "alfabético", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "alfabotico", buf);
 	}
 }
 oARQDFuncValidacion[getFnIndex(dtAlpha)]=isDtAlpha;
@@ -755,8 +755,8 @@ oARQDFuncValidacion[getFnIndex(dtAlpha)]=isDtAlpha;
 //*					parametro se corresponde con valor Alfabetico exclusivamente.
 //* @param buf: cadena de caracteres a validar   						  *
 //* @param sCualif: cualificador del buffer.                              *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtTokenList(buf,parNombre,sCualif)
 {
@@ -798,14 +798,14 @@ oARQDFuncValidacion[getFnIndex(dtTokenList)]=isDtTokenList;
 //    				diferentes a los alfabeticos. Se invoca a la funcion isDtAlpha(),
 //    				negando el valor devuelto
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtNonAlpha(buf,parNombre)
 {
 	if (isDtAlpha(buf).codigo=="")
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "no alfabético", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "no alfabotico", buf);
 	}
 	else
 		return new ParqMensaje("",null);
@@ -814,11 +814,11 @@ oARQDFuncValidacion[getFnIndex(dtNonAlpha)]=isDtNonAlpha;
 
 //*************************************************************************
 //* isDtAlphaNumeric: Funcion encargada de comprobar	si la cadena pasada como  
-//*					parametro se corresponde con valor alfanumérico exclusivamente.
+//*					parametro se corresponde con valor alfanumorico exclusivamente.
 //* @param buf: cadena de caracteres a validar   						  *
 //* @param sCualif: cualificador del buffer.                              *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtAlphaNumeric(buf,parNombre,sCualif)
 {
@@ -843,7 +843,7 @@ function isDtAlphaNumeric(buf,parNombre,sCualif)
 		return new ParqMensaje("",null)
 	else
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "alfanumérico", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "alfanumorico", buf);
 	}
 }
 oARQDFuncValidacion[getFnIndex(dtAlphaNumeric)]=isDtAlphaNumeric;
@@ -854,14 +854,14 @@ oARQDFuncValidacion[getFnIndex(dtAlphaNumeric)]=isDtAlphaNumeric;
 //*					distinto a los	alfanumericos.Para ello, se niega el valor resultante
 //*		    		de la llamada a la rutina isDtAlphaNumeric()
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtNonAlphaNumeric(buf, parNombre)
 {
 	if (isDtAlphaNumeric(buf).codigo=="")
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "no alfanumérico", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "no alfanumorico", buf);
 	}
 	else
 		return new ParqMensaje("",null);
@@ -870,10 +870,10 @@ oARQDFuncValidacion[getFnIndex(dtNonAlphaNumeric)]=isDtNonAlphaNumeric;
 
 //*************************************************************************
 //* isDtTime: Funcion encargada de comprobar si la cadena pasada como  
-//*					parametro se corresponde con una hora válida.
+//*					parametro se corresponde con una hora volida.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtTime(buf, parNombre)
 {
@@ -897,10 +897,10 @@ oARQDFuncValidacion[getFnIndex(dtTime)]=isDtTime;
 
 //*************************************************************************
 //* isDtHour: Funcion encargada de comprobar si la cadena pasada como  
-//*					parametro se corresponde con un valor de hora válida.
+//*					parametro se corresponde con un valor de hora volida.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtHour(buf,parNombre)
 {
@@ -915,10 +915,10 @@ oARQDFuncValidacion[getFnIndex(dtHour)]=isDtHour;
 
 //*************************************************************************
 //* isDtMinute: Funcion encargada de comprobar si la cadena pasada como  
-//*					parametro se corresponde con un valor de minuto válida.
+//*					parametro se corresponde con un valor de minuto volida.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtMinute(buf,parNombre)
 {
@@ -933,10 +933,10 @@ oARQDFuncValidacion[getFnIndex(dtMinute)]=isDtMinute;
 
 //*************************************************************************
 //* isDtSecond: Funcion encargada de comprobar si la cadena pasada como  
-//*					parametro se corresponde con un valor de segundo válida.
+//*					parametro se corresponde con un valor de segundo volida.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtSecond(buf, parNombre)
 {
@@ -951,11 +951,11 @@ oARQDFuncValidacion[getFnIndex(dtSecond)]=isDtSecond;
 
 //*************************************************************************
 //* isDtDate: Funcion encargada de comprobar si la cadena pasada como  
-//*					parametro se corresponde con una fecha válida.
+//*					parametro se corresponde con una fecha volida.
 //*           La fecha debera venir informada de la forma dd[sep]MM[sep]yyyy
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtDate(buf, parNombre)
 {
@@ -984,10 +984,10 @@ oARQDFuncValidacion[getFnIndex(dtDate)]=isDtDate;
 
 //*************************************************************************
 //* isDtDay: Funcion encargada de comprobar	si la cadena pasada como  
-//*					parametro se corresponde con valor de día válido.
+//*					parametro se corresponde con valor de doa volido.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtDay(buf,parNombre)
 {
@@ -995,17 +995,17 @@ function isDtDay(buf,parNombre)
 		return new ParqMensaje("",null);
 	else
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "día", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "doa", buf);
 	}
 }
 oARQDFuncValidacion[getFnIndex(dtDay)]=isDtDay;
 
 //*************************************************************************
 //* isDtMonth: Funcion encargada de comprobar	si la cadena pasada como  
-//*					parametro se corresponde con valor de mes válido.
+//*					parametro se corresponde con valor de mes volido.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtMonth(buf,parNombre)
 {
@@ -1020,10 +1020,10 @@ oARQDFuncValidacion[getFnIndex(dtMonth)]=isDtMonth;
 
 //*************************************************************************
 //* isDtYear: Funcion encargada de comprobar	si la cadena pasada como  
-//*					parametro se corresponde con valor de año válido.
+//*					parametro se corresponde con valor de aoo volido.
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtYear(buf,parNombre)
 {
@@ -1031,19 +1031,19 @@ function isDtYear(buf,parNombre)
 		return new ParqMensaje("",null);
 	else
 	{
-		return new ParqMsgFormatoIncorrecto(parNombre, "año", buf);
+		return new ParqMsgFormatoIncorrecto(parNombre, "aoo", buf);
 	}
 }
 oARQDFuncValidacion[getFnIndex(dtYear)]=isDtYear;
 
 //*************************************************************************
 //* isDtDateTime: Funcion encargada de comprobar si la cadena pasada como  
-//*					parametro se corresponde con una fecha válida.
+//*					parametro se corresponde con una fecha volida.
 //*           La fecha debera venir informada de la forma:
 //*				dd<sepFecha>MM<sepFecha>yyyy<sepFechaHora>HH<sepHora>mm<sepHora>ss
 //* @param buf: cadena de caracteres a validar   						  *
-//* @return devuelve una cadena vacía si se cumple la validación, o bien  *
-//*		un texto de error si éste se produce               				  *
+//* @return devuelve una cadena vacoa si se cumple la validacion, o bien  *
+//*		un texto de error si oste se produce               				  *
 //*************************************************************************	
 function isDtDateTime(buf,parNombre)
 {
@@ -1056,7 +1056,7 @@ function isDtDateTime(buf,parNombre)
 		sSepFecHora=(sSepFecHora && sSepFecHora.length)?escapaEspeciales(sSepFecHora):"";
 		sSepHora =(sSepHora  && sSepHora.length )?escapaEspeciales(sSepHora) :"";
 		
-		sPat2Apply	+= "^" 	 + "([0-2]|3(?=[01]))][0-9]";	 									//Comienzo de linea y día del mes
+		sPat2Apply	+= "^" 	 + "([0-2]|3(?=[01]))][0-9]";	 									//Comienzo de linea y doa del mes
 		sPat2Apply	+= sSepFec + "(0(?=[^0])|1(?=[012]))[0-9]";								//Mes del anio
 		sPat2Apply	+= sSepFec + "(19|20|21)[0-9]{2}";	 											//Anio
 		sPat2Apply	+= sSepFecHora;				 																			//Separador Fecha/Hora
@@ -1209,10 +1209,10 @@ function desmarcarCampoError(parCampo)
 }
 
 //*************************************************************************
-//* isDtRadioButton: Función encargada de comprobar si se ha seleccionado un radiobutton dentro de un grupo de éstos *
+//* isDtRadioButton: Funcion encargada de comprobar si se ha seleccionado un radiobutton dentro de un grupo de ostos *
 //*					  
-//* @param oValidacion: objeto oValida que contiene la información necesaria para realizar la validacion *  						  		*
-//* @return Si se ha seleccionado un radiobutton devuelve un objeto ParqMensaje vacío   *
+//* @param oValidacion: objeto oValida que contiene la informacion necesaria para realizar la validacion *  						  		*
+//* @return Si se ha seleccionado un radiobutton devuelve un objeto ParqMensaje vacoo   *
 //*			En caso contrario devuelve un mensaje de error.               				  *
 //*************************************************************************	
 function isDtRadioButton(oValidacion)
@@ -1388,7 +1388,7 @@ FieldViewCollection.prototype.validate=function(event_){
 		replaceEvent(event_, 0);
 		return true;
 	}else{
-		// hacemos visible el área inferior de mensajes
+		// hacemos visible el orea inferior de mensajes
 		var miDiv = document.getElementById('javascriptErrors');
 		miDiv.style.display = 'block';
 		for (var m=0;m<msgArray.length;m++){

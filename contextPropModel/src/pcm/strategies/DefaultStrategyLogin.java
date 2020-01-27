@@ -19,7 +19,7 @@ public class DefaultStrategyLogin extends DefaultStrategyRequest {
 	protected void validParameters(final RequestWrapper req) throws StrategyException {
 		final Map<String, String> securityProps = AppCacheFactory.getFactoryInstance().getAppCache(
 				(String) req.getAttribute(PCMConstants.APP_CONTEXT));
-		// guardo las credenciales en sesión en el caso de que no vengan ya en sesión
+		// guardo las credenciales en sesion en el caso de que no vengan ya en sesion
 		if (req.getSession().getAttribute(USER_) != null && req.getParameter(USER_) == null) {
 			return;// un retorno
 		}

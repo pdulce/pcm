@@ -115,7 +115,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 					paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
 					paramGeneric4Entity = request_.getParameter(paramGeneric4Entity);
 					if (paramGeneric4Entity == null){
-						throw new Exception("Error de diseño: debe coincidir el atributo id del 'button' con el del atributo nameSpace del 'fieldViewSet'");
+						throw new Exception("Error de diseoo: debe coincidir el atributo id del 'button' con el del atributo nameSpace del 'fieldViewSet'");
 					}
 				}
 			}
@@ -152,10 +152,10 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 			}
 			String[] agregadosPor = request_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
 			if ((categoriasAgrupacion==null || categoriasAgrupacion.length == 0) && (agregadosPor ==null || agregadosPor.length == 0)){
-				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agrupación y/o de agregación para generar este diagrama estadistico");
+				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agrupacion y/o de agregacion para generar este diagrama estadistico");
 			}
 			
-			String fieldForFilter = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, añadir al pintado de criterios de búsqueda
+			String fieldForFilter = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
 			if (fieldForFilter != null){
 				
 				String[] fields4Filter = fieldForFilter.split(";");
@@ -163,7 +163,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 					String field4Filter = fields4Filter[filter];
 					String[] splitter = field4Filter.split("=");
 					if (splitter.length< 2){
-						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato válido 1=<nameSpaceOfForm>.5)");
+						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato volido 1=<nameSpaceOfForm>.5)");
 					}
 					String leftPartOfEquals = splitter[0];
 					String rigthPartOfEquals = splitter[1];
@@ -174,7 +174,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 						String[] entidadPointValue = rigthPartOfEquals.split(PCMConstants.REGEXP_POINT);
 						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(CommonUtils.getEntitiesDictionary(request_),
 								entidadPointValue[0]);
-						if (!esEntidad){//no es una entidad, sino un parámetro
+						if (!esEntidad){//no es una entidad, sino un parometro
 							if (request_.getParameterValues(rigthPartOfEquals) != null){								
 								String[] valuesOfParamReq_ = request_.getParameterValues(rigthPartOfEquals);
 								Collection<String> serialValues = new ArrayList<String>();
@@ -204,7 +204,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 			/*** TRATAMIENTO DE LAS AGREGACIONES ****/
 			String aggregateFunction = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
 			if (aggregateFunction == null){
-				throw new Exception("Error de entrada de datos: ha de seleccionar un tipo de operación; agregación, o promedio"); 
+				throw new Exception("Error de entrada de datos: ha de seleccionar un tipo de operacion; agregacion, o promedio"); 
 			}
 			String decimals = ",.0f";
 			IFieldLogic[] fieldsForAgregadoPor = null;
@@ -216,7 +216,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 				IFieldLogic fieldForAgregadoPor = aggregateIndex >= 0 ? entidadGrafico.searchField(Integer.parseInt(agregadosPor[i])) : null;				
 				decimals = fieldForAgregadoPor != null && fieldForAgregadoPor.getAbstractField().isDecimal() ? ",.2f" : ",.0f";
 				if (aggregateIndex < 0) {
-					aggregateFunction = OPERATION_COUNT;// es un conteo con una única agrupación
+					aggregateFunction = OPERATION_COUNT;// es un conteo con una onica agrupacion
 					fieldsForAgregadoPor = null;
 					break;
 				}else{
@@ -349,7 +349,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 		if (groupByField != null && groupByField.length > 1){
 			newNombreCategoriaOPeriodo = units;
 		}
-		request_.setAttribute(TEXT_Y_AXIS, "número de " + 
+		request_.setAttribute(TEXT_Y_AXIS, "nomero de " + 
 		(!"".equals(units) ? CommonUtils.pluralDe(units) : 
 			(entidadTraslated + (newNombreCategoriaOPeriodo.equals(entidadTraslated) ? "" : " por " + newNombreCategoriaOPeriodo))));
 		request_.setAttribute(TEXT_X_AXIS, ("".equals(units) ? entidadTraslated : CommonUtils.pluralDe(units)));
@@ -392,7 +392,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 			subTitle = subTitle.replaceAll("#", units);
 		}
 		String criteria = pintarCriterios(filtro_, request_);
-		String crit = criteria.equals("")?"Sin filtro de búsqueda": "Filtro de búsqueda--> " + criteria;
+		String crit = criteria.equals("")?"Sin filtro de bosqueda": "Filtro de bosqueda--> " + criteria;
 		request_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
 	}
 
@@ -457,7 +457,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 		}/*else{
 			retornoCandidate_ = Calendar.getInstance();
 			Calendar initialDate = Calendar.getInstance();
-			// elegimos el año 1972 para intenar coger todas las posibles altas
+			// elegimos el aoo 1972 para intenar coger todas las posibles altas
 			initialDate.set(Calendar.YEAR, 1972);			
 			retornoCandidate_.setTime(initialDate.getTime());				
 		}*/
@@ -601,7 +601,7 @@ public abstract class GenericStatsServlet extends BasePCMServlet implements ISta
 	
 	protected final String pintarCriterios(FieldViewSet filtro_, final RequestWrapper request_) {
 		StringBuilder strBuffer = new StringBuilder();
-		// recorremos cada field, si tiene value, pintamos en el stringbuffer su valor, y así...
+		// recorremos cada field, si tiene value, pintamos en el stringbuffer su valor, y aso...
 		Iterator<IFieldView> iteFieldViews = filtro_.getFieldViews().iterator();
 		while (iteFieldViews.hasNext()) {
 			IFieldView fView = iteFieldViews.next();

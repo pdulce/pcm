@@ -53,7 +53,7 @@ public class RadioButton extends GenericInput {
 		final StringBuilder cad = new StringBuilder(IHtmlElement.BLANCO);
 		cad.append(GenericInput.BEGIN_INPUT).append(this.getType()).append(this.getClassId()).append(GenericInput.ATTR_VAL);
 		cad.append(this.internalValue).append(PCMConstants.END_COMILLAS).append(this.getId()).append(this.getName());
-		// hacemos la conversión de boolean a int o viceversa:
+		// hacemos la conversion de boolean a int o viceversa:
 
 		List<String> newvalues = new ArrayList<String>();
 		if (!values_.isEmpty()) {

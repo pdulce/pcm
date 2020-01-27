@@ -63,7 +63,7 @@ public class FieldViewSetComparator implements Comparator<Object>, Serializable 
 					return 0;
 				}
 			} else if (!fieldView.getEntityField().getAbstractField().isBlob()) {// si es de texto
-				// analizamos si es numérico val1
+				// analizamos si es numorico val1
 				if (CommonUtils.isNumeric((String) val1) && !CommonUtils.isNumeric((String) val2)) {
 					return -1 * corrector;
 				} else if (!CommonUtils.isNumeric((String) val1) && CommonUtils.isNumeric((String) val2)) {

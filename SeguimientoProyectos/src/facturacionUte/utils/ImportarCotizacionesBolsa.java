@@ -32,15 +32,15 @@ import facturacionUte.common.ConstantesModelo;
 
 /**
  * @author 99GU3997
- *         Esta clase, sea el número de columnas que sea, leerá una Excel y cargará al menos los
+ *         Esta clase, sea el nomero de columnas que sea, leero una Excel y cargaro al menos los
  *         siguientes campos en una tabla SQLite:
  *         *********************
- *         Fecha	Último	Apert.	%Dif.	Máx.	Mín.	Volumen
+ *         Fecha	oltimo	Apert.	%Dif.	Mox.	Mon.	Volumen
 
  *         *********************
  *         Excel resource file: C:\jboss-4.0.2\server\default\data\excel
- *         Usaremos la extensión .xls, org.apache.poi.hssf.usermodel.*.
- *         Paara extensiones .xlsx se usa la librería org.apache.poi.xssf.usermodel.*;
+ *         Usaremos la extension .xls, org.apache.poi.hssf.usermodel.*.
+ *         Paara extensiones .xlsx se usa la libreroa org.apache.poi.xssf.usermodel.*;
  */
 public class ImportarCotizacionesBolsa {
 
@@ -55,11 +55,11 @@ public class ImportarCotizacionesBolsa {
 	private static Map<String, Integer> MAPEOSCOLUMNASEXCEL2BBDDTABLE = new HashMap<String, Integer>();
 	static {
 		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Fecha", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_3_FECHA));
-		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Último", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_4_LAST_PUNTAJE));
+		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("oltimo", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_4_LAST_PUNTAJE));
 		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Apert.", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_5_INICIAL_PUNTAJE));
 		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("%Dif.", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_6_PORCENTAJE_DIF));
-		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Máx.", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_7_MAX_PUNTAJE));
-		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Mín.", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_8_MIN_PUNTAJE));
+		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Mox.", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_7_MAX_PUNTAJE));
+		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Mon.", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_8_MIN_PUNTAJE));
 		MAPEOSCOLUMNASEXCEL2BBDDTABLE.put("Volumen", Integer.valueOf(ConstantesModelo.INVERTIA_DATA_9_VOLUMEN));
 	}
 
@@ -144,7 +144,7 @@ public class ImportarCotizacionesBolsa {
 			try {
 				final Row rowIEsima = xss_sheet!=null?xss_sheet.getRow(nrow++): hss_sheet.getRow(nrow++);
 				if (rowIEsima == null) {
-					break;// si localiza una fila completamente sin información, salimos
+					break;// si localiza una fila completamente sin informacion, salimos
 				}
 				try {
 					Date d = rowIEsima.getCell(0).getDateCellValue();
@@ -215,7 +215,7 @@ public class ImportarCotizacionesBolsa {
 						registro.getValue(cotizacionesEntidad.searchField(ConstantesModelo.INVERTIA_DATA_2_GRUPO).getName()));
 				if (this.dataAccess.searchByCriteria(duplicado).isEmpty()) {
 					
-					// el mes y año para poder explotarlo en Histogramas con selectGroupBy
+					// el mes y aoo para poder explotarlo en Histogramas con selectGroupBy
 					Date fecAlta = (Date) registro.getValue(cotizacionesEntidad.searchField(ConstantesModelo.INVERTIA_DATA_3_FECHA).getName());
 					Calendar dateFec = Calendar.getInstance();
 					dateFec.setTime(fecAlta);

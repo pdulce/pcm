@@ -33,7 +33,7 @@ public final class ComparatorMapEntry implements Comparator<Map.Entry<String, Nu
 		final String key2 = obj2.getKey();
 		int resultado = 0;
 		
-		if (!GeneradorPresentaciones.EPIGRAFES.containsKey(key1)){//orden lexicográfico
+		if (!GeneradorPresentaciones.EPIGRAFES.containsKey(key1)){//orden lexicogrofico
 			if (key1.compareTo(key2) < 0) {
 				resultado = -1;
 			} else if (key1.compareTo(key2) > 0) {

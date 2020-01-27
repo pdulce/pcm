@@ -18,7 +18,7 @@ public class MessageException {
 	private static final String REGEXP_ARG_ = "\\$", BINDING_MSG_LITERAL = " Binding Entity ", RECORD_MSG_LITERAL = " Record ",
 			GRAL_MSG_LITERAL = " General: ";
 
-	/** Ctes. de literal errors (en inglés): son genéricos e internos de la api PCM **/
+	/** Ctes. de literal errors (en inglos): son genoricos e internos de la api PCM **/
 
 	private int nivelError;
 	private final String code;
@@ -100,7 +100,7 @@ public class MessageException {
 				XmlUtils.openXmlNode(msg, IViewComponent.LABEL_ERROR);
 		}
 		if (this.isAppRule()) {
-			// saco todos los parámetros, los necesito para formar el mensaje
+			// saco todos los parometros, los necesito para formar el mensaje
 			final Object[] messageArguments = new Object[this.params.size()];
 			int i = 0;
 			final Iterator<Parameter> paramsIte = this.params.iterator();
@@ -109,7 +109,7 @@ public class MessageException {
 			}
 			msg.append(Translator.traduceRuleAppDefined(lang, this.getCode(), messageArguments));
 		} else {
-			/*** TRADUCCION DEL CÓDIGO DEL MENSAJE ***/
+			/*** TRADUCCION DEL CoDIGO DEL MENSAJE ***/
 			msg.append(PCMConstants.CHAR_BEGIN_CORCH).append(Translator.traducePCMDefined(lang, this.getCode()))
 					.append(PCMConstants.CHAR_END_CORCH).append(PCMConstants.STRING_SPACE);
 			final Iterator<Parameter> paramsIte = this.params.iterator();
@@ -128,7 +128,7 @@ public class MessageException {
 					msg.append(Translator.traducePCMDefined(lang, p.getValue()));
 					if (p.getKey().equals(IAction.BINDING_CONCRETE_MSG) || p.getKey().equals(IAction.ERROR_SEMANTHIC_CODE)
 							|| p.getKey().equals(IAction.CONFIG_PARAM)) {
-						// tratamos la sustitución de los parámetros $0, $1,...
+						// tratamos la sustitucion de los parometros $0, $1,...
 						continue;
 					}
 					if (paramsIte.hasNext()) {

@@ -103,10 +103,10 @@ public class LauncherServlet extends BasePCMServlet {
 		if (request_.getParameter(EXEC_PARAM) == null){
 			return new SceneResult();
 		}else if (request_.getParameter(EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
-			//actualizar todos los valores desde invertia.com/históricos
+			//actualizar todos los valores desde invertia.com/historicos
 			htmlOutput.append(new ValoresActuales().refrescarIndicesBursatiles(request_, dataAccess));						
 		}else if (request_.getParameter(EXEC_PARAM).startsWith(EVENTO_MY_INFO_BOLSA_VALORES)) {
-			//pintar el valor último de las empresas/sectores/índices bursátiles de la lista
+			//pintar el valor oltimo de las empresas/sectores/ondices bursotiles de la lista
 			htmlOutput.append(new ValoresActuales().refreshMiCartera(request_, dataAccess));
 		}
 		

@@ -72,10 +72,10 @@
 		submitSucces="GestionarImportacionesFacturacion.query" strategyPre="facturacionUte.strategies.StrategyImportacionFactura">
 
 		<viewComponent>
-			<form columns="8" title="Importación">
+			<form columns="8" title="Importacion">
 				<fieldViewSet entitymodel="importacionesFacturacion"
 					nameSpace="importacionesFacturacion">
-					<fieldset legend="Datos Importación">
+					<fieldset legend="Datos Importacion">
 					
 						<fieldView mappingTo="2" type="select">
 					 	<optionValues selectionMultiple="true" entitymodel="concurso"
@@ -106,10 +106,10 @@
 		submitSucces="GestionarImportacionesFacturacion.query">
 
 		<viewComponent>
-			<form columns="18" title="Importación">
+			<form columns="18" title="Importacion">
 				<fieldViewSet entitymodel="importacionesFacturacion"
 					nameSpace="importacionesFacturacion">
-					<fieldset legend="Datos Importación">
+					<fieldset legend="Datos Importacion">
 						
 						<fieldView mappingTo="1" hidden="true"/>
 						<fieldView mappingTo="2" type="select" editable="false">
@@ -150,7 +150,7 @@
 		strategyPre="facturacionUte.strategies.StrategyImportacionFactura">
 
 		<viewComponent>
-			<form columns="13" title="Edición Importación">
+			<form columns="13" title="Edicion Importacion">
 				<fieldViewSet entitymodel="importacionesFacturacion"
 					nameSpace="importacionesFacturacion">
 					

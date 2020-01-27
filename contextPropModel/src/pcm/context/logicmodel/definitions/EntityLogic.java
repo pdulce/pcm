@@ -75,7 +75,7 @@ public class EntityLogic implements IEntityLogic, Serializable {
 	}
 
 	/**
-	 * Método que devuelve los campos FK que hay en esta entidad para el campo PK de la entidad
+	 * Motodo que devuelve los campos FK que hay en esta entidad para el campo PK de la entidad
 	 * padre pasado como argumento
 	 * 
 	 * @return
@@ -94,10 +94,10 @@ public class EntityLogic implements IEntityLogic, Serializable {
 	}
 
 	/**
-	 * Método que devuelve el número de relaciones máximas que existe entre esta entidad y su padre
+	 * Motodo que devuelve el nomero de relaciones moximas que existe entre esta entidad y su padre
 	 * pasada como argumento. Algoritmo: recorremos cada campo PK de la tabla padre: -
 	 * para cada uno, miramos en los campos de la tabla hija, cuales tienen ese como referencia, y
-	 * anotamos cada aparición, - actualizamos el contador máximo si procede, cuando
+	 * anotamos cada aparicion, - actualizamos el contador moximo si procede, cuando
 	 * terminamos de recorrer todos los campos de la tabla hija
 	 * 
 	 * @return

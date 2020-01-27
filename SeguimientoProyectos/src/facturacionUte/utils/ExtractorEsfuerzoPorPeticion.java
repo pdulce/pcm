@@ -34,7 +34,7 @@ public class ExtractorEsfuerzoPorPeticion extends GeneradorPresentaciones{
 			final String url_ = SQLITE_PREFFIX.concat(baseDatabaseFilePath.concat("//factUTEDBLite.db"));
 			final String entityDefinition = baseDatabaseFilePath.concat("//entities.xml");
 			
-			/*** Inicializamos la factoría de Acceso Lógico a DATOS **/		
+			/*** Inicializamos la factoroa de Acceso Logico a DATOS **/		
 			final IEntityLogicFactory entityFactory = EntityLogicFactory.getFactoryInstance();
 			entityFactory.initEntityFactory(entityDefinition, new FileInputStream(entityDefinition));
 	
@@ -76,7 +76,7 @@ public class ExtractorEsfuerzoPorPeticion extends GeneradorPresentaciones{
 				Iterator<String> iteApps = mapaAppsPeticiones.keySet().iterator();
 				while (iteApps.hasNext()){
 					final String app = iteApps.next();
-					//añadimos la línea al buffer de salida
+					//aoadimos la lonea al buffer de salida
 					if (!strBuilder.toString().isEmpty()){
 						strBuilder.append("#"); //separador de aplicaciones
 					}
@@ -109,14 +109,14 @@ public class ExtractorEsfuerzoPorPeticion extends GeneradorPresentaciones{
 				for (int j=0;j<peticionesGedeon.length;j++){
 					final double effortDG = extractorEffort.obtenerEsfuerzo(peticionesGedeon[j], 0/*previous effort*/, fechaInicioPeriodo, fechaFinPeriodo, nivelTrazas);
 					if (nivelTrazas){
-						System.out.println("Esfuerzo (Uts) en periodo para petición " + peticionesGedeon[j] + ": " + effortDG);
+						System.out.println("Esfuerzo (Uts) en periodo para peticion " + peticionesGedeon[j] + ": " + effortDG);
 						System.out.println("---------------------------------------------------------------------------");
 					}
 					agregadoEffort4App += effortDG;
 				}				
 				System.out.println("");
 				System.out.println("**************************************************************************");
-				System.out.println("************RESUMEN PARA APLICACIÓN [" + app + "] : " + CommonUtils.roundWith2Decimals(agregadoEffort4App) + " Uts en periodo [" + 
+				System.out.println("************RESUMEN PARA APLICACIoN [" + app + "] : " + CommonUtils.roundWith2Decimals(agregadoEffort4App) + " Uts en periodo [" + 
 				CommonUtils.convertDateToShortFormatted(fechaInicioPeriodo) + " - " + CommonUtils.convertDateToShortFormatted(fechaFinPeriodo) +"] ****");
 				System.out.println("**************************************************************************");
 				System.out.println("**************************************************************************");

@@ -14,7 +14,7 @@
 
 			<viewComponent>
 
-				<form columns="54" title="Gestión Tarifas Internas">
+				<form columns="54" title="Gestion Tarifas Internas">
 
 					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
 						<fieldView mappingTo="1" />
@@ -106,7 +106,7 @@
 			submitSucces="GestionTarifasInternas.update">
 
 			<viewComponent>
-				<form columns="53" title="Edición Tarifa Interna">
+				<form columns="53" title="Edicion Tarifa Interna">
 					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
 						<fieldView mappingTo="1" editable="false" />
 						<fieldView mappingTo="2" type="select" editable="true">

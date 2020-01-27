@@ -164,9 +164,9 @@ public final class CommonUtils {
 
 	public static boolean isVocal(char character) {
 		return (character == 'a' || character == 'e' || character == 'i' || character == 'o' || character == 'u' || character == 'A'
-				|| character == 'E' || character == 'I' || character == 'O' || character == 'U' || character == 'á' || character == 'é'
-				|| character == 'í' || character == 'ó' || character == 'ú' || character == 'Á' || character == 'É' || character == 'Í'
-				|| character == 'Ó' || character == 'Ú');
+				|| character == 'E' || character == 'I' || character == 'O' || character == 'U' || character == 'o' || character == 'o'
+				|| character == 'o' || character == 'o' || character == 'o' || character == 'o' || character == 'o' || character == 'o'
+				|| character == 'o' || character == 'o');
 	}
 
 	public static double roundDouble(double numero, int decimales) {
@@ -291,13 +291,13 @@ public final class CommonUtils {
 				} else if ("Tue".equals(nombreDia)) {
 					strBuffer.append("mar ");
 				} else if ("Wed".equals(nombreDia)) {
-					strBuffer.append("mié ");
+					strBuffer.append("mio ");
 				} else if ("Thu".equals(nombreDia)) {
 					strBuffer.append("jue ");
 				} else if ("Fri".equals(nombreDia)) {
 					strBuffer.append("vie ");
 				} else if ("Sat".equals(nombreDia)) {
-					strBuffer.append("sáb ");
+					strBuffer.append("sob ");
 				} else if ("Sun".equals(nombreDia)) {
 					strBuffer.append("dom ");
 				}
@@ -391,7 +391,7 @@ public final class CommonUtils {
 		try {
 			String fileName = uploadFile.getName();
 			input = new FileInputStream(uploadFile);
-			final byte[] filebuffer = new byte[PCMConstants.MAX_SIZE_BLOBS];// máximo 5 megas
+			final byte[] filebuffer = new byte[PCMConstants.MAX_SIZE_BLOBS];// moximo 5 megas
 			int leidos = input.read(filebuffer);
 			if (leidos > 0) {
 				int i =0;
@@ -399,15 +399,15 @@ public final class CommonUtils {
 				char[] cadenaAux = fileName.toCharArray();		
 				for (final char cadenaAuxI : cadenaAux) {
 					String alfanumerico = String.valueOf(cadenaAuxI);
-					if (alfanumerico.toLowerCase().equals("á")) {
+					if (alfanumerico.toLowerCase().equals("o")) {
 						alfanumerico = "a";
-					} else if (alfanumerico.toLowerCase().equals("é")) {
+					} else if (alfanumerico.toLowerCase().equals("o")) {
 						alfanumerico = "e";
-					} else if (alfanumerico.toLowerCase().equals("í")) {
+					} else if (alfanumerico.toLowerCase().equals("o")) {
 						alfanumerico = "i";
-					} else if (alfanumerico.toLowerCase().equals("ó")) {
+					} else if (alfanumerico.toLowerCase().equals("o")) {
 						alfanumerico = "o";
-					} else if (alfanumerico.toLowerCase().equals("ú")) {
+					} else if (alfanumerico.toLowerCase().equals("o")) {
 						alfanumerico = "u";
 					}
 					bufferFinal[i++] = alfanumerico.getBytes()[0];
@@ -468,8 +468,8 @@ public final class CommonUtils {
 
 	/**
 	 * <P>
-	 * Descripcion: Devuelve una cadena equivalente a la pasada por parámetro pero sustituyendo los
-	 * caracteres problemáticos de xsl
+	 * Descripcion: Devuelve una cadena equivalente a la pasada por parometro pero sustituyendo los
+	 * caracteres problemoticos de xsl
 	 * </P>
 	 * 
 	 * @param valor
@@ -649,11 +649,11 @@ public final class CommonUtils {
 		for (int i=1;i<=cadena.length();i++){
 			String c = cadena.substring(i-1, i);
 			if (CommonUtils.isVocal(c.charAt(0))){
-				c = c.replaceAll("á", "a");
-				c = c.replaceAll("é", "e");
-				c = c.replaceAll("í", "i");
-				c = c.replaceAll("ó", "o");
-				c = c.replaceAll("ú", "u");
+				c = c.replaceAll("o", "a");
+				c = c.replaceAll("o", "e");
+				c = c.replaceAll("o", "i");
+				c = c.replaceAll("o", "o");
+				c = c.replaceAll("o", "u");
 			}
 			texto.append(c);
 		}

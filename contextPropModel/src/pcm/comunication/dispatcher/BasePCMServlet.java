@@ -224,7 +224,7 @@ public class BasePCMServlet extends HttpServlet {
 
 				List<Map<String, String>> keyset = new ArrayList<Map<String, String>>();
 				final Element configElement = (Element) configNodeList.item(0);
-				//extraemos el elemento de configuración del serverPath
+				//extraemos el elemento de configuracion del serverPath
 				String serverPath = configElement.getAttributes().getNamedItem(IViewMetamodel.ATTR_SERVER_PATH).getNodeValue();
 				
 				final NodeList entryNodes = configElement.getElementsByTagName(IViewMetamodel.ENTRY_CONFIG_NODE);
@@ -295,21 +295,14 @@ public class BasePCMServlet extends HttpServlet {
 			}
 
 			String uploadDir = BasePCMServlet.contextApp.getUploadDir();
-			if (uploadDir.indexOf("ROOT") == -1 && uploadDir.indexOf(":") == -1) {
-				// se trata de un path relativo a nuestra app
-				uploadDir = BasePCMServlet.contextApp.getBaseAppPath().concat("\\").concat(uploadDir);
-				BasePCMServlet.contextApp.setUploadDir(uploadDir);
-				String downloadDir = BasePCMServlet.contextApp.getDownloadDir();
-				downloadDir = BasePCMServlet.contextApp.getBaseAppPath().concat("\\").concat(downloadDir);
-				BasePCMServlet.contextApp.setDownloadDir(downloadDir);
-			} else if (uploadDir.indexOf(":") == -1) {
-				// se trata de un path relativo a la app ROOT de Tomcat, JBOSS, etc
-				uploadDir = BasePCMServlet.contextApp.getBaseServerPath().concat("\\").concat(uploadDir);
-				BasePCMServlet.contextApp.setUploadDir(uploadDir);
-				String downloadDir = BasePCMServlet.contextApp.getDownloadDir();
-				downloadDir = BasePCMServlet.contextApp.getBaseServerPath().concat("\\").concat(downloadDir);
-				BasePCMServlet.contextApp.setDownloadDir(downloadDir);
+			if (!new File(uploadDir).exists()) {
+				throw new PCMConfigurationException("uploadDir does not exist");
 			}
+			String downloadDir = BasePCMServlet.contextApp.getDownloadDir();
+			if (!new File(downloadDir).exists()) {
+				throw new PCMConfigurationException("downloadDir does not exist");
+			}
+				
 		}
 		catch (final PCMConfigurationException excCfg) {
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, excCfg);
@@ -385,7 +378,7 @@ public class BasePCMServlet extends HttpServlet {
 		} else if (request.getParameter(PCMConstants.FILE_UPLOADED_PARAM) != null) {
 			String fileName = request.getParameter(PCMConstants.FILE_UPLOADED_PARAM);
 			String extension_ = ""; // "txt"; o '' y que sea Windows quien solicite al usuario la
-									// aplicación
+									// aplicacion
 			// para abrir el fichero
 			int indexOfPoint = fileName.lastIndexOf(PCMConstants.POINT);
 			if (indexOfPoint > -1) {
@@ -419,8 +412,8 @@ public class BasePCMServlet extends HttpServlet {
 		try {
 			conn = BasePCMServlet.contextApp.getDataSourceFactoryImplObject().getConnection();
 			if (conn == null) {
-				BasePCMServlet.log.log(Level.SEVERE, "ATENCION ¡¡conexión es NULA!!");
-				throw new PCMConfigurationException("¡¡conexión es NULA!!");
+				BasePCMServlet.log.log(Level.SEVERE, "ATENCION ooconexion es NULA!!");
+				throw new PCMConfigurationException("ooconexion es NULA!!");
 			}
 			final RequestWrapper request_ = new RequestWrapper(request, BasePCMServlet.contextApp.getUploadDir(), Integer.valueOf(
 					BasePCMServlet.contextApp.getPageSize()).intValue());
@@ -661,7 +654,7 @@ public class BasePCMServlet extends HttpServlet {
 				innerContent_.append("<input type=\"hidden\" id=\"masterNewEvent\" name=\"masterNewEvent\" value=\"\" />");
 				innerContent_.append("<input type=\"hidden\" id=\"" + PaginationGrid.ORDENACION + "\" name=\"" + PaginationGrid.ORDENACION + "\" value=\"\" />");
 				
-				htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuración</td>");
+				htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");
 				htmlOutput.append("<td width=\"60%\">Valor actual</td></tr>");
 				int itemsCount = ContextApp.ITEM_NAMES.length;
 				for (int i = 0; i < itemsCount; i++) {
@@ -778,7 +771,7 @@ public class BasePCMServlet extends HttpServlet {
 				if (!IEvent.VOLVER.equals(request.getParameter(PCMConstants.MASTER_NEW_EVENT_)) && !Event.isTransactionalEvent(event) && !isInitService(request)){//metemos en la pila
 					String escenario = service.concat(".").concat(event);
 					String escenarioTraducido = getTitleOfAction(actionElementNode);
-					if (request.getParameter("fID") == null){ //si no han pulsado desde el árbol de navegación ni es create, delete o cancel, añado este escenario para la pila						
+					if (request.getParameter("fID") == null){ //si no han pulsado desde el orbol de navegacion ni es create, delete o cancel, aoado este escenario para la pila						
 						if (!pila.endsWith(escenario) && !Event.isCreateEvent(event) && !Event.isDeleteEvent(event) && !IEvent.CANCEL.equals(request.getParameter(PCMConstants.MASTER_NEW_EVENT_))){
 							if (!pila.equals("") && !pila.endsWith(" >> ")){
 								pila = pila.concat(" >> ");
@@ -800,7 +793,7 @@ public class BasePCMServlet extends HttpServlet {
 								stackNavShown = stackNavShown.concat(escenarioTraducido);
 							}
 						}
-					}else{//han pulsado algún nodo del árbol, así que, reinicio la pila de navegación
+					}else{//han pulsado algon nodo del orbol, aso que, reinicio la pila de navegacion
 						pila = escenario;
 						idsPila = "";
 						request.getSession().setAttribute(PCMConstants.IDS_PILA_NAV, "");
@@ -842,7 +835,7 @@ public class BasePCMServlet extends HttpServlet {
 
 				XmlUtils.openXmlNode(innerContent_, IViewComponent.DIV_LAYER_PRAL);
 				
-				//String pilaNavegacion2Show= "<font style=\"color:red;font-weight:normal;font-size:90%;\"> " + ((!"".equals(pila)? "RutaIDs navegación: <I>" + pila + "</I>" : "") + "</font>") ;
+				//String pilaNavegacion2Show= "<font style=\"color:red;font-weight:normal;font-size:90%;\"> " + ((!"".equals(pila)? "RutaIDs navegacion: <I>" + pila + "</I>" : "") + "</font>") ;
 				String pilaNavegacion2Show = "<br/><font style=\"color:green;font-weight:normal;font-size:78%;\"> " + ((!"".equals(stackNavShown)? "Ruta nav.: <I>" + stackNavShown + "</I>" : "") + "</font>");
 				innerContent_.append(pilaNavegacion2Show);
 				innerContent_.append(IViewComponent.NEW_ROW);

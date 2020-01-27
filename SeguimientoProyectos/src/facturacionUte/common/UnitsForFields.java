@@ -23,7 +23,7 @@ public class UnitsForFields {
 				aggregateField.getName().toLowerCase().indexOf("facturar") != -1 ||
 				aggregateField.getName().toLowerCase().indexOf("facturad") != -1 || aggregateField.getName().toLowerCase().indexOf("importe") != -1 ||
 						aggregateField.getName().toLowerCase().indexOf("presupuest") != -1)) {
-			unidades = " euros";// €";
+			unidades = " euros";// o";
 		} else if (aggregateField.getName().toLowerCase().indexOf("horas") != -1 || aggregateField.getName().toLowerCase().indexOf("ut") != -1) {
 			unidades = " horas";
 		} else if (aggregateField.getName().toLowerCase().indexOf("jornadas") != -1) {

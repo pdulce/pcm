@@ -876,14 +876,14 @@
 				<div id="sliders">
 					<table>
 						<tr>
-							<td><font class="small">Ángulo de giro transversal</font>
+							<td><font class="small">angulo de giro transversal</font>
 							</td>
 							<td><input id="R0" type="range" min="0" max="45" value="15" />
 								<span id="R0-value" class="value"></span>
 							</td>
 						</tr>
 						<tr>
-							<td><font class="small">Ángulo de giro longitudinal</font>
+							<td><font class="small">angulo de giro longitudinal</font>
 							</td>
 							<td><input id="R1" type="range" min="0" max="45" value="15" />
 								<span id="R1-value" class="value"></span>

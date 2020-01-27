@@ -202,7 +202,7 @@ public class SQLUtils {
 	}
 
 	/**
-	 * Obtiene la entidad (fieldviewset) que difiere entre las entidades 'padre' que actúan como
+	 * Obtiene la entidad (fieldviewset) que difiere entre las entidades 'padre' que actoan como
 	 * criterio en el 'Formulario', y la entidad 'hija' que se emplea en el 'PaginationGrid'.
 	 * 
 	 * @param entidades_Criteria

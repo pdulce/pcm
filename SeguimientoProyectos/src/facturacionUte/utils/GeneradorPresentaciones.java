@@ -106,14 +106,14 @@ public class GeneradorPresentaciones {
 							CARPETA_SUBDIRECCIONES = "SegDireccion\\", CARPETA_DE_TRABAJO = "externos\\__Hojas SegDireccion\\", 
 							TAREAS_ACABADAS = "2", TAREAS_EN_CURSO = "3", PREFIJO_FICHA = "SGAC", SUFIJO_SIN_GEDEON_ORIGEN = "000000";
 	
-	public static final String[] ESTADOS_POSIBLES_TRABAJOS = new String[]{"Sin iniciar", "Toma Requisitos", "AnÃ¡lisis", "Fin AnÃ¡lisis", "Desarrollo", "Pendiente Infraestructuras", "Pruebas", "Validada", "Producción", "Implantado"};
+	public static final String[] ESTADOS_POSIBLES_TRABAJOS = new String[]{"Sin iniciar", "Toma Requisitos", "AnÃ¡lisis", "Fin AnÃ¡lisis", "Desarrollo", "Pendiente Infraestructuras", "Pruebas", "Validada", "Produccion", "Implantado"};
 	public static final int ANALYSIS_STATE = 3;
 	
 	public static final String KEY_FINISHED_ENPLAZO = "A. En Plazo", KEY_FINISHED_FUERAPLAZO = "A. Fuera de Plazo", KEY_ENCURSO_ENPLAZO = "En Plazo",
 			KEY_ENCURSO_FUERAPLAZO = "Fuera de Plazo", PREFIJO_VOLUMEN = "NÂº", PREFIJO_ESFUERZO = "Hrs." ;
 	
 
-	/** códigos de estado de una notificación electrónica:
+	/** codigos de estado de una notificacion electronica:
 	CODIGO: â€˜00â€™ , DESCRIPCION: â€˜tipo_acuse_disponibleâ€™
 	CODIGO: â€˜01â€™ , DESCRIPCION: â€˜tipo_acuse_enviado_no_disponibleâ€™
 	CODIGO: â€˜02â€™ , DESCRIPCION: â€˜tipo_acuse_notificacion_aceptadaâ€™
@@ -193,9 +193,9 @@ public class GeneradorPresentaciones {
 		
 		APP_SHORT_DESCRIPTION.put(appNames[0].substring(1,appNames[0].length()-1), "REVISIÃ“N DE BOTIQUINES");
 		APP_SHORT_DESCRIPTION.put(appNames[1].substring(1,appNames[1].length()-1), "INSPECCIÃ“N DE BUQUES");
-		APP_SHORT_DESCRIPTION.put(appNames[2].substring(1,appNames[2].length()-1), "ASISTENCIA SANITARIA MARÃ�TIMA");
-		APP_SHORT_DESCRIPTION.put(appNames[3].substring(1,appNames[3].length()-1), "FORMACIÃ“N MARÃ�TIMA");
-		APP_SHORT_DESCRIPTION.put(appNames[4].substring(1,appNames[4].length()-1), "NUEVA FORMACIÃ“N MARÃ�TIMA");
+		APP_SHORT_DESCRIPTION.put(appNames[2].substring(1,appNames[2].length()-1), "ASISTENCIA SANITARIA MARÃoTIMA");
+		APP_SHORT_DESCRIPTION.put(appNames[3].substring(1,appNames[3].length()-1), "FORMACIÃ“N MARÃoTIMA");
+		APP_SHORT_DESCRIPTION.put(appNames[4].substring(1,appNames[4].length()-1), "NUEVA FORMACIÃ“N MARÃoTIMA");
 		APP_SHORT_DESCRIPTION.put(appNames[5].substring(1,appNames[5].length()-1), "SUBVENCIONES BOTIQUINES A BORDO");
 				
 		APP_AREA.put(appNames[0].substring(1,appNames[0].length()-1), "Programas Sanitarios");
@@ -256,17 +256,17 @@ public class GeneradorPresentaciones {
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(2, MODEL_MAPPING_COLUMN_ENTRADA_EN_CDISM);//Entrada en CDISM
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(3, MODEL_MAPPING_COLUMN_AVANCE);//Avance[1,2,3]
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(4, MODEL_MAPPING_COLUMN_SITUACION);//[Implantada,Toma Requisitos, AnÃ¡lisis,...]		
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(5, MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO);//Previsión Fin Estado
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(6, MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION);//Fecha Prev Implantación	
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(7, MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION);//Fecha Real Implantación
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(5, MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO);//Prevision Fin Estado
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(6, MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION);//Fecha Prev Implantacion	
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(7, MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION);//Fecha Real Implantacion
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(8, MODEL_MAPPING_COLUMN_DESCRIPCION);
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(9, MODEL_MAPPING_COLUMN_OBSERVACIONES);
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(10, MODEL_MAPPING_COLUMN_EPIGRAFE);//PPT: EpÃ­grafe (tipificada)
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(11, MODEL_MAPPING_COLUMN_APARECE_EN_PPT);//PPT: ApareceEnPPT (Si, No)		
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(12, MODEL_MAPPING_COLUMN_ESFUERZO_GLOBAL);//campo Esfuerzo global (tarea)		 
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(13, MODEL_MAPPING_COLUMN_GRADO_AVANCE);//campo Grado avance (estado actual)
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(14, MODEL_MAPPING_COLUMN_APLICACION);//campo Aplicación
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(16, MODEL_MAPPING_ID);//Petición de Gestión
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(14, MODEL_MAPPING_COLUMN_APLICACION);//campo Aplicacion
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(16, MODEL_MAPPING_ID);//Peticion de Gestion
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(17, MODEL_MAPPING_COLUMN_GEDEON_AES);//Peticion AES	: la guardo en este campo aunque no sea para eso	
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(18, MODEL_MAPPING_COLUMN_FECHA_PREV_INI_ANALYSIS);//Fecha Prev Ini AnÃ¡lisis 
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(20, MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_ANALYSIS);//Fecha Prev Fin AnÃ¡lisis
@@ -275,7 +275,7 @@ public class GeneradorPresentaciones {
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(25, MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_PRUEBAS_CD);//Real Fin Pruebas CD
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(26, MODEL_MAPPING_COLUMN_ESFUERZO_AT);//PPT: Esfuerzo AT
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(27, MODEL_MAPPING_COLUMN_GEDEON_DG);//PPT: Peticion DG
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(34, MODEL_MAPPING_COLUMN_DESC_TECH);//PPT: Descripción tÃ©cnica			
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(34, MODEL_MAPPING_COLUMN_DESC_TECH);//PPT: Descripcion tÃ©cnica			
 		}
 	}
 	
@@ -328,7 +328,7 @@ public class GeneradorPresentaciones {
 	}
 	
 	/**
-	 * Lee las hojas indicadas para una Subdirección dada
+	 * Lee las hojas indicadas para una Subdireccion dada
 	 * @return
 	 * @throws Exception 
 	 */
@@ -382,7 +382,7 @@ public class GeneradorPresentaciones {
 	
 	protected final String traducirEstadoGlobal(final String estadoGlobal){
 		String estadoNormalizado =  "Sin iniciar";
-		if (estadoNormalizado.startsWith("Implantada") || estadoNormalizado.startsWith("Producción")){
+		if (estadoNormalizado.startsWith("Implantada") || estadoNormalizado.startsWith("Produccion")){
 			estadoNormalizado = estadoNormalizado.replaceFirst("Implantada", "Finalizada");
 		}else if (estadoNormalizado.equals("Pdte otras areas")){
 			estadoNormalizado = "Pendiente de otras Ã¡reas";
@@ -399,7 +399,7 @@ public class GeneradorPresentaciones {
 		}else if (epigrafe.equals("Necesidad de cambios funcionales")){
 			epigrafeNormalized = "Cambio Funcional";
 		}else if (epigrafe.equals("Actuaciones en Base de Datos")){
-			epigrafeNormalized = "Actuación en Base de Datos";
+			epigrafeNormalized = "Actuacion en Base de Datos";
 		}else if (epigrafe.equals("Incidencia competencia de otros sistemas")){
 			epigrafeNormalized = "Errores de otros sistemas";
 		}else if (epigrafe.equals("Incidencia a resolver por el CDISM")){
@@ -421,31 +421,31 @@ public class GeneradorPresentaciones {
 			}else if (estadoPet_BBDD_.equals("Pendiente Infraestructuras")){
 				estadoNormalizado = "Pdte otras areas";
 			}else if (estadoPet_BBDD_.equals("Trabajo pte. validar por CD") || estadoPet_BBDD_.startsWith("Pruebas") || estadoPet_BBDD_.equals("Trabajo finalizado con Entrega en curso") ||
-					estadoPet_BBDD_.equals("Trabajo finalizado sin Entrega") || estadoPet_BBDD_.equals("Trabajo finalizado con Entrega en redacción") || 
+					estadoPet_BBDD_.equals("Trabajo finalizado sin Entrega") || estadoPet_BBDD_.equals("Trabajo finalizado con Entrega en redaccion") || 
 					estadoPet_BBDD_.equals("Trabajo finalizado no conforme")){
 				estadoNormalizado = "Pruebas CD";
-			}else if (estadoPet_BBDD_.equals("Producción") || estadoPet_BBDD_.equals("Implantado") || estadoPet_BBDD_.equals("Implantada") ||
-					estadoPet_BBDD_.equals("Soporte finalizado") || estadoPet_BBDD_.equals("Petición de trabajo finalizado")){
+			}else if (estadoPet_BBDD_.equals("Produccion") || estadoPet_BBDD_.equals("Implantado") || estadoPet_BBDD_.equals("Implantada") ||
+					estadoPet_BBDD_.equals("Soporte finalizado") || estadoPet_BBDD_.equals("Peticion de trabajo finalizado")){
 				estadoNormalizado = "Implantado";
 			}else if (estadoPet_BBDD_.indexOf("Trabajo estimado")!= -1 ||
 					estadoPet_BBDD_.equals("Trabajo listo para iniciar") || estadoPet_BBDD_.indexOf("Trabajo en curso") != -1
-					|| estadoPet_BBDD_.equals("Trabajo estimado") || estadoPet_BBDD_.equals("Pendiente de estimación") || 
-					estadoPet_BBDD_.equals("Tramitada") || estadoPet_BBDD_.equals("Trabajo en redacción") || estadoPet_BBDD_.equals("Desarrollo")){
+					|| estadoPet_BBDD_.equals("Trabajo estimado") || estadoPet_BBDD_.equals("Pendiente de estimacion") || 
+					estadoPet_BBDD_.equals("Tramitada") || estadoPet_BBDD_.equals("Trabajo en redaccion") || estadoPet_BBDD_.equals("Desarrollo")){
 				estadoNormalizado = "Desarrollo";
 			}else if (estadoPet_BBDD_.startsWith("Pre-explotac") || estadoPet_BBDD_.equals("Validada") || estadoPet_BBDD_.equals("Trabajo instalado (en PreExpl.)")){
-				estadoNormalizado = "Instalación";
+				estadoNormalizado = "Instalacion";
 			}
 		}else{//si es de AT, un anÃ¡lisis
 			if (estadoPet_BBDD_.startsWith("Pruebas")){//Pruebas CD o Pruebas usuario
 				estadoNormalizado = estadoPet_BBDD_;
 			}else if (estadoPet_BBDD_.equals("Pendiente Infraestructuras")){
 				estadoNormalizado = "Pdte otras areas";
-			}else if (estadoPet_BBDD_.equals("Pendiente de estimación") || estadoPet_BBDD_.equals("Trabajo estimado") || 
+			}else if (estadoPet_BBDD_.equals("Pendiente de estimacion") || estadoPet_BBDD_.equals("Trabajo estimado") || 
 					estadoPet_BBDD_.equals("Tramitada") || estadoPet_BBDD_.equals("Toma Requisitos") || estadoPet_BBDD_.equals("Requisitos")){
 				estadoNormalizado = "Requisitos";
 			}else if (estadoPet_BBDD_.equals("Trabajo en curso")  || estadoPet_BBDD_.equals("AnÃ¡lisis")){
 				estadoNormalizado =  "AnÃ¡lisis";
-			}else if (estadoPet_BBDD_.equals("Petición de trabajo finalizado") || estadoPet_BBDD_.equals("Soporte finalizado")){
+			}else if (estadoPet_BBDD_.equals("Peticion de trabajo finalizado") || estadoPet_BBDD_.equals("Soporte finalizado")){
 				estadoNormalizado = "Implantado";
 			}
 		}
@@ -535,13 +535,13 @@ public class GeneradorPresentaciones {
 		}
 		Double uts = CommonUtils.roundWith2Decimals((Double) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName()));
 		if (conTrazas){
-			System.out.println("UTs totales estimadas de la petición: " + uts);
+			System.out.println("UTs totales estimadas de la peticion: " + uts);
 		}
 		if (fechaInicioDesarrollo == null || fechaFinDesarrollo == null){
-			//petición sin comenxar en DG, el factor de normalización es 0.0
+			//peticion sin comenxar en DG, el factor de normalizacion es 0.0
 			if (conTrazas){
 				System.out.println("Intervalo dÃ­as laborales: " + 0);
-				System.out.println( "Desarrollo sin planificación de inicio/fin");
+				System.out.println( "Desarrollo sin planificacion de inicio/fin");
 			}
 			return 0.0;
 		}
@@ -577,11 +577,11 @@ public class GeneradorPresentaciones {
 		
 		double uts_per_Laborable = CommonUtils.roundWith2Decimals(uts/periodoDesarrolloPeticion);
 		/****
-		 * El programa trata, para el cÃ¡lculo del factor de normalización, los 4 posibles supuestos para la superposición de los dos intervalos, el del periodo del informe, y el intervalo del tiempo de desarrollo estimado o real:
-			 1) tiempo-desarrollo de la petición fuera de mÃ¡rgenes del periodo seguimiento
-			 2) tiempo-desarrollo de la petición completamente incluido en el periodo seguimiento
-			 3) tiempo-desarrollo de la petición parcialmente incluido en el periodo seguimiento
-			 4) periodo informe incluido en el tiempo-desarrollo de la petición
+		 * El programa trata, para el cÃ¡lculo del factor de normalizacion, los 4 posibles supuestos para la superposicion de los dos intervalos, el del periodo del informe, y el intervalo del tiempo de desarrollo estimado o real:
+			 1) tiempo-desarrollo de la peticion fuera de mÃ¡rgenes del periodo seguimiento
+			 2) tiempo-desarrollo de la peticion completamente incluido en el periodo seguimiento
+			 3) tiempo-desarrollo de la peticion parcialmente incluido en el periodo seguimiento
+			 4) periodo informe incluido en el tiempo-desarrollo de la peticion
 		 ***/
 		
 		final String fecIniPeriod_ = CommonUtils.convertDateToShortFormatted(fechaDesde), fecHastaPeriod_ = CommonUtils.convertDateToShortFormatted(fechaHasta),
@@ -593,14 +593,14 @@ public class GeneradorPresentaciones {
 			intervaloDias = 0;
 			if (conTrazas){
 				System.out.println("Intervalo dÃ­as laborales: " + intervaloDias);
-				System.out.println( "(intervalos sin intersección): fechaFinDesarrollo[" + fecFinPeticion_ + "]  es anterior al inicio del periodo de seguimiento[" + fecIniPeriod_ +"]");
+				System.out.println( "(intervalos sin interseccion): fechaFinDesarrollo[" + fecFinPeticion_ + "]  es anterior al inicio del periodo de seguimiento[" + fecIniPeriod_ +"]");
 			}
 			
 		}else if (fechaHasta.before(fechaInicioDesarrollo)){
 			intervaloDias = 0;
 			if (conTrazas){
 				System.out.println("Intervalo dÃ­as laborales: " + intervaloDias);
-				System.out.println("(intervalos sin intersección): fechaInicioDesarrollo[ " + fecIniPeticion_ + "]  es posterior al fin del periodo de seguimiento [" + fecHastaPeriod_ +"]");
+				System.out.println("(intervalos sin interseccion): fechaInicioDesarrollo[ " + fecIniPeticion_ + "]  es posterior al fin del periodo de seguimiento [" + fecHastaPeriod_ +"]");
 			}
 		
 		}else if (fechaDesde.before(fechaInicioDesarrollo) && fechaHasta.after(fechaFinDesarrollo)){
@@ -613,11 +613,11 @@ public class GeneradorPresentaciones {
 			}
 					
 		}else if (fechaInicioDesarrollo.before(fechaDesde) && fechaFinDesarrollo.before(fechaHasta)){
-			// obtenemos la intersección al lado izquierdo de la petición
+			// obtenemos la interseccion al lado izquierdo de la peticion
 			intervaloDias = calcularSoloLaborales(fechaDesde, fechaFinDesarrollo);			
 			if (conTrazas){
 				System.out.println("Intervalo dÃ­as laborales: " + intervaloDias);
-				System.out.println("(intersección al lado izquierdo del periodo del informe): fechaInicioDesarrollo[" + fecIniPeticion_ + "] es anterior al inicio del periodo de seguimiento[" + fecIniPeriod_ +"], y " +
+				System.out.println("(interseccion al lado izquierdo del periodo del informe): fechaInicioDesarrollo[" + fecIniPeticion_ + "] es anterior al inicio del periodo de seguimiento[" + fecIniPeriod_ +"], y " +
 					"fechaFinDesarrollo[" + fecFinPeticion_  + "] es anterior al fin del periodo de seguimiento[" + fecHastaPeriod_ + "]");
 			}
 			//obtenemos el tiempo dedicado antes del inicio del periodo del informe
@@ -626,11 +626,11 @@ public class GeneradorPresentaciones {
 			regularizacion = uts - CommonUtils.roundWith2Decimals(Uts_dedicadasAntes);
 			
 		}else if (fechaInicioDesarrollo.after(fechaDesde) && fechaInicioDesarrollo.before(fechaHasta) && fechaFinDesarrollo.after(fechaHasta)){
-			// obtenemos la intersección al lado derecho de la petición
+			// obtenemos la interseccion al lado derecho de la peticion
 			intervaloDias = calcularSoloLaborales(fechaInicioDesarrollo, fechaHasta);	
 			if (conTrazas){
 				System.out.println("Intervalo dÃ­as laborales: " + intervaloDias);
-				System.out.println("(intersección al lado derecho del periodo del informe): fechaInicioDesarrollo[" + fecIniPeticion_ + "] estÃ¡ entre el inicio y fin del periodo de seguimiento[" + fecIniPeriod_ + " - " + fecHastaPeriod_ +"], y " +
+				System.out.println("(interseccion al lado derecho del periodo del informe): fechaInicioDesarrollo[" + fecIniPeticion_ + "] estÃ¡ entre el inicio y fin del periodo de seguimiento[" + fecIniPeriod_ + " - " + fecHastaPeriod_ +"], y " +
 						"fechaFinDesarrollo[" + fecFinPeticion_  + "] es posterior al fin del periodo de seguimiento[" + fecHastaPeriod_ + "]");
 			}
 						
@@ -640,13 +640,13 @@ public class GeneradorPresentaciones {
 			intervaloDias = periodoInforme;
 			if (conTrazas){
 				System.out.println("Intervalo dÃ­as laborales: " + intervaloDias);
-				System.out.println("(periodo seguimiento incluido en el tiempo desarrollo petición): fechaInicioDesarrollo[" + fecIniPeticion_ + "] es anterior al inicio del periodo de seguimiento[" + fecIniPeriod_ +"], y " +
+				System.out.println("(periodo seguimiento incluido en el tiempo desarrollo peticion): fechaInicioDesarrollo[" + fecIniPeticion_ + "] es anterior al inicio del periodo de seguimiento[" + fecIniPeriod_ +"], y " +
 					"fechaFinDesarrollo[" + fecFinPeticion_  + "] es posterior al fin del periodo de seguimiento[" + fecHastaPeriod_ + "]");
 			}				
 		}
 		
 		if (conTrazas){
-			System.out.println("UTs por dÃ­a (totales/periodo total de la petición): " + uts_per_Laborable);
+			System.out.println("UTs por dÃ­a (totales/periodo total de la peticion): " + uts_per_Laborable);
 		}
 		return intervaloDias*(uts_per_Laborable) + regularizacion;
 		
@@ -655,7 +655,7 @@ public class GeneradorPresentaciones {
 	protected double obtenerEsfuerzo(final String peticionGedeon, double effortAT, final Date fechaInicioPeriodo, final Date fechaFinPeriodo, final boolean conTrazas){
 		
 		if (conTrazas){
-			System.out.println("Petición " + peticionGedeon);
+			System.out.println("Peticion " + peticionGedeon);
 		}
 		FieldViewSet peticionDG_fset = new FieldViewSet(incidenciasProyectoEntidad);
 		peticionDG_fset.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), peticionGedeon);
@@ -685,11 +685,11 @@ public class GeneradorPresentaciones {
 		while (rowIEsima != null) {// while
 			
 			if (rowIEsima.getRowNum()==0){
-				// se trata de la subdirección, guardamos este dato y continue con la siguiente Row
+				// se trata de la subdireccion, guardamos este dato y continue con la siguiente Row
 				Cell cell = rowIEsima.getCell(0);
 				subdireccion = cell.getStringCellValue();
 			}else if (rowIEsima.getRowNum()==2){
-				// se trata del Ã�rea de La Subdirecc., guardamos este dato y continue con la siguiente Row
+				// se trata del Ãorea de La Subdirecc., guardamos este dato y continue con la siguiente Row
 				Cell cell = rowIEsima.getCell(0);
 				areaSubdirecc = cell.getStringCellValue();
 			}
@@ -749,7 +749,7 @@ public class GeneradorPresentaciones {
 						if (positionInFieldLogic.intValue() == MODEL_MAPPING_COLUMN_GEDEON_AES || 
 								positionInFieldLogic.intValue() == MODEL_MAPPING_ID ||
 									positionInFieldLogic.intValue() == MODEL_MAPPING_COLUMN_GEDEON_DG){
-							//quitamos puntos que pueda haber en el código de petición
+							//quitamos puntos que pueda haber en el codigo de peticion
 							valueCell = (valueCell== null ? "": (valueCell.toString()).replaceAll("\\.0", ""));
 						}
 					}
@@ -815,8 +815,8 @@ public class GeneradorPresentaciones {
 			subdireccion = subdireccion.replaceAll("General", "Gral.");
 			areaSubdirecc = CommonUtils.firstLetterInUppercase(areaSubdirecc.toLowerCase());
 			areaSubdirecc = areaSubdirecc.replaceAll("Servicio ", "");
-			areaSubdirecc = areaSubdirecc.replaceAll("Ã�rea De ", "");
-			areaSubdirecc = areaSubdirecc.replaceAll("Ã�rea ", "");
+			areaSubdirecc = areaSubdirecc.replaceAll("Ãorea De ", "");
+			areaSubdirecc = areaSubdirecc.replaceAll("Ãorea ", "");
 			areaSubdirecc = areaSubdirecc.replaceAll("-", "/");
 			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
 			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen
@@ -832,7 +832,7 @@ public class GeneradorPresentaciones {
 				aplicacionRochade = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName());
 			}
 			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName(), aplicacionRochade);
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APP_DESC).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicación
+			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APP_DESC).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicacion
 			String idPeticionBBDD = null;
 			final Serializable codPeticionGestion = fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName());
 			if (codPeticionGestion != null){
@@ -847,15 +847,15 @@ public class GeneradorPresentaciones {
 				fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), idPeticionBBDD);
 			}
 			
-			//normalizamos el estado global de la petición
+			//normalizamos el estado global de la peticion
 			String statusPeticion = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
-			if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Producción") || statusPeticion.equals("Desestimada"))){
+			if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Produccion") || statusPeticion.equals("Desestimada"))){
 				fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_ACABADAS);
 			}else{
 				fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_EN_CURSO);
 			}
 			
-			//reemplazamos la explicación del EpÃ­grafe por su valor de orden
+			//reemplazamos la explicacion del EpÃ­grafe por su valor de orden
 			String nameEpigrafe = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName());
 			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName(), EPIGRAFES.get(nameEpigrafe));
 						
@@ -873,31 +873,31 @@ public class GeneradorPresentaciones {
 			
 			if (estadoTareaGlobal.indexOf("Desestimada") != -1){
 				String observaciones = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_OBSERVACIONES).getName());
-				if (observaciones == null || observaciones.toLowerCase().indexOf("subdirección") == -1 || observaciones.toLowerCase().indexOf("fecha") == -1){
-					bufferMessages.append(aplicacionRochade + ": Â¡Â¡OJO!! Debe indicar en el campo Observaciones la fecha consensuada con Subdirección en la que se ha desestimado: <'" + descTask + "'>{}");
+				if (observaciones == null || observaciones.toLowerCase().indexOf("subdireccion") == -1 || observaciones.toLowerCase().indexOf("fecha") == -1){
+					bufferMessages.append(aplicacionRochade + ": Â¡Â¡OJO!! Debe indicar en el campo Observaciones la fecha consensuada con Subdireccion en la que se ha desestimado: <'" + descTask + "'>{}");
 					continue;
 				}
-			}else if (!(estadoTareaGlobal.startsWith("Desestimada") || estadoTareaGlobal.startsWith("Implantada") || estadoTareaGlobal.startsWith("Producción") || estadoTareaGlobal.startsWith("Toma Requisitos"))){
+			}else if (!(estadoTareaGlobal.startsWith("Desestimada") || estadoTareaGlobal.startsWith("Implantada") || estadoTareaGlobal.startsWith("Produccion") || estadoTareaGlobal.startsWith("Toma Requisitos"))){
 									
 				if (estadoTareaGlobal.startsWith("Pruebas")){
 					Date fechaPrevisionFinPruebasCD = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD).getName());
 					if (fechaPrevisionFinPruebasCD == null){
-						bufferMessages.append(aplicacionRochade + ": La fecha Previsión Fin Pruebas CD de la tarea global <'" + descTask + "'> no estÃ¡ consignada, y debe estarlo porque estÃ¡ la tarea global en Pruebas{}");
+						bufferMessages.append(aplicacionRochade + ": La fecha Prevision Fin Pruebas CD de la tarea global <'" + descTask + "'> no estÃ¡ consignada, y debe estarlo porque estÃ¡ la tarea global en Pruebas{}");
 						continue;
 					}
 					Date fechaPrevisionImplantacion = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());
 					if (fechaPrevisionImplantacion == null){
-						bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantación de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
+						bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantacion de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
 						continue;
 					}
-				}else if (estadoTareaGlobal.startsWith("Pre-explotación")){
+				}else if (estadoTareaGlobal.startsWith("Pre-explotacion")){
 					Date fechaPrevisionImplantacion = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());
 					if (fechaPrevisionImplantacion == null){
-						bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantación de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
+						bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantacion de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
 						continue;
 					}
 				}else if (estadoTareaGlobal.startsWith("AnÃ¡lisis")){
-					// si estÃ¡ en estado 'AnÃ¡lisis', cogemos la fecha de fin de finalización mÃ¡s lejana de todas las peticiones_OO de AT
+					// si estÃ¡ en estado 'AnÃ¡lisis', cogemos la fecha de fin de finalizacion mÃ¡s lejana de todas las peticiones_OO de AT
 					List<FieldViewSet> peticionesOO_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_AES);
 					for (int i=0;i<peticionesOO_.size();i++){
 						FieldViewSet peticionAsociada = peticionesOO_.get(i);
@@ -908,11 +908,11 @@ public class GeneradorPresentaciones {
 						}
 					}					
 					if (fechaPrevisionFinEstado == null){
-						bufferMessages.append(aplicacionRochade + ": La fecha Previsión Fin Estado de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
+						bufferMessages.append(aplicacionRochade + ": La fecha Prevision Fin Estado de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
 						continue;
 					}
 					
-				}else if (estadoTareaGlobal.startsWith("Desarrollo")){ // cogemos la fecha de fin de finalización mÃ¡s lejana de todas las peticiones_DG
+				}else if (estadoTareaGlobal.startsWith("Desarrollo")){ // cogemos la fecha de fin de finalizacion mÃ¡s lejana de todas las peticiones_DG
 					List<FieldViewSet> peticionesDG_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_DG);
 					//Date fechaPrevisionFinDesarrollos = null;
 					for (int i=0;i<peticionesDG_.size();i++){
@@ -924,27 +924,27 @@ public class GeneradorPresentaciones {
 						}							
 					}
 					if (fechaPrevisionFinEstado == null){
-						bufferMessages.append(aplicacionRochade + ": La fecha Previsión Fin Estado de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
+						bufferMessages.append(aplicacionRochade + ": La fecha Prevision Fin Estado de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
 						continue;
 					}
 					Date fechaPrevisionImplantacion = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());
 					if (fechaPrevisionImplantacion == null){
-						bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantación de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
+						bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantacion de la tarea global <'" + descTask + "'> no estÃ¡ consignada{}");
 						continue;
 					}
 				}
 			}
 			
 			
-			if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Producción"))){
-				//revisamos que el % sea 100, y la fecha real implantación venga consignada
+			if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Produccion"))){
+				//revisamos que el % sea 100, y la fecha real implantacion venga consignada
 				Double newText_d = (Double) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE).getName());
 				if (newText_d == null || newText_d.doubleValue() != 1.0){
 					bufferMessages.append(aplicacionRochade + ": El % de avance ha de ser 100% de la tarea <'" + descTask + "'> no estÃ¡ consignada{}");
 					continue;
 				}					
 				if (fechaFin == null){
-					bufferMessages.append(aplicacionRochade + ": La fecha Real Implantación de la tarea global no puede quedar vacÃ­a para la tarea <'" + descTask + "'> no estÃ¡ consignada{}");
+					bufferMessages.append(aplicacionRochade + ": La fecha Real Implantacion de la tarea global no puede quedar vacÃ­a para la tarea <'" + descTask + "'> no estÃ¡ consignada{}");
 					continue;
 				}
 			}
@@ -963,19 +963,19 @@ public class GeneradorPresentaciones {
 		String newText = text;
 		if (text.indexOf("(3)")!= -1){
 			newText = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_DESCRIPCION).getName());
-			if (newText.equals("Descripción") || newText.startsWith("Descripción#colorRGB#")){
+			if (newText.equals("Descripcion") || newText.startsWith("Descripcion#colorRGB#")){
 				final String petsRelacionadas = 
 						(String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName());
 				if (petsRelacionadas != null && !petsRelacionadas.equals("")){
 					String[] peticionesDG = petsRelacionadas.split(";");				
 					for (final String idPeticionTrabajo: peticionesDG){						
 						if (idPeticionTrabajo != null && !"".equals(idPeticionTrabajo)){
-							//buscamos la petición en la BBDD, y luego, cogemos el campo Descripción (requisitos)
+							//buscamos la peticion en la BBDD, y luego, cogemos el campo Descripcion (requisitos)
 							FieldViewSet peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
 							peticionDG.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), idPeticionTrabajo);
 							peticionDG = this.dataAccess.searchEntityByPk(peticionDG);
 							if (peticionDG != null){
-								//saco el campo Descripción
+								//saco el campo Descripcion
 								String desc = 
 										(String) peticionDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName());
 								if (desc!= null && !"".equals(desc)){
@@ -990,7 +990,7 @@ public class GeneradorPresentaciones {
 		}else if (text.indexOf("APLICACIÃ“N")!= -1){
 			newText = aplicacionRochade;
 			
-		}else if (text.indexOf("Descripción de la Aplicación")!= -1){
+		}else if (text.indexOf("Descripcion de la Aplicacion")!= -1){
 			newText = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APP_DESC).getName());
 		
 		}else if (text.indexOf("TÃ­tulo de la Necesidad")!= -1){
@@ -1006,10 +1006,10 @@ public class GeneradorPresentaciones {
 			String estadoTareaGlobal = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());			
 			if ((newText == null || "".equals(newText)) && 
 					estadoTareaGlobal != null && !estadoTareaGlobal.startsWith("AnÃ¡lisis") && !estadoTareaGlobal.startsWith("Implantada") &&
-						!estadoTareaGlobal.startsWith("Producción") && !estadoTareaGlobal.startsWith("Desestimada") && 
+						!estadoTareaGlobal.startsWith("Produccion") && !estadoTareaGlobal.startsWith("Desestimada") && 
 							!estadoTareaGlobal.startsWith("Toma Requisitos")){
 				String descrTareaGlobal = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
-				bufferMessages.append(aplicacionRochade + ": dato (7): Falta aÃ±adir Fecha previsión Implantación en la tarea '<" + descrTareaGlobal + ">'{}");
+				bufferMessages.append(aplicacionRochade + ": dato (7): Falta aÃ±adir Fecha prevision Implantacion en la tarea '<" + descrTareaGlobal + ">'{}");
 				return "err999";
 			}			
 		
@@ -1065,12 +1065,12 @@ public class GeneradorPresentaciones {
 			for (int petI=0;petI<peticionesAs_.length;petI++){
 				final String idPeticionTrabajo = peticionesAs_[petI];
 				if (idPeticionTrabajo != null && !"".equals(idPeticionTrabajo)){
-					//buscamos la petición en la BBDD
+					//buscamos la peticion en la BBDD
 					FieldViewSet peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
 					peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticionTrabajo);
 					peticionDG = this.dataAccess.searchEntityByPk(peticionDG);
 					if (peticionDG == null){
-						// marcamos la petición como "Pendiente Infraestructuras" 
+						// marcamos la peticion como "Pendiente Infraestructuras" 
 						peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
 						peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticionTrabajo);
 						peticionDG.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName(), "Pendiente Infraestructuras");						
@@ -1085,7 +1085,7 @@ public class GeneradorPresentaciones {
 								if (descWithFechasFinestadoFinTarea.length > 0){
 									peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName(), descWithFechasFinestadoFinTarea[0]);
 									if (descWithFechasFinestadoFinTarea.length > 1){
-										String fechasFinEstadoFinTarea = descWithFechasFinestadoFinTarea[1];//Previsión Fin Estado
+										String fechasFinEstadoFinTarea = descWithFechasFinestadoFinTarea[1];//Prevision Fin Estado
 										String fechaFinEstado = fechasFinEstadoFinTarea.split("-->")[1];
 										Date dateFechaFinEstado = CommonUtils.myDateFormatter.parse(CommonUtils.cleanWhitespaces(fechaFinEstado));
 										peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName(), dateFechaFinEstado);										
@@ -1105,7 +1105,7 @@ public class GeneradorPresentaciones {
 		return peticionesAsociacas_;
 	}
 	
-	/** Incrementa el nÃºmero de finalizadas/en_curso de una determinado aplicación**/
+	/** Incrementa el nÃºmero de finalizadas/en_curso de una determinado aplicacion**/
 	protected final void addCounterAllNewRequsByApp(final Map<String, Number> counterActuaPerApp, final String epigrafe, final String app, 
 			final double incremento){
 		
@@ -1121,7 +1121,7 @@ public class GeneradorPresentaciones {
 		counterActuaPerApp.put(app, new Double(actualCounter.doubleValue() + incremento));
 	}
 	
-	/** Incrementa el nÃºmero de vivas/finalizadas por Subdirección **/	
+	/** Incrementa el nÃºmero de vivas/finalizadas por Subdireccion **/	
 	protected final void addCounterPorEstadosGlobalesByApp(final Map<String, Map<String, Number>> counterEstadosGlobalesPerApp, final String epigrafe_, 
 			final String app, final boolean finalizada, final Number incremento){
 		
@@ -1162,7 +1162,7 @@ public class GeneradorPresentaciones {
 		}	
 	}
 	
-	/** Incrementa el nÃºmero de actuaciones de una determinado aplicación y epÃ­grafe**/
+	/** Incrementa el nÃºmero de actuaciones de una determinado aplicacion y epÃ­grafe**/
 	protected final void incCounterActuacionesByApp(final Map<String, Number> counterActuaPerApp, final String app, final double incremento){		
 		
 		Number actualCounter = counterActuaPerApp.get(app);
@@ -1181,7 +1181,7 @@ public class GeneradorPresentaciones {
 			throw new RuntimeException("Error: Solo se permite en el eje X semanas (week)");
 		}
 		if (fechaImplantada == null){
-			bufferMessages.append("Revise la fecha de implantación de la tarea " + taskName + "{}");
+			bufferMessages.append("Revise la fecha de implantacion de la tarea " + taskName + "{}");
 			return;
 		}
 		
@@ -1288,7 +1288,7 @@ public class GeneradorPresentaciones {
 	
 	private void generatePPTs(final File carpetaTrabajo_, final List<FieldViewSet> fichasACrearEnPPT, final String pptFromGenerate, final Date fechaDesde_, final Date fechaHasta, final boolean withAnexo) throws Throwable{
 		
-		//ordenamos por Servicio del Ã�rea de la Subdirección
+		//ordenamos por Servicio del Ãorea de la Subdireccion
 		
         XSLFSlide[] slidesOfPatternPPT = this.pattern_PPT.getSlides();//se numeran desde la 0
 
@@ -1422,11 +1422,11 @@ public class GeneradorPresentaciones {
 			final String hrsEffortAT = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_ESFUERZO_AT).getName());
 			final double effort = hrsEffortAT == null || hrsEffortAT.equals("")?0.0:CommonUtils.numberFormatter.parse(hrsEffortAT);
 					
-			// comprobamos si hay que meterla como histórico (si terminó antes de empezar este periodo de seguimiento)
+			// comprobamos si hay que meterla como historico (si termino antes de empezar este periodo de seguimiento)
 			final Date fechaRealFin = (Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());
 			final String estadoTareaGlobal = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 			boolean aHistorico = false;
-			if (fechaRealFin != null && (estadoTareaGlobal.equals("Producción") || estadoTareaGlobal.equals("Implantada")) && fechaRealFin.before(fechaDesde_)){
+			if (fechaRealFin != null && (estadoTareaGlobal.equals("Produccion") || estadoTareaGlobal.equals("Implantada")) && fechaRealFin.before(fechaDesde_)){
 				aHistorico = true;
 			}
 			
@@ -1438,7 +1438,7 @@ public class GeneradorPresentaciones {
 			String app = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName());
 			if (app == null){
 				//al buffer, y haces continue
-				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el nombre de aplicación.{}");
+				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el nombre de aplicacion.{}");
 				continue;
 			}			
 			Double avance = (Double) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE).getName());
@@ -1450,7 +1450,7 @@ public class GeneradorPresentaciones {
 			String globalStatus = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName());
 			if (globalStatus == null){
 				//al buffer, y haces continue
-				bufferMessages.append("En la tarea <" + taskName + "> debe consignar la situación.{}");
+				bufferMessages.append("En la tarea <" + taskName + "> debe consignar la situacion.{}");
 				continue;
 			}
 			String epigrafeO_ = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName());
@@ -1533,7 +1533,7 @@ public class GeneradorPresentaciones {
 			
 			if (peticionesOO_ == null || peticionesOO_.isEmpty()){
 				
-				/** grabación de la petición fantasma **/
+				/** grabacion de la peticion fantasma **/
 				FieldViewSet peticionOOFantasma = fieldViewSet.copyOf();
 				//grabar en la peticionOO fantasma el estado
 				String estadotareaOOFantasma = "Sin iniciar";
@@ -1602,7 +1602,7 @@ public class GeneradorPresentaciones {
 				title = title.replaceAll(" el ", " ");
 				title = title.trim();
 				
-				final String sufijoNombreFICHA = app.concat((aHistorico?"\\Histórico\\":"\\")).concat(PREFIJO_FICHA).concat("-").concat(app).concat("-").concat(idPeticionGestion).concat("-").
+				final String sufijoNombreFICHA = app.concat((aHistorico?"\\Historico\\":"\\")).concat(PREFIJO_FICHA).concat("-").concat(app).concat("-").concat(idPeticionGestion).concat("-").
 						concat(title).concat(PPT_EXTENSION);
 				
 				/** ALMACENAMOS TANTO EN LA CARPETA DE TRABAJO, COMO EN LA SUBDIRECCIÃ“N **/
@@ -1623,7 +1623,7 @@ public class GeneradorPresentaciones {
 												
 						final FileInputStream fInp = new FileInputStream(fichaPPT_En_carpetaTrabajo/*carpetaSubdirecc_path.concat("\\").concat(sufijoNombreFICHA)*/);
 						final FileOutputStream out2 = new FileOutputStream(fichaPPT_En_carpetaSubdirecc);
-						// copiamos de la de trabajo a la carpeta de la subdirección
+						// copiamos de la de trabajo a la carpeta de la subdireccion
 						byte [] buffer = new byte[512];
 						int leidos = 0;
 						while ((leidos = fInp.read(buffer)) > 0){
@@ -1689,8 +1689,8 @@ public class GeneradorPresentaciones {
 					setNewText(slideNotificacionesFOMA, codigo_2_replace_8, String.valueOf("0"));
 				}				
 				setNewText(slideNotificacionesFOMA,"#app#", "FOMA-FMAR");
-				setNewText(slideNotificacionesFOMA, "Nombre de la Subdirección/División", nombreSG);
-				setNewText(slideNotificacionesFOMA, "Nombre del Ã�rea/Servicio", nombreAREA_SERVICIO);
+				setNewText(slideNotificacionesFOMA, "Nombre de la Subdireccion/Division", nombreSG);
+				setNewText(slideNotificacionesFOMA, "Nombre del Ãorea/Servicio", nombreAREA_SERVICIO);
 				setNewText(slideNotificacionesFOMA, "#PERIODO#", periodo);
 			}
 			
@@ -1746,13 +1746,13 @@ public class GeneradorPresentaciones {
 			slideVolumenAgregados_3 = ppt_blank_Input.getSlides()[PORTADA_INICIO_BLANK_GLOBAL + 4];
 			setNewText(slideVolumenAndEffortAggregados_1,"dd/MM/aaaa", fechaPresentac2SubDirecc);
 			setNewText(slideVolumenAndEffortAggregados_1,"#PERIODO#", periodo);
-			setNewText(slideVolumenAndEffortAggregados_1, "Nombre del Ã�rea/Servicio", nombreAREA_SERVICIO);		
+			setNewText(slideVolumenAndEffortAggregados_1, "Nombre del Ãorea/Servicio", nombreAREA_SERVICIO);		
 			setNewText(slideVolumenAgregados_2,"dd/MM/aaaa", fechaPresentac2SubDirecc);
 			setNewText(slideVolumenAgregados_2,"#PERIODO#", periodo);
-			setNewText(slideVolumenAgregados_2, "Nombre del Ã�rea/Servicio", nombreAREA_SERVICIO);		
+			setNewText(slideVolumenAgregados_2, "Nombre del Ãorea/Servicio", nombreAREA_SERVICIO);		
 			setNewText(slideVolumenAgregados_3,"dd/MM/aaaa", fechaPresentac2SubDirecc);
 			setNewText(slideVolumenAgregados_3,"#PERIODO#", periodo);
-			setNewText(slideVolumenAgregados_3, "Nombre del Ã�rea/Servicio", nombreAREA_SERVICIO);
+			setNewText(slideVolumenAgregados_3, "Nombre del Ãorea/Servicio", nombreAREA_SERVICIO);
 			
 			/**** Completamos los data.csv de los diagramas de barras ****/			
 			
@@ -1768,7 +1768,7 @@ public class GeneradorPresentaciones {
 	            if(part instanceof XSLFChart){
 	            	XSLFChart chart = (XSLFChart) part;
 	            	final String text =  chart.getCTChart().getTitle() == null ? "" : chart.getCTChart().getTitle().getTx().getRich().toString();
-	            	if (text.indexOf("Soporte") != -1 && text.indexOf("Atención") != -1){ // PRIMERA SLIDE
+	            	if (text.indexOf("Soporte") != -1 && text.indexOf("Atencion") != -1){ // PRIMERA SLIDE
 	            		
 	            		List<Map<String, Number>> series = new ArrayList<Map<String, Number>>();
 	            		series.add(counterAllIntervencionesEffortByApp);
@@ -1781,7 +1781,7 @@ public class GeneradorPresentaciones {
 	                }else if (text.indexOf("Desglose") != -1){ // PRIMERA SLIDE
 	                	
 	                	List<String> titles = new ArrayList<String>();
-	            		titles.add("Análisis");
+	            		titles.add("Analisis");
 	            		titles.add("Desarrollo");
 	            		titles.add("Pruebas");
 	                	
@@ -1797,7 +1797,7 @@ public class GeneradorPresentaciones {
 	                }else if (text.indexOf("Peticiones") != -1 && text.indexOf("Curso") != -1){// SEGUNDA SLIDE
 	                	
 	                	List<String> titles = new ArrayList<String>();
-	                	titles.add("Núm. Peticiones en Curso");
+	                	titles.add("Num. Peticiones en Curso");
 	                	
                 		List<Map<String, Number>> series = new ArrayList<Map<String, Number>>();
 	                	series.add(counterAllPetsByEstadosAndApp.get(TAREAS_EN_CURSO));
@@ -1806,7 +1806,7 @@ public class GeneradorPresentaciones {
 	                }else if (text.indexOf("Peticiones") != -1 && text.indexOf("Finalizadas") != -1){// SEGUNDA SLIDE
 	                	
 	                	List<String> titles = new ArrayList<String>();
-	                	titles.add("Núm. Peticiones Finalizadas");
+	                	titles.add("Num. Peticiones Finalizadas");
 	                	
                 		List<Map<String, Number>> series = new ArrayList<Map<String, Number>>();
 	                	series.add(counterAllPetsByEstadosAndApp.get(TAREAS_ACABADAS));
@@ -1857,7 +1857,7 @@ public class GeneradorPresentaciones {
 		            			// TERCERA SLIDE
 			                	Iterator<String> rochadesIterator = APP_SHORT_DESCRIPTION.keySet().iterator();
 			                	List<String> titles = new ArrayList<String>();
-			                	titles.add("Soporte y Atención al Usuario");
+			                	titles.add("Soporte y Atencion al Usuario");
 			                	while (rochadesIterator.hasNext()){
 			                		String rochadeOriginal = rochadesIterator.next();
 			                		String orchade2Compare = rochadeOriginal;
@@ -1882,9 +1882,9 @@ public class GeneradorPresentaciones {
 	            }
 	        }
 	        
-			setNewText(slideVolumenAndEffortAggregados_1, "Nombre de la Subdirección/División", nombreSG);
-			setNewText(slideVolumenAgregados_2, "Nombre de la Subdirección/División", nombreSG);
-			setNewText(slideVolumenAgregados_3, "Nombre de la Subdirección/División", nombreSG);
+			setNewText(slideVolumenAndEffortAggregados_1, "Nombre de la Subdireccion/Division", nombreSG);
+			setNewText(slideVolumenAgregados_2, "Nombre de la Subdireccion/Division", nombreSG);
+			setNewText(slideVolumenAgregados_3, "Nombre de la Subdireccion/Division", nombreSG);
 	        
 			XSLFSlide indiceAgregados = ppt_blank_Input.createSlide().importContent(slidesOfPatternPPT[getOrderSlideIndiceApps() + areasSubdirecc.size()]);
 			setNewText(indiceAgregados,"dd/MM/aaaa", fechaPresentac2SubDirecc);
@@ -1924,7 +1924,7 @@ public class GeneradorPresentaciones {
 			
 			fInput.close();
 			
-		}// fin de agregados cuando es generación sin fichas 
+		}// fin de agregados cuando es generacion sin fichas 
 					
 	}
 	
@@ -1957,10 +1957,10 @@ public class GeneradorPresentaciones {
 				int fontSize = -1; 
 	  	        XSLFTextShape textShape = (XSLFTextShape)shape;
 	  	        String newText = textShape.getText();
-	  	        if (newText.indexOf("Nombre de la Subdirección/División") != -1){
-	  	        	newText = newText.replaceAll("Nombre de la Subdirección/División", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName()));	
-	  	        }else if (newText.indexOf("Nombre del Ã�rea/Servicio") != -1){
-	  	        	newText = newText.replaceAll("Nombre del Ã�rea/Servicio", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName()));
+	  	        if (newText.indexOf("Nombre de la Subdireccion/Division") != -1){
+	  	        	newText = newText.replaceAll("Nombre de la Subdireccion/Division", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName()));	
+	  	        }else if (newText.indexOf("Nombre del Ãorea/Servicio") != -1){
+	  	        	newText = newText.replaceAll("Nombre del Ãorea/Servicio", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName()));
 	  	        	fontSize = newText.length() > 50 ? 20 : 24;
 	  	        }
 	  	      	newText = newText.replaceAll("CDISM dd/mm/aaaa", "CDISM " + CommonUtils.convertDateToShortFormatted(Calendar.getInstance().getTime()));
@@ -2017,11 +2017,11 @@ public class GeneradorPresentaciones {
 	      					if (textOfCell_.toString().indexOf("(10)") != -1){
 	      						
 	      						newText = estadoTareaGlobal;
-	      						if (newText != null && (newText.equals("Implantada") || newText.equals("Producción")) ){
+	      						if (newText != null && (newText.equals("Implantada") || newText.equals("Produccion")) ){
 	      							Date fecImplantacionDate = 
 	      									(Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());
 	      							if (fecImplantacionDate == null){
-	      								bufferMessages.append(aplicacionRochade + ": dato (10): Fecha de implantación real ha de estar cumplimentada para esta petición 'Implantada'{}");	      							
+	      								bufferMessages.append(aplicacionRochade + ": dato (10): Fecha de implantacion real ha de estar cumplimentada para esta peticion 'Implantada'{}");	      							
 	      							}
 	      							String fecImplantacion = CommonUtils.myDateFormatter.format(fecImplantacionDate);
 	      							newText = newText.concat(" ").concat(fecImplantacion);
@@ -2051,7 +2051,7 @@ public class GeneradorPresentaciones {
 	      								if (estadoTareaGlobal.indexOf("Pdte otras areas") != -1 ) {
 	      									cell.setFillColor(MY_ORANGE_COLOR);
 	      								}else if (fechaPrevisionImplantacion != null){
-	      									if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Producción")){
+	      									if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Produccion")){
 	      										if (hoy.after(fechaPrevisionImplantacion)){
 	      											cell.setFillColor(MY_ORANGE_COLOR);
 	      										}
@@ -2061,7 +2061,7 @@ public class GeneradorPresentaciones {
 	      								
 	      								if (estadoTareaGlobal.indexOf("Pdte otras areas") != -1 ) {
 	      									cell.setFillColor(MY_ORANGE_COLOR);
-	      								}else if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Producción")){
+	      								}else if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Produccion")){
 	  										if (hoy.after(fechaNecesidad)){// tarea en curso fuera de plazo  											
 	  											cell.setFillColor(MY_RED_COLOR);
 	  										}else if (fechaPrevisionImplantacion != null && hoy.after(fechaPrevisionImplantacion)){
@@ -2174,7 +2174,7 @@ public class GeneradorPresentaciones {
   								
       							if (fin_estado_Peticion == null){//cojo el de la Excel en caso de que en BBDD no venga fecha prevista fin     		  							
   									if (fecPrevisionFinEstado_TaskGlobal == null){
-  										bufferMessages.append(aplicacionRochade + ": La 'Previsión Fin Estado' de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
+  										bufferMessages.append(aplicacionRochade + ": La 'Prevision Fin Estado' de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
   										continue;
   									}
   									newText4_14 = CommonUtils.convertDateToShortFormatted(fecPrevisionFinEstado_TaskGlobal);
@@ -2228,7 +2228,7 @@ public class GeneradorPresentaciones {
       						}else if (estadoPetDesglosada.startsWith("Pruebas")){
 									
 								if (fechaPrevFinPruebasCD == null){
-									bufferMessages.append(aplicacionRochade + ": La 'Previsión Fin Pruebas CD' de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
+									bufferMessages.append(aplicacionRochade + ": La 'Prevision Fin Pruebas CD' de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
 									continue;
 								}
 								if (fecPrevImplantacion_TaskGlobal == null){
@@ -2249,21 +2249,21 @@ public class GeneradorPresentaciones {
       						} else if (estadoTareaGlobal.equals("Calidad") || estadoTareaGlobal.indexOf("Pre-explota") != -1 ){
 								
 								if (fecPrevisionFinEstado_TaskGlobal == null){
-									bufferMessages.append(aplicacionRochade + ": La 'Previsión Fin Estado' global de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
+									bufferMessages.append(aplicacionRochade + ": La 'Prevision Fin Estado' global de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
 									continue;
 								}
 								if (fecPrevImplantacion_TaskGlobal == null){
-									bufferMessages.append(aplicacionRochade + ": La 'Fecha Prevista Implantación' global de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
+									bufferMessages.append(aplicacionRochade + ": La 'Fecha Prevista Implantacion' global de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
 									continue;
 								}
 								newText4_14 = CommonUtils.convertDateToShortFormatted(fecPrevisionFinEstado_TaskGlobal);          								
 								newText4_15 = CommonUtils.convertDateToShortFormatted(fecPrevImplantacion_TaskGlobal);
 								newText4_16 = "";
 								
-	      					} else if (estadoPetDesglosada.startsWith("Implantad") || estadoTareaGlobal.startsWith("Producción")){
+	      					} else if (estadoPetDesglosada.startsWith("Implantad") || estadoTareaGlobal.startsWith("Produccion")){
 									
       							if (fecPrevImplantacion_TaskGlobal == null){
-									bufferMessages.append(aplicacionRochade + ": La 'Previsión Fin Implantación' de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
+									bufferMessages.append(aplicacionRochade + ": La 'Prevision Fin Implantacion' de <'" + descGlobalTask + "'> no estÃ¡ consignada{}");
 									continue;
 								}
       							newText4_14 = "";
@@ -2279,7 +2279,7 @@ public class GeneradorPresentaciones {
   									if (peticionEntrega != null){//solo en este caso rellenamos la fecha real de fin
   										Date fechaFin = (Date) peticionEntrega.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());  										
   										if (textOfCell_.toString().indexOf("(16)") != -1 && fechaFin != null && fecRealFinTaskGlobal != null && (fechaFin.before(fecRealFinTaskGlobal) || fechaFin.after(fecRealFinTaskGlobal))){
-  											bufferMessages.append(aplicacionRochade + ": OJO--> En BBDD el valor de 'FECHA_REAL_IMPLANTACION' de la entrega GEDEON (" + entrega_ID + ") no coincide con la 'Fecha Real Implantación' de la Excel, en tarea <'" + descGlobalTask + "'>{}");
+  											bufferMessages.append(aplicacionRochade + ": OJO--> En BBDD el valor de 'FECHA_REAL_IMPLANTACION' de la entrega GEDEON (" + entrega_ID + ") no coincide con la 'Fecha Real Implantacion' de la Excel, en tarea <'" + descGlobalTask + "'>{}");
   										}
   										newText4_16 = fechaFin == null ? "" : CommonUtils.convertDateToShortFormatted(fechaFin);
   									}else if (fecRealFinTaskGlobal != null){					
@@ -2347,7 +2347,7 @@ public class GeneradorPresentaciones {
 		Map<String, Map<Integer, Number>> countersEnPlazoByApp_Finished = countersByPlazoAndByApp.get(KEY_FINISHED_ENPLAZO);
 		if (countersEnPlazoByApp_Finished == null){
 			countersEnPlazoByApp_Finished = new HashMap<String, Map<Integer,Number>>();
-			//meter por cada aplicación, cero ocurrencias
+			//meter por cada aplicacion, cero ocurrencias
 			Iterator<String> appsIterator = CON_SOPORTE_EN_PRODUCCION.keySet().iterator();
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
@@ -2360,7 +2360,7 @@ public class GeneradorPresentaciones {
 		Map<String, Map<Integer, Number>> countersFueraPlazoByApp_Finished = countersByPlazoAndByApp.get(KEY_FINISHED_FUERAPLAZO);
 		if (countersFueraPlazoByApp_Finished == null){
 			countersFueraPlazoByApp_Finished = new HashMap<String, Map<Integer,Number>>();
-			//meter por cada aplicación, cero ocurrencias
+			//meter por cada aplicacion, cero ocurrencias
 			Iterator<String> appsIterator = CON_SOPORTE_EN_PRODUCCION.keySet().iterator();
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
@@ -2373,7 +2373,7 @@ public class GeneradorPresentaciones {
 		Map<String, Map<Integer, Number>> countersEnPlazoByApp_EnCurso = countersByPlazoAndByApp.get(KEY_ENCURSO_ENPLAZO);
 		if (countersEnPlazoByApp_EnCurso == null){
 			countersEnPlazoByApp_EnCurso = new HashMap<String, Map<Integer,Number>>();
-			//meter por cada aplicación, cero ocurrencias
+			//meter por cada aplicacion, cero ocurrencias
 			Iterator<String> appsIterator = CON_SOPORTE_EN_PRODUCCION.keySet().iterator();
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
@@ -2386,7 +2386,7 @@ public class GeneradorPresentaciones {
 		Map<String, Map<Integer, Number>> countersFueraPlazoByApp_EnCurso = countersByPlazoAndByApp.get(KEY_ENCURSO_FUERAPLAZO);
 		if (countersFueraPlazoByApp_EnCurso == null){
 			countersFueraPlazoByApp_EnCurso = new HashMap<String, Map<Integer,Number>>();
-			//meter por cada aplicación, cero ocurrencias
+			//meter por cada aplicacion, cero ocurrencias
 			Iterator<String> appsIterator = CON_SOPORTE_EN_PRODUCCION.keySet().iterator();
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
@@ -2397,7 +2397,7 @@ public class GeneradorPresentaciones {
 			countersByPlazoAndByApp.put(KEY_ENCURSO_FUERAPLAZO, countersFueraPlazoByApp_EnCurso);
 		}
 		
-		if (estadoTareaGlobal.startsWith("Implantada") || estadoTareaGlobal.equals("Producción")){
+		if (estadoTareaGlobal.startsWith("Implantada") || estadoTareaGlobal.equals("Produccion")){
 			if (fechaNecesidad != null && fecRealFinTaskGlobal.after(fechaNecesidad)){ // tarea acabada fuera de plazo
 				
 				Map<Integer, Number> contadorFueraPlazoAcabadasDeEstaApp = countersFueraPlazoByApp_Finished.get(aplicacionRochade);
@@ -2669,7 +2669,7 @@ public class GeneradorPresentaciones {
 		if (triserie){
 			strData3.getPtCount().setVal(contadorMayorQueCero);//rowsE
 		}
-		//Â¿Cómo seteamos el tÃ­tulo de cada etiqueta de cada serie?
+		//Â¿Como seteamos el tÃ­tulo de cada etiqueta de cada serie?
 	    //=Sheet0!$B$1 etiqueta de NÂº
 	    //=Sheet0!$C$1 etiqueta de Hrs
         String numDataRange = new CellRangeAddress(1, contadorMayorQueCero, 1, 1).formatAsString(sheet.getSheetName(), true);
@@ -2867,11 +2867,11 @@ public class GeneradorPresentaciones {
 			if (!ejecucionSoloFICHASINDIV_){
 				String dinamicPPT_name = getNameOfPPT();
 				dinamicPPT_name = dinamicPPT_name.replaceFirst("Sg_", "SG ");
-				dinamicPPT_name = dinamicPPT_name.replaceFirst("accion", "Acción ");
+				dinamicPPT_name = dinamicPPT_name.replaceFirst("accion", "Accion ");
 				dinamicPPT_name = dinamicPPT_name.replaceFirst("social", "Social MarÃ­tima");
 				File nameOfOutFile = new File(this.carpetaTrabajo.concat("\\").concat(dinamicPPT_name));
 				generatePPTs(nameOfOutFile, allFichasSubdireccion, getBlank_PPT(), fechaDesde, fechaHasta, withAnexo);
-				bufferMessages.append("...generada presentación Mensual " + dinamicPPT_name + "{}");
+				bufferMessages.append("...generada presentacion Mensual " + dinamicPPT_name + "{}");
 			}else{
 				generatePPTs(new File(this.carpetaTrabajo), allFichasSubdireccion, PPT_BLANK_INDIVIDUAL, fechaDesde, fechaHasta, withAnexo);
 				bufferMessages.append("...generadas FICHAS Individuales(en curso/finalizadas) en periodo indicado {}"); 
@@ -2945,7 +2945,7 @@ public class GeneradorPresentaciones {
 		try{
 			if (args.length < 7){
 				System.out.println("Debe indicar los argumentos necesarios, con un mÃ­nimo 6 argumentos; " +
-						"sólo ficha individual(boolean), dir. de la Subdirección, path base Excels, path BBDD, path plantillas, fecha comienzo periodo seguimiento");
+						"solo ficha individual(boolean), dir. de la Subdireccion, path base Excels, path BBDD, path plantillas, fecha comienzo periodo seguimiento");
 				return;
 			}
 			String regExp2Process = null;
@@ -3013,7 +3013,7 @@ public class GeneradorPresentaciones {
 			final String url_ = SQLITE_PREFFIX.concat(baseDatabaseFilePath.concat("//factUTEDBLite.db"));
 			final String entityDefinition = baseDatabaseFilePath.concat("//entities.xml");
 	
-			/*** Inicializamos la factorÃ­a de Acceso Lógico a DATOS **/		
+			/*** Inicializamos la factorÃ­a de Acceso Logico a DATOS **/		
 			final IEntityLogicFactory entityFactory = EntityLogicFactory.getFactoryInstance();
 			entityFactory.initEntityFactory(entityDefinition, new FileInputStream(entityDefinition));
 				

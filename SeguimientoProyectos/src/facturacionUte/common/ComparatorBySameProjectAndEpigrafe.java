@@ -31,7 +31,7 @@ public class ComparatorBySameProjectAndEpigrafe implements Comparator<FieldViewS
 			} else if (prjName1.compareTo(prjName2)  > 0) {
 				resultado = 1;
 			} else {
-				// si pertenecen al mismo proyecto, ordenamos por el estado, y luego, por el epígrafe
+				// si pertenecen al mismo proyecto, ordenamos por el estado, y luego, por el epografe
 				String status1_ = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_30_ANYO_MES).getName());
 				String status2_ = (String) entry2.getValue(entry2.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_30_ANYO_MES).getName());			
 				

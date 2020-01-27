@@ -148,7 +148,7 @@ public class ValoresActuales {
 		
 		indicesGroupsNames.put("VISCOFAN", "RV011VISCOFA");
 			
-		/** MI CARTERA VIRTUAL: elegida en virtud de la diversificación de los sectores más predominantes en el IBEX35 ***/
+		/** MI CARTERA VIRTUAL: elegida en virtud de la diversificacion de los sectores mos predominantes en el IBEX35 ***/
 	
 		titulosDeMiCartera.put("ACERINOX", 4350.00);
 		datosCotizacionEntrada.put("ACERINOX", 11.65);
@@ -280,32 +280,32 @@ public class ValoresActuales {
 	 * @return veredicto (boolean)
 	 * @throws DatabaseException
 	 * @description
-	 * 	Objetivo: ayudar en la toma de decisiones. ¿Cómo?
+	 * 	Objetivo: ayudar en la toma de decisiones. oComo?
 
-	1. Obtener la media del mercado, lo llamamos Sigma (es el % de variación del IBEX 35).		
-	2. Obtener el umbral de entrada en el mercado, por ejemplo, que el IBEX fluctúe en valor absoluto en un % mayor de x.
+	1. Obtener la media del mercado, lo llamamos Sigma (es el % de variacion del IBEX 35).		
+	2. Obtener el umbral de entrada en el mercado, por ejemplo, que el IBEX fluctoe en valor absoluto en un % mayor de x.
 	   Elegimos 0.25 para ese umbral, pero podemos cambiarlo por pantalla.		
-	3. Diseñamos el rango Six Sigma: [-3*Sigma, +3*Sigma].		 
-	   	3.1. Recomendar la compra de valores que estén perdiendo más del -3*Sigma%.
-		3.2. Recomendar la venta de alguno de mis valores en cartera que estén ganando más del +3*Sigma%.
+	3. Diseoamos el rango Six Sigma: [-3*Sigma, +3*Sigma].		 
+	   	3.1. Recomendar la compra de valores que eston perdiendo mos del -3*Sigma%.
+		3.2. Recomendar la venta de alguno de mis valores en cartera que eston ganando mos del +3*Sigma%.
 		3.3. Mantener la cartera si no se cumple ninguna de ambas premisas.
 	
-	   Ejemplo. Si el IBEX35 está subiendo un 0.47% entonces buscamos valores para recomendar su compra que estén por debajo de -1.41%, y
-	           de los que tenemos en cartera, buscamos los que estén ganando más del +1.41%..
+	   Ejemplo. Si el IBEX35 esto subiendo un 0.47% entonces buscamos valores para recomendar su compra que eston por debajo de -1.41%, y
+	           de los que tenemos en cartera, buscamos los que eston ganando mos del +1.41%..
 	  
 	4. Del conjunto de candidatos que tenemos para comprar deducidos del paso 3.1,
-	    vamos a analizar en tiempo real la historia de ese valor en los últimos 90 días. 
-		<<<OJO! es preciso tener actualizados los valores hasta del día anterior>>>
+	    vamos a analizar en tiempo real la historia de ese valor en los oltimos 90 doas. 
+		<<<OJO! es preciso tener actualizados los valores hasta del doa anterior>>>
 	
-	    Para cada acción-grupo candidato a su compra:
-		    4.1. Obtenemos el valor medio de variaciones porcentuales negativas en ese periodo de 90 días (solo laborables no festivos).
+	    Para cada accion-grupo candidato a su compra:
+		    4.1. Obtenemos el valor medio de variaciones porcentuales negativas en ese periodo de 90 doas (solo laborables no festivos).
 	
-		    4.2. Obtenemos el valor mínimo (negativo) entre todas las variaciones porcentuales negativas en ese periodo.
+		    4.2. Obtenemos el valor monimo (negativo) entre todas las variaciones porcentuales negativas en ese periodo.
 	
 		    4.3. Obtenemos la 'varianza de negativos' del periodo:
 				(SUM(xi-mu)^2)/N i={1..n} siempre que xi sea < 0, N=laborables con dif.negativo
 	
-		    4.4. Si el abs(% de variación de hoy) + 'varianza negativos' es mayor(está por debajo) que el abs(mín_diferenciales-negativos),
+		    4.4. Si el abs(% de variacion de hoy) + 'varianza negativos' es mayor(esto por debajo) que el abs(mon_diferenciales-negativos),
 				entonces, y la tendencia (media total de todos los diferenciales) es positiva en el periodo, recomendar valor.					
 	****/
 	private boolean recomendarValor(final String grupoCandidato, final double valorActualCotizacion, final RequestWrapper req, final IDataAccess dataAccess) throws DatabaseException{
@@ -322,12 +322,12 @@ public class ValoresActuales {
 			}
 		}
 		int laboralesEnPeriodo= 0;
-		//tomamos fecha límite inferior hace un mes
+		//tomamos fecha lomite inferior hace un mes
 		double valorMinVariacionCotiz_ = 0.00, valorMinCotiz_ = 0.00,  valorMaxCotiz_ = 0.00, acumVariacionCotizNegativas_ = 0.00, acumVariacionCotizEnTotal_ = 0.00; 
 		List<Double> cotizacionesNegativas = new ArrayList<Double>();
 		Calendar calFechaHoy = Calendar.getInstance();
 		Calendar calFechaDesde = Calendar.getInstance();
-		calFechaDesde.add(Calendar.MONTH, -3);//valoración últimos 3 meses
+		calFechaDesde.add(Calendar.MONTH, -3);//valoracion oltimos 3 meses
 		while (calFechaDesde.before(calFechaHoy)){
 			calFechaDesde.add(Calendar.DATE, 1);
 			FieldViewSet registroCotizacion = obtenerCotizacion(grupoCandidato, calFechaDesde.getTime(), dataAccess);
@@ -408,7 +408,7 @@ public class ValoresActuales {
 		datosCotizacionObjetivo= new HashMap<String,Double>(),
 		variacionesAbsolutas= new HashMap<String,Double>(), porcentajesVariaciones= new HashMap<String,Double>(), rentabilidadesAcumuladas = new HashMap<String,Double>();				
 		StringBuilder strB = new StringBuilder("<br/>"), strB_IBEX = new StringBuilder("<br/>");
-		strB.append("<table><th>Cartera dinámica bursátil (virtual) iniciada el " + INITIAL_INVEST_DATE + "</th>");
+		strB.append("<table><th>Cartera dinomica bursotil (virtual) iniciada el " + INITIAL_INVEST_DATE + "</th>");
 		
 		boolean visitados= false;
 		double rentabilidadPorcAcumuladaTitulos = 0.0, totalInversionActual = 0.0, totalInversionInicial = 0.0, capitalObjetivoTotal=0.0, rentabilidadAcumuladaIBEX35 = 0.0, 
@@ -468,11 +468,11 @@ public class ValoresActuales {
 					porcentajesVariaciones.put(group, variacionPorcentuadaEnSesion);
 					variacionPorcentuadaDeTitulosEnSesion += variacionPorcentuadaEnSesion;
 					double dif = inversionActual.get(group).doubleValue() - titulosDeMiCartera.get(group).doubleValue();
-					strB.append("<tr><td><b>" + group.replace('_', ' ') + ": </b> <font color=\"blue\"><b>" + CommonUtils.numberFormatter.format(titulosDeMiCartera.get(group)) +"</b> € a <b>" + CommonUtils.numberFormatter.format(datosCotizacionEntrada.get(group)) + "</b> / acción, precio objetivo <b>" + CommonUtils.numberFormatter.format(datosCotizacionObjetivo.get(group)) + "</b></font>. Hoy: <b>" + CommonUtils.numberFormatter.format(datosCotizacionLast.get(group)) + "</b>"); 
-					strB.append(", variación respecto a inicio sesión: " + (variacionesAbsolutas.get(group).doubleValue() < 0 ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(variacionesAbsolutas.get(group)) + "</font>");
+					strB.append("<tr><td><b>" + group.replace('_', ' ') + ": </b> <font color=\"blue\"><b>" + CommonUtils.numberFormatter.format(titulosDeMiCartera.get(group)) +"</b> o a <b>" + CommonUtils.numberFormatter.format(datosCotizacionEntrada.get(group)) + "</b> / accion, precio objetivo <b>" + CommonUtils.numberFormatter.format(datosCotizacionObjetivo.get(group)) + "</b></font>. Hoy: <b>" + CommonUtils.numberFormatter.format(datosCotizacionLast.get(group)) + "</b>"); 
+					strB.append(", variacion respecto a inicio sesion: " + (variacionesAbsolutas.get(group).doubleValue() < 0 ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(variacionesAbsolutas.get(group)) + "</font>");
 					strB.append(" [" + (porcentajesVariaciones.get(group).doubleValue() < 0 ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(porcentajesVariaciones.get(group)) + "</font>%]");
-					strB.append(". Rent.acum.: " + (rentabilidadesAcumuladas.get(group).doubleValue() < 0 ? "<b><font color=\"red\">" : "<b><font color=\"green\">") + CommonUtils.numberFormatter.format(rentabilidadesAcumuladas.get(group))  + "%" + " (" + CommonUtils.numberFormatter.format(dif) + " €)</font></b>");
-					strB.append(". Capital: " + (inversionActual.get(group).doubleValue() < titulosDeMiCartera.get(group) ? "<b><font color=\"red\">" : "<b><font color=\"green\">") + CommonUtils.numberFormatter.format(inversionActual.get(group)) + "</font> €</b></td></tr>");
+					strB.append(". Rent.acum.: " + (rentabilidadesAcumuladas.get(group).doubleValue() < 0 ? "<b><font color=\"red\">" : "<b><font color=\"green\">") + CommonUtils.numberFormatter.format(rentabilidadesAcumuladas.get(group))  + "%" + " (" + CommonUtils.numberFormatter.format(dif) + " o)</font></b>");
+					strB.append(". Capital: " + (inversionActual.get(group).doubleValue() < titulosDeMiCartera.get(group) ? "<b><font color=\"red\">" : "<b><font color=\"green\">") + CommonUtils.numberFormatter.format(inversionActual.get(group)) + "</font> o</b></td></tr>");
 				}else{
 					rentabilidadAcumuladaIBEX35 = ((cotizacionActual/datosCotizacionEntrada.get(group).doubleValue()) - 1)*100;
 					variacionPorcentuadaEnSesionParaElIBEX = variacionPorcentuadaEnSesion;
@@ -500,7 +500,7 @@ public class ValoresActuales {
 			
 						
 			if (porcentajesVariaciones.size() < (indicesDeMiCartera.size() -1)){
-				strB.append("<tr><td>Conéctese al proxy mediante autenticación manual</td></tr>");
+				strB.append("<tr><td>Conoctese al proxy mediante autenticacion manual</td></tr>");
 				strB.append("</table><br/><br/><p/>");
 			}
 					
@@ -508,21 +508,21 @@ public class ValoresActuales {
 			strB.append("<tr><td></td></tr>");
 			strB.append("<tr><td></td></tr>");
 			if (visitados){				
-				strB.append("<tr><td>Inversión inicial:  " + "<b><font color=\"black\">" + CommonUtils.numberFormatter.format(CAPITAL_INICIAL_INVEST)+ "</font></b>.");
-				strB.append("&nbsp;&nbsp;Inversión actual:  " + "<b><font color=\"black\">" + CommonUtils.numberFormatter.format(totalInversionInicial)+ "</font></b>.");
-				strB.append("&nbsp;&nbsp;Valoración actual del capital:  <b>" + (totalInversionActual < totalInversionInicial ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(totalInversionActual)+ "</font></b>.");
-				strB.append("&nbsp;&nbsp;Total " + (gananciaEnEurosProvisionalObtenida < 0 ? "Pérdidas:   <b><font color=\"red\">" : "Ganancias:   <b><font color=\"green\">+") + CommonUtils.numberFormatter.format(gananciaEnEurosProvisionalObtenida)+ "</font></b> euros</td></tr>");
+				strB.append("<tr><td>Inversion inicial:  " + "<b><font color=\"black\">" + CommonUtils.numberFormatter.format(CAPITAL_INICIAL_INVEST)+ "</font></b>.");
+				strB.append("&nbsp;&nbsp;Inversion actual:  " + "<b><font color=\"black\">" + CommonUtils.numberFormatter.format(totalInversionInicial)+ "</font></b>.");
+				strB.append("&nbsp;&nbsp;Valoracion actual del capital:  <b>" + (totalInversionActual < totalInversionInicial ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(totalInversionActual)+ "</font></b>.");
+				strB.append("&nbsp;&nbsp;Total " + (gananciaEnEurosProvisionalObtenida < 0 ? "Pordidas:   <b><font color=\"red\">" : "Ganancias:   <b><font color=\"green\">+") + CommonUtils.numberFormatter.format(gananciaEnEurosProvisionalObtenida)+ "</font></b> euros</td></tr>");
 				
 				double residualActual = gananciasNetas + gananciaEnEurosProvisionalObtenida;
 
-				strB.append("<tr><td>Rentabilidad provisional neta acumulada: " + (rentabilidadNetaProvisional < 0.00 ? "<b><font color=\"red\">" : "<b><font color=\"green\">+") + CommonUtils.numberFormatter.format(residualActual) + " € [" + CommonUtils.numberFormatter.format(rentabilidadNetaProvisional) + "%]</font>.</b>");				
-				strB.append("&nbsp;&nbsp;% Rentab. objetivo: <b><input onChange=\"document.forms[0].submit();\" type=\"text\" name=\"rentabilidad\" value=\"" + rentabilidadDeseada + "\">" + "</b>&nbsp;&nbsp;Capital objetivo: <b>" + CommonUtils.numberFormatter.format(capitalObjetivoTotal) + " €</b></td></tr>");
-				strB.append("<tr><td>Umbral de entrada en mercado (% variación absoluta sin signo): <b><input onChange=\"document.forms[0].submit();\" type=\"text\" name=\"umbral_mercado\" value=\"" + umbral_Mercado + "\">" + "</b>&nbsp;&nbsp;&nbsp;&nbsp; Multiplicador Sigma: <b><input onChange=\"document.forms[0].submit();\" type=\"text\" name=\"multiplicadorSigma\" value=\"" + multiplicadorSigma + "\"></td></tr>");
+				strB.append("<tr><td>Rentabilidad provisional neta acumulada: " + (rentabilidadNetaProvisional < 0.00 ? "<b><font color=\"red\">" : "<b><font color=\"green\">+") + CommonUtils.numberFormatter.format(residualActual) + " o [" + CommonUtils.numberFormatter.format(rentabilidadNetaProvisional) + "%]</font>.</b>");				
+				strB.append("&nbsp;&nbsp;% Rentab. objetivo: <b><input onChange=\"document.forms[0].submit();\" type=\"text\" name=\"rentabilidad\" value=\"" + rentabilidadDeseada + "\">" + "</b>&nbsp;&nbsp;Capital objetivo: <b>" + CommonUtils.numberFormatter.format(capitalObjetivoTotal) + " o</b></td></tr>");
+				strB.append("<tr><td>Umbral de entrada en mercado (% variacion absoluta sin signo): <b><input onChange=\"document.forms[0].submit();\" type=\"text\" name=\"umbral_mercado\" value=\"" + umbral_Mercado + "\">" + "</b>&nbsp;&nbsp;&nbsp;&nbsp; Multiplicador Sigma: <b><input onChange=\"document.forms[0].submit();\" type=\"text\" name=\"multiplicadorSigma\" value=\"" + multiplicadorSigma + "\"></td></tr>");
 								
 				strB.append("<tr><td>....</td></tr>");
-				strB.append("<tr><td>Ganancias/Pérdidas Liquidadas en Bruto: <b><font color=\"green\">"+ CommonUtils.numberFormatter.format(GANANCIAS_ACUMULADAS) + "</font></b>.");
+				strB.append("<tr><td>Ganancias/Pordidas Liquidadas en Bruto: <b><font color=\"green\">"+ CommonUtils.numberFormatter.format(GANANCIAS_ACUMULADAS) + "</font></b>.");
 				strB.append("&nbsp;&nbsp;Acumulado en comisiones de compra/venta: <b><font color=\"red\">"+ CommonUtils.numberFormatter.format(COMISIONES_ACUMULADAS) + "</font></b></td></tr>");
-				strB.append("<tr><td>Acumulado provisional (ganacias/pérdidas brutas + ganacias/pérdidas provisionales): <b><font color=\"green\">"+ CommonUtils.numberFormatter.format(GANANCIAS_ACUMULADAS + gananciaEnEurosProvisionalObtenida) + "</b></font></td></tr>");
+				strB.append("<tr><td>Acumulado provisional (ganacias/pordidas brutas + ganacias/pordidas provisionales): <b><font color=\"green\">"+ CommonUtils.numberFormatter.format(GANANCIAS_ACUMULADAS + gananciaEnEurosProvisionalObtenida) + "</b></font></td></tr>");
 				strB.append("<tr><td>Ganancias Liquidadas Netas: <b><font color=\"green\">"+ CommonUtils.numberFormatter.format(gananciasNetas) + "</b></font>, de las cuales reinvertidas: <b><font color=\"green\">"+ CommonUtils.numberFormatter.format(CAPITAL_REINVERTIDO) + "</b></font>, y no reinvertidas: <b><font color=\"green\">"+  
 				CommonUtils.numberFormatter.format(gananciasNetas-CAPITAL_REINVERTIDO) + "</font></b></td></tr>");				
 			}
@@ -531,7 +531,7 @@ public class ValoresActuales {
 			
 			StringBuilder bloqueIBEX_valores_ = new StringBuilder("<ul>");
 			boolean entrarEnMercado = Math.abs(variacionPorcentuadaEnSesionParaElIBEX) >= umbral_Mercado;
-			/** Listamos el resto de índices diarios **/
+			/** Listamos el resto de ondices diarios **/
 			double maxGanancia = 0.00, maxPerdida = 0.00, _3SigmaInf = -multiplicadorSigma*Math.abs(variacionPorcentuadaEnSesionParaElIBEX), _3SigmaSup = -1*_3SigmaInf;
 			String grupoMaxGanancia= "", grupoMaxPerdida = "";
 			List<String> groupKeys = new ArrayList<String>(),  candidatosACompra = new ArrayList<String>(), candidatosAVenta = new ArrayList<String>();
@@ -555,11 +555,11 @@ public class ValoresActuales {
 				if (entrarEnMercado && variacionPorcentuadaEnSesion < _3SigmaInf){
 					if (recomendarValor(group, variacionPorcentuadaEnSesion, reqWrapper_, dataAccess)){
 						// incluir en lista candidatos a comprar
-						candidatosACompra.add(group +  " a " + CommonUtils.numberFormatter.format(cotizacionActual) + " euros / acción [" + CommonUtils.numberFormatter.format(variacionPorcentuadaEnSesion) + "%]");
+						candidatosACompra.add(group +  " a " + CommonUtils.numberFormatter.format(cotizacionActual) + " euros / accion [" + CommonUtils.numberFormatter.format(variacionPorcentuadaEnSesion) + "%]");
 					}
 				}else if (entrarEnMercado && indicesDeMiCartera.contains(group) && variacionPorcentuadaEnSesion > _3SigmaSup ){
 					// incluir en lista candidatos a vender
-					candidatosAVenta.add(group +  " a " + CommonUtils.numberFormatter.format(cotizacionActual) + " euros / acción [" + CommonUtils.numberFormatter.format(variacionPorcentuadaEnSesion) + "%]");
+					candidatosAVenta.add(group +  " a " + CommonUtils.numberFormatter.format(cotizacionActual) + " euros / accion [" + CommonUtils.numberFormatter.format(variacionPorcentuadaEnSesion) + "%]");
 				}
 				if (variacionPorcentuadaEnSesion  > maxGanancia){
 					maxGanancia = variacionPorcentuadaEnSesion;
@@ -571,7 +571,7 @@ public class ValoresActuales {
 				}
 						
 				bloqueIBEX_valores_.append("<li><b>" + ((titulosDeMiCartera.get(group) == null?"":"<font color=\"blue\">")) + group.replace('_', ' ') + " cotiza a " + CommonUtils.numberFormatter.format(cotizacionActual) + ((titulosDeMiCartera.get(group) == null?"":"</font>"))); 
-				bloqueIBEX_valores_.append(": Variación respecto a inicio sesión: " + (variacionAbsolutaEnSesion < 0 ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(variacionAbsolutaEnSesion) + "</font>");
+				bloqueIBEX_valores_.append(": Variacion respecto a inicio sesion: " + (variacionAbsolutaEnSesion < 0 ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(variacionAbsolutaEnSesion) + "</font>");
 				bloqueIBEX_valores_.append(" [" + (variacionPorcentuadaEnSesion < 0 ? "<font color=\"red\">" : "<font color=\"green\">") + CommonUtils.numberFormatter.format(variacionPorcentuadaEnSesion) + "</font>%]</b></li>");
 					
 			}
@@ -580,8 +580,8 @@ public class ValoresActuales {
 			StringBuilder bloqueResumenIBEX_ = new StringBuilder();
 			
 			bloqueResumenIBEX_.append("<ul>");
-			bloqueResumenIBEX_.append("<li>Grupo con más ganancias en la sesión: " + grupoMaxGanancia + "(<b><font color=\"green\">+" + maxGanancia + "</font>%</b>)</li>");
-			bloqueResumenIBEX_.append("<li>Grupo con más pérdidas en la sesión: " + grupoMaxPerdida + "(<b><font color=\"red\">" + maxPerdida + "</font>%</b>)</li>");
+			bloqueResumenIBEX_.append("<li>Grupo con mos ganancias en la sesion: " + grupoMaxGanancia + "(<b><font color=\"green\">+" + maxGanancia + "</font>%</b>)</li>");
+			bloqueResumenIBEX_.append("<li>Grupo con mos pordidas en la sesion: " + grupoMaxPerdida + "(<b><font color=\"red\">" + maxPerdida + "</font>%</b>)</li>");
 			bloqueResumenIBEX_.append("</ul>");
 			if (!candidatosACompra.isEmpty()){
 				bloqueResumenIBEX_.append("<p><b> Se recomienda la compra de estos valores: </b></p><ul>");
@@ -598,7 +598,7 @@ public class ValoresActuales {
 				bloqueResumenIBEX_.append("</ul>");
 			}
 									
-			strB.append("<table><th>Valores del IBEX</th><th>Recomendaciones de inversión</th>");
+			strB.append("<table><th>Valores del IBEX</th><th>Recomendaciones de inversion</th>");
 			strB.append("<tr>");
 			strB.append("<td>");
 			strB.append(bloqueIBEX_valores_);
@@ -642,7 +642,7 @@ public class ValoresActuales {
 		try{
 			
 			Proxy proxy = iniciarAccesoAProxy();
-			//la condición de parada se da cuando se localiza el primer valor (fecha) en BBDD para ese índice
+			//la condicion de parada se da cuando se localiza el primer valor (fecha) en BBDD para ese ondice
 			
 			List<String> indicesBursatiles = new ArrayList<String>(indicesGroupsNames.keySet());
 			indicesBursatiles.addAll(indicesMercados.keySet());
@@ -683,7 +683,7 @@ public class ValoresActuales {
 								
 								if (inputLine != null && inputLine.contains("<tr>")){// primero viene el titulo, y luego cada fila de informacion
 									inputLine = input.readLine();
-									while ( inputLine != null && inputLine.indexOf("<tbody class=\"table-data\">") == -1){//buscamos el bloque de información tras la última columna de title <th
+									while ( inputLine != null && inputLine.indexOf("<tbody class=\"table-data\">") == -1){//buscamos el bloque de informacion tras la oltima columna de title <th
 										inputLine = input.readLine();										
 									}
 									//buscamos la primera fila de informacion
@@ -693,7 +693,7 @@ public class ValoresActuales {
 									}
 								}
 										
-								//aquí, buscamos el primer <td>
+								//aquo, buscamos el primer <td>
 								while ( inputLine != null && inputLine.indexOf("<td class=\"table-cell") == -1){
 									inputLine = input.readLine();									
 								}
@@ -707,7 +707,7 @@ public class ValoresActuales {
 								if (inputLine == null || inputLine.equals("") || counter > 5 || inputLine.indexOf("intervalo") != -1){
 									break;
 								}
-								//aquí ya hemos encontrado la primera columna, la fecha
+								//aquo ya hemos encontrado la primera columna, la fecha
 								leidos++;
 								
 								Date fechaValor = CommonUtils.myDateFormatter.parse(CommonUtils.cleanTabs(inputLine));
@@ -814,7 +814,7 @@ public class ValoresActuales {
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		} catch (ParseException parsexc) {	
-			System.err.println(" Error en registro: " + leidos + " al parsear la página número : " + pageNumber + " del grupo " + keyOfValueEmpresa);
+			System.err.println(" Error en registro: " + leidos + " al parsear la pogina nomero : " + pageNumber + " del grupo " + keyOfValueEmpresa);
 			parsexc.printStackTrace();		
 		} catch (Throwable excT2) {			
 			excT2.printStackTrace();		
@@ -826,7 +826,7 @@ public class ValoresActuales {
 		}else{
 			timeConsumed = timeTotalInseconds+ " segundos";
 		}
-		StringBuilder str = new StringBuilder("<br/><br/>" + grabados + " valores de los siguientes índices bursátiles actualizados en " +  timeConsumed + ".</b></p><br/><br/>");
+		StringBuilder str = new StringBuilder("<br/><br/>" + grabados + " valores de los siguientes ondices bursotiles actualizados en " +  timeConsumed + ".</b></p><br/><br/>");
 		str.append(grupos);
 		return str.toString();
 	}

@@ -59,7 +59,7 @@ public class StrategyBorrarUTsMesColabyApp extends DefaultStrategyRequest {
 		try {
 			Calendar fechaActual = Calendar.getInstance();
 			
-			// lo que haya podido imputar a esa aplicación lo mantenemos; eliminamos las de meses siguientes al actual
+			// lo que haya podido imputar a esa aplicacion lo mantenemos; eliminamos las de meses siguientes al actual
 			
 			List<FieldViewSet> listaMesesColaboradorEnEstaApp = dataAccess.searchByCriteria(filtro4AgregadoMesColaboradoryApp);
 			for (FieldViewSet mesFraColabYMes: listaMesesColaboradorEnEstaApp){

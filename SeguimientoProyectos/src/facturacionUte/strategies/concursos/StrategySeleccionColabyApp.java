@@ -81,7 +81,7 @@ public class StrategySeleccionColabyApp extends DefaultStrategyRequest {
 					Date fechaBaja = (Date) colaboradorIesimo.getValue(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_10_FECHA_BAJA).getName());
 					boolean estaDeBaja = fechaBaja != null && fechaBaja.before(Calendar.getInstance().getTime());
 					if (listaAppsDeColaborador.isEmpty() && !estaDeBaja){
-						//lo añado solo si ya no está asignado y no está ya dado de baja
+						//lo aoado solo si ya no esto asignado y no esto ya dado de baja
 						valuesForComboColaboradores.add(idColaboradorIesimo.toString());
 					}//if
 				}//for
@@ -119,7 +119,7 @@ public class StrategySeleccionColabyApp extends DefaultStrategyRequest {
 					appsDeColaborador.setValue(appDeColaboradorEntidad.searchField(ConstantesModelo.APPS_COLABORADOR_2_COLABORADOR).getName(), idColaborador);
 					List<FieldViewSet> listaAppsDeColaborador = dataAccess.searchByCriteria(appsDeColaborador);
 					if (listaAppsDeColaborador.isEmpty()){
-						//lo añado solo si ya no está asignado
+						//lo aoado solo si ya no esto asignado
 						valuesForComboApps.add(idAppIesima.toString());
 					}//if
 				}//for

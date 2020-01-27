@@ -47,11 +47,11 @@ public class LineCounter {
 		System.out.println("Ficheros totales del framework PCM = " + LineCounter.javas);
 		System.out.println("Lineas totales = " + LineCounter.lines);
 		System.out.println("Media de lineas por fichero = " + ((double) LineCounter.lines / (double) LineCounter.javas));
-		System.out.println("Ficheros de más de 1000 lineas = " + LineCounter.pathFilesML.size());
+		System.out.println("Ficheros de mos de 1000 lineas = " + LineCounter.pathFilesML.size());
 		for (final String fileML : LineCounter.pathFilesML) {
 			System.out.println("\t" + fileML);
 		}
-		System.out.println("Ficheros de más de 500 lineas = " + LineCounter.pathFilesQL.size());
+		System.out.println("Ficheros de mos de 500 lineas = " + LineCounter.pathFilesQL.size());
 		for (final String fileQL : LineCounter.pathFilesQL) {
 			System.out.println("\t" + fileQL);
 		}

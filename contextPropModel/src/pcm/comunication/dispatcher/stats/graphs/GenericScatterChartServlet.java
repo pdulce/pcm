@@ -73,7 +73,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 	//	[[6.44,6.4,'01/01/2016','BBVA'],....[56.49,6.4,'01/01/2016','IBEX35']]
 	//@return:
 	//	[[6.44,56.49],...,]
-	private List<List<Serializable>> mergeByAttr(final List<List<Serializable>> tuplas, /*posición del elemento agrupador, GRUPO*/final int agrupadorPos,
+	private List<List<Serializable>> mergeByAttr(final List<List<Serializable>> tuplas, /*posicion del elemento agrupador, GRUPO*/final int agrupadorPos,
 			final String default4EjeX){
 		List<List<Serializable>> tuplas2 = new ArrayList<List<Serializable>>();
 		if (tuplas.isEmpty() || tuplas.size() < 2){
@@ -148,8 +148,8 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 		String lang = CommonUtils.getLanguage(request_);
 		String catX = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		String catY = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[1].getName()));
-		String title = "Diagr. de dispersión entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
-		title = title.concat(" (Coef. Correlación: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
+		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
+		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		request_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
 	}
 
@@ -217,7 +217,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				XmlUtils.openXmlNode(sbXml, IViewComponent.HTML_);
 				sbXml.append("<BR/><BR/><UL align=\"center\"  id=\"pcmUl\"><LI><a title=\"Volver\" href=\"#\" ");
 				String cat4Group = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(fieldForCompareTwoGroups.getName()));
-				sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI><LI>Seleccione al menos un elemento comparable bajo el campo-criterio " +  cat4Group + " para obtener el diagrama de correlación</LI></UL>");				
+				sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI><LI>Seleccione al menos un elemento comparable bajo el campo-criterio " +  cat4Group + " para obtener el diagrama de correlacion</LI></UL>");				
 				XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 				scene = new SceneResult();
 				scene.appendXhtml(sbXml.toString());
@@ -236,14 +236,14 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			String nameTraducedOfFilterField4Results = null;
 			List<Integer> mappingFieldForFilter = new ArrayList<Integer>();			
 			IFieldLogic fieldForFilterResults = null;
-			String fieldForFilter = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, añadir al pintado de criterios de búsqueda
+			String fieldForFilter = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
 			if (fieldForFilter != null){
 				String[] fields4Filter = fieldForFilter.split(";");
 				for (int filter=0;filter<fields4Filter.length;filter++){
 					String field4Filter_ = fields4Filter[filter];
 					String[] splitter = field4Filter_.split("=");
 					if (splitter.length< 2){
-						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato válido 1=<nameSpaceOfForm>.5)");
+						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato volido 1=<nameSpaceOfForm>.5)");
 					}
 					String leftPartOfEquals = splitter[0];
 					String rigthPartOfEquals = splitter[1];
@@ -254,7 +254,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 						String[] entidadPointValue = rigthPartOfEquals.split(PCMConstants.REGEXP_POINT);
 						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(CommonUtils.getEntitiesDictionary(request_),
 								entidadPointValue[0]);
-						if (!esEntidad){//no es una entidad, sino un parámetro
+						if (!esEntidad){//no es una entidad, sino un parometro
 							if (request_.getParameterValues(rigthPartOfEquals) != null){
 								String[] valuesOfParamReq_ = request_.getParameterValues(rigthPartOfEquals);
 								Collection<String> serialValues = new ArrayList<String>();
@@ -311,10 +311,10 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			List<List<Serializable>> tuplas = dataAccess.selectWithSpecificFields(filtro_, fieldMappings);
 			//recibimos tuplas con este formato, si hay atributo diferenciador: 
 			//[[6.44,6.4,'01/01/2016','BBVA'],....[6.44,6.4,'01/01/2016','IBEX35']]
-			//Llamamos a un método merge que genera una lista merged a partir de dos sublistas diferenciadas por el campo Agrupador
+			//Llamamos a un motodo merge que genera una lista merged a partir de dos sublistas diferenciadas por el campo Agrupador
 			if (attrDiferenciador != null){
 				String default4EjeX = request_.getParameter(getParamsPrefix().concat(".").concat("defaultEjeX"));
-				tuplas = mergeByAttr(tuplas, /*posición del elemento agrupador, GRUPO*/3, default4EjeX);
+				tuplas = mergeByAttr(tuplas, /*posicion del elemento agrupador, GRUPO*/3, default4EjeX);
 			}
 			
 			Map<String, Integer> cantidadesExtraiblesDeValoresEnMuestra = new HashMap<String, Integer>();
@@ -325,11 +325,11 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			} else if (tamanioMuestral > 90000) {
 				tamanioMuestral = 90000;
 				if (fieldForClasifyResults != null) {
-					// vamos a extraer una muestra estratificada; es decir, lo más compensada
-					// posible mirando cuantos valores diferentes hay del campo de clasificación:
+					// vamos a extraer una muestra estratificada; es decir, lo mos compensada
+					// posible mirando cuantos valores diferentes hay del campo de clasificacion:
 					List<FieldViewSet> differentValues4Clasify = dataAccess.selectWithDistinct(filtro_,
 							fieldForClasifyResults.getMappingTo(), IAction.ORDEN_ASCENDENTE);					
-					// hallamos la proporción (valor [0..1]) de cada valor en la población:
+					// hallamos la proporcion (valor [0..1]) de cada valor en la poblacion:
 					FieldViewSet filtroByClasifiedValue = filtro_.copyOf();
 					for (FieldViewSet differentValue: differentValues4Clasify) {
 						FieldViewSet record = differentValue;
@@ -337,7 +337,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 						filtroByClasifiedValue.setValue(fieldForClasifyResults.getName(), valueOfClasificacion);
 						double numberOfClasifiedValuesAppears = dataAccess.selectWithAggregateFunction(filtroByClasifiedValue,
 								OPERATION_COUNT, fieldForClasifyResults.getMappingTo());
-						/** muestra ajustada a las proporciones de la población **/
+						/** muestra ajustada a las proporciones de la poblacion **/
 						Double proporcionVEsimaEnPoblacion = Double.valueOf(numberOfClasifiedValuesAppears / tamanioPoblacional);
 						double cantidadProporcionalAlaMuestra = Double.valueOf(tamanioMuestral).doubleValue()
 								* proporcionVEsimaEnPoblacion.doubleValue();
@@ -352,7 +352,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			String units = Translator.traduceDictionaryModelDefined(lang, entidadGrafico.getName().concat(".")
 					.concat(entidadGrafico.getName()));
 
-			// cada punto lo vamos a guardar en un map, donde la clave es cada valor de agrupación
+			// cada punto lo vamos a guardar en un map, donde la clave es cada valor de agrupacion
 			// Un punto a su vez es un map con clave-valor las coordenadas x-y respectivamente
 			Map<String, List<Map<Double, Double>>> mapaDePuntos = new HashMap<String, List<Map<Double, Double>>>();
 			Map<String, Integer> cantidadesExtraidasDeValoresEnMuestra = new HashMap<String, Integer>();
@@ -369,7 +369,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				Number valor_Eje_X = (Number) tupla.get(0);
 				Number valor_Eje_Y = (Number) tupla.get(1);
 				if (valor_Eje_Y.doubleValue()== 0.0 || valor_Eje_X.doubleValue() == 0.0){
-					//no contemplamos valores vacíos porque la recta de regresión no es posible obtenerla 
+					//no contemplamos valores vacoos porque la recta de regresion no es posible obtenerla 
 					continue;
 				}
 				tamanioMuestral_++;
@@ -412,7 +412,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				//paresAPintar++;
 			}
 
-			// revisar aqui los acumulados de cada valor de clasificación
+			// revisar aqui los acumulados de cada valor de clasificacion
 			JSONArray seriesJSON = new JSONArray();
 			List<Double> datos_EJE_X_coll_con_Atipicos = new ArrayList<Double>(), datos_EJE_Y_coll_con_Atipicos = new ArrayList<Double>();
 			int claveIesima = 0;
@@ -465,12 +465,12 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				claveIesima++;
 			}
 
-			// Procedemos a eliminar los datos atípicos, que siempre vamos a buscarlos en la lista
+			// Procedemos a eliminar los datos atopicos, que siempre vamos a buscarlos en la lista
 			// de los valores del eje Y:
-			// De no hacer esta eliminación, el modelo de regresión quedará intoxicado por estos
+			// De no hacer esta eliminacion, el modelo de regresion quedaro intoxicado por estos
 			// pocos datos que no son representativos.
-			// Para ello, hallamos el límite inferior y el límite superior de referencia para
-			// localizar los datos atípicos, y descartarlos.
+			// Para ello, hallamos el lomite inferior y el lomite superior de referencia para
+			// localizar los datos atopicos, y descartarlos.
 
 			// StatsUtils varStatsForAtipicos = new StatsUtils();
 			// varStatsForAtipicos.setDatos_variable_Y(datos_EJE_Y_coll_sin_Atipicos);
@@ -555,14 +555,14 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			double media_Aritmetica_X = varStatsForRegressionLine.obtenerMediaAritmetica_Variable_X();
 			summary_X_media = "Media: " + CommonUtils.numberFormatter.format(media_Aritmetica_X);
 			summary_X_mediana = "Mediana: " + CommonUtils.numberFormatter.format(varStatsForRegressionLine.obtenerMediana_Variable_X());
-			summary_X_deviat = "Desviación (muestra): "
+			summary_X_deviat = "Desviacion (muestra): "
 					+ CommonUtils.numberFormatter.format(Math.sqrt(varStatsForRegressionLine.obtenerVarianza_Variable_X(Double
 							.valueOf(media_Aritmetica_X)) / tamanioMuestral));
 
 			double media_Aritmetica_Y = varStatsForRegressionLine.obtenerMediaAritmetica_Variable_Y();
 			summary_Y_media = "Media: " + CommonUtils.numberFormatter.format(media_Aritmetica_Y);
 			summary_Y_mediana = "Mediana : " + CommonUtils.numberFormatter.format(varStatsForRegressionLine.obtenerMediana_Variable_Y());
-			summary_Y_deviat = "Desviación (muestra): "
+			summary_Y_deviat = "Desviacion (muestra): "
 					+ CommonUtils.numberFormatter.format(Math.sqrt(varStatsForRegressionLine.obtenerVarianza_Variable_Y(Double
 							.valueOf(media_Aritmetica_Y)) / tamanioMuestral));
 
@@ -589,11 +589,11 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 					+ titulo_EJE_X
 					+ "</I></TH><TH>Summary <I>"
 					+ titulo_EJE_Y
-					+ "</I></TH><TH>Modelo de Regresión Simple para <I>"
+					+ "</I></TH><TH>Modelo de Regresion Simple para <I>"
 					+ titulo_EJE_Y
-					+ "</I> a partir de la muestra aleatoria de tamaño "
+					+ "</I> a partir de la muestra aleatoria de tamaoo "
 					+ CommonUtils.numberFormatter.format(tamanioMuestral)
-					+ " para una población de "
+					+ " para una poblacion de "
 					+ CommonUtils.numberFormatter.format(tamanioPoblacional)
 					+ " "
 					+ nombreConceptoRecuento

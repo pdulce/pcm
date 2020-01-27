@@ -42,7 +42,7 @@ public class Matrix implements Cloneable {
 		catch (CloneNotSupportedException ex) {
 			System.out.println(" no se puede duplicar");
 		}
-		// aquí está la clave para clonar la matriz bidimensional
+		// aquo esto la clave para clonar la matriz bidimensional
 		obj.x = obj.x.clone();
 		for (int i = 0; i < obj.x.length; i++) {
 			obj.x[i] = obj.x[i].clone();
@@ -77,7 +77,7 @@ public class Matrix implements Cloneable {
 		return (x > 0 ? 1 : -1);
 	}
 
-	// polinomio característico
+	// polinomio caracterostico
 	public double[] polCaracteristico() {
 		Matrix pot = new Matrix(this.columnas, this.filas);
 		// matriz unidad

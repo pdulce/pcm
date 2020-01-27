@@ -33,7 +33,7 @@
 			var conjuntoCritDetalles = ["26","13","7","1","35","2","3","16"];
 			var criteriaFilled = settings.valuesFilled;
 			
-			//troceamos con split, y recorremos cada elemento, si está en una lista, activamos su flag correspondiente
+			//troceamos con split, y recorremos cada elemento, si esto en una lista, activamos su flag correspondiente
 			if (criteriaFilled != 'null'){
 				var listaFilled = criteriaFilled.split(",");
 				for (var i=0;i<listaFilled.length;i++){
@@ -59,8 +59,8 @@
 				}
 				if (textoDiagrama.lastIndexOf("Diagramas") > -1 
 						|| (textoDiagrama.lastIndexOf("Criterios por Fechas") > -1 && !consignedCritFechas)
-							|| (textoDiagrama.lastIndexOf("Criterios por Detalle Petición") > -1 && !consignedCritDetalles)
-								|| (textoDiagrama.lastIndexOf("Criterios por Localización") > -1 && !consignedCritLocaliz)
+							|| (textoDiagrama.lastIndexOf("Criterios por Detalle Peticion") > -1 && !consignedCritDetalles)
+								|| (textoDiagrama.lastIndexOf("Criterios por Localizacion") > -1 && !consignedCritLocaliz)
 					){			 	
 				 	isCollapsed = true;
 				}else{
@@ -69,7 +69,7 @@
 			}else{
 				if (textoDiagrama.lastIndexOf("Diagramas") > -1 
 						|| ( textoDiagrama.lastIndexOf("Criterios por Fechas") > -1)
-							|| (textoDiagrama.lastIndexOf("Criterios por Localización") > -1)
+							|| (textoDiagrama.lastIndexOf("Criterios por Localizacion") > -1)
 					){			 	
 				 	isCollapsed = true;
 				}else{

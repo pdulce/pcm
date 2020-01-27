@@ -919,7 +919,7 @@ public class FieldView implements IFieldView, Serializable {
 	}
 	
 	/**
-	 * Implementa la conversión de tipos de esta página:
+	 * Implementa la conversion de tipos de esta pogina:
 	 * http://xmlbeans.apache.org/docs/2.0.0/guide/conXMLBeansSupportBuiltInSchemaTypes.html
 	 */
 	@Override

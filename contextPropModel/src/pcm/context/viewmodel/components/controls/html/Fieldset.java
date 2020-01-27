@@ -50,7 +50,7 @@ public class Fieldset extends AbstractHtmlCtrl {
 		final StringBuilder cad = new StringBuilder("<FIELDSET class=\"collapsible\">");
 		cad.append(BEGIN_LEGEND).append(this.traducedLegend != null ? this.traducedLegend : this.legend);
 		cad.append(BEGIN_ICON).append(getInnerId()).append("');\">").append(END_LEGEND).append(DIV_INNER_CONTENT);
-		cad.append(getInnerId()).append("\">").append(!innerContents.isEmpty() ? innerContents.iterator().next() : "FIELDSET Vacío");
+		cad.append(getInnerId()).append("\">").append(!innerContents.isEmpty() ? innerContents.iterator().next() : "FIELDSET Vacoo");
 		cad.append(END_DIV_INNER_CONTENT).append(END_FIELDSET);
 		return cad.toString();
 	}

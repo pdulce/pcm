@@ -264,7 +264,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 					if (fieldViewSet.getFieldView(qualifiedName) != null) {
 						final IFieldView fieldView = fieldViewSet.getFieldView(qualifiedName);
 						return fieldViewSet.getFieldvalue(fieldView.getQualifiedContextName());
-					}// si está definido en el metamodelo
+					}// si esto definido en el metamodelo
 				}// while
 			}// if
 		}

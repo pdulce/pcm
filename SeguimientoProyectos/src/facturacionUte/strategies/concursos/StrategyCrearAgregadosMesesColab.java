@@ -94,7 +94,7 @@ public class StrategyCrearAgregadosMesesColab extends DefaultStrategyRequest {
 				fechaFinC.setTime(fechaFinContrato_);
 				fechaAux.setTime(fechaInicioContrato_);				
 				for (int i=0;i<numTotalMeses;i++){
-					 // extraemos el mes y año de la aux, 
+					 // extraemos el mes y aoo de la aux, 
 					int anyo = fechaAux.get(Calendar.YEAR);
 					int mes = fechaAux.get(Calendar.MONTH) + 1;//en java los meses son de 0 a 11, en nuestro modelo, el mes 11 es el 11, van del 1 al 12
 					
@@ -123,7 +123,7 @@ public class StrategyCrearAgregadosMesesColab extends DefaultStrategyRequest {
 						registroAgregadoMesColaborador.setValue(facturacionMesColaboradorEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCOLABORADOR_10_UTS).getName(), new BigDecimal(0));		
 						int grabado = dataAccess.insertEntity(registroAgregadoMesColaborador);
 						if (grabado < 1){							
-							throw new PCMConfigurationException("Error al insertar el agregado del mes " + mes + ", del año " + anyo);							
+							throw new PCMConfigurationException("Error al insertar el agregado del mes " + mes + ", del aoo " + anyo);							
 						}
 						registroAgregadoMesColaborador = new FieldViewSet(facturacionMesColaboradorEntidad);
 						registroAgregadoMesColaborador.setValue(facturacionMesColaboradorEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCOLABORADOR_2_ANYO).getName(), anyo);
@@ -169,7 +169,7 @@ public class StrategyCrearAgregadosMesesColab extends DefaultStrategyRequest {
 								contador++;
 								int grabado2 = dataAccess.insertEntity(filtro4AgregadoMesColaboradoryApp);
 								if (grabado2 < 1){			
-									throw new PCMConfigurationException("Error al insertar el agregado del mes-app " + mes + ", del año " + anyo + " y app "+ idApp);							
+									throw new PCMConfigurationException("Error al insertar el agregado del mes-app " + mes + ", del aoo " + anyo + " y app "+ idApp);							
 								}
 							}
 						}

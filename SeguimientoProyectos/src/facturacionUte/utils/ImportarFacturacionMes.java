@@ -177,7 +177,7 @@ public class ImportarFacturacionMes {
 				mappings.add(f6);
 				mappings.add(f7);
 				
-				//columnas en la Excel empezamos a contar desde la 0-ésima la primera (celda A es la 0-éisma)
+				//columnas en la Excel empezamos a contar desde la 0-osima la primera (celda A es la 0-oisma)
 				columnasHOJA_0_[HOJA_0_MAPEO_COLABORADOR_2_NOMBRE_COLUMN]= 4;
 				columnasHOJA_0_[HOJA_0_MAPEO_EMPRESAUTE_2_NOMBRE_COLUMN]= 5;
 				columnasHOJA_0_[HOJA_0_MAPEO_CATEGORIA_PROFESIONAL_2_TIPO_CATEGORIA_COLUMN]= 7;
@@ -215,7 +215,7 @@ public class ImportarFacturacionMes {
 	
  	private int procesarFilas(final XSSFSheet sheetNewVersion_HOJA_0, final XSSFSheet sheetNewVersion_HOJA_1, final RequestWrapper request, final FieldViewSet mesFSet, final int ejercicio, final Long idContrato) throws Throwable {
 
-		int nrow = 3;//la primera de la Excel es la 0-ésima al recorrer el fichero con la api
+		int nrow = 3;//la primera de la Excel es la 0-osima al recorrer el fichero con la api
 		//buscamos las columnas-posiciones que vamos a extrear al iterar cada columna
 		
 		boolean computadaFila = true;
@@ -230,13 +230,13 @@ public class ImportarFacturacionMes {
 			
 			FieldViewSet fila = patronRecord.copyOf();			
 			
-			/** PRIMERO: RECORREMOS LA FICHA-HOJA 0-ÉSIMA**/
+			/** PRIMERO: RECORREMOS LA FICHA-HOJA 0-oSIMA**/
 			for (int nColum = 0; computadaFila && nColum < columnasHOJA_0_.length; nColum++) {
 				try {
 					final Cell cell = rowIEsima_Hoja_0.getCell(columnasHOJA_0_[nColum]);
 					if (cell == null) {
 						computadaFila = false;
-						break;//salto a otra fila; fin en la 95-iésima
+						break;//salto a otra fila; fin en la 95-iosima
 					}
 
 					Serializable valueCell = null;
@@ -279,14 +279,14 @@ public class ImportarFacturacionMes {
 				}
 			}// for columnas de la HOJA 0
 			
-			/** SEGUNDO: RECORREMOS LA FICHA-HOJA 1-ÉSIMA**/
+			/** SEGUNDO: RECORREMOS LA FICHA-HOJA 1-oSIMA**/
 			for (int nColum = 0; computadaFila && nColum < columnasHOJA_1_.length; nColum++) {
 				try {
 					final Cell cell = rowIEsima_Hoja_1.getCell(columnasHOJA_1_[nColum]);
 					if (cell == null) {
 						if (nColum==HOJA_0_MAPEO_FACTURACIONMESPORCOLABORADORYAPP_5_UTS_COLUMN){
 							computadaFila = false;
-							break;//salto a otra fila; fin en la 95-iésima						
+							break;//salto a otra fila; fin en la 95-iosima						
 						}else{
 							continue;
 						}
@@ -353,24 +353,24 @@ public class ImportarFacturacionMes {
 		return nrow-4;
 	}
 	
-	/*** ANTES de grabar una imputación de un colaborador-mes-ejercicio comprobamos
+	/*** ANTES de grabar una imputacion de un colaborador-mes-ejercicio comprobamos
 	 * 1. Miramos si existe el colaborador (filtramos por idCategoria, nomre y apellidos:
-	 *  	 Si está dado de alta el colaborador: 
-	 *  		     Buscamos el registro de imputación del colaborador en ese mes
+	 *  	 Si esto dado de alta el colaborador: 
+	 *  		     Buscamos el registro de imputacion del colaborador en ese mes
 	 *  			 	entidad: FACTURACIONMESPORCOLABORADOR--filtramos por mes y ejercicio e idColaborador
 	 *  
 	 *               	Si existe, vamos al paso ii) 
 	 *               	
 	 *               	Si no existe el registro mes-idColaborador, creamos ese registro y pasamos al ii)
 	 *               	
-	 *                  ii) Buscamos el primer registro de imputación en mes y app (de la entidad FACTURACIONMESPORCOLABORADORYAPP) filtrando por mes y ejercicio e idColaborador 
+	 *                  ii) Buscamos el primer registro de imputacion en mes y app (de la entidad FACTURACIONMESPORCOLABORADORYAPP) filtrando por mes y ejercicio e idColaborador 
 	 *               
-	 *   					Si no existe app-mes-idColaborador, creamos ese registro con la primera app asignada al colaborador, y pasamos al iii) (solución para una app por colaborador)
+	 *   					Si no existe app-mes-idColaborador, creamos ese registro con la primera app asignada al colaborador, y pasamos al iii) (solucion para una app por colaborador)
 	 *   					
-	 *   					iii) Tomamos ese registro, y actualizamos las UTs, y llamamos a la estrategia de actualización de imputaciones/facturación del resto de entidades (StrategyRecalculateFacturacionMes)
+	 *   					iii) Tomamos ese registro, y actualizamos las UTs, y llamamos a la estrategia de actualizacion de imputaciones/facturacion del resto de entidades (StrategyRecalculateFacturacionMes)
 	 *  			
 	 *  
-	 *  	Si no existe, continuamos con la siguiente iteración dentro del bucle
+	 *  	Si no existe, continuamos con la siguiente iteracion dentro del bucle
 	 */		
 	private int grabarEnBBDD(final RequestWrapper request, FieldViewSet registro, final FieldViewSet mesFSet, final int ejercicio, final Long idContrato) throws Throwable{
 		
@@ -390,14 +390,14 @@ public class ImportarFacturacionMes {
 		empresaUTE = CommonUtils.cleanWhitespaces(empresaUTE);
 		Double numUTsImputadas = (Double) registro.getValue(UTs);
 		
-		/** TRATAMIENTO DE LA PESTAÑA 1 **/
+		/** TRATAMIENTO DE LA PESTAoA 1 **/
 		/*** OJO: Si el campo Observaciones viene consignado, entonces:
 		- creamos el SERVICIO (columna Aplic.)
-		- Creamos el Dpto (columna Área)
+		- Creamos el Dpto (columna orea)
 		- Creamos las apps (columna Observaciones)
 		          Si el campo Observaciones NO viene consignado, entonces:
-		- Creamos el SERVICIO(campo Área) si no existe
-		- Creamos el Dpto(campo Área) si no existe
+		- Creamos el SERVICIO(campo orea) si no existe
+		- Creamos el Dpto(campo orea) si no existe
 		- Creamos la app(campo Aplic.) si no existe			
 		 ***/
 
@@ -491,9 +491,9 @@ public class ImportarFacturacionMes {
 			colaboradorExistente.setValue(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_6_ID_CATEGORIA).getName(), idcatProf);
 			colaboradorExistente.setValue(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_8_ID_EMPRESA_FACTURACION).getName(), idEmpresa);
 			List<FieldViewSet> listaColaboradoresPorFiltro = this.dataAccess.searchByCriteria(colaboradorExistente);
-			if (listaColaboradoresPorFiltro.isEmpty()) { //si no existe ese colaborador/a, lo creamos, y llamamos a la estrategia que crea las hojas de facturación de este colaborador en ese concurso
+			if (listaColaboradoresPorFiltro.isEmpty()) { //si no existe ese colaborador/a, lo creamos, y llamamos a la estrategia que crea las hojas de facturacion de este colaborador en ese concurso
 				
-				//rellenamos el resto de información que nos falta					
+				//rellenamos el resto de informacion que nos falta					
 				colaboradorExistente.setValue(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_4_RESPONSABILIDAD).getName(), getIdForCategoriaProf4AT(tipoCatColaborador));
 				colaboradorExistente.setValue(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_5_RELACION_EXTINGUIDA).getName(), false);
 				colaboradorExistente.setValue(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_11_EMAIL).getName(), "");
@@ -518,7 +518,7 @@ public class ImportarFacturacionMes {
 				fset.add(colaboradorExistente);
 				IStrategy strat = new StrategyCrearAgregadosMesesColab();
 				strat.doBussinessStrategy(request, this.dataAccess, fset);
-				//ahora tomamos la app de este colaborador, y creamos la asignación app-colaborador, y luego invocamos la estrategia StrategyGrabarUTsMesColabyApp
+				//ahora tomamos la app de este colaborador, y creamos la asignacion app-colaborador, y luego invocamos la estrategia StrategyGrabarUTsMesColabyApp
 				
 				// Recorremos las apps asignadas al colaborador, y comprobamos si existe la app
 				for (int ap=0;ap<appsName.length;ap++){
@@ -539,10 +539,10 @@ public class ImportarFacturacionMes {
 						aplicacion.setValue(appEntidad.searchField(ConstantesModelo.PROYECTO_7_DEPARTAMENTO).getName(), idDpto);
 						ok = this.dataAccess.insertEntity(aplicacion);
 						if (ok != 1){
-							throw new Exception("Error creando aplicación " + appName);
+							throw new Exception("Error creando aplicacion " + appName);
 						}
 						aplicacion = this.dataAccess.searchByCriteria(aplicacion).get(0);
-						//si se ha creado bien la app, entonces llamamos a la estrategia de creación de las hojas de facturación de esta app, dpto., servicio,...							
+						//si se ha creado bien la app, entonces llamamos a la estrategia de creacion de las hojas de facturacion de esta app, dpto., servicio,...							
 						List<FieldViewSet> fset33 = new ArrayList<FieldViewSet>();
 						fset33.add(aplicacion);
 						IStrategy strat33 = new StrategyCrearAgregadosMesesAppDptoServicio();
@@ -579,7 +579,7 @@ public class ImportarFacturacionMes {
 			
 			int numOfApps4Colaborador = listaAppsDeColaborador.size();				
 			for (int iAp=0;iAp<listaAppsDeColaborador.size();iAp++){
-				FieldViewSet appDeColaborador = listaAppsDeColaborador.get(iAp);// ¿si tiene más de una app asignada?
+				FieldViewSet appDeColaborador = listaAppsDeColaborador.get(iAp);// osi tiene mos de una app asignada?
 				Long idApp = (Long) appDeColaborador.getValue(appColaboradorEntidad.searchField(ConstantesModelo.APPS_COLABORADOR_3_APP).getName());
 				
 						/*** GRUPO DE INFORMACION DE FACTURACION ***/												 
@@ -756,7 +756,7 @@ public class ImportarFacturacionMes {
 				if (idMes_ != null && anyo != null){
 					TuplaMesEjercicioFicha tuplaMesBuscado = obtenerFichaMes(wb, idMes_, anyo);
 					if (tuplaMesBuscado == null){
-						throw new Exception("Error previo a la importación: el mes-año consignados en pantalla no corresponden con ninguna ficha de este fichero Excel");
+						throw new Exception("Error previo a la importacion: el mes-aoo consignados en pantalla no corresponden con ninguna ficha de este fichero Excel");
 					}
 					fichasMeses.add(tuplaMesBuscado);
 				}else{
@@ -770,10 +770,10 @@ public class ImportarFacturacionMes {
 			for (int f=0;f<fichasMeses.size();f++){
 				TuplaMesEjercicioFicha tupla = fichasMeses.get(f);
 				numImportadas = procesarFilas(tupla.getFichaMes(), sheetResumen, request, tupla.getMes(), tupla.getEjercicio(), idContrato);
-				if ((anyo==null || idMes==null || fichasMeses.size() > 1) && f==(fichasMeses.size()-1)){//si es una carga múltiple y es el último inicializo ejercicio y mes
+				if ((anyo==null || idMes==null || fichasMeses.size() > 1) && f==(fichasMeses.size()-1)){//si es una carga moltiple y es el oltimo inicializo ejercicio y mes
 					ejercicio = tupla.getEjercicio();
 					idMes = (Long) tupla.getMes().getValue(tupla.getMes().getEntityDef().searchField(ConstantesModelo.MES_1_ID).getName());
-				}else if ((anyo==null || idMes==null || fichasMeses.size() > 1) && f < (fichasMeses.size()-1)){//si es una carga múltiple y NO es el último, inserto el fset de importación en la BBDD, si ya tiene ID, lo actualizo, sino, lo inserto
+				}else if ((anyo==null || idMes==null || fichasMeses.size() > 1) && f < (fichasMeses.size()-1)){//si es una carga moltiple y NO es el oltimo, inserto el fset de importacion en la BBDD, si ya tiene ID, lo actualizo, sino, lo inserto
 					FieldViewSet importacionClon = importacionFSet.copyOf();
 					idMes = (Long) tupla.getMes().getValue(tupla.getMes().getEntityDef().searchField(ConstantesModelo.MES_1_ID).getName());
 					ejercicio = tupla.getEjercicio();

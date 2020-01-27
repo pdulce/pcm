@@ -38,7 +38,7 @@ public interface PCMConstants {
 			CLEAN_EVENT = "clean", SEL_PREFFIX_WITHOUT_POINT = "Sel", SEL_PREFFIX = "Sel.", URI_SUBMIT_PREFFIX = "'uriSubmit'",
 			TITLE_PREFFIX = "'title'", HTTP_PREFIX = "http", HTTP_FIRST_URI_SEPARATOR = "?", FOLDER_LINKED_PARAM = "folderLinked",
 			REGEXP_BEGIN_CORCH = "\\[", REGEXP_POINT = "\\.", REGEXP_PARENT = "\\(", CIF_REGEXP = "CIF", CLASSIC_SEPARATOR = "|",
-			COMMA = ",", POINT = ".", AMPERSAND = "#", SEPARATOR_SPECIAL = "´", POINT_COMMA = ";", EQUALS = "=", END_FUNC = "')",
+			COMMA = ",", POINT = ".", AMPERSAND = "#", SEPARATOR_SPECIAL = "o", POINT_COMMA = ";", EQUALS = "=", END_FUNC = "')",
 			BEGIN_PARENTHESIS = "(", END_PARENTHESIS = ")", NEXT_STRING_ARG = "','", NEXT_NO_STRING_ARG = "', ", SIMPLE_COMILLA = "'",
 			UNDERSCORE = "_", COMMA_ARGS = "\",\"", SECOND_COMMA_ARGS = ",\"", STRING_SPACE = " ", END_BLOCK = "}", EVENT = "event", 
 			PILA_NAV= "pilaNav", IDS_PILA_NAV="idsNavegacion", SHOWN_PILA_NAV= "stackNavShown",						

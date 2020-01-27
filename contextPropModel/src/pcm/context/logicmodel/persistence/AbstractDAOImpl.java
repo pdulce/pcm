@@ -156,7 +156,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 				if (fieldView.getEntityField().getAbstractField().getType().equals(ILogicTypes.STRING)) {
 					rightPartOfSqlExpression.append(fieldView.getEntityField().getAbstractField().getMaxLength() < MAX_FOR_CODES ? "="
 							: IDAOImpl.LIKE_);
-					/** si se trata de un campo de tipo código no usamos 'LIKE', sino '=' ***/
+					/** si se trata de un campo de tipo codigo no usamos 'LIKE', sino '=' ***/
 					rightPartOfSqlExpression.append(getAsUtf8CompareForString());
 				} else if (fieldView.getEntityField().getAbstractField().isDecimal()) {
 					rightPartOfSqlExpression.append(IDAOImpl.SQL_MINOR_EQUALS_OPERATOR/* " <= " */);

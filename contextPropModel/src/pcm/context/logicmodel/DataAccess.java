@@ -165,7 +165,7 @@ public class DataAccess implements IDataAccess {
 	}
 
 	/*******************************************************************************************************************************************************************************
-	 * * Método que inicializa los objetos entidad definidos en el metamodelo para almacenar los
+	 * * Motodo que inicializa los objetos entidad definidos en el metamodelo para almacenar los
 	 * valores de sus fields a partir del binding de pantalla.
 	 ******************************************************************************************************************************************************************************/
 	private void initModelEntities(final Collection<String> strategiesElems_) {

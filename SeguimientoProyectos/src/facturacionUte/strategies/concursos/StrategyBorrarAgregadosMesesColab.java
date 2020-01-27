@@ -72,7 +72,7 @@ public class StrategyBorrarAgregadosMesesColab extends DefaultStrategyRequest {
 				filtroParaEstrategia.add(fraDeAppYMesDeColaborador);
 				new StrategyRecalculateFacturacionMes().doBussinessStrategy(req_, dataAccess, filtroParaEstrategia);
 				
-				//al final, borramos la asignación del colaborador a esta app-mes
+				//al final, borramos la asignacion del colaborador a esta app-mes
 				dataAccess.deleteEntity(fraDeAppYMesDeColaborador);
 			}
 			

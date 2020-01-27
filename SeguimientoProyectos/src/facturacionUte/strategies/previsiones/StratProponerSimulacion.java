@@ -51,7 +51,7 @@ public class StratProponerSimulacion extends DefaultStrategyRequest {
 				FieldViewSet concurso = new FieldViewSet(concursoEntidad);
 				concurso.setValue(concursoEntidad.searchField(ConstantesModelo.CONCURSO_1_ID).getName(), idConcurso);
 				concurso = dataAccess.searchEntityByPk(concurso);			
-				//sacamos del concurso los datos relativos al nº de C, CJs, Analistas Func., y Analistas Progr.
+				//sacamos del concurso los datos relativos al no de C, CJs, Analistas Func., y Analistas Progr.
 				Integer numC = (Integer) concurso.getValue(concursoEntidad.searchField(ConstantesModelo.CONCURSO_7_RECURSOS_POR_CATEGORIA_C).getName());
 				Integer numCJ = (Integer) concurso.getValue(concursoEntidad.searchField(ConstantesModelo.CONCURSO_8_RECURSOS_POR_CATEGORIA_CJ).getName());
 				Integer numAF = (Integer) concurso.getValue(concursoEntidad.searchField(ConstantesModelo.CONCURSO_9_RECURSOS_POR_CATEGORIA_AF).getName());
@@ -68,7 +68,7 @@ public class StratProponerSimulacion extends DefaultStrategyRequest {
 				filterMesesFra_contrato.setValue(frasMesesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_4_ID_CONCURSO).getName(), idConcurso);
 				final List<FieldViewSet> resultadosFrasMeses = dataAccess.searchByCriteria(filterMesesFra_contrato);
 				int sizeOfMeses = resultadosFrasMeses.size();
-				//recorro los meses para extraer el núm. de ejercicios
+				//recorro los meses para extraer el nom. de ejercicios
 				List<Integer> ejerciciosDistintos = new ArrayList<Integer>();
 				for (int i=0;i<sizeOfMeses;i++){
 					FieldViewSet fraMesDeConcurso = resultadosFrasMeses.get(i);

@@ -64,7 +64,7 @@ public class StratBorrarAnualidadesPrevision extends DefaultStrategyRequest {
 						ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_1_ID).getName());
 				int ok = dataAccess.deleteEntity(anualidadPrevision);
 				if (ok != 1) {
-					throw new PCMConfigurationException("Error borrando anualidad de previsión");
+					throw new PCMConfigurationException("Error borrando anualidad de prevision");
 				}
 				final FieldViewSet mesPrevision = new FieldViewSet(mesPrevisionAnualidadEntidad);
 				mesPrevision.setValue(

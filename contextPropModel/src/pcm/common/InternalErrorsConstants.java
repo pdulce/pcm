@@ -85,19 +85,19 @@ public interface InternalErrorsConstants {
 
 	public static final String ENVIRONMENT_INIT_EXCEPTION = "BasePCMServlet: Environment not found for this web app ";
 
-	public static final String DICTIONARY_INIT_EXCEPTION = "BasePCMServlet: DataDictionaryFactory couldn´t be charged sucessfully";
+	public static final String DICTIONARY_INIT_EXCEPTION = "BasePCMServlet: DataDictionaryFactory could not be charged sucessfully";
 
 	public static final String APP_NOT_FOUND = "ViewMetamodelFactory: ERROR caused by application '$1' node not found in metamodel";
 
 	public static final String AUDIT_FIELDS_NOT_FOUND = "ViewMetamodelFactory: ERROR caused by AuditFieldSet element HAS NOT 6 AUDIT CHILDREN NODES";
 
-	public static final String METAMODEL_INIT_EXCEPTION = "BasePCMServlet: ViewMetaModelFactory couldn´t be charged sucessfully";
+	public static final String METAMODEL_INIT_EXCEPTION = "BasePCMServlet: ViewMetaModelFactory could not be charged sucessfully";
 
-	public static final String DAOIMPL_INIT_EXCEPTION = "BasePCMServlet: DAOImplementationFactory couldn´t be charged sucessfully";
+	public static final String DAOIMPL_INIT_EXCEPTION = "BasePCMServlet: DAOImplementationFactory could not be charged sucessfully";
 
 	public static final String DAOIMPL_INVOKE_EXCEPTION = "BasePCMServlet: invoking getDAOImpl method";
 
-	public static final String CACHE_INIT_EXCEPTION = "BasePCMServlet: DataCacheFactory couldn´t be charged sucessfully";
+	public static final String CACHE_INIT_EXCEPTION = "BasePCMServlet: DataCacheFactory could not be charged sucessfully";
 
 	public static final String WEBXML_INIT_EXCEPTION = "BasePCMServlet: initFactories method has failed for this web app";
 

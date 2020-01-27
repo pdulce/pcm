@@ -37,7 +37,7 @@ public class MatrixOperationsUtils {
 	}
 
 	// producto de dos matrices
-	/* Para poder multiplicar dos matrices AxB, el nº de columnas de A debe ser igual al nº de filas de B
+	/* Para poder multiplicar dos matrices AxB, el no de columnas de A debe ser igual al no de filas de B
 	 * Producto de una matriz por un vector: (nxm) * (cxn) => prd(mxc) --> (2x2) * (1x2)=> res_producto (2x1) 
 	 * |2     5.1| x |2.0| = |2*2.0  5.1*1.7| = |9.7 	23.4|  
 	 * |4.5   8  |   |1.7|   |4.5*2.0 8*1.7|   
@@ -103,18 +103,18 @@ public class MatrixOperationsUtils {
 	// matriz inversa
 	public static Matrix inversa(Matrix d) {
 		Matrix a = (Matrix) d.clone();
-		Matrix b = new Matrix(d.columnas, d.filas); // matriz de los términos independientes
-		Matrix c = new Matrix(d.columnas, d.filas); // matriz de las incógnitas
+		Matrix b = new Matrix(d.columnas, d.filas); // matriz de los torminos independientes
+		Matrix c = new Matrix(d.columnas, d.filas); // matriz de las incognitas
 		// matriz unidad
 		for (int i = 0; i < d.columnas; i++) {
 			for (int j = 0; j < d.filas; j++) {
 				b.x[i][i] = 1.0;
 			}
 		}
-		// transformación de la matriz y de los términos independientes
+		// transformacion de la matriz y de los torminos independientes
 		for (int k = 0; k < d.columnas - 1; k++) {
 			for (int i = k + 1; i < d.filas; i++) {
-				// términos independientes
+				// torminos independientes
 				for (int s = 0; s < n; s++) {
 					b.x[i][s] -= a.x[i][k] * b.x[k][s] / a.x[k][k];
 				}
@@ -124,7 +124,7 @@ public class MatrixOperationsUtils {
 				}
 			}
 		}
-		// cálculo de las incógnitas, elementos de la matriz inversa
+		// colculo de las incognitas, elementos de la matriz inversa
 		for (int s = 0; s < n; s++) {
 			c.x[n - 1][s] = b.x[n - 1][s] / a.x[n - 1][n - 1];
 			for (int i = n - 2; i >= 0; i--) {

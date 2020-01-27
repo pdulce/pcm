@@ -26,14 +26,14 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="4" />
 							<fieldView separator="br" />
 						</fieldset>
-						<fieldset legend="Categorías profesionales">							
+						<fieldset legend="Categorias profesionales">							
 							<fieldView mappingTo="7" />
 							<fieldView mappingTo="8" />
 							<fieldView mappingTo="9" />
 							<fieldView mappingTo="10" />
 							<fieldView separator="br" />
 						</fieldset>
-						<fieldset legend="Horas por categoría">
+						<fieldset legend="Horas por categoria">
 							<fieldView separator="br" />
 							<fieldView mappingTo="12" size="10" />
 							<fieldView mappingTo="13" size="10" />
@@ -42,7 +42,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="14" size="10" />
 							<fieldView mappingTo="15" size="10" />
 						</fieldset>
-						<fieldset legend="Importes por categoría">
+						<fieldset legend="Importes por categoria">
 							<fieldView separator="br" />
 							<fieldView mappingTo="17" size="11" />
 							<fieldView mappingTo="18" size="11" />
@@ -92,19 +92,19 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="3" editable="false" />
 							<fieldView mappingTo="4" editable="false" />
 						</fieldset>
-						<fieldset legend="Categorías profesionales">
+						<fieldset legend="Categorias profesionales">
 							<fieldView mappingTo="7" editable="false" />
 							<fieldView mappingTo="8" editable="false" />
 							<fieldView mappingTo="9" editable="false" />
 							<fieldView mappingTo="10" editable="false" />
 						</fieldset>
-						<fieldset legend="Horas por categoría">
+						<fieldset legend="Horas por categoria">
 							<fieldView mappingTo="12" editable="false" />
 							<fieldView mappingTo="13" editable="false" />
 							<fieldView mappingTo="14" editable="false" />
 							<fieldView mappingTo="15" editable="false" />
 						</fieldset>
-						<fieldset legend="Importes por categoría">
+						<fieldset legend="Importes por categoria">
 							<fieldView mappingTo="17" editable="false" />
 							<fieldView mappingTo="18" editable="false" />
 							<fieldView mappingTo="19" editable="false" />
@@ -133,21 +133,21 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="3" />
 							<fieldView mappingTo="4" />
 						</fieldset>
-						<fieldset legend="Categorías profesionales">
+						<fieldset legend="Categorias profesionales">
 							<fieldView mappingTo="7" />
 							<fieldView mappingTo="8" />
 							<fieldView mappingTo="9" />
 							<fieldView mappingTo="10" />
 							<fieldView mappingTo="11" />
 						</fieldset>
-						<fieldset legend="Horas por categoría">
+						<fieldset legend="Horas por categoria">
 							<fieldView mappingTo="12" size="7" />
 							<fieldView mappingTo="13" size="7" />
 							<fieldView mappingTo="14" size="7" />
 							<fieldView mappingTo="15" size="7" />
 							<fieldView mappingTo="16" size="7" />
 						</fieldset>
-						<fieldset legend="Importes por categoría">
+						<fieldset legend="Importes por categoria">
 							<fieldView mappingTo="17" size="9" />
 							<fieldView mappingTo="18" size="9" />
 							<fieldView mappingTo="19" size="9" />
@@ -188,7 +188,7 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="5" title="presupuestado"></option>
 										<option code="6" title="facturado"></option>
 										<option code="7" title="% facturado respecto a presupuestado"></option>
-										<option code="8" title="desviación"></option>
+										<option code="8" title="desviacion"></option>
 										<option code="9" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -213,7 +213,7 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="5" title="presupuestado"></option>
 										<option code="6" title="facturado"></option>
 										<!-- <option code="7" title="% facturado respecto a presupuestado"></option> -->
-										<option code="8" title="desviación"></option>
+										<option code="8" title="desviacion"></option>
 										<!-- <option code="9" title="UTs realizadas"></option> -->
 									</optionValues>
 								</fieldView>
@@ -239,7 +239,7 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="5" title="presupuestado"></option>
 										<option code="6" title="facturado"></option>
 										<option code="7" title="% facturado respecto a presupuestado"></option>
-										<option code="8" title="desviación"></option>
+										<option code="8" title="desviacion"></option>
 										<option code="9" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -255,7 +255,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="orderBy" hidden="true" value="3"/>							
 								<fieldView name="fieldForGroupBy" type="select">
 									<optionValues>
-										<option code="-1" title="períodos" selected="true"></option>										
+										<option code="-1" title="periodos" selected="true"></option>										
 										<option code="2" title="anualidades"></option>
 										<option code="3" title="meses"></option>
 									</optionValues>
@@ -265,7 +265,7 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="5" title="presupuestado"></option>
 										<option code="6" title="facturado"></option>
 										<option code="7" title="% facturado respecto a presupuestado"></option>
-										<option code="8" title="desviación"></option>
+										<option code="8" title="desviacion"></option>
 										<option code="9" title="UTs realizadas"></option>
 									</optionValues>
 								</fieldView>
@@ -301,7 +301,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="ejeY" type="select">
 									<optionValues>
 										<option code="6" title="facturado" selected="true"></option>
-										<option code="8" title="desviación"></option>
+										<option code="8" title="desviacion"></option>
 									</optionValues>
 								</fieldView>							
 							</fieldViewSet>
@@ -317,21 +317,21 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="3" />
 							<fieldView mappingTo="4" />
 						</fieldset>
-						<fieldset legend="Categorías profesionales">
+						<fieldset legend="Categorias profesionales">
 							<fieldView mappingTo="7" />
 							<fieldView mappingTo="8" />
 							<fieldView mappingTo="9" />
 							<fieldView mappingTo="10" />
 							<fieldView mappingTo="11" />
 						</fieldset>
-						<fieldset legend="Horas por categoría">
+						<fieldset legend="Horas por categoria">
 							<fieldView mappingTo="12" size="7" />
 							<fieldView mappingTo="13" size="7" />
 							<fieldView mappingTo="14" size="7" />
 							<fieldView mappingTo="15" size="7" />
 							<fieldView mappingTo="16" size="7" />
 						</fieldset>
-						<fieldset legend="Importes por categoría">
+						<fieldset legend="Importes por categoria">
 							<fieldView mappingTo="17" size="9" />
 							<fieldView mappingTo="18" size="9" />
 							<fieldView mappingTo="19" size="9" />
@@ -371,7 +371,7 @@ xmlns:service="http://pcm.framework.org/service"
 					
 				</form>
 				
-				<grid title="Previsión y simulaciones de este contrato" dependsOf="concurso" orderDirection="asc"
+				<grid title="Prevision y simulaciones de este contrato" dependsOf="concurso" orderDirection="asc"
 					defaultOrderField="datos_prevision_contrato.1" eventsRegistered="update,delete,create"
 					serviceRef="GestionPrevisiones">
 					<fieldViewSet entitymodel="datos_prevision_contrato"
@@ -420,7 +420,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</grid>
 				
-				<grid title="Mensualidades de facturación de este contrato" dependsOf="concurso" orderDirection="asc"
+				<grid title="Mensualidades de facturacion de este contrato" dependsOf="concurso" orderDirection="asc"
 					defaultOrderField="facturacionMesPorConcurso.1" eventsRegistered="detail"
 					serviceRef="GestionAgregadosMesConcurso">
 					<fieldViewSet entitymodel="facturacionMesPorConcurso"
@@ -451,7 +451,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionAgregadosMesConcurso.detail">
 
 			<viewComponent>
-				<form columns="51" title="Datos facturación concurso">
+				<form columns="51" title="Datos facturacion concurso">
 					<fieldViewSet entitymodel="facturacionMesPorConcurso"
 						nameSpace="facturacionMesPorConcursoForm">
 
@@ -482,7 +482,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Listado de mensualidades de facturación por servicio" dependsOf="facturacionMesPorConcursoForm" orderDirection="asc"
+				<grid title="Listado de mensualidades de facturacion por servicio" dependsOf="facturacionMesPorConcursoForm" orderDirection="asc"
 					defaultOrderField="facturacionMesPorServicio.1" eventsRegistered="detail"
 					serviceRef="GestionAgregadosMesServicio">
 					<fieldViewSet entitymodel="facturacionMesPorServicio"
@@ -516,7 +516,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionAgregadosMesServicio.detail">
 
 			<viewComponent>
-				<form columns="51" title="Datos facturación por servicio y mes">
+				<form columns="51" title="Datos facturacion por servicio y mes">
 					<fieldViewSet entitymodel="facturacionMesPorServicio"
 						nameSpace="facturacionMesPorServicioForm">
 
@@ -550,7 +550,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Listado de mensualidades de facturación por departamento" dependsOf="facturacionMesPorServicioForm" orderDirection="asc"
+				<grid title="Listado de mensualidades de facturacion por departamento" dependsOf="facturacionMesPorServicioForm" orderDirection="asc"
 					defaultOrderField="facturacionMesPorDpto.1" eventsRegistered="detail"
 					serviceRef="GestionAgregadosMesDpto">
 					<fieldViewSet entitymodel="facturacionMesPorDpto"
@@ -589,7 +589,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionAgregadosMesDpto.detail">
 
 			<viewComponent>
-				<form columns="51" title="Datos facturación por dpto. y mes">
+				<form columns="51" title="Datos facturacion por dpto. y mes">
 					<fieldViewSet entitymodel="facturacionMesPorDpto"
 						nameSpace="facturacionMesPorDptoForm">
 
@@ -628,7 +628,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Listado de mensualidades de facturación por aplicación" dependsOf="facturacionMesPorDptoForm" orderDirection="asc"
+				<grid title="Listado de mensualidades de facturacion por aplicacion" dependsOf="facturacionMesPorDptoForm" orderDirection="asc"
 					defaultOrderField="facturacionMesPorApp.1" eventsRegistered="detail"
 					serviceRef="GestionImputadoColaboradoresApp">
 					<fieldViewSet entitymodel="facturacionMesPorApp"
@@ -661,7 +661,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionImputadoColaboradoresApp.detail">
 		
 			<viewComponent>
-				<form columns="53" title="Imputado por aplicación">
+				<form columns="53" title="Imputado por aplicacion">
 					
 					<userbuttons>
 						<button link="PieChartStatsServlet" id="piechart"
@@ -688,7 +688,7 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<fieldViewSet entitymodel="facturacionMesPorApp"
 						nameSpace="facturacionMesPorAppForm">
-						<fieldset legend="Resumen mes-aplicación">
+						<fieldset legend="Resumen mes-aplicacion">
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" editable="false" />
 							<fieldView mappingTo="3" editable="false" type="select">

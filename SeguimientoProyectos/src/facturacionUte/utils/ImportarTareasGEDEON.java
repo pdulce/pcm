@@ -46,7 +46,7 @@ import facturacionUte.common.ConstantesModelo;
 
 /**
  * @author 99GU3997
- *         Esta clase, sea el número de columnas que sea, leerá una Excel y cargará al menos los
+ *         Esta clase, sea el nomero de columnas que sea, leero una Excel y cargaro al menos los
  *         siguientes campos en una tabla SQLite:
  *         *********************
  *         Observaciones
@@ -55,16 +55,16 @@ import facturacionUte.common.ConstantesModelo;
  *         Estado
  *         Entidad origen
  *         Unidad origen
- *         Área origen
+ *         orea origen
  *         Centro destino
- *         Área destino
+ *         orea destino
  *         Tipo
  *         Tipo inicial
  *         Fecha de alta
- *         Fecha de tramitación
+ *         Fecha de tramitacion
  *         Fecha de necesidad
  *         Fecha fin de desarrollo
- *         Fecha de finalización
+ *         Fecha de finalizacion
  *         Urgente
  *         Prioridad
  *         Des: fecha prevista inicio
@@ -75,7 +75,7 @@ import facturacionUte.common.ConstantesModelo;
  *         *********************
  *         *********************
  *         Excel resource file: C:\pcm\Big-Data_Analytics
- *         Usaremos la extensión .xls, aunque para extensiones .xlsx se usa la librería:
+ *         Usaremos la extension .xls, aunque para extensiones .xlsx se usa la libreroa:
  *         - org.apache.poi.xssf.usermodel.*;
  */
 public class ImportarTareasGEDEON extends AbstractExcelReader{
@@ -84,13 +84,13 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	protected static IEntityLogic incidenciasProyectoEntidad, importacionEntidad, aplicacionEntidad, subdireccionEntidad, servicioEntidad;
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
-	private static final String CDISM = "Centro de Desarrollo del ISM", CDISM_OO = "7201 17G L2 ISM ATH Análisis Orientado a Objecto";
+	private static final String CDISM = "Centro de Desarrollo del ISM", CDISM_OO = "7201 17G L2 ISM ATH Anolisis Orientado a Objecto";
 	
 	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS",ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO",
 	ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
 	
-	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " ¡OJO ya en entrega previa! ";
-	private static final String AVISADOR_ANULADA_PREVIA = " ¡OJO anulada en entrega previa! ";
+	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " oOJO ya en entrega previa! ";
+	private static final String AVISADOR_ANULADA_PREVIA = " oOJO anulada en entrega previa! ";
 
 	
 	static {
@@ -156,34 +156,34 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COMMON_alias.add("IMAG");
 		alias.put("COMM", COMMON_alias);
 
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestión", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestion", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Descripción", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Totulo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Descripcion", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION));
 		COLUMNSET2ENTITYFIELDSET_MAP
-				.put("Observaciones|Ult. observación", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_4_OBSERVACIONES));
+				.put("Observaciones|Ult. observacion", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_4_OBSERVACIONES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Usuario creador", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_5_USUARIO_CREADOR));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Solicitante|Peticionario", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_6_SOLICITANTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Estado", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Entidad origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_8_ENTIDAD_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_9_UNIDAD_ORIGEN));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_10_AREA_ORIGEN));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("orea origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_10_AREA_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("orea desarrollo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_16_PRIORIDAD));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de alta", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de tramitación",
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de tramitacion",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de necesidad|F. necesidad",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_19_FECHA_DE_NECESIDAD));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha fin de desarrollo",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de finalización",
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de finalizacion",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha prevista inicio|Fecha prevista de inicio",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO));
@@ -193,12 +193,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha real fin|fecha real de fin",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación sugerida", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicacion", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicacion sugerida", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas actuales",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas reales", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Versión análisis", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_32_VERSION_ANALYSIS));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Version anolisis", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_32_VERSION_ANALYSIS));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Pets. relacionadas", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha estado actual", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas iniciales",
@@ -262,7 +262,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			peticionHija.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idHija);
 			peticionHija = dataAccess.searchEntityByPk(peticionHija);
 			if (peticionHija == null){
-				//System.out.println("OJO: petición con identif. " + idHija + " no encontrada; posiblemente no está asociada al Área de OO.");
+				//System.out.println("OJO: peticion con identif. " + idHija + " no encontrada; posiblemente no esto asociada al orea de OO.");
 				continue;
 			}
 			
@@ -273,9 +273,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}
 			peticionHija.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName(), 
 					serialize(idsRelacionadasEnHija_));
-			 /**Para cada petición CD_OO, grabaremos en el campo 
-			pets-relacionadas (new)= pets-relacionadas (old) +  petición padre-SGD
-			sin códigos repetidos**/
+			 /**Para cada peticion CD_OO, grabaremos en el campo 
+			pets-relacionadas (new)= pets-relacionadas (old) +  peticion padre-SGD
+			sin codigos repetidos**/
 			dataAccess.modifyEntity(peticionHija);
 			contador++;
 		}
@@ -295,9 +295,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}
 			peticionPadre.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName(), 
 					serialize(idsRelacionadasEnPadre_));
-			 /**Para cada petición CD_OO, grabaremos en el campo 
-			pets-relacionadas (new)= pets-relacionadas (old) +  petición hija-DG
-			sin códigos repetidos**/
+			 /**Para cada peticion CD_OO, grabaremos en el campo 
+			pets-relacionadas (new)= pets-relacionadas (old) +  peticion hija-DG
+			sin codigos repetidos**/
     	}
     	if (updated){
     		dataAccess.modifyEntity(peticionPadre);
@@ -356,12 +356,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			this.dataAccess.setAutocommit(false);
 			
 			Collections.sort(filas, new ComparatorFieldViewSet());
-			//de esta forma, siempre las entregas aparecerán después de los trabajos que incluyen
+			//de esta forma, siempre las entregas apareceron despuos de los trabajos que incluyen
 			
 			// grabamos cada fila en BBDD
 			for (final FieldViewSet registro : filas) {
 				
-				//Si solo está el campo INCIDENCIASPROYECTO_1_ID y el campo INCIDENCIASPROYECTO_36_PETS_RELACIONADAS
+				//Si solo esto el campo INCIDENCIASPROYECTO_1_ID y el campo INCIDENCIASPROYECTO_36_PETS_RELACIONADAS
 				if (registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName()) == null){
 					//linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)
 					String idPeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());					
@@ -369,7 +369,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					peticionPadre.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticion);
 					peticionPadre = dataAccess.searchEntityByPk(peticionPadre);
 					if (peticionPadre == null){
-						//System.out.println("OJO!!! La petición de la Subdirección con id " + idPeticion + " no la tenemos registrada. ESTUDIAR a que app pertenece, debería estar en app-genérica Z-COMMON");
+						//System.out.println("OJO!!! La peticion de la Subdireccion con id " + idPeticion + " no la tenemos registrada. ESTUDIAR a que app pertenece, deberoa estar en app-genorica Z-COMMON");
 						continue;
 					}
 					
@@ -400,7 +400,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						if (nombreUnidadOrigen.startsWith("Centro de Desarrollo")){//viene de la Subdirecc.
 							servicioAtiendePeticion = ORIGEN_FROM_SG_TO_CDISM;
 						}else{
-							//petición interna de soporte del CD a AT
+							//peticion interna de soporte del CD a AT
 							servicioAtiendePeticion = ORIGEN_FROM_CDISM_TO_AT;
 						}
 					}
@@ -426,7 +426,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION)
 									.getName()));
 				}
-				String rochadeCode = "COMM";//la común para recoger todo aquello que no conseguimos CATALOGAR
+				String rochadeCode = "COMM";//la comon para recoger todo aquello que no conseguimos CATALOGAR
 				if (nombreAplicacionDePeticion != null && nombreAplicacionDePeticion.length() > 3){
 					rochadeCode = nombreAplicacionDePeticion.substring(0, 4).toUpperCase();
 				} else if ((nombreAplicacionDePeticion == null || nombreAplicacionDePeticion.length() < 4) &&
@@ -443,7 +443,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				
 				registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_26_PROYECTO_ID).getName(),
 						rochadeCode);
-				//si este rochade no está en la tabla proyectos, miramos si es entorno Natural para encajarlo
+				//si este rochade no esto en la tabla proyectos, miramos si es entorno Natural para encajarlo
 				FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicacionEntidad);
 				existeProyectoDadoDeAlta.setValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_2_CODIGO).getName(),
 						rochadeCode);
@@ -473,7 +473,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								"Mejora desarrollo");
 						tipoPeticion = "";
 					}
-					// el mes y año para poder explotarlo en Histogramas con selectGroupBy
+					// el mes y aoo para poder explotarlo en Histogramas con selectGroupBy
 					Date fecAlta = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
 							ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName());
 					Calendar dateFec = Calendar.getInstance();
@@ -491,7 +491,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_31_FECHA_EXPORT)
 							.getName(), fecExportacion);
 					
-					// hacemos un control de las horas reales y las estimadas, atendiendo a las heurísticas siguientes:
+					// hacemos un control de las horas reales y las estimadas, atendiendo a las heurosticas siguientes:
 
 					Double horasEstimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(
 							ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
@@ -502,10 +502,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES)
 								.getName(), horasReales);
 					}
-					//por defecto, seteamos a false el que esta petición lleve entrega asociada
+					//por defecto, seteamos a false el que esta peticion lleve entrega asociada
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_34_CON_ENTREGA).getName(),	
 							false);
-					if (tipoPeticion.toString().indexOf("Pequeño evolutivo") != -1){						
+					if (tipoPeticion.toString().indexOf("Pequeoo evolutivo") != -1){						
 						Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
 						Double UTs_realizadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
 						if (UTs_estimadas.compareTo(new Double(0)) == 0){
@@ -519,22 +519,22 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){	
 						
-						if (situacion.toString().indexOf("Petición finalizada") != -1){						
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Petición de trabajo finalizado");
+						if (situacion.toString().indexOf("Peticion finalizada") != -1){						
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Peticion de trabajo finalizado");
 						} else if (situacion.toString().indexOf("Trabajo finalizado") != -1){														
 							if (/*esSoporte*/tipoPeticion.toString().toUpperCase().indexOf("SOPORTE") != -1){
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Soporte finalizado");
 							}else{
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
-										!servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT) ? "Trabajo finalizado" : "Análisis finalizado");//hasta que no recorramos todas las peticiones de nuevo, no sabemos si tiene entrega
+										!servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT) ? "Trabajo finalizado" : "Anolisis finalizado");//hasta que no recorramos todas las peticiones de nuevo, no sabemos si tiene entrega
 							}							
 							Double UTs_realizadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
 							if (UTs_realizadas.compareTo(0.00) == 0){
 								Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), UTs_estimadas);
 							}							
-						} else if (situacion.toString().indexOf("En redacción") != -1){							
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo en redacción");
+						} else if (situacion.toString().indexOf("En redaccion") != -1){							
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo en redaccion");
 						} else if (situacion.toString().indexOf("No conforme") != -1){		
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo finalizado no conforme");
 						}else if (situacion.toString().indexOf("Anulada") != -1){
@@ -547,19 +547,19 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo listo para iniciar");
 						}else if (situacion.toString().indexOf("pte. de estimaci") != -1){
 							Double estimadasActuales = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
-							if (estimadasActuales != null && estimadasActuales.compareTo(new Double(0)) > 0){//en este caso, tuvo una estimación previa, y por algún motivo, debe revisarse esta estimación
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. de re-estimación");
+							if (estimadasActuales != null && estimadasActuales.compareTo(new Double(0)) > 0){//en este caso, tuvo una estimacion previa, y por algon motivo, debe revisarse esta estimacion
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. de re-estimacion");
 							}else{
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. estimar");
 							}
 						}
 					}else {	//SE TRATA DE UNA ENTREGA COMPLETA; ya he barrido todas sus peticiones (con inferior ID en GEDEON)			
-						if (situacion.toString().indexOf("Petición finalizada") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),  "Petición de Entrega finalizada");
+						if (situacion.toString().indexOf("Peticion finalizada") != -1){
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),  "Peticion de Entrega finalizada");
 						}else if (situacion.toString().indexOf("Anulada") != -1){
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega anulada");
-						}else if (situacion.toString().indexOf("En redacción") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega en redacción (en CD)");
+						}else if (situacion.toString().indexOf("En redaccion") != -1){
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega en redaccion (en CD)");
 						}else if (situacion.toString().indexOf("Trabajo finalizado") != -1){
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega pte. validar por CD");
 						}else if (situacion.toString().indexOf("Trabajo validado") != -1){
@@ -580,7 +580,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					}
 					formatearPetsRelacionadas(registro);//guardamos con formato (SDG|CDISM)
 					
-					// antes de meter una petición, comprobamos si ya existe
+					// antes de meter una peticion, comprobamos si ya existe
 					if (!filas.isEmpty() && rochadeCode != null) {
 						String idPeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());
@@ -596,7 +596,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 									.getName());
 							Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF)
 									.getName());
-							//Aqui comprobamos si ha cambiado algún dato de esa petición: fecha estado actual
+							//Aqui comprobamos si ha cambiado algon dato de esa peticion: fecha estado actual
 							if (tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD)){//ha sido modificado, lo incluyo en la lista de IDs modificados
 								IDs_changed.add(idPeticion);
 							}
@@ -719,13 +719,13 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				
 				/**
 				Tramitada
-				Entrega en redacción (en CD)
+				Entrega en redaccion (en CD)
 				Entrega en curso
 				Entrega anulada
 				Entrega pte. validar por CD
 				Entrega validada por CD
 				Entrega instalada
-				Petición de Entrega finalizada**/
+				Peticion de Entrega finalizada**/
 				
 				String situacionEntrega = 
 						(String) peticionDeEntrega.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());				
@@ -741,12 +741,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						"Trabajo finalizado con Entrega en curso");
 				} else if (situacionEntrega.toString().toLowerCase().indexOf("no conforme") != -1 || 
 								situacionEntrega.toString().toLowerCase().indexOf("anulada") != -1){
-					// No actualizamos el estado de la petición de trabajo porque cuando hay entregas en esos dos estados, nada nos garantiza que sea
-					// la última para la que se pide esta petición de trabajo, por eso es mejor en estos casos que prevalezca la información de estado de 
-					// la propia petición de trabajo
-				} else if (	situacionEntrega.toString().toLowerCase().indexOf("en redacción") != -1){
+					// No actualizamos el estado de la peticion de trabajo porque cuando hay entregas en esos dos estados, nada nos garantiza que sea
+					// la oltima para la que se pide esta peticion de trabajo, por eso es mejor en estos casos que prevalezca la informacion de estado de 
+					// la propia peticion de trabajo
+				} else if (	situacionEntrega.toString().toLowerCase().indexOf("en redaccion") != -1){
 					peticionRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
-							estadoTrabajo.concat(" con Entrega en redacción"));
+							estadoTrabajo.concat(" con Entrega en redaccion"));
 				} else if (	situacionEntrega.toString().toLowerCase().indexOf("pte. validar") != -1){
 					peticionRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
 						"Trabajo pte. validar por CD");
@@ -758,7 +758,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						"Trabajo instalado (en PreExpl.)");
 				} else if (situacionEntrega.toString().toLowerCase().indexOf("finalizada") != -1){
 					String estadoPetAsociada = (String) peticionRelacionada.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
-					if (!estadoPetAsociada.equals("Petición de trabajo finalizado") && !estadoPetAsociada.equals("Soporte finalizado") && !estadoPetAsociada.equals("Trabajo anulado")){
+					if (!estadoPetAsociada.equals("Peticion de trabajo finalizado") && !estadoPetAsociada.equals("Soporte finalizado") && !estadoPetAsociada.equals("Trabajo anulado")){
 						peticionRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
 								estadoPetAsociada.concat(estadoPetAsociada.endsWith("(implantado)") ? "" : "(implantado)"));
 					}
@@ -784,7 +784,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		String peticionesRelacionadas = (String) 
 				registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
 		if (peticionesRelacionadas.indexOf(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS) != -1){
-			return;//no hago transformación alguna
+			return;//no hago transformacion alguna
 		}
 		List<Long> codigos = obtenerCodigos(peticionesRelacionadas);
 		
@@ -808,7 +808,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					servicioDestinoPet = "";
 				}
 			}
-			/** añadir si es DG o AT; si no se sabe porque no está en BBDD, ponemos '?' **/
+			/** aoadir si es DG o AT; si no se sabe porque no esto en BBDD, ponemos '?' **/
 			strPeticiones.append("<LI>");
 			strPeticiones.append(idPetRelacionada); 
 			strPeticiones.append(servicioDestinoPet);
@@ -840,7 +840,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			return arr;
 		}
 		if (pets.indexOf(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS) != -1){
-			return arr;//no hago transformación alguna
+			return arr;//no hago transformacion alguna
 		}
 		
 		StringBuilder str_ = new StringBuilder();		
@@ -879,7 +879,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			return numeroPeticion;
 		}
 		if (peticionId.indexOf(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS) != -1){
-			return numeroPeticion;//no hago transformación alguna
+			return numeroPeticion;//no hago transformacion alguna
 		}
 		
 		StringBuilder str_ = new StringBuilder();		
@@ -961,7 +961,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	public static void main(String[] args){
 		try{
 			if (args.length < 2){
-				System.out.println("Debe indicar los argumentos necesarios, con un mínimo dos argumentos; el path de los ficheros Excel a escanear y el path de BBDD.");
+				System.out.println("Debe indicar los argumentos necesarios, con un monimo dos argumentos; el path de los ficheros Excel a escanear y el path de BBDD.");
 				return;
 			}
 			
@@ -985,7 +985,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			dsourceFactory.initDataSource(url_, "", "", driverJDBC);
 			final IDataAccess dataAccess_ = new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory);
 			
-			/*** Inicializamos la factoría de Acceso Lógico a DATOS **/		
+			/*** Inicializamos la factoroa de Acceso Logico a DATOS **/		
 			final IEntityLogicFactory entityFactory = EntityLogicFactory.getFactoryInstance();
 			entityFactory.initEntityFactory(entityDefinition, new FileInputStream(entityDefinition));
 			
@@ -1005,9 +1005,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				if (!fileScanned.getName().endsWith(".xlsx")){
 					continue;
 				}
-				System.out.println("Comenzando importación del fichero " + fileScanned.getName() + " ...");
+				System.out.println("Comenzando importacion del fichero " + fileScanned.getName() + " ...");
 				importadorGEDEONes.importar(fileScanned.getAbsolutePath(), importacionFSet /*, servicioAtencion*/);
-				System.out.println("...Importación realizada con éxito del fichero " + fileScanned.getName() + ".");
+				System.out.println("...Importacion realizada con oxito del fichero " + fileScanned.getName() + ".");
 			}
 			
 			long millsFin = Calendar.getInstance().getTimeInMillis();
@@ -1020,7 +1020,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}else{
 				tiempoTranscurrido = segundos + " segundos";
 			}
-			System.out.println("*** FIN Importación global, tiempo empleado: " + tiempoTranscurrido + "***");
+			System.out.println("*** FIN Importacion global, tiempo empleado: " + tiempoTranscurrido + "***");
 			
 			
 		} catch (PCMConfigurationException e1) {

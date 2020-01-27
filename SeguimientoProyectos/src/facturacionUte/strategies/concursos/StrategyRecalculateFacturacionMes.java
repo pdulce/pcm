@@ -76,7 +76,7 @@ public class StrategyRecalculateFacturacionMes extends DefaultStrategyRequest {
 			}
 			
 			if (new_UTs_colaborador_sobreApp.compareTo(0.0) < 0){
-				throw new StrategyException("Sólo se permiten imputaciones positivas o CERO");
+				throw new StrategyException("Solo se permiten imputaciones positivas o CERO");
 			}
 						
 			final IEntityLogic concursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.CONCURSO_ENTIDAD);
@@ -176,7 +176,7 @@ public class StrategyRecalculateFacturacionMes extends DefaultStrategyRequest {
 			objetoFraMesConcursoEntidad.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_6_EJECUTADO).getName(), CommonUtils.roundDouble(new_Ejecutado_concursoMes,2));
 			Double presupuesto_concursoMes = (Double) objetoFraMesConcursoEntidad.getValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_5_PRESUPUESTO).getName());
 			
-			//recalculo porcentaje y desviación
+			//recalculo porcentaje y desviacion
 			objetoFraMesConcursoEntidad.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_8_DESVIACION).getName(), new BigDecimal(CommonUtils.roundDouble(presupuesto_concursoMes - new_Ejecutado_concursoMes,2)));
 			objetoFraMesConcursoEntidad.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_7_PORCENTAJE).getName(), new BigDecimal(CommonUtils.roundDouble((new_Ejecutado_concursoMes/presupuesto_concursoMes)*100,2)));
 			
@@ -354,7 +354,7 @@ public class StrategyRecalculateFacturacionMes extends DefaultStrategyRequest {
 			for (int i=0;i<appsList.size();i++){
 				FieldViewSet objetoAppIesimo = appsList.get(i);
 				Long idAppIesimo = (Long) objetoAppIesimo.getValue(appEntidad.searchField(ConstantesModelo.PROYECTO_1_ID).getName());				
-				//... y actualizamos sus % de participación
+				//... y actualizamos sus % de participacion
 				FieldViewSet hojasFacturacionMesAppEntidadFilter = new FieldViewSet(facturacionMesAppEntidad);
 				hojasFacturacionMesAppEntidadFilter.setValue(facturacionMesAppEntidad.searchField(ConstantesModelo.FACTURACIONMESPORAPP_2_ANYO).getName(), anyo);
 				hojasFacturacionMesAppEntidadFilter.setValue(facturacionMesAppEntidad.searchField(ConstantesModelo.FACTURACIONMESPORAPP_3_MES).getName(), idMes);
@@ -381,7 +381,7 @@ public class StrategyRecalculateFacturacionMes extends DefaultStrategyRequest {
 			for (int i=0;i<dptosList.size();i++){
 				FieldViewSet objetoDptoIesimo = dptosList.get(i);
 				Long idDptoIesimo = (Long) objetoDptoIesimo.getValue(dptoEntidad.searchField(ConstantesModelo.DEPARTAMENTO_1_ID).getName());				
-				//... y actualizamos sus % de participación
+				//... y actualizamos sus % de participacion
 				FieldViewSet hojasFacturacionMesDptoEntidadFilter = new FieldViewSet(facturacionMesDptoEntidad);
 				hojasFacturacionMesDptoEntidadFilter.setValue(facturacionMesDptoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORDPTO_2_ANYO).getName(), anyo);
 				hojasFacturacionMesDptoEntidadFilter.setValue(facturacionMesDptoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORDPTO_3_MES).getName(), idMes);
@@ -422,7 +422,7 @@ public class StrategyRecalculateFacturacionMes extends DefaultStrategyRequest {
 			//recorremos todos los servicios de este mismo concurso
 			for (int i=0;i<idServicesIdentificados.size();i++){
 				Long idServiceIesimo = idServicesIdentificados.get(i);
-				//... y actualizamos sus % de participación
+				//... y actualizamos sus % de participacion
 				FieldViewSet hojasFacturacionMesServicioEntidadFilter = new FieldViewSet(facturacionMesServicioEntidad);
 				hojasFacturacionMesServicioEntidadFilter.setValue(facturacionMesServicioEntidad.searchField(ConstantesModelo.FACTURACIONMESPORSERVICIO_2_ANYO).getName(), anyo);
 				hojasFacturacionMesServicioEntidadFilter.setValue(facturacionMesServicioEntidad.searchField(ConstantesModelo.FACTURACIONMESPORSERVICIO_3_MES).getName(), idMes);

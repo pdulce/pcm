@@ -48,10 +48,10 @@
 		submitSucces="GestionarImportacionesGEDEON.query" strategyPre="facturacionUte.strategies.StrategyImportacion">
 
 		<viewComponent>
-			<form columns="8" title="Importación">
+			<form columns="8" title="Importacion">
 				<fieldViewSet entitymodel="importacionesGEDEON"
 					nameSpace="importacionesGEDEON">
-					<fieldset legend="Datos Importación">
+					<fieldset legend="Datos Importacion">
 						<fieldView mappingTo="1" size="4" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
@@ -74,7 +74,7 @@
 		submitSucces="GestionarImportacionesGEDEON.update" strategyPre="facturacionUte.strategies.StrategyImportacion">
 
 		<viewComponent>
-			<form columns="3" title="Edición Importación">
+			<form columns="3" title="Edicion Importacion">
 				<fieldViewSet entitymodel="importacionesGEDEON"
 					nameSpace="importacionesGEDEON">
 					<fieldView mappingTo="6" editable="false" />							
@@ -99,10 +99,10 @@
 		submitSucces="GestionarImportacionesGEDEON.query">
 
 		<viewComponent>
-			<form columns="8" title="Importación">
+			<form columns="8" title="Importacion">
 				<fieldViewSet entitymodel="importacionesGEDEON"
 					nameSpace="importacionesGEDEON">
-					<fieldset legend="Datos Importación">
+					<fieldset legend="Datos Importacion">
 						<fieldView mappingTo="1" size="4" editable="false" />
 						<fieldView mappingTo="2" size="25" editable="false" />
 						<fieldView separator="br" />

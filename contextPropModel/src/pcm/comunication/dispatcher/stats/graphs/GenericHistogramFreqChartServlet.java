@@ -79,7 +79,7 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 
 			int posicionAgrupacion = 1;
 			long valores = 0;
-			for (int i=0;i<periodos.size(); i++) {//pueden ser años, meses o días
+			for (int i=0;i<periodos.size(); i++) {//pueden ser aoos, meses o doas
 				String inicioPeriodoDeAgrupacion = periodos.get(i);
 				String finPeriodoDeAgrupacion = "";
 				if ((i+1)== periodos.size()){
@@ -154,7 +154,7 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 			listaValoresAgregados.addAll(valoresAgregados);
 			//int posicionDeAgrupacion = 1;
 			for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: listaValoresAgregados) {
-				/** analizamos el registro totalizado, por si tiene más de una key (fieldviewset) ***/
+				/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 				Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
 				double subTotalPorCategoriaAgrupacion = 0.0;
 				String valueForEntidadFiltro = "", valueEntidadMaster = "";

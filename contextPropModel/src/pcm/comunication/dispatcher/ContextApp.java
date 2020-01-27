@@ -22,12 +22,12 @@ public class ContextApp implements Serializable {
 
 	private static final long serialVersionUID = 556666888190L;
 	
-	public static final String[] ITEM_NAMES = new String[] { "título", "diccionario entidades", "acceso a fuente de datos [JNDI | JDBC]",
-		"implementación fuente de datos", "factoría de implementación de fuente de datos", "prefijo recurso JNDI",
-		"nombre recurso JNDI", "clase driver JDBC", "url de conexión vía JDBC", "esquema Base de Datos", "usuario Base de Datos",
-		"password Base de Datos", "hoja de estilos (específica)", "ruta de plantilla genérica de pantalla",
-		"directorio de subida de ficheros a servidor", "autorías activadas", "tamaño de paginación", "directorio de downloads",
-		"log de aplicación" };
+	public static final String[] ITEM_NAMES = new String[] { "totulo", "diccionario entidades", "acceso a fuente de datos [JNDI | JDBC]",
+		"implementacion fuente de datos", "factoroa de implementacion de fuente de datos", "prefijo recurso JNDI",
+		"nombre recurso JNDI", "clase driver JDBC", "url de conexion voa JDBC", "esquema Base de Datos", "usuario Base de Datos",
+		"password Base de Datos", "hoja de estilos (especofica)", "ruta de plantilla genorica de pantalla",
+		"directorio de subida de ficheros a servidor", "autoroas activadas", "tamaoo de paginacion", "directorio de downloads",
+		"log de aplicacion" };
 
 	private boolean auditOn;
 
@@ -87,11 +87,11 @@ public class ContextApp implements Serializable {
 	}
 	
 	public ContextApp(String appMetamodel_) {
-		this.itemValues[3] = "Sólo para acceso vía JNDI";
+		this.itemValues[3] = "Solo para acceso voa JNDI";
 		this.itemValues[4] = this.itemValues[3];
 		this.itemValues[5] = this.itemValues[3];
 		this.itemValues[6] = this.itemValues[3];
-		this.itemValues[7] = "Sólo para acceso vía JDBC";
+		this.itemValues[7] = "Solo para acceso voa JDBC";
 		this.itemValues[8] = this.itemValues[7];
 		this.itemValues[9] = this.itemValues[7];
 		this.itemValues[10] = this.itemValues[7];
@@ -304,29 +304,29 @@ public class ContextApp implements Serializable {
 			this.setDSourceImpl(value);
 			this.itemValues[3] = this.getDSourceImpl();
 		} else if (key.equals(PCMConstants.DATASOURCE_FACTORY_IMPL)) {
-			this.setDatasourceFactoryImpl(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JDBC_TYPE) ? "Sólo para acceso vía JNDI"
+			this.setDatasourceFactoryImpl(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JDBC_TYPE) ? "Solo para acceso voa JNDI"
 					: value);
 			this.itemValues[4] = this.getDatasourceFactoryImpl();
 		} else if (key.equals(PCMConstants.DB_PREFFIX)) {
-			this.setDbPreffix(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JDBC_TYPE) ? "Sólo para acceso vía JNDI" : value);
+			this.setDbPreffix(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JDBC_TYPE) ? "Solo para acceso voa JNDI" : value);
 			this.itemValues[5] = this.getDbPreffix();
 		} else if (key.equals(PCMConstants.DB_RESOURCE_NAME)) {
-			this.setResourceName(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JDBC_TYPE) ? "Sólo para acceso vía JNDI" : value);
+			this.setResourceName(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JDBC_TYPE) ? "Solo para acceso voa JNDI" : value);
 			this.itemValues[6] = this.getResourceName();
 		} else if (key.equals(PCMConstants.URL_DDBB_DRIVERCLASS)) {
-			this.setDriverDDBB(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Sólo para acceso vía JDBC" : value);
+			this.setDriverDDBB(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Solo para acceso voa JDBC" : value);
 			this.itemValues[7] = this.getDriverDDBB();
 		} else if (key.equals(PCMConstants.URL_DDBB_CONNECTION)) {
-			this.setUrlConn(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Sólo para acceso vía JDBC" : value);
+			this.setUrlConn(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Solo para acceso voa JDBC" : value);
 			this.itemValues[8] = this.getUrlConn();
 		} else if (key.equals(PCMConstants.SCHEMADDBB)) {
-			this.setSchemaDDBB(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Sólo para acceso vía JDBC" : value);
+			this.setSchemaDDBB(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Solo para acceso voa JDBC" : value);
 			this.itemValues[9] = this.getSchemaDDBB();
 		} else if (key.equals(PCMConstants.DB_USER)) {
-			this.setDbUser(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Sólo para acceso vía JDBC" : value);
+			this.setDbUser(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Solo para acceso voa JDBC" : value);
 			this.itemValues[10] = this.getDbUser();
 		} else if (key.equals(PCMConstants.DB_PASSWD)) {
-			this.setDbPassword(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Sólo para acceso vía JDBC" : value);
+			this.setDbPassword(this.getDataSourceAccess().equals(PCMConstants.DATASOURCE_JNDI_TYPE) ? "Solo para acceso voa JDBC" : value);
 			this.itemValues[11] = this.getDbPassword();
 		} else if (key.equals(PCMConstants.STYLESHEET_RESOURCE_PATH)) {
 			this.setStyleSheet(value);

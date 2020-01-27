@@ -293,7 +293,7 @@ public class PaginationGrid extends AbstractComponent {
 
 		final PaginationGrid newV = new PaginationGrid();
 
-		/** CARGAMOS LA INFORMACIÓN DEL LA PARRILLA DE RESULTADOS **/
+		/** CARGAMOS LA INFORMACIoN DEL LA PARRILLA DE RESULTADOS **/
 		newV.service = this.service;
 		newV.appContext = this.appContext;
 		newV.nameContext = this.nameContext;
@@ -689,7 +689,7 @@ public class PaginationGrid extends AbstractComponent {
 	
 		final StringBuilder orderFieldSet = new StringBuilder();
 		
-		String orderFieldDirectionPressed_ = request.getParameter(ORDENACION);//aqui se almacena qué columna fue pulsada
+		String orderFieldDirectionPressed_ = request.getParameter(ORDENACION);//aqui se almacena quo columna fue pulsada
 		String[] orderFieldsDirectionPressed = orderFieldDirectionPressed_ == null ? getDefaultOrderFields() : new String[]{orderFieldDirectionPressed_};
 		
 		GenericInput inputOrderField = new GenericInput();
@@ -781,7 +781,7 @@ public class PaginationGrid extends AbstractComponent {
 		}
 		String[] actualOrderFields = null;
 		String actualOrderDirection = null;
-		//debe entrar aqui si tenías un criterio de búsqueda activo
+		//debe entrar aqui si tenoas un criterio de bosqueda activo
 		if (accion.getRequestContext().getParameter(ORDENACION) != null
 				&& !PCMConstants.EMPTY_.equals(accion.getRequestContext().getParameter(ORDENACION))) {
 			actualOrderFields = new String[]{accion.getRequestContext().getParameter(ORDENACION)};
@@ -890,7 +890,7 @@ public class PaginationGrid extends AbstractComponent {
 				try {
 					IFieldView column = this.searchFieldView(this.headerLabels.get(i).getName());
 					if (column == null) {
-						continue;// esta columna no está en el formulario pero quiero sacarla en el
+						continue;// esta columna no esto en el formulario pero quiero sacarla en el
 									// grid!!
 					}
 					Serializable valueOfColumn = !this.getValueOfField(this.headerLabels.get(i).getName(), rowCounter).isNull() ? this

@@ -34,7 +34,7 @@
 							</fieldView>
 							<fieldView name="escalado" type="select">
 								<optionValues>
-									<option code="automatic" title="Automático"></option>
+									<option code="automatic" title="Automatico"></option>
 									<option code="dayly" title="Diario"></option>
 									<option code="weekly" title="Semanal" selected="true"></option>
 									<option code="monthly" title="Mensual"></option>
@@ -63,7 +63,7 @@
 							</fieldView>
 							<fieldView name="escalado" type="select">
 								<optionValues>
-									<option code="automatic" title="Automático"></option>
+									<option code="automatic" title="Automatico"></option>
 									<option code="dayly" title="Diario"></option>
 									<option code="weekly" title="Semanal" selected="true"></option>
 									<option code="monthly" title="Mensual"></option>
@@ -118,7 +118,7 @@
 							</fieldView>
 							<fieldView name="escalado" type="select">
 								<optionValues>
-									<option code="automatic" title="Automático"></option>
+									<option code="automatic" title="Automatico"></option>
 									<option code="dayly" title="Diario"></option>
 									<option code="weekly" title="Semanal" selected="true"></option>
 									<option code="monthly" title="Mensual"></option>
@@ -140,7 +140,7 @@
 							<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>
 							<fieldView name="ejeX" type="select">
 								<optionValues>
-									<option code="4" title="Cotiz.Indice Burstátil" selected="true"></option>
+									<option code="4" title="Cotiz.Indice Burstatil" selected="true"></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="ejeY" type="select">

@@ -93,7 +93,7 @@ public class StrategyCrearAgregadosMesesAppDptoServicio extends DefaultStrategyR
 				fechaFinC.setTime(fechaFinContrato_);
 				fechaAux.setTime(fechaInicioContrato_);
 				for (int i=0;i<numTotalMeses;i++){
-					 // extraemos el mes y año de la aux, 
+					 // extraemos el mes y aoo de la aux, 
 					int anyo = fechaAux.get(Calendar.YEAR);
 					int mes = fechaAux.get(Calendar.MONTH) + 1;//en java los meses son de 0 a 11, en nuestro modelo, el mes 11 es el 11, van del 1 al 12
 
@@ -101,14 +101,14 @@ public class StrategyCrearAgregadosMesesAppDptoServicio extends DefaultStrategyR
 					fechaAux.add(Calendar.MONTH, 1);
 					fechaAux.set(Calendar.DAY_OF_MONTH, 1);
 					
-					// si no está la facturación del concurso creada, poco podemos hacer, salimos con excepción controlada
+					// si no esto la facturacion del concurso creada, poco podemos hacer, salimos con excepcion controlada
 					final FieldViewSet filtro4FactuteMesConcurso = new FieldViewSet(facturacionMesConcursoEntidad);
 					filtro4FactuteMesConcurso.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_4_ID_CONCURSO).getName(), idConcurso);
 					filtro4FactuteMesConcurso.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_2_ANYO).getName(), anyo);
 					filtro4FactuteMesConcurso.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_3_MES).getName(), mes);
 					List<FieldViewSet> listaFactuteMesConcurso = dataAccess.searchByCriteria(filtro4FactuteMesConcurso);
 					if (listaFactuteMesConcurso.isEmpty()){
-						throw new StrategyException("Error al obtener la mensualidad del concurso, asegúrese de que el concurso tiene las mensualidades creadas");
+						throw new StrategyException("Error al obtener la mensualidad del concurso, asegorese de que el concurso tiene las mensualidades creadas");
 					}
 					Long referenceToConcursoMesGrabado = (Long) listaFactuteMesConcurso.get(0).getValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORAPP_1_ID).getName());
 					
@@ -128,7 +128,7 @@ public class StrategyCrearAgregadosMesesAppDptoServicio extends DefaultStrategyR
 						registroAgregadoMesServicio.setValue(facturacionMesServicioEntidad.searchField(ConstantesModelo.FACTURACIONMESPORSERVICIO_9_ID_FACTMES_CONCURSO).getName(), referenceToConcursoMesGrabado);						
 						int grabado = dataAccess.insertEntity(registroAgregadoMesServicio);
 						if (grabado < 1){
-							throw new PCMConfigurationException("Error al grabar el agregado del servicio del mes " + mes + " del año " + anyo);
+							throw new PCMConfigurationException("Error al grabar el agregado del servicio del mes " + mes + " del aoo " + anyo);
 						}
 						registroAgregadoMesServicio = dataAccess.searchByCriteria(registroAgregadoMesServicio).get(0);
 					}
@@ -151,13 +151,13 @@ public class StrategyCrearAgregadosMesesAppDptoServicio extends DefaultStrategyR
 						registroAgregadoMesDpto.setValue(facturacionMesDptoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORDPTO_10_ID_FACTMES_SERVICIO).getName(), referenceToServicioMesGrabado);						
 						int grabado = dataAccess.insertEntity(registroAgregadoMesDpto);
 						if (grabado < 1){
-							throw new PCMConfigurationException("Error al grabar el agregado del dpto del mes " + mes + " del año " + anyo);
+							throw new PCMConfigurationException("Error al grabar el agregado del dpto del mes " + mes + " del aoo " + anyo);
 						}
 						registroAgregadoMesDpto = dataAccess.searchByCriteria(registroAgregadoMesDpto).get(0);
 					}
 					Long referenceToDptoMesGrabado = (Long) registroAgregadoMesDpto.getValue(facturacionMesServicioEntidad.searchField(ConstantesModelo.FACTURACIONMESPORDPTO_1_ID).getName());
 					
-					//grabamos el agregado de la aplicación
+					//grabamos el agregado de la aplicacion
 					FieldViewSet registroAgregadoMesApp = new FieldViewSet(facturacionMesAppEntidad);
 					registroAgregadoMesApp.setValue(facturacionMesAppEntidad.searchField(ConstantesModelo.FACTURACIONMESPORAPP_2_ANYO).getName(), anyo);
 					registroAgregadoMesApp.setValue(facturacionMesAppEntidad.searchField(ConstantesModelo.FACTURACIONMESPORAPP_3_MES).getName(), mes);
@@ -175,7 +175,7 @@ public class StrategyCrearAgregadosMesesAppDptoServicio extends DefaultStrategyR
 						registroAgregadoMesApp.setValue(facturacionMesAppEntidad.searchField(ConstantesModelo.FACTURACIONMESPORAPP_10_UTS).getName(), new BigDecimal(0));									
 						int grabado = dataAccess.insertEntity(registroAgregadoMesApp);
 						if (grabado < 1){
-							throw new PCMConfigurationException("Error al grabar el agregado de la app para el mes " + mes + " del año " + anyo);
+							throw new PCMConfigurationException("Error al grabar el agregado de la app para el mes " + mes + " del aoo " + anyo);
 						}
 						registroAgregadoMesApp = dataAccess.searchByCriteria(registroAgregadoMesApp).get(0);
 					}

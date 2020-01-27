@@ -13,7 +13,7 @@
 
 			<viewComponent>
 
-				<form columns="53" title="Consulta categorías profesionales">
+				<form columns="53" title="Consulta categorias profesionales">
 
 					<fieldViewSet entitymodel="categoria_profesional"
 						nameSpace="categoria_profesional">
@@ -26,7 +26,7 @@
 					</fieldViewSet>
 				</form>
 
-				<grid title="Listado categorías profesionales" orderDirection="asc" eventsRegistered="detail">
+				<grid title="Listado categorias profesionales" orderDirection="asc" eventsRegistered="detail">
 					<fieldViewSet entitymodel="categoria_profesional"
 						nameSpace="categoria_profesional">
 						<fieldView mappingTo="1" />
@@ -43,7 +43,7 @@
 			submitSucces="ConsultaCategorias.detail">
 
 			<viewComponent>
-				<form columns="53" title="Categoría profesional">
+				<form columns="53" title="Categoria profesional">
 					<fieldViewSet entitymodel="categoria_profesional"
 						nameSpace="categoria_profesional">
 						<fieldView mappingTo="1" size="4" editable="false" />

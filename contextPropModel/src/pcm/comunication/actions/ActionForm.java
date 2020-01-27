@@ -80,8 +80,8 @@ public class ActionForm extends AbstractPcmAction {
 	}
 
 	/*******************************************************************************************************************************************************************************
-	 * Este método marca una secuencia óptima y uniforme de operaciones para todas las clases de
-	 * acción del aplicativo
+	 * Este motodo marca una secuencia optima y uniforme de operaciones para todas las clases de
+	 * accion del aplicativo
 	 ******************************************************************************************************************************************************************************/
 
 	/** * LAS ACCIONES PUEDEN SER: EDIT, INSERT, UPDATE, DELETE *** */
@@ -138,9 +138,9 @@ public class ActionForm extends AbstractPcmAction {
 	}
 
 	/*******************************************************************************************************************************************************************************
-	 * Prevalecen los atributos de la request o de la sesión tanto como los definidos como tal. Si
-	 * un fieldview se define como persistible en sesión o request, ha de llevarse a
-	 * cabo aquí
+	 * Prevalecen los atributos de la request o de la sesion tanto como los definidos como tal. Si
+	 * un fieldview se define como persistible en sesion o request, ha de llevarse a
+	 * cabo aquo
 	 * 
 	 * @param fieldViewSet
 	 */
@@ -209,7 +209,7 @@ public class ActionForm extends AbstractPcmAction {
 						this.getRequestContext().setAttribute(PCMConstants.MASTER_ID_SEL_, paramMaster);
 						
 					}else{
-						//llega departamento.servicio si es de un servicio anidado, o si es del edición a partir del evento-query raiz...tratar ambos casos
+						//llega departamento.servicio si es de un servicio anidado, o si es del edicion a partir del evento-query raiz...tratar ambos casos
 						String lang = CommonUtils.getEntitiesDictionary(this.servletRequest);
 						String serial_ = null;
 						Iterator<String> enumPa = this.servletRequest.getParametersNames().iterator();
@@ -371,12 +371,12 @@ public class ActionForm extends AbstractPcmAction {
 						}
 						if (!msgs.isEmpty()
 								|| (dataAccess.getEntitiesToUpdate().isEmpty() && fCollectionIesimo.getFieldViewSets().size() < 1)) {
-							throw new ParameterBindingException("Errores en transacción");
+							throw new ParameterBindingException("Errores en transaccion");
 						}
 						
 						dataAccess.setAutocommit(false);
 						if (Event.isDeleteEvent(event_) ){
-							//ejecutar estrategia genérica de borrado protegiendo la integridad referencial	VS borrados en cascada											
+							//ejecutar estrategia genorica de borrado protegiendo la integridad referencial	VS borrados en cascada											
 							dataAccess.getPreconditionStrategies().add("pcm.strategies.DefaultStrategyDelete");
 						}
 					}
@@ -448,7 +448,7 @@ public class ActionForm extends AbstractPcmAction {
 			}
 			catch (final KeyNotFoundException elementExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE);
-				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, " selección "));
+				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, " seleccion "));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
 			}

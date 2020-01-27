@@ -98,7 +98,7 @@ public class BodyContainer implements IBodyContainer {
 			int numGrids = viewComponentElement.getElementsByTagName(IViewMetamodel.GRID_ELEMENT).getLength();
 			for (int j = 0; j < numGrids; j++) {
 				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(IViewMetamodel.GRID_ELEMENT).item(j);
-				/** engarzo con el último form de este view component ***/
+				/** engarzo con el oltimo form de este view component ***/
 				grids.add(new PaginationGrid(service, elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), appCtx, request));
 			}
 
@@ -224,7 +224,7 @@ public class BodyContainer implements IBodyContainer {
 	public String toXML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted, final List<MessageException> applicationMsgs) {
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			//en primer lugar, los mensajes y errores de aplicación			
+			//en primer lugar, los mensajes y errores de aplicacion			
 			if (applicationMsgs != null && !applicationMsgs.isEmpty()) {
 				final Iterator<MessageException> iteMsg = applicationMsgs.iterator();
 				while (iteMsg.hasNext()) {

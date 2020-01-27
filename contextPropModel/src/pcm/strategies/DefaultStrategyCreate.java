@@ -40,7 +40,7 @@ public class DefaultStrategyCreate implements IStrategy {
 				return;
 			}
 			if (dataAccess.getDaoRef().isAuditActivated()) {
-				// miro si ha sido dado de baja, en caso de que existan campos de auditoría
+				// miro si ha sido dado de baja, en caso de que existan campos de auditoroa
 				final String fecBajaField = dataAccess.getDaoRef().getAuditFieldset().getProperty(IViewMetamodel.FEC_BAJA);
 				if (fecBajaField == null || PCMConstants.EMPTY_.equals(fecBajaField)) {
 					dataAccess.deletePhysicalEntity(entidadInDataModel);
@@ -51,9 +51,9 @@ public class DefaultStrategyCreate implements IStrategy {
 								.getFieldvalue(fecBajaField).isNull()))) {
 					throw new StrategyException(IAction.CREATE_STRATEGY_PK_EXISTS_ERR);
 				} else if (fieldLogicFecBaja != null) {
-					// Ya existe en el Modelo de Datos, pero está dado de baja:
-					// hacemos una modificación, poniendo a null los dos campos de auditoría que
-					// provocan la baja lógica del registro
+					// Ya existe en el Modelo de Datos, pero esto dado de baja:
+					// hacemos una modificacion, poniendo a null los dos campos de auditoroa que
+					// provocan la baja logica del registro
 					entidadInDataModel.setValue(entidadInDataModel.getFieldView(fieldLogicFecBaja).getQualifiedContextName(), null);
 					final FieldViewSetCollection collection2Modify = new FieldViewSetCollection();
 					collection2Modify.getFieldViewSets().add(entidadInDataModel);

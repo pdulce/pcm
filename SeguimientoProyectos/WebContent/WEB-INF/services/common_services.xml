@@ -12,7 +12,7 @@ xmlns:service="http://pcm.framework.org/service"
 		<action event="submitForm" submitError="Autenticacion.submitForm"
 			transactional="false" strategyPre="facturacionUte.strategies.StrategyLogin">
 			<viewComponent>
-				<form align="center" columns="1" title="Autenticación">
+				<form align="center" columns="1" title="Autenticacion">
 					<fieldViewSet nameSpace="entryForm">
 						
 						<fieldView name="user" type="text" required="true"
@@ -78,7 +78,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="GestionEntidades.update">
 
 			<viewComponent>
-				<form columns="53" title="Edición">
+				<form columns="53" title="Edicion">
 					<fieldViewSet entitymodel="%request%" nameSpace="entityName">
 						<fieldView type="text" hidden="true" editable="false"
 							value="%request%" />

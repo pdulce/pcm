@@ -52,7 +52,7 @@ public class StatsUtils {
 	public void setTamanioMuestra(int tamanioMuestra, int muestreoType) {
 		List<Double> datos_variable_X_aux = new ArrayList<Double>();
 		List<Double> datos_variable_Y_aux = new ArrayList<Double>();
-		// nos quedamos solo con un núm. de tamanioMuestra de cada variable
+		// nos quedamos solo con un nom. de tamanioMuestra de cada variable
 		switch (muestreoType) {
 			case MUESTREO_SIMPLE:
 				// algortimo simple: los tamanioMuestra primeros de cada muestra
@@ -226,7 +226,7 @@ public class StatsUtils {
 		return Math.sqrt(obtenerVarianza_Variable_X(media));
 	}
 
-	/** Coeficiente variación Pearseon **/
+	/** Coeficiente variacion Pearseon **/
 	public double obtenerCoeficienteVP_Variable_X(Double media) {
 		return obtenerDesviacionTipica_Variable_X(media) / (media == null ? obtenerMediaAritmetica_Variable_X() : media.doubleValue());
 	}
@@ -260,7 +260,7 @@ public class StatsUtils {
 
 	public Map<Double, Double> tabla_correlacion_X_Y() throws Throwable {
 		if (this.datos_variable_X.size() != this.datos_variable_Y.size()) {
-			throw new Throwable("ambas muestras han de tener el mismo tamaño para su correlación");
+			throw new Throwable("ambas muestras han de tener el mismo tamaoo para su correlacion");
 		}
 		Map<Double, Double> tabla_correlacion = new HashMap<Double, Double>();
 		int tamanioMuestra = this.datos_variable_X.size();
@@ -270,7 +270,7 @@ public class StatsUtils {
 		return tabla_correlacion;
 	}
 
-	/** Coeficiente de correlación lineal entre ambas variables ***/
+	/** Coeficiente de correlacion lineal entre ambas variables ***/
 	public double obtenerParametro_Beta_de_Correlacion() {
 		double numerador = 0, denominador = 0, media_variable_X = obtenerMediaAritmetica_Variable_X(), media_variable_Y = obtenerMediaAritmetica_Variable_Y();
 		int tamanio = this.datos_variable_X.size();
@@ -338,13 +338,13 @@ public class StatsUtils {
 		double p_value_of_Chi_X2_test = chiSquaredTest_.chiSquareTestDataSetsComparison(columns_observed, rows_observed);
 		
 		if (p_value_of_Chi_X2_test > 0.995){
-			System.out.println("resultado del test Chi-Squared: existe un alto grado de correlación entre ambas variables, x e Y elegidas");
+			System.out.println("resultado del test Chi-Squared: existe un alto grado de correlacion entre ambas variables, x e Y elegidas");
 		}
-		// forzamos un factor de correlación, luego invocamos al calculador de dicho factor
+		// forzamos un factor de correlacion, luego invocamos al calculador de dicho factor
 		stats.setDatos_variable_Y(data_Y);
 		double media_Var_X = stats.obtenerMediaAritmetica_Variable_X();
 		System.out.println("Media de X: " + media_Var_X);
-		System.out.println("Desviacion típica de X: " + stats.obtenerDesviacionTipica_Variable_X(Double.valueOf(media_Var_X)));
+		System.out.println("Desviacion topica de X: " + stats.obtenerDesviacionTipica_Variable_X(Double.valueOf(media_Var_X)));
 
 		System.out.println("lista de variables A: " + stats.getDatos_variable_X());
 		System.out.println("lista de variables B: " + stats.getDatos_variable_Y());
@@ -353,20 +353,20 @@ public class StatsUtils {
 		System.out.println("media A: " + stats.obtenerMediaAritmetica_Variable_X());
 		// System.out.println("media geo A: " + stats.obtenerMediaGeometrica_Variable_X());
 		// System.out.println("mediana A: " + stats.obtenerMediana_Variable_X());
-		System.out.println("coeficiente de Variación Pearson A: " + stats.obtenerCoeficienteVP_Variable_X(null));
+		System.out.println("coeficiente de Variacion Pearson A: " + stats.obtenerCoeficienteVP_Variable_X(null));
 		try {
 			System.out.println("tabla_correlacion_X_Y: " + stats.tabla_correlacion_X_Y());
 			Double param_Beta_correlacionLineal = Double.valueOf(stats.obtenerParametro_Beta_de_Correlacion());
 			Double param_A_correlacionLineal = Double.valueOf(stats.obtenerParametro_A_de_Correlacion());
-			System.out.println("parámetro 'a' de correlación lineal (y cuando x es 0): " + param_A_correlacionLineal);
-			System.out.println("parámetro 'b' de correlación lineal: " + param_Beta_correlacionLineal);
-			System.out.println("lista de variables Y estimadas según CCL: "
+			System.out.println("parometro 'a' de correlacion lineal (y cuando x es 0): " + param_A_correlacionLineal);
+			System.out.println("parometro 'b' de correlacion lineal: " + param_Beta_correlacionLineal);
+			System.out.println("lista de variables Y estimadas segon CCL: "
 					+ stats.obtenerVariables_Y(param_A_correlacionLineal, param_Beta_correlacionLineal));
 		}
 		catch (Throwable exc) {
 			exc.printStackTrace();
 		}
-		// calculamos la función de regresión; y = a + bx
+		// calculamos la funcion de regresion; y = a + bx
 		// a = media_Y - (b*Media_X)
 		// b se calcula como la covarianza de x,y partido de la varianza de x
 

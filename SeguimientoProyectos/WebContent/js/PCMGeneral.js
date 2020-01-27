@@ -24,7 +24,7 @@ gIdioma= 'ES';
 //	var event = window.event||e;
 //	var obj = event.srcElement||event.target;
 //	var args=Array.prototype.slice.call(arguments,1);	
-//	var fRef = args[0];//la función a invocar es el primer argumento
+//	var fRef = args[0];//la funcion a invocar es el primer argumento
 //	var fn = window[fRef];
 //	args.unshift(obj);
 //	fn.apply(this, args);
@@ -95,8 +95,8 @@ function invoke(ventana, paramsVentana, URL)
 			oVentana= window.open(URL + CrearParametrosURL(arguments, 3), ventana, paramsVentana);
 	}
 	else
-		// No se ha indicado la ventana de invocación
-		showMessageCod(MSG_DATONOESPECIFICADO, iMsgTipoCerrar, getMensajeARQD(MSG_ERROR), getMensajeARQD(MSG_ERRORJS),'ARQ',null,null,"DATO","Ventana de invocación"); 
+		// No se ha indicado la ventana de invocacion
+		showMessageCod(MSG_DATONOESPECIFICADO, iMsgTipoCerrar, getMensajeARQD(MSG_ERROR), getMensajeARQD(MSG_ERRORJS),'ARQ',null,null,"DATO","Ventana de invocacion"); 
 	return oVentana;
 }
 
@@ -110,7 +110,7 @@ function invokeTarea()
 }
 
 //*************************************************************************
-//* Devuelve una URL conteniendo la invocación a la Aplicación dada.      *
+//* Devuelve una URL conteniendo la invocacion a la Aplicacion dada.      *
 //*************************************************************************
 function invokeApp(App)
 {
@@ -126,12 +126,12 @@ function invokeApp(App)
 		}
 	}
 	else
-		// No se ha indicado la Aplicación
-		showMessageCod(MSG_DATONOESPECIFICADO, iMsgTipoCerrar, getMensajeARQD(MSG_ERROR), getMensajeARQD(MSG_ERRORJS),'ARQ',null,null,"DATO","Aplicación");
+		// No se ha indicado la Aplicacion
+		showMessageCod(MSG_DATONOESPECIFICADO, iMsgTipoCerrar, getMensajeARQD(MSG_ERROR), getMensajeARQD(MSG_ERRORJS),'ARQ',null,null,"DATO","Aplicacion");
 }
 
 //*************************************************************************
-//* Quita los espacios de delante y detrás de todos los campos text y     *
+//* Quita los espacios de delante y detros de todos los campos text y     *
 //* textarea de un formulario      										  *
 //*************************************************************************
 function trimForm(gdForms)
@@ -217,7 +217,7 @@ function cambiaColor(obj,bError)
     	    	
 		var sNuevoClassNameBase=(iOffset==-1)?sClassName:sClassName.substring(0,iOffset);    	
     	    	
-    	//En función del valor del flag, definiremos el estilo con el que pintar el elemento    	
+    	//En funcion del valor del flag, definiremos el estilo con el que pintar el elemento    	
 		var sClassNameAAsignar=((bError==null || ! bError)?sNuevoClassNameBase:(sNuevoClassNameBase+wk_gErrorStylePreffix_NP));       	
    	
     	//Asignamos finalmente el codigo del estilo
@@ -415,7 +415,7 @@ function cerrarAplicacion()
 	        {
 	            location= metaTags('ARQ.URLEXIT').content;
 	        }
-		else if (top.document.frames.length == 0) { //No tiene Frames, con lo que es una excepción a nivel de portal
+		else if (top.document.frames.length == 0) { //No tiene Frames, con lo que es una excepcion a nivel de portal
 	           	window.close();
 			} else {
 				if (parent.bARQDPopupActivo) {

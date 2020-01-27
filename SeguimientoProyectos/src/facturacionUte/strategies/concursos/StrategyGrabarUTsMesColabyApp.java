@@ -83,7 +83,7 @@ public class StrategyGrabarUTsMesColabyApp extends DefaultStrategyRequest {
 						
 			FieldViewSet filtro4Agregados = new FieldViewSet(facturacionMesColaboradorEntidad);
 			filtro4Agregados.setValue(facturacionMesColaboradorEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCOLABORADOR_4_ID_COLABORADOR).getName(), idColaborador);								
-			//Qué ocurre si el colaborador no tiene hojas de meses??
+			//Quo ocurre si el colaborador no tiene hojas de meses??
 			//recorremos los agregados de los meses, y actualizamos los porcentajes de cumplimiento (el total ha cambiado) por app, por dpto, por servivio y por concurso
 			List<FieldViewSet> listaAgregadosMeses = dataAccess.searchByCriteria(filtro4Agregados);
 			if (listaAgregadosMeses.isEmpty()){
@@ -91,7 +91,7 @@ public class StrategyGrabarUTsMesColabyApp extends DefaultStrategyRequest {
 				fechaFinC.setTime(fechaFinContrato_);
 				fechaAux.setTime(fechaInicioContrato_);				
 				for (int i=0;i<numTotalMeses;i++){
-					 // extraemos el mes y año de la aux, 
+					 // extraemos el mes y aoo de la aux, 
 					int anyo = fechaAux.get(Calendar.YEAR);
 					int mes = fechaAux.get(Calendar.MONTH) + 1;//en java los meses son de 0 a 11, en nuestro modelo, el mes 11 es el 11, van del 1 al 12
 					
@@ -116,19 +116,19 @@ public class StrategyGrabarUTsMesColabyApp extends DefaultStrategyRequest {
 					registroAgregadoMes.setValue(facturacionMesColaboradorEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCOLABORADOR_10_UTS).getName(), new BigDecimal(0));		
 					int grabado = dataAccess.insertEntity(registroAgregadoMes);
 					if (grabado < 1){							
-						throw new PCMConfigurationException("Error al insertar el agregado del mes " + mes + ", del año " + anyo);							
+						throw new PCMConfigurationException("Error al insertar el agregado del mes " + mes + ", del aoo " + anyo);							
 					}					
 					
 				}//for: recorrido de todos los meses del contrato
-			}// FIN creación de hojas mes-colaborador
+			}// FIN creacion de hojas mes-colaborador
 			
-			//recorremos la lista de objetos de facturación mensuales, y para cada uno, creamos la hoja de imputación para este mes-aplicación-colaborador;
+			//recorremos la lista de objetos de facturacion mensuales, y para cada uno, creamos la hoja de imputacion para este mes-aplicacion-colaborador;
 			// si la hoja ya existe, salto ese mes y paso al siguiente (asi contemplamos reasignaciones de un recurso a un aplicativo)
 			Calendar fechaAux = Calendar.getInstance(), fechaFinC = Calendar.getInstance();
 			fechaFinC.setTime(fechaFinContrato_);
 			fechaAux.setTime(fechaInicioContrato_);
 			for (int i=0;i<numTotalMeses;i++){
-				 // extraemos el mes y año de la aux, 
+				 // extraemos el mes y aoo de la aux, 
 				int anyo = fechaAux.get(Calendar.YEAR);
 				int mes = fechaAux.get(Calendar.MONTH) + 1;//en java los meses son de 0 a 11, en nuestro modelo, el mes 11 es el 11, van del 1 al 12
 				//busco el agregado de esta mensualidad-colaborador
@@ -170,7 +170,7 @@ public class StrategyGrabarUTsMesColabyApp extends DefaultStrategyRequest {
 				
 					int grabado = dataAccess.insertEntity(filtro4AgregadoMesColaboradoryApp);
 					if (grabado < 1){
-						throw new PCMConfigurationException("Error al grabar el agregado del mes  " + mes + ", del año " + anyo + " para colaborador " + idColaborador + " y app " + idApp);
+						throw new PCMConfigurationException("Error al grabar el agregado del mes  " + mes + ", del aoo " + anyo + " para colaborador " + idColaborador + " y app " + idApp);
 					}
 				}								
 					

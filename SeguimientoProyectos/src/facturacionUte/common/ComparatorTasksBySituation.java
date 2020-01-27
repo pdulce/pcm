@@ -61,9 +61,9 @@ public final class ComparatorTasksBySituation implements Comparator<FieldViewSet
 		if (situa1 == -1){
 			if (situac_1.toLowerCase().indexOf("en curso") != -1){
 				situa1 = 2;
-			}else if (situac_1.indexOf("Soporte finalizado") != -1 || situac_1.indexOf("Petición de trabajo finalizado") != -1){
+			}else if (situac_1.indexOf("Soporte finalizado") != -1 || situac_1.indexOf("Peticion de trabajo finalizado") != -1){
 				situa1 = 8;
-			}else if (situac_1.toLowerCase().indexOf("Fin Análisis") != -1 || situac_1.toLowerCase().indexOf("Finalizada") != -1){
+			}else if (situac_1.toLowerCase().indexOf("Fin Anolisis") != -1 || situac_1.toLowerCase().indexOf("Finalizada") != -1){
 				situa1 = 3;
 			}
 		}
@@ -78,9 +78,9 @@ public final class ComparatorTasksBySituation implements Comparator<FieldViewSet
 		if (situa2 == -1){
 			if (situac_2.toLowerCase().indexOf("en curso") != -1){
 				situa2 = 2;
-			}else if (situac_2.indexOf("Soporte finalizado") != -1 || situac_2.indexOf("Petición de trabajo finalizado") != -1){
+			}else if (situac_2.indexOf("Soporte finalizado") != -1 || situac_2.indexOf("Peticion de trabajo finalizado") != -1){
 				situa2 = 8;
-			}else if (situac_2.toLowerCase().indexOf("Fin Análisis") != -1 || situac_2.toLowerCase().indexOf("Finalizada") != -1){
+			}else if (situac_2.toLowerCase().indexOf("Fin Anolisis") != -1 || situac_2.toLowerCase().indexOf("Finalizada") != -1){
 				situa2 = 3;
 			}
 		}

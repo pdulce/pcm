@@ -41,7 +41,7 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 		Number total = new Double(0.0);
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: valoresAgregados) {
-			/** analizamos el registro totalizado, por si tiene más de una key (fieldviewset) ***/
+			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 			Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
 			while (ite.hasNext()) {
 				FieldViewSet categoriaFieldSet = ite.next();
@@ -94,7 +94,7 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 		request_.setAttribute(LIGHT_COLOR_FIELD_PARAM, request_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
 		request_.setAttribute(DARK_COLOR_FIELD_PARAM, request_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
 
-		String title = "Distribución Provincial de #";
+		String title = "Distribucion Provincial de #";
 		String subtitle = "<h4>Provincias: <b>" + unidadesEnProvincias_formated + "#</b> [<b>"
 				+ CommonUtils.numberFormatter.format(promedioPorProvincia) + "#/provincia</b>]</h4>";
 		if (contabilizadasSSCC > 0) {

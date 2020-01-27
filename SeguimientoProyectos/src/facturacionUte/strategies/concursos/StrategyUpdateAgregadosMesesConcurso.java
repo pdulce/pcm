@@ -96,7 +96,7 @@ public class StrategyUpdateAgregadosMesesConcurso extends DefaultStrategyRequest
 				fechaFinC.setTime(fechaFinContrato_);
 				fechaAux.setTime(fechaInicioContrato_);
 				for (int i=0;i<numTotalMeses;i++){
-					 // extraemos el mes y año de la aux, 
+					 // extraemos el mes y aoo de la aux, 
 					int anyo = fechaAux.get(Calendar.YEAR);
 					int mes = fechaAux.get(Calendar.MONTH) + 1;//en java los meses son de 0 a 11, en nuestro modelo, el mes 11 es el 11, van del 1 al 12
 					
@@ -129,7 +129,7 @@ public class StrategyUpdateAgregadosMesesConcurso extends DefaultStrategyRequest
 					
 					int grabado = dataAccess.insertEntity(registroAgregadoMes);
 					if (grabado < 1){
-						throw new PCMConfigurationException("Error al grabar el agregado del mes " + mes + ", del año " + anyo);
+						throw new PCMConfigurationException("Error al grabar el agregado del mes " + mes + ", del aoo " + anyo);
 					}
 					
 				}
@@ -140,7 +140,7 @@ public class StrategyUpdateAgregadosMesesConcurso extends DefaultStrategyRequest
 					agregadoMes_iesimo.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_5_PRESUPUESTO).getName(), new BigDecimal(totalPresupuestoConcurso.doubleValue()/numTotalMeses));
 					int grabado = dataAccess.modifyEntity(agregadoMes_iesimo);
 					if (grabado < 1){
-						throw new PCMConfigurationException("Error al modificar el agregado del mes " + i + "-ésimo del concurso");
+						throw new PCMConfigurationException("Error al modificar el agregado del mes " + i + "-osimo del concurso");
 					}
 				}
 			}

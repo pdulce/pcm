@@ -413,7 +413,7 @@ public class Form extends AbstractComponent {
 			boolean validarFieldByUserDef = fieldView.isUserDefined() && fieldView.isRequired();
 			fieldView.setRequired(validarFieldByModelDef || validarFieldByUserDef);
 
-			// creamos el control en pantalla si no es un parámetro
+			// creamos el control en pantalla si no es un parometro
 			if (!isButtonParam) {
 				if (this.visibleControls.get(fieldset) == null) {
 					this.visibleControls.put(fieldset, new ArrayList<ICtrl>());
@@ -813,7 +813,7 @@ public class Form extends AbstractComponent {
 		
 		if (this.bindedPk && valueofPk != null && !"".equals(valueofPk) && !IEvent.CANCEL.equals(accion.getRequestContext().getParameter(PCMConstants.MASTER_NEW_EVENT_)) && 
 				!IEvent.VOLVER.equals(accion.getRequestContext().getParameter(PCMConstants.MASTER_NEW_EVENT_)) && (Event.isShowFormUpdateEvent(event) || Event.isDetailEvent(event))){
-			//sólo en este momento, guardo en la pila de IDs
+			//solo en este momento, guardo en la pila de IDs
 			String pilaIds = "";
 			@SuppressWarnings("rawtypes")
 			Enumeration enumAttrInSession = accion.getRequestContext().getSession().getAttributeNames();
@@ -1062,7 +1062,7 @@ public class Form extends AbstractComponent {
 						XmlUtils.closeXmlNode(buttonsStrBuilder, IViewComponent.LI_LABEL);
 						
 						for (int k=0;k<1;k++){
-							//rellenamos de azul el área de los filtros para lanzar el diagrama
+							//rellenamos de azul el orea de los filtros para lanzar el diagrama
 							XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.LI_LABEL);
 							buttonsStrBuilder.append("&nbsp;&nbsp;");
 							XmlUtils.closeXmlNode(buttonsStrBuilder, IViewComponent.LI_LABEL);
@@ -1105,7 +1105,7 @@ public class Form extends AbstractComponent {
 			newXmlToPaint = newXmlToPaint.replaceFirst(Form.VISIBLE_AREA,	innerHTMLFieldsSetGlobal.toString());
 
 			// long miliseconds2 = System.nanoTime();
-			// myLog.error("Tiempo de renderización DE LA PETICIÓN: " + (miliseconds2 -
+			// myLog.error("Tiempo de renderizacion DE LA PETICIoN: " + (miliseconds2 -
 			// miliseconds1) / Math.pow(10, 9) + " milisegundos");
 			return newXmlToPaint;
 		}

@@ -25,9 +25,9 @@
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
-									<option code="-1" title="períodos" selected="true"></option>
-									<option code="26" title="aplicación"></option>
-									<option code="7" title="situación"></option>
+									<option code="-1" title="periodos" selected="true"></option>
+									<option code="26" title="aplicacion"></option>
+									<option code="7" title="situacion"></option>
 									<option code="13" title="tipo"></option>
 									<option code="12" title="area destino"></option>
 									<option code="6" title="solicitante"></option>
@@ -50,7 +50,7 @@
 									<option code="3monthly" title="Trimestral"></option>
 									<option code="6monthly" title="Semestral"></option>
 									<option code="anualy" title="Anual"></option>
-									<option code="automatic" title="Automático"></option>
+									<option code="automatic" title="Automatico"></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="operation" hidden="true" value="SUM"/>							
@@ -64,10 +64,10 @@
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues selectionMultiple="true">
-									<option code="26" title="aplicación" selected="true"></option>
-									<option code="7" title="situación" selected="true"></option>
+									<option code="26" title="aplicacion" selected="true"></option>
+									<option code="7" title="situacion" selected="true"></option>
 									<option code="13" title="tipo"></option>
-									<option code="26" title="aplicación"></option>
+									<option code="26" title="aplicacion"></option>
 									<option code="12" title="area destino"></option>
 									<option code="6" title="solicitante"></option>
 								</optionValues>
@@ -95,9 +95,9 @@
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues selectionMultiple="true">
-									<option code="26" title="aplicación"></option>									
+									<option code="26" title="aplicacion"></option>									
 									<option code="13" title="tipo"></option>
-									<option code="7" title="situación" selected="true"></option>
+									<option code="7" title="situacion" selected="true"></option>
 									<option code="16" title="prioridad"></option>
 									<option code="12" title="area destino"></option>
 									<option code="6" title="solicitante"></option>
@@ -121,8 +121,8 @@
 							<fieldView name="orderBy" hidden="true" value="17"/>							
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
-									<option code="26" title="aplicación" selected="true"></option>
-									<option code="7" title="situación"></option>
+									<option code="26" title="aplicacion" selected="true"></option>
+									<option code="7" title="situacion"></option>
 									<option code="13" title="tipo"></option>
 									<option code="16" title="prioridad"></option>
 									<option code="12" title="area destino"></option>
@@ -147,10 +147,10 @@
 							<fieldView name="orderBy" hidden="true" value="17"/>							
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
-									<option code="-1" title="períodos" selected="true"></option>
-									<option code="26" title="aplicación"></option>
+									<option code="-1" title="periodos" selected="true"></option>
+									<option code="26" title="aplicacion"></option>
 									<option code="13" title="tipo"></option>
-									<option code="7" title="situación"></option>
+									<option code="7" title="situacion"></option>
 									<option code="12" title="area destino"></option>
 									<option code="16" title="prioridad"></option>
 									<option code="6" title="solicitante"></option>
@@ -171,7 +171,7 @@
 									<option code="3monthly" title="Trimestral"></option>
 									<option code="6monthly" title="Semestral"></option>
 									<option code="anualy" title="Anual"></option>
-									<option code="automatic" title="Automático"></option>
+									<option code="automatic" title="Automatico"></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="operation" hidden="true" value="SUM"/>							
@@ -204,7 +204,7 @@
 				<fieldViewSet entitymodel="incidenciasProyecto"
 					nameSpace="incidenciasProyecto">
 					
-					<fieldset legend="Criterios por Localización">
+					<fieldset legend="Criterios por Localizacion">
 					
 						<fieldView mappingTo="17" hidden="true" />
 					
@@ -240,7 +240,7 @@
 						
 					</fieldset>
 						
-					<fieldset legend="Criterios por Detalle Petición">
+					<fieldset legend="Criterios por Detalle Peticion">
 						
 						<!-- cuarta fila -->
 						
@@ -345,7 +345,7 @@
 
 				<fieldViewSet entitymodel="incidenciasProyecto"	nameSpace="incidenciasProyecto">
 					<fieldView mappingTo="17" hidden="true" />
-					<fieldView mappingTo="1" editable="false" styleCss="font-weight: bold;color: black;"/><!-- Petición -->
+					<fieldView mappingTo="1" editable="false" styleCss="font-weight: bold;color: black;"/><!-- Peticion -->
 					<fieldView mappingTo="37" editable="false" />
 					<fieldView mappingTo="12" editable="false" styleCss="font-style: italic;color: black;"/>
 					<fieldView mappingTo="26" editable="false" styleCss="font-weight: bolder;color: black;"/>
@@ -355,14 +355,14 @@
 					<fieldView mappingTo="28" editable="false" styleCss="font-weight: bold;color: green;"/>
 					<fieldView mappingTo="29" editable="false" styleCss="font-weight: bold;color: black;"/>
 					
-					<!-- INICIO datos para Excel del Informe quincenal a Subdirecciones de Gestión -->
+					<!-- INICIO datos para Excel del Informe quincenal a Subdirecciones de Gestion -->
 					
-					<fieldView mappingTo="9" type="select"><!-- Subdirección Origen de la petición -->
+					<fieldView mappingTo="9" type="select"><!-- Subdireccion Origen de la peticion -->
 						<optionValues entitymodel="subdireccion" descrMappingTo="3">
 						</optionValues>
 					</fieldView>
 					
-					<fieldView mappingTo="10" type="select"><!-- Area: Subdirección Origen de la petición -->
+					<fieldView mappingTo="10" type="select"><!-- Area: Subdireccion Origen de la peticion -->
 						<optionValues entitymodel="servicio" descrMappingTo="2">
 						</optionValues>
 					</fieldView>
@@ -373,7 +373,7 @@
 					
 					<fieldView mappingTo="16" editable="false" /><!-- Prioridad -->
 					
-					<!-- FIN datos para Excel del Informe quincenal a Subdirecciones de Gestión -->
+					<!-- FIN datos para Excel del Informe quincenal a Subdirecciones de Gestion -->
 															
 					<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;color: #0404B4;"/> <!-- Des_fecha_prevista_inicio-->
 					<fieldView mappingTo="24" editable="false" styleCss="font-weight: bold;color: #0404B4;"/> <!-- Des_fecha_real_inicio -->
@@ -415,7 +415,7 @@
 					<fieldView mappingTo="8" editable="false" />
 					<fieldView separator="br" />
 					<fieldView separator="br" />					
-					<fieldView mappingTo="9" type="select" editable="false"><!-- Subdirección Origen de la petición -->
+					<fieldView mappingTo="9" type="select" editable="false"><!-- Subdireccion Origen de la peticion -->
 						<optionValues entitymodel="subdireccion" descrMappingTo="3">
 						</optionValues>
 					</fieldView>

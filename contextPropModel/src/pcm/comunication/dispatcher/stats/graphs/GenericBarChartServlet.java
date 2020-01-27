@@ -44,12 +44,12 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 	 * en esta otra lista: Map<String, Map<String, Number>> registros
 	 * 
 	 * {Total horas estimadas={01:2017=6798.0, 03:2018=44702.0, 05:2019=42024.0}, 
-	 * Total horas realizadas={01:2017=1207.37, 02:2018=0.0, 03:2019=0.0}} ó si hay varias agrupaciones
+	 * Total horas realizadas={01:2017=1207.37, 02:2018=0.0, 03:2019=0.0}} o si hay varias agrupaciones
 	 * 
 	 * 	{Documento Simple={01:Finalizada=6798.0, 02:Abierta=44702.0, 03:EnCurso=42024.0}, 
 	 * Soporte={01:Finalizada=1128.0, 02:Abierta=3402.0, 03:EnCurso=45.99}}
 	 * 
-	 * /***El campo agregación determinada cada barra horizontal, y los campos agregados son cada porción horizontal de esa barra. 
+	 * /***El campo agregacion determinada cada barra horizontal, y los campos agregados son cada porcion horizontal de esa barra. 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -67,7 +67,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 			
 			if (fieldsCategoriaDeAgrupacion.length == 1){
 				totalizacionbarrasHoriz = new HashMap<Serializable, Double>(listaValoresAgregados.size());
-				/** primero: obtenemos la dimensión de los values de uno de los elementos***/
+				/** primero: obtenemos la dimension de los values de uno de los elementos***/
 				Collection<Map<String,Double>> coleccionFirstDeAgregados = listaValoresAgregados.get(0).values();
 				Map<String,Double> entryMap = coleccionFirstDeAgregados.iterator().next();
 				Iterator<String> iteratorOfDimensionNames = entryMap.keySet().iterator();
@@ -80,14 +80,14 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 					for (int v=0;v<listaValoresAgregados.size();v++){
 						Map<FieldViewSet, Map<String,Double>> valoresDimensiones = listaValoresAgregados.get(v);
 						Iterator<Map.Entry<FieldViewSet, Map<String,Double>>> iteradorEntrysDeValorAgrupacion = valoresDimensiones.entrySet().iterator();
-						/*** buscamos el valor del agrupado, y en el map, el valor de nuestra dimensión ***/						
+						/*** buscamos el valor del agrupado, y en el map, el valor de nuestra dimension ***/						
 						while (iteradorEntrysDeValorAgrupacion.hasNext()){
 							Map.Entry<FieldViewSet, Map<String,Double>> entryDeValorAgrupacion = iteradorEntrysDeValorAgrupacion.next();
 							FieldViewSet filtroConValorAgrupacion = entryDeValorAgrupacion.getKey();
 							Serializable valorAgrupacion = filtroConValorAgrupacion.getValue(fieldsCategoriaDeAgrupacion[0].getName());//puede ser String, o int, normalmente
 							Double valorDeNuestraDimensionParaEstaAgrupacion = CommonUtils.roundWith2Decimals(entryDeValorAgrupacion.getValue().get(dimensionName));
 														
-							if (fieldsCategoriaDeAgrupacion[0].getAbstractField().isNumeric()){//ordenación clásica: puede ser este campo un FK, entonces hay que obtener el verdadero valor
+							if (fieldsCategoriaDeAgrupacion[0].getAbstractField().isNumeric()){//ordenacion closica: puede ser este campo un FK, entonces hay que obtener el verdadero valor
 								if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
 									IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
 									FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());									
@@ -108,7 +108,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 									positionClaveAgregacion = ((Number) valorAgrupacion).intValue();
 								}
 																
-							}else{//ordenación según los valores de ese agregado							
+							}else{//ordenacion segon los valores de ese agregado							
 								positionClaveAgregacion++;
 							}
 														
@@ -146,9 +146,9 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 					}
 					registros.put(dimensionLabel, valoresDeDimensionParaAgrupacPral);
 				}
-			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupación con más de un campo
+			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupacion con mos de un campo
 
-				/** primero: obtenemos la primera dimensión de los campos de agrupación ***/
+				/** primero: obtenemos la primera dimension de los campos de agrupacion ***/
 				String dimensionNamePral = fieldsCategoriaDeAgrupacion[0].getName();
 				String dimensionNameSecundario = fieldsCategoriaDeAgrupacion[1].getName();
 				
@@ -186,12 +186,12 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 					return -9999.0;
 				}								
 			
-				// vamos recorriendo la lista de valores, y creamos una nueva hash cada vez que cambiemos de valor de la dimensión pral.
+				// vamos recorriendo la lista de valores, y creamos una nueva hash cada vez que cambiemos de valor de la dimension pral.
 				for (int v=0;v<listaValoresAgregados.size();v++){
 					Map<FieldViewSet, Map<String,Double>> valoresDimensiones = listaValoresAgregados.get(v);
 										
 					Iterator<Map.Entry<FieldViewSet, Map<String,Double>>> iteradorEntrysDeValorAgrupacion = valoresDimensiones.entrySet().iterator();
-					/*** buscamos el valor del agrupado, y en el map, el valor de esa dimensión ***/					
+					/*** buscamos el valor del agrupado, y en el map, el valor de esa dimension ***/					
 					while (iteradorEntrysDeValorAgrupacion.hasNext()){
 						Map.Entry<FieldViewSet, Map<String,Double>> entryDeValorAgrupacion = iteradorEntrysDeValorAgrupacion.next();
 						FieldViewSet filtroConValorAgrupacion = entryDeValorAgrupacion.getKey();
@@ -213,7 +213,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 								String valorAgrupacionPralCandidato = filtroConValorAgrupacionPral.getValue(dimensionNamePral).toString();
 								if (valorAgrupacionPralCandidato.equals(valorAgrupacionPral)){
 									Double valorParaEstaCombinacion = CommonUtils.roundWith2Decimals(entry.getValue().values().iterator().next());
-									//saco el valor de la segunda dimensión
+									//saco el valor de la segunda dimension
 									Serializable valorAgrupacionSecundaria = filtroConValorAgrupacionPral.getValue(dimensionNameSecundario);
 									//miro si este valor de agrupacion es un FK contra otra tabla, para obtener el valor correcto, descField
 									if (fieldsCategoriaDeAgrupacion[1].getParentFieldEntities() != null){

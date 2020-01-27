@@ -115,7 +115,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 						((Double) categoria.getValue(tarifaUTEEntidad.searchField(ConstantesModelo.CATEGORIA_PROFESIONAL_4_IMPORTE_HORA).getName())).doubleValue());
 			}
 
-			/** cargamos los datos por defecto, en el caso de que viajen vacíos los campos desde la pantalla **/
+			/** cargamos los datos por defecto, en el caso de que viajen vacoos los campos desde la pantalla **/
 
 			double horasPorDefectoDiaEstandard = 0, horasPorDefectoDiaVerano = 0, horasJornadaReducida = 0;
 			boolean jornadaVeranoActiva = false;
@@ -172,7 +172,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 			final List<FieldViewSet> resultadosFrasMeses = dataAccess.searchByCriteria(filterMesesFra_contrato);
 			int mesesTotales = resultadosFrasMeses.size();
 			
-			//recorro los meses para extraer el núm. de ejercicios
+			//recorro los meses para extraer el nom. de ejercicios
 			List<Integer> ejercicios = new ArrayList<Integer>();
 			Map<Integer, List<Long>> mapEjerciciosConSusMeses = new HashMap<Integer, List<Long>>();
 			for (int i=0;i<mesesTotales;i++){
@@ -193,8 +193,8 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 			}
 			
 			double importeSimulacionTotal = 0, importeTotalEjecutado = 0;
-			// accedemos a los datos económicos de cada ejercicio del concurso			
-			for (int a=0;a<ejercicios.size();a++) {// creamos un objeto anualidad-previsión por cada ejercicio que tenga el concurso
+			// accedemos a los datos economicos de cada ejercicio del concurso			
+			for (int a=0;a<ejercicios.size();a++) {// creamos un objeto anualidad-prevision por cada ejercicio que tenga el concurso
 				
 				Integer anualidadIesima = ejercicios.get(a);
 				List<Long> mesesDeEsteEjercicio = mapEjerciciosConSusMeses.get(anualidadIesima);
@@ -202,12 +202,12 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 				FieldViewSet anualidadPrevision = new FieldViewSet(anualidadPrevisionEntidad);
 				anualidadPrevision.setValue(anualidadPrevisionEntidad.searchField(ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_3_EJERCICIO).getName(), anualidadIesima);
 				anualidadPrevision.setValue(anualidadPrevisionEntidad.searchField(ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_4_NUM_MESES).getName(), Integer.valueOf(num_meses_anualidad));
-				//enlazo con el objeto global que representa la previsión/simulación del contrato elegido
+				//enlazo con el objeto global que representa la prevision/simulacion del contrato elegido
 				anualidadPrevision.setValue(anualidadPrevisionEntidad.searchField(ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_2_ID_PREVISION_CONTRATO).getName(), idPrevisionContrato);
 				
 				int ok = dataAccess.insertEntity(anualidadPrevision);
 				if (ok != 1) {
-					throw new PCMConfigurationException("error insertando mes de la anualidad de previsión");
+					throw new PCMConfigurationException("error insertando mes de la anualidad de prevision");
 				}
 				// por cada anualidad  obtenemos el id que hemos recibido de BBDD para esa anualidad
 				anualidadPrevision = dataAccess.searchByCriteria(anualidadPrevision).get(0);
@@ -244,7 +244,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 					filtro4Agregados.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_2_ANYO).getName(), anualidadIesima);
 					filtro4Agregados.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_3_MES).getName(), idMesIesimo);
 										
-					//buscamos en esta anualidad, lo consumido en euros, UTs y por categorías, y actualizamos los saldos 
+					//buscamos en esta anualidad, lo consumido en euros, UTs y por categoroas, y actualizamos los saldos 
 					List<FieldViewSet> listaAgregadosMeses = dataAccess.searchByCriteria(filtro4Agregados);
 					if (!listaAgregadosMeses.isEmpty()){
 						FieldViewSet mensualidad = listaAgregadosMeses.get(0);
@@ -252,7 +252,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 						mesAnualidadPrevision.setValue(mesPrevisionAnualidadEntidad.searchField(ConstantesModelo.RESULTADO_PREVISION_MES_49_IMPORTE_EJECUTADO_TOTAL_EN_MES).getName(), ejecutadoEsteMes);
 						importeTotalEjecutado += ejecutadoEsteMes;
 												
-						//buscamos los colaboradores de este concurso, y contabilizamos sus UTs e importe por categoría
+						//buscamos los colaboradores de este concurso, y contabilizamos sus UTs e importe por categoroa
 						FieldViewSet colaboradorFilter = new FieldViewSet(colaboradorEntidad);
 						colaboradorFilter.setValue(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_13_ID_CONCURSO).getName(), idConcurso);
 						List<FieldViewSet> coleccionColaboradores = dataAccess.searchByCriteria(colaboradorFilter);
@@ -296,14 +296,14 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 
 					/*** FIN DE OBTENCION DE valores facturados en este mes ***/
 
-					/*** COMIENZO DE LA OBTENCION DE valores previstos para este mes con esta configuración de previsión ***/					
+					/*** COMIENZO DE LA OBTENCION DE valores previstos para este mes con esta configuracion de prevision ***/					
 					int jornadasPorDefectoMes = ((Integer) datosPrevision.getValue(previsionEntidad.searchField(obtenerPosicionCampo(mesDeDoce)).getName())).intValue();
 					if (anualidadIesima.intValue()==anyoInio && mesDeDoce==mesInicio){
-						//comprobamos si este mes es el inicial del contrato, y en ese caso, a 'jornadasPorDefectoMes' le restamos tantos días como se separen del día 1
+						//comprobamos si este mes es el inicial del contrato, y en ese caso, a 'jornadasPorDefectoMes' le restamos tantos doas como se separen del doa 1
 						int diff = (diaInicio - 2*(diaInicio/7)) - 1;//restamos fines de semana
 						jornadasPorDefectoMes -= diff;
 					}else if (anualidadIesima.intValue()==anyoFin && mesDeDoce==mesFinal){
-						//comprobamos si este mes es el final del contrato, y en ese caso, a 'jornadasPorDefectoMes' le restamos tantos días como se separen del día 30
+						//comprobamos si este mes es el final del contrato, y en ese caso, a 'jornadasPorDefectoMes' le restamos tantos doas como se separen del doa 30
 						jornadasPorDefectoMes = diaFin - 2*(diaFin/7);//restamos fines de semana
 					}
 
@@ -345,7 +345,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 					Double importePrevistoMesTotal = Double.valueOf(importePrevistoMesConsultor.doubleValue() + importePrevistoMesConsultorJunior.doubleValue()
 							+ importePrevistoMesAnFuncional.doubleValue() + importePrevistoMesAnProg.doubleValue());
 
-					/*** FIN DE LA OBTENCION DE valores previstos para este mes con esta configuración de previsión ***/
+					/*** FIN DE LA OBTENCION DE valores previstos para este mes con esta configuracion de prevision ***/
 
 					/*** GRABAMOS EN EL OBJETO MES PREVISION LOS DATOS OBTENIDOS ***/
 
@@ -426,7 +426,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 
 					ok = dataAccess.insertEntity(mesAnualidadPrevision);
 					if (ok != 1) {
-						throw new PCMConfigurationException("error insertando mensualidad de previsión");
+						throw new PCMConfigurationException("error insertando mensualidad de prevision");
 					}
 					
 					/*** si todo ha ido bien, ACTUALIZAMOS LOS TOTALES QUE GRABAREMOS LUEGO EN LA ANUALIDAD PREVISTA ***/					
@@ -456,7 +456,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 					importeSimulacionEnEjercicio += importePrevistoMesTotal.doubleValue();
 					
 					mesesTotales++;
-				}//fin iteración de ese mes
+				}//fin iteracion de ese mes
 
 				
 				/*** bloque de horas previstas en ejercicioAnualidadContrato ***/
@@ -555,11 +555,11 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 
 				ok = dataAccess.modifyEntity(anualidadPrevision);
 				if (ok != 1) {
-					throw new PCMConfigurationException("error actualizando anualidad de previsión");
+					throw new PCMConfigurationException("error actualizando anualidad de prevision");
 				}
 			}//for each anualidad/ejercicio del contrato
 			
-			// finalmente, actualizamos en la entidad datos_previsión_contrato los datos del concurso, como número de meses totales y número de cada tipo de recursos
+			// finalmente, actualizamos en la entidad datos_prevision_contrato los datos del concurso, como nomero de meses totales y nomero de cada tipo de recursos
 			datosPrevision.setValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_31_TOTAL_PREVISION).getName(), Double.valueOf(importeSimulacionTotal));
 			datosPrevision.setValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_32_TOTAL_FACTURADO).getName(), Double.valueOf(importeTotalEjecutado));
 			datosPrevision.setValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_34_DISPONIBLE).getName(), Double.valueOf(importeSimulacionTotal - importeTotalEjecutado));
@@ -567,7 +567,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 
 			int ok = dataAccess.modifyEntity(datosPrevision);
 			if (ok != 1) {
-				throw new PCMConfigurationException("error actualizando previsión de concurso");
+				throw new PCMConfigurationException("error actualizando prevision de concurso");
 			}
 			
 		} catch (DatabaseException ecxx1) {

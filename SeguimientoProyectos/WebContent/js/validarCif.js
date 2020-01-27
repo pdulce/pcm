@@ -2,7 +2,7 @@ function validarDocumento(doc) {
 	var res = "ok";
 	doc = doc.toUpperCase();
 	
-	//La longitud debe ser de 9 ó 10 caracteres
+	//La longitud debe ser de 9 o 10 caracteres
 	if( (doc.length == 9) || (doc.length == 10)){
 		//Comprobar si es in CIF
 		var regular = new RegExp(/^[ABCDEFGHKLMNPQS]\d\d\d\d\d\d\d[0-9,A-J]$/g); 

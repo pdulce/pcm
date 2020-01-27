@@ -13,7 +13,7 @@ public class SelectCtrl extends AbstractCtrl {
 
 	@Override
 	protected boolean needInnerTraduction() {
-		return true;// para traducir únicamente los valores 'Select'
+		return true;// para traducir onicamente los valores 'Select'
 	}
 
 	public SelectCtrl() {

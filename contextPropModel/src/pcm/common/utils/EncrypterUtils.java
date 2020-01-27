@@ -13,7 +13,7 @@ import com.itextpdf.text.pdf.codec.Base64;
 
 public class EncrypterUtils {
 	
-	// Definición del modo de cifrado a utilizar
+	// Definicion del modo de cifrado a utilizar
 	private final static String cI = "AES/CBC/PKCS5Padding";
 	private static final String SEMILLA = "semilla9semilla8";
 	private static final String SEMILLA_INICIAL = "semikka0semikka1";
@@ -105,12 +105,12 @@ public class EncrypterUtils {
 			String exprs = "01/02/2016", exprErr = "28/1/2017";
 			boolean b = Pattern.matches(pattern,exprs);
 			
-			System.out.println("¿" + exprs + " se ajusta a patrón? " + b);
+			System.out.println("o" + exprs + " se ajusta a patron? " + b);
 			b = Pattern.matches(pattern, exprErr);
-			System.out.println("¿" + exprErr + " se ajusta a patrón? " + b);
+			System.out.println("o" + exprErr + " se ajusta a patron? " + b);
 			System.out.println("*******************************************");
 			System.out.println("*******************************************");
-			System.out.println ("¿Cumple patrón SGAC-* el nombre SGAC-SANI.xlsx?" + Pattern.matches(pattern,exprs));
+			System.out.println ("oCumple patron SGAC-* el nombre SGAC-SANI.xlsx?" + Pattern.matches(pattern,exprs));
 			
 		}
 		catch (Exception e) {

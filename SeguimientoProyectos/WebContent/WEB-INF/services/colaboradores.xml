@@ -13,7 +13,7 @@
 
 			<viewComponent>
 
-				<form columns="4" title="Gestión Colaboradores">
+				<form columns="4" title="Gestion Colaboradores">
 
 					<fieldViewSet entitymodel="colaborador" nameSpace="colaborador">
 						<fieldView mappingTo="1" hidden="true"/>
@@ -202,7 +202,7 @@
 			strategy="facturacionUte.strategies.concursos.StrategyCrearAgregadosMesesColab">
 
 			<viewComponent>
-				<form columns="53" title="Edición Colaborador">
+				<form columns="53" title="Edicion Colaborador">
 				
 					<userbuttons>
 
@@ -229,7 +229,7 @@
 									    <option code="6" title="% facturado concurso"></option>
 										<option code="7" title="% facturado servicio"></option>
 										<option code="8" title="% facturado dpto."></option>
-										<option code="9" title="% facturado aplicación"></option>
+										<option code="9" title="% facturado aplicacion"></option>
 									</optionValues>
 								</fieldView>
 								<fieldView name="operation" hidden="true" value="SUM"/>								
@@ -259,7 +259,7 @@
 									    <option code="6" title="% facturado concurso"></option>
 										<option code="7" title="% facturado servicio"></option>
 										<option code="8" title="% facturado dpto."></option>
-										<option code="9" title="% facturado aplicación"></option>
+										<option code="9" title="% facturado aplicacion"></option>
 									</optionValues>
 								</fieldView>
 								<fieldView name="operation" hidden="true" value="SUM"/>								
@@ -289,7 +289,7 @@
 									    <option code="6" title="% facturado concurso"></option>
 										<option code="7" title="% facturado servicio"></option>
 										<option code="8" title="% facturado dpto."></option>
-										<option code="9" title="% facturado aplicación"></option>
+										<option code="9" title="% facturado aplicacion"></option>
 									</optionValues>
 								</fieldView>
 								<fieldView name="operation" hidden="true" value="SUM"/>								
@@ -381,7 +381,7 @@
 					</fieldViewSet>
 				</grid>
 				
-				<grid title="Listado de mensualidades de facturación de este colaborador" dependsOf="colaborador" orderDirection="asc"
+				<grid title="Listado de mensualidades de facturacion de este colaborador" dependsOf="colaborador" orderDirection="asc"
 					defaultOrderField="facturacionMesPorColaborador.1" eventsRegistered="update"
 					serviceRef="GestionFactMesPorColaborador">
 					<fieldViewSet entitymodel="facturacionMesPorColaborador"
@@ -475,7 +475,7 @@
 			submitSucces="GestionFactMesPorColaborador.update">
 
 			<viewComponent>
-				<form columns="53" title="Edición mes facturación">
+				<form columns="53" title="Edicion mes facturacion">
 					<fieldViewSet entitymodel="facturacionMesPorColaborador" nameSpace="facturacionMesPorColaboradorForm">
 						<fieldView mappingTo="1" hidden="true"/>
 						<fieldView mappingTo="2" editable="false"/>
@@ -501,7 +501,7 @@
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Imputaciones por aplicación de este colaborador" dependsOf="facturacionMesPorColaboradorForm" orderDirection="asc"
+				<grid title="Imputaciones por aplicacion de este colaborador" dependsOf="facturacionMesPorColaboradorForm" orderDirection="asc"
 					defaultOrderField="facturacionMesPorColaboradoryApp.1" eventsRegistered="update"
 					serviceRef="GestionFactMesPorColaboradoryApp">
 					<fieldViewSet entitymodel="facturacionMesPorColaboradoryApp"
@@ -528,7 +528,7 @@
 			submitSucces="GestionFactMesPorColaboradoryApp.update" strategyPre="facturacionUte.strategies.concursos.StrategyRecalculateFacturacionMes">
 
 			<viewComponent>
-				<form columns="53" title="Imputar mes por aplicación">
+				<form columns="53" title="Imputar mes por aplicacion">
 					<fieldViewSet entitymodel="facturacionMesPorColaboradoryApp" nameSpace="facturacionMesPorColaboradoryAppForm">
 						<fieldView mappingTo="1" hidden="true" />
 						<fieldView mappingTo="8" hidden="true" />

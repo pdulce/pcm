@@ -179,19 +179,19 @@ function obtenerMsg(oFich, sID)
 }
 
 //*************************************************************************
-//* showMessageCod: Muestra un mensaje a través de showMessage, pero 
-//*         indicando el código del mensaje, en vez de su texto.
-//* @param sCodMensaje: código del mensaje
+//* showMessageCod: Muestra un mensaje a travos de showMessage, pero 
+//*         indicando el codigo del mensaje, en vez de su texto.
+//* @param sCodMensaje: codigo del mensaje
 //* @param iTipo: Tipo de botones a presentar. Posibles valores:
 //*         iMsgTipoCerrar, iMsgTipoSiNo, iMsgTipoACancel
-//* @param sTitulo: texto del título
+//* @param sTitulo: texto del totulo
 //* @param sEncabezado: texto del encabezado
-//* A continuación del cuarto parámetro se pueden indicar los siguientes:
-//* @param func1 (opcional): función javascript asociada al primer botón
-//* @param func2 (opcional): función javascript asociada al segundo botón
-//* @param lista pares código-valor para los parámetros del mensaje 
-//*         (primer parámetro), seguidos unos de otros.
-//* Ejemplo: showMessageCod('cod01', iMsgTipoSiNo, 'título', 'encabezado', 'funcSi()', 'funcNo()', par1, val1, par2, val2);
+//* A continuacion del cuarto parometro se pueden indicar los siguientes:
+//* @param func1 (opcional): funcion javascript asociada al primer boton
+//* @param func2 (opcional): funcion javascript asociada al segundo boton
+//* @param lista pares codigo-valor para los parometros del mensaje 
+//*         (primer parometro), seguidos unos de otros.
+//* Ejemplo: showMessageCod('cod01', iMsgTipoSiNo, 'totulo', 'encabezado', 'funcSi()', 'funcNo()', par1, val1, par2, val2);
 //*************************************************************************	
 function showMessageCod(sCodMensaje, sDominio, iTipo, sTitulo, sEncabezado)
 {
@@ -221,7 +221,7 @@ function tablaExiste(tablaA)
 }
 
 //* ParqMsgObligatorio: Construye el mensaje "{DATO} obligatorio/a."
-//* @param dato: ParqMensaje o String con el valor del parámetro {DATO}
+//* @param dato: ParqMensaje o String con el valor del parometro {DATO}
 function ParqMsgObligatorio(dato)
 {
 	var param = new ParqMsgParam("DATO", dato);
@@ -230,7 +230,7 @@ function ParqMsgObligatorio(dato)
 }
 
 //*	ParqMsgSeleccionObl: Construye el mensaje "Debe seleccionar un/a {DATO}."
-//* @param	oMensaje: String o ParqMensaje con el valor del parámetro {DATO}
+//* @param	oMensaje: String o ParqMensaje con el valor del parometro {DATO}
 function ParqMsgSeleccionObl(oMensaje){
 	
 	var param = new ParqMsgParam("DATO", oMensaje);
@@ -238,9 +238,9 @@ function ParqMsgSeleccionObl(oMensaje){
 	return new ParqMensaje(MSG_SELECCIONOBLIGATORIA, new Array(param), 'ARQ');
 }
 
-//* ParqMsgErrorLongMinima:	Construye el mensaje "La información {DATO} tiene una longitud menor de la esperada: {LONG}. Valor introducido: {VALOR}".
-//* @param oDato: String o ParqMensaje con el valor del parámetro {DATO}
-//* @param long: Valor de la longitud mínima.
+//* ParqMsgErrorLongMinima:	Construye el mensaje "La informacion {DATO} tiene una longitud menor de la esperada: {LONG}. Valor introducido: {VALOR}".
+//* @param oDato: String o ParqMensaje con el valor del parometro {DATO}
+//* @param long: Valor de la longitud monima.
 //* @sValor: Valor que toma el dato.
 function ParqMsgErrorLongMinima(oDato, longitud, sValor){
 	
@@ -253,9 +253,9 @@ function ParqMsgErrorLongMinima(oDato, longitud, sValor){
 	return new ParqMensaje(MSG_ERRORLONGMINIMA, listaParam, 'ARQ');
 }
 
-//* ParqMsgFormatoIncorrecto: Construye el mensaje "La información {DATO} no tiene el formato esperado: {FORMATO}. Valor introducido: {VALOR}"
-//* @param oDato: String o ParqMensaje con el valor del parámetro {DATO}
-//* @param sTipoFormato: Tipo de formato que debería cumplir el dato.
+//* ParqMsgFormatoIncorrecto: Construye el mensaje "La informacion {DATO} no tiene el formato esperado: {FORMATO}. Valor introducido: {VALOR}"
+//* @param oDato: String o ParqMensaje con el valor del parometro {DATO}
+//* @param sTipoFormato: Tipo de formato que deberoa cumplir el dato.
 //* @param sValor: Valor que toma el dato.
 function ParqMsgFormatoIncorrecto(oDato, sTipoFormato, sValor){
 
@@ -270,7 +270,7 @@ function ParqMsgFormatoIncorrecto(oDato, sTipoFormato, sValor){
 }
 
 //* ParqMsgElementoSinFormato:	Construye el mensaje "Elemento {ELEMENTO} no tiene definido formato."
-//* @param oElemento: String o ParqMensaje con el valor del parámetro {ELEMENTO}
+//* @param oElemento: String o ParqMensaje con el valor del parometro {ELEMENTO}
 function ParqMsgElementoSinFormato(oElemento){
 	var param = new ParqMsgParam("ELEMENTO", oElemento);
 	
@@ -278,16 +278,16 @@ function ParqMsgElementoSinFormato(oElemento){
 }
 
 //* ParqMsgTipoDatoNoPermitido: Construye el mensaje "Tipo de Dato {TIPODATO} no permitido o no definido."
-//*	@param oTipoDato: String o ParqMensaje con  el valor del parámetro {TIPODATO}
+//*	@param oTipoDato: String o ParqMensaje con  el valor del parometro {TIPODATO}
 function  ParqMsgTipoDatoNoPermitido(oTipoDato){	
 	var param = new ParqMsgParam("TIPODATO", oTipoDato);
 	
 	return new ParqMensaje(MSG_TIPODATONOPERMITIDO, new Array(param), 'ARQ');//29
 }
 
-//*	ParqMsgFormatoFechaIncorrecto: Construye el mensaje "La información {DATO} no es una fecha válida o no tiene el formato esperado: {FORMATO}. Valor introducido: {VALOR}"
-//* @param oDato: String o ParqMensaje con el valor del parámetro {DATO}
-//* @param sFormato: Representa el tipo de formato que debería cumplir la fecha.
+//*	ParqMsgFormatoFechaIncorrecto: Construye el mensaje "La informacion {DATO} no es una fecha volida o no tiene el formato esperado: {FORMATO}. Valor introducido: {VALOR}"
+//* @param oDato: String o ParqMensaje con el valor del parometro {DATO}
+//* @param sFormato: Representa el tipo de formato que deberoa cumplir la fecha.
 //* @param sValor: Valor que toma el dato.
 function ParqMsgFormatoFechaIncorrecto (oDato, sFormato, sValor){
 	var param1 = new ParqMsgParam ("DATO", oDato);
@@ -299,17 +299,17 @@ function ParqMsgFormatoFechaIncorrecto (oDato, sFormato, sValor){
 	return new ParqMensaje(MSG_FORMATOINCORRECTOFECHA, listaParam, 'ARQ');//37
 }
 
-//* ParqMsgFuncValidNoDefinida:	Construye el mensaje "Función de validación no definida o con código incorrecto: {FUNCION}"
-//* @param oFuncion: ParqMensaje o String con el nombre de la función.
+//* ParqMsgFuncValidNoDefinida:	Construye el mensaje "Funcion de validacion no definida o con codigo incorrecto: {FUNCION}"
+//* @param oFuncion: ParqMensaje o String con el nombre de la funcion.
 function ParqMsgFuncValidNoDefinida(oFuncion){
 	var param = new ParqMsgParam("FUNCION", oFuncion);
 
 	return new ParqMensaje(MSG_FUNCIONNOEXISTE, new Array(param), 'ARQ');//23
 }
 
-//* ParqMsgErrorLongMaxima:	Construye el mensaje "La información {DATO} tiene una longitud mayor de la esperada: {LONG}. Valor introducido: {VALOR}".
-//* @param oDato: ParqMensaje o String con el valor del parámetro {DATO}.
-//* @param long: valor de la longitud máxima.
+//* ParqMsgErrorLongMaxima:	Construye el mensaje "La informacion {DATO} tiene una longitud mayor de la esperada: {LONG}. Valor introducido: {VALOR}".
+//* @param oDato: ParqMensaje o String con el valor del parometro {DATO}.
+//* @param long: valor de la longitud moxima.
 //* @param sValor: valor que toma el dato.
 function ParqMsgErrorLongMaxima(oDato, longitud, sValor){
 	
@@ -323,7 +323,7 @@ function ParqMsgErrorLongMaxima(oDato, longitud, sValor){
 }
 
 //* ParqMsgDatoIncorrecto: Construye el mensaje "{DATO} incorrecto/a. Valor introducido: {VALOR}"
-//* @param oDato: ParqMensaje o String con el valor del parámetro {DATO}
+//* @param oDato: ParqMensaje o String con el valor del parometro {DATO}
 //* @param sValor: valor que toma el dato.
 function ParqMsgDatoIncorrecto(oDato, sValor){
 	var param1 = new ParqMsgParam("DATO", oDato);
@@ -334,9 +334,9 @@ function ParqMsgDatoIncorrecto(oDato, sValor){
 	return new ParqMensaje(MSG_DATOINCORRECTO, listaParam, 'ARQ');//7
 }
 
-//* ParqMsgDatoMenorMinimo: Construye el mensaje "La información {DATO} tiene un valor menor del esperado: {MINIMO}. Valor introducido: {VALOR}"
-//* @param oDato: ParqMensaje o String con el valor del parámetro {DATO}.
-//* @param long: valor mínimo.
+//* ParqMsgDatoMenorMinimo: Construye el mensaje "La informacion {DATO} tiene un valor menor del esperado: {MINIMO}. Valor introducido: {VALOR}"
+//* @param oDato: ParqMensaje o String con el valor del parometro {DATO}.
+//* @param long: valor monimo.
 //* @param sValor: valor que toma el dato.
 function ParqMsgDatoMenorMinimo(oDato, sMinimo, sValor){
 	var param1 = new ParqMsgParam("DATO", oDato);
@@ -348,9 +348,9 @@ function ParqMsgDatoMenorMinimo(oDato, sMinimo, sValor){
 	return new ParqMensaje(MSG_ERRORMENORMINIMO, listaParam, 'ARQ');//34
 }
 
-//* ParqMsgDatoMayorMaximo: Construye el mensaje "La información {DATO} tiene un valor mayor del esperado: {MAXIMO}. Valor introducido: {VALOR}"
-//* @param oDato: ParqMensaje o String con el valor del parámetro {DATO}.
-//* @param long: valor máximo.
+//* ParqMsgDatoMayorMaximo: Construye el mensaje "La informacion {DATO} tiene un valor mayor del esperado: {MAXIMO}. Valor introducido: {VALOR}"
+//* @param oDato: ParqMensaje o String con el valor del parometro {DATO}.
+//* @param long: valor moximo.
 //* @param sValor: valor que toma el dato.
 function ParqMsgDatoMayorMaximo(oDato, sMaximo, sValor){
 	

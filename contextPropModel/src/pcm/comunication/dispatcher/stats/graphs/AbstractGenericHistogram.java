@@ -148,7 +148,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		String inicioPeriodoRango = inicioPeriodoRango_, finPeriodoRango = finPeriodoRango_;		
 		Calendar fechaInicioRango = Calendar.getInstance(), fechaFinRango = Calendar.getInstance();
 		
-		if (periodosSemanas){//necesitamos pasar de mes literal a mes en numérico
+		if (periodosSemanas){//necesitamos pasar de mes literal a mes en numorico
 			
 			String mesLiteralInicio = inicioPeriodoRango.split(" ")[1].split("'")[0];
 			fechaInicioRango.set(Calendar.YEAR, 2000 + Integer.parseInt(inicioPeriodoRango.split(" ")[1].split("'")[1]));
@@ -164,7 +164,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 			fechaFinRango.set(Calendar.WEEK_OF_MONTH, semanaOrderFin);			
 			fechaFinRango.set(Calendar.DAY_OF_WEEK , fechaFinRango.getFirstDayOfWeek());	
 			
-		}else if (periodosMeses){//necesitamos pasar de mes literal a mes en numérico
+		}else if (periodosMeses){//necesitamos pasar de mes literal a mes en numorico
 			
 			fechaInicioRango.set(Calendar.YEAR, 2000 + Integer.parseInt(inicioPeriodoRango.substring(inicioPeriodoRango.length() -2)));
 			String mesLiteralInicio = inicioPeriodoRango.split("'")[0];			
@@ -320,9 +320,9 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		}
 
 		List<String> periodos = new ArrayList<String>();		
-		// veamos cuantos días hay, que es la unidad básica para nuestro eje X:		
+		// veamos cuantos doas hay, que es la unidad bosica para nuestro eje X:		
 		long fechaInicial = 0, fechaFinal=0;
-    	// differenceInDays > 30*12*10: en lugar de meses, mostramos años (hay más de diez años)
+    	// differenceInDays > 30*12*10: en lugar de meses, mostramos aoos (hay mos de diez aoos)
     	fechaInicial = fechaCalMasAntigua.getTimeInMillis();
 		fechaFinal = fechaCalMasReciente.getTimeInMillis();
 		double differenceInDays = Math.floor((fechaFinal - fechaInicial) / (1000 * 60 * 60 * 24));
@@ -331,23 +331,23 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		fechaCalAux = Calendar.getInstance();
 		fechaCalAux.setTime(fechaCalMasAntigua.getTime());
 		
-		if (escalado.equals("anualy") || (escalado.equals("automatic") && differenceInDays > (30*12*11)/*12 o más años*/)){
+		if (escalado.equals("anualy") || (escalado.equals("automatic") && differenceInDays > (30*12*11)/*12 o mos aoos*/)){
 			escala = "anualy";
 			fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);
 			fechaCalAux.set(Calendar.MONTH, 0);
 			fechaCalAux.set(Calendar.YEAR, fechaCalMasAntigua.get(Calendar.YEAR) + 1);
 			
-		}else if (escalado.equals("6monthly") || (escalado.equals("automatic") && differenceInDays > (30*12*6) && differenceInDays <= (30*12*11)/*entre 6 y 11 años*/)){
+		}else if (escalado.equals("6monthly") || (escalado.equals("automatic") && differenceInDays > (30*12*6) && differenceInDays <= (30*12*11)/*entre 6 y 11 aoos*/)){
 			escala = "6monthly";
 			fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);
 			fechaCalAux.set(Calendar.MONTH, fechaCalMasAntigua.get(Calendar.MONTH) + 6);
 
-		}else if (escalado.equals("3monthly") || (escalado.equals("automatic") && differenceInDays > (30*12*3) && differenceInDays <= (30*12*6)/*entre 3 y 6 años*/)){
+		}else if (escalado.equals("3monthly") || (escalado.equals("automatic") && differenceInDays > (30*12*3) && differenceInDays <= (30*12*6)/*entre 3 y 6 aoos*/)){
 			escala = "3monthly";
 			fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);
 			fechaCalAux.set(Calendar.MONTH, fechaCalMasAntigua.get(Calendar.MONTH) + 3);
 		
-		}else if (escalado.equals("monthly") || (escalado.equals("automatic") && differenceInDays > (30*6) && differenceInDays <= (30*12*3)/*entre 6 meses y 3 años*/)){
+		}else if (escalado.equals("monthly") || (escalado.equals("automatic") && differenceInDays > (30*6) && differenceInDays <= (30*12*3)/*entre 6 meses y 3 aoos*/)){
 			escala = "monthly";
 			fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);
 			fechaCalAux.set(Calendar.MONTH, fechaCalMasAntigua.get(Calendar.MONTH) + 1);
@@ -359,7 +359,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 			fechaCalAux.set(Calendar.DAY_OF_WEEK , Calendar.MONDAY);
 			fechaCalAux.add(Calendar.DAY_OF_MONTH, 7);
 
-		}else if (escalado.equals("dayly") || (escalado.equals("automatic") && differenceInDays <= (30)/*menor o igual a 30 días*/)){
+		}else if (escalado.equals("dayly") || (escalado.equals("automatic") && differenceInDays <= (30)/*menor o igual a 30 doas*/)){
 			escala = "dayly";
 			fechaCalAux.set(Calendar.DAY_OF_MONTH, fechaCalMasAntigua.get(Calendar.DAY_OF_MONTH) + 1);
 		}
@@ -469,7 +469,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 	protected final String traducirEscala(String escala){
 		if (escala.equals("anualy")){
 			
-			return "por año";
+			return "por aoo";
 			
 		}else if (escala.equals("6monthly")){
 			
@@ -489,7 +489,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 
 		}else if (escala.equals("dayly")){
 
-			return "por día hábil";
+			return "por doa hobil";
 			
 		}else{
 			

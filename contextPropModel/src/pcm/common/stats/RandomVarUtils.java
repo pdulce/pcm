@@ -56,17 +56,17 @@ public class RandomVarUtils {
 		double sample = 0.00;
 		NormalDistribution normalDist = new NormalDistribution(media, desviacionTipicaSigma);
 		for (int i = 0; i < 20; i++) {
-			System.out.println("un valor " + i + "-ésimo de esta distribución es " + CommonUtils.roundWith2Decimals(sample)
-					+ " y la probabilidad de que X sea < ó = a " + CommonUtils.roundWith2Decimals(sample) + " es "
+			System.out.println("un valor " + i + "-osimo de esta distribucion es " + CommonUtils.roundWith2Decimals(sample)
+					+ " y la probabilidad de que X sea < o = a " + CommonUtils.roundWith2Decimals(sample) + " es "
 					+ CommonUtils.roundWith2Decimals(normalDist.cumulativeProbability(sample) * 100)
-					+ "%, y la probabilidad de que X sea > ó = a " + CommonUtils.roundWith2Decimals(sample) + " es "
+					+ "%, y la probabilidad de que X sea > o = a " + CommonUtils.roundWith2Decimals(sample) + " es "
 					+ CommonUtils.roundWith2Decimals((1 - normalDist.cumulativeProbability(sample)) * 100) + "%");
 		}
 
 		double extremo1 = normalDist.sample();
 		double extremo2 = normalDist.sample();
 		if (extremo2 > extremo1) {
-			System.out.println("Que un valor de esta distribución esté entre "
+			System.out.println("Que un valor de esta distribucion esto entre "
 					+ CommonUtils.roundWith2Decimals(extremo1)
 					+ " y "
 					+ CommonUtils.roundWith2Decimals(extremo2)
@@ -74,7 +74,7 @@ public class RandomVarUtils {
 					+ CommonUtils.roundWith2Decimals(normalDist.cumulativeProbability(extremo2)
 							- normalDist.cumulativeProbability(extremo1)) * 100 + " %");
 		} else {
-			System.out.println("Que un valor de esta distribución esté entre "
+			System.out.println("Que un valor de esta distribucion esto entre "
 					+ CommonUtils.roundWith2Decimals(extremo2)
 					+ " y "
 					+ CommonUtils.roundWith2Decimals(extremo1)
@@ -97,7 +97,7 @@ public class RandomVarUtils {
 			int muestraTam = muestraIesima.size();
 			for (int i = 0; i < muestraTam; i++) {
 				muestraIesima.add(i, muestra.get(Math.abs(rd.nextInt() % muestra.size())));
-				// observar que se puede repetir la extracción del mismo número(posición de la
+				// observar que se puede repetir la extraccion del mismo nomero(posicion de la
 				// muestra origen
 			}
 			StatsUtils varStats = new StatsUtils();
@@ -112,14 +112,14 @@ public class RandomVarUtils {
 				+ Double.valueOf(CommonUtils.roundWith4Decimals(varStats.obtenerMediana_Variable_X())).intValue());
 		System.out.println("Usando Boostrap --> moda: "
 				+ Double.valueOf(CommonUtils.roundWith4Decimals(varStats.obtenerModa_Variable_X())).intValue());
-		System.out.println("Usando Boostrap --> desviación típica: "
+		System.out.println("Usando Boostrap --> desviacion topica: "
 				+ CommonUtils.roundWith4Decimals(varStats.obtenerDesviacionTipica_Variable_X(mediaVar_X)));
 		// El rango de confianza viene determinado por el percentil 2.5 en el extremo inferior del
 		// rango, y el percentil 97.5, en el extremo superior
 		double extremoInferior = CommonUtils.roundWith4Decimals(varStats.obtenerPercentil_Variable(2.5, mediasObtenidas));
 		double extremoSuperior = CommonUtils.roundWith4Decimals(varStats.obtenerPercentil_Variable(97.5, mediasObtenidas));
 		System.out.println("Usando Boostrap de una muestra de " + muestra.size() + " observaciones con " + nExtracciones
-				+ " extracciones: --> rango de confianza al 95% para la media de esta población: [" + extremoInferior + ", "
+				+ " extracciones: --> rango de confianza al 95% para la media de esta poblacion: [" + extremoInferior + ", "
 				+ extremoSuperior + "].");
 		double[] rangoConfianzaMediaAl95 = new double[] { extremoInferior, extremoSuperior };
 		return rangoConfianzaMediaAl95;
@@ -135,13 +135,13 @@ public class RandomVarUtils {
 
 		RandomVarUtils.generarRandomDeUnaNormal(10, 0.2);
 
-		// double e = java.lang.Math.exp(1);// es el número e
-		java.lang.Math.log(1);// logaritimo natural de 1 es CERO; 0 es el número al cual debes
+		// double e = java.lang.Math.exp(1);// es el nomero e
+		java.lang.Math.log(1);// logaritimo natural de 1 es CERO; 0 es el nomero al cual debes
 								// elevar e para obtener 1
 		java.lang.Math.log(java.lang.Math.E);
 
-		// valor del exponente al que elevar el número e para que el valor resultado coincida con el
-		// argumento pasado a esta función
+		// valor del exponente al que elevar el nomero e para que el valor resultado coincida con el
+		// argumento pasado a esta funcion
 		double e_exponenteB = java.lang.Math.exp(0.71);
 		System.out.println("e^0.71: " + e_exponenteB);
 		System.out.println("log(" + e_exponenteB + ") --> e^" + java.lang.Math.log(e_exponenteB));
@@ -158,33 +158,33 @@ public class RandomVarUtils {
 		double probabilityOfOneSuccess = 0.09;
 		double probabilityDeAlMenosNExitos = binomialTest.binomialTest(numberOfTrials, numberOfSuccesses, probabilityOfOneSuccess,
 				AlternativeHypothesis.GREATER_THAN);
-		System.out.println("Probabilidad de que haya " + numberOfSuccesses + " éxitos de " + numberOfTrials
-				+ " lanzamientos a una probabilidad de éxito de " + probabilityOfOneSuccess + " es del "
+		System.out.println("Probabilidad de que haya " + numberOfSuccesses + " oxitos de " + numberOfTrials
+				+ " lanzamientos a una probabilidad de oxito de " + probabilityOfOneSuccess + " es del "
 				+ CommonUtils.roundWith2Decimals(probabilityDeAlMenosNExitos * 100) + " %");
 
 		numberOfSuccesses = 6;
 
 		probabilityDeAlMenosNExitos = binomialTest.binomialTest(numberOfTrials, numberOfSuccesses, probabilityOfOneSuccess,
 				AlternativeHypothesis.GREATER_THAN);
-		System.out.println("Probabilidad de que haya " + numberOfSuccesses + " éxitos de " + numberOfTrials
-				+ " lanzamientos a una probabilidad de éxito de " + probabilityOfOneSuccess + " es del "
+		System.out.println("Probabilidad de que haya " + numberOfSuccesses + " oxitos de " + numberOfTrials
+				+ " lanzamientos a una probabilidad de oxito de " + probabilityOfOneSuccess + " es del "
 				+ CommonUtils.roundWith2Decimals(probabilityDeAlMenosNExitos * 100) + " %");
 
 		numberOfSuccesses = 3;
 
 		probabilityDeAlMenosNExitos = binomialTest.binomialTest(numberOfTrials, numberOfSuccesses, probabilityOfOneSuccess,
 				AlternativeHypothesis.GREATER_THAN);
-		System.out.println("Probabilidad de que haya " + numberOfSuccesses + " éxitos de " + numberOfTrials
-				+ " lanzamientos a una probabilidad de éxito de " + probabilityOfOneSuccess + " es del "
+		System.out.println("Probabilidad de que haya " + numberOfSuccesses + " oxitos de " + numberOfTrials
+				+ " lanzamientos a una probabilidad de oxito de " + probabilityOfOneSuccess + " es del "
 				+ CommonUtils.roundWith2Decimals(probabilityDeAlMenosNExitos * 100) + " %");
 
 		double combinaciones = RandomVarUtils.variacionesDeNelementosTomadosDeMenM(6, 49);
-		System.out.println("combinaciones posibles de 6 números tomados de 6 en 6: " + combinaciones);
+		System.out.println("combinaciones posibles de 6 nomeros tomados de 6 en 6: " + combinaciones);
 		double probaLoteria = 1 / combinaciones;
-		// k=6, m=49, todas las posibles combinaciones de 49 números tomados de 1 en 1, solo una de
+		// k=6, m=49, todas las posibles combinaciones de 49 nomeros tomados de 1 en 1, solo una de
 		// esas combinaciones es la ganadora,
 		// la probabilidad de que sea la que elegimos es 1/total_combinaciones_posibles
-		System.out.println("2. Probabilidad con (m sobre k) de acertar 6 en la Lotería primi: "
+		System.out.println("2. Probabilidad con (m sobre k) de acertar 6 en la Loteroa primi: "
 				+ CommonUtils.roundWith8Decimals(probaLoteria * 100) + " %");
 	}
 
@@ -202,22 +202,22 @@ public class RandomVarUtils {
 		// (Math.round(varAleatoria.probabilidadDistribucionBinomial(n, p, k) * 100)) +
 		// " %");
 
-		//n = 10;// lanzamientos de dos dados simultáneos
+		//n = 10;// lanzamientos de dos dados simultoneos
 		//k = 3; // veces en sacar 6 con ambos dados
 		//final double p3 = 0.0256;// probabilidad de sacar 6 con ambos dados
-		// System.out.println("Experimento 3: Probabilidad buscada con lanzamientos de dos dados simultáneos: "
+		// System.out.println("Experimento 3: Probabilidad buscada con lanzamientos de dos dados simultoneos: "
 		// + (varAleatoria.probabilidadDistribucionBinomial(n, p, k) * 100)
 		// + " %");
 
 		//n = 100;// lanzamientos de moneda
 		//final double p4 = 0.5;// probabilidad de sacar cara
 		// double probEsperada = 0.00;
-		//int j = 61;// veces como mínimo en sacar cara
+		//int j = 61;// veces como monimo en sacar cara
 		// while (j <= n) {
 		// probEsperada += varAleatoria.probabilidadDistribucionBinomial(n, p, j++);
 		// }
 
-		// System.out.println("Experimento 3: Probabilidad de sacar más de 60 caras: " +
+		// System.out.println("Experimento 3: Probabilidad de sacar mos de 60 caras: " +
 		// (probEsperada * 100) + " %");
 		long timeComienzo = Calendar.getInstance().getTimeInMillis();
 		int nLanzamientos = 60000;
@@ -246,14 +246,14 @@ public class RandomVarUtils {
 		System.out.println("mediana: " + Double.valueOf(CommonUtils.roundWith4Decimals(varStats.obtenerMediana_Variable_X())).intValue());
 		System.out.println("moda: " + Double.valueOf(CommonUtils.roundWith4Decimals(varStats.obtenerModa_Variable_X())).intValue());
 		System.out
-				.println("desviación típica: " + CommonUtils.roundWith4Decimals(varStats.obtenerDesviacionTipica_Variable_X(media_Var_X)));
+				.println("desviacion topica: " + CommonUtils.roundWith4Decimals(varStats.obtenerDesviacionTipica_Variable_X(media_Var_X)));
 
 		System.out.println();
 		System.out.println("**** El lanzamiento de un dado es una variable aleatoria independiente Xi. *****");
 		System.out
-				.println("Con un nº muy alto de lanzamientos (X1..Xi..Xn) por el Teorema Central del Límite la variable aleatoria de la media de esas variables tiende a seguir una distribución Normal (Suma(Xi, i=1..n)/n, 0/Raiz(n))");
+				.println("Con un no muy alto de lanzamientos (X1..Xi..Xn) por el Teorema Central del Lomite la variable aleatoria de la media de esas variables tiende a seguir una distribucion Normal (Suma(Xi, i=1..n)/n, 0/Raiz(n))");
 
-		System.out.println("Demost. práctica: Con " + nLanzamientos + " lanzamientos la distr. normal sale con estos parámetros: N ("
+		System.out.println("Demost. proctica: Con " + nLanzamientos + " lanzamientos la distr. normal sale con estos parometros: N ("
 				+ CommonUtils.roundWith4Decimals(varStats.obtenerMediaAritmetica_Variable_X()) + ", "
 				+ CommonUtils.roundWith4Decimals(varStats.obtenerDesviacionTipica_Variable_X(Double.valueOf(media_Var_X))) + ") ");
 		System.out.println();
@@ -274,7 +274,7 @@ public class RandomVarUtils {
 				+ CommonUtils.roundWith4Decimals(normalDist.cumulativeProbability(5)) * 100 + " %");
 		System.out.println("Probab. de que aparezca un valor igual a 6: " + CommonUtils.roundWith4Decimals(normalDist.density(6)) * 100
 				+ " %");
-		System.out.println("Probabilidad de la función de densidad de esta distribución en el valor esperado de la media (" + media + "): "
+		System.out.println("Probabilidad de la funcion de densidad de esta distribucion en el valor esperado de la media (" + media + "): "
 				+ CommonUtils.roundWith4Decimals(normalDist.density(media)) * 100 + " %");
 
 		double probabilidadAcumuladaHastaExtremoInferior = normalDist.cumulativeProbability(media - desviacionTipica);

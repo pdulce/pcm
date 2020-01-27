@@ -148,7 +148,7 @@ public abstract class AbstractCtrl implements ICtrl {
 		} else {
 			xtmlt = new StringBuilder(this.label.toHTML(labelFor.toString(), labels));
 		}
-		// qué pasa si es de tipo Blob?
+		// quo pasa si es de tipo Blob?
 		return xtmlt.append(this.getInnerHtml(this.needInnerTraduction() ? lang : labelFor, values_)).toString();
 	}
 

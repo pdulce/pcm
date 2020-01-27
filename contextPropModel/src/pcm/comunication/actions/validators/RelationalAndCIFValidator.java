@@ -39,7 +39,7 @@ public final class RelationalAndCIFValidator {
 	/** Sufijos de tipo caracter validos para el CIF */
 	private static final String SUFIJO_LETRA_CIF = "JABCDEFGHIjabcdefghi";
 
-	/** Sufijos de tipo númerico válidos para el CIF */
+	/** Sufijos de tipo nomerico volidos para el CIF */
 	private static final String SUFIJO_NUM_CIF = "0123456789";
 
 	/** Formato CIF */
@@ -69,7 +69,7 @@ public final class RelationalAndCIFValidator {
 	}
 
 	/**
-	 * Comprobamos si el DNI (Documeto Nacional de Identidad) es válido
+	 * Comprobamos si el DNI (Documeto Nacional de Identidad) es volido
 	 * 
 	 * @param valor
 	 *            String que representa el DNI
@@ -139,11 +139,11 @@ public final class RelationalAndCIFValidator {
 	}
 
 	/**
-	 * Validacion del NIE (Numero Identificacion Extranjeria) o tarjeta de residente. La validación
+	 * Validacion del NIE (Numero Identificacion Extranjeria) o tarjeta de residente. La validacion
 	 * es la misma que la de un NIF ,con una X al principio
 	 * 
 	 * @param valor
-	 *            String que se validará
+	 *            String que se validaro
 	 * @return True si es un NIE correcto , false en caso contrario.
 	 */
 	public static final boolean esNIE(final String valor) {
@@ -156,10 +156,10 @@ public final class RelationalAndCIFValidator {
 	}
 
 	/**
-	 * Validación de un CIF (Código de Identificación Fiscal)
+	 * Validacion de un CIF (Codigo de Identificacion Fiscal)
 	 * 
 	 * @param valor
-	 *            String que se validará como CIF
+	 *            String que se validaro como CIF
 	 * @return True si el valor es un CIF valido , false en caso contrario
 	 */
 	public static final boolean esCIF(final String valor) {

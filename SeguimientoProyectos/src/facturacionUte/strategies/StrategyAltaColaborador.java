@@ -43,7 +43,7 @@ public class StrategyAltaColaborador extends DefaultStrategyRequest {
 						filterColaboradores.setValue(colaboradores.searchField(ConstantesModelo.COLABORADOR_3_APELLIDOS).getName(), apel1Req.trim());// "apellido1"
 						final Collection<FieldViewSet> resultados = dataAccess.searchByCriteria(filterColaboradores);
 
-						// guardo las credenciales en sesión en el caso de que no vengan ya en sesión
+						// guardo las credenciales en sesion en el caso de que no vengan ya en sesion
 						if (!resultados.isEmpty()) {
 							final Collection<Object> messageArguments = new ArrayList<Object>();
 							messageArguments.add(nombreReq);

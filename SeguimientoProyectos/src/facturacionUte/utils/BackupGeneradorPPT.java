@@ -94,7 +94,7 @@ public class BackupGeneradorPPT {
 	protected static final int PORTADA_INICIO_BLANK_GLOBAL = 0, PORTADA_FIN_BLANK_GLOBAL_ = 3, 
 			PORTADA_INICIO_ACTUACIONES = 0, PORTADA_FIN_ACTUACIONES = 12, BARCHART_SLIDE_ACTUACIONES_SUBDIRECCION = 2, 
 					PORTADA_NOTIFICACIONES_FOMA = 3, PORTADA_ACTUACIONES_POR_PROYECTO = 5,
-							MAX_CHARS_4_TITLE = 30, COLUMNA_PETS_OO = 17 /*iésima*/, COLUMNA_PETS_DG = 26 /*iésima*/, MAX_ROWS_FOR_DG_TASKS_I= 8, 
+							MAX_CHARS_4_TITLE = 30, COLUMNA_PETS_OO = 17 /*iosima*/, COLUMNA_PETS_DG = 26 /*iosima*/, MAX_ROWS_FOR_DG_TASKS_I= 8, 
 							MAX_ROWS_FOR_DG_TASKS_II = 10, 
 							PATTERN_FICHA_MIN_FILAS_ = 0, PATTERN_FICHA_MAS_FILAS_ = 7, INDICE_TRABAJOS_ABORDADOS_ = 10; 
 	
@@ -105,12 +105,12 @@ public class BackupGeneradorPPT {
 							CARPETA_SUBDIRECCIONES = "SegDireccion\\", CARPETA_DE_TRABAJO = "externos\\__Hojas SegDireccion\\", 
 							TAREAS_ACABADAS = "2", TAREAS_EN_CURSO = "3", PREFIJO_FICHA = "SGAC", SUFIJO_SIN_GEDEON_ORIGEN = "000000";
 	
-	/** códigos de estado de una notificación electrónica:
-	CODIGO: ‘00’ , DESCRIPCION: ‘tipo_acuse_disponible’
-	CODIGO: ‘01’ , DESCRIPCION: ‘tipo_acuse_enviado_no_disponible’
-	CODIGO: ‘02’ , DESCRIPCION: ‘tipo_acuse_notificacion_aceptada’
-	CODIGO: ‘03’ , DESCRIPCION: ‘tipo_acuse_notificacion_rechazada’
-	CODIGO: ‘04’ , DESCRIPCION: ‘tipo_acuse_notificacion_rechazada_transcurso_de_plazo’
+	/** codigos de estado de una notificacion electronica:
+	CODIGO: o00o , DESCRIPCION: otipo_acuse_disponibleo
+	CODIGO: o01o , DESCRIPCION: otipo_acuse_enviado_no_disponibleo
+	CODIGO: o02o , DESCRIPCION: otipo_acuse_notificacion_aceptadao
+	CODIGO: o03o , DESCRIPCION: otipo_acuse_notificacion_rechazadao
+	CODIGO: o04o , DESCRIPCION: otipo_acuse_notificacion_rechazada_transcurso_de_plazoo
 	**/
 	private static final String[] CODIGOS_NOTIF = {"00", "01", "02", "03", "04"};
 	private static final String COD_ESTADO_NOTIF_DENEG_OTRA = "DEG_OTRA";
@@ -177,11 +177,11 @@ public class BackupGeneradorPPT {
 		appNames[4] = "(FOM2)";
 		appNames[5] = "(SBOT)";
 
-		APP_SHORT_DESCRIPTION.put(appNames[0].substring(1,appNames[0].length()-1), "REVISIÓN DE BOTIQUINES");
-		APP_SHORT_DESCRIPTION.put(appNames[1].substring(1,appNames[1].length()-1), "INSPECCIÓN DE BUQUES");
-		APP_SHORT_DESCRIPTION.put(appNames[2].substring(1,appNames[2].length()-1), "ASISTENCIA SANITARIA MARÍTIMA");
-		APP_SHORT_DESCRIPTION.put(appNames[3].substring(1,appNames[3].length()-1), "FORMACIÓN MARÍTIMA");
-		APP_SHORT_DESCRIPTION.put(appNames[4].substring(1,appNames[4].length()-1), "NUEVA FORMACIÓN MARÍTIMA");
+		APP_SHORT_DESCRIPTION.put(appNames[0].substring(1,appNames[0].length()-1), "REVISIoN DE BOTIQUINES");
+		APP_SHORT_DESCRIPTION.put(appNames[1].substring(1,appNames[1].length()-1), "INSPECCIoN DE BUQUES");
+		APP_SHORT_DESCRIPTION.put(appNames[2].substring(1,appNames[2].length()-1), "ASISTENCIA SANITARIA MARoTIMA");
+		APP_SHORT_DESCRIPTION.put(appNames[3].substring(1,appNames[3].length()-1), "FORMACIoN MARoTIMA");
+		APP_SHORT_DESCRIPTION.put(appNames[4].substring(1,appNames[4].length()-1), "NUEVA FORMACIoN MARoTIMA");
 		APP_SHORT_DESCRIPTION.put(appNames[5].substring(1,appNames[5].length()-1), "SUBVENCIONES BOTIQUINES A BORDO");
 		
 		EPIGRAFES.put("Nuevo Trabajo", new Integer(1));
@@ -230,25 +230,25 @@ public class BackupGeneradorPPT {
 	protected void initExcelColumnMapping2Model(){
 		if (MAPEOSCOLUMNASEXCEL2BBDDTABLE.isEmpty()){
 			/**** Mapeos para leer del fichero Excel y cargarlo en el FieldViewSet de peticiones: columna Excel - campo FieldViewSet **/
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(0, MODEL_MAPPING_COLUMN_TITULO);//Título
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(0, MODEL_MAPPING_COLUMN_TITULO);//Totulo
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(1, MODEL_MAPPING_COLUMN_FECHA_NECESIDAD);//Fecha Necesidad
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(2, MODEL_MAPPING_COLUMN_ENTRADA_EN_CDISM);//Entrada en CDISM
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(3, MODEL_MAPPING_COLUMN_AVANCE);//Avance[1,2,3]
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(4, MODEL_MAPPING_COLUMN_SITUACION);//[Implantada,Toma Requisitos, Análisis,...]		
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(5, MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO);//Previsión Fin Estado
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(6, MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION);//Fecha Prev Implantación	
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(7, MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION);//Fecha Real Implantación
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(4, MODEL_MAPPING_COLUMN_SITUACION);//[Implantada,Toma Requisitos, Anolisis,...]		
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(5, MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO);//Prevision Fin Estado
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(6, MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION);//Fecha Prev Implantacion	
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(7, MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION);//Fecha Real Implantacion
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(8, MODEL_MAPPING_COLUMN_DESCRIPCION);
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(9, MODEL_MAPPING_COLUMN_OBSERVACIONES);
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(10, MODEL_MAPPING_COLUMN_EPIGRAFE);//PPT: Epígrafe (tipificada)
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(10, MODEL_MAPPING_COLUMN_EPIGRAFE);//PPT: Epografe (tipificada)
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(11, MODEL_MAPPING_COLUMN_APARECE_EN_PPT);//PPT: ApareceEnPPT (Si, No)		
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(12, MODEL_MAPPING_COLUMN_ESFUERZO_GLOBAL);//campo Esfuerzo global (tarea)		 
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(13, MODEL_MAPPING_COLUMN_GRADO_AVANCE);//campo Grado avance (estado actual)
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(14, MODEL_MAPPING_COLUMN_APLICACION);//campo Aplicación
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(16, MODEL_MAPPING_ID);//Petición de Gestión
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(14, MODEL_MAPPING_COLUMN_APLICACION);//campo Aplicacion
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(16, MODEL_MAPPING_ID);//Peticion de Gestion
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(17, MODEL_MAPPING_COLUMN_GEDEON_AES);//Peticion AES	: la guardo en este campo aunque no sea para eso	
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(20, MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_ANALYSIS);//Fecha Prev Fin Análisis
-			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(21, MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS);//Fecha Real Fin Análisis
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(20, MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_ANALYSIS);//Fecha Prev Fin Anolisis
+			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(21, MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS);//Fecha Real Fin Anolisis
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(24, MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD);//Prev.Fin Pruebas CD
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(25, MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_PRUEBAS_CD);//Real Fin Pruebas CD
 			MAPEOSCOLUMNASEXCEL2BBDDTABLE.put(26, MODEL_MAPPING_COLUMN_ESFUERZO_AT);//PPT: Esfuerzo AT
@@ -298,7 +298,7 @@ public class BackupGeneradorPPT {
 	}
 	
 	/**
-	 * Lee las hojas indicadas para una Subdirección dada
+	 * Lee las hojas indicadas para una Subdireccion dada
 	 * @return
 	 * @throws Exception 
 	 */
@@ -354,10 +354,10 @@ public class BackupGeneradorPPT {
 		String estadoNormalizado =  estadoGlobal;
 		if (estadoNormalizado.startsWith("Desestimada")){
 			estadoNormalizado = "Desestimada";
-		} else if (estadoNormalizado.startsWith("Implantada") || estadoNormalizado.startsWith("Producción")){
+		} else if (estadoNormalizado.startsWith("Implantada") || estadoNormalizado.startsWith("Produccion")){
 			estadoNormalizado = estadoNormalizado.replaceFirst("Implantada", "Finalizada");
 		}else if (estadoNormalizado.equals("Pdte otras areas")){
-			estadoNormalizado = "Pendiente de otras áreas";
+			estadoNormalizado = "Pendiente de otras oreas";
 		}else {
 			estadoNormalizado = "En curso";
 		}
@@ -371,7 +371,7 @@ public class BackupGeneradorPPT {
 		}else if (epigrafe.equals("Necesidad de cambios funcionales")){
 			epigrafeNormalized = "Cambio Funcional";
 		}else if (epigrafe.equals("Actuaciones en Base de Datos")){
-			epigrafeNormalized = "Actuación en Base de Datos";
+			epigrafeNormalized = "Actuacion en Base de Datos";
 		}else if (epigrafe.equals("Incidencia competencia de otros sistemas")){
 			epigrafeNormalized = "Errores de otros sistemas";
 		}else if (epigrafe.equals("Incidencia a resolver por el CDISM")){
@@ -398,28 +398,28 @@ public class BackupGeneradorPPT {
 				estadoNormalizado = "Pruebas";
 			}else if (estadoPet_BBDD_.equals("Validada")){
 				estadoNormalizado = "Validada por CD";
-			}else if (estadoPet_BBDD_.equals("Producción") || estadoPet_BBDD_.equals("Implantado") || estadoPet_BBDD_.equals("Implantada") ||
-					estadoPet_BBDD_.equals("Soporte finalizado") || estadoPet_BBDD_.equals("Petición de trabajo finalizado")){
+			}else if (estadoPet_BBDD_.equals("Produccion") || estadoPet_BBDD_.equals("Implantado") || estadoPet_BBDD_.equals("Implantada") ||
+					estadoPet_BBDD_.equals("Soporte finalizado") || estadoPet_BBDD_.equals("Peticion de trabajo finalizado")){
 				estadoNormalizado = "Implantado";
 			}else if (estadoPet_BBDD_.indexOf("Trabajo estimado")!= -1 ||
 					estadoPet_BBDD_.equals("Trabajo listo para iniciar") || estadoPet_BBDD_.indexOf("Trabajo en curso") != -1
-					|| estadoPet_BBDD_.equals("Trabajo estimado") || estadoPet_BBDD_.equals("Pendiente de estimación") || 
-					estadoPet_BBDD_.equals("Tramitada") || estadoPet_BBDD_.equals("Trabajo en redacción") || estadoPet_BBDD_.equals("Desarrollo")){
+					|| estadoPet_BBDD_.equals("Trabajo estimado") || estadoPet_BBDD_.equals("Pendiente de estimacion") || 
+					estadoPet_BBDD_.equals("Tramitada") || estadoPet_BBDD_.equals("Trabajo en redaccion") || estadoPet_BBDD_.equals("Desarrollo")){
 				estadoNormalizado = "Desarrollo";
 			}else if (estadoPet_BBDD_.equals("Trabajo instalado (en PreExpl.)")){
-				estadoNormalizado = "Auditoría Calidad";
+				estadoNormalizado = "Auditoroa Calidad";
 			}else if (estadoPet_BBDD_.equals("Trabajo pte. validar por CD")){
 				estadoNormalizado = "Pruebas";
 			}
-		}else{//si es de AT, un análisis
-			if (estadoPet_BBDD_.equals("Pendiente de estimación") || estadoPet_BBDD_.equals("Trabajo estimado") || estadoPet_BBDD_.equals("Tramitada") || estadoPet_BBDD_.equals("Toma Requisitos")){
+		}else{//si es de AT, un anolisis
+			if (estadoPet_BBDD_.equals("Pendiente de estimacion") || estadoPet_BBDD_.equals("Trabajo estimado") || estadoPet_BBDD_.equals("Tramitada") || estadoPet_BBDD_.equals("Toma Requisitos")){
 				estadoNormalizado = "Requisitos";
 			}else if (estadoPet_BBDD_.equals("Trabajo en curso")){
-				estadoNormalizado =  "Análisis";
-			}else if (estadoPet_BBDD_.equals("Petición de trabajo finalizado") || estadoPet_BBDD_.equals("Soporte finalizado")){
-				estadoNormalizado = "Fin Análisis";
-			}else if (estadoPet_BBDD_.equals("Análisis")){
-				estadoNormalizado =  "Análisis";
+				estadoNormalizado =  "Anolisis";
+			}else if (estadoPet_BBDD_.equals("Peticion de trabajo finalizado") || estadoPet_BBDD_.equals("Soporte finalizado")){
+				estadoNormalizado = "Fin Anolisis";
+			}else if (estadoPet_BBDD_.equals("Anolisis")){
+				estadoNormalizado =  "Anolisis";
 			}
 		}
 		return estadoNormalizado;
@@ -476,11 +476,11 @@ public class BackupGeneradorPPT {
 		while (rowIEsima != null) {// while
 			
 			if (rowIEsima.getRowNum()==0){
-				// se trata de la subdirección, guardamos este dato y continue con la siguiente Row
+				// se trata de la subdireccion, guardamos este dato y continue con la siguiente Row
 				Cell cell = rowIEsima.getCell(0);
 				subdireccion = cell.getStringCellValue();				
 			}else if (rowIEsima.getRowNum()==2){
-				// se trata del Área de La Subdirecc., guardamos este dato y continue con la siguiente Row
+				// se trata del orea de La Subdirecc., guardamos este dato y continue con la siguiente Row
 				Cell cell = rowIEsima.getCell(0);
 				areaSubdirecc = cell.getStringCellValue();
 			}
@@ -542,7 +542,7 @@ public class BackupGeneradorPPT {
 						if (positionInFieldLogic.intValue() == MODEL_MAPPING_COLUMN_GEDEON_AES || 
 								positionInFieldLogic.intValue() == MODEL_MAPPING_ID ||
 									positionInFieldLogic.intValue() == MODEL_MAPPING_COLUMN_GEDEON_DG){
-							//quitamos puntos que pueda haber en el código de petición
+							//quitamos puntos que pueda haber en el codigo de peticion
 							valueCell = (valueCell== null ? "": (valueCell.toString()).replaceAll("\\.0", ""));
 						}
 					}
@@ -585,8 +585,8 @@ public class BackupGeneradorPPT {
 			subdireccion = subdireccion.replaceAll("General", "Gral.");
 			areaSubdirecc = CommonUtils.firstLetterInUppercase(areaSubdirecc.toLowerCase());
 			areaSubdirecc = areaSubdirecc.replaceAll("Servicio ", "");
-			areaSubdirecc = areaSubdirecc.replaceAll("Área De ", "");
-			areaSubdirecc = areaSubdirecc.replaceAll("Área ", "");
+			areaSubdirecc = areaSubdirecc.replaceAll("orea De ", "");
+			areaSubdirecc = areaSubdirecc.replaceAll("orea ", "");
 			areaSubdirecc = areaSubdirecc.replaceAll("-", "/");
 			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
 			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen
@@ -597,7 +597,7 @@ public class BackupGeneradorPPT {
 				aplicacionRochade = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName());
 			}
 			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName(), aplicacionRochade);
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APP_DESC).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicación
+			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APP_DESC).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicacion
 			String idPeticionBBDD = null;
 			final Serializable codPeticionGestion = fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName());
 			if (codPeticionGestion != null){
@@ -617,33 +617,33 @@ public class BackupGeneradorPPT {
 				
 				Date fechaPrevisionFinEstado = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName());
 				String estadoTareaGlobal = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
-				if (!(estadoTareaGlobal.startsWith("Desestimada") || estadoTareaGlobal.startsWith("Implantada") || estadoTareaGlobal.startsWith("Producción") || estadoTareaGlobal.startsWith("Toma Requisitos"))){
+				if (!(estadoTareaGlobal.startsWith("Desestimada") || estadoTareaGlobal.startsWith("Implantada") || estadoTareaGlobal.startsWith("Produccion") || estadoTareaGlobal.startsWith("Toma Requisitos"))){
 										
 					if (estadoTareaGlobal.startsWith("Pruebas")){
 						Date fechaPrevisionFinPruebasCD = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD).getName());
 						if (fechaPrevisionFinPruebasCD != null){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName(), fechaPrevisionFinPruebasCD);
 						}else {
-							bufferMessages.append(aplicacionRochade + ": La fecha Previsión Fin Pruebas CD de la tarea global <'" + descTask + "'> no está consignada, y debe estarlo porque está la tarea global en Pruebas{}");
+							bufferMessages.append(aplicacionRochade + ": La fecha Prevision Fin Pruebas CD de la tarea global <'" + descTask + "'> no esto consignada, y debe estarlo porque esto la tarea global en Pruebas{}");
 							continue;
 						}
 						Date fechaPrevisionImplantacion = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());
 						if (fechaPrevisionImplantacion != null){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName(), fechaPrevisionImplantacion);
 						}else {
-							bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantación de la tarea global <'" + descTask + "'> no está consignada{}");
+							bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantacion de la tarea global <'" + descTask + "'> no esto consignada{}");
 							continue;
 						}
-					}else if (estadoTareaGlobal.startsWith("Pre-explotación")){
+					}else if (estadoTareaGlobal.startsWith("Pre-explotacion")){
 						Date fechaPrevisionImplantacion = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());
 						if (fechaPrevisionImplantacion != null){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName(), fechaPrevisionImplantacion);
 						}else {
-							bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantación de la tarea global <'" + descTask + "'> no está consignada{}");
+							bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantacion de la tarea global <'" + descTask + "'> no esto consignada{}");
 							continue;
 						}
-					}else if (estadoTareaGlobal.startsWith("Análisis")){
-						// si está en estado 'Análisis', cogemos la fecha de fin de finalización más lejana de todas las peticiones_OO de AT
+					}else if (estadoTareaGlobal.startsWith("Anolisis")){
+						// si esto en estado 'Anolisis', cogemos la fecha de fin de finalizacion mos lejana de todas las peticiones_OO de AT
 						List<FieldViewSet> peticionesOO_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_AES);
 						for (int i=0;i<peticionesOO_.size();i++){
 							FieldViewSet peticionAsociada = peticionesOO_.get(i);
@@ -656,11 +656,11 @@ public class BackupGeneradorPPT {
 						if (fechaPrevisionFinEstado != null){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName(), fechaPrevisionFinEstado);
 						}else {
-							bufferMessages.append(aplicacionRochade + ": La fecha Previsión Fin Estado de la tarea global <'" + descTask + "'> no está consignada{}");
+							bufferMessages.append(aplicacionRochade + ": La fecha Prevision Fin Estado de la tarea global <'" + descTask + "'> no esto consignada{}");
 							continue;
 						}
 						
-					}else if (estadoTareaGlobal.startsWith("Desarrollo")){ // cogemos la fecha de fin de finalización más lejana de todas las peticiones_DG
+					}else if (estadoTareaGlobal.startsWith("Desarrollo")){ // cogemos la fecha de fin de finalizacion mos lejana de todas las peticiones_DG
 						List<FieldViewSet> peticionesDG_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_DG);
 						//Date fechaPrevisionFinDesarrollos = null;
 						for (int i=0;i<peticionesDG_.size();i++){
@@ -674,41 +674,41 @@ public class BackupGeneradorPPT {
 						if (fechaPrevisionFinEstado != null){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName(), fechaPrevisionFinEstado);
 						}else {							
-							bufferMessages.append(aplicacionRochade + ": La fecha Previsión Fin Estado de la tarea global <'" + descTask + "'> no está consignada{}");
+							bufferMessages.append(aplicacionRochade + ": La fecha Prevision Fin Estado de la tarea global <'" + descTask + "'> no esto consignada{}");
 							continue;
 						}
 						Date fechaPrevisionImplantacion = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());
 						if (fechaPrevisionImplantacion != null){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName(), fechaPrevisionImplantacion);
 						}else {
-							bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantación de la tarea global <'" + descTask + "'> no está consignada{}");
+							bufferMessages.append(aplicacionRochade + ": La Fecha Prev Implantacion de la tarea global <'" + descTask + "'> no esto consignada{}");
 							continue;
 						}
 					}
 				}
 				
-				//reemplazamos la explicación del Epígrafe por su valor de orden
+				//reemplazamos la explicacion del Epografe por su valor de orden
 				String nameEpigrafe = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName());
 				fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName(), EPIGRAFES.get(nameEpigrafe));
 				
-				//normalizamos el estado global de la petición
+				//normalizamos el estado global de la peticion
 				String statusPeticion = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
-				if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Producción") || statusPeticion.equals("Desestimada"))){
+				if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Produccion") || statusPeticion.equals("Desestimada"))){
 					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_ACABADAS);
 				}else{
 					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_EN_CURSO);
 				}
 				
-				if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Producción"))){
-					//revisamos que el % sea 100, y la fecha real implantación venga consignada
+				if (statusPeticion != null && (statusPeticion.equals("Implantada") || statusPeticion.equals("Produccion"))){
+					//revisamos que el % sea 100, y la fecha real implantacion venga consignada
 					Double newText_d = (Double) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE).getName());
 					if (newText_d == null || newText_d.doubleValue() != 1.0){
-						bufferMessages.append(aplicacionRochade + ": El % de avance ha de ser 100% de la tarea <'" + descTask + "'> no está consignada{}");
+						bufferMessages.append(aplicacionRochade + ": El % de avance ha de ser 100% de la tarea <'" + descTask + "'> no esto consignada{}");
 						continue;
 					}
 					Date fechaFin = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());
 					if (fechaFin == null){
-						bufferMessages.append(aplicacionRochade + ": La fecha Real Implantación de la tarea global no puede quedar vacía para la tarea <'" + descTask + "'> no está consignada{}");
+						bufferMessages.append(aplicacionRochade + ": La fecha Real Implantacion de la tarea global no puede quedar vacoa para la tarea <'" + descTask + "'> no esto consignada{}");
 						continue;
 					}
 				}
@@ -729,19 +729,19 @@ public class BackupGeneradorPPT {
 		String newText = text;
 		if (text.indexOf("(3)")!= -1){
 			newText = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_DESCRIPCION).getName());
-			if (newText.equals("Descripción") || newText.startsWith("Descripción#colorRGB#")){
+			if (newText.equals("Descripcion") || newText.startsWith("Descripcion#colorRGB#")){
 				final String petsRelacionadas = 
 						(String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName());
 				if (petsRelacionadas != null && !petsRelacionadas.equals("")){
 					String[] peticionesDG = petsRelacionadas.split(";");				
 					for (final String idPeticionTrabajo: peticionesDG){						
 						if (idPeticionTrabajo != null && !"".equals(idPeticionTrabajo)){
-							//buscamos la petición en la BBDD, y luego, cogemos el campo Descripción (requisitos)
+							//buscamos la peticion en la BBDD, y luego, cogemos el campo Descripcion (requisitos)
 							FieldViewSet peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
 							peticionDG.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), idPeticionTrabajo);
 							peticionDG = this.dataAccess.searchEntityByPk(peticionDG);
 							if (peticionDG != null){
-								//saco el campo Descripción
+								//saco el campo Descripcion
 								String desc = 
 										(String) peticionDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName());
 								if (desc!= null && !"".equals(desc)){
@@ -752,13 +752,13 @@ public class BackupGeneradorPPT {
 					}//if
 				}//if
 			}//if
-		}else if (text.indexOf("APLICACIÓN")!= -1){
+		}else if (text.indexOf("APLICACIoN")!= -1){
 			newText = aplicacionRochade;
 			
-		}else if (text.indexOf("Descripción de la Aplicación")!= -1){
+		}else if (text.indexOf("Descripcion de la Aplicacion")!= -1){
 			newText = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APP_DESC).getName());
 		
-		}else if (text.indexOf("Título de la Necesidad")!= -1){
+		}else if (text.indexOf("Totulo de la Necesidad")!= -1){
 			newText = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
 
 		}else if (text.indexOf("(6)")!= -1){
@@ -770,11 +770,11 @@ public class BackupGeneradorPPT {
 					(Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName()));
 			String estadoTareaGlobal = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 			if ((newText == null || "".equals(newText)) && 
-					estadoTareaGlobal != null && !estadoTareaGlobal.startsWith("Análisis") && !estadoTareaGlobal.startsWith("Implantada") &&
-						!estadoTareaGlobal.startsWith("Producción") && !estadoTareaGlobal.startsWith("Desestimada") && 
+					estadoTareaGlobal != null && !estadoTareaGlobal.startsWith("Anolisis") && !estadoTareaGlobal.startsWith("Implantada") &&
+						!estadoTareaGlobal.startsWith("Produccion") && !estadoTareaGlobal.startsWith("Desestimada") && 
 							!estadoTareaGlobal.startsWith("Toma Requisitos")){
 				String descrTareaGlobal = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
-				bufferMessages.append(aplicacionRochade + ": dato (7): Falta añadir Fecha previsión Implantación en la tarea '<" + descrTareaGlobal + ">'{}");
+				bufferMessages.append(aplicacionRochade + ": dato (7): Falta aoadir Fecha prevision Implantacion en la tarea '<" + descrTareaGlobal + ">'{}");
 				return "err999";
 			}
 		
@@ -787,11 +787,11 @@ public class BackupGeneradorPPT {
 			
 		}else if (text.indexOf("(10)")!= -1){
 			newText = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
-			if (newText != null && (newText.equals("Implantada") || newText.equals("Producción")) ){
+			if (newText != null && (newText.equals("Implantada") || newText.equals("Produccion")) ){
 				Date fecImplantacionDate = 
 						(Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());
 				if (fecImplantacionDate == null){
-					bufferMessages.append(aplicacionRochade + ": dato (10): Fecha de implantación real ha de estar cumplimentada para esta petición 'Implantada'{}");
+					bufferMessages.append(aplicacionRochade + ": dato (10): Fecha de implantacion real ha de estar cumplimentada para esta peticion 'Implantada'{}");
 					return "err98779";
 				}
 				String fecImplantacion = CommonUtils.myDateFormatter.format(fecImplantacionDate);
@@ -803,7 +803,7 @@ public class BackupGeneradorPPT {
 			Double newText_d = (Double) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE).getName());
 			if (newText_d == null){
 				String descrTareaGlobal = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
-				bufferMessages.append(aplicacionRochade + ": dato (9): El % de avance no está consignado para la tarea global <'" + descrTareaGlobal + "'> no está consignada{}");
+				bufferMessages.append(aplicacionRochade + ": dato (9): El % de avance no esto consignado para la tarea global <'" + descrTareaGlobal + "'> no esto consignada{}");
 				return "err9089";
 			}
 			newText = new Double(newText_d.doubleValue()*100.0).intValue() + "%";
@@ -840,7 +840,7 @@ public class BackupGeneradorPPT {
 			for (int petI=0;petI<peticionesAs_.length;petI++){
 				final String idPeticionTrabajo = peticionesAs_[petI];
 				if (idPeticionTrabajo != null && !"".equals(idPeticionTrabajo)){
-					//buscamos la petición en la BBDD
+					//buscamos la peticion en la BBDD
 					FieldViewSet peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
 					peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticionTrabajo);
 					peticionDG = this.dataAccess.searchEntityByPk(peticionDG);
@@ -851,7 +851,7 @@ public class BackupGeneradorPPT {
 						peticionesAsociacas_.add(peticionDG);
 					}else{
 						final String aplicacionRochade = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName());
-						bufferMessages.append(aplicacionRochade + ": Error de localización en database: No se ha localizado la petición asociada con número " + idPeticionTrabajo + "{}");
+						bufferMessages.append(aplicacionRochade + ": Error de localizacion en database: No se ha localizado la peticion asociada con nomero " + idPeticionTrabajo + "{}");
 						continue;
 					}
 				}				
@@ -860,7 +860,7 @@ public class BackupGeneradorPPT {
 		return peticionesAsociacas_;
 	}
 	
-	/** Incrementa el número de finalizadas/en_curso de una determinado aplicación**/
+	/** Incrementa el nomero de finalizadas/en_curso de una determinado aplicacion**/
 	protected final void addCounterPorBothEstados4App(final Map<String, Map<String, Number>> counterActuaPerApp, final String app, final boolean finalizada, final Number incremento){
 		
 		String estadoGlobal = TAREAS_EN_CURSO;
@@ -882,7 +882,7 @@ public class BackupGeneradorPPT {
 		}		
 	}
 	
-	/** Incrementa el número de vivas/finalizadas por Subdirección **/	
+	/** Incrementa el nomero de vivas/finalizadas por Subdireccion **/	
 	protected final void addCounterPorBothEstados4Subd(final Map<String,Map<String, Number>> counterEstadosPerSubdirec, final String epigrafe, final boolean finalizada, final Number incremento){
 		
 		String estadoGlobal = TAREAS_EN_CURSO;
@@ -920,7 +920,7 @@ public class BackupGeneradorPPT {
 		}	
 	}
 	
-	/** Incrementa el número de actuaciones por Subdirección **/
+	/** Incrementa el nomero de actuaciones por Subdireccion **/
 	protected final void incCounterActuacionesSubdirec(final Map<String, Number> counterActuaPerApp, final String epigrafe){
 		if (counterActuaPerApp.containsKey(epigrafe)){
 			Number actualCounter = (Integer) counterActuaPerApp.get(epigrafe);
@@ -930,7 +930,7 @@ public class BackupGeneradorPPT {
 		}
 	}
 	
-	/** Incrementa el número de actuaciones de una determinado aplicación y epígrafe**/
+	/** Incrementa el nomero de actuaciones de una determinado aplicacion y epografe**/
 	protected final void incCounterActuaciones4App(final Map<String, Map<String, Number>> counterActuaPerApp, final String app, final String epigrafe){		
 		if (counterActuaPerApp.containsKey(app)){
 			Map<String, Number> existingMap = counterActuaPerApp.get(app);
@@ -947,7 +947,7 @@ public class BackupGeneradorPPT {
 		}		
 	}
 	
-	/** Incrementa el número de actuaciones en un determinado periodo de tiempo**/
+	/** Incrementa el nomero de actuaciones en un determinado periodo de tiempo**/
 	protected final void incCounterActuaciones4AppIntimeline(final Map<String, Map<String, Map<Number,Number>>> counterActuaPerApp, 
 			final String app, final Date fechaEntradaCDISM, final Date fechaImplantada, final String taskName, final String tipoPeriodo){
 		
@@ -956,7 +956,7 @@ public class BackupGeneradorPPT {
 			throw new RuntimeException("Error: Solo se permite en el eje X semanas (week)");
 		}
 		if (fechaImplantada == null){
-			bufferMessages.append("Revise la fecha de implantación de la tarea " + taskName + "{}");
+			bufferMessages.append("Revise la fecha de implantacion de la tarea " + taskName + "{}");
 			return;
 		}
 		
@@ -1048,7 +1048,7 @@ public class BackupGeneradorPPT {
 	
 	
 	/** Incorpora una nueva tarea en curso para una app, y mete su porcentaje en Double, para pasarlo luego al barchart **/
-	protected final void añadirTaskConAvance4App(final Map<String, Map<String, Number>> mapTasksEnCurso4App, final String app, final String taskName, final Double avance){
+	protected final void anyadirTaskConAvance4App(final Map<String, Map<String, Number>> mapTasksEnCurso4App, final String app, final String taskName, final Double avance){
 		if (mapTasksEnCurso4App.containsKey(app)){
 			Map<String, Number> existingMap = mapTasksEnCurso4App.get(app);
 			if (!existingMap.containsKey(taskName)){				
@@ -1071,7 +1071,7 @@ public class BackupGeneradorPPT {
 		FileInputStream fInput = new FileInputStream(blank_Path);
 		
         XMLSlideShow ppt_blank_Input = new XMLSlideShow(fInput);
-        /*** ACCEDIDO CON ÉXITO AL MODELO BLANK / BLANK_INDIVIDUAL ***/
+        /*** ACCEDIDO CON oXITO AL MODELO BLANK / BLANK_INDIVIDUAL ***/
         String nombreSG = null, nombreAREA_SERVICIO = null;
         boolean esGeneracionFICHAS = false, esGeneracionInformeMensual = false;
         
@@ -1175,12 +1175,12 @@ public class BackupGeneradorPPT {
         	
 			FieldViewSet fieldViewSet = fichasACrearEnPPT.get(i);
 			
-			// comprobamos si hay que meterla como histórico (si terminó antes de empezar este periodo de seguimiento)
+			// comprobamos si hay que meterla como historico (si termino antes de empezar este periodo de seguimiento)
 			final Date fechaRealFin = (Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());
 			final String estadoTareaGlobal = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 			
 			boolean aHistorico = false;
-			if (fechaRealFin != null && (estadoTareaGlobal.equals("Producción") || estadoTareaGlobal.equals("Implantada")) && fechaRealFin.before(fechaDesde_)){
+			if (fechaRealFin != null && (estadoTareaGlobal.equals("Produccion") || estadoTareaGlobal.equals("Implantada")) && fechaRealFin.before(fechaDesde_)){
 				aHistorico = true;
 			}
 			
@@ -1193,7 +1193,7 @@ public class BackupGeneradorPPT {
 			String app = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName());
 			if (app == null){
 				//al buffer, y haces continue
-				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el nombre de aplicación.{}");
+				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el nombre de aplicacion.{}");
 				continue;
 			}			
 			Double avance = (Double) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE).getName());
@@ -1205,13 +1205,13 @@ public class BackupGeneradorPPT {
 			String globalStatus = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName());
 			if (globalStatus == null){
 				//al buffer, y haces continue
-				bufferMessages.append("En la tarea <" + taskName + "> debe consignar la situación.{}");
+				bufferMessages.append("En la tarea <" + taskName + "> debe consignar la situacion.{}");
 				continue;
 			}
 			String epigrafeO_ = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName());
 			if (epigrafeO_ == null){
 				//al buffer, y haces continue
-				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el epígrafe.{}");
+				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el epografe.{}");
 				continue;
 			}
 			Integer orderOfEpigrafe = new Integer(epigrafeO_);
@@ -1250,9 +1250,9 @@ public class BackupGeneradorPPT {
 			}
 			taskName_  = taskName_.concat(" ").concat(GEDEON_Gestion);
 			if (globalStatus.equals(TAREAS_EN_CURSO)){							
-				añadirTaskConAvance4App(mapGradosAvanceTaskEnCursoPerApp, app, taskName_, avance);
+				anyadirTaskConAvance4App(mapGradosAvanceTaskEnCursoPerApp, app, taskName_, avance);
 			}else{
-				añadirTaskConAvance4App(mapGradosAvanceTaskFinPerApp, app, taskName_, avance);				
+				anyadirTaskConAvance4App(mapGradosAvanceTaskFinPerApp, app, taskName_, avance);				
 			}
 			
 			if (actualAppName == null || !app.equals(actualAppName)){
@@ -1292,18 +1292,18 @@ public class BackupGeneradorPPT {
 			
 			if (peticionesOO_ == null || peticionesOO_.isEmpty()){
 				
-				/** grabación de la petición fantasma **/
+				/** grabacion de la peticion fantasma **/
 				FieldViewSet peticionOOFantasma = fieldViewSet.copyOf();
 				//grabar en la peticionOO fantasma el estado
 				String estadotareaOOFantasma = "Pendiente";
-				if (estadoTareaGlobal.startsWith("Análisis")){
+				if (estadoTareaGlobal.startsWith("Anolisis")){
 					
-					estadotareaOOFantasma = "Análisis";
+					estadotareaOOFantasma = "Anolisis";
 					
 					final Date fechaPrevFinAnalisis = (Date) peticionOOFantasma.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS).getName());
 					
 					if (fechaPrevFinAnalisis == null){
-						bufferMessages.append(app + ":: La 'Fecha Prev Fin  Análisis' de la tarea <'" + taskName_ + "'> no está consignada{}");
+						bufferMessages.append(app + ":: La 'Fecha Prev Fin  Anolisis' de la tarea <'" + taskName_ + "'> no esto consignada{}");
 						continue;
 					}
 					
@@ -1316,11 +1316,11 @@ public class BackupGeneradorPPT {
 				}else if (estadoTareaGlobal.startsWith("Pdte otras areas")){
 					estadotareaOOFantasma = "Pdte otras areas";
 				}else {
-					estadotareaOOFantasma = "Fin Análisis";
+					estadotareaOOFantasma = "Fin Anolisis";
 				}
 				peticionOOFantasma.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName(), estadotareaOOFantasma);
 				String title = (String) peticionOOFantasma.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
-				peticionOOFantasma.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName(), "Análisis: ".concat(title));
+				peticionOOFantasma.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName(), "Anolisis: ".concat(title));
 				
 				peticionesOO_.add(peticionOOFantasma);
 			}
@@ -1387,7 +1387,7 @@ public class BackupGeneradorPPT {
 				counterPetsByPlazoBySubdEnCurso.put("Fuera de Plazo", actualCounterFueraPlazoEnCurso.intValue() + counterFueraPlazoEnCurso);				
 				
 				
-				/** actualizamos los contadores de esfuerzo en AT (incluye effort de análisis, pruebas, tiempo en instalaciones, etc...**/
+				/** actualizamos los contadores de esfuerzo en AT (incluye effort de anolisis, pruebas, tiempo en instalaciones, etc...**/
 				Number actualCounterHrsEnPlazoAcabada = counterHrsEffByPlazoBySubdirFinished.get("A. En Plazo");
 				if (actualCounterHrsEnPlazoAcabada == null){
 					actualCounterHrsEnPlazoAcabada = new Integer(0);
@@ -1433,14 +1433,14 @@ public class BackupGeneradorPPT {
 				title = title.replaceAll(" el ", " ");
 				title = title.trim();
 				
-				final String sufijoNombreFICHA = app.concat((aHistorico?"\\Histórico\\":"\\")).concat(PREFIJO_FICHA).concat("-").concat(app).concat("-").concat(idPeticionGestion).concat("-").
+				final String sufijoNombreFICHA = app.concat((aHistorico?"\\Historico\\":"\\")).concat(PREFIJO_FICHA).concat("-").concat(app).concat("-").concat(idPeticionGestion).concat("-").
 						concat(title).concat(PPT_EXTENSION);
 				
 				String fichaPPT_En_carpetaTrabajo = "", fichaPPT_En_carpetaSubdirecc = "";
 				
 				final String carpetaSubdirecc_path = new File(carpetaSubdirecciones).getAbsolutePath();
 				
-				/** ALMACENAMOS TANTO EN LA CARPETA DE TRABAJO, COMO EN LA SUBDIRECCIÓN **/
+				/** ALMACENAMOS TANTO EN LA CARPETA DE TRABAJO, COMO EN LA SUBDIRECCIoN **/
 				
 				fichaPPT_En_carpetaTrabajo = carpetaTrabajo_path.concat("\\").concat(sufijoNombreFICHA);
 				fichaPPT_En_carpetaSubdirecc = carpetaSubdirecc_path.concat("\\").concat(sufijoNombreFICHA);
@@ -1455,7 +1455,7 @@ public class BackupGeneradorPPT {
 				if (!(aHistorico && new File(fichaPPT_En_carpetaSubdirecc).exists())){
 					FileInputStream fInp = new FileInputStream(fichaPPT_En_carpetaTrabajo);
 					FileOutputStream out2 = new FileOutputStream(fichaPPT_En_carpetaSubdirecc);
-					// copiamos de la de trabajo a la carpeta de la subdirección
+					// copiamos de la de trabajo a la carpeta de la subdireccion
 					byte [] buffer = new byte[512];
 					int leidos = 0;
 					while ((leidos = fInp.read(buffer)) > 0){
@@ -1511,7 +1511,7 @@ public class BackupGeneradorPPT {
 	                	chartFinished_numPets = chart;
 	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("curso") != -1){
 	                	chartEnCurso_numPets = chart;
-	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("situación") != -1){
+	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("situacion") != -1){
 	                	chartBySituacionCronogram_numPets = chart;
 	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("Nuevos Req") != -1){
 	                	if (chartNuevosReqAcabados_numPets == null){
@@ -1527,8 +1527,8 @@ public class BackupGeneradorPPT {
 	            }
 	        }
 
-	        setNewText(slideAgregadosPetsPieChart, "Nombre de la Subdirección/División", nombreSG);
-			setNewText(slideAgregadosPetsPieChart, "Nombre del Área/Servicio", nombreAREA_SERVICIO);
+	        setNewText(slideAgregadosPetsPieChart, "Nombre de la Subdireccion/Division", nombreSG);
+			setNewText(slideAgregadosPetsPieChart, "Nombre del orea/Servicio", nombreAREA_SERVICIO);
 			setNewText(slideAgregadosPetsPieChart, "#PERIODO#", periodo);
 			
 			if(chartBySituacionCronogram_numPets != null && !apps.isEmpty()){
@@ -1543,10 +1543,10 @@ public class BackupGeneradorPPT {
 						newMapBySituacion.put("Tareas finalizadas", mapBySituacion.get(keyOfState));
 					}
 				}
-	        	actualizarChartUniSerie(chartBySituacionCronogram_numPets, newMapBySituacion, "Situación tareas", "pie");
+	        	actualizarChartUniSerie(chartBySituacionCronogram_numPets, newMapBySituacion, "Situacion tareas", "pie");
 	        }
 			if(chartGlobal_numPets != null){
-				//debo formar un mapa de la Subdirección con los epígrafes y sus contadores
+				//debo formar un mapa de la Subdireccion con los epografes y sus contadores
 	        	//actualizarChart de las dos tartas de la Subdirecc
 				Map<String, Number> counterEpigrafesEnGlobal = new HashMap<String, Number>();
 				Iterator<String> keyIterator = counterPetsEstadosPerSubdirec.get(TAREAS_EN_CURSO).keySet().iterator();
@@ -1597,7 +1597,7 @@ public class BackupGeneradorPPT {
 	                	chartFinished_effortHrs = chart;
 	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("curso") != -1){
 	                	chartEnCurso_effortHrs = chart;
-	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("situación") != -1){
+	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("situacion") != -1){
 	                	chartBySituacionCronogram_effortHrs = chart;
 	                }else if (chart.getCTChart().getTitle().getTx().getRich().toString().indexOf("Nuevos Req") != -1){
 	                	if (chartNuevosReqAcabados_effortHrs == null){
@@ -1613,8 +1613,8 @@ public class BackupGeneradorPPT {
 	            }
 	        }
 
-	        setNewText(slideAgregadosPetsPieChart, "Nombre de la Subdirección/División", nombreSG);
-			setNewText(slideAgregadosPetsPieChart, "Nombre del Área/Servicio", nombreAREA_SERVICIO);
+	        setNewText(slideAgregadosPetsPieChart, "Nombre de la Subdireccion/Division", nombreSG);
+			setNewText(slideAgregadosPetsPieChart, "Nombre del orea/Servicio", nombreAREA_SERVICIO);
 			setNewText(slideAgregadosPetsPieChart, "#PERIODO#", periodo);
 			
 			if(chartBySituacionCronogram_effortHrs != null && !apps.isEmpty()){
@@ -1629,10 +1629,10 @@ public class BackupGeneradorPPT {
 						newMapBySituacion.put("Tareas finalizadas", mapBySituacion.get(keyOfState));
 					}
 				}
-	        	actualizarChartUniSerie(chartBySituacionCronogram_effortHrs, newMapBySituacion, "Situación tareas", "pie");
+	        	actualizarChartUniSerie(chartBySituacionCronogram_effortHrs, newMapBySituacion, "Situacion tareas", "pie");
 	        }
 			if(chartGlobal_effortHrs != null){
-				//debo formar un mapa de la Subdirección con los epígrafes y sus contadores
+				//debo formar un mapa de la Subdireccion con los epografes y sus contadores
 	        	//actualizarChart de las dos tartas de la Subdirecc
 				Map<String, Number> counterEpigrafesEnGlobal = new HashMap<String, Number>();
 				Iterator<String> keyIterator = counterHrsEffEstadosPerSubdirec.get(TAREAS_EN_CURSO).keySet().iterator();
@@ -1696,12 +1696,12 @@ public class BackupGeneradorPPT {
 					setNewText(slideNotificacionesFOMA, codigo_2_replace_8, String.valueOf("0"));
 				}				
 				setNewText(slideNotificacionesFOMA,"#app#", "FOMA-FMAR");
-				setNewText(slideNotificacionesFOMA, "Nombre de la Subdirección/División", nombreSG);
-				setNewText(slideNotificacionesFOMA, "Nombre del Área/Servicio", nombreAREA_SERVICIO);
+				setNewText(slideNotificacionesFOMA, "Nombre de la Subdireccion/Division", nombreSG);
+				setNewText(slideNotificacionesFOMA, "Nombre del orea/Servicio", nombreAREA_SERVICIO);
 				setNewText(slideNotificacionesFOMA, "#PERIODO#", periodo);
 
 				
-				/** ACTUALIZACIÓN DE ACTUACIONES DE LA SUBDIRECCIÓN ****/
+				/** ACTUALIZACIoN DE ACTUACIONES DE LA SUBDIRECCIoN ****/
 		        XSLFChart barchartEpigrafes = null;		
 				List<POIXMLDocumentPart> listaObj2 = slideActuacionesBySubdirecc.getRelations();
 		        for(POIXMLDocumentPart part2 : listaObj2){
@@ -1710,16 +1710,16 @@ public class BackupGeneradorPPT {
 		               	break;
 		            }
 		        }
-		        if (barchartEpigrafes != null){// throw new IllegalStateException("El barchart de actuaciones de la Subdirección no se ha localizado");
-		        	actualizarChartUniSerie(barchartEpigrafes, counterActuacionesSubdirecc, "Resumen Actuaciones solicitadas por la Subdirección", "bar");
+		        if (barchartEpigrafes != null){// throw new IllegalStateException("El barchart de actuaciones de la Subdireccion no se ha localizado");
+		        	actualizarChartUniSerie(barchartEpigrafes, counterActuacionesSubdirecc, "Resumen Actuaciones solicitadas por la Subdireccion", "bar");
 		        }
 		        
 				setNewText(slideActuacionesBySubdirecc, "dd/MM/aaaa", literalParaFechDeHoy);
 				setNewText(slideActuacionesBySubdirecc, "#PERIODO#", periodo);			
-				setNewText(slideActuacionesBySubdirecc, "Nombre de la Subdirección/División", nombreSG);
-				setNewText(slideActuacionesBySubdirecc, "Nombre del Área/Servicio", nombreAREA_SERVICIO);
+				setNewText(slideActuacionesBySubdirecc, "Nombre de la Subdireccion/Division", nombreSG);
+				setNewText(slideActuacionesBySubdirecc, "Nombre del orea/Servicio", nombreAREA_SERVICIO);
 				
-				/** ACTUALIZACIÓN DE ACTUACIONES DE CADA PROYECTO ****/
+				/** ACTUALIZACIoN DE ACTUACIONES DE CADA PROYECTO ****/
 				int consum = PORTADA_ACTUACIONES_POR_PROYECTO + 1;
 				for (int indexOfApp = 0;indexOfApp<listaMapaApps.size();indexOfApp++){
 					Map.Entry<String, Number> entryOfApp = listaMapaApps.get(indexOfApp);
@@ -1743,7 +1743,7 @@ public class BackupGeneradorPPT {
 			        
 					setNewText(slideAgregados4Prj_barchrt, "dd/MM/aaaa", literalParaFechDeHoy);
 					setNewText(slideAgregados4Prj_barchrt, "#PERIODO#", periodo);			
-					setNewText(slideAgregados4Prj_barchrt, "Nombre de la Subdirección/División", nombreSG);
+					setNewText(slideAgregados4Prj_barchrt, "Nombre de la Subdireccion/Division", nombreSG);
 					setNewText(slideAgregados4Prj_barchrt, "#app#", appName);
 					
 					XSLFSlide slideAgregados4Prj_histchrt = ppt_blank_Actuaciones_.getSlides()[consum++];
@@ -1766,7 +1766,7 @@ public class BackupGeneradorPPT {
 			        	mapaTimeLine.put(CommonUtils.translateMonthToSpanish(mes), mapOcurrenciasYmediaTiemporespuesta);
 			        }else{
 			        	//final double diasAtencion = CommonUtils.roundWith2Decimals(obtenerTiempoMedioAtencionRespuesta(mapaTimeLine));
-			        	serie1Title = "Resumen Actuaciones solicitadas ";// (tiempo medio respuesta en días: " + diasAtencion + ")";
+			        	serie1Title = "Resumen Actuaciones solicitadas ";// (tiempo medio respuesta en doas: " + diasAtencion + ")";
 			        }
 			        Map<String, Number> mapaOcurrencias = obtenerOcurrenciasPerWeek(mapaTimeLine);
 			        
@@ -1776,13 +1776,13 @@ public class BackupGeneradorPPT {
 			        
 			        setNewText(slideAgregados4Prj_histchrt, "dd/MM/aaaa", literalParaFechDeHoy);
 					setNewText(slideAgregados4Prj_histchrt, "#PERIODO#", periodo);			
-					setNewText(slideAgregados4Prj_histchrt, "Nombre de la Subdirección/División", nombreSG);
+					setNewText(slideAgregados4Prj_histchrt, "Nombre de la Subdireccion/Division", nombreSG);
 					setNewText(slideAgregados4Prj_histchrt, "#app#", appName);
 					
-				}//fin de barcharts de las actuaciones en Producción
+				}//fin de barcharts de las actuaciones en Produccion
 			}
 			
-			/** no escribir ya en la hoja de grado de avance en el gráfico barchart
+			/** no escribir ya en la hoja de grado de avance en el grofico barchart
 			for (int indexOfApp = 0;indexOfApp<listaMapaApps.size();indexOfApp++){
 				Map.Entry<String, Number> entryOfApp = listaMapaApps.get(indexOfApp);
 				String appName = entryOfApp.getKey();
@@ -1832,8 +1832,8 @@ public class BackupGeneradorPPT {
 					setNewText(slideGradoAvance4App, "#app#", appName);
 					setNewText(slideGradoAvance4App, "dd/MM/aaaa", literalParaFechDeHoy);
 					setNewText(slideGradoAvance4App, "#PERIODO#", periodo);			
-					setNewText(slideGradoAvance4App, "Nombre de la Subdirección/División", nombreSG);
-					setNewText(slideGradoAvance4App, "Nombre del Área/Servicio", nombreAREA_SERVICIO);
+					setNewText(slideGradoAvance4App, "Nombre de la Subdireccion/Division", nombreSG);
+					setNewText(slideGradoAvance4App, "Nombre del orea/Servicio", nombreAREA_SERVICIO);
 				}
 										
 			}
@@ -1855,10 +1855,10 @@ public class BackupGeneradorPPT {
 				String appName = entryOfApp.getKey();
 				for (int ind=0;ind<slidesIndices.size();ind++){
 					XSLFSlide slideDePaginaIndice = slidesIndices.get(ind);
-					setNewText(slideDePaginaIndice, "<APLICACIÓN-" + (indexOfApp2 + 1) + ">", appName.concat(". ").concat(APP_SHORT_DESCRIPTION.get(appName)));
+					setNewText(slideDePaginaIndice, "<APLICACIoN-" + (indexOfApp2 + 1) + ">", appName.concat(". ").concat(APP_SHORT_DESCRIPTION.get(appName)));
 					setNewText(slideDePaginaIndice, "dd/MM/aaaa", literalParaFechDeHoy);
 					if (ind==0){
-						ppt_blank_Input.setSlideOrder(slideDePaginaIndice, 1);//tras la portada inicial, colocar el índice inicial
+						ppt_blank_Input.setSlideOrder(slideDePaginaIndice, 1);//tras la portada inicial, colocar el ondice inicial
 					}
 				}
 			}
@@ -1891,7 +1891,7 @@ public class BackupGeneradorPPT {
 			
 			fInput.close();
 			
-		}// fin de agregados cuando es generación sin fichas 
+		}// fin de agregados cuando es generacion sin fichas 
 					
 	}
 	
@@ -1923,10 +1923,10 @@ public class BackupGeneradorPPT {
 			int fontSize = -1; 
   	        XSLFTextShape textShape = (XSLFTextShape)shape;
   	        String newText = textShape.getText();
-  	        if (newText.indexOf("Nombre de la Subdirección/División") != -1){
-  	        	newText = newText.replaceAll("Nombre de la Subdirección/División", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName()));	
-  	        }else if (newText.indexOf("Nombre del Área/Servicio") != -1){
-  	        	newText = newText.replaceAll("Nombre del Área/Servicio", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName()));
+  	        if (newText.indexOf("Nombre de la Subdireccion/Division") != -1){
+  	        	newText = newText.replaceAll("Nombre de la Subdireccion/Division", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName()));	
+  	        }else if (newText.indexOf("Nombre del orea/Servicio") != -1){
+  	        	newText = newText.replaceAll("Nombre del orea/Servicio", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName()));
   	        	fontSize = newText.length() > 50 ? 20 : 24;
   	        }
   	      	newText = newText.replaceAll("CDISM dd/mm/aaaa", "CDISM "+ CommonUtils.convertDateToShortFormatted(Calendar.getInstance().getTime()));
@@ -1970,7 +1970,7 @@ public class BackupGeneradorPPT {
       						
       						final String hrsEffortAT = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_ESFUERZO_AT).getName());
       						
-      						if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Producción")){
+      						if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Produccion")){
       							counterEnPlazoEnCurso++;      							
       							counterHrsEnPlazoEnCurso += CommonUtils.numberFormatter.parse(hrsEffortAT);
       						}else{
@@ -1984,7 +1984,7 @@ public class BackupGeneradorPPT {
   							if (estadoTareaGlobal.startsWith("Desestimada")){
   								
   								cell.setFillColor(MY_PURPLE_COLOR);
-  								if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Producción")){
+  								if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Produccion")){
   	      							counterHrsEnPlazoEnCurso -= CommonUtils.numberFormatter.parse(hrsEffortAT);
   	      							counterEnPlazoEnCurso--;
   	      						}else{
@@ -2001,14 +2001,14 @@ public class BackupGeneradorPPT {
       									
       							if (fechaNecesidad == null){ //tratamiento cuando hay fecha de necesidad
       								if (fechaPrevisionImplantacion != null){
-      									if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Producción")){
+      									if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Produccion")){
       										if (hoy.after(fechaPrevisionImplantacion)){
       											cell.setFillColor(MY_ORANGE_COLOR);
       										}
       									}
           							}
       							}else { //tratamiento cuando hay fecha de necesidad
-      								if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Producción")){
+      								if (!estadoTareaGlobal.startsWith("Implantada") && !estadoTareaGlobal.equals("Produccion")){
   										if (hoy.after(fechaNecesidad)){// tarea en curso fuera de plazo  											
   			      							counterHrsEnPlazoEnCurso -= CommonUtils.numberFormatter.parse(hrsEffortAT);
   											counterEnPlazoEnCurso--;
@@ -2045,13 +2045,13 @@ public class BackupGeneradorPPT {
       						
       						if (esPeticionADG){
       							
-  								//La fecha de fin del trabajo de desarrollo será siempre el previsto para fin pruebas CD
+  								//La fecha de fin del trabajo de desarrollo sero siempre el previsto para fin pruebas CD
   								Date fechaFinPrevistaFinDesarrollo = 
       									(Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());
   								
       							final String estado_Original_Peticion = (String) peticionDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
       							newText = traducirEstadoPetDesglosada(estado_Original_Peticion, esPeticionADG);
-      							if ((newText.equals("Producción") || newText.equals("Implantado")) && fechaFinPrevistaFinDesarrollo == null){
+      							if ((newText.equals("Produccion") || newText.equals("Implantado")) && fechaFinPrevistaFinDesarrollo == null){
       								fechaFinPrevistaTrabajo =
       										(Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName());          							
   								}else if (newText.equals("Desarrollo")){
@@ -2062,7 +2062,7 @@ public class BackupGeneradorPPT {
       									fechaFinPrevistaTrabajo =
           										(Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName());
       								}
-      							}else if (newText.equals("Auditoría Calidad")){ 
+      							}else if (newText.equals("Auditoroa Calidad")){ 
       								fechaFinPrevistaTrabajo =
       										(Date) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName());
       							}else{
@@ -2071,7 +2071,7 @@ public class BackupGeneradorPPT {
           							if (fechaFinPrevistaTrabajo == null && newText.indexOf("Requisitos") == -1 && newText.indexOf("Desestimada") == -1 && 
           									newText.indexOf("Pdte otras areas") == -1){
           								
-          								//ponemos 15 días más de la fecha fin desarrollo              								
+          								//ponemos 15 doas mos de la fecha fin desarrollo              								
           								if (fechaFinPrevistaFinDesarrollo != null){
               								Calendar calFechaFinPrev = Calendar.getInstance();
               								calFechaFinPrev.setTime(fechaFinPrevistaFinDesarrollo);
@@ -2134,7 +2134,7 @@ public class BackupGeneradorPPT {
           						}else if (newText.indexOf("Desestimada") == -1){
           							
           							if (fechaFinPrevistaTrabajo == null){
-          								bufferMessages.append(aplicacionRochade + ": dato (13.2): La 'Previsión Fin Trabajo' de la tarea desglosada de la global <'" + descGlobalTask + "'> no está consignada{}");
+          								bufferMessages.append(aplicacionRochade + ": dato (13.2): La 'Prevision Fin Trabajo' de la tarea desglosada de la global <'" + descGlobalTask + "'> no esto consignada{}");
           								continue;
           							}else if (fechaNecesidad != null && fechaNecesidad.before(fechaFinPrevistaTrabajo)){
           								
@@ -2145,15 +2145,15 @@ public class BackupGeneradorPPT {
       									cell.setFillColor(MY_GREEN_COLOR);
       									if (newText.toLowerCase().indexOf("fin") == -1 && newText.indexOf("Implantado") == -1 
       											&& newText.indexOf("Validad") == -1 && newText.indexOf("Pruebas") == -1 && 
-      												newText.indexOf("Producción") == -1 && 
-      														newText.indexOf("Calidad") == -1){ /*tarea no ha finalizado aún*/ 
+      												newText.indexOf("Produccion") == -1 && 
+      														newText.indexOf("Calidad") == -1){ /*tarea no ha finalizado aon*/ 
       											 if (hoy.after(fechaFinPrevistaTrabajo)){
       												 cell.setFillColor(MY_ORANGE_COLOR);
       											 }
-          								}else{// si está finalizada la tarea, miro si terminó después de lo previsto
+          								}else{// si esto finalizada la tarea, miro si termino despuos de lo previsto
           									final Date fecFinReal = esPeticionADG ? (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO).getName()) : 
           										(Date) peticionOO.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS).getName());
-          									if (fecFinReal != null){//más de 15 días de retraso, lo ponemos en naranja
+          									if (fecFinReal != null){//mos de 15 doas de retraso, lo ponemos en naranja
           										Calendar fecFinRealCal = Calendar.getInstance();
           										fecFinRealCal.add(Calendar.DAY_OF_MONTH, -15);
           										if (fecFinRealCal.getTime().after(fechaFinPrevistaTrabajo)){
@@ -2185,7 +2185,7 @@ public class BackupGeneradorPPT {
       							final String estadoPetDG = traducirEstadoPetDesglosada((String) peticionDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName()), true /*es petic. a DG*/);          							
       							final Date fin_estado_PetDG = (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName());
       							
-      							if (estadoPetDG.startsWith("Implantad") || estadoPetDG.startsWith("Producción")){
+      							if (estadoPetDG.startsWith("Implantad") || estadoPetDG.startsWith("Produccion")){
       								
   									newText4_14 = "";
   									
@@ -2209,7 +2209,7 @@ public class BackupGeneradorPPT {
       							}else if (estadoPetDG.equals("Desarrollo") ){
       								if (fin_estado_PetDG == null){//cojo el de la Excel en caso de que en BBDD no venga fecha prevista fin     		  							
       									if (fecPrevisionFinEstado_TaskGlobal == null){
-      										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Previsión Fin Estado' de <'" + descGlobalTask + "'> no está consignada{}");
+      										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Prevision Fin Estado' de <'" + descGlobalTask + "'> no esto consignada{}");
       										continue;
       									}
       									newText4_14 = CommonUtils.convertDateToShortFormatted(fecPrevisionFinEstado_TaskGlobal);
@@ -2217,7 +2217,7 @@ public class BackupGeneradorPPT {
       									newText4_14 = CommonUtils.convertDateToShortFormatted(fin_estado_PetDG);
       								}
       								if (fechaPrevFinPruebasCD == null){
-      									bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Prev.Fin Pruebas CD' de <'" + descGlobalTask + "'> no está consignada{}");
+      									bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Prev.Fin Pruebas CD' de <'" + descGlobalTask + "'> no esto consignada{}");
       									continue;
       								}
       								newText4_15 = CommonUtils.convertDateToShortFormatted(fechaPrevFinPruebasCD);
@@ -2226,18 +2226,18 @@ public class BackupGeneradorPPT {
       							}else if (estadoTareaGlobal.indexOf("Pruebas")!= -1){
       								
       								if (fechaPrevFinPruebasCD == null){
-      									bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Prev.Fin Pruebas CD' de <'" + descGlobalTask + "'> no está consignada{}");
+      									bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Prev.Fin Pruebas CD' de <'" + descGlobalTask + "'> no esto consignada{}");
       									continue;
       								}
       								newText4_14 = CommonUtils.convertDateToShortFormatted(fechaPrevFinPruebasCD);
-      								newText4_15 = CommonUtils.convertDateToShortFormatted(fecPrevisionFinEstado_TaskGlobal);//coges la de la petición global
+      								newText4_15 = CommonUtils.convertDateToShortFormatted(fecPrevisionFinEstado_TaskGlobal);//coges la de la peticion global
       								newText4_16 = "";
       								
       							}else if (estadoTareaGlobal.indexOf("Calidad") != -1 || estadoTareaGlobal.indexOf("Pdte otras areas")!= -1){
           							
-      								// ver si la ha consignado PreExplotación, y la obtenemos de fecha fin estado global
+      								// ver si la ha consignado PreExplotacion, y la obtenemos de fecha fin estado global
   									if (fecPrevisionFinEstado_TaskGlobal == null && estadoTareaGlobal.indexOf("Calidad") != -1){
-  										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Previsión Fin Estado' de <'" + descGlobalTask + "'> no está consignada{}");
+  										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Prevision Fin Estado' de <'" + descGlobalTask + "'> no esto consignada{}");
   										continue;
   									}
   									newText4_14 = CommonUtils.convertDateToShortFormatted(fecPrevisionFinEstado_TaskGlobal);          								
@@ -2285,10 +2285,10 @@ public class BackupGeneradorPPT {
   									newText4_15 = fechaPrevFinAnalisis == null ? newText4_14 : CommonUtils.convertDateToShortFormatted(fechaPrevFinAnalisis);							
       								newText4_16 = "";
   									
-  								}else if (estadoPetOO.equals("Análisis")){
+  								}else if (estadoPetOO.equals("Anolisis")){
   									
 									if (fechaPrevFinAnalisis == null){
-										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Fecha Prev Fin  Análisis' de <'" + descGlobalTask + "'> no está consignada{}");
+										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Fecha Prev Fin  Anolisis' de <'" + descGlobalTask + "'> no esto consignada{}");
 										continue;
   									}
   									newText4_14 = CommonUtils.convertDateToShortFormatted(fechaPrevFinAnalisis);          									
@@ -2297,15 +2297,15 @@ public class BackupGeneradorPPT {
   									
   								}else if (estadoPetOO.equals("Pdte otras areas")){
   									
-  									newText4_14 = "";//porque no sabemos cuando acabará esta tarea
+  									newText4_14 = "";//porque no sabemos cuando acabaro esta tarea
   									newText4_15 = fechaPrevFinPruebasCD == null ? newText4_15 : CommonUtils.convertDateToShortFormatted(fechaPrevFinPruebasCD);
   									newText4_16 = "";
   									
-  								}else if (estadoPetOO.equals("Fin Análisis")){//fin análisis
+  								}else if (estadoPetOO.equals("Fin Anolisis")){//fin anolisis
     								newText4_14 = CommonUtils.convertDateToShortFormatted(fechaPrevFinAnalisis);  									
   									newText4_15 = newText4_14;
   									if (fechaRealFinAnalisis == null){
-										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Fecha Real Fin  Análisis' de <'" + descGlobalTask + "'> no está consignada{}");
+										bufferMessages.append(aplicacionRochade + ": dato " + textOfCell_.toString() + ": La 'Fecha Real Fin  Anolisis' de <'" + descGlobalTask + "'> no esto consignada{}");
 										continue;
 									}
   									newText4_16 = fechaRealFinAnalisis == null ? newText4_16 : CommonUtils.convertDateToShortFormatted(fechaRealFinAnalisis);
@@ -2796,11 +2796,11 @@ public class BackupGeneradorPPT {
 			if (!ejecucionSoloFICHASINDIV_){
 				String dinamicPPT_name = getNameOfPPT();
 				dinamicPPT_name = dinamicPPT_name.replaceFirst("Sg_", "SG ");
-				dinamicPPT_name = dinamicPPT_name.replaceFirst("accion", "Acción ");
-				dinamicPPT_name = dinamicPPT_name.replaceFirst("social", "Social Marítima");
+				dinamicPPT_name = dinamicPPT_name.replaceFirst("accion", "Accion ");
+				dinamicPPT_name = dinamicPPT_name.replaceFirst("social", "Social Marotima");
 				File nameOfOutFile = new File(this.carpetaTrabajo.concat("\\").concat(dinamicPPT_name));
 				generatePPTs(nameOfOutFile, new File(this.carpetaSubdirecciones), allFichasSubdireccion, getBlank_PPT(), fechaDesde, withAnexo);
-				bufferMessages.append("...generada presentación Mensual " + dinamicPPT_name + "{}");
+				bufferMessages.append("...generada presentacion Mensual " + dinamicPPT_name + "{}");
 			}else{
 				generatePPTs(new File(this.carpetaTrabajo), new File(this.carpetaSubdirecciones), allFichasSubdireccion, PPT_BLANK_INDIVIDUAL, fechaDesde, withAnexo);
 				bufferMessages.append("...generadas FICHAS Individuales(en curso/finalizadas) en periodo indicado {}"); 
@@ -2866,8 +2866,8 @@ public class BackupGeneradorPPT {
 	public static void main(String[] args){
 		try{
 			if (args.length < 6){
-				System.out.println("Debe indicar los argumentos necesarios, con un mínimo 6 argumentos; " +
-						"sólo ficha individual(boolean), dir. de la Subdirección, path base Excels, path BBDD, path plantillas, fecha comienzo periodo seguimiento");
+				System.out.println("Debe indicar los argumentos necesarios, con un monimo 6 argumentos; " +
+						"solo ficha individual(boolean), dir. de la Subdireccion, path base Excels, path BBDD, path plantillas, fecha comienzo periodo seguimiento");
 				return;
 			}
 			String regExp2Process = null;
@@ -2927,7 +2927,7 @@ public class BackupGeneradorPPT {
 			final String url_ = SQLITE_PREFFIX.concat(baseDatabaseFilePath.concat("//factUTEDBLite.db"));
 			final String entityDefinition = baseDatabaseFilePath.concat("//entities.xml");
 	
-			/*** Inicializamos la factoría de Acceso Lógico a DATOS **/		
+			/*** Inicializamos la factoroa de Acceso Logico a DATOS **/		
 			final IEntityLogicFactory entityFactory = EntityLogicFactory.getFactoryInstance();
 			entityFactory.initEntityFactory(entityDefinition, new FileInputStream(entityDefinition));
 				

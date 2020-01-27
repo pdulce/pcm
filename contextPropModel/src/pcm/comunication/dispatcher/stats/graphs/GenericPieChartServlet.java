@@ -48,7 +48,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 		Number total_ = new Double(0);
 		int positionClaveAgregacion = 0, valoresCategMayoresQueCero = 0;
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado:valoresAgregados) {
-			/** analizamos el registro totalizado, por si tiene más de una key (fieldviewset) ***/
+			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 			Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
 			Number subTotalPorCategoria_ = new Double(0);
 			String valorParaCategoria1EnEsteRegistroAgregado = "";
@@ -87,7 +87,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 							}
 						}
 						
-						/***inicio parte común con GenericPieChart ***/
+						/***inicio parte comon con GenericPieChart ***/
 						
 						Serializable valorIntrinseco = registroPorCategoria.getValue(agrupacionInterna.getName());
 						if (fieldsCategoriaDeAgrupacion.length > 1){
@@ -95,7 +95,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 							Serializable valorAgrupacionPral = registroPorCategoria.getFieldvalue(agrupacionPral).getValue();
 							if (agrupacionInterna.getAbstractField().isInteger() || agrupacionInterna.getAbstractField().isLong()){
 								Number numberValueOfCategoriaInterna = (Number) valorIntrinseco;
-								//veo si tengo una agrupación pral., y se lo concateno al nombre de la columna para que sepamos bien la coordenada 								
+								//veo si tengo una agrupacion pral., y se lo concateno al nombre de la columna para que sepamos bien la coordenada 								
 								if (agrupacionPral.getAbstractField().isInteger() || agrupacionPral.getAbstractField().isLong()){
 									Integer idAgrupacionPral = new Integer(valorAgrupacionPral.toString());
 									String operando_1 = CommonUtils.addLeftZeros(String.valueOf(idAgrupacionPral), agrupacionPral.getAbstractField().getMaxLength() > 6 ? 6: agrupacionPral.getAbstractField().getMaxLength());
@@ -126,7 +126,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 								}							
 							}
 							valorParaCategoria1EnEsteRegistroAgregado = ((positionClaveAgregacion) < 10 ? "0" + (positionClaveAgregacion) : "" + (positionClaveAgregacion)) + ":" + valorParaCategoria1EnEsteRegistroAgregado;
-						}else{//obtenemos la posición en base al valor de la agrupación interna
+						}else{//obtenemos la posicion en base al valor de la agrupacion interna
 							if (agrupacionInterna.getAbstractField().isInteger() || agrupacionInterna.getAbstractField().isLong()){	
 								positionClaveAgregacion = new Integer(((Number) valorIntrinseco).intValue());
 							}else{
@@ -139,7 +139,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 							}
 						}//else
 
-						//recorremos cada subtotal, y seteamos el valor de la agrupación (valorParaCategoria1EnEsteRegistroAgregado) con el subagregado de la misma
+						//recorremos cada subtotal, y seteamos el valor de la agrupacion (valorParaCategoria1EnEsteRegistroAgregado) con el subagregado de la misma
 						Iterator<String> keySetOfAgregados = subtotalesPorAgregado.keySet().iterator();
 						while (keySetOfAgregados.hasNext()){
 							String keyOfAgregado = keySetOfAgregados.next();
@@ -196,7 +196,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 	 * data: [
 	 * { name: 'En curso', y: 56.33 }," + "{" + "name: 'Finalizadas'," + "y: 24.03,"
 	 * + "sliced: true," + "selected: true" + "}," + "{ name: 'Anuladas', y: 10.38 }," +
-	 * "{ name: 'En redacción', y: 4.77 },"
+	 * "{ name: 'En redaccion', y: 4.77 },"
 	 * + "{ name: 'Pendientes de estimar', y: 0.91 }," +
 	 * "{ name: 'Listas para comenzar', y: 0.2 }" + "]" + "}]";
 	 ***/

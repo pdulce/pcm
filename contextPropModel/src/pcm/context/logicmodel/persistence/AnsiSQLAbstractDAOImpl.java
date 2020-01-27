@@ -467,8 +467,8 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	@Override
 	public final List<List<Serializable>> selectWithSpecificFields(final FieldViewSet fieldViewSet, final List<Integer> fieldMappings,
 			final DAOConnection conn) throws DatabaseException {
-		// OJO: falla porque en lugar de ='' lo que hace es un like y al ser un campo de código, se
-		// lía
+		// OJO: falla porque en lugar de ='' lo que hace es un like y al ser un campo de codigo, se
+		// loa
 		List<IFieldLogic> fieldCollection = new ArrayList<IFieldLogic>();
 		fieldCollection.addAll(fieldViewSet.getEntityDef().getFieldSet().values());
 		Collections.sort(fieldCollection, new FieldLogicComparator());
@@ -749,7 +749,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				}else{
 					retornoAgregados.put(fSet.getEntityDef().getName(), Double.valueOf(resultSet.getDouble("total0")));
 				}
-				entrada.put(fSet, retornoAgregados/*subTotales, puede haber más de una dimensión*/);
+				entrada.put(fSet, retornoAgregados/*subTotales, puede haber mos de una dimension*/);
 				// recogemos, si procede el valor de la columna de la tabla master
 				if (!joinFViewSet.isEmpty()) {
 					FieldViewSet fSetMaster = new FieldViewSet(joinFViewSet.get(0));
@@ -1107,7 +1107,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				}// while
 			}// while			
 			
-			// el prototipo siempre es el último FieldViewSetCollection
+			// el prototipo siempre es el oltimo FieldViewSetCollection
 			FieldViewSetCollection prototypeResult = new FieldViewSetCollection();
 			prototypeResult.getFieldViewSets().addAll((entidadesCollection_.get(entidadesCollection_.size() - 1).getFieldViewSets()));
 			Iterator<FieldViewSet> iteEntitiesPattern = todosLosFieldViewSet.iterator();
@@ -1118,8 +1118,8 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					FieldViewSet fSet = prototypeResult.getFieldViewSets().get(k);
 					if (fSetCandidate.getEntityDef().getName().equals(fSet.getEntityDef().getName())) {
 						esta = true;
-						// miramos si hemos de incluir en fSet algún FieldView de este
-						// fSetCandidate que no esté ya metido
+						// miramos si hemos de incluir en fSet algon FieldView de este
+						// fSetCandidate que no esto ya metido
 						Iterator<IFieldView> fieldsDeCandidatoIterator = fSetCandidate.getFieldViews().iterator();
 						while (fieldsDeCandidatoIterator.hasNext()) {
 							IFieldView fieldViewCandidate = fieldsDeCandidatoIterator.next();
@@ -1170,7 +1170,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					final IFieldView fieldView = fieldViewsIte.next();
 					if (fieldView.getEntityField() == null) {
 						throw new DatabaseException(
-								"Este fieldView  ha sido manipulado y no trae relleno la información del modelo de persistencia entityField");
+								"Este fieldView  ha sido manipulado y no trae relleno la informacion del modelo de persistencia entityField");
 					}
 					
 					String fieldNameOfEntity_ = fieldView.getEntityField().getName();					
@@ -1211,7 +1211,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						int pkOrder = pkFieldOfParent.getMappingTo();
 						
 						int[] descrMappings = fieldView.getFieldAndEntityForThisOption().getFieldDescrMappingTo();						
-						//añado al descrMappings, el pk de esta entidad, si no estuviera ya contenido						
+						//aoado al descrMappings, el pk de esta entidad, si no estuviera ya contenido						
 						int i = 0;
 						boolean found = false;
 						for (i = 0; i < descrMappings.length; i++) {
@@ -1257,7 +1257,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 									if (tablaPadre.equals(aliasTablePadre) && idFKIesimo.equals(idFK)){
 										break;
 									}else if (!idFKIesimo.equals(idFK) && tablaPadre.equals(aliasTablePadre)){
-										//añadimos esta entidad al prototipo, dado que se trata de otra ocurrencia de relación entre estas dos entidades
+										//aoadimos esta entidad al prototipo, dado que se trata de otra ocurrencia de relacion entre estas dos entidades
 										prototypeResult.getFieldViewSets().add(new FieldViewSet(entityFK));
 										added2Prototype = true;
 										aliasTablePadre = aliasTablePadre.concat(String.valueOf(i));
@@ -1271,7 +1271,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 									prototypeResult.getFieldViewSets().add(new FieldViewSet(entityFK));
 								}
 							}else{
-								//añadimos esta entidad al prototipo
+								//aoadimos esta entidad al prototipo
 								prototypeResult.getFieldViewSets().add(new FieldViewSet(entityFK));
 							}
 
@@ -1448,7 +1448,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 							}
 						}
 						contadorArgumentos++;
-					}// si viaja no vacío ni nulo
+					}// si viaja no vacoo ni nulo
 				}
 			}
 			int tamPaginacion = tamPaginacion_ == -1 ? Integer.MAX_VALUE : tamPaginacion_;
@@ -1583,7 +1583,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			String key = entryOfMap.getKey().split("\\|")[0];
 			Map<String, String> aliasFieldMap = entryOfMap.getValue();
 			
-			//Importante: lo añado a la lista de descartes para que el método que busca los conjuntos de alias de una entidad no lo vuelva a retornar
+			//Importante: lo aoado a la lista de descartes para que el motodo que busca los conjuntos de alias de una entidad no lo vuelva a retornar
 			descartes.add(key);
 			
 			final Iterator<Map.Entry<String, String>> iteradorDeAlias = aliasFieldMap.entrySet().iterator();

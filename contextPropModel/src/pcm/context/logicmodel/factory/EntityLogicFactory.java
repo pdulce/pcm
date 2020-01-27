@@ -18,7 +18,7 @@ import pcm.context.logicmodel.definitions.IFieldLogic;
 
 public class EntityLogicFactory implements IEntityLogicFactory {
 
-	/** * instancia única de la factoría * */
+	/** * instancia onica de la factoroa * */
 	private static EntityLogicFactory entityFactory_;
 
 	/** * miembros de Objeto * */

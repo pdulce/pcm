@@ -52,7 +52,7 @@ public class StrategyLogin extends DefaultStrategyLogin {
 
 			/** TOMAMOS LAS DECISIONES DE NEGOCIO QUE CORRESPONDA * */
 
-			// guardo las credenciales en sesión en el caso de que no vengan ya en sesión
+			// guardo las credenciales en sesion en el caso de que no vengan ya en sesion
 			if (req.getSession() != null && req.getSession().getAttribute(DefaultStrategyLogin.USER_) != null && userReq.equals("")) {
 				return;
 			}
@@ -89,7 +89,7 @@ public class StrategyLogin extends DefaultStrategyLogin {
 						DefaultStrategyLogin.USER_,
 						administradorFound.getValue(StrategyLogin.administrators.searchField(ConstantesModelo.ADMINISTRADOR_1_ID).getName()));
 				
-				//buscamos la definición (nombre) del profile asignado al usuario				
+				//buscamos la definicion (nombre) del profile asignado al usuario				
 				Long profile = (Long) administradorFound.getValue(administrators.searchField(ConstantesModelo.ADMINISTRADOR_4_PROFILE).getName());
 				final FieldViewSet filterRol = new FieldViewSet(StrategyLogin.roles);
 				filterRol.setValue(StrategyLogin.roles.searchField(ConstantesModelo.ROL_1_ID).getName(), profile);

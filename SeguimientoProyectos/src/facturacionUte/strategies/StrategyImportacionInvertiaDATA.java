@@ -105,7 +105,7 @@ public class StrategyImportacionInvertiaDATA extends StrategyLogin {
 			}
 			long fin = Calendar.getInstance().getTimeInMillis();
 			long segundosImportacion = (fin - inicio)/1000;
-			String timeImport_ = ". Tiempo de importación: ".concat((segundosImportacion > 60)? Long.valueOf(segundosImportacion/60).intValue() + " minutos " + Long.valueOf(segundosImportacion%60).intValue() + " segundos.":segundosImportacion+ " segundos.");
+			String timeImport_ = ". Tiempo de importacion: ".concat((segundosImportacion > 60)? Long.valueOf(segundosImportacion/60).intValue() + " minutos " + Long.valueOf(segundosImportacion%60).intValue() + " segundos.":segundosImportacion+ " segundos.");
 
 			request.setAttribute(IViewComponent.APP_MSG, timeImport_);
 

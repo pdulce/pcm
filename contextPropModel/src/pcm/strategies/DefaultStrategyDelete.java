@@ -46,8 +46,8 @@ public class DefaultStrategyDelete implements IStrategy {
 
 	// TODO
 	/**
-	 * Este método debe ser capaz de recorrer las entidades hijas asociadas a la entitiy recibida
-	 * como argumento de este método.
+	 * Este motodo debe ser capaz de recorrer las entidades hijas asociadas a la entitiy recibida
+	 * como argumento de este motodo.
 	 */
 	protected void detectarHijos(final IDataAccess dataAccess, final FieldViewSet parent) throws StrategyException {
 

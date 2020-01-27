@@ -139,7 +139,7 @@ public class ActionPagination extends AbstractPcmAction {
 					}
 				}
 				
-				//control de paginación
+				//control de paginacion
 				if (paginationGrid.getDefaultOrderFields() == null || paginationGrid.getDefaultOrderFields().length==0){
 					throw new PCMConfigurationException(InternalErrorsConstants.MUST_DEFINE_ORDER_FIELD);
 				}
