@@ -3,43 +3,50 @@
 	
 	<property environment="env"/>
 	<property name="apache.home" value="${env.CATALINA_HOME}"/>
+	<property name="jenkins.workspace" value="${env.JENKINS_WORKSPACE_PATH}"/>
+	<property name="app.work.path" value="prjmanager/pcm/SeguimientoProyectos"/>
 		
 	<path id="compile.classpath">
-	    <fileset dir="WebContent/WEB-INF/lib">
+	    <fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/lib">
 	        <include name="*.jar"/>
 	    </fileset>
-		<fileset dir="/${apache.home}/lib">
+		<fileset dir="${apache.home}/lib">
 		    <include name="servlet-api.jar"/>
 		</fileset>
 	 </path>
 	
     <target name="init">
-    	<mkdir dir="build/classes"/>
-        <mkdir dir="../dist" />
+    	<mkdir dir="${jenkins.workspace}/${app.work.path}/build/classes"/>
+        <mkdir dir="${jenkins.workspace}/prjmanager/pcm/dist" />
     </target>
 	
     <target name="compile" depends="init" >
-        <javac destdir="build/classes" includeAntRuntime="false" debug="true">            
+        <javac destdir="${jenkins.workspace}/${app.work.path}/build/classes"
+        	includeAntRuntime="false" debug="true">            
 			<compilerarg value="-Xlint"/>
         	<src>
-	          <pathelement location="../contextPropModel/src" />
-	          <pathelement location="src" />
+	          <pathelement location="${jenkins.workspace}/prjmanager/pcm/contextPropModel/src" />
+	          <pathelement location="${jenkins.workspace}/${app.work.path}/src" />
 	        </src>
         	<classpath refid="compile.classpath"/>
        </javac>
-       <copy todir="build/classes/messagesApp">
-    	  <fileset dir="src/messagesApp"/>
+       <copy todir="${jenkins.workspace}/${app.work.path}/build/classes/messagesApp">
+    	  <fileset dir="${jenkins.workspace}/${app.work.path}/src/messagesApp"/>
        </copy>
-       <copy todir="build/classes/lang">
-    	   <fileset dir="src/lang"/>
+       <copy todir="${jenkins.workspace}/${app.work.path}/build/classes/lang">
+    	   <fileset dir="${jenkins.workspace}/${app.work.path}/src/lang"/>
        </copy>
     </target>
      
     <target name="war" depends="compile">
-        <war duplicate="preserve" destfile="../dist/SeguimientoProyectos.war" webxml="WebContent/WEB-INF/web.xml">
-            <fileset dir="WebContent"/>
-            <lib dir="WebContent/WEB-INF/lib"/>
-            <classes dir="build/classes"/>
+        <war duplicate="preserve" destfile="${jenkins.workspace}/prjmanager/pcm/dist/sg.war" 
+        	webxml="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/web.xml">
+            <fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/css"/>
+        	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/img"/>
+           	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/js"/>
+           	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/jsp"/>
+            <lib dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/lib"/>
+            <classes dir="${jenkins.workspace}/${app.work.path}/build/classes"/>
         </war>
     </target>
 	
@@ -51,8 +58,8 @@
 	</target>
 	
     <target name="clean">
-        <delete dir="../dist" quiet="true"/>
-        <delete dir="build/classes" quiet="true"/>
+        <delete dir="${jenkins.workspace}/prjmanager/pcm/dist" quiet="true"/>
+        <delete dir="${jenkins.workspace}/${app.work.path}/build/classes" quiet="true"/>
     </target>
      
 </project>
