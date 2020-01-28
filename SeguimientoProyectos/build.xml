@@ -2,22 +2,23 @@
 <project name="SeguimientoPrjs" default="testHTTPPort">
 	
 	<!--for Linux station-->
-	<!--<property environment="env"/>
+	<property environment="env"/>
 	<property name="apache.home" value="${env.CATALINA_HOME}"/>
 	<property name="jenkins.workspace" value="${env.JENKINS_WORKSPACE_PATH}"/>
 	<property name="base.work.path" value="prjmanager"/>
-	-->
+	<property name="url.deploy" value="http://localhost:8081"/>
 	
 	<!--for Windows station-->
-	<property name="apache.home" value="C:\\apache-tomcat-7.0.85"/>
+	<!--<property name="apache.home" value="C:\\apache-tomcat-7.0.85"/>
 	<property name="jenkins.workspace" value="C:\\git"/>
 	<property name="base.work.path" value="pcm"/>
+	<property name="url.deploy" value="http://localhost:8083"/>-->
+	<!--fin for Windows station -->
 	
 	<property name="app.work.path" value="${jenkins.workspace}/${base.work.path}/SeguimientoProyectos"/>
 	<property name="pcm.work.path" value="${jenkins.workspace}/${base.work.path}/contextPropModel"/>
 	<property name="dist.path" value="${jenkins.workspace}/${base.work.path}/dist"/>
-	<property name="url.deploy" value="http://localhost:8083"/>
-	
+		
 	<!-- fin propiedades -->
 	
 	<path id="compile.classpath">
