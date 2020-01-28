@@ -48,7 +48,7 @@ public class StrategyEncajarNuevoDpto extends DefaultStrategyRequest {
 			
 			String serviceIdParam = servicioEntidad.getName().concat(".").concat(servicioEntidad.getFieldKey().getPkFieldSet().iterator().next().getName());
 			String idServiceInReq = req.getParameter(serviceIdParam);
-			Long idServicio = Long.valueOf((String) idServiceInReq);
+			Long idServicio = Long.valueOf(idServiceInReq);
 								
 			datosDptoRequest.setValue(dptoEntidad.searchField(ConstantesModelo.DEPARTAMENTO_3_SERVICIO).getName(), idServicio);
 			
