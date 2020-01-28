@@ -73,9 +73,9 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				this.driver = (Driver) driverClass.newInstance();
 			}
 			Connection conn = null;
-			if (this.latinConversion) {
+			/*if (this.latinConversion) {
 				this.info.put("charSet", "UTF-8");
-			}
+			}*/
 			conn = this.driver.connect(this.url, this.info);
 			final DAOConnection daoConnection = new DAOConnection();
 			daoConnection.setConnectionJDBC(conn);

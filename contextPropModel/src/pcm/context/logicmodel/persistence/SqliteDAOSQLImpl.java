@@ -41,12 +41,12 @@ public class SqliteDAOSQLImpl extends AnsiSQLAbstractDAOImpl {
 
 	@Override
 	protected String getSpecialCharsConversion(String cadena_) {
-		String cadena = cadena_.toLowerCase().replaceAll("o", PCMConstants.PERCENTAGE_SCAPED);
-		cadena = cadena.replaceAll("o", PCMConstants.PERCENTAGE_SCAPED);
-		cadena = cadena.replaceAll("o", PCMConstants.PERCENTAGE_SCAPED);
-		cadena = cadena.replaceAll("o", PCMConstants.PERCENTAGE_SCAPED);
-		cadena = cadena.replaceAll("o", PCMConstants.PERCENTAGE_SCAPED);
-		cadena = cadena.replaceAll("o", PCMConstants.PERCENTAGE_SCAPED);
+		String cadena = cadena_.replaceAll("á", PCMConstants.PERCENTAGE_SCAPED);
+		cadena = cadena.replaceAll("é", PCMConstants.PERCENTAGE_SCAPED);
+		cadena = cadena.replaceAll("í", PCMConstants.PERCENTAGE_SCAPED);
+		cadena = cadena.replaceAll("ó", PCMConstants.PERCENTAGE_SCAPED);
+		cadena = cadena.replaceAll("ú", PCMConstants.PERCENTAGE_SCAPED);
+		cadena = cadena.replaceAll("ñ", PCMConstants.PERCENTAGE_SCAPED);
 		cadena = cadena.toUpperCase();
 		return cadena;
 	}
