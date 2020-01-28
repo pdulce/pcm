@@ -1,6 +1,7 @@
 package pcm.comunication.actions;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -111,14 +112,25 @@ public abstract class AbstractPcmAction implements IAction {
 			final String strategyName = iteStrategies.next();
 			IStrategy strategy = this.getStrategyFactory().getStrategy(strategyName);
 			if (strategy == null) {
+				
 				try {
-					strategy = (IStrategy) Class.forName(strategyName).newInstance();
-					this.getStrategyFactory().addStrategy(strategyName, strategy);
+					@SuppressWarnings("unchecked")
+					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
+					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance("");
+				} catch (InvocationTargetException e1) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e1);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (IllegalAccessException e2) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e2);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (ClassNotFoundException e3) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e3);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (InstantiationException e4) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e4);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				}
-				catch (final Throwable instantiating) {
-					BasePCMServlet.log.log(Level.SEVERE, "Error", instantiating);
-					throw new StrategyException(instantiating);
-				}
+				this.getStrategyFactory().addStrategy(strategyName, strategy);
 			}
 			strategy.doBussinessStrategy(this.servletRequest, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
 					: new ArrayList<FieldViewSet>());
@@ -132,7 +144,25 @@ public abstract class AbstractPcmAction implements IAction {
 			final Iterator<String> iteStrategies = dataAccess.getStrategies().iterator();
 			while (iteStrategies.hasNext()) {
 				final String strategyName = iteStrategies.next();
-				IStrategy strategy = this.getStrategyFactory().getStrategy(strategyName);
+				IStrategy strategy = null;
+				try {
+					@SuppressWarnings("unchecked")
+					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
+					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance("");					
+				} catch (InvocationTargetException e1) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e1);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (IllegalAccessException e2) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e2);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (ClassNotFoundException e3) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e3);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (InstantiationException e4) {
+					BasePCMServlet.log.log(Level.SEVERE, "Error", e4);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				}
+				
 				if (strategy == null) {
 					try {
 						strategy = (IStrategy) Class.forName(strategyName).newInstance();
