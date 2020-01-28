@@ -97,7 +97,7 @@ public class StatsUtils {
 	}
 
 	private double obtenerMediaAritmetica_Variable(List<Double> var) {
-		Double acumulado = new Double(0.0);
+		Double acumulado = Double.valueOf(0.0);
 		int tamanioMuestra = var.size();
 		for (int i = 0; i < tamanioMuestra; i++) {
 			acumulado = Double.valueOf(acumulado.doubleValue() + var.get(i).doubleValue());
@@ -187,7 +187,7 @@ public class StatsUtils {
 					valorQueMasAparece = val;
 				}
 			} else {
-				Integer vecesAperece = new Integer(1);
+				Integer vecesAperece = Integer.valueOf(1);
 				lista.put(val, vecesAperece);
 			}
 		}

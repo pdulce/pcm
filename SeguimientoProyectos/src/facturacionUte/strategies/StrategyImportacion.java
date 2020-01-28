@@ -101,7 +101,7 @@ public class StrategyImportacion extends StrategyLogin {
 					String valueOfKey = numEntradasMap.get(key);
 					if (i==0){
 						numEntradas = key;
-						numFilasOfFile = new Integer(valueOfKey);
+						numFilasOfFile = Integer.valueOf(valueOfKey);
 					}/*else{
 						System.out.println("Idpeticion modificada: " + valueOfKey);
 					}*/

@@ -41,13 +41,13 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 		boolean sinAgregado = agregados == null || agregados[0]==null;
 		String lang = CommonUtils.getLanguage(request_);
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>();
-		Number total_ = new Double(0.0);
+		Number total_ = Double.valueOf(0.0);
 		int valoresCategMayoresQueCero = 0;
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado : valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 			Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
-			Number subTotalPorCategoria = new Double(0.0);
+			Number subTotalPorCategoria = Double.valueOf(0.0);
 			String valueForEntidadFiltro = "", valueEntidadMaster = "";
 			while (ite.hasNext()) {
 				FieldViewSet registroFieldSet = ite.next();
@@ -77,10 +77,10 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 			
 			String agrupacion = valueEntidadMaster.concat(valueForEntidadFiltro).concat(valueEntidadMaster.equals("") ? "" : ")");
 			if (agregados == null){//Long al contar totales
-				total_ = new Long(total_.longValue() + subTotalPorCategoria.longValue());
+				total_ = Long.valueOf(total_.longValue() + subTotalPorCategoria.longValue());
 				subtotalesPorCategoria.put(agrupacion, subTotalPorCategoria.longValue());
 			}else{
-				total_ = new Double(total_.doubleValue() + subTotalPorCategoria.doubleValue());
+				total_ = Double.valueOf(total_.doubleValue() + subTotalPorCategoria.doubleValue());
 				subtotalesPorCategoria.put(agrupacion, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorCategoria.doubleValue())));
 			}
 			

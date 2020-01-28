@@ -20,25 +20,25 @@ public class CodigosISOComunidadesSpain {
 	public static final Map<String, List<Integer>> comunidadesyProvincias = new HashMap<String, List<Integer>>();
 
 	static {
-		comunidadesCODES.put(new Integer("1"), "Andalucoa");// "ES-AN");
-		comunidadesCODES.put(new Integer("2"), "Aragon");// , "ES-AR");
-		comunidadesCODES.put(new Integer("3"), "Principado de Asturias");// , "ES-AS");
-		comunidadesCODES.put(new Integer("4"), "Canarias");// , "ES-CN");
-		comunidadesCODES.put(new Integer("5"), "Cantabria");// , "ES-CB");
-		comunidadesCODES.put(new Integer("6"), "Castilla-La Mancha");// , "ES-CM");
-		comunidadesCODES.put(new Integer("7"), "Castilla y Leon");// , "ES-CL");
-		comunidadesCODES.put(new Integer("8"), "Cataluoa");// , "ES-CT");
-		comunidadesCODES.put(new Integer("9"), "Extremadura");// , "ES-EX");
-		comunidadesCODES.put(new Integer("10"), "Galicia");// , "ES-GA");
-		comunidadesCODES.put(new Integer("11"), "Illes Balears");// , "ES-IB");
-		comunidadesCODES.put(new Integer("12"), "La Rioja");// , "ES-RI");
-		comunidadesCODES.put(new Integer("13"), "Comunidad de Madrid");// , "ES-MD");
-		comunidadesCODES.put(new Integer("14"), "Region de Murcia");// , "ES-MC");
-		comunidadesCODES.put(new Integer("15"), "Comunidad Foral de Navarra");// , "ES-NC");
-		comunidadesCODES.put(new Integer("16"), "Paos Vasco");// , "ES-PV");
-		comunidadesCODES.put(new Integer("17"), "Comunidad Valenciana");// , "ES-VC");
-		comunidadesCODES.put(new Integer("18"), "Ciudad Autonoma de Ceuta");// , "ES-CE");
-		comunidadesCODES.put(new Integer("19"), "Ciudad Autonoma de Melilla");// , "ES-ML");
+		comunidadesCODES.put(Integer.valueOf(1), "Andalucoa");// "ES-AN");
+		comunidadesCODES.put(Integer.valueOf(2), "Aragon");// , "ES-AR");
+		comunidadesCODES.put(Integer.valueOf(3), "Principado de Asturias");// , "ES-AS");
+		comunidadesCODES.put(Integer.valueOf(4), "Canarias");// , "ES-CN");
+		comunidadesCODES.put(Integer.valueOf(5), "Cantabria");// , "ES-CB");
+		comunidadesCODES.put(Integer.valueOf(6), "Castilla-La Mancha");// , "ES-CM");
+		comunidadesCODES.put(Integer.valueOf(7), "Castilla y Leon");// , "ES-CL");
+		comunidadesCODES.put(Integer.valueOf(8), "Cataluoa");// , "ES-CT");
+		comunidadesCODES.put(Integer.valueOf(9), "Extremadura");// , "ES-EX");
+		comunidadesCODES.put(Integer.valueOf(10), "Galicia");// , "ES-GA");
+		comunidadesCODES.put(Integer.valueOf(11), "Illes Balears");// , "ES-IB");
+		comunidadesCODES.put(Integer.valueOf(12), "La Rioja");// , "ES-RI");
+		comunidadesCODES.put(Integer.valueOf(13), "Comunidad de Madrid");// , "ES-MD");
+		comunidadesCODES.put(Integer.valueOf(14), "Region de Murcia");// , "ES-MC");
+		comunidadesCODES.put(Integer.valueOf(15), "Comunidad Foral de Navarra");// , "ES-NC");
+		comunidadesCODES.put(Integer.valueOf(16), "Paos Vasco");// , "ES-PV");
+		comunidadesCODES.put(Integer.valueOf(17), "Comunidad Valenciana");// , "ES-VC");
+		comunidadesCODES.put(Integer.valueOf(18), "Ciudad Autonoma de Ceuta");// , "ES-CE");
+		comunidadesCODES.put(Integer.valueOf(19), "Ciudad Autonoma de Melilla");// , "ES-ML");
 
 		List<Integer> ceuta = new ArrayList<Integer>();
 		ceuta.add(Integer.valueOf(51));

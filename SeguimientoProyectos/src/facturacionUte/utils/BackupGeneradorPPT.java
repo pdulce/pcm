@@ -184,12 +184,12 @@ public class BackupGeneradorPPT {
 		APP_SHORT_DESCRIPTION.put(appNames[4].substring(1,appNames[4].length()-1), "NUEVA FORMACIoN MARoTIMA");
 		APP_SHORT_DESCRIPTION.put(appNames[5].substring(1,appNames[5].length()-1), "SUBVENCIONES BOTIQUINES A BORDO");
 		
-		EPIGRAFES.put("Nuevo Trabajo", new Integer(1));
-		EPIGRAFES.put("Actuaciones en Base de Datos", new Integer(2));
-		EPIGRAFES.put("Necesidad de cambios funcionales", new Integer(3));
-		EPIGRAFES.put("Consulta funcional", new Integer(4));		
-		EPIGRAFES.put("Incidencia a resolver por el CDISM", new Integer(5));		
-		EPIGRAFES.put("Incidencia competencia de otros sistemas", new Integer(5));
+		EPIGRAFES.put("Nuevo Trabajo", Integer.valueOf(1));
+		EPIGRAFES.put("Actuaciones en Base de Datos", Integer.valueOf(2));
+		EPIGRAFES.put("Necesidad de cambios funcionales", Integer.valueOf(3));
+		EPIGRAFES.put("Consulta funcional", Integer.valueOf(4));		
+		EPIGRAFES.put("Incidencia a resolver por el CDISM", Integer.valueOf(5));		
+		EPIGRAFES.put("Incidencia competencia de otros sistemas", Integer.valueOf(5));
 	}
 	
 	protected final void initEntitiesFactories(final String entitiesDictionary) {
@@ -427,7 +427,7 @@ public class BackupGeneradorPPT {
 
 	protected final Long getCode(String peticionId){
 			
-		Long numeroPeticion = new Long(-1);	
+		Long numeroPeticion = Long.valueOf(-1);	
 		if (peticionId == null){
 			return numeroPeticion;
 		}
@@ -440,14 +440,14 @@ public class BackupGeneradorPPT {
 				if (Character.isDigit(c_)){
 					str_.append(String.valueOf(c_));
 				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
-					numeroPeticion = new Long(str_.toString().trim());
+					numeroPeticion = Long.valueOf(str_.toString().trim());
 					break;
 				}
 			}
 		}else{			
 			if (peticionId.length() > 0 && Character.isDigit(peticionId.charAt(0))){
 				String[] splitter2 = peticionId.split(PCMConstants.REGEXP_POINT);
-				numeroPeticion = new Long(splitter2[0].trim());
+				numeroPeticion = Long.valueOf(splitter2[0].trim());
 			}		
 		}
 		
@@ -806,7 +806,7 @@ public class BackupGeneradorPPT {
 				bufferMessages.append(aplicacionRochade + ": dato (9): El % de avance no esto consignado para la tarea global <'" + descrTareaGlobal + "'> no esto consignada{}");
 				return "err9089";
 			}
-			newText = new Double(newText_d.doubleValue()*100.0).intValue() + "%";
+			newText = Double.valueOf(newText_d.doubleValue()*100.0).intValue() + "%";
 		}else if (text.indexOf("(5)")!= -1){
 			newText = "";
 			newText = CommonUtils.convertDateToShortFormatted(
@@ -872,12 +872,12 @@ public class BackupGeneradorPPT {
 			Map<String, Number> existingMap = counterActuaPerApp.get(app);
 			Integer actualCounter = (Integer) existingMap.get(estadoGlobal);
 			if (actualCounter == null){
-				actualCounter = new Integer(1);
+				actualCounter = Integer.valueOf(1);
 			}
-			existingMap.put(estadoGlobal, new Integer(actualCounter.intValue() + 1));
+			existingMap.put(estadoGlobal, Integer.valueOf(actualCounter.intValue() + 1));
 		}else{
 			Map<String, Number> newMap = new HashMap<String, Number>();
-			newMap.put(estadoGlobal, new Integer(1));
+			newMap.put(estadoGlobal, Integer.valueOf(1));
 			counterActuaPerApp.put(app, newMap);
 		}		
 	}
@@ -898,14 +898,14 @@ public class BackupGeneradorPPT {
 				if (mapa1 == null || mapa1.isEmpty()){
 					mapa1 = new HashMap<String, Number>();
 				}
-				mapa1.put(epigrafeKey, new Integer(0));
+				mapa1.put(epigrafeKey, Integer.valueOf(0));
 				counterEstadosPerSubdirec.put(TAREAS_ACABADAS, mapa1);
 				
 				Map<String, Number> mapa2 = counterEstadosPerSubdirec.get(TAREAS_EN_CURSO);
 				if (mapa2 == null || mapa2.isEmpty()){
 					mapa2 = new HashMap<String, Number>();
 				}
-				mapa2.put(epigrafeKey, new Integer(0));
+				mapa2.put(epigrafeKey, Integer.valueOf(0));
 				counterEstadosPerSubdirec.put(TAREAS_EN_CURSO, mapa2);
 			}
 		}			
@@ -914,9 +914,9 @@ public class BackupGeneradorPPT {
 			Map<String, Number> existingMap = counterEstadosPerSubdirec.get(estadoGlobal);
 			Number actualCounter = (Integer) existingMap.get(epigrafe);
 			if (actualCounter == null){
-				actualCounter = new Integer(1);
+				actualCounter = Integer.valueOf(1);
 			}
-			existingMap.put(epigrafe, new Integer(actualCounter.intValue() + 1));
+			existingMap.put(epigrafe, Integer.valueOf(actualCounter.intValue() + 1));
 		}	
 	}
 	
@@ -924,9 +924,9 @@ public class BackupGeneradorPPT {
 	protected final void incCounterActuacionesSubdirec(final Map<String, Number> counterActuaPerApp, final String epigrafe){
 		if (counterActuaPerApp.containsKey(epigrafe)){
 			Number actualCounter = (Integer) counterActuaPerApp.get(epigrafe);
-			counterActuaPerApp.put(epigrafe, new Integer(actualCounter.intValue() + 1));
+			counterActuaPerApp.put(epigrafe, Integer.valueOf(actualCounter.intValue() + 1));
 		}else{
-			counterActuaPerApp.put(epigrafe, new Integer(1));
+			counterActuaPerApp.put(epigrafe, Integer.valueOf(1));
 		}
 	}
 	
@@ -936,13 +936,13 @@ public class BackupGeneradorPPT {
 			Map<String, Number> existingMap = counterActuaPerApp.get(app);
 			if (existingMap.containsKey(epigrafe)){
 				Number actualCounter = existingMap.get(epigrafe);
-				existingMap.put(epigrafe, new Integer(actualCounter.intValue() + 1));
+				existingMap.put(epigrafe, Integer.valueOf(actualCounter.intValue() + 1));
 			}else{
-				existingMap.put(epigrafe, new Integer(1));
+				existingMap.put(epigrafe, Integer.valueOf(1));
 			}
 		}else{
 			Map<String, Number> newMap = new HashMap<String, Number>();
-			newMap.put(epigrafe, new Integer(1));
+			newMap.put(epigrafe, Integer.valueOf(1));
 			counterActuaPerApp.put(app, newMap);
 		}		
 	}
@@ -975,7 +975,7 @@ public class BackupGeneradorPPT {
 					Map.Entry<Number,Number> entry = entries.next();
 					Integer actualCounter = (Integer) entry.getKey();
 					Double actualMediaTiempoRespuesta = (Double) entry.getValue();
-					newContadorOcurrencias = new Integer(actualCounter.intValue() + 1);
+					newContadorOcurrencias = Integer.valueOf(actualCounter.intValue() + 1);
 					newMediaTiempoRespuesta =  (actualMediaTiempoRespuesta + Double.valueOf(dias))/ newContadorOcurrencias;
 					
 					ocurrenciasYmediaAtencion.remove(actualCounter);
@@ -984,13 +984,13 @@ public class BackupGeneradorPPT {
 				
 			}else{
 				Map<Number,Number> ocurrenciasYmediaAtencion = new HashMap<Number,Number>();
-				ocurrenciasYmediaAtencion.put(new Integer(1), new Double(dias));
+				ocurrenciasYmediaAtencion.put(Integer.valueOf(1), Double.valueOf(dias));
 				existingMap.put(weekOfDate, ocurrenciasYmediaAtencion);
 			}
 		}else{
 			Map<String, Map<Number,Number>> newMap = new HashMap<String, Map<Number,Number>>();
 			Map<Number,Number> ocurrenciasYmediaAtencion = new HashMap<Number,Number>();
-			ocurrenciasYmediaAtencion.put(new Integer(1), new Double(dias));
+			ocurrenciasYmediaAtencion.put(Integer.valueOf(1), Double.valueOf(dias));
 			newMap.put(weekOfDate, ocurrenciasYmediaAtencion);
 			counterActuaPerApp.put(app, newMap);
 		}		
@@ -1214,7 +1214,7 @@ public class BackupGeneradorPPT {
 				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el epografe.{}");
 				continue;
 			}
-			Integer orderOfEpigrafe = new Integer(epigrafeO_);
+			Integer orderOfEpigrafe = Integer.valueOf(epigrafeO_);
 			
 			String nombreEpigrafe = getKeyOfValueInMap(EPIGRAFES, orderOfEpigrafe);
 			
@@ -1366,23 +1366,23 @@ public class BackupGeneradorPPT {
 				
 				Number actualCounterEnPlazoAcabada = counterPetsByPlazoBySubdirFinished.get("A. En Plazo");
 				if (actualCounterEnPlazoAcabada == null){
-					actualCounterEnPlazoAcabada = new Integer(0);
+					actualCounterEnPlazoAcabada = Integer.valueOf(0);
 				}
 				counterPetsByPlazoBySubdirFinished.put("A. En Plazo", actualCounterEnPlazoAcabada.intValue() + counterEnPlazoAcabada);
 				Number actualCounterFueraPlazoAcabada = counterPetsByPlazoBySubdirFinished.get("A. Fuera de Plazo");
 				if (actualCounterFueraPlazoAcabada == null){
-					actualCounterFueraPlazoAcabada = new Integer(0);
+					actualCounterFueraPlazoAcabada = Integer.valueOf(0);
 				}
 				counterPetsByPlazoBySubdirFinished.put("A. Fuera de Plazo", actualCounterFueraPlazoAcabada.intValue() + counterFueraPlazoAcabada);
 				
 				Number actualCounterEnPlazoEnCurso = counterPetsByPlazoBySubdEnCurso.get("Dentro de Plazo");
 				if (actualCounterEnPlazoEnCurso == null){
-					actualCounterEnPlazoEnCurso = new Integer(0);
+					actualCounterEnPlazoEnCurso = Integer.valueOf(0);
 				}
 				counterPetsByPlazoBySubdEnCurso.put("Dentro de Plazo", actualCounterEnPlazoEnCurso.intValue() + counterEnPlazoEnCurso);
 				Number actualCounterFueraPlazoEnCurso = counterPetsByPlazoBySubdEnCurso.get("Fuera de Plazo");
 				if (actualCounterFueraPlazoEnCurso == null){
-					actualCounterFueraPlazoEnCurso = new Integer(0);
+					actualCounterFueraPlazoEnCurso = Integer.valueOf(0);
 				}
 				counterPetsByPlazoBySubdEnCurso.put("Fuera de Plazo", actualCounterFueraPlazoEnCurso.intValue() + counterFueraPlazoEnCurso);				
 				
@@ -1390,24 +1390,24 @@ public class BackupGeneradorPPT {
 				/** actualizamos los contadores de esfuerzo en AT (incluye effort de anolisis, pruebas, tiempo en instalaciones, etc...**/
 				Number actualCounterHrsEnPlazoAcabada = counterHrsEffByPlazoBySubdirFinished.get("A. En Plazo");
 				if (actualCounterHrsEnPlazoAcabada == null){
-					actualCounterHrsEnPlazoAcabada = new Integer(0);
+					actualCounterHrsEnPlazoAcabada = Integer.valueOf(0);
 				}
 				counterHrsEffByPlazoBySubdirFinished.put("A. En Plazo", actualCounterHrsEnPlazoAcabada.intValue() + counterHrsEnPlazoAcabada.intValue());
 				
 				Number actualCounterHrsFueraPlazoAcabada = counterHrsEffByPlazoBySubdirFinished.get("A. Fuera de Plazo");
 				if (actualCounterHrsFueraPlazoAcabada == null){
-					actualCounterHrsFueraPlazoAcabada = new Integer(0);
+					actualCounterHrsFueraPlazoAcabada = Integer.valueOf(0);
 				}
 				counterHrsEffByPlazoBySubdirFinished.put("A. Fuera de Plazo", actualCounterHrsFueraPlazoAcabada.intValue() + counterHrsFueraPlazoAcabada.intValue());
 				
 				Number actualCounterHrsEnPlazoEnCurso = counterHrsEffByPlazoBySubdEnCurso.get("Dentro de Plazo");
 				if (actualCounterHrsEnPlazoEnCurso == null){
-					actualCounterHrsEnPlazoEnCurso = new Integer(0);
+					actualCounterHrsEnPlazoEnCurso = Integer.valueOf(0);
 				}
 				counterHrsEffByPlazoBySubdEnCurso.put("Dentro de Plazo", actualCounterHrsEnPlazoEnCurso.intValue() + counterHrsEnPlazoEnCurso.intValue());
 				Number actualCounterHrsFueraPlazoEnCurso = counterHrsEffByPlazoBySubdEnCurso.get("Fuera de Plazo");
 				if (actualCounterHrsFueraPlazoEnCurso == null){
-					actualCounterHrsFueraPlazoEnCurso = new Integer(0);
+					actualCounterHrsFueraPlazoEnCurso = Integer.valueOf(0);
 				}
 				counterHrsEffByPlazoBySubdEnCurso.put("Fuera de Plazo", actualCounterHrsFueraPlazoEnCurso.intValue() + counterHrsFueraPlazoEnCurso.intValue());
 						
@@ -1554,13 +1554,13 @@ public class BackupGeneradorPPT {
 					String key = keyIterator.next();
 					Number valueOfKey_1 = counterPetsEstadosPerSubdirec.get(TAREAS_EN_CURSO).get(key);
 					if (valueOfKey_1 == null){
-						valueOfKey_1 = new Integer(0);
+						valueOfKey_1 = Integer.valueOf(0);
 					}
 					Number valueOfKey_2 = counterPetsEstadosPerSubdirec.get(TAREAS_ACABADAS).get(key);
 					if (valueOfKey_2 == null){
-						valueOfKey_2 = new Integer(0);
+						valueOfKey_2 = Integer.valueOf(0);
 					}					
-					counterEpigrafesEnGlobal.put(key, new Integer(valueOfKey_1.intValue()+valueOfKey_2.intValue()));				
+					counterEpigrafesEnGlobal.put(key, Integer.valueOf(valueOfKey_1.intValue()+valueOfKey_2.intValue()));				
 				}
 	        	actualizarChartUniSerie(chartGlobal_numPets, counterEpigrafesEnGlobal, "Tareas del periodo", "pie");
 	        }
@@ -1640,13 +1640,13 @@ public class BackupGeneradorPPT {
 					String key = keyIterator.next();
 					Number valueOfKey_1 = counterHrsEffEstadosPerSubdirec.get(TAREAS_EN_CURSO).get(key);
 					if (valueOfKey_1 == null){
-						valueOfKey_1 = new Integer(0);
+						valueOfKey_1 = Integer.valueOf(0);
 					}
 					Number valueOfKey_2 = counterHrsEffEstadosPerSubdirec.get(TAREAS_ACABADAS).get(key);
 					if (valueOfKey_2 == null){
-						valueOfKey_2 = new Integer(0);
+						valueOfKey_2 = Integer.valueOf(0);
 					}					
-					counterEpigrafesEnGlobal.put(key, new Integer(valueOfKey_1.intValue()+valueOfKey_2.intValue()));				
+					counterEpigrafesEnGlobal.put(key, Integer.valueOf(valueOfKey_1.intValue()+valueOfKey_2.intValue()));				
 				}
 	        	actualizarChartUniSerie(chartGlobal_effortHrs, counterEpigrafesEnGlobal, "Tareas del periodo", "pie");
 	        }
@@ -1762,7 +1762,7 @@ public class BackupGeneradorPPT {
 			        	int mes = Calendar.getInstance().get(Calendar.MONTH) + 1;
 			        	mapaTimeLine = new HashMap<String, Map<Number,Number>>();
 			        	Map<Number,Number> mapOcurrenciasYmediaTiemporespuesta = new HashMap<Number,Number>();
-			        	mapOcurrenciasYmediaTiemporespuesta.put(new Integer(0), new Double(0.0));
+			        	mapOcurrenciasYmediaTiemporespuesta.put(Integer.valueOf(0), Double.valueOf(0.0));
 			        	mapaTimeLine.put(CommonUtils.translateMonthToSpanish(mes), mapOcurrenciasYmediaTiemporespuesta);
 			        }else{
 			        	//final double diasAtencion = CommonUtils.roundWith2Decimals(obtenerTiempoMedioAtencionRespuesta(mapaTimeLine));

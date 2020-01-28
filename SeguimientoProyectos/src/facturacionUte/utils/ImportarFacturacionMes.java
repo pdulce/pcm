@@ -710,7 +710,7 @@ public class ImportarFacturacionMes {
 			String[] splitNameOfSheet = sheet.getSheetName().split("-");
 			if (sheet.getSheetName().startsWith("Ficha") && splitNameOfSheet.length == 3){
 				Integer mes = Integer.valueOf(splitNameOfSheet[2]).intValue();
-				Integer ejercicio= new Integer(2000 + Integer.valueOf(splitNameOfSheet[1]).intValue());
+				Integer ejercicio= Integer.valueOf(2000 + Integer.valueOf(splitNameOfSheet[1]).intValue());
 								
 				FieldViewSet objetoMes = new FieldViewSet(mesEntidad);
 				objetoMes.setValue(mesEntidad.searchField(ConstantesModelo.MES_3_NUMERO).getName(), mes);

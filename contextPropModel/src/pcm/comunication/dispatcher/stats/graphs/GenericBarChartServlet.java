@@ -61,7 +61,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 		String lang = CommonUtils.getLanguage(request_);
 		final Map<String, Map<String, Number>> registros = new HashMap<String, Map<String, Number>>();		
 		double minimal = 0.0;
-		Number total_ = new Double(0.0);
+		Number total_ = Double.valueOf(0.0);
 		Map<Serializable, Double> totalizacionbarrasHoriz = null;
 		if (!listaValoresAgregados.isEmpty()){
 			
@@ -138,9 +138,9 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 								minimal = valorDeNuestraDimensionParaEstaAgrupacion;
 							}
 							if (sinAgregado){//Long al contar totales
-								total_ = new Long(total_.longValue() + valorDeNuestraDimensionParaEstaAgrupacion.longValue());
+								total_ = Long.valueOf(total_.longValue() + valorDeNuestraDimensionParaEstaAgrupacion.longValue());
 							}else{
-								total_ = new Double(total_.doubleValue() + valorDeNuestraDimensionParaEstaAgrupacion.doubleValue());
+								total_ = Double.valueOf(total_.doubleValue() + valorDeNuestraDimensionParaEstaAgrupacion.doubleValue());
 							}												
 						}
 					}
@@ -233,9 +233,9 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 										minimal = valorParaEstaCombinacion;
 									}
 									if (sinAgregado){//Long al contar totales
-										total_ = new Long(total_.longValue() + valorParaEstaCombinacion.longValue());
+										total_ = Long.valueOf(total_.longValue() + valorParaEstaCombinacion.longValue());
 									}else{
-										total_ = new Double(total_.doubleValue() + valorParaEstaCombinacion.doubleValue());
+										total_ = Double.valueOf(total_.doubleValue() + valorParaEstaCombinacion.doubleValue());
 									}
 									
 								}

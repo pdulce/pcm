@@ -353,8 +353,8 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 						final String situacion = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 						//"Pendiente"
 						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.0");
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), new Double(0.0));
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), new Double(0.0));
+						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.0));
+						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
 						//"Toma Requisitos", "Analisis", "Desarrollo", "Pendiente Infraestructuras", "Pruebas", "Validada", "Produccion", "Implantado"
 						if (situacion.indexOf("Requisitos") != -1){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.10");
@@ -362,20 +362,20 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.50");
 						}else if (situacion.indexOf("Desarrollo") != -1){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), new Double(0.5));
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), new Double(0.0));
+							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.5));
+							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
 						}else if (situacion.indexOf("Pruebas") != -1){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), new Double(1.0));
+							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(1.0));
 							Double avanceTestingCD = (Double) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName());
 							if (avanceTestingCD == null){
-								fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), new Double(0.5));
+								fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.5));
 							}
 						}else if (situacion.indexOf("Validada") != -1 || situacion.indexOf("Produccion") != -1 
 								|| situacion.indexOf("Preexplotaci") != -1 || situacion.indexOf("Implantad") != -1){
 							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), new Double(1.0));
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), new Double(1.0));
+							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(1.0));
+							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(1.0));
 						}
 
 					}else{
@@ -417,7 +417,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 								if (situacion.indexOf("Validada") != -1 || situacion.toLowerCase().indexOf("implantad") != -1){
 									avanceTestingCDActual += 1.0;
 								}else if (situacion.indexOf("Pruebas")!= -1 && avanceTestingCD == null){
-									fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), new Double(0.5));
+									fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.5));
 									avanceTestingCDActual += 0.5;
 								}else if (avanceTestingCD != null){
 									avanceTestingCDActual += avanceTestingCD;
@@ -467,8 +467,8 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					final String situacion = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 					//"Pendiente"
 					final String actualAvanceAnalysis = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName());					
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), new Double(0.0));
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), new Double(0.0));
+					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.0));
+					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
 					//"Toma Requisitos", "Analisis"
 					if ((actualAvanceAnalysis == null || "".equals(actualAvanceAnalysis)) && situacion.indexOf("Requisitos") != -1){						
 						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.10");

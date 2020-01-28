@@ -344,13 +344,13 @@ public class ValoresActuales {
 			}
 			Number cotizacionVariacionPorcentual = (Number) registroCotizacion.getValue(cotizacionesEntidad.searchField(ConstantesModelo.INVERTIA_DATA_6_PORCENTAJE_DIF).getName());
 			if (cotizacionVariacionPorcentual.doubleValue() < 0){
-				cotizacionesNegativas.add(new Double(cotizacionVariacionPorcentual.doubleValue()));
-				acumVariacionCotizNegativas_ += new Double(cotizacionVariacionPorcentual.doubleValue());
+				cotizacionesNegativas.add(Double.valueOf(cotizacionVariacionPorcentual.doubleValue()));
+				acumVariacionCotizNegativas_ += Double.valueOf(cotizacionVariacionPorcentual.doubleValue());
 			}
 			if (valorMinVariacionCotiz_ > cotizacionVariacionPorcentual.doubleValue()){
 				valorMinVariacionCotiz_ = cotizacionVariacionPorcentual.doubleValue();
 			}
-			acumVariacionCotizEnTotal_ += new Double(cotizacionVariacionPorcentual.doubleValue());
+			acumVariacionCotizEnTotal_ += Double.valueOf(cotizacionVariacionPorcentual.doubleValue());
 			laboralesEnPeriodo++;
 		}//end of while
 		
@@ -456,11 +456,11 @@ public class ValoresActuales {
 				if (!"IBEX35".equals(group)){
 					totalInversionInicial += titulosDeMiCartera.get(group);
 					visitados = true;
-					capitalObjetivo.put(group, new Double(titulosDeMiCartera.get(group)*(1.00 + (rentabilidadDeseada/100))));					
-					datosCotizacionObjetivo.put(group, new Double(datosCotizacionEntrada.get(group)*(1.00 + (rentabilidadDeseada/100))));
+					capitalObjetivo.put(group, Double.valueOf(titulosDeMiCartera.get(group)*(1.00 + (rentabilidadDeseada/100))));					
+					datosCotizacionObjetivo.put(group, Double.valueOf(datosCotizacionEntrada.get(group)*(1.00 + (rentabilidadDeseada/100))));
 					datosCotizacionLast.put(group, cotizacionActual);
 					double rentabilidadTitulo = ((cotizacionActual/datosCotizacionEntrada.get(group).doubleValue()) - 1)*100;
-					rentabilidadesAcumuladas.put(group, new Double((rentabilidadTitulo)));					
+					rentabilidadesAcumuladas.put(group, Double.valueOf((rentabilidadTitulo)));					
 					inversionActual.put(group, (1+(rentabilidadesAcumuladas.get(group)/100))*titulosDeMiCartera.get(group));
 					totalInversionActual += inversionActual.get(group);
 					capitalObjetivoTotal += capitalObjetivo.get(group);
@@ -731,7 +731,7 @@ public class ValoresActuales {
 									continue;
 								}
 								
-								Double valorLast =  new Double(0);								
+								Double valorLast =  Double.valueOf(0);								
 								try{
 									valorLast = CommonUtils.numberFormatter.parse(CommonUtils.cleanTabs(inputLine));		
 									} catch (ParseException excparse){
@@ -742,7 +742,7 @@ public class ValoresActuales {
 									continue;
 								}
 								
-								Double inicialSesion =  new Double(0);								
+								Double inicialSesion =  Double.valueOf(0);								
 								try{
 									inicialSesion = CommonUtils.numberFormatter.parse(CommonUtils.cleanTabs(inputLine));			
 									} catch (ParseException excparse){
@@ -752,7 +752,7 @@ public class ValoresActuales {
 								while ( !CommonUtils.cleanTabs((inputLine = input.readLine())).contains(",")){
 									continue;
 								}
-								Double porcentajeVar =  new Double(0);								
+								Double porcentajeVar =  Double.valueOf(0);								
 								try{
 									porcentajeVar =  CommonUtils.numberFormatter.parse(CommonUtils.cleanTabs(inputLine));				
 									} catch (ParseException excparse){
@@ -762,7 +762,7 @@ public class ValoresActuales {
 								while ( !CommonUtils.cleanTabs((inputLine = input.readLine())).contains(",")){
 									continue;
 								}
-								Double max = new Double(0);
+								Double max = Double.valueOf(0);
 								try{
 									max =  CommonUtils.numberFormatter.parse(CommonUtils.cleanTabs(inputLine));					
 									} catch (ParseException excparse){
@@ -772,7 +772,7 @@ public class ValoresActuales {
 								while ( !CommonUtils.cleanTabs((inputLine = input.readLine())).contains(",")){
 									continue;
 								}
-								Double min = new Double(0);
+								Double min = Double.valueOf(0);
 								try{
 								   min =  CommonUtils.numberFormatter.parse(CommonUtils.cleanTabs(inputLine));							
 								} catch (ParseException excparse){
@@ -790,8 +790,8 @@ public class ValoresActuales {
 								Double volumen =  CommonUtils.numberFormatter.parse(CommonUtils.cleanTabs(inputLine.replaceAll(PCMConstants.REGEXP_POINT, "")));	
 								
 								
-								grabarFechaValorEnBBDD(keyOfValueEmpresa, fechaValor, new Double(valorLast), new Double(inicialSesion), new Double(porcentajeVar), 
-										new Double(max), new Double(min), Long.valueOf(volumen.longValue()), dataAccess);
+								grabarFechaValorEnBBDD(keyOfValueEmpresa, fechaValor, Double.valueOf(valorLast), Double.valueOf(inicialSesion), Double.valueOf(porcentajeVar), 
+										Double.valueOf(max), Double.valueOf(min), Long.valueOf(volumen.longValue()), dataAccess);
 								
 								grabados++;
 								

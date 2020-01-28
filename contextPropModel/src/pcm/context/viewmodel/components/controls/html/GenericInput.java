@@ -165,7 +165,7 @@ public class GenericInput extends AbstractHtmlCtrl {
 				cad = new StringBuilder();
 			}
 			if (values_ != null && !values_.isEmpty()) {
-				String url_ = (String) values_.iterator().next();
+				String url_ = values_.iterator().next();
 				String[] urlParts = url_.split("/");
 				String fileName = urlParts[urlParts.length - 1];
 				cad.append(IHtmlElement.BLANCO);

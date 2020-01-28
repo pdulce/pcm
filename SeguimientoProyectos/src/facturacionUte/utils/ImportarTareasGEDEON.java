@@ -268,8 +268,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			
 			String idsRelacionadasEnHija = (String) peticionHija.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
 			List<Long> idsRelacionadasEnHija_ = obtenerCodigos(idsRelacionadasEnHija);
-			if (!idsRelacionadasEnHija_.contains(new Long(idPadreGestion))){
-				idsRelacionadasEnHija_.add(new Long(idPadreGestion));				
+			if (!idsRelacionadasEnHija_.contains(Long.valueOf(idPadreGestion))){
+				idsRelacionadasEnHija_.add(Long.valueOf(idPadreGestion));				
 			}
 			peticionHija.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName(), 
 					serialize(idsRelacionadasEnHija_));
@@ -449,7 +449,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						rochadeCode);
 				List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
 				if (apps.isEmpty()){
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(), new Integer(2));//"NATURAL"
+					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"NATURAL"
 				}else{
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(),
 							apps.get(0).getValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_TIPOAPP).getName()));		
@@ -508,10 +508,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					if (tipoPeticion.toString().indexOf("Pequeoo evolutivo") != -1){						
 						Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
 						Double UTs_realizadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
-						if (UTs_estimadas.compareTo(new Double(0)) == 0){
-							if (UTs_realizadas.compareTo(new Double(0)) == 0){
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), new Double(40.0) );
-							}else if (UTs_realizadas.compareTo(new Double(0)) > 0){
+						if (UTs_estimadas.compareTo(Double.valueOf(0)) == 0){
+							if (UTs_realizadas.compareTo(Double.valueOf(0)) == 0){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), Double.valueOf(40.0) );
+							}else if (UTs_realizadas.compareTo(Double.valueOf(0)) > 0){
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), UTs_realizadas );
 							}
 						}						
@@ -547,7 +547,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo listo para iniciar");
 						}else if (situacion.toString().indexOf("pte. de estimaci") != -1){
 							Double estimadasActuales = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
-							if (estimadasActuales != null && estimadasActuales.compareTo(new Double(0)) > 0){//en este caso, tuvo una estimacion previa, y por algon motivo, debe revisarse esta estimacion
+							if (estimadasActuales != null && estimadasActuales.compareTo(Double.valueOf(0)) > 0){//en este caso, tuvo una estimacion previa, y por algon motivo, debe revisarse esta estimacion
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. de re-estimacion");
 							}else{
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. estimar");
@@ -643,11 +643,11 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		}//for
 		
 		Map<Integer, String> numEntradas = new HashMap<Integer, String>();
-		numEntradas.put(new Integer(numImportadas), String.valueOf(filas.size()));
+		numEntradas.put(Integer.valueOf(numImportadas), String.valueOf(filas.size()));
 		//metemos el resto de IDs que han cambiado
 		int i = numImportadas+1;
 		for (String idpeticion : IDs_changed){
-			numEntradas.put(new Integer(i++), idpeticion);
+			numEntradas.put(Integer.valueOf(i++), idpeticion);
 		}
 		return numEntradas;
 	}
@@ -851,7 +851,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				if (Character.isDigit(c_)){
 					str_.append(String.valueOf(c_));
 				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
-					Long num = new Long(str_.toString().trim());
+					Long num = Long.valueOf(str_.toString().trim());
 					arr.add(num);
 					str_ = new StringBuilder();
 				}
@@ -862,7 +862,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			for (int i=0;i<length_;i++){
 				if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
 					String[] splitter2 = splitter[i].split(PCMConstants.REGEXP_POINT);
-					Long num = new Long(splitter2[0].trim());
+					Long num = Long.valueOf(splitter2[0].trim());
 					arr.add(num);
 				}
 			}
@@ -874,7 +874,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	
     private Long obtenerCodigo(String peticionId){
 		
-		Long numeroPeticion = new Long(-1);	
+		Long numeroPeticion = Long.valueOf(-1);	
 		if (peticionId == null){
 			return numeroPeticion;
 		}
@@ -890,14 +890,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				if (Character.isDigit(c_)){
 					str_.append(String.valueOf(c_));
 				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
-					numeroPeticion = new Long(str_.toString().trim());
+					numeroPeticion = Long.valueOf(str_.toString().trim());
 					break;
 				}
 			}
 		}else{			
 			if (peticionId.length() > 0 && Character.isDigit(peticionId.charAt(0))){
 				String[] splitter2 = peticionId.split(PCMConstants.REGEXP_POINT);
-				numeroPeticion = new Long(splitter2[0].trim());
+				numeroPeticion = Long.valueOf(splitter2[0].trim());
 			}		
 		}
 		

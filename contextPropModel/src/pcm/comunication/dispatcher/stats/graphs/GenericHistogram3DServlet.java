@@ -47,7 +47,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 		
 		boolean sinAgregado = agregados == null || agregados[0] == null;
 		double minimal = 0.0;
-		Number total_ = new Double(0);
+		Number total_ = Double.valueOf(0);
 		Number[] totalizacionColumnas = null;
 		//el tamanyo de la totalizacion sero el nom. de valores distintos de categorias-agregado (eje X), y si hay mos de un agregado, como se sitouan en el ejz solo contabilizo el primero
 		String lang = CommonUtils.getLanguage(request_), unidades = "";
@@ -106,11 +106,11 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 						minimal = subTotal < minimal ? subTotal : minimal;
 						
 						if (sinAgregado){//Long al contar totales					
-							total_ = new Long(new Double(subTotal).longValue() + total_.longValue());
-							totalizacionColumnas[period_i] = new Long(new Double(subTotal).longValue());
+							total_ = Long.valueOf(Double.valueOf(subTotal).longValue() + total_.longValue());
+							totalizacionColumnas[period_i] = Long.valueOf(Double.valueOf(subTotal).longValue());
 						}else{
-							total_ = new Double(subTotal + total_.doubleValue());
-							totalizacionColumnas[period_i] = new Double(subTotal);						
+							total_ = Double.valueOf(subTotal + total_.doubleValue());
+							totalizacionColumnas[period_i] = Double.valueOf(subTotal);						
 						}						
 						
 						if (subTotal == 0){//miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
@@ -170,7 +170,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 					Map.Entry<String, Double> entry = iteMapEntries.next();
 
 					String fieldNameOfAgregado = entry.getKey();
-					Number valorAgregadoIesimo = sinAgregado ? new Long(entry.getValue().longValue()) : entry.getValue();
+					Number valorAgregadoIesimo = sinAgregado ? Long.valueOf(entry.getValue().longValue()) : entry.getValue();
 					
 					minimal = valorAgregadoIesimo.doubleValue() < minimal ? valorAgregadoIesimo.doubleValue() : minimal;
 					
@@ -178,11 +178,11 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 					String agregadoIesimoTraslated = Translator.traduceDictionaryModelDefined(lang,	entidadName.concat(".").concat(fieldNameOfAgregado));
 										
 					if (sinAgregado){//Long al contar totales
-						total_ = new Long(valorAgregadoIesimo.longValue() + total_.longValue());
-						totalizacionColumnas[countRecord] = new Long(valorAgregadoIesimo.longValue() + totalizacionColumnas[countRecord].longValue());
+						total_ = Long.valueOf(valorAgregadoIesimo.longValue() + total_.longValue());
+						totalizacionColumnas[countRecord] = Long.valueOf(valorAgregadoIesimo.longValue() + totalizacionColumnas[countRecord].longValue());
 					}else{
-						total_ = new Double(valorAgregadoIesimo.doubleValue() + total_.doubleValue());
-						totalizacionColumnas[countRecord] = new Double(valorAgregadoIesimo .doubleValue() + totalizacionColumnas[countRecord].doubleValue());
+						total_ = Double.valueOf(valorAgregadoIesimo.doubleValue() + total_.doubleValue());
+						totalizacionColumnas[countRecord] = Double.valueOf(valorAgregadoIesimo .doubleValue() + totalizacionColumnas[countRecord].doubleValue());
 					}
 
 					String valorParaCategoria1EnEsteRegistroAgregado = registroPorCategoria.getValue(agrupacionInterna.getName()).toString();
@@ -213,10 +213,10 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 							Number numberValueOfCategoriaInterna = (Number) valorIntrinseco;
 							//veo si tengo una agrupacion pral., y se lo concateno al nombre de la columna para que sepamos bien la coordenada 								
 							if (agrupacionPral.getAbstractField().isInteger() || agrupacionPral.getAbstractField().isLong()){
-								Integer idAgrupacionPral = new Integer(valorAgrupacionPral.toString());
+								Integer idAgrupacionPral = Integer.valueOf(valorAgrupacionPral.toString());
 								String operando_1 = CommonUtils.addLeftZeros(String.valueOf(idAgrupacionPral), agrupacionPral.getAbstractField().getMaxLength() > 6 ? 6: agrupacionPral.getAbstractField().getMaxLength());
 								String operando_2 = CommonUtils.addLeftZeros(String.valueOf(numberValueOfCategoriaInterna), agrupacionInterna.getAbstractField().getMaxLength()>6 ? 6 : agrupacionInterna.getAbstractField().getMaxLength());
-								positionClaveAgregacion = new Integer(operando_1.concat(operando_2)).intValue();
+								positionClaveAgregacion = Integer.valueOf(operando_1.concat(operando_2)).intValue();
 								valorParaCategoria1EnEsteRegistroAgregado = valorParaCategoria1EnEsteRegistroAgregado.concat("-").concat(String.valueOf(idAgrupacionPral.intValue()));
 							}else{								
 								if (Character.isDigit(valorAgrupacionPral.toString().charAt(0))){
@@ -238,7 +238,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 						}
 					}else{//obtenemos la posicion en base al valor de la agrupacion interna
 						if (agrupacionInterna.getAbstractField().isInteger() || agrupacionInterna.getAbstractField().isLong()){	
-							positionClaveAgregacion = new Integer(((Number) valorIntrinseco).intValue());
+							positionClaveAgregacion = Integer.valueOf(((Number) valorIntrinseco).intValue());
 						}else{
 							if (Character.isDigit(valorParaCategoria1EnEsteRegistroAgregado.charAt(0))){
 								positionClaveAgregacion = Integer.valueOf(valorParaCategoria1EnEsteRegistroAgregado.split(PCMConstants.REGEXP_POINT)[0]);

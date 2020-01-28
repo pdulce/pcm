@@ -81,7 +81,7 @@ public class ThreadSafeNumberFormat {
 
 	public synchronized Double parse(Serializable val) throws ParseException {
 		if (val == null) {
-			return new Double("0");
+			return Double.valueOf("0");
 		} else if (val instanceof java.lang.String) {			
 			return parse(val.toString());
 		} else if (val instanceof java.math.BigDecimal) {
@@ -89,12 +89,12 @@ public class ThreadSafeNumberFormat {
 		} else if (val instanceof java.lang.Number) {
 			return parse((java.lang.Number) val);
 		}
-		return new Double("0");
+		return Double.valueOf("0");
 	}
 	
 	public synchronized Double parse(java.lang.String val) throws ParseException {
 		if (val == null) {
-			return new Double("0");
+			return Double.valueOf("0");
 		} else  {
 			if (val.toString().indexOf(PCMConstants.POINT) != -1 && val.toString().indexOf(PCMConstants.COMMA) == -1) {
 				// formato 78988.8798789788, hacemos un Double.of
@@ -106,17 +106,17 @@ public class ThreadSafeNumberFormat {
 	
 	public synchronized Double parse(java.math.BigDecimal val) throws ParseException {
 		if (val == null) {
-			return new Double("0");
+			return Double.valueOf("0");
 		} else {
-			return Double.valueOf(((java.math.BigDecimal) val).doubleValue());
+			return Double.valueOf(val.doubleValue());
 		}
 	}
 	
 	public synchronized Double parse(java.lang.Number val) throws ParseException {
 		if (val == null) {
-			return new Double("0");		
+			return Double.valueOf("0");		
 		} else {
-			return Double.valueOf(((java.lang.Number) val).doubleValue());
+			return Double.valueOf(val.doubleValue());
 		}
 	}
 	

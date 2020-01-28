@@ -53,7 +53,7 @@ public class StrategySeleccionColabyApp extends DefaultStrategyRequest {
 			final IEntityLogic aplicacionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.PROYECTO_ENTIDAD);
 			String paramIdApp = req_.getParameter("proyecto.".concat(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_1_ID).getName()));
 			if (paramIdApp != null){
-				Long idApp = new Long(paramIdApp);
+				Long idApp = Long.valueOf(paramIdApp);
 				FieldViewSet proyecto = new FieldViewSet(aplicacionEntidad);
 				proyecto.setValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_1_ID).getName(), idApp);
 				proyecto = dataAccess.searchEntityByPk(proyecto);
@@ -91,7 +91,7 @@ public class StrategySeleccionColabyApp extends DefaultStrategyRequest {
 				
 			}else{				
 				String paramIdColaborador = req_.getParameter("colaborador.".concat(colaboradorEntidad.searchField(ConstantesModelo.COLABORADOR_1_ID).getName()));
-				Long idColaborador = new Long(paramIdColaborador);
+				Long idColaborador = Long.valueOf(paramIdColaborador);
 				
 				FieldViewSet colaborador = new FieldViewSet(colaboradorEntidad);
 				colaborador.setValue(aplicacionEntidad.searchField(ConstantesModelo.COLABORADOR_1_ID).getName(), idColaborador);

@@ -15,8 +15,8 @@ public class ComparatorFieldViewSet implements Comparator<FieldViewSet>, Seriali
 		
 		final IFieldLogic pk = entry1.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
 		
-		final Long value1 = new Long ((String) entry1.getValue(pk.getName()));
-		final Long value2 = new Long ((String) entry2.getValue(pk.getName()));
+		final Long value1 = Long.valueOf((String) entry1.getValue(pk.getName()));
+		final Long value2 = Long.valueOf((String) entry2.getValue(pk.getName()));
 		
 		int resultado = 0;
 		if (value1  < value2) {

@@ -434,8 +434,8 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 										Long.valueOf(resultSet.getLong(fieldLogic.getName())));
 							} else if (fieldLogic.getAbstractField().isBoolean()) {
 								resultado.setValue(fieldView.getQualifiedContextName(),
-										Boolean.valueOf(resultSet.getBoolean(fieldLogic.getName())).booleanValue() ? new Integer("1")
-												: new Integer("0"));
+										Boolean.valueOf(resultSet.getBoolean(fieldLogic.getName())).booleanValue() ? Integer.valueOf(1)
+												: Integer.valueOf(0));
 							} else {
 								resultado.setValue(fieldView.getQualifiedContextName(),
 										(Serializable) resultSet.getObject(fieldLogic.getName()));

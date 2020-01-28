@@ -142,7 +142,7 @@ public class StrategyGrabarUTsMesColabyApp extends DefaultStrategyRequest {
 				List<FieldViewSet> listaMesesColaborador_ = dataAccess.searchByCriteria(filtro4Agregados);
 				if (!listaMesesColaborador_.isEmpty()){
 					FieldViewSet fsetmes = new FieldViewSet(mesEntidad);
-					fsetmes.setValue(mesEntidad.searchField(ConstantesModelo.MES_1_ID).getName(), new Long(mes));
+					fsetmes.setValue(mesEntidad.searchField(ConstantesModelo.MES_1_ID).getName(), Long.valueOf(mes));
 					String mesDeDoce = (String) dataAccess.searchEntityByPk(fsetmes).getValue(mesEntidad.searchField(ConstantesModelo.MES_2_NOMBRE).getName());
 
 					FieldViewSet registroAgregadoMesApp = new FieldViewSet(facturacionMesAppEntidad);

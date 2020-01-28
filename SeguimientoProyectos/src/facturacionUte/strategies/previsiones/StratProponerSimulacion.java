@@ -47,7 +47,7 @@ public class StratProponerSimulacion extends DefaultStrategyRequest {
 			
 			String paramIdConcurso = req.getParameter("concurso.".concat(concursoEntidad.searchField(ConstantesModelo.CONCURSO_1_ID).getName()));
 			if (paramIdConcurso != null){
-				Long idConcurso = new Long(paramIdConcurso);
+				Long idConcurso = Long.valueOf(paramIdConcurso);
 				FieldViewSet concurso = new FieldViewSet(concursoEntidad);
 				concurso.setValue(concursoEntidad.searchField(ConstantesModelo.CONCURSO_1_ID).getName(), idConcurso);
 				concurso = dataAccess.searchEntityByPk(concurso);			

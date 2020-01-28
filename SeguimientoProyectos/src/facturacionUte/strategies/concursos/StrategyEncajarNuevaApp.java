@@ -49,7 +49,7 @@ public class StrategyEncajarNuevaApp extends DefaultStrategyRequest {
 			String dptoIdParam = dptoEntidad.getName().concat(".").concat(dptoEntidad.getFieldKey().getPkFieldSet().iterator().next().getName());
 			String idDptoInReq = req.getParameter(dptoIdParam);
 			if (idDptoInReq != null && !"".equals(idDptoInReq)){
-				Long idDpto = new Long((String) idDptoInReq);							
+				Long idDpto = Long.valueOf((String) idDptoInReq);							
 				datosDptoRequest.setValue(appEntidad.searchField(ConstantesModelo.PROYECTO_7_DEPARTAMENTO).getName(), idDpto);
 			}
 			

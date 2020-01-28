@@ -70,10 +70,10 @@ public class StrategyImportacionFactura extends StrategyLogin {
 			
 			Serializable mesSeleccionado = objetoImportacionFra.getValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_3_MES).getName());
 			Serializable anyoSeleccionado = objetoImportacionFra.getValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_4_ANYO).getName());
-			Long idMes = mesSeleccionado!=null? new Long(mesSeleccionado.toString()):null;
-			Integer anyo = anyoSeleccionado!=null? new Integer(anyoSeleccionado.toString().replaceAll(PCMConstants.REGEXP_POINT, "")):null;
+			Long idMes = mesSeleccionado!=null? Long.valueOf(mesSeleccionado.toString()):null;
+			Integer anyo = anyoSeleccionado!=null? Integer.valueOf(anyoSeleccionado.toString().replaceAll(PCMConstants.REGEXP_POINT, "")):null;
 			
-			Long idContrato = new Long (objetoImportacionFra.getValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_2_ID_CONTRATO).getName()).toString());
+			Long idContrato = Long.valueOf (objetoImportacionFra.getValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_2_ID_CONTRATO).getName()).toString());
 			TuplaMesEjercicioEntradas tuplaResultadoImport = new ImportarFacturacionMes(dataAccess, request).importar(request, filePath, objetoImportacionFra, idContrato, idMes, anyo);
 			objetoImportacionFra.setValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_3_MES).getName(), tuplaResultadoImport.getIdMes());
 			objetoImportacionFra.setValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_4_ANYO).getName(), tuplaResultadoImport.getEjercicio());

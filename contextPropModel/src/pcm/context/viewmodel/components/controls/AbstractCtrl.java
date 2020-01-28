@@ -156,7 +156,7 @@ public abstract class AbstractCtrl implements ICtrl {
 		if (this.fieldView.getStyleCss() != null && !"".equals(this.fieldView.getStyleCss())) {
 			if (this.fieldView.getStyleCss().indexOf("color: NRPG;") != -1 && !this.fieldView.isUserDefined()
 					&& this.fieldView.getEntityField().getAbstractField().isNumeric()) {
-				Double valorNumerico = new Double(0);
+				Double valorNumerico = Double.valueOf(0);
 				try {
 					valorNumerico = CommonUtils.numberFormatter.parse(values_ == null || values_.isEmpty() ? "0,00" : values_.iterator()
 							.next());
@@ -172,7 +172,7 @@ public abstract class AbstractCtrl implements ICtrl {
 				return newStyle;
 			} else if (this.fieldView.getStyleCss().indexOf("color: NBPR;") != -1 && !this.fieldView.isUserDefined()
 					&& this.fieldView.getEntityField().getAbstractField().isNumeric()) {
-				Double valorNumerico = new Double(0);
+				Double valorNumerico = Double.valueOf(0);
 				try {
 					valorNumerico = CommonUtils.numberFormatter.parse(values_ == null || values_.isEmpty() ? "0,00" : values_.iterator()
 							.next());
@@ -185,7 +185,7 @@ public abstract class AbstractCtrl implements ICtrl {
 				return newStyle;
 			} else if (this.fieldView.getStyleCss().indexOf("color: NRPB;") != -1 && !this.fieldView.isUserDefined()
 					&& this.fieldView.getEntityField().getAbstractField().isNumeric()) {
-				Double valorNumerico = new Double(0);
+				Double valorNumerico = Double.valueOf(0);
 				try {
 					valorNumerico = CommonUtils.numberFormatter.parse(values_ == null || values_.isEmpty() ? "0,00" : values_.iterator()
 							.next());

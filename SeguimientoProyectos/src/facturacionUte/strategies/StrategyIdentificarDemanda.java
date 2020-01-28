@@ -545,7 +545,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					if (Character.isDigit(c_)){
 						str_.append(String.valueOf(c_));
 					}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
-						Long num = new Long(str_.toString().trim());
+						Long num = Long.valueOf(str_.toString().trim());
 						arr.add(num);
 						str_ = new StringBuilder();
 					}
@@ -556,7 +556,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 				for (int i=0;i<length_;i++){
 					if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
 						String[] splitter2 = splitter[i].split(PCMConstants.REGEXP_POINT);
-						Long num = new Long(splitter2[0].trim());
+						Long num = Long.valueOf(splitter2[0].trim());
 						arr.add(num);
 					}
 				}

@@ -205,12 +205,12 @@ public class GeneradorPresentaciones {
 		APP_AREA.put(appNames[4].substring(1,appNames[4].length()-1), "Programas Formativos");
 		APP_AREA.put(appNames[5].substring(1,appNames[5].length()-1), "Programas Sanitarios");
 
-		EPIGRAFES.put("Nuevo Trabajo", new Integer(1));
-		EPIGRAFES.put("Actuaciones en Base de Datos", new Integer(2));
-		EPIGRAFES.put("Necesidad de cambios funcionales", new Integer(3));
-		EPIGRAFES.put("Consulta funcional", new Integer(4));		
-		EPIGRAFES.put("Incidencia a resolver por el CDISM", new Integer(5));		
-		EPIGRAFES.put("Incidencia competencia de otros sistemas", new Integer(5));
+		EPIGRAFES.put("Nuevo Trabajo", Integer.valueOf(1));
+		EPIGRAFES.put("Actuaciones en Base de Datos", Integer.valueOf(2));
+		EPIGRAFES.put("Necesidad de cambios funcionales", Integer.valueOf(3));
+		EPIGRAFES.put("Consulta funcional", Integer.valueOf(4));		
+		EPIGRAFES.put("Incidencia a resolver por el CDISM", Integer.valueOf(5));		
+		EPIGRAFES.put("Incidencia competencia de otros sistemas", Integer.valueOf(5));
 	}	
 	
 	protected final void initEntitiesFactories(final String entitiesDictionary) {
@@ -454,7 +454,7 @@ public class GeneradorPresentaciones {
 
 	protected final Long getCode(String peticionId){
 			
-		Long numeroPeticion = new Long(-1);	
+		Long numeroPeticion = Long.valueOf(-1);	
 		if (peticionId == null){
 			return numeroPeticion;
 		}
@@ -467,14 +467,14 @@ public class GeneradorPresentaciones {
 				if (Character.isDigit(c_)){
 					str_.append(String.valueOf(c_));
 				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
-					numeroPeticion = new Long(str_.toString().trim());
+					numeroPeticion = Long.valueOf(str_.toString().trim());
 					break;
 				}
 			}
 		}else{			
 			if (peticionId.length() > 0 && Character.isDigit(peticionId.charAt(0))){
 				String[] splitter2 = peticionId.split(PCMConstants.REGEXP_POINT);
-				numeroPeticion = new Long(splitter2[0].trim());
+				numeroPeticion = Long.valueOf(splitter2[0].trim());
 			}		
 		}
 		
@@ -1031,7 +1031,7 @@ public class GeneradorPresentaciones {
 				bufferMessages.append(aplicacionRochade + ": dato (9): El % de avance no estÃ¡ consignado para la tarea global <'" + descrTareaGlobal + "'> no estÃ¡ consignada{}");
 				return "err9089";
 			}
-			newText = new Double(newText_d.doubleValue()*100.0).intValue() + "%";
+			newText = Double.valueOf(newText_d.doubleValue()*100.0).intValue() + "%";
 		}else if (text.indexOf("(5)")!= -1){
 			newText = "";
 			newText = CommonUtils.convertDateToShortFormatted(
@@ -1116,9 +1116,9 @@ public class GeneradorPresentaciones {
 		
 		Number actualCounter = counterActuaPerApp.get(app);			
 		if (actualCounter == null){
-			actualCounter = new Integer(0);
+			actualCounter = Integer.valueOf(0);
 		}
-		counterActuaPerApp.put(app, new Double(actualCounter.doubleValue() + incremento));
+		counterActuaPerApp.put(app, Double.valueOf(actualCounter.doubleValue() + incremento));
 	}
 	
 	/** Incrementa el nÃºmero de vivas/finalizadas por Subdireccion **/	
@@ -1140,14 +1140,14 @@ public class GeneradorPresentaciones {
 			if (mapa1 == null || mapa1.isEmpty()){
 				mapa1 = new HashMap<String, Number>();
 			}
-			mapa1.put(app, new Integer(0));
+			mapa1.put(app, Integer.valueOf(0));
 			counterEstadosGlobalesPerApp.put(TAREAS_ACABADAS, mapa1);
 			
 			Map<String, Number> mapa2 = counterEstadosGlobalesPerApp.get(TAREAS_EN_CURSO);
 			if (mapa2 == null || mapa2.isEmpty()){
 				mapa2 = new HashMap<String, Number>();
 			}
-			mapa2.put(app, new Integer(0));
+			mapa2.put(app, Integer.valueOf(0));
 			counterEstadosGlobalesPerApp.put(TAREAS_EN_CURSO, mapa2);
 			
 		}			
@@ -1156,9 +1156,9 @@ public class GeneradorPresentaciones {
 			Map<String, Number> existingMap = counterEstadosGlobalesPerApp.get(estadoGlobal);
 			Number actualCounter = existingMap.get(app);
 			if (actualCounter == null){
-				actualCounter = new Double(0);
+				actualCounter = Double.valueOf(0);
 			}
-			existingMap.put(app, new Double(actualCounter.doubleValue() + incremento.doubleValue()));
+			existingMap.put(app, Double.valueOf(actualCounter.doubleValue() + incremento.doubleValue()));
 		}	
 	}
 	
@@ -1167,9 +1167,9 @@ public class GeneradorPresentaciones {
 		
 		Number actualCounter = counterActuaPerApp.get(app);
 		if (actualCounter == null){
-			actualCounter = new Integer(0);
+			actualCounter = Integer.valueOf(0);
 		}
-		counterActuaPerApp.put(app, new Double(actualCounter.doubleValue() + incremento));
+		counterActuaPerApp.put(app, Double.valueOf(actualCounter.doubleValue() + incremento));
 	}
 	
 	/** Incrementa el nÃºmero de actuaciones en un determinado periodo de tiempo**/
@@ -1200,7 +1200,7 @@ public class GeneradorPresentaciones {
 					Map.Entry<Number,Number> entry = entries.next();
 					Integer actualCounter = (Integer) entry.getKey();
 					Double actualMediaTiempoRespuesta = (Double) entry.getValue();
-					newContadorOcurrencias = new Integer(actualCounter.intValue() + 1);
+					newContadorOcurrencias = Integer.valueOf(actualCounter.intValue() + 1);
 					newMediaTiempoRespuesta =  (actualMediaTiempoRespuesta + Double.valueOf(dias))/ newContadorOcurrencias;
 					
 					ocurrenciasYmediaAtencion.remove(actualCounter);
@@ -1209,13 +1209,13 @@ public class GeneradorPresentaciones {
 				
 			}else{
 				Map<Number,Number> ocurrenciasYmediaAtencion = new HashMap<Number,Number>();
-				ocurrenciasYmediaAtencion.put(new Integer(1), new Double(dias));
+				ocurrenciasYmediaAtencion.put(Integer.valueOf(1), Double.valueOf(dias));
 				existingMap.put(weekOfDate, ocurrenciasYmediaAtencion);
 			}
 		}else{
 			Map<String, Map<Number,Number>> newMap = new HashMap<String, Map<Number,Number>>();
 			Map<Number,Number> ocurrenciasYmediaAtencion = new HashMap<Number,Number>();
-			ocurrenciasYmediaAtencion.put(new Integer(1), new Double(dias));
+			ocurrenciasYmediaAtencion.put(Integer.valueOf(1), Double.valueOf(dias));
 			newMap.put(weekOfDate, ocurrenciasYmediaAtencion);
 			counterActuaPerApp.put(app, newMap);
 		}		
@@ -1384,23 +1384,23 @@ public class GeneradorPresentaciones {
 		Iterator<String> appsIterator = CON_SOPORTE_EN_PRODUCCION.keySet().iterator();
 		while (appsIterator.hasNext()){
 			final String app = appsIterator.next();
-			mapaAcabadas.put(app, new Integer(0));
-			mapaEnCurso.put(app, new Integer(0));
-			mapaAcabadasHrs.put(app, new Double(0));
-			mapaEnCursoHrs.put(app, new Double(0));
-			counterAllIntervencionesByApp.put(app, new Integer(0));
-			counterAllEffortNuevosRequerByApp.put(app, new Double(0));
+			mapaAcabadas.put(app, Integer.valueOf(0));
+			mapaEnCurso.put(app, Integer.valueOf(0));
+			mapaAcabadasHrs.put(app, Double.valueOf(0));
+			mapaEnCursoHrs.put(app, Double.valueOf(0));
+			counterAllIntervencionesByApp.put(app, Integer.valueOf(0));
+			counterAllEffortNuevosRequerByApp.put(app, Double.valueOf(0));
 			
-			counterAllNuevosRequerByApp.put(app, new Integer(0));
-			counterAllIntervencionesEffortByApp.put(app, new Double(0));
+			counterAllNuevosRequerByApp.put(app, Integer.valueOf(0));
+			counterAllIntervencionesEffortByApp.put(app, Double.valueOf(0));
 			
 			Map<String, Number> effortTiposDeIntervencionesByApp = new HashMap<String, Number>();
 			Map<String, Number> tiposDeIntervencionesByApp = new HashMap<String, Number>();
 			Iterator<String> epligrafesIterator = EPIGRAFES.keySet().iterator();
 			while (epligrafesIterator.hasNext()){
 				final String epigrafe = epligrafesIterator.next();
-				tiposDeIntervencionesByApp.put(epigrafe, new Integer(0));
-				effortTiposDeIntervencionesByApp.put(epigrafe, new Double(0));
+				tiposDeIntervencionesByApp.put(epigrafe, Integer.valueOf(0));
+				effortTiposDeIntervencionesByApp.put(epigrafe, Double.valueOf(0));
 			}
 			counterAllIntervencionesByTipoYApp.put(app, tiposDeIntervencionesByApp);			
 		}
@@ -1459,7 +1459,7 @@ public class GeneradorPresentaciones {
 				bufferMessages.append("En la tarea <" + taskName + "> debe consignar el epÃ­grafe.{}");
 				continue;
 			}
-			Integer orderOfEpigrafe = new Integer(epigrafeO_);
+			Integer orderOfEpigrafe = Integer.valueOf(epigrafeO_);
 			
 			String nombreEpigrafe = getKeyOfValueInMap(EPIGRAFES, orderOfEpigrafe);
 			
@@ -2352,7 +2352,7 @@ public class GeneradorPresentaciones {
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
 				Map<Integer,Number> mapVolumenYEsfuerzo = new HashMap<Integer,Number>();
-				mapVolumenYEsfuerzo.put(new Integer(0), new Double(0));
+				mapVolumenYEsfuerzo.put(Integer.valueOf(0), Double.valueOf(0));
 				countersEnPlazoByApp_Finished.put(app, mapVolumenYEsfuerzo);
 			}
 			countersByPlazoAndByApp.put(KEY_FINISHED_ENPLAZO, countersEnPlazoByApp_Finished);
@@ -2365,7 +2365,7 @@ public class GeneradorPresentaciones {
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
 				Map<Integer,Number> mapVolumenYEsfuerzo = new HashMap<Integer,Number>();
-				mapVolumenYEsfuerzo.put(new Integer(0), new Double(0));
+				mapVolumenYEsfuerzo.put(Integer.valueOf(0), Double.valueOf(0));
 				countersFueraPlazoByApp_Finished.put(app, mapVolumenYEsfuerzo);
 			}
 			countersByPlazoAndByApp.put(KEY_FINISHED_FUERAPLAZO, countersFueraPlazoByApp_Finished);
@@ -2378,7 +2378,7 @@ public class GeneradorPresentaciones {
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
 				Map<Integer,Number> mapVolumenYEsfuerzo = new HashMap<Integer,Number>();
-				mapVolumenYEsfuerzo.put(new Integer(0), new Double(0));
+				mapVolumenYEsfuerzo.put(Integer.valueOf(0), Double.valueOf(0));
 				countersEnPlazoByApp_EnCurso.put(app, mapVolumenYEsfuerzo);
 			}
 			countersByPlazoAndByApp.put(KEY_ENCURSO_ENPLAZO, countersEnPlazoByApp_EnCurso);
@@ -2391,7 +2391,7 @@ public class GeneradorPresentaciones {
 			while (appsIterator.hasNext()){
 				final String app = appsIterator.next();
 				Map<Integer,Number> mapVolumenYEsfuerzo = new HashMap<Integer,Number>();
-				mapVolumenYEsfuerzo.put(new Integer(0), new Double(0));
+				mapVolumenYEsfuerzo.put(Integer.valueOf(0), Double.valueOf(0));
 				countersFueraPlazoByApp_EnCurso.put(app, mapVolumenYEsfuerzo);
 			}
 			countersByPlazoAndByApp.put(KEY_ENCURSO_FUERAPLAZO, countersFueraPlazoByApp_EnCurso);

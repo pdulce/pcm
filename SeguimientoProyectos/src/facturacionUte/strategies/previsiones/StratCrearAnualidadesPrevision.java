@@ -69,9 +69,9 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 				datosPrevision = dataAccess.searchByCriteria(aux, new String[]{orderField}, IAction.ORDEN_DESCENDENTE).iterator().next();
 			}
 			
-			Long idPrevisionContrato = new Long (datosPrevision.getValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_1_ID).getName()).toString());
+			Long idPrevisionContrato = Long.valueOf (datosPrevision.getValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_1_ID).getName()).toString());
 
-			final Long idConcurso = new Long (datosPrevision.getValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_2_ID_CONCURSO).getName()).toString());
+			final Long idConcurso = Long.valueOf (datosPrevision.getValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_2_ID_CONCURSO).getName()).toString());
 			FieldViewSet concurso = new FieldViewSet(concursoEntidad);
 			concurso.setValue(concursoEntidad.searchField(ConstantesModelo.CONCURSO_1_ID).getName(), idConcurso);
 			concurso = dataAccess.searchEntityByPk(concurso);

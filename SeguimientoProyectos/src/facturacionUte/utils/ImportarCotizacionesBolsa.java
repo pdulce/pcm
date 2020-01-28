@@ -195,7 +195,7 @@ public class ImportarCotizacionesBolsa {
 							valueCell = cell.getNumericCellValue();
 						}catch (Throwable excFormato){
 							if (cell.getStringCellValue().equals("n.d.")){
-								valueCell = new Double (0);
+								valueCell = Double.valueOf (0);
 							}
 						}
 					} else {

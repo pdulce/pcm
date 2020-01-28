@@ -51,7 +51,7 @@ public class StratBorrarAnualidadesPrevision extends DefaultStrategyRequest {
 					CommonUtils.getEntitiesDictionary(req), ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_ENTIDAD);
 			final IEntityLogic mesPrevisionAnualidadEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
 					CommonUtils.getEntitiesDictionary(req), ConstantesModelo.RESULTADO_PREVISION_MES_ENTIDAD);
-			final Long idPrevisionConcurso = new Long (datosPrevision.getValue(previsionEntidad.searchField(
+			final Long idPrevisionConcurso = Long.valueOf (datosPrevision.getValue(previsionEntidad.searchField(
 					ConstantesModelo.DATOS_PREVISION_CONTRATO_1_ID).getName()).toString());
 
 			final FieldViewSet filterAnualidades = new FieldViewSet(anualidadEntidad);

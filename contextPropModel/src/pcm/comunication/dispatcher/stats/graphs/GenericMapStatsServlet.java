@@ -38,7 +38,7 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 
 		double sumarizadorPorRegion = 0.0, contabilizadasSSCC = 0.0;
 
-		Number total = new Double(0.0);
+		Number total = Double.valueOf(0.0);
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
@@ -52,7 +52,7 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 				if (fieldsForCategoriaDeAgrupacion[0].getAbstractField().isString()){
 					String codeMayor2Digitos = (String) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());
 					if (codeMayor2Digitos.length() > 2){
-						identificadorRegional = new Integer(codeMayor2Digitos.substring(0,2));
+						identificadorRegional = Integer.valueOf(codeMayor2Digitos.substring(0,2));
 					}
 				}else{
 					identificadorRegional = (Integer) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());

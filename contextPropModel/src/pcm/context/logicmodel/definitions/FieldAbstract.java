@@ -183,8 +183,8 @@ public class FieldAbstract implements IFieldAbstract, Serializable {
 			}
 			if (this.isBoolean()) {
 				this.setMinLength(1);
-				this.minvalue = new Double(0);
-				this.maxvalue = new Double(1);
+				this.minvalue = Double.valueOf(0);
+				this.maxvalue = Double.valueOf(1);
 				this.defaultValueObject = Boolean.FALSE;
 			}
 		}

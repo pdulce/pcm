@@ -119,7 +119,7 @@ public final class RelationalAndCIFValidator {
 				if (minorValue_ == null || mayorValue_ == null){
 					return false;
 				}else{
-					return ((Date) minorValue).compareTo((Date) mayorValue) <= 0;
+					return minorValue.compareTo(mayorValue) <= 0;
 				}
 			} catch (ParseException e) {
 				throw new RuntimeException("Parsing date field");				

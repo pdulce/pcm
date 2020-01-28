@@ -53,8 +53,8 @@ public class ComparatorBySameProjectAndEpigrafe implements Comparator<FieldViewS
 					}
 				}			
 				
-				Integer status1 = new Integer(status1_.concat(epigrafe1));
-				Integer status2 = new Integer(status2_.concat(epigrafe2));
+				Integer status1 = Integer.valueOf(status1_.concat(epigrafe1));
+				Integer status2 = Integer.valueOf(status2_.concat(epigrafe2));
 				if (status1 < status2) {
 					resultado = -1;
 				}else if (status1 > status2) {

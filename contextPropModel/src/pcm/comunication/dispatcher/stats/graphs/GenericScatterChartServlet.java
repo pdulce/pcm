@@ -384,7 +384,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				if (tamanioMuestral < tamanioPoblacional && fieldForClasifyResults != null) {
 					Integer maximoExtraibleParaEsteValor = cantidadesExtraiblesDeValoresEnMuestra.get(clavevalorAgrupacion);
 					if (cantidadesExtraidasDeValoresEnMuestra.get(clavevalorAgrupacion) == null) {
-						cantidadesExtraidasDeValoresEnMuestra.put(clavevalorAgrupacion, new Integer(0));
+						cantidadesExtraidasDeValoresEnMuestra.put(clavevalorAgrupacion, Integer.valueOf(0));
 					}
 					int extraidasHastaAhora = cantidadesExtraidasDeValoresEnMuestra.get(clavevalorAgrupacion).intValue();
 					if (extraidasHastaAhora == maximoExtraibleParaEsteValor.intValue()) {
