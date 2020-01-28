@@ -51,7 +51,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>PrincipalServlet</servlet-name>
-		<url-pattern>/SeguimientoProyectos</url-pattern>
+		<url-pattern>/prjManager</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
