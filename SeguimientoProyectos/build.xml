@@ -1,13 +1,27 @@
 <?xml version="1.0" ?> 
 <project name="SeguimientoPrjs" default="testHTTPPort">
 	
-	<property environment="env"/>
+	<!--for Linux station-->
+	<!--<property environment="env"/>
 	<property name="apache.home" value="${env.CATALINA_HOME}"/>
 	<property name="jenkins.workspace" value="${env.JENKINS_WORKSPACE_PATH}"/>
-	<property name="app.work.path" value="prjmanager/SeguimientoProyectos"/>
-		
+	<property name="base.work.path" value="prjmanager"/>
+	-->
+	
+	<!--for Windows station-->
+	<property name="apache.home" value="C:\\apache-tomcat-7.0.85"/>
+	<property name="jenkins.workspace" value="C:\\git"/>
+	<property name="base.work.path" value="pcm"/>
+	
+	<property name="app.work.path" value="${jenkins.workspace}/${base.work.path}/SeguimientoProyectos"/>
+	<property name="pcm.work.path" value="${jenkins.workspace}/${base.work.path}/contextPropModel"/>
+	<property name="dist.path" value="${jenkins.workspace}/${base.work.path}/dist"/>
+	<property name="url.deploy" value="http://localhost:8083"/>
+	
+	<!-- fin propiedades -->
+	
 	<path id="compile.classpath">
-	    <fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/lib">
+	    <fileset dir="${app.work.path}/WebContent/WEB-INF/lib">
 	        <include name="*.jar"/>
 	    </fileset>
 		<fileset dir="${apache.home}/lib">
@@ -16,51 +30,47 @@
 	 </path>
 	
     <target name="init">
-    	<mkdir dir="${jenkins.workspace}/${app.work.path}/build/classes"/>
-        <mkdir dir="${jenkins.workspace}/prjmanager/dist" />
+    	<mkdir dir="${app.work.path}/build/classes"/>
+        <mkdir dir="${dist.path}" />
     </target>
 	
     <target name="compile" depends="init">
-        <javac destdir="${jenkins.workspace}/${app.work.path}/build/classes"
-        	includeAntRuntime="false" debug="true">            
+        <javac destdir="${app.work.path}/build/classes"
+        	includeAntRuntime="false" debug="true">
 			<compilerarg value="-Xlint"/>
         	<src>
-	          <pathelement location="${jenkins.workspace}/prjmanager/contextPropModel/src" />
-	          <pathelement location="${jenkins.workspace}/${app.work.path}/src" />
+	          <pathelement location="${pcm.work.path}/src" />
+	          <pathelement location="${app.work.path}/src" />
 	        </src>
         	<classpath refid="compile.classpath"/>
        </javac>
-       <copy todir="${jenkins.workspace}/${app.work.path}/build/classes/messagesApp">
-    	  <fileset dir="${jenkins.workspace}/${app.work.path}/src/messagesApp"/>
+       <copy todir="${app.work.path}/build/classes/messagesApp">
+    	  <fileset dir="${app.work.path}/src/messagesApp"/>
        </copy>
-       <copy todir="${jenkins.workspace}/${app.work.path}/build/classes/lang">
-    	   <fileset dir="${jenkins.workspace}/${app.work.path}/src/lang"/>
+       <copy todir="${app.work.path}/build/classes/lang">
+    	   <fileset dir="${app.work.path}/src/lang"/>
        </copy>
     </target>
      
     <target name="war" depends="compile">
-        <war duplicate="preserve" destfile="${jenkins.workspace}/prjmanager/dist/sg.war" 
-        	webxml="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/web.xml">
-            <fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/css"/>
-        	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/img"/>
-           	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/js"/>
-           	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/jsp"/>
-        	<fileset dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF"/>
-            <lib dir="${jenkins.workspace}/${app.work.path}/WebContent/WEB-INF/lib"/>
-            <classes dir="${jenkins.workspace}/${app.work.path}/build/classes"/>
+        <war duplicate="preserve" destfile="${dist.path}/sg.war" 
+        	webxml="${app.work.path}/WebContent/WEB-INF/web.xml">
+            <fileset dir="${app.work.path}/WebContent"/>            
+            <lib dir="${app.work.path}/WebContent/WEB-INF/lib"/>
+            <classes dir="${app.work.path}/build/classes"/>
         </war>
     </target>
 	
 	<target name="testHTTPPort" depends="war">
 		<condition property="online">
-		  <isreachable url="http://localhost:8081"/>
+		  <isreachable url="${url-deploy}"/>
 		</condition>
 		<echo message="Servidor arrancado: ${online}"/>
 	</target>
 	
     <target name="clean">
-        <delete dir="${jenkins.workspace}/prjmanager/dist" quiet="true"/>
-        <delete dir="${jenkins.workspace}/${app.work.path}/build/classes" quiet="true"/>
+        <delete dir="${dist.path}" quiet="true"/>
+        <delete dir="${app.work.path}/build/classes" quiet="true"/>
     </target>
      
 </project>
