@@ -45,8 +45,8 @@
 	        </src>
         	<classpath refid="compile.classpath"/>
        </javac>
-       <copy todir="${pcm.work.path}/build/classes/pcm/messagesPCM">
-       	  <fileset dir="${app.work.path}/src/pcm/messagesPCM"/>
+       <copy todir="${app.work.path}/build/classes/pcm/messagesPCM">
+       	  <fileset dir="${pcm.work.path}/src/pcm/messagesPCM"/>
        </copy>
        <copy todir="${app.work.path}/build/classes/messagesApp">
     	  <fileset dir="${app.work.path}/src/messagesApp"/>
