@@ -82,7 +82,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</form>
 				<grid title="Listado de porcentajes de participacion en la UTE" dependsOf="empresaUTE" orderDirection="asc"
-					defaultOrderField="porcentaje_facturacion.4" eventsRegistered="update"
+					defaultOrderField="porcentaje_facturacion.4" eventsRegistered="create,update"
 					serviceRef="GestionPorcentajesParticipacion">
 					<fieldViewSet entitymodel="porcentaje_facturacion"
 						nameSpace="porcentaje_facturacion">
@@ -106,7 +106,37 @@ xmlns:service="http://pcm.framework.org/service"
 	</service>
 	
 	<service name="GestionPorcentajesParticipacion" profile="ADMINISTRADOR, CONSULTOR_UTE">
+	    
+	    <action event="create" submitError="GestionPorcentajesParticipacion.create"
+			submitSucces="GestionPorcentajesParticipacion.update">
 
+			<viewComponent>
+				<form columns="52" title="Edicion Participacion en UTE">
+
+					<fieldViewSet entitymodel="porcentaje_facturacion"
+						nameSpace="porcentaje_facturacion">
+
+						<fieldset legend="Porcentaje de Participacion en UTE">
+							<fieldView mappingTo="1" editable="false" />
+							<fieldView mappingTo="2" type="select" editable="true"><!-- name="id_empresa" 
+									respeta el name del id-campo -->
+								<optionValues entitymodel="empresaUTE"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" type="select" editable="true">
+								<optionValues entitymodel="concurso"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="4" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+	    
+	    
 		<action event="update" submitError="GestionPorcentajesParticipacion.update"
 			submitSucces="GestionPorcentajesParticipacion.update">
 
