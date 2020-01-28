@@ -113,7 +113,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 							valores++;
 							posicionAgrupacion++;
 							//extraigo los dos valores de los fields de agrupacion
-							String valueOfSecondAgrupateField = (String) claveFSet.getFieldvalue(fieldsForGroupBy[1]).getValue();//second agrupate field
+							String valueOfSecondAgrupateField = claveFSet.getFieldvalue(fieldsForGroupBy[1]).getValue();//second agrupate field
 							subTotal = isLogarithmicScale(scaleParamValue) ? Math.log(subTotal): subTotal;
 							if (registrosJSON.get(valueOfSecondAgrupateField) == null){								
 								Map<String, Number> subtotalPorCategoriaDeEjeX = new HashMap<String, Number>();//fecha con agregado

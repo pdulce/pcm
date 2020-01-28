@@ -653,7 +653,7 @@ public class FieldView implements IFieldView, Serializable {
 		final NodeList optionValuesSet = nodeField.getElementsByTagName(IFieldView.OPTION_SET_NODENAME);
 		if (optionValuesSet.getLength() == 1) {
 			final Element optionSet = (Element) optionValuesSet.item(0);
-			Element el = (Element) optionSet;
+			Element el = optionSet;
 			boolean multiple = false;
 			if (el.hasAttribute(ContextProperties.SELECTION_MULTIPLE_ATTR)) {
 				multiple = el.getAttribute(ContextProperties.SELECTION_MULTIPLE_ATTR).equals(IViewComponent.TRUE);

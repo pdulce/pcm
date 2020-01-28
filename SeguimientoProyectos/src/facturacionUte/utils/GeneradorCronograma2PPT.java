@@ -509,7 +509,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					Date fechEntregaActualModulo = entregas.get(entregaActualEnModulo);
 					Date fechEntregaParaEsteTrabajo = entregas.get(entregaParaEsteTrabajo);
 					if (fechEntregaParaEsteTrabajo != null && fechEntregaParaEsteTrabajo.after(fechEntregaActualModulo)){
-						Date fechaEntrega = (Date) entregas.get(entregaParaEsteTrabajo);
+						Date fechaEntrega = entregas.get(entregaParaEsteTrabajo);
 						ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName(), entregaParaEsteTrabajo);
 						ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), fechaEntrega);
 						if (estadoTarea.startsWith("Produccion")/*esta implantada*/){

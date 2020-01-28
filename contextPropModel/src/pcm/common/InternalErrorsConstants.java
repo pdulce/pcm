@@ -13,7 +13,7 @@ package pcm.common;
  * @since 2014-03-31
  */
 
-public interface InternalErrorsConstants {
+public final class InternalErrorsConstants {
 
 	public static final String ARG_0 = "\\$0";
 

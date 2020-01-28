@@ -36,7 +36,7 @@
     </target>
 	
     <target name="compile" depends="init">
-        <javac destdir="${app.work.path}/build/classes"
+        <javac encoding="ISO-8859-1" destdir="${app.work.path}/build/classes"
         	includeAntRuntime="false" debug="true">
 			<compilerarg value="-Xlint"/>
         	<src>

@@ -5,13 +5,16 @@ package pcm.context.logicmodel.persistence.datasource;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import pcm.common.InternalErrorsConstants;
 import pcm.common.exceptions.PCMConfigurationException;
+import pcm.comunication.dispatcher.BasePCMServlet;
 import pcm.comunication.dispatcher.ContextApp;
 import pcm.context.logicmodel.persistence.DAOConnection;
 
@@ -26,8 +29,6 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 
 	private String url, driverDefined;
 
-	private boolean latinConversion = false;
-
 	private transient Driver driver;
 
 	private Properties info;
@@ -37,9 +38,6 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 	@Override
 	public void initDataSource(final String url_, final String user, final String passwd, final String driver_){
 		this.url = url_;
-		if (url_.endsWith(".db")) {
-			this.latinConversion = true;
-		}
 		this.driverDefined = driver_;
 		this.info = new Properties();
 		this.info.put(USER_, user);
@@ -51,7 +49,6 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 		this.driverDefined = appCtx.getDriverDDBB();
 		this.info = new Properties();
 		if (appCtx.getSchemaDDBB().endsWith(".db")) {
-			this.latinConversion = true;
 			String schemaFileDirectory = appCtx.getSchemaDDBB();
 			File database = new File(appCtx.getBaseServerPath().concat("\\").concat(schemaFileDirectory));
 			if (!database.exists()) {
@@ -67,35 +64,35 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 
 	@Override
 	public DAOConnection getConnection() throws PCMConfigurationException {
+		
 		try {
 			if (this.driver == null) {
-				final Class<?> driverClass = Class.forName(this.driverDefined);// reflection
-				this.driver = (Driver) driverClass.newInstance();
+				@SuppressWarnings("unchecked")
+				Class<Driver> classType = (Class<Driver>) Class.forName(this.driverDefined);
+				this.driver = (Driver) classType.getDeclaredConstructors()[0].newInstance();
+				Connection conn = this.driver.connect(this.url, this.info);
+				final DAOConnection daoConnection = new DAOConnection();
+				daoConnection.setConnectionJDBC(conn);
+				return daoConnection;
 			}
-			Connection conn = null;
-			/*if (this.latinConversion) {
-				this.info.put("charSet", "UTF-8");
-			}*/
-			conn = this.driver.connect(this.url, this.info);
-			final DAOConnection daoConnection = new DAOConnection();
-			daoConnection.setConnectionJDBC(conn);
-			return daoConnection;
+		
+		} catch (SQLException sqlE) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", sqlE);
+			throw new PCMConfigurationException("Error sqlException");
+		} catch (InvocationTargetException e1) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e1);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
+		} catch (IllegalAccessException e2) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e2);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
+		} catch (ClassNotFoundException e3) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e3);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
+		} catch (InstantiationException e4) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e4);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
 		}
-		catch (final java.lang.NullPointerException nullExc) {
-			throw new PCMConfigurationException(InternalErrorsConstants.BBDD_CONNECT_EXCEPTION, nullExc);
-		}
-		catch (final SQLException xsqL) {
-			throw new PCMConfigurationException(InternalErrorsConstants.BBDD_CONNECT_EXCEPTION, xsqL);
-		}
-		catch (final ClassNotFoundException clssExc) {
-			throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, clssExc);
-		}
-		catch (final IllegalAccessException ilegExc) {
-			throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, ilegExc);
-		}
-		catch (final InstantiationException instanceExc) {
-			throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, instanceExc);
-		}
+		return null;
 	}
 
 	@Override

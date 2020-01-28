@@ -706,7 +706,7 @@ public class PaginationGrid extends AbstractComponent {
 		orderPressed_ = orderPressed_==null?getDefaultOrderDirection(): orderPressed_;//by default
 		Iterator<IFieldView> iteradorCamposOrdenacion = this.getAllFieldViewDefs().iterator();
 		while (iteradorCamposOrdenacion.hasNext()){
-			IFieldView orderField = (IFieldView) iteradorCamposOrdenacion.next();			
+			IFieldView orderField = iteradorCamposOrdenacion.next();			
 			String nameOfOrderField = orderField.getQualifiedContextName();
 			String nameOfColumnOrder = ORDENACION.concat(nameOfOrderField);
 			String revertirOrden = getDefaultOrderDirection();

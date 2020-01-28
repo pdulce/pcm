@@ -1,10 +1,12 @@
 package pcm.context.logicmodel.factory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
-import pcm.common.InternalErrorsConstants;
 import pcm.common.exceptions.PCMConfigurationException;
+import pcm.comunication.dispatcher.BasePCMServlet;
 import pcm.comunication.dispatcher.ContextApp;
 import pcm.context.logicmodel.persistence.IDAOImpl;
 
@@ -34,21 +36,26 @@ public class DAOImplementationFactory implements IDAOImplementationFactory {
 	public void initDAOTraductorImpl(final ContextApp ctx, final Map<String, String> auditFieldSet) throws PCMConfigurationException {
 		IDAOImpl daoImpl = null;
 		try {
-			final Class<?> jdbcImpl = Class.forName(ctx.getDSourceImpl());// reflection
-			daoImpl = (IDAOImpl) jdbcImpl.newInstance();
+			@SuppressWarnings("unchecked")
+			Class<IDAOImpl> classType = (Class<IDAOImpl>) Class.forName(ctx.getDSourceImpl());
+			daoImpl = (IDAOImpl) classType.getDeclaredConstructors()[0].newInstance();
 			daoImpl.setContext(ctx);
 			daoImpl.setAuditFieldset(auditFieldSet);
+			this.implHash.put(ctx.getDSourceImpl(), daoImpl);
+		} catch (InvocationTargetException e1) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e1);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
+		} catch (IllegalAccessException e2) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e2);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
+		} catch (ClassNotFoundException e3) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e3);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
+		} catch (InstantiationException e4) {
+			BasePCMServlet.log.log(Level.SEVERE, "Error", e4);
+			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
 		}
-		catch (final ClassNotFoundException clssExc) {
-			throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, clssExc);
-		}
-		catch (final IllegalAccessException ilegExc) {
-			throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, ilegExc);
-		}
-		catch (final InstantiationException instanceExc) {
-			throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, instanceExc);
-		}
-		this.implHash.put(ctx.getDSourceImpl(), daoImpl);
+		
 	}
 
 	@Override

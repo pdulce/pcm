@@ -163,17 +163,11 @@ public abstract class AbstractPcmAction implements IAction {
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				}
 				
-				if (strategy == null) {
-					try {
-						strategy = (IStrategy) Class.forName(strategyName).newInstance();
-						this.getStrategyFactory().addStrategy(strategyName, strategy);
-					}
-					catch (final Throwable instantiating) {
-						BasePCMServlet.log.log(Level.SEVERE, "Error", instantiating);
-						throw new StrategyException(instantiating);
-					}
+				if (strategy != null) {
+					this.getStrategyFactory().addStrategy(strategyName, strategy);
+					strategiasAEjecutar.add(strategy);
 				}
-				strategiasAEjecutar.add(strategy);
+				
 			}
 		}
 		if (strategiasAEjecutar.isEmpty()) {
