@@ -70,11 +70,12 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				@SuppressWarnings("unchecked")
 				Class<Driver> classType = (Class<Driver>) Class.forName(this.driverDefined);
 				this.driver = (Driver) classType.getDeclaredConstructors()[0].newInstance();
-				Connection conn = this.driver.connect(this.url, this.info);
-				final DAOConnection daoConnection = new DAOConnection();
-				daoConnection.setConnectionJDBC(conn);
-				return daoConnection;
 			}
+			Connection conn = this.driver.connect(this.url, this.info);
+			final DAOConnection daoConnection = new DAOConnection();
+			daoConnection.setConnectionJDBC(conn);
+			return daoConnection;
+			
 		
 		} catch (SQLException sqlE) {
 			BasePCMServlet.log.log(Level.SEVERE, "Error", sqlE);
@@ -92,7 +93,6 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 			BasePCMServlet.log.log(Level.SEVERE, "Error", e4);
 			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
 		}
-		return null;
 	}
 
 	@Override
