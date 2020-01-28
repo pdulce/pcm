@@ -5,8 +5,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://pcm.framework.org/metamodel metamodel.xsd">
 
-	<configuration serverPath="C:\\apache-tomcat-7.0.85\\default">
-		<!-- serverPath="/usr/apache-tomcat-9.0.30/tmp0">-->
+	<configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">
+		<!-- serverPath="C:\\apache-tomcat-7.0.85\\default">-->
 		<entry key="appTitle" value="Seguimiento de Proyectos Lote GISS"></entry>
 		<entry key="auditActivated" value="false"></entry>
 		<entry key="template" value="/jsp/template.jsp"></entry>
