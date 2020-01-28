@@ -64,7 +64,7 @@
 	
 	<target name="testHTTPPort" depends="war">
 		<condition property="online">
-		  <isreachable url="${url-deploy}"/>
+		  <isreachable url="${url.deploy}"/>
 		</condition>
 		<echo message="Servidor arrancado: ${online}"/>
 	</target>
