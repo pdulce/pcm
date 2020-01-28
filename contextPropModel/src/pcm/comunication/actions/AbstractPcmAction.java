@@ -116,7 +116,7 @@ public abstract class AbstractPcmAction implements IAction {
 				try {
 					@SuppressWarnings("unchecked")
 					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
-					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance("");
+					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance();
 				} catch (InvocationTargetException e1) {
 					BasePCMServlet.log.log(Level.SEVERE, "Error", e1);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
@@ -148,7 +148,7 @@ public abstract class AbstractPcmAction implements IAction {
 				try {
 					@SuppressWarnings("unchecked")
 					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
-					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance("");					
+					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance();					
 				} catch (InvocationTargetException e1) {
 					BasePCMServlet.log.log(Level.SEVERE, "Error", e1);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
