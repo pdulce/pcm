@@ -1,4 +1,3 @@
-
 CREATE TABLE `categoria_profesional` (
   `ID_CATEGORIA` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `TIPO_CATEGORIA` varchar(8) NOT NULL,
@@ -78,8 +77,6 @@ CREATE TABLE INVERTIA_DATA
      FEC_IMPORTACION       DATE NOT NULL,
      ANYO_MES       VARCHAR2(7)
 );
-CREATE INDEX index_cotizaciones ON invertia_data (GRUPO);
-CREATE INDEX index_cotizaciones2 ON invertia_data (GRUPO, FECHA);
 CREATE TABLE `departamento` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -312,13 +309,6 @@ CREATE TABLE `tipoAplicacion` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `descripcion` varchar(60) NOT NULL
 );
-CREATE INDEX index_prev_anual ON resultado_prevision_anualidad(id_prevision_contrato);
-CREATE INDEX index_prev_mes ON resultado_prevision_mes(id_prevision_anualidad);
-CREATE INDEX index_FraCon ON facturacionMesPorConcurso (id_concurso);
-CREATE INDEX index_FraServ ON facturacionMesPorServicio (id_servicio);
-CREATE INDEX index_FraDpto ON facturacionMesPorDpto (id_dpto);
-CREATE INDEX index_FraApp ON facturacionMesPorApp (id_app);
-CREATE INDEX index_FraColab ON facturacionMesPorColaborador (id_colaborador);
 CREATE TABLE `datos_prevision_contrato` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `id_concurso` int(11) NOT NULL,
@@ -439,6 +429,18 @@ CREATE TABLE `sabana` (
   `Estado_peticion_Entrega` varchar(25) DEFAULT NULL,
   `Subdireccion` int(11) NOT NULL
  );
-
-
-
+CREATE INDEX index_cotizaciones ON invertia_data (GRUPO);
+CREATE INDEX index_cotizaciones2 ON invertia_data (GRUPO, FECHA);
+CREATE INDEX index_prev_anual ON resultado_prevision_anualidad(id_prevision_contrato);
+CREATE INDEX index_prev_mes ON resultado_prevision_mes(id_prevision_anualidad);
+CREATE INDEX index_FraCon ON facturacionMesPorConcurso (id_concurso);
+CREATE INDEX index_FraServ ON facturacionMesPorServicio (id_servicio);
+CREATE INDEX index_FraDpto ON facturacionMesPorDpto (id_dpto);
+CREATE INDEX index_FraApp ON facturacionMesPorApp (id_app);
+CREATE INDEX index_FraColab ON facturacionMesPorColaborador (id_colaborador);
+CREATE TABLE `porcentaje_facturacion` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `id_empresa` int(11) NOT NULL,
+  `id_concurso` int(11) NOT NULL,
+  `porcentaje` double DEFAULT NULL
+);

@@ -158,12 +158,22 @@
     <field mappingTo="2" name="nombre" type="string" length="50" required="true"/>
     <field mappingTo="3" name="responsable" type="string" length="150" required="false"/>
   </entity>
-   
+  
   <entity>
     <entityname>IVA</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="fecha_vigencia_desde" type="date" length="10" required="true"/>
     <field mappingTo="3" name="fecha_vigencia_hasta" type="date" length="10" required="true"/>
+    <field mappingTo="4" name="porcentaje" type="double" length="10" required="true"/>
+  </entity>
+   
+  <entity>
+    <entityname>porcentaje_facturacion</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>    
+    <field mappingTo="2" name="id_empresa" type="long" length="11" required="true"    	
+    			fkParentEntities="empresaUTE" fkParentFields="1"/>    			
+    <field mappingTo="3" name="id_concurso" type="long" length="11" required="true"    	
+    			fkParentEntities="concurso" fkParentFields="1"/>    
     <field mappingTo="4" name="porcentaje" type="double" length="10" required="true"/>
   </entity>
    
