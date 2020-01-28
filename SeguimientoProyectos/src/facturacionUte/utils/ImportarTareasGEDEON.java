@@ -48,7 +48,7 @@ import facturacionUte.common.ConstantesModelo;
  * @author 99GU3997
  *         Esta clase, sea el nomero de columnas que sea, leero una Excel y cargaro al menos los
  *         siguientes campos en una tabla SQLite:
- *         *********************
+ *         ****************************
  *         Observaciones
  *         Usuario creador
  *         Solicitante
