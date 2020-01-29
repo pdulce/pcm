@@ -9,10 +9,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class HelloSelenium {
-
+	
+	static {
+		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
+	}
+	
     public static void main(String[] args) {
         WebDriver driver = new FirefoxDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Long.valueOf(10));
+        WebDriverWait wait = new WebDriverWait(driver, Long.valueOf(5));
         try {
             driver.get("https://google.com/ncr");
             driver.findElement(By.name("q")).sendKeys("cheese" + Keys.ENTER);
