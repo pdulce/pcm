@@ -14,7 +14,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
-public class SignInPageTest implements Test {
+public class SignInPageTest{
 	
 	private WebElement selenium;
 
@@ -39,12 +39,5 @@ public class SignInPageTest implements Test {
     	Assert.assertTrue(selenium.findElement(By.id("entryForm.user")).isDisplayed());
     }
 
-
-
-	@Override
-	public Class<? extends Annotation> annotationType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
     
 }

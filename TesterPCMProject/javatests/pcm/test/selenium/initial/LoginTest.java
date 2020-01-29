@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 /***
  * Tests login feature
  */
-public class LoginTest implements Test {
+public class LoginTest {
 
 	private WebElement selenium;
 
@@ -25,12 +25,6 @@ public class LoginTest implements Test {
 		// Assert.assertTrue(webElem.isElementPresent("compose button"),
 		// "Login was unsuccessful");
 		Assert.assertTrue(selenium.findElement(By.id("entryForm.user")).isDisplayed());
-	}
-
-	@Override
-	public Class<? extends Annotation> annotationType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
