@@ -22,12 +22,12 @@ public class ContextApp implements Serializable {
 
 	private static final long serialVersionUID = 556666888190L;
 	
-	public static final String[] ITEM_NAMES = new String[] { "totulo", "diccionario entidades", "acceso a fuente de datos [JNDI | JDBC]",
-		"implementacion fuente de datos", "factoroa de implementacion de fuente de datos", "prefijo recurso JNDI",
-		"nombre recurso JNDI", "clase driver JDBC", "url de conexion voa JDBC", "esquema Base de Datos", "usuario Base de Datos",
-		"password Base de Datos", "hoja de estilos (especofica)", "ruta de plantilla genorica de pantalla",
-		"directorio de subida de ficheros a servidor", "autoroas activadas", "tamaoo de paginacion", "directorio de downloads",
-		"log de aplicacion" };
+	public static final String[] ITEM_NAMES = new String[] { "título", "diccionario entidades", "acceso a fuente de datos [JNDI | JDBC]",
+		"implementación fuente de datos", "factoría de implementación de fuente de datos", "prefijo recurso JNDI",
+		"nombre recurso JNDI", "clase driver JDBC", "url de conexión vía JDBC", "esquema Base de Datos", "usuario Base de Datos",
+		"password Base de Datos", "hoja de estilos (especofica)", "ruta de plantilla genérica de pantalla",
+		"directorio de subida de ficheros a servidor", "autorías activadas", "tamaño de paginación", "directorio de downloads",
+		"log de aplicación" };
 
 	private boolean auditOn;
 
@@ -87,11 +87,11 @@ public class ContextApp implements Serializable {
 	}
 	
 	public ContextApp(String appMetamodel_) {
-		this.itemValues[3] = "Solo para acceso voa JNDI";
+		this.itemValues[3] = "Solo para acceso vía JNDI";
 		this.itemValues[4] = this.itemValues[3];
 		this.itemValues[5] = this.itemValues[3];
 		this.itemValues[6] = this.itemValues[3];
-		this.itemValues[7] = "Solo para acceso voa JDBC";
+		this.itemValues[7] = "Solo para acceso vía JDBC";
 		this.itemValues[8] = this.itemValues[7];
 		this.itemValues[9] = this.itemValues[7];
 		this.itemValues[10] = this.itemValues[7];
