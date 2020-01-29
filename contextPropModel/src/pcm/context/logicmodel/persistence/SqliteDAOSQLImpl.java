@@ -48,7 +48,7 @@ public class SqliteDAOSQLImpl extends AnsiSQLAbstractDAOImpl {
 		cadena = cadena.replaceAll("ú", PCMConstants.PERCENTAGE_SCAPED);
 		cadena = cadena.replaceAll("ñ", PCMConstants.PERCENTAGE_SCAPED);
 		cadena = cadena.toUpperCase();
-		/** escapado rustico ***/
+		/** escapado rústico ***/
 		
 		return cadena;
 	}
