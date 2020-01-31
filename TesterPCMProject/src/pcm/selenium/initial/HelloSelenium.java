@@ -8,6 +8,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
+/** Clase ejemplo de uso de Selenium WebDriver.
+ * **/
 public class HelloSelenium {
 	
 	static {

@@ -6,7 +6,7 @@
   <name>PCM Tester</name>
   <description>Testeador de un site realizado con PCM</description>
   <build>
-    <sourceDirectory>javatests</sourceDirectory>
+    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
