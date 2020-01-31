@@ -20,7 +20,7 @@ public class HelloSelenium {
         try {
             driver.get("https://google.com/ncr");
             driver.findElement(By.name("q")).sendKeys("cheese" + Keys.ENTER);
-            WebElement firstResult = wait.until(presenceOfElementLocated(By.cssSelector("h3>div")));
+            WebElement firstResult = wait.until(presenceOfElementLocated(By.cssSelector("h3></a><div class=\"B6fmyf\"")));
             System.out.println(firstResult.getAttribute("textContent"));
         } finally {
             driver.quit();
