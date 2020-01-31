@@ -1,4 +1,4 @@
-package pcm.test.selenium.initial;
+package src.test;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 

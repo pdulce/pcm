@@ -1,4 +1,4 @@
-package pcm.test.selenium.initial;
+package pcm.selenium.initial;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
