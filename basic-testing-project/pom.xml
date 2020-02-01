@@ -25,11 +25,11 @@
 			<artifactId>selenium-java</artifactId>
 			<version>3.4.0</version>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-firefox-driver</artifactId>
 			<version>3.9.1</version>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 	<properties>
 		<maven.compiler.source>1.6</maven.compiler.source>
