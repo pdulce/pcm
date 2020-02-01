@@ -21,9 +21,9 @@ import junit.framework.TestCase;
  */
 public class LoginTest extends TestCase{
 	
-	//static {
-	//	System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
-	//}
+	static {
+		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
+	}
 	
 	 /**
      * Create the test case
@@ -33,8 +33,7 @@ public class LoginTest extends TestCase{
     public LoginTest( )
     {
         super( "loginTest" );
-		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
-
+	
     }
 
 	
