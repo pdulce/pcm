@@ -1,12 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>TesterPCMProject</groupId>
+  <groupId>selenium.initial</groupId>
   <artifactId>TesterPCMProject</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>PCM Tester</name>
   <description>Testeador de un site realizado con PCM</description>
   <build>
-    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -15,18 +15,6 @@
           <release>11</release>
         </configuration>
       </plugin>
-      <plugin>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>3.0.0-M4</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>integration-test</goal>
-                        <goal>verify</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
       
 	    <!-- Informes de las pruebas unitarias-<reporting>-->
 	  <plugin>
@@ -34,7 +22,7 @@
 	     <artifactId>maven-surefire-report-plugin</artifactId>
          <version>3.0.0-M4</version>
       </plugin>
-		 <!--</reporting>-->
+		
     </plugins>
   </build>
   <dependencies>
@@ -43,6 +31,7 @@
        <artifactId>selenium-java</artifactId>
        <version>3.4.0</version>
    </dependency>
+  
    <dependency>
    	<groupId>org.junit.jupiter</groupId>
    	<artifactId>junit-jupiter-api</artifactId>
@@ -54,9 +43,4 @@
         <version>5.1.0</version>
    </dependency>
   </dependencies>
-  
-  <!-- ciManagement>
-  	<system>GitHub</system>
-  	<url>https://github.com/pdulce/pcm</url>
-  </ciManagement>-->
 </project>
