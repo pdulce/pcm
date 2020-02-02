@@ -14,7 +14,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import junit.framework.TestCase;
-//import junit.framework.TestSuite;
 
 /***
  * Tests login feature for SeleniumHQ WebDriver
@@ -22,7 +21,7 @@ import junit.framework.TestCase;
 public class LoginTest extends TestCase{
 	
 	static {
-		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
+		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
 	}
 	
 	 /**
