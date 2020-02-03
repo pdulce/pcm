@@ -20,9 +20,9 @@ import junit.framework.TestCase;
  */
 public class GedeonesQueryTest extends TestCase{
 	
-	static {
-		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
-	}
+	//static {
+	//	System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
+	//}
 	
 	 /**
      * Create the test case

@@ -18,18 +18,18 @@ import junit.framework.TestCase;
 /***
  * Tests login feature for SeleniumHQ WebDriver
  */
-public class LoginTest extends TestCase{
+public class ALoginTest extends TestCase{
 	
-	static {
-		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
-	}
+	//static {
+	//	System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
+	//}
 	
 	 /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public LoginTest( )
+    public ALoginTest( )
     {
         super( "loginTest" );
 	
@@ -57,11 +57,9 @@ public class LoginTest extends TestCase{
             WebDriverWait wait = new WebDriverWait(driver, Long.valueOf(20));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("principal")));
             WebElement divPral = wait.until(presenceOfElementLocated(By.xpath("//div[@id='principal']")));
-            //WebElement divPral =wait.until(presenceOfElementLocated(By.id("principal")));
+
             Assert.assertTrue(divPral.isDisplayed());
-            
-            //System.out.println(divPral.getText());
-         
+                   
             Assert.assertTrue(divPral.getText().contains("Bienvenid@ Administrador, comience a navegar por el árbol lateral de servicios"));
                         
         }catch (Exception exc) {
