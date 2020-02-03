@@ -36,7 +36,7 @@ public class GedeonesQueryTest extends TestCase{
     }
 
 	@Test
-	public void queryTest() {
+	public void testQuery() {
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
         try {
         	
