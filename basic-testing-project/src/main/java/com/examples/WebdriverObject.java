@@ -23,4 +23,13 @@ public class WebdriverObject {
         
 	}
 	
+	public static void disposeDriver() {
+		driver.quit();
+	}
+	
+	public static void reinitializeDriver() {
+		driver.quit();
+		driver = null;
+	}
+	
 }

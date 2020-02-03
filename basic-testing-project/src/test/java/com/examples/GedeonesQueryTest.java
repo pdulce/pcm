@@ -77,7 +77,7 @@ public class GedeonesQueryTest extends TestCase{
         	System.out.println("Error " + exc.getMessage());
         	exc.printStackTrace();
         } finally {
-            driver.quit();
+        	WebdriverObject.reinitializeDriver();
         }
 		
 	}

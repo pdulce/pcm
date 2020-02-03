@@ -67,9 +67,9 @@ public class LoginTest extends TestCase{
         }catch (Exception exc) {
         	System.out.println("Error " + exc.getMessage());
         	exc.printStackTrace();
-        } //finally {
-        //  driver.quit();
-        //}
+        } finally {
+        	WebdriverObject.reinitializeDriver();
+        }
 		
 	}
 
