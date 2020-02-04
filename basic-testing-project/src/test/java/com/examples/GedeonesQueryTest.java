@@ -31,30 +31,60 @@ public class GedeonesQueryTest extends TestCase {
 	}
 
 	@Test
-	public void testQuery1() {
+	public void testLoginErrUser() {
 
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
+		MemoryData memoryData = WebdriverObject.getWebDriverInstance();
 		try {
-
+			
+			Map<String, String> datatest = memoryData.getDatosEscenarioTest("testLoginErrUser");
+			
 			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
 
-			entryUserForm.sendKeys("admin");
-			entryPaswdForm.sendKeys("admin");
+			entryUserForm.sendKeys(datatest.entry.get("entryForm.user"));
+			entryPaswdForm.sendKeys(datatest.entry.get("entryForm.password"));
 
-			WebElement submitFormElement = driver.findElement(By.id("submitForm"));
+			WebElement submitFormElement = driver.findElement(By.id(datatest.entry.get(MemoryData.SUBMIT_ELEMENT)));
 			submitFormElement.click();
 			
 			Assert.assertTrue(true);
 			
 		} catch (Exception exc) {
-			System.out.println("Error " + exc.getMessage());
+			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
 		}
 	}
-
+	
 	@Test
-	public void testQuery2() {
+	public void testLoginErrPass() {
+
+		WebDriver driver = WebdriverObject.getWebDriverInstance();
+		MemoryData memoryData = WebdriverObject.getWebDriverInstance();
+		try {
+			
+			Map<String, String> datatest = memoryData.getDatosEscenarioTest("testLoginErrUser");
+			
+			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
+			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
+
+			entryUserForm.sendKeys(datatest.entry.get("entryForm.user"));
+			entryPaswdForm.sendKeys(datatest.entry.get("entryForm.password"));
+
+			WebElement submitFormElement = driver.findElement(By.id(datatest.entry.get(MemoryData.SUBMIT_ELEMENT)));
+			submitFormElement.click();
+			
+			Assert.assertTrue(true);
+			
+		} catch (Exception exc) {
+			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+	}
+	
+	
+	@Test
+	public void testLoginSucess() {
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
 		try {
 
@@ -84,7 +114,7 @@ public class GedeonesQueryTest extends TestCase {
 			Assert.assertTrue(divPral.getText().contains("Resultados del  1 al"));
 
 		} catch (Exception exc) {
-			System.out.println("Error " + exc.getMessage());
+			System.out.println("Error in testLoginSucess:" + exc.getMessage());
 			exc.printStackTrace();
 		} finally {
 			WebdriverObject.reinitializeDriver();

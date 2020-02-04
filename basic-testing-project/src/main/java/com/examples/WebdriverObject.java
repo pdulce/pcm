@@ -3,6 +3,8 @@ package com.examples;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.examples.MemoryData;
+
 public class WebdriverObject {
 	
 	static {
@@ -10,20 +12,34 @@ public class WebdriverObject {
 	}
 	
 	private static WebDriver driver;
+	private static MemoryData memoryData;
 	
 	public static WebDriver getWebDriverInstance() {
-
+				
         try {
+        	
         	if (driver == null) {
-        		driver=new FirefoxDriver();
-        		driver.get("http://localhost:8081/sg/prjManager");
+        		driver= new FirefoxDriver();
+        		driver.get(getMemoryData().getURL());
         	}
             return driver;
         }catch (Throwable exc) {
         	return null;
-        }
-        
+        }        
 	}
+	
+	public static MemoryData getMemoryData() {
+		try {
+			if (memoryData == null){
+	    		String excelFile = "resources/Data.xlsx";
+	    		memoryData = new MemoryData(excelFile);
+	    	}
+	    	return memoryData;
+		}catch (Throwable exc) {
+        	return null;
+        } 
+	}
+	
 	
 	public static void disposeDriver() {
 		driver.quit();
@@ -31,7 +47,7 @@ public class WebdriverObject {
 	
 	public static void reinitializeDriver() {
 		driver.quit();
-		driver = null;
+		driver = null;		
 	}
 	
 }
