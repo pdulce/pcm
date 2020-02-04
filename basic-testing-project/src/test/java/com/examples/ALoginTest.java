@@ -2,6 +2,8 @@ package com.examples;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -34,41 +36,68 @@ public class ALoginTest extends TestCase{
         super( "loginTest" );
 	
     }
+    
+    private void makeAccessWithData(String testMethod){
+    	
+    	MemoryData memoryData = WebdriverObject.getMemoryData();
+    	WebDriver driver = WebdriverObject.getWebDriverInstance();
+		try {
+			
+			Map<String, String> datatest = memoryData.get(testMethod);
+			
+			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
+			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
 
+			entryUserForm.sendKeys(datatest.get("entryForm.user"));
+			entryPaswdForm.sendKeys(datatest.get("entryForm.password"));
+
+			WebElement submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
+			submitFormElement.click();
+			
+			WebDriverWait waitForDivErrMsg = new WebDriverWait(driver, Long.valueOf(10));
+			String expression = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
+			waitForDivErrMsg.until(ExpectedConditions.visibilityOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
+			WebElement labelErr = waitForDivErrMsg.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
+			
+			Assert.assertTrue(labelErr.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
+			
+		} catch (Exception exc) {
+			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+    	
+    }
+	
+    @Test
+	public void testLoginErrUser() {
+		try {
+			makeAccessWithData("testLoginErrUser");
+		} catch (Exception exc) {
+			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+	}
 	
 	@Test
-	public void testLoginExists() {
-		
-		WebDriver driver = WebdriverObject.getWebDriverInstance();
-        try {
-            
-            WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
-            WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
-                        
-            Assert.assertTrue(entryUserForm.isDisplayed());
-            Assert.assertTrue(entryPaswdForm.isDisplayed());
-            
-            entryUserForm.sendKeys("admin");
-            entryPaswdForm.sendKeys("admin");
-            
-            WebElement submitFormElement = driver.findElement(By.id("submitForm"));
-            submitFormElement.click();
-            
-            WebDriverWait wait = new WebDriverWait(driver, Long.valueOf(20));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("principal")));
-            WebElement divPral = wait.until(presenceOfElementLocated(By.xpath("//div[@id='principal']")));
-
-            Assert.assertTrue(divPral.isDisplayed());
-                   
-            Assert.assertTrue(divPral.getText().contains("Bienvenid@ Administrador, comience a navegar por el árbol lateral de servicios"));
-                        
-        }catch (Exception exc) {
-        	System.out.println("Error " + exc.getMessage());
-        	exc.printStackTrace();
-        } finally {
-        	WebdriverObject.reinitializeDriver();
-        }
-		
+	public void testLoginErrPass() {
+		try {
+			makeAccessWithData("testLoginErrPass");		
+		} catch (Exception exc) {
+			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+	}
+	
+	
+	@Test
+	public void testLoginSucess() {	
+		try {
+			makeAccessWithData("testLoginSucess");
+		} catch (Exception exc) {
+			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+			
 	}
 
 }
