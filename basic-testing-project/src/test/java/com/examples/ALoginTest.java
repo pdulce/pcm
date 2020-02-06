@@ -91,6 +91,8 @@ public class ALoginTest extends TestCase{
 		} catch (Exception exc) {
 			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
 			exc.printStackTrace();
+		}finally {
+			WebdriverObject.reinitializeDriver();
 		}
 			
 	}
