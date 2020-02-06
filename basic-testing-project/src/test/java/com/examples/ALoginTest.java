@@ -1,4 +1,4 @@
-package test.java.com.examples;
+package /*test.java.*/com.examples;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 

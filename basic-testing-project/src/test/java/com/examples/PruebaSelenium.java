@@ -1,4 +1,4 @@
-package test.java.com.examples;
+package /*test.java.*/com.examples;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
