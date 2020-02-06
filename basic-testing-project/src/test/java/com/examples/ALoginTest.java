@@ -1,4 +1,4 @@
-package com.examples;
+package test.java.com.examples;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
@@ -11,7 +11,6 @@ import org.openqa.selenium.By;
 //import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -21,10 +20,6 @@ import junit.framework.TestCase;
  * Tests login feature for SeleniumHQ WebDriver
  */
 public class ALoginTest extends TestCase{
-	
-	//static {
-	//	System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
-	//}
 	
 	 /**
      * Create the test case
@@ -43,7 +38,7 @@ public class ALoginTest extends TestCase{
     	WebDriver driver = WebdriverObject.getWebDriverInstance();
 		try {
 			
-			Map<String, String> datatest = memoryData.get(testMethod);
+			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
 			
 			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));

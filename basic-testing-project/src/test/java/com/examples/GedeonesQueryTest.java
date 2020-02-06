@@ -1,10 +1,9 @@
-package com.examples;
+package test.java.com.examples;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -12,8 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 
 import junit.framework.TestCase;
 
@@ -37,7 +37,7 @@ public class GedeonesQueryTest extends TestCase {
 	public void testQueryEvent() {
 		
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
-		MemoryData memoryData = WebdriverObject.getWebDriverInstance();
+		MemoryData memoryData = WebdriverObject.getMemoryData();
 		try {
 			
 			/*** BLOQUE PARA VALIDARTE CON EXITO ***/
@@ -57,7 +57,9 @@ public class GedeonesQueryTest extends TestCase {
 			datatest.putAll(memoryData.getDatosEscenarioTest("testQueryEvent"));			
 			String expression = datatest.get("partialLink1");
 			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
-			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
+			By by = expression.startsWith("/") ? By.xpath(expression) : By.id(expression);
+			
+			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(by));
 			WebElement arbolNavegacion = waitForTree.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
 			Assert.assertTrue(arbolNavegacion.isDisplayed());
 
