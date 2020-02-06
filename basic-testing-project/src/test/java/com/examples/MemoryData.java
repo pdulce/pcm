@@ -16,11 +16,11 @@ public class MemoryData {
 			ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO";
 	
 	/**
-	 * Secci�n de cabecera: to object called datosConexion
+	 * Seccion de cabecera: to object called datosConexion
 	 * 
 	 * Servidor HOSTNAME PORT CONTEXT
 	 * 
-	 * /*** Secci�n de detail con n� din�mico de columnas: to object called
+	 * /*** Seccion de detail con num. dinamico de columnas: to object called
 	 * escenariosTest
 	 * 
 	 * Login1-Error input1 valor1 input2 valor2 submitName element2Check
