@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
@@ -59,15 +59,16 @@ public class MemoryData {
 	private void chargeInMemory(String file_) throws Exception {
 		
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(file_);
-		HSSFWorkbook wb = null;
+		XSSFWorkbook wb = null;
 		try {				
-			wb = new HSSFWorkbook(in);
-			final HSSFSheet sheet = wb.getSheetAt(0);
+			wb = new XSSFWorkbook(in);
+			final XSSFSheet sheet = wb.getSheetAt(0);
 			if (sheet == null) {
 				throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 			}
 			leerDataTestFile(sheet);
 		} catch (Throwable exc2) {
+			exc2.printStackTrace();
 			throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 			
 		}finally{
@@ -90,7 +91,7 @@ public class MemoryData {
 	 *             the equivalent field in the entityLogic instance
 	 *             (fieldviewset)
 	 */
-	private final void leerDataTestFile(final HSSFSheet sheetNewVersion) throws Throwable {
+	private final void leerDataTestFile(final XSSFSheet sheetNewVersion) throws Throwable {
 
 		int nrow = 0;		
 		Row rowEtiquetas = sheetNewVersion.getRow(nrow++);
@@ -131,7 +132,7 @@ public class MemoryData {
 			if (rowDatos == null) {
 				throw new Exception("error leyendo fichero Excel: segunda row de valores de escenario no consignada " + (nrow - 2));
 			}
-			/** inicializamos el mapa de datos; ojo, no todos son par�metros, est�n los tres 'submitName' 'element2Check'	'value2Check' ***/
+			/** inicializamos el mapa de datos; ojo, no todos son parametros, estan los tres 'submitName' 'element2Check'	'value2Check' ***/
 			Map<String, String> datosTest = new HashMap<String, String>();
 			String methodName = rowDatos.getCell(0).getStringCellValue();
 			if (methodName==null || methodName.equals("")){
@@ -165,13 +166,13 @@ public class MemoryData {
 					excc.printStackTrace();
 					throw new Exception("2.Error leyendo fichero Excel, fila: " + nrow + " columna " + nColum + ". Inner msg: " + excc.getMessage());
 				}
-			}//fin de la iteracion de columnas que representan cada par�metro de input, excepto los tres finales, 'submitName' 'element2Check'	'value2Check'
+			}//fin de la iteracion de columnas que representan cada parametro de input, excepto los tres finales, 'submitName' 'element2Check'	'value2Check'
 			this.dataTests.put(methodName, datosTest);
 		}
 	}
 	
 	public static void main(String[] args) {
-		String excelFile = "resources/Data.xlsx";
+		String excelFile = /*"resources/*/"Data.xlsx";
 		MemoryData chargerDataSet = new MemoryData(excelFile);
 		
 		Map<String,Map<String,String>> mapaAll = chargerDataSet.getDatosEscenariosTest();
