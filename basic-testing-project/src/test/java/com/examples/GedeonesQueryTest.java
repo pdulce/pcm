@@ -1,7 +1,9 @@
-package com.examples;
+package test.java.com.examples;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -9,8 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 
 import junit.framework.TestCase;
 
@@ -29,62 +32,81 @@ public class GedeonesQueryTest extends TestCase {
 		super("Query Gedeones");
 
 	}
-
+	
 	@Test
-	public void testQuery1() {
-
+	public void testQueryEvent() {
+		
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
+		MemoryData memoryData = WebdriverObject.getMemoryData();
 		try {
-
+			
+			/*** BLOQUE PARA VALIDARTE CON EXITO ***/
+			Map<String, String> datatest = new HashMap<String, String>();
+			datatest.putAll(memoryData.getDatosEscenarioTest("testLoginSucess"));
+			
 			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
-
-			entryUserForm.sendKeys("admin");
-			entryPaswdForm.sendKeys("admin");
-
-			WebElement submitFormElement = driver.findElement(By.id("submitForm"));
+			entryUserForm.sendKeys(datatest.get("entryForm.user"));
+			entryPaswdForm.sendKeys(datatest.get("entryForm.password"));
+			WebElement submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
 			submitFormElement.click();
+			/*** FIN BLOQUE PARA VALIDARTE CON EXITO ***/
+						
+			/*** BLOQUE EXCLUSIVO DE LA PRUEBA O TEST QUE VAMOS A REALIZAR ***/
+			datatest.clear();
+			datatest.putAll(memoryData.getDatosEscenarioTest("testQueryEvent"));			
+			String expression = datatest.get("partialLink1");
+			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
+			By by = expression.startsWith("/") ? By.xpath(expression) : By.id(expression);
 			
-			Assert.assertTrue(true);
-			
-		} catch (Exception exc) {
-			System.out.println("Error " + exc.getMessage());
-			exc.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testQuery2() {
-		WebDriver driver = WebdriverObject.getWebDriverInstance();
-		try {
-
-			// "dhtmlgoodies_treeNode20": id del nodo Gedeones cuando entramos como Administrador
-			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(5));
-			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(By.id("dhtmlgoodies_tree")));// o la Xpath
-																											// "//UL[@id="dhtmlgoodies_tree"]
-			WebElement arbolNavegacion = waitForTree.until(presenceOfElementLocated(By.id("dhtmlgoodies_tree")));
+			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(by));
+			WebElement arbolNavegacion = waitForTree.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
 			Assert.assertTrue(arbolNavegacion.isDisplayed());
 
-			WebElement seguimientoFolder = arbolNavegacion.findElement(By.xpath("//A[@id='dhtmlgoodies_treeNode20']"));
+			expression = datatest.get("partialLink2");
+			WebElement seguimientoFolder = arbolNavegacion.findElement(expression.startsWith("/")?By.xpath(expression):By.id(expression));
 			Assert.assertTrue(seguimientoFolder.getText().contains("Seguimiento"));
-
-			seguimientoFolder.click();
-
-			WebElement hrefGEDEONES = seguimientoFolder.findElement(By.xpath("//A[@id='dhtmlgoodies_treeNode21']"));
+			seguimientoFolder.click();//pinchamos para abrir la carpeta que contiene el nodo buscado
+			
+			expression = datatest.get("partialLink3");
+			WebElement hrefGEDEONES = seguimientoFolder.findElement(expression.startsWith("/")?By.xpath(expression):By.id(expression));
 			Assert.assertTrue(hrefGEDEONES.getText().contains("GEDEON"));
-			hrefGEDEONES.click();
+			hrefGEDEONES.click();//nodo del escenario buscado, pinchado			
+			
+			expression = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
+			WebDriverWait waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
+			WebElement divResultados = waitForDivResults.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));			
+			Assert.assertTrue(divResultados.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
+			
+			/** consignar un valor en el input de Cód.Petición y jugar con el valor esperado si es el erróneo, y el válido-
+			 * Entre los resultados, testear si está el valor buscado, igual haciendo lo mismo buscando algo imposible de que exista.
+			 */
+			String searchingExpressions[] = datatest.get("incidenciasProyecto.id").split("#");
+			WebElement entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
+			entryPeticionID2search.sendKeys(searchingExpressions[0]);
+			submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
+			submitFormElement.click();
+			waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(searchingExpressions[0].startsWith("/")?By.xpath(searchingExpressions[0]):By.id(searchingExpressions[0])));
+			divResultados = waitForDivResults.until(presenceOfElementLocated(searchingExpressions[0].startsWith("/")?By.xpath(searchingExpressions[0]):By.id(searchingExpressions[0])));			
+			Assert.assertTrue(divResultados.getText().contains(searchingExpressions[0]));
+			
+			if (searchingExpressions.length == 2){
+				entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
+				entryPeticionID2search.sendKeys(searchingExpressions[1]);
+				submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
+				submitFormElement.click();
+				
+				waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
+				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(searchingExpressions[1].startsWith("/")?By.xpath(searchingExpressions[1]):By.id(searchingExpressions[1])));
+				divResultados = waitForDivResults.until(presenceOfElementLocated(searchingExpressions[1].startsWith("/")?By.xpath(searchingExpressions[1]):By.id(searchingExpressions[1])));			
+				Assert.assertTrue(divResultados.getText().contains(searchingExpressions[1]));
 
-			WebDriverWait wait = new WebDriverWait(driver, Long.valueOf(20));
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("principal")));
-			WebElement divPral = wait.until(presenceOfElementLocated(By.xpath("//div[@id='principal']")));
-			// List<WebElement> countResults = divPral.findElements(By.tagName("LEGEND"));
-
-			// Assert.assertTrue(countResults.size() > 0);
-
-			Assert.assertTrue(divPral.getText().contains("Resultados del  1 al"));
-
+			}
+			
 		} catch (Exception exc) {
-			System.out.println("Error " + exc.getMessage());
+			System.out.println("Error in testLoginSucess:" + exc.getMessage());
 			exc.printStackTrace();
 		} finally {
 			WebdriverObject.reinitializeDriver();
