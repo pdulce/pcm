@@ -3,12 +3,13 @@ package test.java.com.examples;
 import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class WebdriverObject {
 	
 	static {
-		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
-		//System.setProperty("webdriver.gecko.driver", "C:\\workspaceEclipse\\IEDriverServer.exe");
+		System.setProperty("webdriver.ie.driver", "C:\\workspaceEclipse\\IEDriverServer.exe");
+		//System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
 	}
 	
 	private static WebDriver driver;
@@ -21,15 +22,16 @@ public class WebdriverObject {
         	if (driver == null) {
         		if (System.getProperty("webdriver.gecko.driver") != null){
         			//driver= new FirefoxDriver();
-        		}else if (System.getProperty("webdriver.gecko.driver") == null){
+        		}else if (System.getProperty("webdriver.ie.driver") != null){
         			driver= new InternetExplorerDriver();
         		}else{
-        			//driver= new ChromeDriver();
+        			throw new RuntimeException("Error: no se ha indicado el driver a usar" );
         		}
         		driver.get(getMemoryData().getURL());
         	}
             return driver;
         }catch (Throwable exc) {
+        	exc.printStackTrace();
         	return null;
         }        
 	}
