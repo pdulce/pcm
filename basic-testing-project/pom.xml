@@ -27,13 +27,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>4.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>ooxml-schemas</artifactId>
-			<version>1.4</version>
+			<artifactId>poi-excelant</artifactId>
+			<version>4.0.0</version>
 		</dependency>
 	</dependencies>
 	<properties>
