@@ -82,17 +82,14 @@ public class GedeonesQueryTest extends TestCase {
 			WebElement divResultados = waitForDivResults.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));			
 			Assert.assertTrue(divResultados.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
 			
-			/** consignar un valor en el input de C�d.Petici�n y jugar con el valor esperado si es el err�neo, y el v�lido-
-			 * Entre los resultados, testear si est� el valor buscado, igual haciendo lo mismo buscando algo imposible de que exista.
-			 */
 			String searchingExpressions[] = datatest.get("incidenciasProyecto.id").split("#");
 			WebElement entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
 			entryPeticionID2search.sendKeys(searchingExpressions[0]);
 			submitFormElement = driver.findElement(By.id("query"/*datatest.get(MemoryData.SUBMIT_ELEMENT)*/));
 			submitFormElement.click();
 			waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
-			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(searchingExpressions[0].startsWith("/")?By.xpath(searchingExpressions[0]):By.id(searchingExpressions[0])));
-			divResultados = waitForDivResults.until(presenceOfElementLocated(searchingExpressions[0].startsWith("/")?By.xpath(searchingExpressions[0]):By.id(searchingExpressions[0])));			
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[0] + "']")));
+			divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[0] + "']")));			
 			Assert.assertTrue(divResultados.getText().contains(searchingExpressions[0]));
 			
 			if (searchingExpressions.length == 2){
@@ -102,8 +99,8 @@ public class GedeonesQueryTest extends TestCase {
 				submitFormElement.click();
 				
 				waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
-				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(searchingExpressions[1].startsWith("/")?By.xpath(searchingExpressions[1]):By.id(searchingExpressions[1])));
-				divResultados = waitForDivResults.until(presenceOfElementLocated(searchingExpressions[1].startsWith("/")?By.xpath(searchingExpressions[1]):By.id(searchingExpressions[1])));			
+				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[1] + "']")));
+				divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[1] + "']")));			
 				Assert.assertTrue(divResultados.getText().contains(searchingExpressions[1]));
 
 			}
