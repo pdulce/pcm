@@ -14,8 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import ss.ism.frma.test.WebdriverObject4FRMA;
-
 import com.examples.MemoryData;
 import com.examples.WebdriverObject;
 
