@@ -31,7 +31,7 @@ public class LoginTest extends TestCase{
      */
     public LoginTest( )
     {
-        super( "loginTest" );
+        super( "JunitTest5" );
 	
     }
     
@@ -63,7 +63,10 @@ private void makeAccessWithData(String testMethod){
 			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
 			throw exc;
-		}  	
+			
+		} finally {
+			WebdriverObject.reinitializeDriver();
+		}
     }
 	
     @Test

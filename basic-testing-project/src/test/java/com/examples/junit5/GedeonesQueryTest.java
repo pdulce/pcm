@@ -14,6 +14,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import ss.ism.frma.test.WebdriverObject4FRMA;
+
 import com.examples.MemoryData;
 import com.examples.WebdriverObject;
 
@@ -88,7 +90,7 @@ public class GedeonesQueryTest extends TestCase {
 			String searchingExpressions[] = datatest.get("incidenciasProyecto.id").split("#");
 			WebElement entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
 			entryPeticionID2search.sendKeys(searchingExpressions[0]);
-			submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
+			submitFormElement = driver.findElement(By.id("query"/*datatest.get(MemoryData.SUBMIT_ELEMENT)*/));
 			submitFormElement.click();
 			waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
 			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(searchingExpressions[0].startsWith("/")?By.xpath(searchingExpressions[0]):By.id(searchingExpressions[0])));
@@ -98,7 +100,7 @@ public class GedeonesQueryTest extends TestCase {
 			if (searchingExpressions.length == 2){
 				entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
 				entryPeticionID2search.sendKeys(searchingExpressions[1]);
-				submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
+				submitFormElement = driver.findElement(By.id("query"));
 				submitFormElement.click();
 				
 				waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
@@ -114,7 +116,7 @@ public class GedeonesQueryTest extends TestCase {
 		} finally {
 			WebdriverObject.reinitializeDriver();
 		}
-
+	
 	}
 
 }
