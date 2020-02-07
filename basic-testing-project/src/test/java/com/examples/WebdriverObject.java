@@ -1,5 +1,7 @@
 package com.examples;
 
+import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -47,6 +49,16 @@ public class WebdriverObject {
 	public static void reinitializeDriver() {
 		driver.quit();
 		driver = null;		
+	}
+	
+	public static void main(String[] args) {
+		String excelFile = "Data.xlsx";
+		MemoryData chargerDataSet = new MemoryData(excelFile);
+		
+		Map<String,Map<String,String>> mapaAll = chargerDataSet.getDatosEscenariosTest();
+		System.out.println("Datos de todo el mapa para pruebas: " + mapaAll);
+		
+		System.out.println("URL para pruebas: " + chargerDataSet.getURL());
 	}
 	
 }
