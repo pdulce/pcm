@@ -43,7 +43,9 @@ private void makeAccessWithData(String testMethod){
 			
 			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
 			
-			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
+			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
+			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(By.id("entryForm.user")));
+			WebElement entryUserForm = waitForTree.until(presenceOfElementLocated(By.id("entryForm.user")));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
 
 			entryUserForm.sendKeys(datatest.get("entryForm.user"));
@@ -69,34 +71,34 @@ private void makeAccessWithData(String testMethod){
     }
 	
     @Test
-    public void testFail() {
+    public void testLoginErrUser() {
 		try {
-			makeAccessWithData("testFail");
+			makeAccessWithData("testLoginErrUser");
 			
 		} catch (Throwable exc) {
-			System.out.println("Error in testFail: " + exc.getMessage());
+			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
 		}
 	}
     
     @Test
-    public void testOtherFail() {
+    public void testLoginErrPass() {
 		try {
 			
-			makeAccessWithData("testOtherFail");
+			makeAccessWithData("testLoginErrPass");
 		
 		} catch (Throwable exc) {
-			System.out.println("Error in testOtherFail: " + exc.getMessage());
+			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
 			exc.printStackTrace();
 		}
 	}
     
     @Test
-    public void testSuccess() {
+    public void testLoginSucess() {
 		try {
-			makeAccessWithData("testSuccess");
+			makeAccessWithData("testLoginSucess");
 		} catch (Throwable exc) {
-			System.out.println("Error in testSuccess: " + exc.getMessage());
+			System.out.println("Error in testLoginSucess: " + exc.getMessage());
 			exc.printStackTrace();
 		}
 	}
