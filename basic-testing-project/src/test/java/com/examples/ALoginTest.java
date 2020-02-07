@@ -1,4 +1,4 @@
-package test.java.com.examples;
+package com.examples;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 public class ALoginTest extends TestCase{
 	
 	 /**
-     * Create the test case
+     * Create the test case: from PC ISM modified
      *
      * @param testName name of the test case
      */
