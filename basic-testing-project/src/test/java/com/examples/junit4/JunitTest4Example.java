@@ -1,4 +1,4 @@
-package test.java.com.examples;
+package com.examples.junit4;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
@@ -10,6 +10,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.examples.MemoryData;
+import com.examples.WebdriverObject;
 
 import junit.framework.TestCase;
 

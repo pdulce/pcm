@@ -1,4 +1,4 @@
-package test.java.com.examples;
+package com.examples.junit5;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.examples.MemoryData;
+import com.examples.WebdriverObject;
 
 
 import junit.framework.TestCase;
@@ -79,8 +82,8 @@ public class GedeonesQueryTest extends TestCase {
 			WebElement divResultados = waitForDivResults.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));			
 			Assert.assertTrue(divResultados.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
 			
-			/** consignar un valor en el input de Cód.Petición y jugar con el valor esperado si es el erróneo, y el válido-
-			 * Entre los resultados, testear si está el valor buscado, igual haciendo lo mismo buscando algo imposible de que exista.
+			/** consignar un valor en el input de Cï¿½d.Peticiï¿½n y jugar con el valor esperado si es el errï¿½neo, y el vï¿½lido-
+			 * Entre los resultados, testear si estï¿½ el valor buscado, igual haciendo lo mismo buscando algo imposible de que exista.
 			 */
 			String searchingExpressions[] = datatest.get("incidenciasProyecto.id").split("#");
 			WebElement entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));

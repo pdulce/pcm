@@ -1,17 +1,14 @@
-package test.java.com.examples;
+package com.examples;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 public class MemoryData {
 	
@@ -19,11 +16,11 @@ public class MemoryData {
 			ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO";
 	
 	/**
-	 * Sección de cabecera: to object called datosConexion
+	 * Seccion de cabecera: to object called datosConexion
 	 * 
 	 * Servidor HOSTNAME PORT CONTEXT
 	 * 
-	 * /*** Sección de detail con nº dinámico de columnas: to object called
+	 * /*** Seccion de detail con num. dinamico de columnas: to object called
 	 * escenariosTest
 	 * 
 	 * Login1-Error input1 valor1 input2 valor2 submitName element2Check
@@ -62,28 +59,22 @@ public class MemoryData {
 	private void chargeInMemory(String file_) throws Exception {
 		
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(file_);
-		try {
-			XSSFWorkbook wb = new XSSFWorkbook(in);
+		XSSFWorkbook wb = null;
+		try {				
+			wb = new XSSFWorkbook(in);
 			final XSSFSheet sheet = wb.getSheetAt(0);
 			if (sheet == null) {
 				throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 			}
-			leerDataTestFile(sheet, null);
-		} catch (Throwable exc) {
-			try {				
-				HSSFWorkbook wb2 = new HSSFWorkbook(in);
-				final HSSFSheet sheet = wb2.getSheetAt(0);
-				if (sheet == null) {
-					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-				}
-				leerDataTestFile(null, sheet);
-
-			} catch (Throwable exc2) {
-				throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-			}
+			leerDataTestFile(sheet);
+		} catch (Throwable exc2) {
+			exc2.printStackTrace();
+			throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
+			
 		}finally{
 			try {
 				in.close();
+				wb.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -100,14 +91,14 @@ public class MemoryData {
 	 *             the equivalent field in the entityLogic instance
 	 *             (fieldviewset)
 	 */
-	private final void leerDataTestFile(final XSSFSheet sheetNewVersion, final HSSFSheet sheetOldVersion) throws Throwable {
+	private final void leerDataTestFile(final XSSFSheet sheetNewVersion) throws Throwable {
 
 		int nrow = 0;		
-		Row rowEtiquetas = sheetNewVersion != null ? sheetNewVersion.getRow(nrow++) : sheetOldVersion.getRow(nrow++);
+		Row rowEtiquetas = sheetNewVersion.getRow(nrow++);
 		if (rowEtiquetas == null) {
 			throw new Exception("error leyendo fichero Excel: primera row de etiquetas de conexion");
 		}
-		Row rowDatos = sheetNewVersion != null ? sheetNewVersion.getRow(nrow++) : sheetOldVersion.getRow(nrow++);
+		Row rowDatos = sheetNewVersion.getRow(nrow++);
 		if (rowDatos == null) {
 			throw new Exception("error leyendo fichero Excel: segunda row de valores de conexion");
 		}
@@ -133,15 +124,15 @@ public class MemoryData {
 		this.dataTests = new HashMap<String, Map<String, String>>();		
 		
 		while (rowEtiquetas != null) {// while
-			rowEtiquetas = sheetNewVersion != null ? sheetNewVersion.getRow(nrow++) : sheetOldVersion.getRow(nrow++);
+			rowEtiquetas = sheetNewVersion.getRow(nrow++);
 			if (rowEtiquetas == null) {//si hemos llegado al final del libro de datos excel
 				break;
 			}
-			rowDatos = sheetNewVersion != null ? sheetNewVersion.getRow(nrow++) : sheetOldVersion.getRow(nrow++);
+			rowDatos = sheetNewVersion.getRow(nrow++);
 			if (rowDatos == null) {
 				throw new Exception("error leyendo fichero Excel: segunda row de valores de escenario no consignada " + (nrow - 2));
 			}
-			/** inicializamos el mapa de datos; ojo, no todos son parámetros, están los tres 'submitName' 'element2Check'	'value2Check' ***/
+			/** inicializamos el mapa de datos; ojo, no todos son parametros, estan los tres 'submitName' 'element2Check'	'value2Check' ***/
 			Map<String, String> datosTest = new HashMap<String, String>();
 			String methodName = rowDatos.getCell(0).getStringCellValue();
 			if (methodName==null || methodName.equals("")){
@@ -175,13 +166,13 @@ public class MemoryData {
 					excc.printStackTrace();
 					throw new Exception("2.Error leyendo fichero Excel, fila: " + nrow + " columna " + nColum + ". Inner msg: " + excc.getMessage());
 				}
-			}//fin de la iteracion de columnas que representan cada parámetro de input, excepto los tres finales, 'submitName' 'element2Check'	'value2Check'
+			}//fin de la iteracion de columnas que representan cada parametro de input, excepto los tres finales, 'submitName' 'element2Check'	'value2Check'
 			this.dataTests.put(methodName, datosTest);
 		}
 	}
 	
 	public static void main(String[] args) {
-		String excelFile = "resources/Data.xlsx";
+		String excelFile = /*"resources/*/"Data.xlsx";
 		MemoryData chargerDataSet = new MemoryData(excelFile);
 		
 		Map<String,Map<String,String>> mapaAll = chargerDataSet.getDatosEscenariosTest();
