@@ -22,20 +22,20 @@ import junit.framework.TestCase;
 /***
  * Tests login feature for SeleniumHQ WebDriver
  */
-public class ALoginTest extends TestCase{
+public class LoginTest extends TestCase{
 	
 	 /**
      * Create the test case: from PC ISM modified
      *
      * @param testName name of the test case
      */
-    public ALoginTest( )
+    public LoginTest( )
     {
         super( "loginTest" );
 	
     }
     
-    private void makeAccessWithData(String testMethod){
+private void makeAccessWithData(String testMethod){
     	
     	MemoryData memoryData = WebdriverObject.getMemoryData();
     	WebDriver driver = WebdriverObject.getWebDriverInstance();
@@ -62,42 +62,22 @@ public class ALoginTest extends TestCase{
 		} catch (Exception exc) {
 			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
-		}
-    	
+			throw exc;
+		}  	
     }
 	
     @Test
-	public void testLoginErrUser() {
+    public void tests() {
 		try {
 			makeAccessWithData("testLoginErrUser");
-		} catch (Exception exc) {
-			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
-			exc.printStackTrace();
-		}
-	}
-	
-	@Test
-	public void testLoginErrPass() {
-		try {
-			makeAccessWithData("testLoginErrPass");		
-		} catch (Exception exc) {
-			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
-			exc.printStackTrace();
-		}
-	}
-	
-	
-	@Test
-	public void testLoginSucess() {	
-		try {
+			makeAccessWithData("testLoginErrPass");
 			makeAccessWithData("testLoginSucess");
 		} catch (Exception exc) {
-			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
+			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
 		}finally {
 			WebdriverObject.reinitializeDriver();
 		}
-			
 	}
 
 }

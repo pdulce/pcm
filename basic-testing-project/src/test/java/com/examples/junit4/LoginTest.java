@@ -16,9 +16,9 @@ import com.examples.WebdriverObject;
 
 import junit.framework.TestCase;
 
-public class JunitTest4Example extends TestCase{
+public class LoginTest extends TestCase{
 	
-	public JunitTest4Example(){
+	public LoginTest(){
 		super("JunitTest4Example");
 	}
 	
