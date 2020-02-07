@@ -59,10 +59,9 @@ private void makeAccessWithData(String testMethod){
 			
 			Assert.assertTrue(labelErr.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
-			throw exc;
 			
 		} finally {
 			WebdriverObject.reinitializeDriver();
@@ -75,7 +74,7 @@ private void makeAccessWithData(String testMethod){
 			makeAccessWithData("testLoginErrUser");
 			makeAccessWithData("testLoginErrPass");
 			makeAccessWithData("testLoginSucess");
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
 		}

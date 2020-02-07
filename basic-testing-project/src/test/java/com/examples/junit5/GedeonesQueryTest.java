@@ -105,7 +105,7 @@ public class GedeonesQueryTest extends TestCase {
 
 			}
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			System.out.println("Error in testLoginSucess:" + exc.getMessage());
 			exc.printStackTrace();
 		} finally {
