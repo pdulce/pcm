@@ -69,13 +69,34 @@ private void makeAccessWithData(String testMethod){
     }
 	
     @Test
-    public void tests() {
+    public void testFail() {
 		try {
-			makeAccessWithData("testLoginErrUser");
-			makeAccessWithData("testLoginErrPass");
-			makeAccessWithData("testLoginSucess");
+			makeAccessWithData("testFail");
+			
 		} catch (Throwable exc) {
-			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
+			System.out.println("Error in testFail: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+	}
+    
+    @Test
+    public void testOtherFail() {
+		try {
+			
+			makeAccessWithData("testOtherFail");
+		
+		} catch (Throwable exc) {
+			System.out.println("Error in testOtherFail: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+	}
+    
+    @Test
+    public void testSuccess() {
+		try {
+			makeAccessWithData("testSuccess");
+		} catch (Throwable exc) {
+			System.out.println("Error in testSuccess: " + exc.getMessage());
 			exc.printStackTrace();
 		}
 	}

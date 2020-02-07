@@ -88,8 +88,8 @@ public class GedeonesQueryTest extends TestCase {
 			submitFormElement = driver.findElement(By.id("query"/*datatest.get(MemoryData.SUBMIT_ELEMENT)*/));
 			submitFormElement.click();
 			waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
-			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[0] + "']")));
-			divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[0] + "']")));			
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@value='"+ searchingExpressions[0] + "']")));
+			divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("//input[@value='"+ searchingExpressions[0] + "']")));			
 			Assert.assertTrue(divResultados.getText().contains(searchingExpressions[0]));
 			
 			if (searchingExpressions.length == 2){
@@ -99,8 +99,8 @@ public class GedeonesQueryTest extends TestCase {
 				submitFormElement.click();
 				
 				waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
-				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[1] + "']")));
-				divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("input[@value='"+ searchingExpressions[1] + "']")));			
+				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@value='"+ searchingExpressions[1] + "']")));
+				divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("//input[@value='"+ searchingExpressions[1] + "']")));			
 				Assert.assertTrue(divResultados.getText().contains(searchingExpressions[1]));
 
 			}
