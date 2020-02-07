@@ -6,7 +6,7 @@
 	<property name="apache.home" value="${env.CATALINA_HOME}"/>
 	<property name="jenkins.workspace" value="${env.JENKINS_WORKSPACE_PATH}"/>
 	<property name="base.work.path" value="prjmanager"/>
-	<property name="url.deploy" value="http://localhost:8081"/>
+	<property name="url.deploy" value="http://localhost:8083"/>
 	
 	<!--for Windows station-->
 	<!--<property name="apache.home" value="C:\\apache-tomcat-7.0.85"/>
