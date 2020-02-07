@@ -1,4 +1,4 @@
-package /*test.java.*/com.examples;
+package com.examples;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -171,16 +171,6 @@ public class MemoryData {
 		}
 	}
 	
-	public static void main(String[] args) {
-		String excelFile = /*"resources/*/"Data.xlsx";
-		MemoryData chargerDataSet = new MemoryData(excelFile);
-		
-		Map<String,Map<String,String>> mapaAll = chargerDataSet.getDatosEscenariosTest();
-		System.out.println("Datos de todo el mapa para pruebas: " + mapaAll);
-		
-		System.out.println("URL para pruebas: " + chargerDataSet.getURL());
-	}
-
 }
 
 

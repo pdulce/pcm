@@ -1,14 +1,13 @@
-package /*test.java.*/com.examples;
+package com.examples;
+
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
-
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class WebdriverObject {
 	
 	static {
-		//System.setProperty("webdriver.ie.driver", "C:\\workspaceEclipse\\IEDriverServer.exe");
 		System.setProperty("webdriver.gecko.driver", "/home/pedro/gecko/geckodriver");
 	}
 	
@@ -20,13 +19,7 @@ public class WebdriverObject {
         try {
         	
         	if (driver == null) {
-        		if (System.getProperty("webdriver.gecko.driver") != null){
-        			driver= new FirefoxDriver();
-        		}else if (System.getProperty("webdriver.ie.driver") != null){
-        			driver= new InternetExplorerDriver();
-        		}else{
-        			throw new RuntimeException("Error: no se ha indicado el driver a usar" );
-        		}
+       			driver= new FirefoxDriver();
         		driver.get(getMemoryData().getURL());
         	}
             return driver;
@@ -39,7 +32,7 @@ public class WebdriverObject {
 	public static MemoryData getMemoryData() {
 		try {
 			if (memoryData == null){
-	    		String excelFile = System.getProperty("webdriver.ie.driver") != null ? "resources/Data.xlsx" : "Data.xlsx";
+	    		String excelFile = "Data.xlsx";
 	    		memoryData = new MemoryData(excelFile);
 	    	}
 	    	return memoryData;
@@ -56,6 +49,16 @@ public class WebdriverObject {
 	public static void reinitializeDriver() {
 		driver.quit();
 		driver = null;		
+	}
+	
+	public static void main(String[] args) {
+		String excelFile = "Data.xlsx";
+		MemoryData chargerDataSet = new MemoryData(excelFile);
+		
+		Map<String,Map<String,String>> mapaAll = chargerDataSet.getDatosEscenariosTest();
+		System.out.println("Datos de todo el mapa para pruebas: " + mapaAll);
+		
+		System.out.println("URL para pruebas: " + chargerDataSet.getURL());
 	}
 	
 }
