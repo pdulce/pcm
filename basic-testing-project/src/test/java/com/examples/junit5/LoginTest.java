@@ -78,8 +78,6 @@ private void makeAccessWithData(String testMethod){
 		} catch (Exception exc) {
 			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
-		}finally {
-			WebdriverObject.reinitializeDriver();
 		}
 	}
 
