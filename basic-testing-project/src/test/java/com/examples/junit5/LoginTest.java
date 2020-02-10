@@ -34,7 +34,7 @@ public class LoginTest extends TestCase{
 	
     }
     
-private void makeAccessWithData(String testMethod){
+    private void makeAccessWithData(String testMethod){
     	
     	WebDriver driver = WebdriverObject.getWebDriverInstance("Data.xlsx");
     	MemoryData memoryData = WebdriverObject.getMemoryData();
@@ -61,7 +61,7 @@ private void makeAccessWithData(String testMethod){
 			Assert.assertTrue(labelErr.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
 			
 		} catch (Throwable exc) {
-			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
+			System.out.println("Error in makeAccessWithData: " + exc.getMessage());
 			exc.printStackTrace();
 			
 		} finally {
