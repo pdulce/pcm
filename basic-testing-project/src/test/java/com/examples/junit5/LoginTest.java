@@ -4,7 +4,6 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
 
 import java.util.Map;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.examples.MemoryData;
+import com.examples.WebdriverObject;
 
+import junit.framework.TestCase;
 
 /***
  * Tests login feature for SeleniumHQ WebDriver
@@ -34,10 +35,10 @@ public class LoginTest extends TestCase{
 	
     }
     
-    private void makeAccessWithData(String testMethod){
+private void makeAccessWithData(String testMethod){
     	
-    	WebDriver driver = WebdriverObject.getWebDriverInstance("Data.xlsx");
     	MemoryData memoryData = WebdriverObject.getMemoryData();
+    	WebDriver driver = WebdriverObject.getWebDriverInstance();
 		try {
 			
 			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
@@ -61,7 +62,7 @@ public class LoginTest extends TestCase{
 			Assert.assertTrue(labelErr.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
 			
 		} catch (Throwable exc) {
-			System.out.println("Error in makeAccessWithData: " + exc.getMessage());
+			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
 			
 		} finally {
