@@ -4,12 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.examples.junit5.WebdriverObject;
+
 public class PruebaSelenium {
 
 	
 	public static void main(String[] args){
 				
-    	WebDriver driver = WebdriverObject.getWebDriverInstance();
+    	WebDriver driver = WebdriverObject.getWebDriverInstance("Data.xlsx");
 		try {
 			
 			WebElement ele2Rearch =  driver.findElement(By.name("entryForm.user"));

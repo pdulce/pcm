@@ -4,6 +4,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
 
 import java.util.Map;
 
+import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -15,9 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.examples.MemoryData;
-import com.examples.WebdriverObject;
 
-import junit.framework.TestCase;
 
 /***
  * Tests login feature for SeleniumHQ WebDriver
@@ -37,13 +36,15 @@ public class LoginTest extends TestCase{
     
 private void makeAccessWithData(String testMethod){
     	
+    	WebDriver driver = WebdriverObject.getWebDriverInstance("Data.xlsx");
     	MemoryData memoryData = WebdriverObject.getMemoryData();
-    	WebDriver driver = WebdriverObject.getWebDriverInstance();
 		try {
 			
 			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
 			
-			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
+			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
+			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(By.id("entryForm.user")));
+			WebElement entryUserForm = waitForTree.until(presenceOfElementLocated(By.id("entryForm.user")));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
 
 			entryUserForm.sendKeys(datatest.get("entryForm.user"));
@@ -59,10 +60,9 @@ private void makeAccessWithData(String testMethod){
 			
 			Assert.assertTrue(labelErr.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
 			exc.printStackTrace();
-			throw exc;
 			
 		} finally {
 			WebdriverObject.reinitializeDriver();
@@ -70,13 +70,34 @@ private void makeAccessWithData(String testMethod){
     }
 	
     @Test
-    public void tests() {
+    public void testLoginErrUser() {
 		try {
 			makeAccessWithData("testLoginErrUser");
-			makeAccessWithData("testLoginErrPass");
-			makeAccessWithData("testLoginSucess");
-		} catch (Exception exc) {
+			
+		} catch (Throwable exc) {
 			System.out.println("Error in testLoginErrUser: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+	}
+    
+    @Test
+    public void testLoginErrPass() {
+		try {
+			
+			makeAccessWithData("testLoginErrPass");
+		
+		} catch (Throwable exc) {
+			System.out.println("Error in testLoginErrPass: " + exc.getMessage());
+			exc.printStackTrace();
+		}
+	}
+    
+    @Test
+    public void testLoginSucess() {
+		try {
+			makeAccessWithData("testLoginSucess");
+		} catch (Throwable exc) {
+			System.out.println("Error in testLoginSucess: " + exc.getMessage());
 			exc.printStackTrace();
 		}
 	}

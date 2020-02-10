@@ -182,12 +182,12 @@ public class ValoresActuales {
 		
 	}
 
-	private Proxy iniciarAccesoAProxy(){
+	public Proxy iniciarAccesoAProxy(){
 		
 		//If proxy requires authentication
 		System.setProperty("proxySet", "true");
 		System.setProperty("http.proxyUser", "99GU3997");
-		System.setProperty("http.proxyPassword", "socio115");
+		System.setProperty("http.proxyPassword", "socio501");
 		Authenticator.setDefault(
 		          new Authenticator() {
 		            public PasswordAuthentication getPasswordAuthentication() {
@@ -197,10 +197,12 @@ public class ValoresActuales {
 		            }
 		          }
 		        );
-		return new Proxy(Proxy.Type.HTTP, new InetSocketAddress("194.179.55.50", 8080));
+		//correcto: "10.17.206.14"
+				
+		return new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.17.206.14", 8080));
 	}
 	
-	private HttpURLConnection getConnection(String url, Proxy proxy) throws MalformedURLException, IOException{
+	public HttpURLConnection getConnection(String url, Proxy proxy) throws MalformedURLException, IOException{
 		HttpURLConnection connection = (proxy == null)?(HttpURLConnection)new URL(url).openConnection(): (HttpURLConnection)new URL(url).openConnection(proxy);
 		connection.addRequestProperty("User-Agent", "Mozilla/4.76");
 		connection.setDoOutput(true);
@@ -208,6 +210,35 @@ public class ValoresActuales {
 		connection.setRequestProperty("Accept", "text/xml, application/xml");
 		connection.setRequestMethod("GET");		
 		return connection;
+	}
+	
+	public static void main(String[] args){
+		ValoresActuales valActuales = new ValoresActuales();
+		
+		try {
+			HttpURLConnection connection = valActuales.getConnection("https://maven.apache.org/", valActuales.iniciarAccesoAProxy());
+			connection.connect();
+			//Volcamos lo recibido al buffer
+			BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String inputLine = "";
+			while ((inputLine = input.readLine()) != null) {
+				System.out.println("Salida: " + inputLine);
+			}
+			
+			try {
+				input.close();
+				connection.disconnect();
+			} catch (Throwable e3) {
+				e3.printStackTrace();
+			}
+			
+		} catch (MalformedURLException e0){
+			e0.printStackTrace();
+		} catch ( IOException e1) {
+			e1.printStackTrace();
+		} catch (Exception e3){
+			e3.printStackTrace();
+		}
 	}
 
 	private double[] getValuesOfIndice(BufferedReader input) throws ParseException, IOException{		

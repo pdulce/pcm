@@ -74,7 +74,9 @@ public class MemoryData {
 		}finally{
 			try {
 				in.close();
-				wb.close();
+				try{
+					wb.close();
+				}catch(Throwable iie){}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

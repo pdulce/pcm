@@ -5,6 +5,7 @@ import java.util.Map;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
+import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -15,10 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.examples.MemoryData;
-import com.examples.WebdriverObject;
 
-
-import junit.framework.TestCase;
 
 /***
  * Tests with SeleniumHQ WebDriver
@@ -39,7 +37,7 @@ public class GedeonesQueryTest extends TestCase {
 	@Test
 	public void testQueryEvent() {
 		
-		WebDriver driver = WebdriverObject.getWebDriverInstance();
+		WebDriver driver = WebdriverObject.getWebDriverInstance("Data.xlsx");
 		MemoryData memoryData = WebdriverObject.getMemoryData();
 		try {
 			
@@ -76,24 +74,22 @@ public class GedeonesQueryTest extends TestCase {
 			Assert.assertTrue(hrefGEDEONES.getText().contains("GEDEON"));
 			hrefGEDEONES.click();//nodo del escenario buscado, pinchado			
 			
-			expression = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
 			WebDriverWait waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
-			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
-			WebElement divResultados = waitForDivResults.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));			
-			Assert.assertTrue(divResultados.getText().contains(datatest.get(MemoryData.VALUE_2_EVALUATE)));
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.id("principal")));
+			WebElement divResultados = waitForDivResults.until(presenceOfElementLocated(By.id("principal")));	
+			Assert.assertTrue(divResultados.getText().contains("Resultados del  1 al  25"));
 			
-			/** consignar un valor en el input de C�d.Petici�n y jugar con el valor esperado si es el err�neo, y el v�lido-
-			 * Entre los resultados, testear si est� el valor buscado, igual haciendo lo mismo buscando algo imposible de que exista.
-			 */
 			String searchingExpressions[] = datatest.get("incidenciasProyecto.id").split("#");
 			WebElement entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
 			entryPeticionID2search.sendKeys(searchingExpressions[0]);
-			submitFormElement = driver.findElement(By.id("query"/*datatest.get(MemoryData.SUBMIT_ELEMENT)*/));
+			submitFormElement = driver.findElement(By.id("query"));
 			submitFormElement.click();
+			
+			String element2Check = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
 			waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
-			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(searchingExpressions[0].startsWith("/")?By.xpath(searchingExpressions[0]):By.id(searchingExpressions[0])));
-			divResultados = waitForDivResults.until(presenceOfElementLocated(searchingExpressions[0].startsWith("/")?By.xpath(searchingExpressions[0]):By.id(searchingExpressions[0])));			
-			Assert.assertTrue(divResultados.getText().contains(searchingExpressions[0]));
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='"+ element2Check + "']")));
+			divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("//input[@id='"+ element2Check + "']")));			
+			Assert.assertTrue(divResultados.getAttribute("value").contains("incidenciasProyecto.id="+searchingExpressions[0]));
 			
 			if (searchingExpressions.length == 2){
 				entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
@@ -102,13 +98,13 @@ public class GedeonesQueryTest extends TestCase {
 				submitFormElement.click();
 				
 				waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
-				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(searchingExpressions[1].startsWith("/")?By.xpath(searchingExpressions[1]):By.id(searchingExpressions[1])));
-				divResultados = waitForDivResults.until(presenceOfElementLocated(searchingExpressions[1].startsWith("/")?By.xpath(searchingExpressions[1]):By.id(searchingExpressions[1])));			
-				Assert.assertTrue(divResultados.getText().contains(searchingExpressions[1]));
+				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//TABLE[@class='pcmTable']")));
+				divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("//TABLE[@class='pcmTable']")));			
+				Assert.assertTrue(divResultados.getText().contains("No hay datos"));
 
 			}
 			
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			System.out.println("Error in testLoginSucess:" + exc.getMessage());
 			exc.printStackTrace();
 		} finally {
