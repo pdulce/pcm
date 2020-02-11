@@ -5,6 +5,7 @@ import java.util.Map;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
+import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +17,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.examples.MemoryData;
 
-
-import junit.framework.TestCase;
 
 /***
  * Tests with SeleniumHQ WebDriver
