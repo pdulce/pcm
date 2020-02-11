@@ -5,7 +5,6 @@ import java.util.Map;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +16,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.examples.MemoryData;
 
+
+import junit.framework.TestCase;
 
 /***
  * Tests with SeleniumHQ WebDriver
@@ -61,28 +62,23 @@ public class GedeonesQueryTest extends TestCase {
 			By by = expression.startsWith("/") ? By.xpath(expression) : By.id(expression);
 			
 			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(by));
-			WebElement arbolNavegacion = waitForTree.until(presenceOfElementLocated(by));
+			WebElement arbolNavegacion = waitForTree.until(presenceOfElementLocated(expression.startsWith("/")?By.xpath(expression):By.id(expression)));
 			Assert.assertTrue(arbolNavegacion.isDisplayed());
 
 			expression = datatest.get("partialLink2");
-			by = expression.startsWith("/") ? By.xpath(expression) : By.id(expression);
-			WebElement seguimientoFolder = arbolNavegacion.findElement(by);
+			WebElement seguimientoFolder = arbolNavegacion.findElement(expression.startsWith("/")?By.xpath(expression):By.id(expression));
 			Assert.assertTrue(seguimientoFolder.getText().contains("Seguimiento"));
 			seguimientoFolder.click();//pinchamos para abrir la carpeta que contiene el nodo buscado
 			
 			expression = datatest.get("partialLink3");
-			by = expression.startsWith("/") ? By.xpath(expression) : By.id(expression);
-			WebElement hrefGEDEONES = seguimientoFolder.findElement(by);
+			WebElement hrefGEDEONES = seguimientoFolder.findElement(expression.startsWith("/")?By.xpath(expression):By.id(expression));
 			Assert.assertTrue(hrefGEDEONES.getText().contains("GEDEON"));
-			hrefGEDEONES.click();//nodo del escenario buscado, pinchado	
+			hrefGEDEONES.click();//nodo del escenario buscado, pinchado			
 			
-			/**** FIRST CHECK OF RESULT VALUES SHOWN IN SCREEN ****/
-			String element2Check = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
-			WebDriverWait waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));
-			by = element2Check.startsWith("/") ? By.xpath(element2Check) : By.id(element2Check);
-			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(by));
-			WebElement resultadoElement = waitForDivResults.until(presenceOfElementLocated(by));
-			Assert.assertTrue(!resultadoElement.getAttribute("value").isEmpty());
+			WebDriverWait waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.id("principal")));
+			WebElement divResultados = waitForDivResults.until(presenceOfElementLocated(By.id("principal")));	
+			Assert.assertTrue(divResultados.getText().contains("Resultados del  1 al  25"));
 			
 			String searchingExpressions[] = datatest.get("incidenciasProyecto.id").split("#");
 			WebElement entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
@@ -90,12 +86,11 @@ public class GedeonesQueryTest extends TestCase {
 			submitFormElement = driver.findElement(By.id("query"));
 			submitFormElement.click();
 			
-			/**** SECOND/LAST CHECK OF RESULT VALUES SHOWN IN SCREEN ****/			
-			waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));
-			by = element2Check.startsWith("/") ? By.xpath(element2Check) : By.id(element2Check);
-			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(by));
-			resultadoElement = waitForDivResults.until(presenceOfElementLocated(by));			
-			Assert.assertTrue(resultadoElement.getAttribute("value").contains("incidenciasProyecto.id="+searchingExpressions[0]));
+			String element2Check = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
+			waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
+			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='"+ element2Check + "']")));
+			divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("//input[@id='"+ element2Check + "']")));			
+			Assert.assertTrue(divResultados.getAttribute("value").contains("incidenciasProyecto.id="+searchingExpressions[0]));
 			
 			if (searchingExpressions.length == 2){
 				entryPeticionID2search = driver.findElement(By.name("incidenciasProyecto.id"));
@@ -105,8 +100,8 @@ public class GedeonesQueryTest extends TestCase {
 				
 				waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));			
 				waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//TABLE[@class='pcmTable']")));
-				resultadoElement = waitForDivResults.until(presenceOfElementLocated(By.xpath("//TABLE[@class='pcmTable']")));			
-				Assert.assertTrue(resultadoElement.getText().contains("No hay datos"));
+				divResultados = waitForDivResults.until(presenceOfElementLocated(By.xpath("//TABLE[@class='pcmTable']")));			
+				Assert.assertTrue(divResultados.getText().contains("No hay datos"));
 
 			}
 			
@@ -116,7 +111,6 @@ public class GedeonesQueryTest extends TestCase {
 		} finally {
 			WebdriverObject.reinitializeDriver();
 		}
-	
 	
 	}
 
