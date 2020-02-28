@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import pcm.common.exceptions.PCMConfigurationException;
-import pcm.common.exceptions.DatabaseException;
-import pcm.common.exceptions.StrategyException;
-import pcm.common.utils.CommonUtils;
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.IDataAccess;
-import pcm.context.logicmodel.definitions.IEntityLogic;
-import pcm.context.logicmodel.factory.EntityLogicFactory;
-import pcm.context.viewmodel.definitions.FieldViewSet;
-import pcm.context.viewmodel.definitions.IFieldView;
-import pcm.strategies.DefaultStrategyRequest;
+import cdd.common.exceptions.DatabaseException;
+import cdd.common.exceptions.PCMConfigurationException;
+import cdd.common.exceptions.StrategyException;
+import cdd.common.utils.CommonUtils;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.IDataAccess;
+import cdd.logicmodel.definitions.IEntityLogic;
+import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.strategies.DefaultStrategyRequest;
+import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.viewmodel.definitions.IFieldView;
+
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyAltaColaborador extends DefaultStrategyRequest {

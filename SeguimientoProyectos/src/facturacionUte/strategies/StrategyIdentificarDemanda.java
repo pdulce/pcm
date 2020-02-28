@@ -7,22 +7,23 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import pcm.common.PCMConstants;
-import pcm.common.exceptions.DatabaseException;
-import pcm.common.exceptions.PCMConfigurationException;
-import pcm.common.exceptions.StrategyException;
-import pcm.common.exceptions.TransactionException;
-import pcm.common.utils.CommonUtils;
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.IDataAccess;
-import pcm.context.logicmodel.definitions.IEntityLogic;
-import pcm.context.logicmodel.definitions.IFieldLogic;
-import pcm.context.logicmodel.factory.EntityLogicFactory;
-import pcm.context.viewmodel.definitions.FieldView;
-import pcm.context.viewmodel.definitions.FieldViewSet;
-import pcm.context.viewmodel.definitions.IFieldView;
-import pcm.context.viewmodel.definitions.IRank;
-import pcm.context.viewmodel.definitions.Rank;
+import cdd.common.PCMConstants;
+import cdd.common.exceptions.DatabaseException;
+import cdd.common.exceptions.PCMConfigurationException;
+import cdd.common.exceptions.StrategyException;
+import cdd.common.exceptions.TransactionException;
+import cdd.common.utils.CommonUtils;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.IDataAccess;
+import cdd.logicmodel.definitions.IEntityLogic;
+import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.viewmodel.definitions.FieldView;
+import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.viewmodel.definitions.IFieldView;
+import cdd.viewmodel.definitions.IRank;
+import cdd.viewmodel.definitions.Rank;
+
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyIdentificarDemanda extends StrategyLogin {

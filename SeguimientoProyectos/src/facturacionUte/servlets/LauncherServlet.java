@@ -12,21 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.w3c.dom.Element;
 
-import pcm.common.PCMConstants;
-import pcm.common.exceptions.MessageException;
-import pcm.comunication.actions.IAction;
-import pcm.comunication.actions.SceneResult;
-import pcm.comunication.dispatcher.BasePCMServlet;
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.IDataAccess;
-import pcm.context.logicmodel.persistence.DAOConnection;
-import pcm.context.viewmodel.factory.IBodyContainer;
+import cdd.common.PCMConstants;
+import cdd.common.exceptions.MessageException;
+import cdd.comunication.actions.IAction;
+import cdd.comunication.actions.SceneResult;
+import cdd.comunication.dispatcher.CDDWebController;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.IDataAccess;
+import cdd.logicmodel.persistence.DAOConnection;
+import cdd.viewmodel.factory.IBodyContainer;
+
 import facturacionUte.utils.bolsa.ValoresActuales;
 
 /**
  * @author 99GU3997
  */
-public class LauncherServlet extends BasePCMServlet {
+public class LauncherServlet extends CDDWebController {
 	
 	public static final String EVENTO_ALL_INFO_BOLSA_VALORES = "allInfoBolsa";
 	

@@ -2,12 +2,13 @@ package facturacionUte.strategies;
 
 import java.util.Collection;
 
-import pcm.common.exceptions.PCMConfigurationException;
-import pcm.common.exceptions.StrategyException;
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.IDataAccess;
-import pcm.context.viewmodel.definitions.FieldViewSet;
-import pcm.strategies.DefaultStrategyLogin;
+import cdd.common.exceptions.PCMConfigurationException;
+import cdd.common.exceptions.StrategyException;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.IDataAccess;
+import cdd.strategies.DefaultStrategyLogin;
+import cdd.viewmodel.definitions.FieldViewSet;
+
 
 public class SampleConnector extends DefaultStrategyLogin {
 

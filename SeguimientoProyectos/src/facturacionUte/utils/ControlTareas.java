@@ -12,10 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import pcm.common.exceptions.PCMConfigurationException;
-import pcm.common.utils.CommonUtils;
-import pcm.context.logicmodel.factory.EntityLogicFactory;
-import pcm.context.logicmodel.factory.IEntityLogicFactory;
+import cdd.common.exceptions.PCMConfigurationException;
+import cdd.common.utils.CommonUtils;
+import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.logicmodel.factory.IEntityLogicFactory;
+
 
 public class ControlTareas extends GeneradorPresentaciones{
 	

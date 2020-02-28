@@ -3,10 +3,11 @@ package facturacionUte.common;
 import java.io.Serializable;
 import java.util.Comparator;
 
+import cdd.logicmodel.definitions.IEntityLogic;
+import cdd.viewmodel.definitions.FieldViewSet;
+
 import facturacionUte.utils.GeneradorPresentaciones;
 
-import pcm.context.logicmodel.definitions.IEntityLogic;
-import pcm.context.viewmodel.definitions.FieldViewSet;
 
 public final class ComparatorTasksBySituation implements Comparator<FieldViewSet>, Serializable {
 
