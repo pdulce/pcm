@@ -3,31 +3,8 @@
 <app:application xmlns:app="http://pcm.framework.org/metamodel"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://pcm.framework.org/metamodel metamodel.xsd">
-
-	<configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">
-		<!-- serverPath="C:\\apache-tomcat-7.0.85\\default">-->
-		<entry key="appTitle" value="Seguimiento de Proyectos Lote GISS"></entry>
-		<entry key="auditActivated" value="false"></entry>
-		<entry key="template" value="/jsp/template.jsp"></entry>
-		<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
-		<entry key="datasourceImpl" value="pcm.context.logicmodel.persistence.SqliteDAOSQLImpl"></entry>
-		<entry key="entitiesDictionary" value="/WEB-INF/entities.xml"></entry>
-		<entry key="driver-class" value="org.sqlite.JDBC"></entry>
-		<entry key="url-connection" value="jdbc:sqlite:"></entry>
-		<entry key="dbPort" value="-1"></entry><!-- SQLite no requiere puerto -->
-		<entry key="esquemaDDBB" value="#serverPath#/data/sqlite/factUTEDBLite.db"></entry>
-		<entry key="dbUserName" value=""></entry><!-- without login -->
-		<entry key="dbPassword" value=""></entry><!-- without password -->		
-		<entry key="pageSize" value="25"></entry>		
-		<entry key="logAppFile"
-			value="#serverPath#/logs/logSeguimientoUTE.xml"></entry>
-		<entry key="downloadDir"
-			value="#serverPath#/downloads/"></entry>
-		<entry key="uploadDir"
-			value="#serverPath#/uploads/"></entry>
-	</configuration>
-
+	xsi:schemaLocation="http://pcm.framework.org/metamodel navigationwebmodel.xsd">
+	
 	<profiles>
 		<profile name="ADMINISTRADOR"
 			description="Usuario administrador" />

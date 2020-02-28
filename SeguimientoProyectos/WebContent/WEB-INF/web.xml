@@ -3,7 +3,7 @@
 	<display-name>sg</display-name>
 	<servlet>
 		<servlet-name>PrincipalServlet</servlet-name>
-		<servlet-class>pcm.comunication.dispatcher.BasePCMServlet</servlet-class>
+		<servlet-class>cdd.comunication.dispatcher.CDDWebController</servlet-class>
 	</servlet>
 	
 	<servlet>

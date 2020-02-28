@@ -4,7 +4,7 @@
   
 	<xs:complexType name="AppType">
    		<xs:sequence>
-   			<xs:element maxOccurs="1" name="configuration" nillable="false" type="ConfigurationType"/>
+   			<!-- xs:element maxOccurs="1" name="configuration" nillable="false" type="ConfigurationType"/> -->
    			<xs:element maxOccurs="1" name="profiles" nillable="false" type="ProfilesType"/>		    		
 			<xs:element name="logo" nillable="true" type="LogoType"/>
 			<xs:element name="foot" nillable="true" type="FootType"/>
@@ -12,7 +12,7 @@
   		</xs:sequence>
 	</xs:complexType>
    	
-   	<xs:complexType name="ConfigurationType">
+   	<!-- xs:complexType name="ConfigurationType">
    		<xs:complexContent>
     		<xs:extension base="serverPathInfoType">   	
    				<xs:sequence>
@@ -20,7 +20,7 @@
    				</xs:sequence>
 	   		</xs:extension>
 	   	</xs:complexContent>
-	</xs:complexType>
+	</xs:complexType> -->
    		
    		
 	<xs:complexType name="serverPathInfoType">
