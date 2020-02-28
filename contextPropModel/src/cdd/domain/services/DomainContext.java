@@ -460,7 +460,7 @@ public class DomainContext implements Serializable {
 			this.setNavigationApp(value);
 			this.itemValues[19] = value;
 		} else if (key.equals(PCMConstants.SERVICE_DIRECTORY)) {
-			this.setNavigationApp(value);
+			this.setServiceDirectory(value);
 			this.itemValues[20] = value;
 		}
 	}
