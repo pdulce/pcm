@@ -3,12 +3,13 @@ package facturacionUte.strategies.previsiones;
 import java.util.Collection;
 import java.util.Iterator;
 
-import pcm.common.exceptions.PCMConfigurationException;
-import pcm.common.exceptions.StrategyException;
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.IDataAccess;
-import pcm.context.viewmodel.definitions.FieldViewSet;
-import pcm.strategies.DefaultStrategyRequest;
+import cdd.common.exceptions.PCMConfigurationException;
+import cdd.common.exceptions.StrategyException;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.IDataAccess;
+import cdd.strategies.DefaultStrategyRequest;
+import cdd.viewmodel.definitions.FieldViewSet;
+
 
 import facturacionUte.common.ConstantesModelo;
 

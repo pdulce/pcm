@@ -20,18 +20,19 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import pcm.common.exceptions.DatabaseException;
-import pcm.common.utils.CommonUtils;
-import pcm.comunication.dispatcher.BasePCMServlet;
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.IDataAccess;
-import pcm.context.logicmodel.definitions.IEntityLogic;
-import pcm.context.logicmodel.definitions.ILogicTypes;
-import pcm.context.logicmodel.factory.EntityLogicFactory;
-import pcm.context.viewmodel.definitions.FieldView;
-import pcm.context.viewmodel.definitions.FieldViewSet;
-import pcm.context.viewmodel.definitions.IFieldView;
-import pcm.strategies.IStrategy;
+import cdd.common.exceptions.DatabaseException;
+import cdd.common.utils.CommonUtils;
+import cdd.comunication.dispatcher.CDDWebController;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.IDataAccess;
+import cdd.logicmodel.definitions.IEntityLogic;
+import cdd.logicmodel.definitions.ILogicTypes;
+import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.strategies.IStrategy;
+import cdd.viewmodel.definitions.FieldView;
+import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.viewmodel.definitions.IFieldView;
+
 import facturacionUte.common.ConstantesModelo;
 import facturacionUte.strategies.TuplaMesEjercicioEntradas;
 import facturacionUte.strategies.concursos.StrategyCrearAgregadosMesesAppDptoServicio;
@@ -274,7 +275,7 @@ public class ImportarFacturacionMes {
 				}
 				catch (Throwable excc) {
 					excc.printStackTrace();
-					BasePCMServlet.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
+					CDDWebController.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
 					return -1;
 				}
 			}// for columnas de la HOJA 0
@@ -327,7 +328,7 @@ public class ImportarFacturacionMes {
 				}
 				catch (Throwable excc) {
 					excc.printStackTrace();
-					BasePCMServlet.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
+					CDDWebController.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
 					return -1;
 				}			
 			}// for columnas de la HOJA 1

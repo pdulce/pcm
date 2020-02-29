@@ -8,19 +8,20 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import pcm.common.PCMConstants;
-import pcm.common.exceptions.PCMConfigurationException;
-import pcm.common.exceptions.DatabaseException;
-import pcm.common.exceptions.StrategyException;
-import pcm.common.exceptions.TransactionException;
-import pcm.common.utils.CommonUtils;
-import pcm.comunication.actions.Event;
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.IDataAccess;
-import pcm.context.logicmodel.definitions.IEntityLogic;
-import pcm.context.logicmodel.factory.EntityLogicFactory;
-import pcm.context.viewmodel.definitions.FieldViewSet;
-import pcm.strategies.DefaultStrategyRequest;
+import cdd.common.PCMConstants;
+import cdd.common.exceptions.DatabaseException;
+import cdd.common.exceptions.PCMConfigurationException;
+import cdd.common.exceptions.StrategyException;
+import cdd.common.exceptions.TransactionException;
+import cdd.common.utils.CommonUtils;
+import cdd.comunication.actions.Event;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.IDataAccess;
+import cdd.logicmodel.definitions.IEntityLogic;
+import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.strategies.DefaultStrategyRequest;
+import cdd.viewmodel.definitions.FieldViewSet;
+
 
 import facturacionUte.common.ConstantesModelo;
 

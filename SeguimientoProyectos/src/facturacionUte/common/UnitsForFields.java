@@ -3,8 +3,8 @@
  */
 package facturacionUte.common;
 
-import pcm.comunication.dispatcher.RequestWrapper;
-import pcm.context.logicmodel.definitions.IFieldLogic;
+import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.logicmodel.definitions.IFieldLogic;
 
 /**
  * @author 99GU3997

@@ -3,9 +3,10 @@ package facturacionUte.common;
 import java.io.Serializable;
 import java.util.Comparator;
 
+import cdd.viewmodel.definitions.FieldViewSet;
+
 import facturacionUte.utils.GeneradorPresentaciones;
 
-import pcm.context.viewmodel.definitions.FieldViewSet;
 
 public class ComparatorBySameProjectAndEpigrafe implements Comparator<FieldViewSet>, Serializable {
 	

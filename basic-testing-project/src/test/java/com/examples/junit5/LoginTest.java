@@ -31,7 +31,7 @@ public class LoginTest extends TestCase{
      */
     public LoginTest( )
     {
-        super( "JunitTest5" );
+        super( "JunitTest5 " );
 	
     }
     

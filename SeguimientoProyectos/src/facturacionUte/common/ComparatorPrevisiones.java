@@ -3,8 +3,9 @@ package facturacionUte.common;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import pcm.context.logicmodel.definitions.IEntityLogic;
-import pcm.context.viewmodel.definitions.FieldViewSet;
+import cdd.logicmodel.definitions.IEntityLogic;
+import cdd.viewmodel.definitions.FieldViewSet;
+
 
 public final class ComparatorPrevisiones implements Comparator<FieldViewSet>, Serializable {
 

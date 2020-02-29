@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<app:application xmlns:app="http://pcm.framework.org/metamodel"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/metamodel navigationwebmodel.xsd">
+	
+	<profiles>
+		<profile name="ADMINISTRADOR"
+			description="Usuario administrador" />
+		<profile name="CONSULTOR_UTE"
+			description="Usuario consultor" />
+		<profile name="CONSULTOR_UTE"
+			description="Usuario invitado, con acceso a ver colaboradores" />
+		<profile name="ANALISIS_TEAM" description="Analista del equipo del CDINSS" />
+	</profiles>
+
+	<logo content="img/logoPCM.PNG" width="202" height="72" alt="Inicio" uri="prjManager"/>
+
+	<foot text="Seguimiento Proyectos v&lt;b&gt;&lt;i&gt;01.05&lt;/i&gt;&lt;/b&gt; [14/01/2020]" link="prjManager" />
+
+	<tree profile="ADMINISTRADOR" name="tree">
+
+		<FOLDER profile="ADMINISTRADOR" name="Config.">
+			<LEAF link="exec=Configuration" name="Configuraciones" />
+			<LEAF link="event=GestionEntidades.query#entityName=rol" name="Roles" />
+			<LEAF link="event=GestionUsuarios.query" name="Usuarios" />
+			<LEAF link="event=GestionEntidades.query#entityName=tipoAplicacion" name="Technologies" />
+			<LEAF link="event=GestionEntidades.query#entityName=mes" name="Meses" />
+		</FOLDER>
+		
+		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="Mapa organizativo">
+			<LEAF link="event=GestionEntidades.query#entityName=unidadOrg" name="Organismos" />
+			<LEAF link="event=GestionEntidades.query#entityName=edificio" name="Centros" />
+			<LEAF link="event=GestionEntidades.query#entityName=subdireccion" name="Subdirecciones" />
+			<LEAF link="event=GestionResponsablesCentros.query" name="Responsables" />
+			<LEAF link="event=GestionServicios.query" name="Servicios" />
+			<LEAF link="event=GestionProyectos.query" name="Aplicaciones" />
+			<LEAF link="event=GestionColaboradores.query" name="Colaboradores" />
+		</FOLDER>
+		
+		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="UTEs">
+			<LEAF link="event=GestionConcursos.query" name="Contratos/Lotes" />
+			<LEAF link="event=GestionEmpresasUTE.query" name="Empresas" />
+			<LEAF link="event=GestionEntidades.query#entityName=categoria_profesional" name="Tarifas por perfil" />
+			<LEAF link="event=GestionEntidades.query#entityName=responsabilidad" name="Atribuciones" />
+		</FOLDER>
+
+		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE"
+			name="Seguimiento">
+			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
+			<LEAF link="event=InformePeticionesSG.query" name="Demanda SGD" />
+		</FOLDER>
+		
+		<FOLDER profile="ADMINISTRADOR"
+				name="Importaciones GEDEON">
+			<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
+		</FOLDER>
+					
+		<FOLDER profile="ADMINISTRADOR"	name="Cotizaciones Bolsa">
+			<LEAF link="event=ConsultaPeticionesDatosInvertia.query" name="Consultas/estad." />
+			<LEAF link="LauncherUtility?exec=allInfoBolsa" name="Actualizar autom. Valores" />
+		</FOLDER>
+		<FOLDER profile="ADMINISTRADOR"	name="Bolsa Cartera Valores">
+			<LEAF link="LauncherUtility?exec=myInfoBolsa" name="Valores actuales en Mi Cartera" />
+		</FOLDER>
+
+	</tree>
+	
+	
+</app:application>
