@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.persistence.IDAOImpl;
 
 
@@ -34,15 +34,15 @@ public class DAOImplementationFactory implements IDAOImplementationFactory {
 	}
 
 	@Override
-	public void initDAOTraductorImpl(final DomainContext ctx, final Map<String, String> auditFieldSet) throws PCMConfigurationException {
+	public void initDAOTraductorImpl(final DomainApplicationContext ctx, final Map<String, String> auditFieldSet) throws PCMConfigurationException {
 		IDAOImpl daoImpl = null;
 		try {
 			@SuppressWarnings("unchecked")
-			Class<IDAOImpl> classType = (Class<IDAOImpl>) Class.forName(ctx.getDSourceImpl());
+			Class<IDAOImpl> classType = (Class<IDAOImpl>) Class.forName(ctx.getResourcesConfiguration().getDSourceImpl());
 			daoImpl = (IDAOImpl) classType.getDeclaredConstructors()[0].newInstance();
 			daoImpl.setContext(ctx);
 			daoImpl.setAuditFieldset(auditFieldSet);
-			this.implHash.put(ctx.getDSourceImpl(), daoImpl);
+			this.implHash.put(ctx.getResourcesConfiguration().getDSourceImpl(), daoImpl);
 		} catch (InvocationTargetException e1) {
 			CDDWebController.log.log(Level.SEVERE, "Error", e1);
 			throw new PCMConfigurationException("Error at IDAOImpl instantiation");

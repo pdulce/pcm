@@ -10,61 +10,73 @@ import java.util.List;
 
 public class LineCounter {
 
-	static long lines = 0;
+	public static long lines = 0;
 
-	static long javas = 0;
+	public static long javas = 0;
+	
+	private static String[] excluidos = new String[]{"_ES.xsl"}; 
+	
+	private static String[]incluidos = new String[]{".java", ".xsl", ".js"};
+	
+	public static List<String> pathFilesML = new ArrayList<String>();
 
-	static List<String> pathFilesML = new ArrayList<String>();
-
-	static List<String> pathFilesQL = new ArrayList<String>();
+	public static List<String> pathFilesQL = new ArrayList<String>();
 
 	public static void main(final String[] args) {
 
-		// System.out.println(new BigDecimal("123.458", new MathContext(4, RoundingMode.HALF_UP)));
-		// System.out.println(new BigDecimal("123.458", new MathContext(2, RoundingMode.HALF_UP)));
-		// System.out.println(new BigDecimal("123.48", new MathContext(3, RoundingMode.HALF_UP)));
-		// System.out.println(new BigDecimal("123.458", new MathContext(1, RoundingMode.HALF_UP)));
-		// System.out.println(new BigDecimal("123.458", new MathContext(3, RoundingMode.HALF_UP)));
-		// Calendar cal1 = Calendar.getInstance();
-		// Calendar cal2 = Calendar.getInstance();
-		// cal1.set(Calendar.MONTH, 2);// march
-		// cal2.set(Calendar.MONTH, 11);// december
-
-		// long fechaInicial = cal1.getTimeInMillis();
-		// long fechaFinal = cal2.getTimeInMillis();
-		// long diferencia = fechaFinal - fechaInicial;
-		// double dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-		// System.out.println("diffencia en meses " + Double.valueOf(dias / 30).intValue());
-
-		final String rootPath = "C:\\workspace\\PropertyContextFramework\\src";
-		//"C:\\DESARROLLO\\wks_8.3\\GESE01GestionEconomica\\src"; 
-		//= ;
-		final File file = new File(rootPath);
-
-		final File[] files = file.listFiles();
-		LineCounter.readFiles(files==null?new File[]{}: files);
-
-		System.out.println("Ficheros totales del framework PCM = " + LineCounter.javas);
+		final String[] rootPaths = new String[]{"C:\\workspace\\AYFL01GestionAyudas\\src", 
+				"C:\\workspace\\AYFL01GestionAyudasWeb\\WebContent"};
+		
+		List<File> listaFiles = new ArrayList<File>();
+		for (int i=0;i<rootPaths.length;i++){
+			final File file = new File(rootPaths[i]);
+			if (!file.exists()){
+				throw new RuntimeException("Error processing files in directory, cause it does not exist: " + rootPaths[i]);
+			}
+			LineCounter.listarDirectorio(file, listaFiles);
+			LineCounter.readFiles(listaFiles);
+		}		
+		System.out.println("Ficheros procesados = " + LineCounter.javas);
 		System.out.println("Lineas totales = " + LineCounter.lines);
-		System.out.println("Media de lineas por fichero = " + ((double) LineCounter.lines / (double) LineCounter.javas));
-		System.out.println("Ficheros de mos de 1000 lineas = " + LineCounter.pathFilesML.size());
-		for (final String fileML : LineCounter.pathFilesML) {
-			System.out.println("\t" + fileML);
-		}
-		System.out.println("Ficheros de mos de 500 lineas = " + LineCounter.pathFilesQL.size());
-		for (final String fileQL : LineCounter.pathFilesQL) {
-			System.out.println("\t" + fileQL);
-		}
-	}
+		
+		/*System.out.println("Ficheros de mos de 1000 lineas = " + LineCounter.pathFilesML.size());
+		System.out.println("Media de lineas por fichero = " + ((double) LineCounter.lines / (double) LineCounter.javas));		
+		System.out.println("Ficheros de mos de 500 lineas = " + LineCounter.pathFilesQL.size());*/			
 
-	public static void readFiles(final File[] pFiles) {
+	}
+	
+	public static void listarDirectorio (File direc, List<File> listaFiles){
+		if (!direc.isDirectory()){
+			listaFiles.add(direc);
+			return;
+		}
+		File[] hijos = direc.listFiles();
+		for (int i=0;i<hijos.length;i++){		
+			listarDirectorio(hijos[i], listaFiles);
+		}		
+	}
+	
+	private static boolean esCandidato(File f){
+		for (int e=0;e<excluidos.length;e++){
+			if (f.getName().endsWith(excluidos[e])){
+				return false;
+			}						
+		}
+		boolean esCandidato = false;
+		for (int i=0;i<incluidos.length;i++){
+			if (f.getName().endsWith(incluidos[i])){
+				esCandidato = true;
+				break;
+			}				
+		}
+		return esCandidato;
+	}
+	
+	public static void readFiles(final List<File> pFiles) {
 		for (final File f : pFiles) {
-			if (f.isDirectory() && f.getName().indexOf("json") == -1) {
-				LineCounter.readFiles(f.listFiles());
-			} else if (f.getName().endsWith(".java") && !f.getName().equals("SampleRInvocation.java")
-					&& !f.getName().equals("RandomVarUtils.java") && !f.getName().startsWith("Matrix")
-					&& !f.getName().equals("TroceadorPresupuestosGESE.java") && !f.getName().equals("LineCounter.java")
-					&& !f.getName().equals("RecordToXML.java")) {
+			if (f.isDirectory()){
+				continue;
+			}else if (esCandidato(f)){
 				LineCounter.countLines(f);
 			}
 		}

@@ -26,12 +26,12 @@ import cdd.comunication.actions.validators.RelationalAndCIFValidator;
 import cdd.comunication.actions.validators.StringValidator;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
 import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.components.controls.ICtrl;
@@ -568,11 +568,11 @@ public class FieldView implements IFieldView, Serializable {
 	/** *** END OF CONSTRUCTORS ***** */
 
 	private void setCommonAttrs(final Element nodeField) {
-		if (nodeField.hasAttribute(IViewModel.NAME_ATTR)) {
+		if (nodeField.hasAttribute(DomainApplicationContext.NAME_ATTR)) {
 			if (!nodeField.hasAttribute(ContextProperties.MAPPING_TO_ATTR)) {
 				this.userDefined = true;
 			}
-			this.setUserName(nodeField.getAttribute(IViewModel.NAME_ATTR));
+			this.setUserName(nodeField.getAttribute(DomainApplicationContext.NAME_ATTR));
 			this.setQualifiedContextName(getContextName().concat(PCMConstants.POINT).concat(this.getUserNamed()));
 		}
 		if (nodeField.hasAttribute(ContextProperties.DISABLED_ATTR)) {
@@ -660,8 +660,8 @@ public class FieldView implements IFieldView, Serializable {
 				multiple = el.getAttribute(ContextProperties.SELECTION_MULTIPLE_ATTR).equals(IViewComponent.TRUE);
 			}
 			final NodeList options = optionSet.getElementsByTagName(IFieldView.OPTION_NODENAME);
-			if (optionSet.hasAttribute(IViewModel.ENTITYMODEL_ATTR)) {
-				final String entityOptionsName = optionSet.getAttribute(IViewModel.ENTITYMODEL_ATTR);
+			if (optionSet.hasAttribute(DomainApplicationContext.ENTITYMODEL_ATTR)) {
+				final String entityOptionsName = optionSet.getAttribute(DomainApplicationContext.ENTITYMODEL_ATTR);
 				String descrMapps = optionSet.getAttribute(OptionsSelection.DESC_MAPPING_FIELD);
 				String[] splitter = descrMapps.split(",");
 				int[] descrArr = new int[splitter.length];

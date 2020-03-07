@@ -31,12 +31,11 @@ import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
 import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.Translator;
+import cdd.viewmodel.components.BodyContainer;
 import cdd.viewmodel.components.Form;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.components.XmlUtils;
 import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.factory.IBodyContainer;
-
 
 
 public abstract class GenericScatterChartServlet extends GenericStatsServlet {
@@ -156,7 +155,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final IDataAccess dataAccess, final RequestWrapper request_, IBodyContainer containerView) {
+	protected SceneResult renderRequestFromNodePrv(final IDataAccess dataAccess, final RequestWrapper request_, final String serviceName, final String event) {
 
 		SceneResult scene = new SceneResult();
 		long mills1 = Calendar.getInstance().getTimeInMillis();
@@ -176,7 +175,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_),
 					paramGeneric4Entity);
 			
-			Form formSubmitted = (Form) containerView.getForms().iterator().next();
+			Form formSubmitted = (Form) BodyContainer.getContainerOfView(request_, dataAccess, serviceName, event, this.contextApp).getForms().iterator().next();
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
 				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {

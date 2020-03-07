@@ -1,33 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/commons-lang3-3.3.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-math3-3.4.1.jar"/>
-	<classpathentry kind="lib" path="lib/cosOreilly-2.3.jar"/>
-	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/itext-pdfa-5.5.3.jar"/>
-	<classpathentry kind="lib" path="lib/itext-xtra-5.5.3.jar"/>
-	<classpathentry kind="lib" path="lib/itextpdf-5.5.3.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet.jar"/>
-	<classpathentry kind="lib" path="lib/json_simple-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.13.jar"/>
-	<classpathentry kind="lib" path="lib/ooxml-schemas-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="lib/poi-excelant-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="lib/poi-scratchpad-3.9-20121203.jar"/>
-	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.7.2.jar"/>
-	<classpathentry kind="lib" path="lib/xmlbeans-2.3.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.utility"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/cdd-library"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -10,8 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.w3c.dom.Element;
-
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
 import cdd.comunication.actions.IAction;
@@ -20,7 +18,6 @@ import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.dispatcher.RequestWrapper;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.persistence.DAOConnection;
-import cdd.viewmodel.factory.IBodyContainer;
 
 import facturacionUte.utils.bolsa.ValoresActuales;
 
@@ -92,8 +89,8 @@ public class LauncherServlet extends CDDWebController {
 
 	@Override
 	protected SceneResult renderRequestFromNode(final DAOConnection conn, final IDataAccess dataAccess, final String serviceName,
-			final Element actionNode, final String event, final RequestWrapper request_, final boolean eventSubmitted, IAction action,
-			IBodyContainer containerView_, Collection<MessageException> messageExceptions, final String lang) {
+			final String event, final RequestWrapper request_, final boolean eventSubmitted, IAction action,
+			Collection<MessageException> messageExceptions, final String lang) {
 		
 		StringBuilder htmlOutput = new StringBuilder();
 		htmlOutput.append("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\""

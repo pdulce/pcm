@@ -7,7 +7,7 @@ import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.persistence.DAOConnection;
 
 
@@ -16,7 +16,7 @@ import cdd.logicmodel.persistence.DAOConnection;
  */
 public interface IPCMDataSourceFactory {
 
-	public void initDataSource(DomainContext appCtx, InitialContext initialContext, ServletContext servletCtx)
+	public void initDataSource(DomainApplicationContext appCtx, InitialContext initialContext, ServletContext servletCtx)
 			throws PCMConfigurationException;
 
 	public DAOConnection getConnection() throws PCMConfigurationException;

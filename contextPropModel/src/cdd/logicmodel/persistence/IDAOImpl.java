@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import cdd.common.exceptions.DatabaseException;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -88,7 +88,7 @@ public interface IDAOImpl {
 
 	public String getSequenceValueExpr(final IFieldLogic field);
 
-	public void setContext(final DomainContext ctx);
+	public void setContext(final DomainApplicationContext ctx);
 
 	public boolean isAuditActivated();
 

@@ -18,6 +18,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.components.FootComponent;
 import cdd.viewmodel.components.LogoComponent;
@@ -99,19 +100,19 @@ public class ApplicationLayout implements Serializable {
 	}
 	
 	private Element extractLogoElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, IViewModel.LOGO_ELEMENT);
+		return this.extractComponentElement(appNavigation, DomainApplicationContext.LOGO_ELEMENT);
 	}
 
 	private Element extractFootElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, IViewModel.FOOT_ELEMENT);
+		return this.extractComponentElement(appNavigation, DomainApplicationContext.FOOT_ELEMENT);
 	}
 
 	private Element extractTreeElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, IViewModel.TREE_ELEMENT);
+		return this.extractComponentElement(appNavigation, DomainApplicationContext.TREE_ELEMENT);
 	}
 
 	private Element extractMenuElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, IViewModel.MENU_ELEMENT);
+		return this.extractComponentElement(appNavigation, DomainApplicationContext.MENU_ELEMENT);
 	}
 
 	private Element extractComponentElement(final Document appNavigation, final String elemName_) throws PCMConfigurationException {

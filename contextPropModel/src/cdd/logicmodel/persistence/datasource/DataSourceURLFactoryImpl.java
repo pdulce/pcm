@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.persistence.DAOConnection;
 
 
@@ -46,11 +46,11 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 	}
 	
 	@Override
-	public void initDataSource(final DomainContext appCtx, final javax.naming.InitialContext initialContext)	throws PCMConfigurationException {
-		this.driverDefined = appCtx.getDriverDDBB();
+	public void initDataSource(final DomainApplicationContext appCtx, final javax.naming.InitialContext initialContext)	throws PCMConfigurationException {
+		this.driverDefined = appCtx.getResourcesConfiguration().getDriverDDBB();
 		this.info = new Properties();
-		if (appCtx.getSchemaDDBB().endsWith(".db")) {
-			String schemaFileDirectory = appCtx.getSchemaDDBB();
+		if (appCtx.getResourcesConfiguration().getSchemaDDBB().endsWith(".db")) {
+			String schemaFileDirectory = appCtx.getResourcesConfiguration().getSchemaDDBB();
 			File database = new File(schemaFileDirectory);
 			if (!database.exists()) {
 				database = new File(schemaFileDirectory);					
@@ -59,7 +59,7 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 							+ database.getParent());
 				}
 			}
-			this.url = appCtx.getUrlConn().concat(database.getAbsolutePath());
+			this.url = appCtx.getResourcesConfiguration().getUrlConn().concat(database.getAbsolutePath());
 		}
 	}
 

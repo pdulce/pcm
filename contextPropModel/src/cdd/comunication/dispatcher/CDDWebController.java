@@ -3,7 +3,6 @@ package cdd.comunication.dispatcher;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,9 +11,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -25,14 +22,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
@@ -47,25 +36,22 @@ import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.IEvent;
 import cdd.comunication.actions.SceneResult;
 
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.DomainUseCaseService;
+import cdd.domain.services.ResourcesConfig;
 import cdd.logicmodel.DataAccess;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.factory.DAOImplementationFactory;
 import cdd.logicmodel.persistence.DAOConnection;
 import cdd.strategies.DefaultStrategyLogin;
 
-
 import cdd.viewmodel.ApplicationLayout;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.Translator;
-
 import cdd.viewmodel.components.BodyContainer;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.components.PaginationGrid;
 import cdd.viewmodel.components.XmlUtils;
 import cdd.viewmodel.components.controls.html.Span;
-
-import cdd.viewmodel.factory.IBodyContainer;
 
 /**
  * <h1>BasePCMServlet</h1> The BasePCMServlet class is the servlet that centralizes the received
@@ -81,17 +67,15 @@ public class CDDWebController extends HttpServlet {
 
 	private static final long serialVersionUID = 4491685640714600097L;
 
-	private static final String APPMODEL_XML_FILE = "/WEB-INF/navigationWebModel.xml", WELLCOME_TXT = "WELLCOME_TXT", CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
+	private static final String WELLCOME_TXT = "WELLCOME_TXT", CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
 
-	private static final Map<String, String> mimeTypes = new HashMap<String, String>();
-	
 	protected static final String[] coloresHistogramas = { "Maroon", "Red", "Orange", "Blue", "Navy", "Green", "Purple",
 		"Fuchsia",	"Lime", "Teal", "Aqua", "Olive", "Black", "Gray", "Silver"};
 	
 	public static final String EVENTO_CONFIGURATION = "Configuration";
 	public static final String EXEC_PARAM = "exec";
 
-	public static Logger log = Logger.getLogger("cdd.comunication.dispatcher.CCDWebController");
+	public static Logger log = Logger.getLogger("cdd.comunication.dispatcher.CDDWebController");
 	
 	static {
 		if (log.getHandlers().length == 0) {
@@ -105,76 +89,20 @@ public class CDDWebController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-
-		mimeTypes.put("", "text/plain");
-		mimeTypes.put("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		mimeTypes.put("xltx", "application/vnd.openxmlformats-officedocument.spreadsheetml.template");
-		mimeTypes.put("potx", "application/vnd.openxmlformats-officedocument.presentationml.template");
-		mimeTypes.put("ppsx", "application/vnd.openxmlformats-officedocument.presentationml.slideshow");
-		mimeTypes.put("pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
-		mimeTypes.put("sldx", "application/vnd.openxmlformats-officedocument.presentationml.slide");
-		mimeTypes.put("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-		mimeTypes.put("dotx", "application/vnd.openxmlformats-officedocument.wordprocessingml.template");
-		mimeTypes.put("xlam", "application/vnd.ms-excel.addin.macroEnabled.12");
-		mimeTypes.put("xlsb", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
-		mimeTypes.put("txt", "text/plain");
-		mimeTypes.put("pdf", "application/pdf");
-		mimeTypes.put("au", "audio/basic");
-		mimeTypes.put("avi", "video/msvideo");
-		mimeTypes.put("bmp", "image/bmp");
-		mimeTypes.put("bz2", "application/x-bzip2");
-		mimeTypes.put("css", "text/css");
-		mimeTypes.put("dtd", "application/xml-dtd");
-		mimeTypes.put("doc", "application/msword");
-		mimeTypes.put("zip", "application/zip, application/x-compressed-zip");
-		mimeTypes.put("xml", "application/xml");
-		mimeTypes.put("wav", "audio/wav, audio/x-wav");
-		mimeTypes.put("tsv", "text/tab-separated-values");
-		mimeTypes.put("tiff", "image/tiff");
-		mimeTypes.put("tgz", "application/x-tar");
-		mimeTypes.put("gz", "application/x-tar");
-		mimeTypes.put("tar", "application/x-tar");
-		mimeTypes.put("swf", "application/x-shockwave-flash");
-		mimeTypes.put("svg", "image/svg+xml");
-		mimeTypes.put("sit", "application/x-stuffit");
-		mimeTypes.put("sgml", "text/sgml");
-		mimeTypes.put("rtf", "application/rtf");
-		mimeTypes.put("rdf", "application/rdf, application/rdf+xml");
-		mimeTypes.put("ram", "audio/x-pn-realaudio, audio/vnd.rn-realaudio");
-		mimeTypes.put("ra", "audio/x-pn-realaudio, audio/vnd.rn-realaudio");
-		mimeTypes.put("qt", "video/quicktime");
-		mimeTypes.put("ps", "application/postscript");
-		mimeTypes.put("png", "image/png");
-		mimeTypes.put("pl", "application/x-perl");
-		mimeTypes.put("ogg", "audio/vorbis");
-		mimeTypes.put("mpeg", "video/mpeg");
-		mimeTypes.put("mp3", "audio/mpeg");
-		mimeTypes.put("midi", "audio/x-midi");
-		mimeTypes.put("js", "application/x-javascript");
-		mimeTypes.put("jpg", "image/jpeg");
-		mimeTypes.put("jar", "application/java-archive");
-		mimeTypes.put("html", "text/html");
-		mimeTypes.put("hqx", "application/mac-binhex40");
-		mimeTypes.put("gz", "application/x-gzip");
-		mimeTypes.put("gif", "image/gif");
-		mimeTypes.put("exe", "application/octet-stream");
-		mimeTypes.put("es", "application/ecmascript");
-
 	}
 	
 	/** variables de servlet; compartidas por cada ejecución de hilo-request **/
-	protected final List<Document> appRoots = new ArrayList<Document>();
-	protected Element actionQueryElement;
+	
 	protected String initService, initEvent, addressBookServiceName, servletPral;
-	protected ServletConfig webconfig;	
-	protected Document appNavigation;	
-	protected DomainContext contextApp;
+	protected ServletConfig webconfig;		
+	protected DomainApplicationContext contextApp;
 	protected ApplicationLayout appLayout = new ApplicationLayout();
+	protected NavigationAppManager navigationManager;
 	
 	protected Map<String, Collection<String>> sceneMap = new HashMap<String, Collection<String>>();
 		
 	protected void setResponseMimeTypeAttrs(final HttpServletResponse response, int size, String extension) {
-		response.setContentType(mimeTypes.get(extension) == null ? "application/".concat(extension) : mimeTypes.get(extension));
+		response.setContentType(MimeTypes.mimeTypes.get(extension) == null ? "application/".concat(extension) : MimeTypes.mimeTypes.get(extension));
 		response.addHeader("Content-Disposition", "attachment;filename=document." + extension);
 		response.setContentLength(size);
 	}
@@ -197,54 +125,38 @@ public class CDDWebController extends HttpServlet {
 			if (cddConfig == null){
 				throw new ServletException("navigationWebModel file not found, relative path: " + CONFIG_CDD_XML);
 			}
-			this.contextApp = new DomainContext(cddConfig);			
+			this.contextApp = new DomainApplicationContext(cddConfig);			
 			String pathBase = globalCfg_.getServletContext().getRealPath("");
 			if (pathBase.indexOf("server") != -1) {
 				String leftPart = pathBase.split("server")[0];
-				this.contextApp.setBaseServerPath(leftPart.concat("server"));
+				this.contextApp.getResourcesConfiguration().setBaseServerPath(leftPart.concat("server"));
 			} else {
 				File f = new File(pathBase);
-				this.contextApp.setBaseServerPath(f.getParentFile().getParentFile().getAbsolutePath());
-				this.contextApp.setBaseAppPath(f.getAbsolutePath());
+				this.contextApp.getResourcesConfiguration().setBaseServerPath(f.getParentFile().getParentFile().getAbsolutePath());
+				this.contextApp.getResourcesConfiguration().setBaseAppPath(f.getAbsolutePath());
 			}
-			String uploadDir = this.contextApp.getUploadDir();
+			String uploadDir = this.contextApp.getResourcesConfiguration().getUploadDir();
 			if (!new File(uploadDir).exists()) {
 				throw new PCMConfigurationException("uploadDir does not exist");
 			}
-			String downloadDir = this.contextApp.getDownloadDir();
+			String downloadDir = this.contextApp.getResourcesConfiguration().getDownloadDir();
 			if (!new File(downloadDir).exists()) {
 				throw new PCMConfigurationException("downloadDir does not exist");
 			}
 			//cargamos los diccionarios y etc
 			this.contextApp.invoke();
 			
-			/** mine**/
-			InputStream navigationWebModel = globalCfg_.getServletContext().getResourceAsStream(APPMODEL_XML_FILE);
-			if (navigationWebModel == null){
-				throw new ServletException("navigationWebModel file not found, relative path: " + APPMODEL_XML_FILE);
-			}
-			this.appNavigation = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(navigationWebModel);
+			this.navigationManager = new NavigationAppManager(
+					this.contextApp.getResourcesConfiguration().getNavigationApp(), globalCfg_.getServletContext());
 			
-			// buscamos posibles metamodelos de servicios en ficheros externos
-			this.appRoots.addAll(readFiles(new File(new File(globalCfg_.getServletContext().getRealPath("WEB-INF/web.xml"))
-					.getParentFile().getAbsolutePath().concat("/services")).listFiles(), ".xml"));			
-									
-			if (this.sceneMap != null && this.sceneMap.isEmpty()) {
-				final Iterator<Element> servicesIte = this.contextApp.getViewModel().extractServices().iterator();
+						if (this.sceneMap != null && this.sceneMap.isEmpty()) {
+				final Iterator<String> servicesIte = this.contextApp.extractServiceNames().iterator();
 				this.sceneMap = new HashMap<String, Collection<String>>();
 				while (servicesIte.hasNext()) {
-					final Element service = servicesIte.next();
-					final String serviceI = service.getAttribute(IViewModel.NAME_ATTR);
-					final Collection<Element> actions = this.contextApp.getViewModel().discoverAllActions(service);
-					final Iterator<Element> actionsIte = actions.iterator();
-					final Collection<String> events = new ArrayList<String>();
-					while (actionsIte.hasNext()) {
-						events.add(actionsIte.next().getAttribute(IViewModel.EVENT_ATTR));
-					}
-					this.sceneMap.put(serviceI, events);
+					final String serviceName = servicesIte.next();
+					this.sceneMap.put(serviceName, this.contextApp.discoverAllEvents(serviceName));
 				}
-			}
-			
+			}			
 		}
 		catch (final PCMConfigurationException excCfg) {
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, excCfg);
@@ -255,19 +167,7 @@ public class CDDWebController extends HttpServlet {
 		}
 	}
 
-	private List<Document> readFiles(final File[] pFiles, String suffix_) throws FileNotFoundException, SAXException, IOException,
-			ParserConfigurationException {
-		List<Document> filesFound = new ArrayList<Document>();
-		if (pFiles == null) {
-			return filesFound;
-		}
-		for (File pFile : pFiles) {
-			if (pFile.isFile() && pFile.getName().endsWith(suffix_)) {
-				filesFound.add(DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream(pFile)));
-			}
-		}
-		return filesFound;
-	}
+	
 	
 	protected void cleanTmpFiles(final String pathUpload) {
 		final File[] files = new File(pathUpload).listFiles();
@@ -322,7 +222,7 @@ public class CDDWebController extends HttpServlet {
 			}
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			InputStream fin = new FileInputStream(new File(this.contextApp.getUploadDir().concat(fileName)));
+			InputStream fin = new FileInputStream(new File(this.contextApp.getResourcesConfiguration().getUploadDir().concat(fileName)));
 			byte[] buffer = new byte[512];
 			while (fin.read(buffer) > 0) {
 				baos.write(buffer);
@@ -346,39 +246,39 @@ public class CDDWebController extends HttpServlet {
 
 		DAOConnection conn = null;
 		try {
-			conn = this.contextApp.getDataSourceFactoryImplObject().getConnection();
+			conn = this.contextApp.getResourcesConfiguration().getDataSourceFactoryImplObject().getConnection();
 			if (conn == null) {
 				CDDWebController.log.log(Level.SEVERE, "ATENCION ooconexion es NULA!!");
 				throw new PCMConfigurationException("ooconexion es NULA!!");
 			}
-			final RequestWrapper request_ = new RequestWrapper(request, this.contextApp.getUploadDir(), Integer.valueOf(
-					this.contextApp.getPageSize()).intValue());
+			final RequestWrapper request_ = new RequestWrapper(request, this.contextApp.getResourcesConfiguration().getUploadDir(), Integer.valueOf(
+					this.contextApp.getResourcesConfiguration().getPageSize()).intValue());
 
-			if (this.contextApp.getServerName() == null) {
-				this.contextApp.setServerName(request.getLocalName());
-				this.contextApp.setServerPort(String.valueOf(request.getLocalPort()));
+			if (this.contextApp.getResourcesConfiguration().getServerName() == null) {
+				this.contextApp.getResourcesConfiguration().setServerName(request.getLocalName());
+				this.contextApp.getResourcesConfiguration().setServerPort(String.valueOf(request.getLocalPort()));
 				this.servletPral = this.servletPral == null ? request.getServletPath() : this.servletPral;
-				this.contextApp.setUri("/".concat(this.webconfig.getServletContext().getServletContextName()).concat(
+				this.contextApp.getResourcesConfiguration().setUri("/".concat(this.webconfig.getServletContext().getServletContextName()).concat(
 						this.servletPral));
-				cleanTmpFiles(this.contextApp.getUploadDir());
+				cleanTmpFiles(this.contextApp.getResourcesConfiguration().getUploadDir());
 			}
 			if (request.getAttribute(PCMConstants.APP_CONTEXT) == null) {
 				request.setAttribute(PCMConstants.APP_CONTEXT, this.servletPral);
-				request.setAttribute(PCMConstants.APP_DICTIONARY, this.contextApp.getEntitiesDictionary());
+				request.setAttribute(PCMConstants.APP_DICTIONARY, this.contextApp.getResourcesConfiguration().getEntitiesDictionary());
 			}
 			if (request.getAttribute(PCMConstants.APPURI_) == null) {
-				request.setAttribute(PCMConstants.APPURI_, this.contextApp.getUri());
+				request.setAttribute(PCMConstants.APPURI_, this.contextApp.getResourcesConfiguration().getUri());
 			}
 
 			this.paintLayout(request_, conn);
 			
-			this.webconfig.getServletContext().getRequestDispatcher(this.contextApp.getTemplatePath()).forward(request, response);
+			this.webconfig.getServletContext().getRequestDispatcher(this.contextApp.getResourcesConfiguration().getTemplatePath()).forward(request, response);
 		}
 		catch (final Throwable e2) {
 			throw new ServletException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, e2);
 		} finally {
 			try {
-				this.contextApp.getDataSourceFactoryImplObject().freeConnection(conn);
+				this.contextApp.getResourcesConfiguration().getDataSourceFactoryImplObject().freeConnection(conn);
 			}
 			catch (final Throwable excSQL) {
 				CDDWebController.log.log(Level.SEVERE, "Error", excSQL);
@@ -387,19 +287,7 @@ public class CDDWebController extends HttpServlet {
 		}
 	}
 	
-	protected Collection<String> extractProfiles() throws PCMConfigurationException {
-			
-		final Collection<String> profilesRec = new ArrayList<String>();
-		final NodeList listaNodes = appNavigation.getDocumentElement().getElementsByTagName(IViewModel.PROFILES_ELEMENT);
-		if (listaNodes.getLength() > 0) {
-			final Element initS = (Element) listaNodes.item(0);
-			final NodeList profiles = initS.getElementsByTagName(IViewModel.PROFILE_ELEMENT);
-			for (int i = 0; i < profiles.getLength(); i++) {
-				profilesRec.add(((Element) profiles.item(i)).getAttribute(IViewModel.NAME_ATTR));
-			}
-		}
-		return profilesRec;
-	}
+	
 	
 
 	private boolean isInitService(final RequestWrapper request) {
@@ -413,22 +301,20 @@ public class CDDWebController extends HttpServlet {
 	}
 
 	private String getInitService(final RequestWrapper request) {
-		if (this.initService == null) {
+		if (this.initService == null || "".equals(this.initService)) {
 			try {
-				final Map<String, Map<String, String>> initServiceMap = this.contextApp.getViewModel().extractInitServiceEventAndAddressBook();
-				Iterator<Map.Entry<String, Map<String, String>>> iteEntries = initServiceMap.entrySet().iterator();
-				while (iteEntries.hasNext()) {
-					final Entry<String, Map<String, String>> entry = iteEntries.next();
-					if (entry.getKey().startsWith("Autenticacion")){
-						this.initService = entry.getKey();	
-						this.initEvent = "submitForm";
-						break;
-					}
+				DomainUseCaseService initialDomainService = this.contextApp.getDomainService("appInitialService");
+				if (initialDomainService == null){
+					throw new RuntimeException("You must have appInitialService.xml as the initial service domain config (XML) of your application");
 				}
+				if (initialDomainService.extractActionElementByService("Autenticacion", "submitForm") == null){
+					throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service");
+				}
+				this.initService = "Autenticacion";	
+				this.initEvent = "submitForm";
 			}
 			catch (final Throwable exc) {
-				this.initService = PCMConstants.EMPTY_;
-				this.initEvent = PCMConstants.EMPTY_;
+				throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service", exc);
 			}
 		}
 		return this.initService;
@@ -441,7 +327,7 @@ public class CDDWebController extends HttpServlet {
 			escenario.put(this.getInitService(request), PCMConstants.EMPTY_);
 		} else if (eventFromRequest.startsWith(IEvent.TEST)) {
 			request.getSession().setAttribute(PCMConstants.LANGUAGE, CommonUtils.getLanguage(request));
-			request.getSession().setAttribute(PCMConstants.APP_PROFILE, this.extractProfiles().iterator().next());
+			request.getSession().setAttribute(PCMConstants.APP_PROFILE, DomainApplicationContext.extractProfiles(navigationManager.getAppNavigation()).iterator().next());
 			eventFromRequest = eventFromRequest.substring(eventFromRequest.indexOf(PCMConstants.CHAR_POINT) + 1);
 			final String serviceRec = eventFromRequest.substring(0, eventFromRequest.indexOf(PCMConstants.CHAR_POINT));
 			final String nameEventFromReq = eventFromRequest.substring(serviceRec.length() + 1, eventFromRequest.length());
@@ -456,30 +342,13 @@ public class CDDWebController extends HttpServlet {
 		return escenario;
 	}
 
-	private Element getServiceElement(final String service, final RequestWrapper request) throws PCMConfigurationException {
-		final Element serviceParentNode = this.contextApp.getViewModel().extractServiceElementByName(
-				service);
-		if (serviceParentNode.getAttribute(IViewModel.PROFILE_ATTR) != null) {
-			final String[] split = serviceParentNode.getAttribute(IViewModel.PROFILE_ATTR).split(PCMConstants.COMMA);
-			for (final String splitPart : split) {
-				if (!this.extractProfiles().contains(splitPart.trim())) {
-					final String n = InternalErrorsConstants.SERVICE_AND_PROFILE_NOTFOUND_ERROR
-							.replaceFirst(InternalErrorsConstants.ARG_1, service).replaceFirst(InternalErrorsConstants.ARG_2, splitPart)
-							.replaceFirst(InternalErrorsConstants.ARG_3, request.getServletPath());
-					CDDWebController.log.log(Level.SEVERE, n);
-					throw new PCMConfigurationException(n);
-				}
-			}
-		}
-		return serviceParentNode;
-	}
-
-	protected IDataAccess getDataAccess(final Element actionElement_, final DAOConnection conn) throws PCMConfigurationException {
+	protected IDataAccess getDataAccess(final String service, final String event, final DAOConnection conn) throws PCMConfigurationException {
 		try {
-			return new DataAccess(this.contextApp.getEntitiesDictionary(), DAOImplementationFactory.getFactoryInstance()
-					.getDAOImpl(this.contextApp.getDSourceImpl()), conn, this.contextApp.getViewModel()
-					.extractStrategiesElementByAction(actionElement_), this.contextApp.getViewModel()
-					.extractStrategiesPreElementByAction(actionElement_), this.contextApp.getDataSourceFactoryImplObject());
+			return new DataAccess(this.contextApp.getResourcesConfiguration().getEntitiesDictionary(), DAOImplementationFactory.getFactoryInstance()
+					.getDAOImpl(this.contextApp.getResourcesConfiguration().getDSourceImpl()), conn, 
+					this.contextApp.extractStrategiesElementByAction(service, event), 
+					this.contextApp.extractStrategiesPreElementByAction(service, event), 
+					this.contextApp.getResourcesConfiguration().getDataSourceFactoryImplObject());
 		}
 		catch (final PCMConfigurationException sqlExc) {
 			CDDWebController.log.log(Level.SEVERE, "Error", sqlExc);
@@ -507,7 +376,7 @@ public class CDDWebController extends HttpServlet {
 				
 				StringBuilder htmlOutput = new StringBuilder();
 				htmlOutput.append("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\""
-						+ this.contextApp.getUri() + "\">");
+						+ this.contextApp.getResourcesConfiguration().getUri() + "\">");
 				htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"\" />");
 				htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\"event\" value=\"\" />");
 				innerContent_.append("<input type=\"hidden\" id=\"MASTER_ID_SEL_\" name=\"MASTER_ID_SEL_\" value=\"\" />");
@@ -516,17 +385,19 @@ public class CDDWebController extends HttpServlet {
 				
 				htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");
 				htmlOutput.append("<td width=\"60%\">Valor actual</td></tr>");
-				int itemsCount = DomainContext.ITEM_NAMES.length;
+				this.contextApp.getResourcesConfiguration();
+				int itemsCount = ResourcesConfig.ITEM_NAMES.length;
 				for (int i = 0; i < itemsCount; i++) {
-					String itemName = DomainContext.ITEM_NAMES[i];
-					String itemValue = this.contextApp.getItemValues()[i] == null ? "" : this.contextApp
-							.getItemValues()[i];
+					this.contextApp.getResourcesConfiguration();
+					String itemName = ResourcesConfig.ITEM_NAMES[i];
+					String itemValue = this.contextApp.getResourcesConfiguration().getItemValues()[i] == null ? "" : this.contextApp.
+							getResourcesConfiguration().getItemValues()[i];
 					htmlOutput.append("<tr class=\"").append(i % 2 == 0 ? PCMConstants.ESTILO_PAR : PCMConstants.ESTILO_IMPAR);
 					htmlOutput.append("\"><td><B>").append(itemName).append("</B></td><td><I>").append(itemValue).append("</I></td></tr>");
 				}// config item
 				htmlOutput.append("</table>").append("<br/><br/>").append("<table width=\"85%\"><tr>")
 						.append("<td width=\"100%\">Roles</td></tr>");
-				Iterator<String> profilesIte = extractProfiles().iterator();
+				Iterator<String> profilesIte = DomainApplicationContext.extractProfiles(this.navigationManager.getAppNavigation()).iterator();
 				int count = 0;
 				while (profilesIte.hasNext()) {
 					String profileName = profilesIte.next();
@@ -540,9 +411,6 @@ public class CDDWebController extends HttpServlet {
 				lang = CommonUtils.getLanguage(request);
 
 				IAction action = null;
-				IBodyContainer container = null;
-				Element actionElementNode = null;
-
 				Map<String, String> scene = new HashMap<String, String>();
 				event = request.getParameter(PCMConstants.EVENT);
 				if (event == null){
@@ -556,9 +424,7 @@ public class CDDWebController extends HttpServlet {
 				}
 				
 				service = scene.keySet().iterator().next();
-				final Collection<String> actionSet = this.sceneMap.get(service);
-				actionElementNode = null;
-				final Element serviceParentNode = this.getServiceElement(service, request);
+				final Collection<String> actionSet = this.sceneMap.get(service);				
 				eventSubmitted = true;
 				final String serviceQName = new StringBuilder(service).append(PCMConstants.POINT).append(event).toString();
 				final boolean isInitialService = this.getInitService(request).equals(service);
@@ -568,41 +434,33 @@ public class CDDWebController extends HttpServlet {
 							: this.initEvent : event;
 					if (serviceQName.equals(request.getSession().getAttribute(IViewComponent.RETURN_SCENE))) {
 						request.getSession().setAttribute(IViewComponent.RETURN_SCENE, null);
-					}
-					actionElementNode = this.contextApp.getViewModel().extractActionElementByService(serviceParentNode,
-							event);
-				} else {
-					if (Event.isQueryEvent(event)) {
-						actionElementNode = this.contextApp.getViewModel().extractActionElementByService(serviceParentNode,
-								IEvent.QUERY);
-					} else if (Event.isFormularyEntryEvent(event) && actionSet.contains(Event.getInherentEvent(event))) {
-						actionElementNode = this.contextApp.getViewModel().extractActionElementByService(serviceParentNode,
-								Event.getInherentEvent(event));
-					} else if (actionSet.contains(event)) {
-						actionElementNode = this.contextApp.getViewModel().extractActionElementByService(serviceParentNode,
-								event);
-					} else if (!actionSet.contains(event)) {
-						final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(
-								InternalErrorsConstants.ARG_1, serviceQName.toString());
-						CDDWebController.log.log(Level.SEVERE, s.toString());
-						throw new PCMConfigurationException(s.toString());
-					}
+					}					
 				}
-
-				dataAccess_ = getDataAccess(actionElementNode, conn);
+				
+				dataAccess_ = getDataAccess(service, event, conn);
+					
+				if (Event.isQueryEvent(event)) {
+					dataAccess_ = getDataAccess(service, IEvent.QUERY, conn);
+				} else if (Event.isFormularyEntryEvent(event) && actionSet.contains(Event.getInherentEvent(event))) {
+					dataAccess_ = getDataAccess(service, Event.getInherentEvent(event), conn);					
+				} else if (!actionSet.contains(event)) {
+					final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(
+							InternalErrorsConstants.ARG_1, serviceQName.toString());
+					CDDWebController.log.log(Level.SEVERE, s.toString());
+					throw new PCMConfigurationException(s.toString());
+				}
+									
 				try {
-					container = BodyContainer.getContainerOfView(this.contextApp.getViewModel(), request, dataAccess_, actionElementNode, contextApp, event);
-					action = AbstractPcmAction.getAction(container, actionElementNode, event, request, contextApp, actionSet);
-				}
-				catch (final PCMConfigurationException configExcep) {
+					action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(request, dataAccess_, service, event, contextApp), 
+							service, event, request, contextApp, actionSet);
+				} catch (final PCMConfigurationException configExcep) {
 					throw configExcep;
 				}
 				catch (final DatabaseException recExc) {
 					throw recExc;
 				}
 				
-				SceneResult sceneResult = renderRequestFromNode(conn, dataAccess_, service, actionElementNode, event, request, eventSubmitted, action,
-						container, new ArrayList<MessageException>(), lang);
+				SceneResult sceneResult = renderRequestFromNode(conn, dataAccess_, service, event, request, eventSubmitted, action,	 new ArrayList<MessageException>(), lang);
 				
 				String bodyContentOfService = sceneResult.getXhtml();
 				
@@ -629,7 +487,7 @@ public class CDDWebController extends HttpServlet {
 				
 				if (!IEvent.VOLVER.equals(request.getParameter(PCMConstants.MASTER_NEW_EVENT_)) && !Event.isTransactionalEvent(event) && !isInitService(request)){//metemos en la pila
 					String escenario = service.concat(".").concat(event);
-					String escenarioTraducido = getTitleOfAction(actionElementNode);
+					String escenarioTraducido = this.navigationManager.getTitleOfAction(this.contextApp, service, event);
 					if (request.getParameter("fID") == null){ //si no han pulsado desde el orbol de navegacion ni es create, delete o cancel, aoado este escenario para la pila						
 						if (!pila.endsWith(escenario) && !Event.isCreateEvent(event) && !Event.isDeleteEvent(event) && !IEvent.CANCEL.equals(request.getParameter(PCMConstants.MASTER_NEW_EVENT_))){
 							if (!pila.equals("") && !pila.endsWith(" >> ")){
@@ -729,12 +587,12 @@ public class CDDWebController extends HttpServlet {
 
 		} finally {
 			
-			request.setAttribute(PCMConstants.TITLE, this.contextApp.getAppTitle());
-			request.setAttribute(PCMConstants.LOGO, appLayout.paintLogo(appNavigation, lang, request, dataAccess_));
-			request.setAttribute(PCMConstants.FOOT, appLayout.paintFoot(appNavigation, lang, request, dataAccess_));
+			request.setAttribute(PCMConstants.TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
+			request.setAttribute(PCMConstants.LOGO, appLayout.paintLogo(this.navigationManager.getAppNavigation(), lang, request, dataAccess_));
+			request.setAttribute(PCMConstants.FOOT, appLayout.paintFoot(this.navigationManager.getAppNavigation(), lang, request, dataAccess_));
 			if (!(isInitService(request) && !eventSubmitted)){
-				request.setAttribute(PCMConstants.MENU_ITEMS, appLayout.paintMenuHeader(appNavigation, lang, request, dataAccess_));
-				request.setAttribute(PCMConstants.TREE, appLayout.paintTree(appNavigation, lang, request, dataAccess_));				
+				request.setAttribute(PCMConstants.MENU_ITEMS, appLayout.paintMenuHeader(this.navigationManager.getAppNavigation(), lang, request, dataAccess_));
+				request.setAttribute(PCMConstants.TREE, appLayout.paintTree(this.navigationManager.getAppNavigation(), lang, request, dataAccess_));				
 			}else{
 				request.setAttribute(PCMConstants.MENU_ITEMS, PCMConstants.EMPTY_);
 				request.setAttribute(PCMConstants.TREE, PCMConstants.EMPTY_);
@@ -744,16 +602,18 @@ public class CDDWebController extends HttpServlet {
 	}
 	
 	protected SceneResult renderRequestFromNode(final DAOConnection conn, final IDataAccess dataAccess, final String serviceName,
-			final Element actionNode, final String event, final RequestWrapper requestWrapper, final boolean eventSubmitted,
-			IAction action, IBodyContainer containerView_, Collection<MessageException> messageExceptions, final String lang) {
+			final String event, final RequestWrapper requestWrapper, final boolean eventSubmitted,
+			IAction action, Collection<MessageException> messageExceptions, final String lang) {
 
 		boolean redirected = false;
 		SceneResult sceneResult = new SceneResult();
-		
+		IDataAccess _dataAccess = null;
+		String serviceRedirect = null;
+		String eventRedirect = null;		
 		try {
 			if (dataAccess.getPreconditionStrategies().isEmpty()) {
 				dataAccess.getPreconditionStrategies().addAll(
-						this.contextApp.getViewModel().extractStrategiesPreElementByAction(actionNode));
+						this.contextApp.extractStrategiesPreElementByAction(serviceName, event));
 			}
 			sceneResult = action.executeAction(dataAccess, requestWrapper, eventSubmitted, messageExceptions);
 			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
@@ -769,20 +629,15 @@ public class CDDWebController extends HttpServlet {
 						xhtml.append(textoBienvenida);
 						xhtml.append("<br><br><hr>");
 						if (this.addressBookServiceName != null && !this.addressBookServiceName.equals("")) {
-							if (this.actionQueryElement == null) {
-								Element addressBookServiceElement = this.contextApp.getViewModel().extractServiceElementByName(
-										this.addressBookServiceName);
-								this.actionQueryElement = this.contextApp.getViewModel().extractActionElementByService(addressBookServiceElement, IEvent.QUERY);
-							}
-							ActionPagination actionPagination = new ActionPagination(containerView_, requestWrapper, IEvent.QUERY,
-									this.actionQueryElement);
+							ActionPagination actionPagination = new ActionPagination(this.contextApp, 
+									BodyContainer.getContainerOfView(requestWrapper, dataAccess, serviceName, event, contextApp),
+									requestWrapper, serviceName, IEvent.QUERY);
 							actionPagination.setAppContext(this.contextApp);
 							actionPagination.setEvent(IEvent.QUERY);
 							/**** vaciamos las estrategias del escenariuo Autentication.submitForm *****/
 							dataAccess.getPreconditionStrategies().clear();
 							dataAccess.getPreconditionStrategies().addAll(
-									this.contextApp.getViewModel().extractStrategiesPreElementByAction(
-											this.actionQueryElement));
+									this.contextApp.extractStrategiesPreElementByAction(this.addressBookServiceName, IEvent.QUERY));
 							xhtml.append(actionPagination.executeAction(dataAccess, requestWrapper, true/* event
 																										 * submmitted */,
 									messageExceptions).getXhtml());
@@ -797,39 +652,28 @@ public class CDDWebController extends HttpServlet {
 					final Map.Entry<String, String> entrySeAndEvent = this.getSceneQName(requestWrapper).entrySet().iterator().next();
 					final String serviceQName = new StringBuilder(entrySeAndEvent.getKey()).append(PCMConstants.CHAR_POINT)
 							.append(entrySeAndEvent.getValue()).toString();
-					if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {
-						
-						final String serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
-						final String eventRedirect = sceneRedirect.substring(serviceRedirect.length() + 1, sceneRedirect.length());
-						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(serviceName) && eventRedirect.equals(event)))) {
-							final Element serviceParentNodeRedirect = this.contextApp.getViewModel().extractServiceElementByName(serviceRedirect);
-							final Element actionElementRedirect = this.contextApp.getViewModel().extractActionElementByService(
-									serviceParentNodeRedirect, eventRedirect);
-							IDataAccess _dataAccess = getDataAccess(actionElementRedirect, conn);
+					if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {						
+						serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
+						eventRedirect = sceneRedirect.substring(serviceRedirect.length() + 1, sceneRedirect.length());
+						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(serviceName) && eventRedirect.equals(event)))) {							
+							_dataAccess = getDataAccess(serviceName, event, conn);
 							IAction actionObjectOfRedirect = null;
 							try {
-								Collection<String> regEvents = new ArrayList<String>();							
-								containerView_.getForms().clear();
-								containerView_.getGrids().clear();
-								containerView_ = null;
-								containerView_ = BodyContainer.getContainerOfView(this.contextApp.getViewModel(), requestWrapper, _dataAccess, actionElementRedirect, contextApp, eventRedirect);
-								actionObjectOfRedirect = AbstractPcmAction.getAction(containerView_, actionElementRedirect, eventRedirect, requestWrapper, contextApp, regEvents);
+								Collection<String> regEvents = new ArrayList<String>();
+								actionObjectOfRedirect = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(requestWrapper, _dataAccess, serviceName, eventRedirect, contextApp),
+										serviceRedirect, eventRedirect, requestWrapper, contextApp, regEvents);
 							}
 							catch (final PCMConfigurationException configExcep) {
 								throw configExcep;
-							}
-							
-							sceneResult = renderRequestFromNode(conn, _dataAccess, serviceRedirect, actionElementRedirect,
-									eventRedirect, requestWrapper, false, actionObjectOfRedirect, containerView_,
-									sceneResult.getMessages(), lang);						
+							}							
+							sceneResult = renderRequestFromNode(conn, _dataAccess, serviceRedirect, eventRedirect,	requestWrapper, false, actionObjectOfRedirect, sceneResult.getMessages(), lang);						
 							requestWrapper.getSession().setAttribute(IViewComponent.RETURN_SCENE, new StringBuilder(serviceRedirect).append(PCMConstants.POINT).append(eventRedirect).toString());
-							redirected = true;
-							
-							final Iterator<IViewComponent> iteratorGrids = containerView_.getGrids().iterator();
+							redirected = true;							
+							final Iterator<IViewComponent> iteratorGrids = BodyContainer.getContainerOfView(requestWrapper, _dataAccess, serviceName, eventRedirect, contextApp).getGrids().iterator();
 							while (iteratorGrids.hasNext()) {
 								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 								if (paginationGrid.getMasterNamespace() != null) {
-									final ActionPagination actionPagination = new ActionPagination(containerView_, requestWrapper, eventRedirect, actionElementRedirect);
+									final ActionPagination actionPagination = new ActionPagination(this.contextApp, BodyContainer.getContainerOfView(requestWrapper, _dataAccess, serviceName, eventRedirect, contextApp), requestWrapper, serviceName, eventRedirect);
 									actionPagination.setAppContext(this.contextApp);
 									actionPagination.setEvent(serviceRedirect.concat(".").concat(eventRedirect)); 
 									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, requestWrapper, false/*eventSubmitted*/, messageExceptions)
@@ -840,13 +684,12 @@ public class CDDWebController extends HttpServlet {
 						}
 					}					
 				}
-			}
-			
-			final Iterator<IViewComponent> iteratorGrids = containerView_.getGrids().iterator();
+			}			
+			final Iterator<IViewComponent> iteratorGrids = BodyContainer.getContainerOfView(requestWrapper, _dataAccess, serviceName, event, contextApp).getGrids().iterator();
 			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(containerView_, requestWrapper, event, actionNode);
+					final ActionPagination actionPagination = new ActionPagination(this.contextApp, BodyContainer.getContainerOfView(requestWrapper, _dataAccess, serviceName, event, contextApp), requestWrapper, serviceName, event);
 					actionPagination.setAppContext(this.contextApp);
 					actionPagination.setEvent(serviceName.concat(".").concat(event)); 
 					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, requestWrapper, eventSubmitted, messageExceptions)
@@ -873,52 +716,4 @@ public class CDDWebController extends HttpServlet {
 	}
 	
 	
-	private String getTitleOfAction(Element actionElementNode){
-		String serviceSceneTitle = "";
-		NodeList nodes = actionElementNode.getElementsByTagName("form");
-		int n = nodes.getLength();
-		for (int nn=0;nn<n;nn++){
-			Node elem = nodes.item(nn);
-			if (elem.getNodeName().equals("form")){
-				serviceSceneTitle = ((Element)elem).getAttribute("title");
-			}
-		}
-		return serviceSceneTitle;
-	}
-	
-	public final Element extractAppElement() throws PCMConfigurationException {
-		
-		final NodeList listaNodes = appNavigation.getDocumentElement()
-				.getElementsByTagName(IViewModel.APP_ELEMENT);
-		if (listaNodes.getLength() > 0) {
-			return (Element) listaNodes.item(0);
-		}
-		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.APP_NOT_FOUND.replaceFirst(InternalErrorsConstants.ARG_1, "application"));
-		throw new PCMConfigurationException(excep.toString());
-	}
-
-	public final Map<String, String> extractAuditFieldSet() throws PCMConfigurationException {
-		Map<String, String> auditFieldSet = null;		
-		final NodeList listaNodes = appNavigation.getDocumentElement()
-				.getElementsByTagName(IViewModel.AUDITFIELDSET_ELEMENT);
-		if (listaNodes.getLength() > 0) {
-			auditFieldSet = new HashMap<String, String>();
-			final Element auditFieldSetElem = (Element) listaNodes.item(0);
-			final NodeList listaChildren = auditFieldSetElem.getElementsByTagName(IViewModel.AUDITFIELD_ELEMENT);
-			if (listaChildren.getLength() < 6) {
-				final StringBuilder excep = new StringBuilder(InternalErrorsConstants.AUDIT_FIELDS_NOT_FOUND);
-				throw new PCMConfigurationException(excep.toString());
-			}
-			auditFieldSet.put(IViewModel.USU_ALTA, listaChildren.item(0).getFirstChild().getNodeValue());
-			auditFieldSet.put(IViewModel.USU_MOD, listaChildren.item(1).getFirstChild().getNodeValue());
-			auditFieldSet.put(IViewModel.USU_BAJA, listaChildren.item(2).getFirstChild().getNodeValue());
-			auditFieldSet.put(IViewModel.FEC_ALTA, listaChildren.item(3).getFirstChild().getNodeValue());
-			auditFieldSet.put(IViewModel.FEC_MOD, listaChildren.item(4).getFirstChild().getNodeValue());
-			auditFieldSet.put(IViewModel.FEC_BAJA, listaChildren.item(5).getFirstChild().getNodeValue());
-			return auditFieldSet;
-		}
-		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.APP_NOT_FOUND.replaceFirst(InternalErrorsConstants.ARG_1, "application"));
-		throw new PCMConfigurationException(excep.toString());
-	}
-
 }

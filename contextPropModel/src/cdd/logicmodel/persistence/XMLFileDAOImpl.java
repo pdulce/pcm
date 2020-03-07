@@ -3,7 +3,7 @@ package cdd.logicmodel.persistence;
 import java.util.Map;
 import java.util.Properties;
 
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 
 
 /**
@@ -15,16 +15,16 @@ public abstract class XMLFileDAOImpl implements IDAOImpl {
 
 	protected boolean auditActivated, xmlFileImpl;
 
-	protected DomainContext ctx;
+	protected DomainApplicationContext ctx;
 
 	protected Properties auditFieldSet;
 
-	public DomainContext getContext() {
+	public DomainApplicationContext getContext() {
 		return this.ctx;
 	}
 
 	@Override
-	public void setContext(final DomainContext ctx) {
+	public void setContext(final DomainApplicationContext ctx) {
 		this.ctx = ctx;
 	}
 
@@ -47,7 +47,7 @@ public abstract class XMLFileDAOImpl implements IDAOImpl {
 		return this.auditFieldSet;
 	}
 
-	public DomainContext getContextApp() {
+	public DomainApplicationContext getContextApp() {
 		return this.ctx;
 	}
 

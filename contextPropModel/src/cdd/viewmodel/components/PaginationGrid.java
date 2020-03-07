@@ -27,14 +27,13 @@ import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.IEvent;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.dispatcher.RequestWrapper;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.controls.ICtrl;
 import cdd.viewmodel.components.controls.html.GenericHTMLElement;
@@ -269,7 +268,7 @@ public class PaginationGrid extends AbstractComponent {
 
 	}
 
-	public PaginationGrid(final String service_, final Element viewElement_, final String formId_, final DomainContext appCtx_,
+	public PaginationGrid(final String service_, final Element viewElement_, final String formId_, final DomainApplicationContext appCtx_,
 			final RequestWrapper request_) throws PCMConfigurationException {
 
 		// long miliseconds1 = System.nanoTime();
@@ -365,15 +364,15 @@ public class PaginationGrid extends AbstractComponent {
 			}
 
 			final Collection<FieldViewSet> fieldViewSets = new ArrayList<FieldViewSet>();
-			final NodeList nodosFieldViewSets = element.getElementsByTagName(IViewModel.FIELDVIEWSET_ELEMENT);
+			final NodeList nodosFieldViewSets = element.getElementsByTagName(DomainApplicationContext.FIELDVIEWSET_ELEMENT);
 			int nodesFViewSetCount = nodosFieldViewSets.getLength();
 			for (int i = 0; i < nodesFViewSetCount; i++) {
 				final Element fieldViewSetNode = (Element) nodosFieldViewSets.item(i);
 				final NamedNodeMap attrs = fieldViewSetNode.getAttributes();
-				String nameSpaceEntity = attrs.getNamedItem(IViewModel.NAMESPACE_ENTITY_ATTR).getNodeValue();
-				String entityNameInMetamodel = attrs.getNamedItem(IViewModel.ENTITYMODEL_ATTR).getNodeValue();
+				String nameSpaceEntity = attrs.getNamedItem(DomainApplicationContext.NAMESPACE_ENTITY_ATTR).getNodeValue();
+				String entityNameInMetamodel = attrs.getNamedItem(DomainApplicationContext.ENTITYMODEL_ATTR).getNodeValue();
 				final Collection<IFieldView> coleccionFieldViews = new ArrayList<IFieldView>();
-				final NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(IViewModel.FIELDVIEW_ELEMENT);
+				final NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(DomainApplicationContext.FIELDVIEW_ELEMENT);
 				FieldViewSet fieldViewSet = null;
 				if (ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)) {
 					entityNameInMetamodel = request.getParameter(nameSpaceEntity);

@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.w3c.dom.Element;
-
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
@@ -18,6 +16,7 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IEntityLogic;
@@ -47,12 +46,15 @@ public class ActionPagination extends AbstractPcmAction {
 
 	protected String filtra;
 
-	public ActionPagination(final IBodyContainer container_, final RequestWrapper request_, final String event_,
-			final Element actionElement_) {
+	public ActionPagination(final DomainApplicationContext context, final IBodyContainer container_, final RequestWrapper request_, final String serviceName, final String event_) {
 		this.servletRequest = request_;
 		this.container = container_;
 		this.setEvent(event_);
-		this.actionElement = actionElement_;
+		try {
+			this.actionElement = context.extractActionElementByService(serviceName, event_);
+		} catch (PCMConfigurationException e) {
+			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event_);
+		}
 	}
 
 	@Override

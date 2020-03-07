@@ -17,13 +17,12 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.dispatcher.RequestWrapper;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyFactory;
 import cdd.strategies.DefaultStrategyUpdate;
 import cdd.strategies.IStrategy;
 import cdd.strategies.IStrategyFactory;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.components.PaginationGrid;
 import cdd.viewmodel.definitions.ContextProperties;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -48,13 +47,12 @@ public abstract class AbstractPcmAction implements IAction {
 	
 	private static IStrategyFactory strategyFactory;
 		
-	protected DomainContext contextApp;
+	protected DomainApplicationContext contextApp;
 	protected String event;
 	protected Element actionElement;	
 	protected Collection<String> registeredEvents;
 	protected RequestWrapper servletRequest;
 	protected IBodyContainer container;
-	protected IViewModel viewModel;
 
 	@Override
 	public final Collection<String> getRequestValues(final IFieldView fieldView) throws BindPcmException {
@@ -189,12 +187,12 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getSubmitSuccess() {
-		return this.actionElement.getAttribute(IViewModel.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	@Override
 	public String getSubmitError() {
-		return this.actionElement.getAttribute(IViewModel.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	@Override
@@ -204,7 +202,7 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getEvent() {
-		return this.event == null ? this.actionElement.getAttribute(IViewModel.EVENT_ATTR) : this.event;
+		return this.event == null ? this.actionElement.getAttribute(DomainApplicationContext.EVENT_ATTR) : this.event;
 	}
 
 	@Override
@@ -214,15 +212,15 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getTarget() {
-		return this.actionElement.getAttribute(IViewModel.TARGET_ATTR);
+		return this.actionElement.getAttribute(DomainApplicationContext.TARGET_ATTR);
 	}
 
 	public String getSuccessViewSPM() {
-		return this.actionElement.getAttribute(IViewModel.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	public String getErrorViewSPM() {
-		return this.actionElement.getAttribute(IViewModel.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	protected IStrategyFactory getStrategyFactory() {
@@ -243,25 +241,25 @@ public abstract class AbstractPcmAction implements IAction {
 	}
 
 	@Override
-	public void setAppContext(final DomainContext ctx) {
+	public void setAppContext(final DomainApplicationContext ctx) {
 		this.contextApp = ctx;
 	}
 
 	@Override
-	public DomainContext getAppContext() {
+	public DomainApplicationContext getAppContext() {
 		return this.contextApp;
 	}
 	
-	public static final IAction getAction(final IBodyContainer containerView, final Element actionNode, final String event,
-			final RequestWrapper requestWrapper, final DomainContext ctx, final Collection<String> actionSet) throws Throwable {
+	public static final IAction getAction(final IBodyContainer containerView, final String serviceName, final String event,
+			final RequestWrapper requestWrapper, final DomainApplicationContext ctx, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
 			if (Event.isQueryEvent(event)) {
-				action = new ActionPagination(containerView, requestWrapper, event, actionNode);
+				action = new ActionPagination(ctx, containerView, requestWrapper, serviceName, event);
 				action.setAppContext(ctx);
 				action.setEvent(event);
 			} else {
-				action = new ActionForm(containerView, requestWrapper, event, actionNode, actionSet);
+				action = new ActionForm(ctx, containerView, requestWrapper, serviceName, event, actionSet);
 				action.setAppContext(ctx);
 				action.setStrategyFactory(DefaultStrategyFactory.getFactoryInstance());
 			}

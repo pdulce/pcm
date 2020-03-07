@@ -19,10 +19,9 @@ import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.Event;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.dispatcher.RequestWrapper;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.streamdata.IFieldValue;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.FieldViewSetCollection;
 import cdd.viewmodel.factory.BodyContainerFactory;
@@ -76,9 +75,10 @@ public class BodyContainer implements IBodyContainer {
 		this.getSubComponents().values();
 	}
 
-	public BodyContainer(String service, final Collection<Element> viewElements_, final IDataAccess dataAccess_, final DomainContext appCtx,
+	public BodyContainer(String service, final IDataAccess dataAccess_, final DomainApplicationContext appCtx,
 			final RequestWrapper request, final String event_) throws PCMConfigurationException {
-		//this.event = event_;
+		
+		final Collection<Element> viewElements_ = appCtx.extractViewComponentElementsByAction(service, event_);
 
 		if (viewElements_.isEmpty()) {
 			throw new PCMConfigurationException("Error: viewcomponent must be defined for this service");
@@ -89,15 +89,15 @@ public class BodyContainer implements IBodyContainer {
 		int posicion = 0;
 		while (iteViewComponents.hasNext()) {
 			Element viewComponentElement = iteViewComponents.next();
-			int numberOfForms = viewComponentElement.getElementsByTagName(IViewModel.FORM_ELEMENT).getLength();
+			int numberOfForms = viewComponentElement.getElementsByTagName(DomainApplicationContext.FORM_ELEMENT).getLength();
 			for (int i = 0; i < numberOfForms; i++) {
-				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(IViewModel.FORM_ELEMENT).item(i);
+				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(DomainApplicationContext.FORM_ELEMENT).item(i);
 				forms.add(posicion++, new Form(service, event_, elementForm, dataAccess_, appCtx, request));
 			}
 
-			int numGrids = viewComponentElement.getElementsByTagName(IViewModel.GRID_ELEMENT).getLength();
+			int numGrids = viewComponentElement.getElementsByTagName(DomainApplicationContext.GRID_ELEMENT).getLength();
 			for (int j = 0; j < numGrids; j++) {
-				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(IViewModel.GRID_ELEMENT).item(j);
+				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(DomainApplicationContext.GRID_ELEMENT).item(j);
 				/** engarzo con el oltimo form de este view component ***/
 				grids.add(new PaginationGrid(service, elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), appCtx, request));
 			}
@@ -278,10 +278,16 @@ public class BodyContainer implements IBodyContainer {
 	}
 	
 	
-	public static final IBodyContainer getContainerOfView(final IViewModel viewModel, final RequestWrapper requestWrapper, final IDataAccess dataAccess_,
-			final Element actionElement, final DomainContext context, final String event) throws PCMConfigurationException, DatabaseException {
-		final Collection<Element> viewComponentNodes = viewModel.extractViewComponentElementsByAction(actionElement);
-		return BodyContainerFactory.getFactoryInstance().getViewComponent(viewComponentNodes, dataAccess_, context,	requestWrapper, event);
+	public static final IBodyContainer getContainerOfView(final RequestWrapper requestWrapper, final IDataAccess dataAccess_,
+			final String serviceName, final String event, final DomainApplicationContext context) throws PCMConfigurationException, DatabaseException {		
+		try {			
+			return BodyContainerFactory.getFactoryInstance().getViewComponent(
+					dataAccess_, 
+					context,	
+					requestWrapper, serviceName, event);
+		} catch (PCMConfigurationException e) {
+			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event);
+		}
 	}
 	
 

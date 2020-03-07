@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.comunication.actions.Parameter;
-import cdd.viewmodel.IViewModel;
+import cdd.domain.services.DomainApplicationContext;
 
 import com.oreilly.servlet.MultipartRequest;
 
@@ -87,7 +87,7 @@ public class RequestWrapper {
 	}
 
 	public final String getOriginalEvent() {
-		final String ev = this.getParameter(IViewModel.EVENT_ATTR);
+		final String ev = this.getParameter(DomainApplicationContext.EVENT_ATTR);
 		return ev != null ? ev : PCMConstants.EMPTY_;
 	}
 

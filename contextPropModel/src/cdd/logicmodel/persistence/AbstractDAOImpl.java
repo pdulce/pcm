@@ -26,11 +26,10 @@ import cdd.common.PCMConstants;
 import cdd.common.comparator.ComparatorFieldViews;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.domain.services.DomainContext;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
 import cdd.streamdata.IFieldValue;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.IFieldView;
@@ -44,12 +43,12 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 
 	protected boolean auditActivated = false;
 
-	protected DomainContext ctx;
+	protected DomainApplicationContext ctx;
 
 	protected Properties auditFieldSet;
 
 	@Override
-	public void setContext(final DomainContext ctx) {
+	public void setContext(final DomainApplicationContext ctx) {
 		this.ctx = ctx;
 	}
 
@@ -72,7 +71,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 		return this.auditFieldSet;
 	}
 
-	public DomainContext getContextApp() {
+	public DomainApplicationContext getContextApp() {
 		return this.ctx;
 	}
 
@@ -183,7 +182,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 		}// for de campos
 		if (this.needFecBajaFilter(fieldViewSet, fecBajaActivated, auditSet)) {
 			sqlWhereOfEntity.append(!sqlWhereOfEntity.toString().equals(PCMConstants.EMPTY_) ? IDAOImpl.AND_ : PCMConstants.EMPTY_);
-			sqlWhereOfEntity.append(alias).append(PCMConstants.POINT).append(auditSet.getProperty(IViewModel.FEC_BAJA))
+			sqlWhereOfEntity.append(alias).append(PCMConstants.POINT).append(auditSet.getProperty(DomainApplicationContext.FEC_BAJA))
 					.append(IDAOImpl.IS_NULL_);
 		}
 		final Map<String, Integer> filterWithNArgs = new HashMap<String, Integer>();
@@ -280,7 +279,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 	}
 
 	protected boolean needFecBajaFilter(final FieldViewSet fieldViewSet, final boolean fecBajaActivated, final Properties auditSet) {
-		return fecBajaActivated && fieldViewSet.getEntityDef().getFieldSet().get(auditSet.getProperty(IViewModel.FEC_BAJA)) != null;
+		return fecBajaActivated && fieldViewSet.getEntityDef().getFieldSet().get(auditSet.getProperty(DomainApplicationContext.FEC_BAJA)) != null;
 	}
 
 	protected Timestamp getTimestamp(final ResultSet resultSet, final String alias) throws SQLException {

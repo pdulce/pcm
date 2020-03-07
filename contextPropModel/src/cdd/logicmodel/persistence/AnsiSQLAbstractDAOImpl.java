@@ -24,6 +24,7 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.dispatcher.CDDWebController;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldLogic;
 import cdd.logicmodel.definitions.FieldLogicComparator;
@@ -32,7 +33,6 @@ import cdd.logicmodel.definitions.IFieldAbstract;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
 import cdd.streamdata.IFieldValue;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.definitions.FieldView;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.FieldViewSetCollection;
@@ -151,7 +151,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 
 		if (IDataAccess.ELIMINAR_ENTIDAD.equals(service)) {
 			final IFieldLogic fieldFecBaja = fieldViewSet.getEntityDef().getFieldSet()
-					.get(this.auditFieldSet.getProperty(IViewModel.FEC_BAJA));
+					.get(this.auditFieldSet.getProperty(DomainApplicationContext.FEC_BAJA));
 			if (fieldFecBaja != null) {
 				final Timestamp fecBajaOfActualRecord = SQLUtils.getTimestamp(fieldViewSet.getFieldvalue(fieldFecBaja).getValue());
 				if (fecBajaOfActualRecord == null) {
@@ -394,7 +394,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						final byte[] bytesOfStream = resultSet.getBytes(fieldLogic.getName());
 						if (bytesOfStream != null && bytesOfStream.length > 0) {
 							String fileName = CommonUtils.getFileNameUploadedFromPrimitiveByteArray(bytesOfStream);
-							File file = new File(new StringBuilder(this.ctx.getUploadDir()).append(fileName).toString());
+							File file = new File(new StringBuilder(this.ctx.getResourcesConfiguration().getUploadDir()).append(fileName).toString());
 							if (!file.exists()) {
 								// crear fichero
 								FileOutputStream fout = null;
@@ -1205,7 +1205,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					}
 					
 					if (SQLUtils.fieldForeignKey(fieldView)) {
-						IEntityLogic entityFK = EntityLogicFactory.getFactoryInstance().getEntityDef(this.ctx.getEntitiesDictionary(),
+						IEntityLogic entityFK = EntityLogicFactory.getFactoryInstance().getEntityDef(this.ctx.getResourcesConfiguration().getEntitiesDictionary(),
 								fieldView.getFieldAndEntityForThisOption().getEntityFromCharge());
 						
 						IFieldLogic pkFieldOfParent = entityFK.getFieldKey().getPkFieldSet().iterator().next();

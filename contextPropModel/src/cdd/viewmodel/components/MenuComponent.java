@@ -23,8 +23,8 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
-import cdd.viewmodel.IViewModel;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.controls.ICtrl;
 import cdd.viewmodel.components.controls.html.LinkButton;
@@ -63,15 +63,15 @@ public class MenuComponent extends AbstractComponent {
 			final String keyComposed = new StringBuilder(this.uri).append(profileUser).append(lang).toString();
 			if (menuElement != null && !MenuComponent.menusCached.containsKey(keyComposed)) {
 				final StringBuilder items = new StringBuilder();
-				final NodeList nodeSet = menuElement.getElementsByTagName(IViewModel.MENU_ENTRY_ELEMENT);
+				final NodeList nodeSet = menuElement.getElementsByTagName(DomainApplicationContext.MENU_ENTRY_ELEMENT);
 				int nodesCount = nodeSet.getLength();
 				for (int i = 0; i < nodesCount; i++) {
 					final Element menuEntry = (Element) nodeSet.item(i);
-					final String profOfEntry = menuEntry.getAttribute(IViewModel.PROFILE_ATTR);
+					final String profOfEntry = menuEntry.getAttribute(DomainApplicationContext.PROFILE_ATTR);
 					final Collection<String> profilesOfEntry = this.getMenuItemProfiles(profOfEntry.split(PCMConstants.COMMA));
 					if (profilesOfEntry.contains(profileUser)) {
-						final String name4Entry = menuEntry.getAttribute(IViewModel.NAME_ATTR);
-						final String eventN = menuEntry.getAttribute(IViewModel.ACTION_ELEMENT);
+						final String name4Entry = menuEntry.getAttribute(DomainApplicationContext.NAME_ATTR);
+						final String eventN = menuEntry.getAttribute(DomainApplicationContext.ACTION_ELEMENT);
 						final StringBuilder refUri = new StringBuilder(this.uri).append(PCMConstants.HTTP_FIRST_URI_SEPARATOR).append(
 								eventN.replaceAll("#", "&"));
 						final LinkButton aLinkButton = new LinkButton();

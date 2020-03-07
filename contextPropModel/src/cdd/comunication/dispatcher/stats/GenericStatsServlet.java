@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.w3c.dom.Element;
 
 import cdd.common.PCMConstants;
 import cdd.common.comparator.ComparatorOrderKeyInXAxis;
@@ -43,14 +42,13 @@ import cdd.logicmodel.factory.EntityLogicFactory;
 import cdd.logicmodel.persistence.DAOConnection;
 import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.Translator;
+import cdd.viewmodel.components.BodyContainer;
 import cdd.viewmodel.components.Form;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.components.XmlUtils;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.IFieldView;
 import cdd.viewmodel.definitions.IRank;
-import cdd.viewmodel.factory.IBodyContainer;
-
 
 /**
  * @author 99GU3997
@@ -62,16 +60,15 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	protected IDataAccess _dataAccess;
 	
 	protected abstract String getParamsPrefix();
-	
+		
 	@Override
 	protected SceneResult renderRequestFromNode(final DAOConnection conn, final IDataAccess dataAccess, final String serviceName,
-			final Element actionNode, final String event, final RequestWrapper request_, final boolean eventSubmitted, IAction action,
-			IBodyContainer containerView, final Collection<MessageException> msgs, final String lang) {
+			final String event, final RequestWrapper request_, final boolean eventSubmitted, IAction action,
+			final Collection<MessageException> msgs, final String lang) {
 
-		super.renderRequestFromNode(conn, dataAccess, serviceName, actionNode, event, request_, eventSubmitted, action, containerView,
-				msgs, lang);
+		super.renderRequestFromNode(conn, dataAccess, serviceName, event, request_, eventSubmitted, action, msgs, lang);
 
-		return renderRequestFromNodePrv(dataAccess, request_, containerView);
+		return renderRequestFromNodePrv(dataAccess, request_, serviceName, event);
 
 	}
 	
@@ -96,7 +93,8 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 	
 
-	protected SceneResult renderRequestFromNodePrv(final IDataAccess dataAccess, final RequestWrapper request_, IBodyContainer containerView) {
+	protected SceneResult renderRequestFromNodePrv(final IDataAccess dataAccess, final RequestWrapper request_, final String serviceName, 
+			final String event) {
 		
 		SceneResult scene = new SceneResult();
 		//long mills1 = Calendar.getInstance().getTimeInMillis();
@@ -125,7 +123,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_),
 					paramGeneric4Entity);
 			
-			Form formSubmitted = (Form) containerView.getForms().iterator().next();
+			Form formSubmitted = (Form) BodyContainer.getContainerOfView(request_, dataAccess, serviceName, event, this.contextApp).getForms().iterator().next();
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
 				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {
