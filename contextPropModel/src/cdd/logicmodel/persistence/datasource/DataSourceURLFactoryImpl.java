@@ -7,10 +7,14 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import org.sqlite.SQLiteConfig;
+import org.sqlite.SQLiteOpenMode;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
@@ -73,6 +77,18 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				this.driver = (Driver) classType.getDeclaredConstructors()[0].newInstance();
 			}
 			Connection conn = this.driver.connect(this.url, this.info);
+			if (this.driverDefined.equals("org.sqlite.JDBC") && conn != null) {
+				SQLiteConfig config = new SQLiteConfig();
+				SQLiteOpenMode openMode = SQLiteOpenMode.OPEN_MEMORY;
+				config.setOpenMode(openMode);
+				config.apply(conn);
+				System.out.println("Connected to the database");
+                DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
+                System.out.println("Database Driver name: " + dm.getDriverName());
+                System.out.println("Database Driver version: " + dm.getDriverVersion());
+                System.out.println("Database Product name: " + dm.getDatabaseProductName());
+                System.out.println("Database Product version: " + dm.getDatabaseProductVersion());
+			}
 			final DAOConnection daoConnection = new DAOConnection();
 			daoConnection.setConnectionJDBC(conn);
 			return daoConnection;
