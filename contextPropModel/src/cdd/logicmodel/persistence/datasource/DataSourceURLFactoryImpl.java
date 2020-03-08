@@ -83,8 +83,7 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				this.driver = (Driver) classType.getDeclaredConstructors()[0].newInstance();
 				DriverManager.registerDriver(this.driver);
 				this.configSQLite = new SQLiteConfig();
-				SQLiteOpenMode openMode = SQLiteOpenMode.TRANSIENT_DB;//for opening in memory mode, for testing issues
-				this.configSQLite.setOpenMode(openMode);
+				this.configSQLite.setOpenMode(SQLiteOpenMode.TRANSIENT_DB);
 			}
 			Connection conn = null;
 			if (this.driverDefined.equals("org.sqlite.JDBC")) {
