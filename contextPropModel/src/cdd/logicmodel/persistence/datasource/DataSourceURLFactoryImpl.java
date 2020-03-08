@@ -31,6 +31,8 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 
 	private static final long serialVersionUID = -1721800000444L;
 
+	private SQLiteConfig configSQLite;
+	
 	private static final String USER_ = "user", PASSWD_ = "password";
 
 	private String url, driverDefined;
@@ -80,13 +82,13 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				Class<Driver> classType = (Class<Driver>) Class.forName(this.driverDefined);
 				this.driver = (Driver) classType.getDeclaredConstructors()[0].newInstance();
 				DriverManager.registerDriver(this.driver);
+				this.configSQLite = new SQLiteConfig();
+				SQLiteOpenMode openMode = SQLiteOpenMode.TRANSIENT_DB;//for opening in memory mode, for testing issues
+				this.configSQLite.setOpenMode(openMode);
 			}
 			Connection conn = null;
 			if (this.driverDefined.equals("org.sqlite.JDBC")) {
-				SQLiteConfig config = new SQLiteConfig();
-				SQLiteOpenMode openMode = SQLiteOpenMode.TRANSIENT_DB;//for opening in memory mode, for testing issues
-				config.setOpenMode(openMode);
-				conn = DriverManager.getConnection(this.url, config.toProperties());
+				conn = DriverManager.getConnection(this.url, this.configSQLite.toProperties());
 			}else {
 				conn = DriverManager.getConnection(this.url, this.info);
 			}
