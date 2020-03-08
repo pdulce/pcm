@@ -82,17 +82,23 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				DriverManager.registerDriver(this.driver);
 			}
 			Connection conn = null;
-			if (this.driverDefined.equals("org.sqlite.JDBC") & inMemoryMode) {
+			if (this.driverDefined.equals("org.sqlite.JDBC")) {
 				SQLiteConfig config = new SQLiteConfig();
 				SQLiteOpenMode openMode = SQLiteOpenMode.TRANSIENT_DB;//for opening in memory mode, for testing issues
 				config.setOpenMode(openMode);
+				conn = DriverManager.getConnection(this.url, config.toProperties());
 			}else {
 				conn = DriverManager.getConnection(this.url, this.info);
 			}
 
-			if (this.driverDefined.equals("org.sqlite.JDBC") && conn != null) {
+			/*if (this.driverDefined.equals("org.sqlite.JDBC") && conn != null & inMemoryMode) {
+				conn.createStatement().execute("PRAGMA LOCKING_MODE = Exclusive"); // Mejora el rendimiento de acceso en lectura
+				// Creamos la base de datos en memoria y la asociamos con la base de datos actual
+				conn.createStatement().execute("attach database ':memory:' as 'RAMDB'");
 				CDDWebController.log.log(Level.INFO, "Connected to the SQLITE database!");
-			}
+				//si queremos trabajar en memoria, volcaremos en el momento de crear la tabla en memoria, la de disco
+				 * conn.createStatement().execute("create table RAMDB.product_table as select * from main.product_table")
+			}*/
 			
 			final DAOConnection daoConnection = new DAOConnection();
 			daoConnection.setConnectionJDBC(conn);
