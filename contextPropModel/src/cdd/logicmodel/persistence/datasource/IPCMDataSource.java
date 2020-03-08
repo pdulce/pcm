@@ -15,7 +15,7 @@ import cdd.logicmodel.persistence.DAOConnection;
  */
 public interface IPCMDataSource {
 
-	public void initDataSource(final String url_, final String user, final String passwd, final String driver_);
+	public void initDataSource(final String url_, final String user, final String passwd, final String driver_, final boolean inMemoryMode);
 	
 	public void initDataSource(DomainApplicationContext appCtx, InitialContext initialContext) throws PCMConfigurationException;
 

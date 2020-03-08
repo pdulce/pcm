@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -35,18 +36,21 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 	private String url, driverDefined;
 
 	private transient Driver driver;
+	
+	private boolean inMemoryMode;
 
 	private Properties info;
 	
 	public DataSourceURLFactoryImpl(){}
 	
 	@Override
-	public void initDataSource(final String url_, final String user, final String passwd, final String driver_){
+	public void initDataSource(final String url_, final String user, final String passwd, final String driver_, final boolean inMemoryMode_){
 		this.url = url_;
 		this.driverDefined = driver_;
 		this.info = new Properties();
 		this.info.put(USER_, user);
 		this.info.put(PASSWD_, passwd);
+		this.inMemoryMode = inMemoryMode_;
 	}
 	
 	@Override
@@ -75,25 +79,24 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				@SuppressWarnings("unchecked")
 				Class<Driver> classType = (Class<Driver>) Class.forName(this.driverDefined);
 				this.driver = (Driver) classType.getDeclaredConstructors()[0].newInstance();
+				DriverManager.registerDriver(this.driver);
 			}
-			Connection conn = this.driver.connect(this.url, this.info);
-			if (this.driverDefined.equals("org.sqlite.JDBC") && conn != null) {
+			Connection conn = null;
+			if (this.driverDefined.equals("org.sqlite.JDBC") & inMemoryMode) {
 				SQLiteConfig config = new SQLiteConfig();
-				SQLiteOpenMode openMode = SQLiteOpenMode.OPEN_MEMORY;
+				SQLiteOpenMode openMode = SQLiteOpenMode.TRANSIENT_DB;//for opening in memory mode, for testing issues
 				config.setOpenMode(openMode);
-				config.apply(conn);
-				System.out.println("Connected to the database");
-                DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
-                System.out.println("Database Driver name: " + dm.getDriverName());
-                System.out.println("Database Driver version: " + dm.getDriverVersion());
-                System.out.println("Database Product name: " + dm.getDatabaseProductName());
-                System.out.println("Database Product version: " + dm.getDatabaseProductVersion());
+			}else {
+				conn = DriverManager.getConnection(this.url, this.info);
 			}
+
+			if (this.driverDefined.equals("org.sqlite.JDBC") && conn != null) {
+				CDDWebController.log.log(Level.INFO, "Connected to the SQLITE database!");
+			}
+			
 			final DAOConnection daoConnection = new DAOConnection();
 			daoConnection.setConnectionJDBC(conn);
 			return daoConnection;
-			
-		
 		} catch (SQLException sqlE) {
 			CDDWebController.log.log(Level.SEVERE, "Error", sqlE);
 			throw new PCMConfigurationException("Error sqlException");
@@ -111,7 +114,15 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
 		}
 	}
-
+	
+	private void getVersion(final Connection conn) throws SQLException {
+		DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
+        System.out.println("Database Driver name: " + dm.getDriverName());
+        System.out.println("Database Driver version: " + dm.getDriverVersion());
+        System.out.println("Database Product name: " + dm.getDatabaseProductName());
+        System.out.println("Database Product version: " + dm.getDatabaseProductVersion());
+	}
+	
 	@Override
 	public void freeConnection(final DAOConnection conn) throws PCMConfigurationException {
 		try {
