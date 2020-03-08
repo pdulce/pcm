@@ -260,7 +260,7 @@ public class BackupGeneradorPPT {
 	
 	private final IDataAccess getDataAccesObject(final String url_, final String entityDefinition){
 		IPCMDataSource dsourceFactory = PCMDataSourceFactory.getDataSourceInstance("JDBC");
-		dsourceFactory.initDataSource(url_, "", "", SQLITE_DRIVER_CLASSNAME);
+		dsourceFactory.initDataSource(url_, "", "", SQLITE_DRIVER_CLASSNAME, false);
 		try {
 			return new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory);
 		} catch (PCMConfigurationException exc) {
