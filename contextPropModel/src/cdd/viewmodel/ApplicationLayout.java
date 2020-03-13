@@ -15,11 +15,9 @@ import org.w3c.dom.NodeList;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.utils.CommonUtils;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.domain.services.DomainApplicationContext;
-import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.components.FootComponent;
 import cdd.viewmodel.components.LogoComponent;
 import cdd.viewmodel.components.MenuComponent;
@@ -40,11 +38,26 @@ import cdd.viewmodel.components.controls.html.Span;
 public class ApplicationLayout implements Serializable {
 	
 	private static final long serialVersionUID = 786578583812182L;
+	
+	public void paintScreen(final Document appNavigation, final Data data, final boolean startingApp){
+		// drawing markup at screen
+		data.setAttribute(PCMConstants.LOGO, this.paintLogo(appNavigation, data));
+		data.setAttribute(PCMConstants.FOOT, this.paintFoot(appNavigation, data));
+		if (startingApp){
+			data.setAttribute(PCMConstants.MENU_ITEMS, PCMConstants.EMPTY_);
+			data.setAttribute(PCMConstants.TREE, PCMConstants.EMPTY_);
+		}else{
+			data.setAttribute(PCMConstants.MENU_ITEMS, this.paintMenuHeader(appNavigation, data));
+			data.setAttribute(PCMConstants.TREE, this.paintTree(appNavigation, data));								
+		}
 
-	public String paintFoot(final Document appNavigation, final String lang, final RequestWrapper request, final IDataAccess dataAccess_) {
+	}
+	
+	private String paintFoot(final Document appNavigation, final Data data) {
+		final String lang = data.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new FootComponent((String) request.getAttribute(PCMConstants.APPURI_), extractFootElement(appNavigation)).toXHTML(request, dataAccess_, true));
+			sbXML.append(new FootComponent((String) data.getAttribute(PCMConstants.APPURI_), extractFootElement(appNavigation)).toXHTML(data, null, true));
 		}
 		catch (final Throwable exc) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FOOT_CREATING_EXCEPTION, exc);
@@ -55,11 +68,12 @@ public class ApplicationLayout implements Serializable {
 		return sbXML.toString();
 	}
 
-	public String paintTree(final Document appNavigation, final String lang, final RequestWrapper request, final IDataAccess dataAccess_) {
+	private String paintTree(final Document appNavigation, final Data data) {
+		final String lang = data.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new TreeComponent((String) request.getAttribute(PCMConstants.APPURI_), CommonUtils.getLanguage(request),
-					(String) request.getSession().getAttribute(PCMConstants.APP_PROFILE), extractTreeElement(appNavigation)).toXHTML(request, dataAccess_, true));
+			sbXML.append(new TreeComponent((String) data.getAttribute(PCMConstants.APPURI_), data.getLanguage(),
+					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractTreeElement(appNavigation)).toXHTML(data, null, true));
 		}
 		catch (final Throwable exc) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.LATERAL_CREATING_EXCEPTION, exc);
@@ -70,10 +84,11 @@ public class ApplicationLayout implements Serializable {
 		return sbXML.toString();
 	}
 
-	public String paintLogo(final Document appNavigation, final String lang, final RequestWrapper request, final IDataAccess dataAccess_) {
+	private String paintLogo(final Document appNavigation, final Data data/*, final IDataAccess dataAccess_*/) {
+		final String lang = data.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new LogoComponent(CommonUtils.getLanguage(request), extractLogoElement(appNavigation)).toXHTML(request, dataAccess_, true));
+			sbXML.append(new LogoComponent(data.getLanguage(), extractLogoElement(appNavigation)).toXHTML(data, null/*dataAccess_*/, true));
 		}
 		catch (final Throwable exc) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.LOGO_CREATING_EXCEPTION, exc);
@@ -84,11 +99,12 @@ public class ApplicationLayout implements Serializable {
 		return sbXML.toString();
 	}
 
-	public String paintMenuHeader(final Document appNavigation, final String lang, final RequestWrapper request, final IDataAccess dataAccess_) {
+	private String paintMenuHeader(final Document appNavigation, final Data data) {
+		final String lang = data.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new MenuComponent((String) request.getAttribute(PCMConstants.APPURI_), CommonUtils.getLanguage(request),
-					(String) request.getSession().getAttribute(PCMConstants.APP_PROFILE), extractMenuElement(appNavigation)).toXHTML(request, dataAccess_, true));
+			sbXML.append(new MenuComponent((String) data.getAttribute(PCMConstants.APPURI_), data.getLanguage(),
+					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractMenuElement(appNavigation)).toXHTML(data, null, true));
 		}
 		catch (final Throwable exc) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.MENU_HEADER_CREATING_EXCEPTION, exc);

@@ -47,7 +47,7 @@ import facturacionUte.common.ConstantesModelo;
 
 /**
  * @author 99GU3997
- *         Esta clase, con cualquier nï¿½mero de columnas, leerï¿½ una Excel y cargaro al menos los
+ *         Esta clase, con cualquier número de columnas, leerá una Excel y cargaro al menos los
  *         siguientes campos en una tabla SQLite:
  *         ****************************
  *         Observaciones
@@ -159,23 +159,23 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 		/*** 
 		Cabecera de la Excel
-		ID	Tï¿½tulo	Descripciï¿½n	Observaciones	ID usuario creador	Usuario creador	ID solicitante	Solicitante	ID estado	
-		Estado	Fecha estado actual	ï¿½rea origen	ï¿½rea desarrollo	Aplicaciï¿½n	Unidad origen	Centro destino	ID tipo	Tipo	Fecha de alta	
-		Fecha de tramitaciï¿½n	Fecha de necesidad	Fecha fin de desarrollo	Fecha de finalizaciï¿½n	Urgente	ID prioridad	
+		ID	Título	Descripción	Observaciones	ID usuario creador	Usuario creador	ID solicitante	Solicitante	ID estado	
+		Estado	Fecha estado actual	Área origen	Área desarrollo	Aplicación	Unidad origen	Centro destino	ID tipo	Tipo	Fecha de alta	
+		Fecha de tramitación	Fecha de necesidad	Fecha fin de desarrollo	Fecha de finalización	Urgente	ID prioridad	
 		Prioridad	Singular	Solanulacion	Fsolanulacion	Solestimacion	Horas estimadas iniciales	Fecha estimada inicio	
-		Fecha estimada fin	Horas reales	Descripciï¿½n de desarrollo	Des: fecha prevista inicio	Des: fecha prevista fin	Des: fecha real inicio	
-		Des: fecha real fin	Asunto	Objetivo / Proyecto	Tipo evolutivo	Tmax estimaciï¿½n	Aplicaciï¿½n sugerida	Horas estimadas actuales	Ult Modif	
+		Fecha estimada fin	Horas reales	Descripción de desarrollo	Des: fecha prevista inicio	Des: fecha prevista fin	Des: fecha real inicio	
+		Des: fecha real fin	Asunto	Objetivo / Proyecto	Tipo evolutivo	Tmax estimación	Aplicación sugerida	Horas estimadas actuales	Ult Modif	
 		Pets. relacionadas	
-		F. prev. resoluciï¿½n DG	Singular Estimaciï¿½n	Horas aï¿½os ant.	IdTipoSoporte	F. lï¿½mite estimaciï¿½n	F. primer TF	Versiï¿½n anï¿½lisis
-			Ult. versiï¿½n entrega	Crï¿½tica	F. primer Trabajo validado	F. primer Trabajo instalado	Fecha estimaciï¿½n inicial	Fecha estimaciï¿½n actual
+		F. prev. resolución DG	Singular Estimación	Horas años ant.	IdTipoSoporte	F. límite estimación	F. primer TF	Versión análisis
+			Ult. versión entrega	Crítica	F. primer Trabajo validado	F. primer Trabajo instalado	Fecha estimación inicial	Fecha estimación actual
 		*/
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestion", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Tï¿½tulo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Descripciï¿½n", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Descripción", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION));
 		COLUMNSET2ENTITYFIELDSET_MAP
 				.put("Observaciones|Ult. observacion", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_4_OBSERVACIONES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Usuario creador", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_5_USUARIO_CREADOR));
@@ -183,21 +183,21 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Estado", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Entidad origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_8_ENTIDAD_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_9_UNIDAD_ORIGEN));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("ï¿½rea origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_10_AREA_ORIGEN));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_10_AREA_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("ï¿½rea desarrollo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_16_PRIORIDAD));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de alta", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de tramitaciï¿½n",
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de tramitación",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de necesidad|F. necesidad",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_19_FECHA_DE_NECESIDAD));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha fin de desarrollo",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de finalizaciï¿½n",
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de finalización",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha prevista inicio|Fecha prevista de inicio",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO));
@@ -207,8 +207,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha real fin|fecha real de fin",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicaciï¿½n", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicaciï¿½n sugerida", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación sugerida", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas actuales",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas reales", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES));
@@ -1003,7 +1003,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			final String entityDefinition = basePathBBDD.concat("//entities.xml");
 	
 			IPCMDataSource dsourceFactory = PCMDataSourceFactory.getDataSourceInstance("JDBC");
-			dsourceFactory.initDataSource(url_, "", "", driverJDBC, false);
+			dsourceFactory.initDataSource(url_, "", "", driverJDBC);
 			final IDataAccess dataAccess_ = new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory);
 			
 			/*** Inicializamos la factoroa de Acceso Logico a DATOS **/		

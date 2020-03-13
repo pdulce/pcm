@@ -20,8 +20,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -66,10 +65,10 @@ public class ImportarCotizacionesBolsa {
 
 	private IDataAccess dataAccess;
 
-	protected void initEntities(final RequestWrapper request_) {
+	protected void initEntities(final Data data_) {
 		if (cotizacionesEntidad == null) {
 			try {
-				cotizacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_),
+				cotizacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 						ConstantesModelo.INVERTIA_DATA_ENTIDAD);
 			}
 			catch (Throwable exc) {
@@ -78,7 +77,7 @@ public class ImportarCotizacionesBolsa {
 		}
 	}
 
-	public ImportarCotizacionesBolsa(IDataAccess dataAccess_, RequestWrapper req) {
+	public ImportarCotizacionesBolsa(IDataAccess dataAccess_, Data req) {
 		this.dataAccess = dataAccess_;
 		initEntities(req);
 	}

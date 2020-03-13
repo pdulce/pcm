@@ -10,7 +10,7 @@ import org.json.simple.JSONArray;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -47,30 +47,30 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 	}
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
-		String escalado = request_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
+		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
 		}
-		String scaleParamValue = request_.getParameter(filtro_.getNameSpace().concat(".").concat("numericScale"));
+		String scaleParamValue = data_.getParameter(filtro_.getNameSpace().concat(".").concat("numericScale"));
 		Map<String, Map<String, Number>> registrosJSON = new HashMap<String, Map<String, Number>>();
 
 		double total_ = 0.0, minimal = 0.0;
 
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_.getEntityDef().getName()
+		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
 		//String plural = CommonUtils.isVocal(entidadTraslated.substring(entidadTraslated.length() - 1).charAt(0)) ? "s" : "/es";
 		//entidadTraslated = (entidadTraslated.indexOf(" ") != -1)?entidadTraslated.replaceFirst(" ", plural + " "):entidadTraslated.concat(plural);
 
 		IFieldLogic fieldForAgrupacion = fieldsForCategoriaDeAgrupacion[0];
-		String field4X_AxisParam = request_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
-		String field4Y_AxisParam = request_.getParameter(filtro_.getNameSpace().concat(".").concat(SECOND_AGRUPATE));
+		String field4X_AxisParam = data_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
+		String field4Y_AxisParam = data_.getParameter(filtro_.getNameSpace().concat(".").concat(SECOND_AGRUPATE));
 		if (Integer.parseInt(field4X_AxisParam) == -1) {
 			fieldForAgrupacion = getUserFilterWithDateType(filtro_) == null ? filtro_.getEntityDef().searchField(
-					Integer.parseInt(request_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
+					Integer.parseInt(data_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
 					: getUserFilterWithDateType(filtro_);
 			
 			List<String> periodos = new ArrayList<String>();
@@ -135,18 +135,18 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 			
 			String itemGrafico = entidadTraslated;
 			if (fieldsForAgregadoPor != null){
-				itemGrafico = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_.getEntityDef().getName()
+				itemGrafico = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName()
 						.concat(".").concat(fieldsForAgregadoPor[0].getName()));
 			}
 			if (periodos.size() == 0){
-				request_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
+				data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else if (registrosJSON.size() == 1){
 				// el promedio por mes es:
-				request_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(valores))) + " de media " + traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
+				data_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(valores))) + " de media " + traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
 			}
 
 		} else {
-			String categoriaNombreTraslated = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_
+			String categoriaNombreTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_
 					.getEntityDef().getName().concat(".").concat(fieldsForCategoriaDeAgrupacion[0].getName()));
 			List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados = new ArrayList<Map<FieldViewSet, Map<String,Double>>>();
 			listaValoresAgregados.addAll(valoresAgregados);
@@ -183,7 +183,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 						}
 					}
 				}
-				String valueEntidadMasterTraslated = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_),
+				String valueEntidadMasterTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(),
 						valueForEntidadFiltro);
 				String agrupacion = ((posicionDeAgrupacion < 10) ? "0" + posicionDeAgrupacion : "" + posicionDeAgrupacion) + ":"
 						+ valueEntidadMaster.concat(valueEntidadMasterTraslated).concat(valueEntidadMaster.equals("") ? "" : ")");
@@ -195,14 +195,14 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 			
 			String itemGrafico = entidadTraslated;
 			if (fieldsForAgregadoPor != null){
-				itemGrafico = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_.getEntityDef().getName()
+				itemGrafico = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName()
 						.concat(".").concat(fieldsForAgregadoPor[0].getName()));
 			}
 			if (total_ == 0){
-				request_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
+				data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else{
 				// el promedio por categoroa es:
-				request_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(listaValoresAgregados.size()))) + " de media por " + categoriaNombreTraslated + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
+				data_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(listaValoresAgregados.size()))) + " de media por " + categoriaNombreTraslated + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
 			}
 			
 			registrosJSON.put(categoriaNombreTraslated, subtotalPorCategoria);
@@ -211,11 +211,11 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 
-		request_.setAttribute(JSON_OBJECT, regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, request_));
+		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, data_));
 		
-		request_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
-		request_.setAttribute("abscisas", jsArrayEjeAbcisas.toJSONString());
-		request_.setAttribute("minEjeRef", minimal);
+		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
+		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toJSONString());
+		data_.setAttribute("minEjeRef", minimal);
 		
 		return total_;
 	}

@@ -9,7 +9,8 @@ import java.util.Iterator;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
@@ -32,12 +33,12 @@ public class StrategyControlAgregadosConcurso extends DefaultStrategyRequest {
 	ERR_SUMA_IMPORTES_POR_EJERCICIO_ = "ERR_SUMA_IMPORTES_POR_EJERCICIO_", ERR_SUMA_IMPORTES_TOTAL_ = "ERR_SUMA_IMPORTES_TOTAL_";
 
 	@Override
-	public void doBussinessStrategy(final RequestWrapper req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Data req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		comprobarAgregadosConcurso(req_, dataAccess, fieldViewSets);
 	}
 		
-	public void comprobarAgregadosConcurso(final RequestWrapper req_, final IDataAccess dataAccess_, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void comprobarAgregadosConcurso(final Data req_, final IDataAccess dataAccess_, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 	PCMConfigurationException {
 		FieldViewSet datosConcursoRequest = null;
 		Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
@@ -45,9 +46,9 @@ public class StrategyControlAgregadosConcurso extends DefaultStrategyRequest {
 			datosConcursoRequest = iteFieldSets.next();
 		}
 		if (datosConcursoRequest == null) {
-			throw new PCMConfigurationException("Error objeto recibido de request es nulo", new Exception("null object"));
+			throw new PCMConfigurationException("Error objeto recibido de data es nulo", new Exception("null object"));
 		}
-		String lang = CommonUtils.getEntitiesDictionary(req_);
+		String lang = req_.getEntitiesDictionary();
 
 		try {
 			final IEntityLogic concursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.CONCURSO_ENTIDAD);
@@ -117,7 +118,7 @@ public class StrategyControlAgregadosConcurso extends DefaultStrategyRequest {
 		
 
 	@Override
-	protected void validParameters(RequestWrapper req) throws StrategyException {
+	protected void validParameters(Data req) throws StrategyException {
 		// OK
 	}
 

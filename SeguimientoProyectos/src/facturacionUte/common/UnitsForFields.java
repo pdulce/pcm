@@ -3,7 +3,7 @@
  */
 package facturacionUte.common;
 
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 
 /**
@@ -12,7 +12,7 @@ import cdd.logicmodel.definitions.IFieldLogic;
 public class UnitsForFields {
 
 	public static String getUnitName(final IFieldLogic aggregateField, final IFieldLogic fieldForCategoriaDeAgrupacion,
-			final String aggregateFunction, final RequestWrapper request_) {
+			final String aggregateFunction, final Data data_) {
 		String unidades = "";
 		if (aggregateField == null) {
 			unidades = "";

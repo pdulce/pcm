@@ -9,11 +9,11 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.IFieldValue;
+import cdd.comunication.bus.SerializedValues;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.streamdata.IFieldValue;
-import cdd.streamdata.SerializedValues;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.FieldViewSetCollection;
 
@@ -142,7 +142,7 @@ public interface IViewComponent {
 
 	public void bindUserInput(IAction accion, List<FieldViewSet> fs, List<MessageException> msgs) throws ParameterBindingException;
 
-	public String toXHTML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
+	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 
 	public IFieldValue getValueOfField(String qualifiedName);
 

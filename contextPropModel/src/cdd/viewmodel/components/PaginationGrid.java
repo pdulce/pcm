@@ -26,7 +26,7 @@ import cdd.comunication.actions.Event;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.IEvent;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
@@ -269,14 +269,14 @@ public class PaginationGrid extends AbstractComponent {
 	}
 
 	public PaginationGrid(final String service_, final Element viewElement_, final String formId_, final DomainApplicationContext appCtx_,
-			final RequestWrapper request_) throws PCMConfigurationException {
+			final Data data_) throws PCMConfigurationException {
 
 		// long miliseconds1 = System.nanoTime();
 		this.service = service_;
 		this.setAppContext(appCtx_);
-		this.initFieldViewSets(viewElement_, request_, null/* dataaccess */);
+		this.initFieldViewSets(viewElement_, data_, null/* dataaccess */);
 		this.initTemplate();
-		this.initTableHeader(CommonUtils.getEntitiesDictionary(request_));
+		this.initTableHeader(data_.getEntitiesDictionary());
 		this.initPageButtons();
 		this.initEventButtons();
 		this.initBottomLayer();
@@ -326,11 +326,11 @@ public class PaginationGrid extends AbstractComponent {
 	}
 
 	@Override
-	protected final void initFieldViewSets(final Element element, final RequestWrapper request, IDataAccess dataAccess)
+	protected final void initFieldViewSets(final Element element, final Data data, IDataAccess dataAccess)
 			throws PCMConfigurationException {
 
 		try {
-			final String dict = CommonUtils.getEntitiesDictionary(request);
+			final String dict = data.getEntitiesDictionary();
 			this.registeredEventsFromGrid = new ArrayList<String>();
 			final Node eventsNode = element.getAttributes().getNamedItem(PaginationGrid.EVENTS);
 			if (eventsNode != null) {
@@ -375,7 +375,7 @@ public class PaginationGrid extends AbstractComponent {
 				final NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(DomainApplicationContext.FIELDVIEW_ELEMENT);
 				FieldViewSet fieldViewSet = null;
 				if (ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)) {
-					entityNameInMetamodel = request.getParameter(nameSpaceEntity);
+					entityNameInMetamodel = data.getParameter(nameSpaceEntity);
 					final EntityLogic entityOfFieldViewSet = EntityLogicFactory.getFactoryInstance().getEntityDef(dict,
 							entityNameInMetamodel);
 					nameSpaceEntity = entityOfFieldViewSet.getName();
@@ -392,7 +392,7 @@ public class PaginationGrid extends AbstractComponent {
 
 				} else {
 					final EntityLogic entityOfFieldViewSet = EntityLogicFactory.getFactoryInstance().getEntityDef(
-							CommonUtils.getEntitiesDictionary(request), entityNameInMetamodel);
+							data.getEntitiesDictionary(), entityNameInMetamodel);
 					int nodesFViewsCount = nodosFieldViews.getLength();
 					for (int j = 0; j < nodesFViewsCount; j++) {
 						final IFieldView fieldView = new FieldView(nameSpaceEntity, (Element) nodosFieldViews.item(j), entityOfFieldViewSet);						
@@ -444,7 +444,7 @@ public class PaginationGrid extends AbstractComponent {
 				String[] splitter = fieldToFilter.split(PCMConstants.REGEXP_POINT);
 				String entityName = splitter[0];
 				int mappingField = Integer.valueOf(splitter[1]).intValue();
-				final EntityLogic entity = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request),
+				final EntityLogic entity = EntityLogicFactory.getFactoryInstance().getEntityDef(data.getEntitiesDictionary(),
 						entityName);
 				this.setFilterField(entity.searchField(mappingField));
 			}
@@ -467,8 +467,8 @@ public class PaginationGrid extends AbstractComponent {
 			final FieldViewSetCollection fieldViewSetCollection = new FieldViewSetCollection(fieldViewSets);
 			this.fieldViewSetCollection = new ArrayList<FieldViewSetCollection>();
 			this.fieldViewSetCollection.add(fieldViewSetCollection);
-			if (request.getSession().getAttribute(IViewComponent.RETURN_SCENE) != null) {
-				this.setReturnEvent((String) request.getSession().getAttribute(IViewComponent.RETURN_SCENE));
+			if (data.getAttribute(IViewComponent.RETURN_SCENE) != null) {
+				this.setReturnEvent((String) data.getAttribute(IViewComponent.RETURN_SCENE));
 			}
 		}
 		catch (final Throwable exc) {
@@ -682,14 +682,14 @@ public class PaginationGrid extends AbstractComponent {
 	}
 	
 	/**
-	 * @param request
+	 * @param data
 	 * @return
 	 */
-	private StringBuilder paintOrderControls(final String lang, final RequestWrapper request) {
+	private StringBuilder paintOrderControls(final String lang, final Data data) {
 	
 		final StringBuilder orderFieldSet = new StringBuilder();
 		
-		String orderFieldDirectionPressed_ = request.getParameter(ORDENACION);//aqui se almacena quo columna fue pulsada
+		String orderFieldDirectionPressed_ = data.getParameter(ORDENACION);//aqui se almacena quo columna fue pulsada
 		String[] orderFieldsDirectionPressed = orderFieldDirectionPressed_ == null ? getDefaultOrderFields() : new String[]{orderFieldDirectionPressed_};
 		
 		GenericInput inputOrderField = new GenericInput();
@@ -702,7 +702,7 @@ public class PaginationGrid extends AbstractComponent {
 		valuesFields.add(orderFieldDirectionPressed_);
 		orderFieldSet.append(inputOrderField.toHTML(Translator.traducePCMDefined(lang, PaginationGrid.ORDENACION), valuesFields) );
 		
-		String orderPressed_ = request.getParameter(DIRECCION);//by default
+		String orderPressed_ = data.getParameter(DIRECCION);//by default
 		orderPressed_ = orderPressed_==null?getDefaultOrderDirection(): orderPressed_;//by default
 		Iterator<IFieldView> iteradorCamposOrdenacion = this.getAllFieldViewDefs().iterator();
 		while (iteradorCamposOrdenacion.hasNext()){
@@ -710,7 +710,7 @@ public class PaginationGrid extends AbstractComponent {
 			String nameOfOrderField = orderField.getQualifiedContextName();
 			String nameOfColumnOrder = ORDENACION.concat(nameOfOrderField);
 			String revertirOrden = getDefaultOrderDirection();
-			revertirOrden =	request.getParameter(nameOfColumnOrder);//recojo el que tuviera ese fieldorder marcado, asi guardamos la historia anterior			
+			revertirOrden =	data.getParameter(nameOfColumnOrder);//recojo el que tuviera ese fieldorder marcado, asi guardamos la historia anterior			
 			if (nameOfOrderField.equals(orderFieldDirectionPressed_)){			
 				if (IViewComponent.ASC_MINOR_VALUE.equals(orderPressed_)){
 					orderPressed_= IViewComponent.DESC_MINOR_VALUE;					
@@ -743,7 +743,7 @@ public class PaginationGrid extends AbstractComponent {
 		return orderFieldSet;
 	}
 
-	private String getTableHeader(final String lang, final RequestWrapper request) {
+	private String getTableHeader(final String lang, final Data data) {
 		final StringBuilder sbXML = new StringBuilder();
 		sbXML.append(!this.registeredEventsFromGrid.isEmpty() ? PaginationGrid.seleccionLabel.toHTML(Translator.traducePCMDefined(
 				lang, IAction.SELECTION_FROM_LISTING)) : PCMConstants.EMPTY_);
@@ -752,7 +752,7 @@ public class PaginationGrid extends AbstractComponent {
 		final String img_desc_src = new StringBuilder(PaginationGrid.IMAGE_ICON_DIR).append(PaginationGrid.DOWN_ARROW).toString();
 		for (int i = 0; i < headerLabelsCount; i++) {
 			final GenericHTMLElement labelheader = this.headerLabels.get(i);					
-			String orderPressed = request.getParameter(ORDENACION.concat(labelheader.getName()));
+			String orderPressed = data.getParameter(ORDENACION.concat(labelheader.getName()));
 			if (orderPressed == null && getDefaultOrderFields().equals(labelheader.getName())){
 				orderPressed = getRevertedDefaultOrderDirection();
 			}else if (orderPressed == null){
@@ -782,14 +782,14 @@ public class PaginationGrid extends AbstractComponent {
 		String[] actualOrderFields = null;
 		String actualOrderDirection = null;
 		//debe entrar aqui si tenoas un criterio de bosqueda activo
-		if (accion.getRequestContext().getParameter(ORDENACION) != null
-				&& !PCMConstants.EMPTY_.equals(accion.getRequestContext().getParameter(ORDENACION))) {
-			actualOrderFields = new String[]{accion.getRequestContext().getParameter(ORDENACION)};
-			actualOrderDirection = accion.getRequestContext().getParameter(DIRECCION);
-		} else if (accion.getRequestContext().getParameter(ORDENACION_ACTUAL) != null 
-				&& !PCMConstants.EMPTY_.equals(accion.getRequestContext().getParameter(ORDENACION_ACTUAL))	){ 
-			actualOrderFields = new String[]{accion.getRequestContext().getParameter(ORDENACION_ACTUAL)};
-			actualOrderDirection = accion.getRequestContext().getParameter(DIRECCION_ACTUAL);
+		if (accion.getDataBus().getParameter(ORDENACION) != null
+				&& !PCMConstants.EMPTY_.equals(accion.getDataBus().getParameter(ORDENACION))) {
+			actualOrderFields = new String[]{accion.getDataBus().getParameter(ORDENACION)};
+			actualOrderDirection = accion.getDataBus().getParameter(DIRECCION);
+		} else if (accion.getDataBus().getParameter(ORDENACION_ACTUAL) != null 
+				&& !PCMConstants.EMPTY_.equals(accion.getDataBus().getParameter(ORDENACION_ACTUAL))	){ 
+			actualOrderFields = new String[]{accion.getDataBus().getParameter(ORDENACION_ACTUAL)};
+			actualOrderDirection = accion.getDataBus().getParameter(DIRECCION_ACTUAL);
 		} else if (actualOrderFields == null){
 			actualOrderFields = this.getDefaultOrderFields();
 			actualOrderDirection = this.getDefaultOrderDirection();
@@ -801,19 +801,19 @@ public class PaginationGrid extends AbstractComponent {
 			}
 		}
 		int incrementoDePagina = 0;
-		if (accion.getRequestContext().getParameter(PaginationGrid.PAGE_CLICKED) != null
-				&& !IViewComponent.UNDEFINED.equals(accion.getRequestContext().getParameter(PaginationGrid.PAGE_CLICKED))) {
-			incrementoDePagina = Integer.parseInt(accion.getRequestContext().getParameter(PaginationGrid.PAGE_CLICKED));
+		if (accion.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED) != null
+				&& !IViewComponent.UNDEFINED.equals(accion.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED))) {
+			incrementoDePagina = Integer.parseInt(accion.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED));
 		}
 		this.setIncrementPage(incrementoDePagina);
-		final int currentPage = (accion.getRequestContext().getParameter(PaginationGrid.CURRENT_PAGE) != null ? Integer.parseInt(accion
-				.getRequestContext().getParameter(PaginationGrid.CURRENT_PAGE)) : 0);
+		final int currentPage = (accion.getDataBus().getParameter(PaginationGrid.CURRENT_PAGE) != null ? Integer.parseInt(accion
+				.getDataBus().getParameter(PaginationGrid.CURRENT_PAGE)) : 0);
 		this.setCurrentPage(currentPage + incrementoDePagina);
-		final int totalPages = (accion.getRequestContext().getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? Integer.parseInt(accion
-				.getRequestContext().getParameter(PaginationGrid.TOTAL_PAGINAS)) : 0);
+		final int totalPages = (accion.getDataBus().getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? Integer.parseInt(accion
+				.getDataBus().getParameter(PaginationGrid.TOTAL_PAGINAS)) : 0);
 		this.setTotalPages(totalPages);
-		final int totalRecords = (accion.getRequestContext().getParameter(PaginationGrid.TOTAL_RECORDS) != null ? Integer.parseInt(accion
-				.getRequestContext().getParameter(PaginationGrid.TOTAL_RECORDS)) : 0);
+		final int totalRecords = (accion.getDataBus().getParameter(PaginationGrid.TOTAL_RECORDS) != null ? Integer.parseInt(accion
+				.getDataBus().getParameter(PaginationGrid.TOTAL_RECORDS)) : 0);
 		this.setTotalRecords(totalRecords);
 		this.setOrdenationFieldsSel(actualOrderFields);
 		this.setOrdenacionDirectionSel(actualOrderDirection);
@@ -841,9 +841,9 @@ public class PaginationGrid extends AbstractComponent {
 		return this.nameContext;
 	}
 
-	private void paintRows(final StringBuilder parentXML, final RequestWrapper request) throws Throwable {
-		final String dict = CommonUtils.getEntitiesDictionary(request);
-		final String lang = (String) request.getSession().getAttribute(PCMConstants.LANGUAGE);
+	private void paintRows(final StringBuilder parentXML, final Data data) throws Throwable {
+		final String dict = data.getEntitiesDictionary();
+		final String lang = (String) data.getAttribute(PCMConstants.LANGUAGE);
 		final StringBuilder rows = new StringBuilder();
 		final List<FieldViewSetCollection> collectionsOfFieldSets = new ArrayList<FieldViewSetCollection>();
 		collectionsOfFieldSets.addAll(this.fieldViewSetCollection);
@@ -1226,8 +1226,8 @@ public class PaginationGrid extends AbstractComponent {
 	}
 
 	@Override
-	public String toXHTML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
-		final String lang = CommonUtils.getLanguage(request);
+	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+		final String lang = data.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		XmlUtils.openXmlNode(sbXML, IViewComponent.FIELDSET);
 		try {
@@ -1236,15 +1236,15 @@ public class PaginationGrid extends AbstractComponent {
 			XmlUtils.openXmlNode(sbXML, "DIV");
 			
 			if (!this.noResults()) {
-				sbXML.append(this.paintOrderControls(lang, request));				
+				sbXML.append(this.paintOrderControls(lang, data));				
 			}
 			final StringBuilder buffer = new StringBuilder(IViewComponent.TABLE);
 			buffer.append(" style=\"table-layout:auto;\" ");
 			buffer.append(IViewComponent.TABLE_DEF);
 			XmlUtils.openXmlNode(sbXML, buffer.toString());
-			sbXML.append(this.getTableHeader(lang, request));
+			sbXML.append(this.getTableHeader(lang, data));
 			if (!this.noResults()) {
-				this.paintRows(sbXML, request);
+				this.paintRows(sbXML, data);
 			}
 			XmlUtils.closeXmlNode(sbXML, IViewComponent.TABLE);
 			XmlUtils.openXmlNode(sbXML, "hr");

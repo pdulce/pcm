@@ -13,7 +13,7 @@ import org.json.simple.JSONArray;
 import cdd.common.comparator.ComparatorEntryWithDouble;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.stats.IStats;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
@@ -41,17 +41,17 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
-		String escalado = request_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
+		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
 		}
 		double frecuenciaAcumulada = 0.0, minimal = 0.0;
 		
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_.getEntityDef().getName()
+		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
 
 		JSONArray seriesJSONFrecAcumuladas = new JSONArray();
@@ -60,17 +60,17 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 		
 		Map<String, Double> frecuenciasAbsolutasPorPeriodos = new HashMap<String, Double>(), frecuenciasAcumuladasPorPeriodos = new HashMap<String, Double>();
 		IFieldLogic fieldForAgrupacion = fieldsForCategoriaDeAgrupacion[0];
-		String field4X_AxisParam = request_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
+		String field4X_AxisParam = data_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
 		if (Integer.parseInt(field4X_AxisParam) == -1) {
 			jsArrayEjeAbcisas = new JSONArray();
 			fieldForAgrupacion = getUserFilterWithDateType(filtro_) == null ? filtro_.getEntityDef().searchField(
-					Integer.parseInt(request_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
+					Integer.parseInt(data_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
 					: getUserFilterWithDateType(filtro_);
 			List<String> periodos = new ArrayList<String>();
 			try {
 				periodos = obtenerPeriodosEjeXConEscalado(this._dataAccess, fieldForAgrupacion, filtro_, escalado);
 				if (periodos.size() == 0){
-					request_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
+					data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 					return 0;
 				}
 			}
@@ -145,7 +145,7 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 			}// for
 			
 			// el promedio por periodo es:
-			request_.setAttribute(CHART_TITLE, entidadTraslated + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada/ Double.valueOf(valores))) + " de media " + traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada)) + " en todo el periodo": ""));
+			data_.setAttribute(CHART_TITLE, entidadTraslated + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada/ Double.valueOf(valores))) + " de media " + traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada)) + " en todo el periodo": ""));
 
 
 		} else { // el eje X es un campo que existe, por tanto, hacemos
@@ -211,11 +211,11 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 			frecuenciasAcumuladasPorPeriodos.put(key, porcentuado);
 			seriesJSONFrecAcumuladas.add(CommonUtils.roundWith2Decimals(porcentuado));
 		}
-		request_.setAttribute(CHART_TITLE, "Histograma de frecuencia");
-		request_.setAttribute(JSON_OBJECT, jsArrayEjeAbcisas.toJSONString());
-		request_.setAttribute(FREQ_ABSOLUTE, seriesJSONFrecAbsolutas.toJSONString());
-		request_.setAttribute(FREQ_ACUMULATED, seriesJSONFrecAcumuladas.toJSONString());
-		request_.setAttribute("minEjeRef", minimal);
+		data_.setAttribute(CHART_TITLE, "Histograma de frecuencia");
+		data_.setAttribute(JSON_OBJECT, jsArrayEjeAbcisas.toJSONString());
+		data_.setAttribute(FREQ_ABSOLUTE, seriesJSONFrecAbsolutas.toJSONString());
+		data_.setAttribute(FREQ_ACUMULATED, seriesJSONFrecAcumuladas.toJSONString());
+		data_.setAttribute("minEjeRef", minimal);
 
 		return frecuenciaAcumulada;
 	}

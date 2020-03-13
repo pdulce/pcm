@@ -27,6 +27,7 @@ public class DomainUseCaseService {
 	private String uuid, useCaseName;
 	private Document docOfServiceFileDescr;
 	private List<Element> subCases;
+	private List<String> events;
 	
 	private final Collection<Element> discoverAllActions(final String subcaseName) {
 		final Collection<Element> events = new ArrayList<Element>();
@@ -35,8 +36,7 @@ public class DomainUseCaseService {
 			for (int i = 0; i < actionNodeSet.getLength(); i++) {
 				events.add((Element) actionNodeSet.item(i));
 			}
-		}
-		catch (final Throwable exc) {
+		} catch (final Throwable exc) {
 			CDDWebController.log.log(Level.SEVERE, "Error", exc);
 		}
 		return events;
@@ -128,14 +128,16 @@ public class DomainUseCaseService {
 	}
 	
 	public final Collection<String> discoverAllEvents(final String subcaseName) {
-		Collection<String> events = new ArrayList<String>();
-		Collection<Element> actionSet =  discoverAllActions(subcaseName);
-		Iterator<Element> iteActionSet = actionSet.iterator();
-		while (iteActionSet.hasNext()){
-			Element actionElement = iteActionSet.next();
-			events.add(actionElement.getAttribute(DomainApplicationContext.EVENT_ATTR));
+		if (this.events == null){
+			this.events = new ArrayList<String>();
+			Collection<Element> actionSet =  discoverAllActions(subcaseName);
+			Iterator<Element> iteActionSet = actionSet.iterator();
+			while (iteActionSet.hasNext()){
+				Element actionElement = iteActionSet.next();
+				events.add(actionElement.getAttribute(DomainApplicationContext.EVENT_ATTR));
+			}
 		}
-		return events;
+		return this.events;
 	}
 	
 	public final Element extractActionElementByService(final String subcaseName, final String actionName)

@@ -24,7 +24,7 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
@@ -340,13 +340,13 @@ public class ValoresActuales {
 		    4.4. Si el abs(% de variacion de hoy) + 'varianza negativos' es mayor(esto por debajo) que el abs(mon_diferenciales-negativos),
 				entonces, y la tendencia (media total de todos los diferenciales) es positiva en el periodo, recomendar valor.					
 	****/
-	private boolean recomendarValor(final String grupoCandidato, final double valorActualCotizacion, final RequestWrapper req, final IDataAccess dataAccess) throws DatabaseException{
+	private boolean recomendarValor(final String grupoCandidato, final double valorActualCotizacion, final Data req, final IDataAccess dataAccess) throws DatabaseException{
 		if (valorActualCotizacion >= 0){
 			return false;
 		}
 		if (cotizacionesEntidad == null) {
 			try {
-				cotizacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req),
+				cotizacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(),
 						ConstantesModelo.INVERTIA_DATA_ENTIDAD);
 			}
 			catch (Throwable exc) {
@@ -432,7 +432,7 @@ public class ValoresActuales {
 		}
 	}
 	
-	public String refreshMiCartera(final RequestWrapper reqWrapper_, final IDataAccess dataAccess){
+	public String refreshMiCartera(final Data reqWrapper_, final IDataAccess dataAccess){
 		
 		BufferedReader input = null;
 		
@@ -655,11 +655,11 @@ public class ValoresActuales {
 	}
 	
 	
-	public String refrescarIndicesBursatiles(final RequestWrapper req, final IDataAccess dataAccess){
+	public String refrescarIndicesBursatiles(final Data req, final IDataAccess dataAccess){
 		long timeInit = Calendar.getInstance().getTimeInMillis();
 		if (cotizacionesEntidad == null) {
 			try {
-				cotizacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req),
+				cotizacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(),
 						ConstantesModelo.INVERTIA_DATA_ENTIDAD);
 			}
 			catch (Throwable exc) {

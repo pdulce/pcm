@@ -15,7 +15,7 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.stats.GenericStatsServlet;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
@@ -38,12 +38,12 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 	}
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
 		boolean sinAgregado = agregados == null || agregados[0]==null;
-		String lang = CommonUtils.getLanguage(request_);
+		String lang = data_.getLanguage();
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];		
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>(), subtotalesPorAgregado = new HashMap<String, Number>();
 		Number total_ = Double.valueOf(0);
@@ -160,7 +160,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 		
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
-		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, request_);
+		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
 		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(valoresCategMayoresQueCero));
 		if (sinAgregado){
 			itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
@@ -179,14 +179,14 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 		} else {
 			itemGrafico = "en " + unidades;
 		}
-		request_.setAttribute(CHART_TITLE, 
+		data_.setAttribute(CHART_TITLE, 
 				(agregados!=null && agregados.length>1 ? 
 						" Comparativa " : "") + "Piechart " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
 						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
 				unidades + " " : ""));
 		
-		request_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
-		request_.setAttribute(JSON_OBJECT, generarSeries(subtotalesPorCategoria, total_.doubleValue(), request_, itemGrafico.substring(3)));
+		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
+		data_.setAttribute(JSON_OBJECT, generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, itemGrafico.substring(3)));
 
 		return total_.doubleValue();
 	}
@@ -203,7 +203,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 	 ***/
 
 	@SuppressWarnings("unchecked")
-	private String generarSeries(final Map<String, Number> subtotales, final double contabilizadas, final RequestWrapper request_, final String itemGrafico) {
+	private String generarSeries(final Map<String, Number> subtotales, final double contabilizadas, final Data data_, final String itemGrafico) {
 
 		JSONArray seriesJSON = new JSONArray();
 
@@ -239,7 +239,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 			tupla.put("color", coloresHistogramas[colourOrders.get(i)]);
 			
 			tupla.put("name",
-					Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), clavePie) + " (" + subtotales.get(clave) + ")");
+					Translator.traduceDictionaryModelDefined(data_.getLanguage(), clavePie) + " (" + subtotales.get(clave) + ")");
 			tupla.put(
 					"y",
 					CommonUtils.roundDouble(

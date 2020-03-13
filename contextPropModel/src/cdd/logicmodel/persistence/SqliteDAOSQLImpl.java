@@ -10,8 +10,8 @@ import java.util.Date;
 
 import cdd.common.PCMConstants;
 import cdd.common.utils.CommonUtils;
+import cdd.comunication.bus.IFieldValue;
 import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.components.IViewComponent;
 
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import cdd.common.exceptions.MessageException;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 
 
@@ -25,7 +25,7 @@ public interface IFieldView {
 	public static final String FIELDVIEW_NODE = "field", OPTION_SET_ = "optionValues", OPTION_ = "option",
 			OPTION_SET_NODENAME = "optionValues", OPTION_NODENAME = "option";
 
-	public boolean checkDataType(final RequestWrapper request_, final String val_, final boolean validacionObligatoria,
+	public boolean checkDataType(final Data data_, final String val_, final boolean validacionObligatoria,
 			final MessageException parqMensaje);
 
 	public IFieldView copyOf();
@@ -144,8 +144,8 @@ public interface IFieldView {
 
 	public void setEntityField(IFieldLogic fieldLogic);
 
-	public boolean validateAndSaveValueInFieldview(final RequestWrapper request_, final FieldViewSet fieldViewSet,
-			final boolean validacionObligatoria, final Collection<String> requestValues, final String dict,
+	public boolean validateAndSaveValueInFieldview(final Data data_, final FieldViewSet fieldViewSet,
+			final boolean validacionObligatoria, final Collection<String> dataValues, final String dict,
 			final Collection<MessageException> parqMensajes);
 
 	public String formatToString(final Serializable value);

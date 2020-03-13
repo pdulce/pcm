@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.IStrategyFactory;
@@ -14,7 +14,7 @@ import cdd.viewmodel.definitions.IFieldView;
 /**
  * <h1>IAction</h1> The IAction interface
  * is used for defining activities of general purpose which are common to every action defined in
- * the IT system, and constants that are used in actions, like params processed at requests.
+ * the IT system, and constants that are used in actions, like params processed at datas.
  * <p>
  * 
  * @author Pedro Dulce
@@ -98,10 +98,10 @@ public interface IAction {
 			DELETE_STRATEGY_INNER_ERR = "DELETE_STRATEGY_INNER_ERR", INSERT_STRATEGY_NO_RECORDS_ERR = "INSERT_STRATEGY_NO_RECORDS_ERR",
 			CREATE_STRATEGY_ERR = "CREATE_STRATEGY_ERR", CREATE_STRATEGY_PK_EXISTS_ERR = "CREATE_STRATEGY_PK_EXISTS_ERR";
 
-	public SceneResult executeAction(final IDataAccess dataAccess, RequestWrapper request, boolean eventSubmitted,
+	public SceneResult executeAction(final IDataAccess dataAccess, Data data, boolean eventSubmitted,
 			Collection<MessageException> previousMessages);
 
-	public RequestWrapper getRequestContext();
+	public Data getDataBus();
 
 	public boolean isPaginationEvent();
 

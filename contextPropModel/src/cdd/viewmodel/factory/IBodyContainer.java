@@ -6,9 +6,9 @@ import java.util.List;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.IFieldValue;
 import cdd.logicmodel.IDataAccess;
-import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.definitions.FieldViewSetCollection;
 
@@ -19,7 +19,7 @@ public interface IBodyContainer {
 
 	public void setFieldViewSetCriteria(List<FieldViewSetCollection> f);
 
-	public String toXML(RequestWrapper request, final IDataAccess dataAccess_, boolean submitted, List<MessageException> errorMsg);
+	public String toXML(Data data, final IDataAccess dataAccess_, boolean submitted, List<MessageException> errorMsg);
 
 	public List<IViewComponent> getForms();
 

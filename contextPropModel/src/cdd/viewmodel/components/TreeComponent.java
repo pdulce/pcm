@@ -22,7 +22,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.Translator;
@@ -225,9 +225,9 @@ public class TreeComponent extends AbstractComponent {
 	 * 
 	 * @see
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#initFieldViewSets(org
-	 * .w3c.dom.Element, RequestWrapper) */
+	 * .w3c.dom.Element, Data) */
 	@Override
-	protected void initFieldViewSets(final Element element_, final RequestWrapper request, final IDataAccess dataAccess)
+	protected void initFieldViewSets(final Element element_, final Data data, final IDataAccess dataAccess)
 			throws PCMConfigurationException {
 		//
 	}
@@ -254,16 +254,16 @@ public class TreeComponent extends AbstractComponent {
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#toXML(javax.servlet
 	 * .http.HttpServletRequest) */
 	@Override
-	public String toXHTML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		try {
-			if (request.getParameter(paramfID) != null) {
-				request.getSession().setAttribute(paramfID, request.getParameter(paramfID));
+			if (data.getParameter(paramfID) != null) {
+				data.setAttribute(paramfID, data.getParameter(paramfID));
 			}
-			if (request.getParameter(paramfIDGrantPa) != null) {
-				request.getSession().setAttribute(paramfIDGrantPa, request.getParameter(paramfIDGrantPa));
+			if (data.getParameter(paramfIDGrantPa) != null) {
+				data.setAttribute(paramfIDGrantPa, data.getParameter(paramfIDGrantPa));
 			}
-			if (request.getParameter(paramfIDGrantPa2) != null) {
-				request.getSession().setAttribute(paramfIDGrantPa2, request.getParameter(paramfIDGrantPa2));
+			if (data.getParameter(paramfIDGrantPa2) != null) {
+				data.setAttribute(paramfIDGrantPa2, data.getParameter(paramfIDGrantPa2));
 			}
 			return this.xhtml;
 		}

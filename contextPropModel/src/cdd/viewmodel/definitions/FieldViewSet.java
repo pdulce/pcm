@@ -14,13 +14,13 @@ import java.util.Map;
 import cdd.common.PCMConstants;
 import cdd.common.comparator.ComparatorFieldLogic;
 import cdd.common.utils.CommonUtils;
+import cdd.comunication.bus.FieldValue;
+import cdd.comunication.bus.IFieldValue;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldAbstract;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldAbstract;
 import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.streamdata.FieldValue;
-import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.components.XmlUtils;
 import cdd.viewmodel.components.controls.ICtrl;
 

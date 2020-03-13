@@ -11,7 +11,7 @@ import org.json.simple.JSONArray;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.stats.GenericStatsServlet;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
@@ -35,12 +35,12 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 	}
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
 		boolean sinAgregado = agregados == null || agregados[0]==null;
-		String lang = CommonUtils.getLanguage(request_);
+		String lang = data_.getLanguage();
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>();
 		Number total_ = Double.valueOf(0.0);
 		int valoresCategMayoresQueCero = 0;
@@ -94,13 +94,13 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 		Map<String, Map<String, Number>> ocurrencias = new HashMap<String, Map<String, Number>>();
 		
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_.getEntityDef().getName()
+		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
 
 		ocurrencias.put(entidadTraslated, subtotalesPorCategoria);
 		
 		String itemGrafico = entidadTraslated;
-		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, request_);
+		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
 		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(valoresCategMayoresQueCero));
 		if (sinAgregado){
 			itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
@@ -119,17 +119,17 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 		} else {
 			itemGrafico = "en " + unidades;
 		}
-		request_.setAttribute(CHART_TITLE, 
+		data_.setAttribute(CHART_TITLE, 
 				(agregados!=null && agregados.length>1 ? 
 						" Comparativa " : "") + "Spiderchart " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
 						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
 				unidades + " " : ""));
 		
-		request_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
+		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
 
-		request_.setAttribute(JSON_OBJECT, regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, request_));
+		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
 
-		request_.setAttribute(CATEGORIES, jsArrayEjeAbcisas.toJSONString());
+		data_.setAttribute(CATEGORIES, jsArrayEjeAbcisas.toJSONString());
 
 		return total_.doubleValue();
 	}

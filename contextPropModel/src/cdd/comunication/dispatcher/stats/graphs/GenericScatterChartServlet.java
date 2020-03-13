@@ -19,17 +19,19 @@ import org.json.simple.JSONObject;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
+import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.stats.StatsUtils;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.SceneResult;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.stats.GenericStatsServlet;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.BodyContainer;
 import cdd.viewmodel.components.Form;
@@ -62,7 +64,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
@@ -124,7 +126,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 	}
 	
 	@Override
-	protected void setAttrsOnRequest(final IDataAccess dataAccess, final RequestWrapper request_, final FieldViewSet filtro_, final String aggregateFunction,
+	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Data data_, final FieldViewSet filtro_, final String aggregateFunction,
 			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo, final double coefCorrelacion, final String unidadesmedicion) {
 
 		IFieldValue camposAComparar = null;
@@ -145,37 +147,44 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				}
 			}
 		}
-		String lang = CommonUtils.getLanguage(request_);
+		String lang = data_.getLanguage();
 		String catX = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		String catY = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[1].getName()));
 		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
-		request_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
+		data_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final IDataAccess dataAccess, final RequestWrapper request_, final String serviceName, final String event) {
-
+	protected SceneResult renderRequestFromNodePrv(final DomainApplicationContext context, final Data data_) {
+		
+		IDataAccess dataAccess = null;
+		try {
+			dataAccess = contextApp.getDataAccess(data_.getService(), data_.getEvent());
+		} catch (PCMConfigurationException e) {
+			throw new RuntimeException("Error creating DataAccess object", e);
+		}
+		final String serviceName = data_.getService(), event = data_.getEvent();
 		SceneResult scene = new SceneResult();
 		long mills1 = Calendar.getInstance().getTimeInMillis();
 		FieldViewSet filtro_ = null;
 		StringBuilder sbXml = new StringBuilder();
 		try {
 			this._dataAccess = dataAccess;
-			String idPressed = request_.getParameter("idPressed");
+			String idPressed = data_.getParameter("idPressed");
 			String nameSpaceOfButtonFieldSet = getParamsPrefix();
 			String paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-			if (request_.getParameter(paramGeneric4Entity) == null){
+			if (data_.getParameter(paramGeneric4Entity) == null){
 				nameSpaceOfButtonFieldSet = nameSpaceOfButtonFieldSet.concat(idPressed);
 				paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
 			}
-			paramGeneric4Entity = request_.getParameter(paramGeneric4Entity);
+			paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
 			
-			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_),
+			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 					paramGeneric4Entity);
 			
-			Form formSubmitted = (Form) BodyContainer.getContainerOfView(request_, dataAccess, serviceName, event, this.contextApp).getForms().iterator().next();
+			Form formSubmitted = (Form) BodyContainer.getContainerOfView(data_, dataAccess, serviceName, event, this.contextApp).getForms().iterator().next();
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
 				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {
@@ -195,13 +204,13 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				filtro_.setNameSpace(nameSpaceOfButtonFieldSet);
 			}
 			
-			String categoriaX = request_.getParameter(filtro_.getNameSpace().concat(".").concat(CATEGORIA_EJE_X));
-			String categoriaY = request_.getParameter(filtro_.getNameSpace().concat(".").concat(CATEGORIA_EJE_Y));
+			String categoriaX = data_.getParameter(filtro_.getNameSpace().concat(".").concat(CATEGORIA_EJE_X));
+			String categoriaY = data_.getParameter(filtro_.getNameSpace().concat(".").concat(CATEGORIA_EJE_Y));
 			String attrDiferenciador = null;
 			if (categoriaX.equals(categoriaY)){
-				attrDiferenciador = request_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_FOR_DIFFERENCE_IN_CORRELATION));				
+				attrDiferenciador = data_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_FOR_DIFFERENCE_IN_CORRELATION));				
 			}			
-			String field4Clasify = request_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
+			String field4Clasify = data_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
 			if (attrDiferenciador != null){
 				field4Clasify = attrDiferenciador;
 			}
@@ -210,7 +219,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			IFieldLogic fieldForCategoryX = entidadGrafico.searchField(Integer.parseInt(categoriaX));
 			IFieldLogic fieldForCategoryY = entidadGrafico.searchField(Integer.parseInt(categoriaY));
 			
-			String lang = CommonUtils.getLanguage(request_);
+			String lang = data_.getLanguage();
 			
 			if (!esComparable(filtro_, fieldForCompareTwoGroups)){
 				sbXml = new StringBuilder();
@@ -236,7 +245,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			String nameTraducedOfFilterField4Results = null;
 			List<Integer> mappingFieldForFilter = new ArrayList<Integer>();			
 			IFieldLogic fieldForFilterResults = null;
-			String fieldForFilter = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
+			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
 			if (fieldForFilter != null){
 				String[] fields4Filter = fieldForFilter.split(";");
 				for (int filter=0;filter<fields4Filter.length;filter++){
@@ -252,11 +261,11 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 						filtro_.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), rigthPartOfEquals);
 					}else{
 						String[] entidadPointValue = rigthPartOfEquals.split(PCMConstants.REGEXP_POINT);
-						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(CommonUtils.getEntitiesDictionary(request_),
+						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(data_.getEntitiesDictionary(),
 								entidadPointValue[0]);
 						if (!esEntidad){//no es una entidad, sino un parometro
-							if (request_.getParameterValues(rigthPartOfEquals) != null){
-								String[] valuesOfParamReq_ = request_.getParameterValues(rigthPartOfEquals);
+							if (data_.getParameterValues(rigthPartOfEquals) != null){
+								String[] valuesOfParamReq_ = data_.getParameterValues(rigthPartOfEquals);
 								Collection<String> serialValues = new ArrayList<String>();
 								for (int v=0;v<valuesOfParamReq_.length;v++){
 									serialValues.add(valuesOfParamReq_[v]);
@@ -265,13 +274,13 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 							}
 							
 						}else{//tratamiento cuando es entidad.campo
-							EntityLogic entidad1ToGet = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_),
+							EntityLogic entidad1ToGet = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 									entidadPointValue[0]);
 							int fieldToGet = Integer.parseInt(entidadPointValue[1]);
 							for (FieldViewSet fSetItem: fSet) {
 								if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidad1ToGet.getName())) {
 									//busco en el form el fieldviewset de la entidad para la que obtener el dato
-									String value = request_.getParameter(fSetItem.getNameSpace().concat(".").concat(entidad1ToGet.searchField(fieldToGet).getName()));
+									String value = data_.getParameter(fSetItem.getNameSpace().concat(".").concat(entidad1ToGet.searchField(fieldToGet).getName()));
 									filtro_.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), value);
 									break;
 								}
@@ -279,7 +288,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 						}
 					}
 					
-					String[] values4Filter_ = request_.getParameter(filtro_.getNameSpace().concat(".").concat(VALUE_FOR_FILTER)).replaceAll(" ,", ",")
+					String[] values4Filter_ = data_.getParameter(filtro_.getNameSpace().concat(".").concat(VALUE_FOR_FILTER)).replaceAll(" ,", ",")
 							.replaceAll(", ", ",").split(",");
 					if (values4Filter_.length> 0 && !"".equals(values4Filter_[0])){
 						IFieldLogic fieldForFilter_ = entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals));
@@ -295,7 +304,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			
 			/*** fin del establecimiento de un valor por defecto para el filtrado ***/
 
-			String orderFieldParam = request_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM));
+			String orderFieldParam = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM));
 			IFieldLogic orderField_ = entidadGrafico.searchField(Integer.parseInt(orderFieldParam));
 
 			List<Integer> fieldMappings = new ArrayList<Integer>();
@@ -313,7 +322,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			//[[6.44,6.4,'01/01/2016','BBVA'],....[6.44,6.4,'01/01/2016','IBEX35']]
 			//Llamamos a un motodo merge que genera una lista merged a partir de dos sublistas diferenciadas por el campo Agrupador
 			if (attrDiferenciador != null){
-				String default4EjeX = request_.getParameter(getParamsPrefix().concat(".").concat("defaultEjeX"));
+				String default4EjeX = data_.getParameter(getParamsPrefix().concat(".").concat("defaultEjeX"));
 				tuplas = mergeByAttr(tuplas, /*posicion del elemento agrupador, GRUPO*/3, default4EjeX);
 			}
 			
@@ -480,18 +489,18 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			// Number valorMax_Eje_Y = Double.valueOf(rango_intercuartil * 10000.5 + Q3);
 			// Number valorMin_Eje_Y = Double.valueOf(Q1 - rango_intercuartil * 10000.5);
 			
-			request_.setAttribute(TITULO_EJE_X, titulo_EJE_X);
-			request_.setAttribute(TITULO_EJE_Y, titulo_EJE_Y);
-			request_.setAttribute(TOOLTIP_EJE_X, titulo_EJE_X);
-			request_.setAttribute(TOOLTIP_EJE_Y, titulo_EJE_Y);
+			data_.setAttribute(TITULO_EJE_X, titulo_EJE_X);
+			data_.setAttribute(TITULO_EJE_Y, titulo_EJE_Y);
+			data_.setAttribute(TOOLTIP_EJE_X, titulo_EJE_X);
+			data_.setAttribute(TOOLTIP_EJE_Y, titulo_EJE_Y);
 
 			Double coordenada_X_Mayor = Collections.max(datos_EJE_X_coll_con_Atipicos), coordenada_Y_Mayor = Collections
 					.max(datos_EJE_Y_coll_con_Atipicos), coordenada_X_Menor = Collections.min(datos_EJE_X_coll_con_Atipicos), coordenada_Y_Menor = Collections
 					.min(datos_EJE_Y_coll_con_Atipicos);
-			request_.setAttribute("min_EJE_X", Integer.valueOf(coordenada_X_Menor.intValue()));
-			request_.setAttribute("max_EJE_X", Integer.valueOf(coordenada_X_Mayor.intValue()));
-			request_.setAttribute("min_EJE_Y", Integer.valueOf(coordenada_Y_Menor.intValue()));
-			request_.setAttribute("max_EJE_Y", Integer.valueOf(coordenada_Y_Mayor.intValue()));
+			data_.setAttribute("min_EJE_X", Integer.valueOf(coordenada_X_Menor.intValue()));
+			data_.setAttribute("max_EJE_X", Integer.valueOf(coordenada_X_Mayor.intValue()));
+			data_.setAttribute("min_EJE_Y", Integer.valueOf(coordenada_Y_Menor.intValue()));
+			data_.setAttribute("max_EJE_Y", Integer.valueOf(coordenada_Y_Mayor.intValue()));
 
 			StatsUtils varStatsForRegressionLine = new StatsUtils();
 			varStatsForRegressionLine.setDatos_variable_X(datos_EJE_X_coll_con_Atipicos);
@@ -541,14 +550,14 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 			double coeficiente_R_deCorrelacion = varStatsForRegressionLine.obtenerCoeficienteR_deCorrelacion();
 
-			request_.setAttribute(UNITS_ATTR, units);
+			data_.setAttribute(UNITS_ATTR, units);
 
 			IFieldLogic[] fields4GroupBy = new IFieldLogic[1];
 			fields4GroupBy[0] = fieldForClasifyResults;
 			IFieldLogic[] agregados= new IFieldLogic[2];
 			agregados[0] = filtro_.getEntityDef().searchField(Integer.valueOf(categoriaX));
 			agregados[1] = filtro_.getEntityDef().searchField(Integer.valueOf(categoriaY));
-			setAttrsOnRequest(dataAccess, request_, filtro_, OPERATION_SUM, agregados, fields4GroupBy, tamanioMuestral_, null, coeficiente_R_deCorrelacion, units);
+			setAttrsOnRequest(dataAccess, data_, filtro_, OPERATION_SUM, agregados, fields4GroupBy, tamanioMuestral_, null, coeficiente_R_deCorrelacion, units);
 
 			String summary_X_media = "", summary_X_mediana = "", summary_X_deviat = "", summary_Y_media = "", summary_Y_mediana = "", summary_Y_deviat = "", regressionInfo = "";
 
@@ -572,19 +581,19 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 					+ CommonUtils.numberFormatter.formatBigData(paramBeta_Correlacion < 0.001?paramBeta_Correlacion*10000.0:(paramBeta_Correlacion < 0.01?paramBeta_Correlacion*1000.0:paramBeta_Correlacion))
 					+ "*(" + titulo_EJE_X + (paramBeta_Correlacion < 0.001?"/10000":(paramBeta_Correlacion < 0.01?"/1000":"")) + ") </I>";
 
-			request_.setAttribute(JSON_REGRESSION_SERIES, seriesJSON.toJSONString());
+			data_.setAttribute(JSON_REGRESSION_SERIES, seriesJSON.toJSONString());
 
 			long mills2 = Calendar.getInstance().getTimeInMillis();
 			long segundosConsumidos = (mills2 - mills1) / 1000;
 
-			request_.setAttribute(CONTAINER, CONTAINER);
+			data_.setAttribute(CONTAINER, CONTAINER);
 
 			//String plural = CommonUtils.isVocal(units.substring(units.length() - 1).charAt(0)) ? "s" : "/es";
 			//String nombreConceptoRecuento = (units.indexOf(" ") != -1)?units.replaceFirst(" ", plural + " "):units.concat(plural);
 			String nombreConceptoRecuento = units;
 			
 			StringBuilder infoSumaryAndRegression = new StringBuilder();
-			infoSumaryAndRegression.append(htmlForHistograms(request_, fieldForCategoryX, filtro_));
+			infoSumaryAndRegression.append(htmlForHistograms(data_, fieldForCategoryX, filtro_));
 			infoSumaryAndRegression.append("<HR/><BR/><TABLE><TH>Summary <I>"
 					+ titulo_EJE_X
 					+ "</I></TH><TH>Summary <I>"
@@ -633,11 +642,11 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			infoSumaryAndRegression.append("</TR>");
 			infoSumaryAndRegression.append("</TABLE>");
 
-			String criteriosConsulta = "Criterios de consulta: " + pintarCriterios(filtro_, request_);
+			String criteriosConsulta = "Criterios de consulta: " + pintarCriterios(filtro_, data_);
 			String subtitle = criteriosConsulta + "(rendered in " + segundosConsumidos + " seconds)";
-			request_.setAttribute(SUBTILE_ATTR, subtitle);
+			data_.setAttribute(SUBTILE_ATTR, subtitle);
 
-			request_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());
+			data_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());
 
 			return scene;
 

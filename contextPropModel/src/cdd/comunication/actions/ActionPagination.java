@@ -14,8 +14,7 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
-import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldCompositePK;
@@ -46,8 +45,8 @@ public class ActionPagination extends AbstractPcmAction {
 
 	protected String filtra;
 
-	public ActionPagination(final DomainApplicationContext context, final IBodyContainer container_, final RequestWrapper request_, final String serviceName, final String event_) {
-		this.servletRequest = request_;
+	public ActionPagination(final DomainApplicationContext context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_) {
+		this.data = data_;
 		this.container = container_;
 		this.setEvent(event_);
 		try {
@@ -83,7 +82,7 @@ public class ActionPagination extends AbstractPcmAction {
 	}
 
 	@Override
-	public SceneResult executeAction(final IDataAccess dataAccess_, final RequestWrapper request, final boolean eventSubmitted_,
+	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final boolean eventSubmitted_,
 			final Collection<MessageException> prevMessages) {
 
 		boolean hayMasterSpace = false;
@@ -110,26 +109,20 @@ public class ActionPagination extends AbstractPcmAction {
 					}
 				}
 
-				int pageSize = request.getPageSize();
-				FieldViewSet detailGridElement = null;
-				if ((IEvent.VOLVER.equals(request.getParameter(PCMConstants.MASTER_NEW_EVENT_)) && (request.getParameter(PCMConstants.MASTER_ID_SEL_)) != null && !"".equals(request.getParameter(PCMConstants.MASTER_ID_SEL_)))
-						|| request.getAttribute(PCMConstants.MASTER_ID_SEL_) != null){
-					if (!Event.isQueryEvent(this.event)){
-						myForm.bindPrimaryKeys(this, erroresMsg);
-					}
-				} else if (!IEvent.VOLVER.equals(request.getParameter(PCMConstants.MASTER_NEW_EVENT_)) && !IEvent.CANCEL.equals(request.getParameter(PCMConstants.MASTER_NEW_EVENT_))
-						&& Event.isQueryEvent(this.event) && request.getOriginalEvent().contains(this.event)) {
-					if (Event.isQueryEvent(this.event)){
-						myForm.bindUserInput(this, erroresMsg);
-					}
+				int pageSize = data.getPageSize();
+				FieldViewSet detailGridElement = null;				
+				if (Event.isQueryEvent(this.event)){
+					myForm.bindUserInput(this, erroresMsg);
 					paginationGrid.bindUserInput(this, null, erroresMsg);
+				}else{
+					myForm.bindPrimaryKeys(this, erroresMsg);
 				}
-					
+				
 				if (!erroresMsg.isEmpty()) {
 					final List<MessageException> colErr = new ArrayList<MessageException>();
 					colErr.addAll(erroresMsg);
 					res.setSuccess(Boolean.FALSE);
-					res.setXhtml(this.container.toXML(request, dataAccess_, eventSubmitted_, colErr));
+					res.setXhtml(this.container.toXML(data, dataAccess_, eventSubmitted_, colErr));
 					return res;
 				}
 			
@@ -148,11 +141,11 @@ public class ActionPagination extends AbstractPcmAction {
 				}
 				String nameSpace = paginationGrid.getDefaultOrderFields()[0].split(PCMConstants.REGEXP_POINT)[0];
 				
-				String paramOrdenacion = this.getRequestContext().getParameter(PaginationGrid.ORDENACION);
+				String paramOrdenacion = this.getDataBus().getParameter(PaginationGrid.ORDENACION);
 				
 				String nameSpaceActual = paramOrdenacion==null?"":paramOrdenacion.split(PCMConstants.REGEXP_POINT)[0];
 				String[] camposOrdenacionActual = paramOrdenacion==null?null:paramOrdenacion.split(PCMConstants.COMMA);
-				String dirOrdenacionActual = this.getRequestContext().getParameter(PaginationGrid.DIRECCION);
+				String dirOrdenacionActual = this.getDataBus().getParameter(PaginationGrid.DIRECCION);
 				if (camposOrdenacionActual != null && camposOrdenacionActual.length > 0 && nameSpace.equals(nameSpaceActual)){
 					paginationGrid.setOrdenationFieldsSel(camposOrdenacionActual);
 					if (dirOrdenacionActual != null && !"".equals(dirOrdenacionActual)){
@@ -172,15 +165,15 @@ public class ActionPagination extends AbstractPcmAction {
 					String parameterNameOfMasterID = paginationGrid.getMasterNamespace().concat(".").concat(idMasterId);
 					paginationGrid.setMasterFormId(parameterNameOfMasterID);
 					String pkSel = entidadPadre.getFieldKey().getComposedName(myForm.getName());
-					String valueofPk = request.getParameter(pkSel);
+					String valueofPk = data.getParameter(pkSel);
 					if (valueofPk == null) {
-						valueofPk = request.getParameter(pkSel.replaceFirst("Sel", ""));
+						valueofPk = data.getParameter(pkSel.replaceFirst("Sel", ""));
 						if (valueofPk == null){
-							valueofPk = request.getParameter(paginationGrid.getMasterEntityNamespace().concat(".").concat(idMasterId));													
+							valueofPk = data.getParameter(paginationGrid.getMasterEntityNamespace().concat(".").concat(idMasterId));													
 							if (valueofPk == null){
-								valueofPk = request.getParameter(PCMConstants.MASTER_ID_SEL_);								
+								valueofPk = data.getParameter(PCMConstants.MASTER_ID_SEL_);								
 								if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {
-									valueofPk = (String) this.getRequestContext().getAttribute(PCMConstants.MASTER_ID_SEL_);
+									valueofPk = (String) this.getDataBus().getAttribute(PCMConstants.MASTER_ID_SEL_);
 									if (valueofPk != null && !valueofPk.equals("")){
 										String[] args = valueofPk.split(";");
 										valueofPk = args[args.length-1].split("=")[1];
@@ -196,9 +189,9 @@ public class ActionPagination extends AbstractPcmAction {
 						} else {
 							value = valueofPk;
 						}
-					} else if (request.getParameter(PCMConstants.MASTER_ID_SEL_) != null
-							&& !PCMConstants.EMPTY_.equals(request.getParameter(PCMConstants.MASTER_ID_SEL_))) {
-						valueofPk = request.getParameter(PCMConstants.MASTER_ID_SEL_);
+					} else if (data.getParameter(PCMConstants.MASTER_ID_SEL_) != null
+							&& !PCMConstants.EMPTY_.equals(data.getParameter(PCMConstants.MASTER_ID_SEL_))) {
+						valueofPk = data.getParameter(PCMConstants.MASTER_ID_SEL_);
 						final Map<String, Serializable> valoresCamposPK = FieldCompositePK.desempaquetarPK(valueofPk.toString(),
 								paginationGrid.getMasterNamespace());
 						final Iterator<Map.Entry<String, Serializable>> ite = valoresCamposPK.entrySet().iterator();
@@ -209,7 +202,7 @@ public class ActionPagination extends AbstractPcmAction {
 					} else {
 						String nombreInputHiddenMasterEntityId = paginationGrid.getMasterNamespace().concat(".")
 								.concat(entidadPadre.getFieldKey().getPkFieldSet().iterator().next().getName());
-						valueofPk = request.getParameter(nombreInputHiddenMasterEntityId);
+						valueofPk = data.getParameter(nombreInputHiddenMasterEntityId);
 						if (valueofPk != null) {
 							if (valueofPk.indexOf(PCMConstants.REGEXP_POINT) != -1 || valueofPk.indexOf(PCMConstants.EQUALS) != -1) {
 								value = FieldCompositePK.desempaquetarPK(valueofPk, entidadPadre.getName()).values().iterator().next();
@@ -219,7 +212,7 @@ public class ActionPagination extends AbstractPcmAction {
 						} else {
 							nombreInputHiddenMasterEntityId = entidadPadre.getName().concat("Sel.")
 									.concat(entidadPadre.getFieldKey().getPkFieldSet().iterator().next().getName());
-							valueofPk = request.getParameter(nombreInputHiddenMasterEntityId);
+							valueofPk = data.getParameter(nombreInputHiddenMasterEntityId);
 							if (valueofPk != null) {
 								if (valueofPk.indexOf(PCMConstants.REGEXP_POINT) != -1 || valueofPk.indexOf(PCMConstants.EQUALS) != -1) {
 									value = FieldCompositePK.desempaquetarPK(valueofPk, entidadPadre.getName()).values().iterator().next();
@@ -332,7 +325,7 @@ public class ActionPagination extends AbstractPcmAction {
 			}
 			if (paginationGrid.getMasterNamespace() != null) {
 				try {
-					res.appendXhtml(paginationGrid.toXHTML(request, dataAccess_, eventSubmitted_));
+					res.appendXhtml(paginationGrid.toXHTML(data, dataAccess_, eventSubmitted_));
 					hayMasterSpace = true;
 				}
 				catch (DatabaseException e) {
@@ -347,12 +340,12 @@ public class ActionPagination extends AbstractPcmAction {
 			XmlUtils.openXmlNode(sbXml, IViewComponent.HTML_);
 			final Iterator<MessageException> iteMsgs = erroresMsg.iterator();
 			while (iteMsgs.hasNext()) {
-				sbXml.append(iteMsgs.next().toXML(CommonUtils.getEntitiesDictionary(request)));
+				sbXml.append(iteMsgs.next().toXML(data.getEntitiesDictionary()));
 			}
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 			res.appendXhtml(sbXml.toString());
 		} else if (!hayMasterSpace && this.container != null) {
-			res.appendXhtml(this.container.toXML(request, dataAccess_, eventSubmitted_, erroresMsg));
+			res.appendXhtml(this.container.toXML(data, dataAccess_, eventSubmitted_, erroresMsg));
 		}
 
 		return res;

@@ -106,7 +106,7 @@ public final class RelationalAndCIFValidator {
 	/**
 	 * Method for semanthic validation of range-values fieldviews, when both of values are != null
 	 * 
-	 * @param requestValues
+	 * @param dataValues
 	 */
 	public static final boolean relationalDateValidation(final Serializable minorValue_, final Serializable mayorValue_) {
 		if (minorValue_ == null || mayorValue_ == null){

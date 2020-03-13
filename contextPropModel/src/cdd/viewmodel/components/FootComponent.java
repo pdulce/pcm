@@ -19,7 +19,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.components.controls.ICtrl;
 import cdd.viewmodel.components.controls.html.IHtmlElement;
@@ -118,9 +118,9 @@ public class FootComponent extends AbstractComponent {
 	 * 
 	 * @see
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#initFieldViewSets(org
-	 * .w3c.dom.Element, RequestWrapper) */
+	 * .w3c.dom.Element, Data) */
 	@Override
-	protected void initFieldViewSets(final Element element_, final RequestWrapper request, final IDataAccess dataAccess)
+	protected void initFieldViewSets(final Element element_, final Data data, final IDataAccess dataAccess)
 			throws PCMConfigurationException {
 		// NOTHING
 	}
@@ -147,7 +147,7 @@ public class FootComponent extends AbstractComponent {
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#toXML(javax.servlet
 	 * .http.HttpServletRequest) */
 	@Override
-	public String toXHTML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		return this.xhtml;
 	}
 

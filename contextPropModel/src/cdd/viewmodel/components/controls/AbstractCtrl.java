@@ -93,7 +93,7 @@ public abstract class AbstractCtrl implements ICtrl {
 
 	@Override
 	public boolean isSelectionMultiple() {
-		if (this.fieldView.getFieldAndEntityForThisOption() == null) {
+		if (this.fieldView == null || this.fieldView.getFieldAndEntityForThisOption() == null) {
 			return false;
 		}
 		return this.fieldView.getFieldAndEntityForThisOption().isMultiple();

@@ -4,20 +4,18 @@
 package facturacionUte.servlets;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cdd.common.PCMConstants;
-import cdd.common.exceptions.MessageException;
-import cdd.comunication.actions.IAction;
+import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.persistence.DAOConnection;
 
 import facturacionUte.utils.bolsa.ValoresActuales;
 
@@ -77,35 +75,42 @@ public class LauncherServlet extends CDDWebController {
 	private static final long serialVersionUID = 777777781L;
 	
 	@Override
-	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(final HttpServletRequest data, final HttpServletResponse response) throws ServletException, IOException {
 		
-		super.doPost(request, response);
+		super.doPost(data, response);
 	}
 
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		super.doGet(request, response);
+	protected void doGet(final HttpServletRequest data, final HttpServletResponse response) throws ServletException, IOException {
+		super.doGet(data, response);
 	}
 
 	@Override
-	protected SceneResult renderRequestFromNode(final DAOConnection conn, final IDataAccess dataAccess, final String serviceName,
-			final String event, final RequestWrapper request_, final boolean eventSubmitted, IAction action,
-			Collection<MessageException> messageExceptions, final String lang) {
+	protected SceneResult renderRequestFromNodePrv(final DomainApplicationContext context, 
+			final Data data_) {
 		
+		
+		IDataAccess dataAccess = null;
+		try {
+			dataAccess = contextApp.getDataAccess(data_.getService(), data_.getEvent());
+		} catch (PCMConfigurationException e) {
+			throw new RuntimeException("Error creating DataAccess object", e);
+		}
+		final String event = data_.getEvent();
 		StringBuilder htmlOutput = new StringBuilder();
 		htmlOutput.append("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\""
 				+ UTIL_URI_SERVLET + "\">");
-		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"" + request_.getParameter(EXEC_PARAM) + "\" />");
+		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"" + data_.getParameter(DomainApplicationContext.EXEC_PARAM) + "\" />");
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\""+PCMConstants.EVENT+"\" value=\"" + event + "\" />");
-
-		if (request_.getParameter(EXEC_PARAM) == null){
+		
+		if (data_.getParameter(DomainApplicationContext.EXEC_PARAM) == null){
 			return new SceneResult();
-		}else if (request_.getParameter(EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
+		}else if (data_.getParameter(DomainApplicationContext.EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
 			//actualizar todos los valores desde invertia.com/historicos
-			htmlOutput.append(new ValoresActuales().refrescarIndicesBursatiles(request_, dataAccess));						
-		}else if (request_.getParameter(EXEC_PARAM).startsWith(EVENTO_MY_INFO_BOLSA_VALORES)) {
+			htmlOutput.append(new ValoresActuales().refrescarIndicesBursatiles(data_, dataAccess));						
+		}else if (data_.getParameter(DomainApplicationContext.EXEC_PARAM).startsWith(EVENTO_MY_INFO_BOLSA_VALORES)) {
 			//pintar el valor oltimo de las empresas/sectores/ondices bursotiles de la lista
-			htmlOutput.append(new ValoresActuales().refreshMiCartera(request_, dataAccess));
+			htmlOutput.append(new ValoresActuales().refreshMiCartera(data_, dataAccess));
 		}
 		
 		htmlOutput.append("</form>");

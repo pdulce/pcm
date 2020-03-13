@@ -20,14 +20,14 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.IEvent;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.FieldValue;
+import cdd.comunication.bus.IFieldValue;
+import cdd.comunication.bus.SerializedValues;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
-import cdd.streamdata.FieldValue;
-import cdd.streamdata.IFieldValue;
-import cdd.streamdata.SerializedValues;
 import cdd.viewmodel.components.controls.ICtrl;
 import cdd.viewmodel.components.controls.html.GenericInput;
 import cdd.viewmodel.components.controls.html.LinkButton;
@@ -79,9 +79,9 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 	public abstract void bindUserInput(IAction accion, List<FieldViewSet> fs, List<MessageException> msgs) throws ParameterBindingException;
 
 	@Override
-	public abstract String toXHTML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
+	public abstract String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 
-	protected abstract void initFieldViewSets(Element element_, RequestWrapper request, final IDataAccess dataAccess)
+	protected abstract void initFieldViewSets(Element element_, Data data, final IDataAccess dataAccess)
 			throws PCMConfigurationException;
 
 	@Override

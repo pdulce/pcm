@@ -24,8 +24,8 @@ import cdd.comunication.actions.validators.IntegerValidator;
 import cdd.comunication.actions.validators.LongValidator;
 import cdd.comunication.actions.validators.RelationalAndCIFValidator;
 import cdd.comunication.actions.validators.StringValidator;
+import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
@@ -831,12 +831,12 @@ public class FieldView implements IFieldView, Serializable {
 	}
 
 	@Override
-	public final boolean checkDataType(final RequestWrapper request_, final String val_, final boolean validacionObligatoria,
+	public final boolean checkDataType(final Data dataInBus, final String val_, final boolean validacionObligatoria,
 			final MessageException parqMensaje) {
 		try {
 			String name2Traduce = this.getQualifiedContextName().replaceAll("_HASTA", "");
 			name2Traduce = name2Traduce.replaceAll("_DESDE", "");
-			String traducedNombreQ_ = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), name2Traduce);
+			String traducedNombreQ_ = Translator.traduceDictionaryModelDefined(dataInBus.getLanguage(), name2Traduce);
 			String value = val_;
 			boolean esValido = true;
 			final IFieldLogic fieldOfEntity = this.getEntityField();
@@ -924,17 +924,17 @@ public class FieldView implements IFieldView, Serializable {
 	 * http://xmlbeans.apache.org/docs/2.0.0/guide/conXMLBeansSupportBuiltInSchemaTypes.html
 	 */
 	@Override
-	public final boolean validateAndSaveValueInFieldview(final RequestWrapper request_, final FieldViewSet fieldViewSet,
-			final boolean validacionObligatoria_, final Collection<String> requestValues_, final String dict,
+	public final boolean validateAndSaveValueInFieldview(final Data data_, final FieldViewSet fieldViewSet,
+			final boolean validacionObligatoria_, final Collection<String> dataValues_, final String dict,
 			final Collection<MessageException> parqMensajes) {
 		try {
-			if (requestValues_ == null) {
+			if (dataValues_ == null) {
 				return true;
 			}
 
-			Collection<String> _requestValues = new ArrayList<String>();
+			Collection<String> _dataValues = new ArrayList<String>();
 			boolean bindingOK = true;
-			final Iterator<String> ite = requestValues_.iterator();
+			final Iterator<String> ite = dataValues_.iterator();
 			while (ite.hasNext()) {
 				String value = ite.next();
 				final MessageException parqMensaje = new MessageException(IAction.ERROR_BINDING_CODE);
@@ -964,9 +964,9 @@ public class FieldView implements IFieldView, Serializable {
 					} else {
 						if (value.indexOf(this.getQualifiedContextName()) != -1) {
 							value = value.replaceFirst(this.getQualifiedContextName(), "").substring(1);
-							esValido = this.checkDataType(request_, value, validacionObligatoria, parqMensaje);
+							esValido = this.checkDataType(data_, value, validacionObligatoria, parqMensaje);
 						} else {
-							esValido = this.checkDataType(request_, value, validacionObligatoria, parqMensaje);
+							esValido = this.checkDataType(data_, value, validacionObligatoria, parqMensaje);
 						}
 					}
 				}
@@ -975,11 +975,11 @@ public class FieldView implements IFieldView, Serializable {
 					fieldViewSet.getFieldvalue(this.getQualifiedContextName()).setError(true);
 					parqMensajes.add(parqMensaje);
 				}
-				_requestValues.add(value);
+				_dataValues.add(value);
 			}
 
-			if (!_requestValues.isEmpty()) {
-				fieldViewSet.setValues(this.getQualifiedContextName(), _requestValues);
+			if (!_dataValues.isEmpty()) {
+				fieldViewSet.setValues(this.getQualifiedContextName(), _dataValues);
 			} else {
 				bindingOK = false;
 			}

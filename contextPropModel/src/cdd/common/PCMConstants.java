@@ -20,7 +20,7 @@ public interface PCMConstants {
 			CHAR_END_CORCH = ']', CHAR_SIMPLE_SEPARATOR = '-', CHAR_APOSTROF = '\'', CHAR_ANTISLASH = '/', CHAR_BACK_SLASH = '\\',
 			CHAR_9 = '9', CHAR_ASTERISC = '*', CHAR_PERCENT = '%';
 	
-	public static final String ID_PAGINACION = "paginacion", LANGUAGE = "language", 
+	public static final String ID_PAGINACION = "paginacion", LANGUAGE = "language", DEFAULT_LANG = "es_",
 			NAVIGATION_MODEL = "navigationApp",	SERVICE_DIRECTORY = "serviceDirectory", ENTITIES_MODEL = "entitiesDictionary",
 			DOWNLOAD_DIR = "downloadDir", LOG_APPFILE = "logAppFile", UPLOAD_DIR = "uploadDir", APPURI_ = "uri", PAGESIZE = "pageSize",
 			APP_PROFILE = "profile", SERVLET_MAPPING = "servletMapping", AUDITON_APP = "auditActivated",
@@ -41,8 +41,7 @@ public interface PCMConstants {
 			REGEXP_BEGIN_CORCH = "\\[", REGEXP_POINT = "\\.", REGEXP_PARENT = "\\(", CIF_REGEXP = "CIF", CLASSIC_SEPARATOR = "|",
 			COMMA = ",", POINT = ".", AMPERSAND = "#", SEPARATOR_SPECIAL = "o", POINT_COMMA = ";", EQUALS = "=", END_FUNC = "')",
 			BEGIN_PARENTHESIS = "(", END_PARENTHESIS = ")", NEXT_STRING_ARG = "','", NEXT_NO_STRING_ARG = "', ", SIMPLE_COMILLA = "'",
-			UNDERSCORE = "_", COMMA_ARGS = "\",\"", SECOND_COMMA_ARGS = ",\"", STRING_SPACE = " ", END_BLOCK = "}", EVENT = "event", 
-			PILA_NAV= "pilaNav", IDS_PILA_NAV="idsNavegacion", SHOWN_PILA_NAV= "stackNavShown",						
+			UNDERSCORE = "_", COMMA_ARGS = "\",\"", SECOND_COMMA_ARGS = ",\"", STRING_SPACE = " ", END_BLOCK = "}", EVENT = "event", 								
 			MASTER_ID_SEL_ = "MASTER_ID_SEL_", MASTER_NEW_EVENT_ = "masterNewEvent",
 			BEGIN_BLOCK = "{", SIMPLE_SEPARATOR = "-",
 			HTTP_PARAM_SEPARATOR = "&", ENTIYY_PARAM = "entity", HTTP_FIRST_PARAM_SEPARATOR = "?", PERCENTAGE_SCAPED = "\\%",

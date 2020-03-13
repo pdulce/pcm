@@ -105,7 +105,7 @@ public final class InternalErrorsConstants {
 
 	public static final String RENDER_EXCEPTION = "ComponentRenderizer: ERROR in renderHTMLToResponse";
 
-	public static final String TMP_ACCESS_EXCEPTION = "RequestWrapper: ERROR in TMP directory access, when creating MultipartRequest";
+	public static final String TMP_ACCESS_EXCEPTION = "Data: ERROR in TMP directory access, when creating MultipartRequest";
 
 	public static final String MENU_HEADER_CREATING_EXCEPTION = "ScreenGenerator: ERROR generating xml of Menu at header";
 

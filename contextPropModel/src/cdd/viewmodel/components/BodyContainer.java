@@ -15,13 +15,12 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.Event;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
-import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.FieldViewSetCollection;
 import cdd.viewmodel.factory.BodyContainerFactory;
@@ -76,7 +75,7 @@ public class BodyContainer implements IBodyContainer {
 	}
 
 	public BodyContainer(String service, final IDataAccess dataAccess_, final DomainApplicationContext appCtx,
-			final RequestWrapper request, final String event_) throws PCMConfigurationException {
+			final Data data, final String event_) throws PCMConfigurationException {
 		
 		final Collection<Element> viewElements_ = appCtx.extractViewComponentElementsByAction(service, event_);
 
@@ -92,14 +91,14 @@ public class BodyContainer implements IBodyContainer {
 			int numberOfForms = viewComponentElement.getElementsByTagName(DomainApplicationContext.FORM_ELEMENT).getLength();
 			for (int i = 0; i < numberOfForms; i++) {
 				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(DomainApplicationContext.FORM_ELEMENT).item(i);
-				forms.add(posicion++, new Form(service, event_, elementForm, dataAccess_, appCtx, request));
+				forms.add(posicion++, new Form(service, event_, elementForm, dataAccess_, appCtx, data));
 			}
 
 			int numGrids = viewComponentElement.getElementsByTagName(DomainApplicationContext.GRID_ELEMENT).getLength();
 			for (int j = 0; j < numGrids; j++) {
 				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(DomainApplicationContext.GRID_ELEMENT).item(j);
 				/** engarzo con el oltimo form de este view component ***/
-				grids.add(new PaginationGrid(service, elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), appCtx, request));
+				grids.add(new PaginationGrid(service, elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), appCtx, data));
 			}
 
 		}// while viewcomponents
@@ -221,14 +220,14 @@ public class BodyContainer implements IBodyContainer {
 	}
 
 	@Override
-	public String toXML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted, final List<MessageException> applicationMsgs) {
+	public String toXML(final Data data, final IDataAccess dataAccess_, boolean submitted, final List<MessageException> applicationMsgs) {
 		final StringBuilder sbXML = new StringBuilder();
 		try {
 			//en primer lugar, los mensajes y errores de aplicacion			
 			if (applicationMsgs != null && !applicationMsgs.isEmpty()) {
 				final Iterator<MessageException> iteMsg = applicationMsgs.iterator();
 				while (iteMsg.hasNext()) {
-					sbXML.append(iteMsg.next().toXML(CommonUtils.getLanguage(request)));
+					sbXML.append(iteMsg.next().toXML(data.getLanguage()));
 				}
 				sbXML.append("<BR/>");
 			}			
@@ -238,7 +237,7 @@ public class BodyContainer implements IBodyContainer {
 				
 				subcomps.addAll(getForms());
 				for (final IViewComponent form : subcomps) {										
-					sbXML.append(form.toXHTML(request, dataAccess_, submitted));
+					sbXML.append(form.toXHTML(data, dataAccess_, submitted));
 				}
 				
 			} else {
@@ -252,20 +251,20 @@ public class BodyContainer implements IBodyContainer {
 						Form formOfContainer = (Form) iteForms.next();
 						if (formOfContainer.getUniqueName().equals(idOfForm) && !idFormsPainted.contains(idOfForm)) {
 							idFormsPainted.add(idOfForm);
-							sbXML.append(formOfContainer.toXHTML(request, dataAccess_, submitted));
+							sbXML.append(formOfContainer.toXHTML(data, dataAccess_, submitted));
 							break;
 						}
 					}
 					
 					boolean isQueryEvent = false;
-					String eventLast = request.getParameter(PCMConstants.EVENT);
+					String eventLast = data.getParameter(PCMConstants.EVENT);
 					if (eventLast.split(PCMConstants.REGEXP_POINT).length > 1){
 						eventLast = eventLast.split(PCMConstants.REGEXP_POINT)[1];
 						isQueryEvent = Event.isQueryEvent(eventLast);
 					}
 					if (((PaginationGrid) paginationGrid).getMasterNamespace() == null
 							|| "".equals(((PaginationGrid) paginationGrid).getMasterNamespace()) && isQueryEvent) {//grid a pintar de un escenario Form&GRID de query event
-						sbXML.append(paginationGrid.toXHTML(request, dataAccess_, submitted));
+						sbXML.append(paginationGrid.toXHTML(data, dataAccess_, submitted));
 					}
 				}
 			}
@@ -278,13 +277,13 @@ public class BodyContainer implements IBodyContainer {
 	}
 	
 	
-	public static final IBodyContainer getContainerOfView(final RequestWrapper requestWrapper, final IDataAccess dataAccess_,
+	public static final IBodyContainer getContainerOfView(final Data data, final IDataAccess dataAccess_,
 			final String serviceName, final String event, final DomainApplicationContext context) throws PCMConfigurationException, DatabaseException {		
 		try {			
 			return BodyContainerFactory.getFactoryInstance().getViewComponent(
 					dataAccess_, 
 					context,	
-					requestWrapper, serviceName, event);
+					data, serviceName, event);
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event);
 		}

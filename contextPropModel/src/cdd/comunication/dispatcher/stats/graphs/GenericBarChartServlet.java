@@ -13,7 +13,7 @@ import org.json.simple.JSONArray;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.stats.GenericStatsServlet;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
@@ -54,12 +54,12 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
 		boolean sinAgregado = agregados == null || agregados[0]==null;
-		String lang = CommonUtils.getLanguage(request_);
+		String lang = data_.getLanguage();
 		final Map<String, Map<String, Number>> registros = new HashMap<String, Map<String, Number>>();		
 		double minimal = 0.0;
 		Number total_ = Double.valueOf(0.0);
@@ -74,7 +74,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 				Iterator<String> iteratorOfDimensionNames = entryMap.keySet().iterator();
 				while (iteratorOfDimensionNames.hasNext()){
 					String dimensionName = iteratorOfDimensionNames.next();
-					String dimensionLabel = Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_.getEntityDef()
+					String dimensionLabel = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef()
 							.getName().concat(".").concat(dimensionName));
 					int positionClaveAgregacion = 0;					
 					Map<String, Number> valoresDeDimensionParaAgrupacPral = new HashMap<String, Number>();
@@ -255,7 +255,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 		/**********************/
 		boolean stack_Z = false;
 		
-		request_.setAttribute(JSON_OBJECT, regenerarListasSucesos(registros, jsArrayEjeAbcisas, stack_Z, request_));
+		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(registros, jsArrayEjeAbcisas, stack_Z, data_));
 		JSONArray newArrayEjeAbcisas = new JSONArray();
 		for (int ejeX=0;ejeX<jsArrayEjeAbcisas.size();ejeX++){
 			String columnaTotalizada = "";
@@ -272,12 +272,12 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 			String ejeX_totalizado = valorEjeX + columnaTotalizada;
 			newArrayEjeAbcisas.add(ejeX_totalizado);
 		}		
-		request_.setAttribute(CATEGORIES, newArrayEjeAbcisas.toJSONString());
+		data_.setAttribute(CATEGORIES, newArrayEjeAbcisas.toJSONString());
 		
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
-		String unidades = getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, request_);
+		String unidades = getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
 		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(newArrayEjeAbcisas.size()));
 		if (sinAgregado){
 			itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
@@ -297,18 +297,18 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 			itemGrafico = "en " + unidades;
 		}
 		
-		request_.setAttribute(CHART_TITLE, 
+		data_.setAttribute(CHART_TITLE, 
 				(agregados!=null && agregados.length>1 ? 
 						" Comparativa " : "") + "Barchart " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
 						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
 				unidades + " " : ""));
 		
 		
-		request_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
+		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
 				
-		request_.setAttribute(IS_BAR_INTERNAL_LABELED, "false");
+		data_.setAttribute(IS_BAR_INTERNAL_LABELED, "false");
 		
-		request_.setAttribute("minEjeRef", CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
+		data_.setAttribute("minEjeRef", CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
 
 		return total_.doubleValue();
 	}

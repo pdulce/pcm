@@ -9,8 +9,7 @@ import java.util.List;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
@@ -22,13 +21,13 @@ import facturacionUte.common.ConstantesModelo;
 public class StratProponerSimulacion extends DefaultStrategyRequest {
 	
 	@Override
-	protected void validParameters(RequestWrapper req) throws StrategyException {
+	protected void validParameters(Data req) throws StrategyException {
 		// OK
 	}
 
 	
 	@Override
-	public void doBussinessStrategy(final RequestWrapper req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		
 		FieldViewSet datosColaboradorRequest = null;
@@ -37,14 +36,14 @@ public class StratProponerSimulacion extends DefaultStrategyRequest {
 			datosColaboradorRequest = iteFieldSets.next();
 		}
 		if (datosColaboradorRequest == null) {
-			throw new PCMConfigurationException("Error objeto recibido de request es nulo", new Exception("null object"));
+			throw new PCMConfigurationException("Error objeto recibido de data es nulo", new Exception("null object"));
 		}
-		String lang = CommonUtils.getEntitiesDictionary(req);
+		String lang = req.getEntitiesDictionary();
 		
 		try {
 			final IEntityLogic datosPrevisionContrato = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.DATOS_PREVISION_CONTRATO_ENTIDAD);
 			final IEntityLogic concursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.CONCURSO_ENTIDAD);
-			final IEntityLogic frasMesesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
+			final IEntityLogic frasMesesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
 			
 			String paramIdConcurso = req.getParameter("concurso.".concat(concursoEntidad.searchField(ConstantesModelo.CONCURSO_1_ID).getName()));
 			if (paramIdConcurso != null){

@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyRequest;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -16,7 +16,7 @@ import facturacionUte.common.ConstantesModelo;
 public class StratActualizarAnualidadesPrevision extends DefaultStrategyRequest {
 
 	@Override
-	public void doBussinessStrategy(final RequestWrapper req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
 		if (iteFieldSets.hasNext()) {
@@ -29,7 +29,7 @@ public class StratActualizarAnualidadesPrevision extends DefaultStrategyRequest 
 	}
 
 	@Override
-	protected void validParameters(RequestWrapper req) throws StrategyException {
+	protected void validParameters(Data req) throws StrategyException {
 		// OK
 	}
 

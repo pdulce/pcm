@@ -7,15 +7,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.Driver;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.sqlite.SQLiteConfig;
-import org.sqlite.SQLiteOpenMode;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
@@ -31,28 +26,23 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 
 	private static final long serialVersionUID = -1721800000444L;
 
-	private SQLiteConfig configSQLite;
-	
 	private static final String USER_ = "user", PASSWD_ = "password";
 
 	private String url, driverDefined;
 
 	private transient Driver driver;
-	
-	private boolean inMemoryMode;
 
 	private Properties info;
 	
 	public DataSourceURLFactoryImpl(){}
 	
 	@Override
-	public void initDataSource(final String url_, final String user, final String passwd, final String driver_, final boolean inMemoryMode_){
+	public void initDataSource(final String url_, final String user, final String passwd, final String driver_){
 		this.url = url_;
 		this.driverDefined = driver_;
 		this.info = new Properties();
 		this.info.put(USER_, user);
 		this.info.put(PASSWD_, passwd);
-		this.inMemoryMode = inMemoryMode_;
 	}
 	
 	@Override
@@ -81,29 +71,13 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 				@SuppressWarnings("unchecked")
 				Class<Driver> classType = (Class<Driver>) Class.forName(this.driverDefined);
 				this.driver = (Driver) classType.getDeclaredConstructors()[0].newInstance();
-				DriverManager.registerDriver(this.driver);
-				this.configSQLite = new SQLiteConfig();
-				this.configSQLite.setOpenMode(SQLiteOpenMode.TRANSIENT_DB);
 			}
-			Connection conn = null;
-			if (this.driverDefined.equals("org.sqlite.JDBC")) {
-				conn = DriverManager.getConnection(this.url, this.configSQLite.toProperties());
-			}else {
-				conn = DriverManager.getConnection(this.url, this.info);
-			}
-
-			/*if (this.driverDefined.equals("org.sqlite.JDBC") && conn != null & inMemoryMode) {
-				conn.createStatement().execute("PRAGMA LOCKING_MODE = Exclusive"); // Mejora el rendimiento de acceso en lectura
-				// Creamos la base de datos en memoria y la asociamos con la base de datos actual
-				conn.createStatement().execute("attach database ':memory:' as 'RAMDB'");
-				CDDWebController.log.log(Level.INFO, "Connected to the SQLITE database!");
-				//si queremos trabajar en memoria, volcaremos en el momento de crear la tabla en memoria, la de disco
-				 * conn.createStatement().execute("create table RAMDB.product_table as select * from main.product_table")
-			}*/
-			
+			Connection conn = this.driver.connect(this.url, this.info);
 			final DAOConnection daoConnection = new DAOConnection();
 			daoConnection.setConnectionJDBC(conn);
 			return daoConnection;
+			
+		
 		} catch (SQLException sqlE) {
 			CDDWebController.log.log(Level.SEVERE, "Error", sqlE);
 			throw new PCMConfigurationException("Error sqlException");
@@ -121,15 +95,7 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 			throw new PCMConfigurationException("Error at IDAOImpl instantiation");
 		}
 	}
-	
-	private void getVersion(final Connection conn) throws SQLException {
-		DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
-        System.out.println("Database Driver name: " + dm.getDriverName());
-        System.out.println("Database Driver version: " + dm.getDriverVersion());
-        System.out.println("Database Product name: " + dm.getDatabaseProductName());
-        System.out.println("Database Product version: " + dm.getDatabaseProductVersion());
-	}
-	
+
 	@Override
 	public void freeConnection(final DAOConnection conn) throws PCMConfigurationException {
 		try {

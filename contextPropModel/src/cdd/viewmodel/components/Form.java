@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,14 +33,14 @@ import cdd.comunication.actions.Parameter;
 import cdd.comunication.actions.validators.IValidator;
 import cdd.comunication.actions.validators.RelationalAndCIFValidator;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.IFieldValue;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.controls.AbstractCtrl;
 import cdd.viewmodel.components.controls.FieldsetControl;
@@ -109,7 +108,7 @@ public class Form extends AbstractComponent {
 	}
 
 	public Form(final String service_, final String event_, final Element formElement_, final IDataAccess dataAccess_,
-			final DomainApplicationContext appCtx_, final RequestWrapper request_) throws PCMConfigurationException {
+			final DomainApplicationContext appCtx_, final Data data_) throws PCMConfigurationException {
 		this.setAppContext(appCtx_);
 		this.service = service_;
 		this.visibleControls = new HashMap<ICtrl, List<ICtrl>>();
@@ -125,8 +124,8 @@ public class Form extends AbstractComponent {
 				.getAttributes().getNamedItem(IViewComponent.TITLE).getNodeValue();
 		this.columnsNumber = formElement_.hasAttribute(IFieldLogic.COLUMNS_NODE) ? Integer.parseInt(formElement_
 				.getAttribute(IFieldLogic.COLUMNS_NODE)) : 0;
-		this.uri = (String) request_.getAttribute(PCMConstants.APPURI_);
-		this.initFieldViewSets(formElement_, request_, dataAccess_);
+		this.uri = (String) data_.getAttribute(PCMConstants.APPURI_);
+		this.initFieldViewSets(formElement_, data_, dataAccess_);
 	}
 
 	/*** GETTERS/SETTERS ***/
@@ -160,7 +159,7 @@ public class Form extends AbstractComponent {
 		newV.event = this.event;
 		newV.editableForm = this.editableForm;
 		newV.entityName = this.entityName;
-		newV.visibleControls = this.visibleControls;
+		newV.visibleControls = copyAllExceptCombos(this.visibleControls);
 		newV.hiddenControls = this.hiddenControls;
 		newV.numberOfElements = this.numberOfElements;
 		newV.userButtons = new HashMap<LinkButton, FieldViewSet>();
@@ -170,13 +169,13 @@ public class Form extends AbstractComponent {
 	}
 
 	private Collection<IFieldView> obtenerColeccionFieldViews(final List<Element> nodosFieldViews, final ICtrl fieldSetsCtrl,
-			final RequestWrapper request, final IDataAccess dataAccess_, final String entityNameInMetamodel, final String nameSpace,
+			final Data data, final IDataAccess dataAccess_, final String entityNameInMetamodel, final String nameSpace,
 			final StringBuilder validationBlock, boolean isButtonParam) throws PCMConfigurationException {
-		final String appDictionary = CommonUtils.getEntitiesDictionary(request);
+		final String appDictionary = data.getEntitiesDictionary();
 		Iterator<Map.Entry<String, IFieldLogic>> mapEntriesIte = null;
 		EntityLogic entityOfFieldViewSet = null;
 		if (ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)) {
-			this.entityName = request.getParameter(nameSpace);
+			this.entityName = data.getParameter(nameSpace);
 			entityOfFieldViewSet = EntityLogicFactory.getFactoryInstance().getEntityDef(appDictionary, this.entityName);
 			List<Map.Entry<String, IFieldLogic>> coleccionFieldLogics = new ArrayList<Map.Entry<String, IFieldLogic>>(entityOfFieldViewSet.getFieldSet().entrySet());			
 			Collections.sort(coleccionFieldLogics, new ComparatorFieldLogicSet());
@@ -244,12 +243,12 @@ public class Form extends AbstractComponent {
 	}
 	
 	@Override
-	protected final void initFieldViewSets(final Element element, final RequestWrapper request, IDataAccess dataAccess_)
+	protected final void initFieldViewSets(final Element element, final Data data, IDataAccess dataAccess_)
 			throws PCMConfigurationException {
 		try {
 			int order_int = 0;
 			Map<String, LinkButton> botonesProvisional = new HashMap<String, LinkButton>();
-			String lang = CommonUtils.getEntitiesDictionary(request);
+			String lang = data.getEntitiesDictionary();
 			final NodeList nodosUserButtons = element.getElementsByTagName(DomainApplicationContext.USERBUTTONS_ELEMENT);
 			int nodosLength= nodosUserButtons.getLength();
 			for (int i = 0; i < nodosLength; i++) {
@@ -271,7 +270,7 @@ public class Form extends AbstractComponent {
 				for (int j = 0; j < nodosButtonLength; j++) {
 					final Element button = (Element) nodosButton.item(j);
 					final String name_ = button.getAttribute(DomainApplicationContext.NAME_ATTR);
-					final String name = Translator.traducePCMDefined(CommonUtils.getLanguage(request), name_);
+					final String name = Translator.traducePCMDefined(data.getLanguage(), name_);
 					final String link = button.getAttribute(DomainApplicationContext.LINK_ATTR);
 					final String id = button.getAttribute(DomainApplicationContext.ID_ATTR);
 					final String onClickAttr = button.getAttribute(DomainApplicationContext.ONCLICK_ATTR);
@@ -338,7 +337,7 @@ public class Form extends AbstractComponent {
 					Element elementFSet = (Element) nodosFieldViews.item(k);
 					listaFieldViewSets.add(elementFSet);
 				}
-				coleccionFieldViews.addAll(obtenerColeccionFieldViews(listaFieldViewSets, fieldSetPrincipalCtrl, request, dataAccess_,
+				coleccionFieldViews.addAll(obtenerColeccionFieldViews(listaFieldViewSets, fieldSetPrincipalCtrl, data, dataAccess_,
 						entityNameInMetamodel, nameSpace, validationBlock,
 						/* isButtonParam */fieldViewSetNode.getParentNode().getNodeName().equals(DomainApplicationContext.BUTTON_ELEMENT)));
 				FieldViewSet fieldViewSet = ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)? new FieldViewSet(lang, nameSpace, coleccionFieldViews):
@@ -441,6 +440,19 @@ public class Form extends AbstractComponent {
 			CDDWebController.log.log(Level.SEVERE, "error gral.", exc);
 			throw new PCMConfigurationException(InternalErrorsConstants.XML_FORM_GENERATION, exc);
 		}
+	}
+	
+	private Map<ICtrl, List<ICtrl>> copyAllExceptCombos(final Map<ICtrl, List<ICtrl>> visibleControls){
+		Map<ICtrl, List<ICtrl>> newVisibleGroup = new HashMap<ICtrl, List<ICtrl>>();
+		Iterator<ICtrl> iteratorKeys = visibleControls.keySet().iterator();
+		while (iteratorKeys.hasNext()){
+			ICtrl keyCtrl = iteratorKeys.next();
+			if (keyCtrl.isCheckBoxGroup() || keyCtrl.isRadioButtonGroup() || keyCtrl.isSelection()){
+				continue;
+			}
+			newVisibleGroup.put(keyCtrl, visibleControls.get(keyCtrl));
+		}
+		return newVisibleGroup;
 	}
 
 	private final void fillCheckAndSelection(final IDataAccess dataAccess, final IFieldView fieldView, 
@@ -644,8 +656,8 @@ public class Form extends AbstractComponent {
 						continue;
 					}
 					
-					Collection<String> requestValues = accion.getRequestValues(fieldView);
-					if (requestValues.isEmpty()) {
+					Collection<String> dataValues = accion.getRequestValues(fieldView);
+					if (dataValues.isEmpty()) {
 						final boolean required = validacionObligatoria
 								&& fieldView.isRequired()
 								&& (fieldView.isUserDefined() || (!fieldView.isUserDefined()
@@ -669,21 +681,21 @@ public class Form extends AbstractComponent {
 					if (!fieldView.isUserDefined() && 
 							fieldView.getEntityField().getAbstractField().isTimestamp() && 
 								"SYSDATE()".equals(fieldView.getDefaultValueExpr())){
-						requestValues = new ArrayList<String>();
-						requestValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
+						dataValues = new ArrayList<String>();
+						dataValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
 					}
-					if (fieldView.isCheckOrRadioOrCombo() || requestValues.size() > 1) {
+					if (fieldView.isCheckOrRadioOrCombo() || dataValues.size() > 1) {
 						fieldViewSet.resetValues(fieldView.getQualifiedContextName());
 						if (fieldView.isCheckOrRadioOrCombo()){
-							fieldViewSet.setValues(fieldView.getQualifiedContextName(), requestValues);
+							fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
 						}
 					}
 					if (!fieldView.isUserDefined()) {
 						if (fieldView.getEntityField().belongsPK()) {
 							this.bindedPk = true;
 						}
-						final boolean fieldSinthacticValid = fieldView.isCheckOrRadioOrCombo() || fieldView.validateAndSaveValueInFieldview(accion.getRequestContext(), fieldViewSet,
-								validacionObligatoria, requestValues, accion.getRequestContext().getDictionaryName(), parqMensajes);
+						final boolean fieldSinthacticValid = fieldView.isCheckOrRadioOrCombo() || fieldView.validateAndSaveValueInFieldview(accion.getDataBus(), fieldViewSet,
+								validacionObligatoria, dataValues, accion.getDataBus().getEntitiesDictionary(), parqMensajes);
 						if (fieldSinthacticValid) {
 
 							if (fieldView.isRankField()) {
@@ -719,7 +731,7 @@ public class Form extends AbstractComponent {
 				}// for
 			}// while each fieldViewSet
 			
-			accion.getRequestContext().setAttribute("userCriteria", submitWithUserInputs);
+			accion.getDataBus().setAttribute("userCriteria", submitWithUserInputs);
 			
 		} catch (final Throwable excc2) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.BINDING_ERROR, excc2);
@@ -749,7 +761,7 @@ public class Form extends AbstractComponent {
 			if (accion.getEvent().equals(IEvent.SHOW_FORM_CREATE)) {// recarga por registro pattern
 				pkSel = pkSel.replaceFirst(PCMConstants.SEL_PREFFIX, PCMConstants.POINT).replaceFirst(PCMConstants.POINT_COMMA,
 						PCMConstants.EMPTY_);
-				final String val_ = accion.getRequestContext().getParameter(pkSel);
+				final String val_ = accion.getDataBus().getParameter(pkSel);
 				if (val_ == null || PCMConstants.EMPTY_.equals(val_)) {
 					continue;
 				}
@@ -758,15 +770,15 @@ public class Form extends AbstractComponent {
 				valueofPk = new StringBuilder(newQualifiedName).append(PCMConstants.EQUALS).append(val_).toString();
 			} else {
 				fieldViewSetWithEntityDef = true;
-				valueofPk = accion.getRequestContext().getParameter(pkSel);
+				valueofPk = accion.getDataBus().getParameter(pkSel);
 				String paramPKField = fieldViewSet.getContextName().concat(".").concat(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName());
 				if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {					
-					if (accion.getRequestContext().getParameter(paramPKField) != null){
-						valueofPk = paramPKField.concat("=").concat(accion.getRequestContext().getParameter(paramPKField));
-					}else if (accion.getRequestContext().getParameter(PCMConstants.MASTER_ID_SEL_) != null) {
-						valueofPk = accion.getRequestContext().getParameter(PCMConstants.MASTER_ID_SEL_);
+					if (accion.getDataBus().getParameter(paramPKField) != null){
+						valueofPk = paramPKField.concat("=").concat(accion.getDataBus().getParameter(paramPKField));
+					}else if (accion.getDataBus().getParameter(PCMConstants.MASTER_ID_SEL_) != null) {
+						valueofPk = accion.getDataBus().getParameter(PCMConstants.MASTER_ID_SEL_);
 						if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {
-							valueofPk = (String) accion.getRequestContext().getAttribute(PCMConstants.MASTER_ID_SEL_);
+							valueofPk = (String) accion.getDataBus().getAttribute(PCMConstants.MASTER_ID_SEL_);
 							if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {
 								continue;
 							}
@@ -809,32 +821,7 @@ public class Form extends AbstractComponent {
 			final MessageException parqMensaje = new MessageException(IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE);
 			parqMensaje.addParameter(new Parameter(PCMConstants.ENTIYY_PARAM, IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE));
 			parqMensajes.add(parqMensaje);
-		}
-		
-		if (this.bindedPk && valueofPk != null && !"".equals(valueofPk) && !IEvent.CANCEL.equals(accion.getRequestContext().getParameter(PCMConstants.MASTER_NEW_EVENT_)) && 
-				!IEvent.VOLVER.equals(accion.getRequestContext().getParameter(PCMConstants.MASTER_NEW_EVENT_)) && (Event.isShowFormUpdateEvent(event) || Event.isDetailEvent(event))){
-			//solo en este momento, guardo en la pila de IDs
-			String pilaIds = "";
-			@SuppressWarnings("rawtypes")
-			Enumeration enumAttrInSession = accion.getRequestContext().getSession().getAttributeNames();
-			while (enumAttrInSession.hasMoreElements()){
-				String elemento = (String) enumAttrInSession.nextElement();
-				if (elemento.trim().equals(PCMConstants.IDS_PILA_NAV)){
-					Object value = accion.getRequestContext().getSession().getAttribute(elemento);
-					pilaIds = value==null ? "" : value.toString();
-					break;
-				}					
-			}
-			if (!pilaIds.endsWith(valueofPk)){
-				if (!"".equals(pilaIds.trim())){
-					pilaIds = pilaIds.concat(";");	
-				}
-				pilaIds = pilaIds.concat(valueofPk);
-			}
-			accion.getRequestContext().getSession().setAttribute(PCMConstants.IDS_PILA_NAV, pilaIds);
-		}
-		
-
+		}		
 	}
 
 	private final void recreateControls4FieldViewSets(List<FieldViewSet> fViewSets, Map<ICtrl, List<ICtrl>> visibleControls_,
@@ -871,10 +858,10 @@ public class Form extends AbstractComponent {
 
 	
 	@Override
-	public String toXHTML(final RequestWrapper request, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		try {
 			// long miliseconds1 = System.nanoTime();
-			final String lang = CommonUtils.getLanguage(request);
+			final String lang = data.getLanguage();
 
 			recreateControls4FieldViewSets(getFieldViewSets(), this.visibleControls, this.hiddenControls);
 
@@ -889,24 +876,24 @@ public class Form extends AbstractComponent {
 				hiddens.append(control.getInnerHTML(lang, this.getFormattedValues(control.getQName())));
 			}
 			
-			if (!Event.isQueryEvent(this.event) && request.getParameter(PaginationGrid.CURRENT_PAGE) != null
-					&& !"".equals(request.getParameter(PaginationGrid.CURRENT_PAGE))) {
-				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_PAGINAS, request.getParameter(PaginationGrid.TOTAL_PAGINAS))
+			if (!Event.isQueryEvent(this.event) && data.getParameter(PaginationGrid.CURRENT_PAGE) != null
+					&& !"".equals(data.getParameter(PaginationGrid.CURRENT_PAGE))) {
+				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_PAGINAS, data.getParameter(PaginationGrid.TOTAL_PAGINAS))
 						.toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.CURRENT_PAGE, request.getParameter(PaginationGrid.CURRENT_PAGE))
+				hiddens.append(this.paintInputHidden(PaginationGrid.CURRENT_PAGE, data.getParameter(PaginationGrid.CURRENT_PAGE))
 					.toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_RECORDS, request.getParameter(PaginationGrid.TOTAL_RECORDS))
+				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_RECORDS, data.getParameter(PaginationGrid.TOTAL_RECORDS))
 						.toHTML());
 			}
 				
-			if (request.getParameter(PaginationGrid.ORDENACION) != null && 
-					!PCMConstants.EMPTY_.equals(request.getParameter(PaginationGrid.ORDENACION)) ){
-				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, request.getParameter(PaginationGrid.DIRECCION)).toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, request.getParameter(PaginationGrid.ORDENACION)).toHTML());					
-			}else if (request.getParameter(PaginationGrid.ORDENACION_ACTUAL) != null && 
-					!PCMConstants.EMPTY_.equals(request.getParameter(PaginationGrid.ORDENACION_ACTUAL))){
-				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, request.getParameter(PaginationGrid.DIRECCION_ACTUAL)).toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, request.getParameter(PaginationGrid.ORDENACION_ACTUAL)).toHTML());
+			if (data.getParameter(PaginationGrid.ORDENACION) != null && 
+					!PCMConstants.EMPTY_.equals(data.getParameter(PaginationGrid.ORDENACION)) ){
+				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, data.getParameter(PaginationGrid.DIRECCION)).toHTML());
+				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, data.getParameter(PaginationGrid.ORDENACION)).toHTML());					
+			}else if (data.getParameter(PaginationGrid.ORDENACION_ACTUAL) != null && 
+					!PCMConstants.EMPTY_.equals(data.getParameter(PaginationGrid.ORDENACION_ACTUAL))){
+				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, data.getParameter(PaginationGrid.DIRECCION_ACTUAL)).toHTML());
+				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, data.getParameter(PaginationGrid.ORDENACION_ACTUAL)).toHTML());
 			}
 		
 			newXmlToPaint = newXmlToPaint.replaceFirst(Form.HIDDEN_AREA, hiddens.toString());
@@ -1089,7 +1076,7 @@ public class Form extends AbstractComponent {
 
 			innerHTMLFieldsSetGlobal.append("<HR/>");
 			XmlUtils.openXmlNode(innerHTMLFieldsSetGlobal, IViewComponent.UL_LABEL_ID);
-			List<LinkButton> buttons = this.initButtonsWithRequest(request, submitted);
+			List<LinkButton> buttons = this.initButtonsWithRequest(data, submitted);
 			for (int j = 0; j < buttons.size(); j++) {
 				final LinkButton button = buttons.get(j);
 				String name = Translator.traducePCMDefined(lang, button.getId().replaceAll("\"", "").replaceFirst(" id=", ""));
@@ -1115,15 +1102,13 @@ public class Form extends AbstractComponent {
 		}
 	}
 
-	private final List<LinkButton> initButtonsWithRequest(final RequestWrapper request_, boolean submitted) {
+	private final List<LinkButton> initButtonsWithRequest(final Data data_, boolean submitted) {
 		
 		List<LinkButton> buttons = new ArrayList<LinkButton>();
 		final String event_ = Event.isFormularyEntryEvent(this.event) ? Event.getInherentEvent(this.event) : this.event;
 		String escenario = this.service.concat(".").concat(event_);
-		String escenarioShowFormEntry = this.service.concat(".").concat(Event.getFormEvent(escenario));
 		
 		final StringBuilder javascriptF = new StringBuilder();
-		//javascriptF.append("document.getElementById('" + "submitted" + "').value='"+ submitted + "';");
 		javascriptF.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ escenario + "';");
 		javascriptF.append("document.forms[0].action='" + this.uri + "';");
 		
@@ -1141,61 +1126,7 @@ public class Form extends AbstractComponent {
 			buttons.add(this.paintSubmitButtonWithoutReturn(PCMConstants.RESET_EVENT, IViewComponent.RESET_FUNC));
 		}
 		
-		String pila = "", idsPila = "";
-		@SuppressWarnings("rawtypes")
-		Enumeration enumAttrInSession = request_.getSession().getAttributeNames();
-		while (enumAttrInSession.hasMoreElements()){
-			String elemento = (String) enumAttrInSession.nextElement();
-			if (elemento.trim().equals(PCMConstants.PILA_NAV)){
-				Object value = request_.getSession().getAttribute(elemento);
-				pila = value.toString();
-				request_.getSession().setAttribute(PCMConstants.PILA_NAV, pila);
-			}else if (elemento.trim().equals(PCMConstants.IDS_PILA_NAV)){
-				Object value = request_.getSession().getAttribute(elemento);
-				idsPila = value.toString();
-				request_.getSession().setAttribute(PCMConstants.IDS_PILA_NAV, idsPila);
-			}
-		}
-		String eventoPenultimo = "", idPenultimo = "", eventoAntePenultimo = "";
-		String[] splitter = pila.split(">>"), splitterIds = idsPila.split(";");
-		int length1_ = splitter.length, length2_ = splitterIds.length;
-		if (!"".equals(pila) && !IEvent.VOLVER.equals(request_.getParameter(PCMConstants.MASTER_NEW_EVENT_))){
-			int delay4Ids = Event.isDetailEvent(this.event) || (length1_==length2_ && length2_ > 1 && Event.isUpdateEvent(this.event)) ? 2 : 1;
-	
-			if (length1_ >= 1){
-				eventoPenultimo = splitter[length1_- 1].trim();
-				idPenultimo = splitterIds[length2_-delay4Ids<0?0:length2_-delay4Ids].trim();
-				if ( length1_ >= 2 && (escenario.equals(eventoPenultimo) || eventoPenultimo.equals(escenarioShowFormEntry)) ){
-					eventoPenultimo = splitter[length1_-2].trim();
-					if (Event.isQueryEvent(eventoPenultimo)){
-						idPenultimo = "";
-					}
-				}
-				
-				if (length1_ > 1 && IEvent.CANCEL.equals(request_.getParameter(PCMConstants.MASTER_NEW_EVENT_))){
-					eventoAntePenultimo = splitter[length1_-2].trim();
-				}else{
-					eventoAntePenultimo = eventoPenultimo;
-				}											
-			}
-		}else if ( !"".equals(pila) ){
-			if ((length1_ - 3) >= 0){
-				eventoPenultimo = splitter[splitter.length-3].trim();				
-			}else if ((length1_ - 2) >= 0){
-				eventoPenultimo = splitter[splitter.length-2].trim();	
-			}else if ((length1_ - 1) >= 0){
-				eventoPenultimo = splitter[length1_-1].trim();
-			}
-			if ((length2_ - 3) >= 0){
-				idPenultimo = splitterIds[length2_-3].trim();
-			}else if ((length2_ - 2) >= 0){
-				idPenultimo = splitterIds[length2_-2].trim();
-			}else if ((length2_ - 1) >= 0){
-				idPenultimo = splitterIds[length2_-1].trim();
-			}
-		}			
-		
-		if (!"".equals(eventoPenultimo) && !Event.isQueryEvent(this.event)){
+		if (!Event.isQueryEvent(this.event)){
 			StringBuilder javascrReturn = new StringBuilder();
 			final String backEvent = Event.isDeleteEvent(this.event) ? IEvent.CANCEL : IEvent.RETURN_BACK;			
 			javascrReturn.append("document.getElementById('" + PCMConstants.MASTER_NEW_EVENT_ + "').value='");
@@ -1205,13 +1136,13 @@ public class Form extends AbstractComponent {
 				javascrReturn.append(IEvent.VOLVER);
 			}
 			javascrReturn.append("';");
-			if (IEvent.CANCEL.equals(request_.getParameter(PCMConstants.MASTER_NEW_EVENT_))){
-				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ eventoAntePenultimo + "';");
+			if (IEvent.CANCEL.equals(data_.getParameter(PCMConstants.MASTER_NEW_EVENT_))){
+				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ "padre.anterior" + "';");
 			}else{
-				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ eventoPenultimo + "';");
+				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ "padre.anterior" + "';");
 			}
 			javascrReturn.append("document.getElementById('" + PaginationGrid.ORDENACION + "').value='';");
-			javascrReturn.append("document.getElementById('" + PCMConstants.MASTER_ID_SEL_ + "').value='"+ idPenultimo + "';");
+			javascrReturn.append("document.getElementById('" + PCMConstants.MASTER_ID_SEL_ + "').value='"+ "padre.anterior" + "';");
 			javascrReturn.append(IViewComponent.SUBMIT_SENTENCE).append(IViewComponent.RETURN_SENTENCE);
 			buttons.add(this.paintSubmitButtonWithoutReturn(backEvent, javascrReturn.toString()));
 		}

@@ -26,7 +26,7 @@ public class DataSourceJNDIFactoryImpl implements IPCMDataSource, Serializable {
 	
 	public DataSourceJNDIFactoryImpl(){}
 	
-	public void initDataSource(final String url_, final String user, final String passwd, final String driver_, final boolean inMemoryData){
+	public void initDataSource(final String url_, final String user, final String passwd, final String driver_){
 		throw new RuntimeException("Donot use this method for JNDI connection pool");
 	}
 	@Override

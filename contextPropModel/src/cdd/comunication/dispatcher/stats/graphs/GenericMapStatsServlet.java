@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 
 import cdd.common.stats.CodigosISOProvinciasSpain;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.stats.GenericStatsServlet;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -33,7 +33,7 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
@@ -80,7 +80,7 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 		double promedioPorProvincia = 0.0;
 		/**********************/
 		
-		request_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
+		data_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
 		unidadesEnProvincias_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
 				.format(sumarizadorPorRegion) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorPorRegion).intValue());
 		unidadesSSCC_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
@@ -91,9 +91,9 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 	
 		/**********************/
 
-		request_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
-		request_.setAttribute(LIGHT_COLOR_FIELD_PARAM, request_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
-		request_.setAttribute(DARK_COLOR_FIELD_PARAM, request_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
+		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
+		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
+		data_.setAttribute(DARK_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
 
 		String title = "Distribucion Provincial de #";
 		String subtitle = "<h4>Provincias: <b>" + unidadesEnProvincias_formated + "#</b> [<b>"
@@ -102,8 +102,8 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 			subtitle = subtitle.concat("<h4>, SSCC: <b>" + unidadesSSCC_formated + "#</b>; total: <b>" + unidadesTotales_formated
 					+ "#</b></h4>");
 		}
-		request_.setAttribute(TITLE_ATTR, title);
-		request_.setAttribute(SUBTILE_ATTR, subtitle);
+		data_.setAttribute(TITLE_ATTR, title);
+		data_.setAttribute(SUBTILE_ATTR, subtitle);
 
 		return total.doubleValue();
 

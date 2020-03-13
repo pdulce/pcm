@@ -2,7 +2,7 @@ package cdd.common.exceptions;
 
 /**
  * <h1>BindPcmException</h1> The BindPcmException class
- * is used for capturing data-binding errors at a HTTP request.
+ * is used for capturing data-binding errors at a HTTP data.
  * <p>
  * 
  * @author Pedro Dulce

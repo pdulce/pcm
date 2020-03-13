@@ -73,12 +73,12 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 		if (entidad_ != null && entidad_.endsWith(PCMConstants.XML_EXTENSION)) {
 			entidad_ = entidad_.substring(0, entidad_.length() - 4);
 		}
-		if (this.dataDictionaries.get(dictionary) != null && this.dataDictionaries.get(dictionary).get(entidad_) != null) {
-			return this.dataDictionaries.get(dictionary).get(entidad_);
-		}
 		if (this.dataDictionaries.get(dictionary) == null) {
 			throw new PCMConfigurationException("You must initialize the Entities Logic Model");
 		}
+		if (this.dataDictionaries.get(dictionary).get(entidad_) != null) {
+			return this.dataDictionaries.get(dictionary).get(entidad_);
+		}		
 		if (this.xmlDictionaries.get(dictionary) == null) {
 			this.xmlDictionaries.put(dictionary, LogicDataMetamodelFactory.getFactoryInstance().getLogicDataMetamodel(dictionary)
 					.getAllEntities());

@@ -10,6 +10,7 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.TransactionException;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.logicmodel.persistence.DAOConnection;
 import cdd.logicmodel.persistence.IDAOImpl;
 import cdd.logicmodel.persistence.datasource.IPCMDataSource;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -105,6 +106,8 @@ public interface IDataAccess {
 	public void setAutocommit(final boolean b) throws SQLException;
 
 	public void commit() throws SQLException;
+	
+	public DAOConnection getConn();
 
 	public boolean isConnectionActive();
 

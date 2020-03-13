@@ -10,7 +10,7 @@ import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -20,7 +20,7 @@ import cdd.viewmodel.definitions.FieldViewSet;
 
 public class DefaultStrategyDelete implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final RequestWrapper context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Data context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException {
 		if (fieldViewSets == null || fieldViewSets.isEmpty()) {
 			throw new StrategyException(IAction.DELETE_STRATEGY_NO_RECORDS_ERR);
@@ -35,7 +35,7 @@ public class DefaultStrategyDelete implements IStrategy {
 		}
 	}
 
-	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final RequestWrapper wrapper)
+	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final Data wrapper)
 			throws StrategyException {
 		try {						
 			this.detectarHijos(dataAccess, fieldViewSet);

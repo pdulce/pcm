@@ -96,6 +96,7 @@ public class DataAccess implements IDataAccess {
 
 	public DataAccess(final String dict, final IDAOImpl jdbcImpl_, final DAOConnection conn_, final Collection<String> strategiesElems_,
 			final Collection<String> strategiesPreElems_, final IPCMDataSource factory_) {
+				
 		this.dictionaryName = dict;
 		this.jdbcImpl = jdbcImpl_;
 		this.conn = conn_;

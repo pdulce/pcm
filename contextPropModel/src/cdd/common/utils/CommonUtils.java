@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 
 import cdd.common.PCMConstants;
-import cdd.comunication.dispatcher.RequestWrapper;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.definitions.IFieldView;
@@ -230,18 +229,6 @@ public final class CommonUtils {
 
 	public static final double factor(long n) {
 		return (n == 0 ? 1 : n * factor(n - 1));
-	}
-
-	public static final String getEntitiesDictionary(final RequestWrapper request) {
-		return (String) request.getAttribute(PCMConstants.APP_DICTIONARY);
-	}
-
-	public static final String getLanguage(final RequestWrapper request) {
-		String lang = (String) request.getSession().getAttribute(PCMConstants.LANGUAGE);
-		if (request.getLanguageParameter() != null) {
-			lang = request.getLanguageParameter();
-		}
-		return lang == null ? LANGUAGE_SPANISH : lang;
 	}
 
 	public static final String addLeftZeros(final String str_, final int totalLength) {

@@ -16,7 +16,7 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyFactory;
@@ -51,7 +51,7 @@ public abstract class AbstractPcmAction implements IAction {
 	protected String event;
 	protected Element actionElement;	
 	protected Collection<String> registeredEvents;
-	protected RequestWrapper servletRequest;
+	protected Data data;
 	protected IBodyContainer container;
 
 	@Override
@@ -60,31 +60,31 @@ public abstract class AbstractPcmAction implements IAction {
 			final String reqParamN = fieldView.getQualifiedContextName();
 			final List<String> vals = new ArrayList<String>();
 			if (!fieldView.isUserDefined() && fieldView.getEntityField().getAbstractField().isBlob()) {
-				final File fSaved = this.servletRequest.getFile(reqParamN);
+				final File fSaved = (File) this.data.getAttribute(reqParamN);
 				if (fSaved != null) {
 					vals.add(fSaved.getAbsolutePath());
 				}
-			} else if (this.servletRequest.getParameter(reqParamN) != null
-					|| this.servletRequest.getAttribute(reqParamN) != null
+			} else if (this.data.getParameter(reqParamN) != null
+					|| this.data.getAttribute(reqParamN) != null
 					|| ContextProperties.REQUEST_VALUE.equals(fieldView.getDefaultValueExpr())
 					|| !"".equals(fieldView.getDefaultFirstOfOptions())) {
 								
 				boolean eventSubmitted = Event.isTransactionalEvent(event) || 
-						this.servletRequest.getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? true : false;
+						this.data.getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? true : false;
 				
-				String[] valuesFromRequest = this.servletRequest.getParameterValues(reqParamN);
+				String[] valuesFromRequest = this.data.getParameterValues(reqParamN);
 				if (valuesFromRequest != null) {
 					for (final String value : valuesFromRequest) {
 						vals.add(value);
 					}
-				} else if (this.servletRequest.getAttribute(reqParamN) != null) {
-					vals.add(this.servletRequest.getAttribute(reqParamN).toString());
+				} else if (this.data.getAttribute(reqParamN) != null) {
+					vals.add(this.data.getAttribute(reqParamN).toString());
 				} else if (!eventSubmitted && fieldView.getDefaultFirstOfOptions() != null && !"".equals(fieldView.getDefaultFirstOfOptions())) {
 					vals.add(fieldView.getDefaultFirstOfOptions().toString());
 				}
-			} else if (this.servletRequest.getSession().getAttribute(reqParamN) != null
+			} else if (this.data.getAttribute(reqParamN) != null
 					|| ContextProperties.SESSION_VALUE.equals(fieldView.getDefaultValueExpr())) {
-				vals.add(this.servletRequest.getSession().getAttribute(reqParamN).toString());
+				vals.add(this.data.getAttribute(reqParamN).toString());
 			} else if (fieldView.isUserDefined() || fieldView.getFieldAndEntityForThisOption() == null) {
 				vals.add(fieldView.getDefaultValueExpr());
 			}
@@ -127,7 +127,7 @@ public abstract class AbstractPcmAction implements IAction {
 				}
 				this.getStrategyFactory().addStrategy(strategyName, strategy);
 			}
-			strategy.doBussinessStrategy(this.servletRequest, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
+			strategy.doBussinessStrategy(this.data, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
 					: new ArrayList<FieldViewSet>());
 		}
 	}
@@ -174,7 +174,7 @@ public abstract class AbstractPcmAction implements IAction {
 		while (iteStrategies.hasNext()) {
 			final IStrategy strategy = iteStrategies.next();
 			if (strategy != null) {
-				strategy.doBussinessStrategy(this.servletRequest, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
+				strategy.doBussinessStrategy(this.data, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
 						: new ArrayList<FieldViewSet>());
 			}
 		}
@@ -196,8 +196,8 @@ public abstract class AbstractPcmAction implements IAction {
 	}
 
 	@Override
-	public RequestWrapper getRequestContext() {
-		return this.servletRequest;
+	public Data getDataBus() {
+		return this.data;
 	}
 
 	@Override
@@ -251,15 +251,15 @@ public abstract class AbstractPcmAction implements IAction {
 	}
 	
 	public static final IAction getAction(final IBodyContainer containerView, final String serviceName, final String event,
-			final RequestWrapper requestWrapper, final DomainApplicationContext ctx, final Collection<String> actionSet) throws Throwable {
+			final Data dataWrapper, final DomainApplicationContext ctx, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
 			if (Event.isQueryEvent(event)) {
-				action = new ActionPagination(ctx, containerView, requestWrapper, serviceName, event);
+				action = new ActionPagination(ctx, containerView, dataWrapper, serviceName, event);
 				action.setAppContext(ctx);
 				action.setEvent(event);
 			} else {
-				action = new ActionForm(ctx, containerView, requestWrapper, serviceName, event, actionSet);
+				action = new ActionForm(ctx, containerView, dataWrapper, serviceName, event, actionSet);
 				action.setAppContext(ctx);
 				action.setStrategyFactory(DefaultStrategyFactory.getFactoryInstance());
 			}
@@ -271,7 +271,7 @@ public abstract class AbstractPcmAction implements IAction {
 	}
 
 	@Override
-	public abstract SceneResult executeAction(final IDataAccess dataAccess, RequestWrapper request, boolean eventSubmitted,
+	public abstract SceneResult executeAction(final IDataAccess dataAccess, Data data, boolean eventSubmitted,
 			Collection<MessageException> prevMessages);
 
 	@Override

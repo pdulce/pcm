@@ -26,21 +26,21 @@ import org.json.simple.JSONObject;
 import cdd.common.PCMConstants;
 import cdd.common.comparator.ComparatorOrderKeyInXAxis;
 import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.MessageException;
+import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.stats.graphs.AbstractGenericHistogram;
+import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldLogic;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.logicmodel.persistence.DAOConnection;
-import cdd.streamdata.IFieldValue;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.BodyContainer;
 import cdd.viewmodel.components.Form;
@@ -61,15 +61,12 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	
 	protected abstract String getParamsPrefix();
 		
-	@Override
-	protected SceneResult renderRequestFromNode(final DAOConnection conn, final IDataAccess dataAccess, final String serviceName,
-			final String event, final RequestWrapper request_, final boolean eventSubmitted, IAction action,
-			final Collection<MessageException> msgs, final String lang) {
-
-		super.renderRequestFromNode(conn, dataAccess, serviceName, event, request_, eventSubmitted, action, msgs, lang);
-
-		return renderRequestFromNodePrv(dataAccess, request_, serviceName, event);
-
+	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Data data_,
+			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
+			final String aggregateFunction);
+	
+	protected boolean isJsonResult(){
+		return true;
 	}
 	
 	public Integer obtenerAnteriorLibre(List<Integer> posicionesOcupadas, int posicionActual){
@@ -92,9 +89,17 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return posicionMasPosterior;			
 	}
 	
-
-	protected SceneResult renderRequestFromNodePrv(final IDataAccess dataAccess, final RequestWrapper request_, final String serviceName, 
-			final String event) {
+	@Override
+	protected SceneResult renderRequestFromNodePrv(final DomainApplicationContext contextApp, final Data data_) {
+		
+		IDataAccess dataAccess = null;
+		try {
+			dataAccess = contextApp.getDataAccess(data_.getService(), data_.getEvent());
+		} catch (PCMConfigurationException e) {
+			throw new RuntimeException("Error creating DataAccess object", e);
+		}
+		final String serviceName = data_.getService();
+		final String event = data_.getEvent();
 		
 		SceneResult scene = new SceneResult();
 		//long mills1 = Calendar.getInstance().getTimeInMillis();
@@ -102,28 +107,28 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		final StringBuilder sbXml = new StringBuilder();
 		try {
 			this._dataAccess = dataAccess;
-			String idPressed = request_.getParameter("idPressed");
+			String idPressed = data_.getParameter("idPressed");
 			String nameSpaceOfButtonFieldSet = idPressed;
 			String paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-			if (request_.getParameter(paramGeneric4Entity) == null){
+			if (data_.getParameter(paramGeneric4Entity) == null){
 				nameSpaceOfButtonFieldSet = getParamsPrefix().concat(idPressed);
 				paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-				paramGeneric4Entity = request_.getParameter(paramGeneric4Entity);
+				paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
 				if (paramGeneric4Entity == null){
 					nameSpaceOfButtonFieldSet = getParamsPrefix();
 					paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-					paramGeneric4Entity = request_.getParameter(paramGeneric4Entity);
+					paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
 					if (paramGeneric4Entity == null){
 						throw new Exception("Error de diseoo: debe coincidir el atributo id del 'button' con el del atributo nameSpace del 'fieldViewSet'");
 					}
 				}
 			}
-			paramGeneric4Entity = request_.getParameter(paramGeneric4Entity);
+			paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
 			
-			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_),
+			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 					paramGeneric4Entity);
 			
-			Form formSubmitted = (Form) BodyContainer.getContainerOfView(request_, dataAccess, serviceName, event, this.contextApp).getForms().iterator().next();
+			Form formSubmitted = (Form) BodyContainer.getContainerOfView(data_, dataAccess, serviceName, event, this.contextApp).getForms().iterator().next();
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
 				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {
@@ -144,17 +149,17 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				filtro_.setNameSpace(nameSpaceOfButtonFieldSet);
 			}
 			
-			String[] categoriasAgrupacion = request_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
+			String[] categoriasAgrupacion = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
 			if (categoriasAgrupacion == null){
-				String categoriaAgrupacion = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
+				String categoriaAgrupacion = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
 				categoriasAgrupacion = new String[]{categoriaAgrupacion};
 			}
-			String[] agregadosPor = request_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
+			String[] agregadosPor = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
 			if ((categoriasAgrupacion==null || categoriasAgrupacion.length == 0) && (agregadosPor ==null || agregadosPor.length == 0)){
 				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agrupacion y/o de agregacion para generar este diagrama estadistico");
 			}
 			
-			String fieldForFilter = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
+			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
 			if (fieldForFilter != null){
 				
 				String[] fields4Filter = fieldForFilter.split(";");
@@ -171,11 +176,11 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 						filtro_.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), rigthPartOfEquals);
 					}else{
 						String[] entidadPointValue = rigthPartOfEquals.split(PCMConstants.REGEXP_POINT);
-						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(CommonUtils.getEntitiesDictionary(request_),
+						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(data_.getEntitiesDictionary(),
 								entidadPointValue[0]);
 						if (!esEntidad){//no es una entidad, sino un parometro
-							if (request_.getParameterValues(rigthPartOfEquals) != null){								
-								String[] valuesOfParamReq_ = request_.getParameterValues(rigthPartOfEquals);
+							if (data_.getParameterValues(rigthPartOfEquals) != null){								
+								String[] valuesOfParamReq_ = data_.getParameterValues(rigthPartOfEquals);
 								Collection<String> serialValues = new ArrayList<String>();
 								for (int v=0;v<valuesOfParamReq_.length;v++){
 									serialValues.add(valuesOfParamReq_[v]);
@@ -184,13 +189,13 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 							}
 							
 						}else{//tratamiento cuando es entidad.campo
-							EntityLogic entidad1ToGet = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_),
+							EntityLogic entidad1ToGet = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 									entidadPointValue[0]);
 							int fieldToGet = Integer.parseInt(entidadPointValue[1]);
 							for (FieldViewSet fSetItem: fSet) {
 								if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidad1ToGet.getName())) {
 									//busco en el form el fieldviewset de la entidad para la que obtener el dato
-									String value = request_.getParameter(fSetItem.getNameSpace().concat(".").concat(entidad1ToGet.searchField(fieldToGet).getName()));
+									String value = data_.getParameter(fSetItem.getNameSpace().concat(".").concat(entidad1ToGet.searchField(fieldToGet).getName()));
 									filtro_.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), value);
 									break;
 								}
@@ -201,7 +206,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			}//fin del establecimiento de un valor por defecto para el filtrado
 			
 			/*** TRATAMIENTO DE LAS AGREGACIONES ****/
-			String aggregateFunction = request_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
+			String aggregateFunction = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
 			if (aggregateFunction == null){
 				throw new Exception("Error de entrada de datos: ha de seleccionar un tipo de operacion; agregacion, o promedio"); 
 			}
@@ -232,7 +237,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				IFieldLogic fieldForAgrupacionPor = entidadGrafico.searchField(Integer.parseInt(categoriasAgrupacion[i]));	
 				fieldsForAgrupacionesPor[i] = fieldForAgrupacionPor;
 				nombreCatAgrupacion = Translator.traduceDictionaryModelDefined(
-						CommonUtils.getLanguage(request_),
+						data_.getLanguage(),
 						filtro_.getEntityDef()
 								.getName()
 								.concat(".")
@@ -258,7 +263,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			}
 				
 						
-			String units = getUnits(filtro_, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, request_);
+			String units = getUnits(filtro_, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
 			List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados = null;
 			if (fieldsForAgrupacionesPor.length > 0){				
 				listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(filtro_, joinFieldViewSet,
@@ -268,14 +273,14 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				throw new Throwable("NO HAY DATOS");
 			}
 
-			double total = generateJSON(listaValoresAgregados, request_, filtro_, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction);
+			double total = generateJSON(listaValoresAgregados, data_, filtro_, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction);
 			
-			setAttrsOnRequest(dataAccess, request_, filtro_, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
+			setAttrsOnRequest(dataAccess, data_, filtro_, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
-			request_.setAttribute(DECIMALES, decimals);
-			request_.setAttribute(CONTAINER, CONTAINER);
+			data_.setAttribute(DECIMALES, decimals);
+			data_.setAttribute(CONTAINER, CONTAINER);
 			
-			scene.appendXhtml(htmlForHistograms(request_, fieldsForAgrupacionesPor != null ? fieldsForAgrupacionesPor[0] : null, filtro_));
+			scene.appendXhtml(htmlForHistograms(data_, fieldsForAgrupacionesPor != null ? fieldsForAgrupacionesPor[0] : null, filtro_));
 
 		}
 		catch (Throwable exc0) {
@@ -287,9 +292,9 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		}
 
 		//long segundosConsumidos = (Calendar.getInstance().getTimeInMillis() - mills1) / 1000;
-		String subtitle_ = (request_.getAttribute(SUBTILE_ATTR) == null ? "" : ((String) request_.getAttribute(SUBTILE_ATTR)));
+		String subtitle_ = (data_.getAttribute(SUBTILE_ATTR) == null ? "" : ((String) data_.getAttribute(SUBTILE_ATTR)));
 				//+ " (rendered in " + segundosConsumidos + " seconds)";
-		request_.setAttribute(SUBTILE_ATTR, subtitle_);
+		data_.setAttribute(SUBTILE_ATTR, subtitle_);
 
 		return scene;
 	}
@@ -304,16 +309,16 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return new ArrayList<String>();
 	}
 	
-	private String getUnits(final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String aggregateFunction, final RequestWrapper request_){
+	private String getUnits(final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String aggregateFunction, final Data data_){
 		String units = "";
-		String nombreConceptoRecuento = " ", lang = CommonUtils.getLanguage(request_);
+		String nombreConceptoRecuento = " ", lang = data_.getLanguage();
 		if (agregados == null){
 			//tomo el nombre de la entidad
 			nombreConceptoRecuento = " registros de [" + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())) + "]";
 			units = nombreConceptoRecuento.split("\\[")[1];
 			units = units.substring(0, units.length() - 1).split(" ")[0];
 		}else if (agregados.length > 0){
-			units = getUnitName(agregados[0], groupByField[0], aggregateFunction, request_);
+			units = getUnitName(agregados[0], groupByField[0], aggregateFunction, data_);
 			if (agregados.length > 1){
 				nombreConceptoRecuento = " Comparativa entre ";
 				for (int ag=0;ag<agregados.length;ag++){
@@ -331,14 +336,14 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return units.toLowerCase();
 	}
 	
-	protected void setAttrsOnRequest(final IDataAccess dataAccess, final RequestWrapper request_, final FieldViewSet filtro_, final String aggregateFunction,
+	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Data data_, final FieldViewSet filtro_, final String aggregateFunction,
 			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo_, final double coefCorrelacion, final String units ) {
 		
 		//para el nombre, tomo el completo si hay uno, sino, tomo la primera parte del primer agregado, por ej. horas, facturado, etc
-		final String lang = CommonUtils.getLanguage(request_);
+		final String lang = data_.getLanguage();
 		String nombreConceptoRecuento = (agregados != null && agregados.length > 0) ? 
 				Translator.traduceDictionaryModelDefined(lang, agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName())) : " ";			
-		request_.setAttribute(ENTIDAD_GRAFICO_PARAM, nombreConceptoRecuento);
+		data_.setAttribute(ENTIDAD_GRAFICO_PARAM, nombreConceptoRecuento);
 		
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
@@ -348,18 +353,18 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		if (groupByField != null && groupByField.length > 1){
 			newNombreCategoriaOPeriodo = units;
 		}
-		request_.setAttribute(TEXT_Y_AXIS, "nomero de " + 
+		data_.setAttribute(TEXT_Y_AXIS, "nomero de " + 
 		(!"".equals(units) ? CommonUtils.pluralDe(units) : 
 			(entidadTraslated + (newNombreCategoriaOPeriodo.equals(entidadTraslated) ? "" : " por " + newNombreCategoriaOPeriodo))));
-		request_.setAttribute(TEXT_X_AXIS, ("".equals(units) ? entidadTraslated : CommonUtils.pluralDe(units)));
-		request_.setAttribute(UNITS_ATTR, CommonUtils.pluralDe(units));
+		data_.setAttribute(TEXT_X_AXIS, ("".equals(units) ? entidadTraslated : CommonUtils.pluralDe(units)));
+		data_.setAttribute(UNITS_ATTR, CommonUtils.pluralDe(units));
 
 		String title = "", subTitle = "";
-		if (request_.getAttribute(TITLE_ATTR) != null) {
-			title = (String) request_.getAttribute(TITLE_ATTR);
+		if (data_.getAttribute(TITLE_ATTR) != null) {
+			title = (String) data_.getAttribute(TITLE_ATTR);
 			title = title.replaceAll("#", nombreConceptoRecuento);
-		} else if (request_.getAttribute(CHART_TITLE) != null){
-			title = (String) request_.getAttribute(CHART_TITLE);
+		} else if (data_.getAttribute(CHART_TITLE) != null){
+			title = (String) data_.getAttribute(CHART_TITLE);
 		}
 		
 		String totalStr = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
@@ -384,20 +389,20 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			title +=  "total " + totalizado  + " " + units;
 		}
 		
-		request_.setAttribute(TITLE_ATTR, title);
+		data_.setAttribute(TITLE_ATTR, title);
 
-		if (request_.getAttribute(SUBTILE_ATTR) != null) {
-			subTitle = (String) request_.getAttribute(SUBTILE_ATTR);
+		if (data_.getAttribute(SUBTILE_ATTR) != null) {
+			subTitle = (String) data_.getAttribute(SUBTILE_ATTR);
 			subTitle = subTitle.replaceAll("#", units);
 		}
-		String criteria = pintarCriterios(filtro_, request_);
+		String criteria = pintarCriterios(filtro_, data_);
 		String crit = criteria.equals("")?"Sin filtro de bosqueda": "Filtro de bosqueda--> " + criteria;
-		request_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
+		data_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	protected void doPost(HttpServletRequest data, HttpServletResponse response) throws ServletException, IOException {
+		doGet(data, response);
 	}
 
 	@Override
@@ -415,12 +420,12 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return false;
 	}
 
-	protected final String htmlForHistograms(final RequestWrapper request_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		request_.setAttribute("container", "container");
-		request_.setAttribute("width-container", String.valueOf(getWidth()));
-		request_.setAttribute("height-container", String.valueOf(getHeight(field4Agrupacion, filtro_)));
+	protected final String htmlForHistograms(final Data data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
+		data_.setAttribute("container", "container");
+		data_.setAttribute("width-container", String.valueOf(getWidth()));
+		data_.setAttribute("height-container", String.valueOf(getHeight(field4Agrupacion, filtro_)));
 		if (is3D()) {
-			request_.setAttribute("is3D", "3D");
+			data_.setAttribute("is3D", "3D");
 		}
 		return "";
 	}
@@ -500,13 +505,13 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 
 	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray jsArrayEjeAbcisas,
-			final RequestWrapper request_) {
-		return regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, true, request_);
+			final Data data_) {
+		return regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, true, data_);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
-			boolean stack_Z, final RequestWrapper request_) {
+			boolean stack_Z, final Data data_) {
 
 		JSONArray seriesJSON = new JSONArray();
 
@@ -543,9 +548,9 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				String claveForEjeX = "";
 				if (claveNMPosicion.indexOf(":") != -1) {
 					String claveNM = claveNMPosicion.split(":")[1];					
-					claveForEjeX += Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), claveNM);
+					claveForEjeX += Translator.traduceDictionaryModelDefined(data_.getLanguage(), claveNM);
 				} else {
-					claveForEjeX += Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), claveNMPosicion);
+					claveForEjeX += Translator.traduceDictionaryModelDefined(data_.getLanguage(), claveNMPosicion);
 				}
 				if (Pattern.matches(AbstractGenericHistogram.PATTERN_DAYS, claveForEjeX)){
 					//elimino el anyo
@@ -576,7 +581,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			if (clave.indexOf(":") != -1) {
 				clave = clave.split(":")[1];
 			}
-			serie.put("name", Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), clave));
+			serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
 			serie.put("data", jsArray.get(0));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
@@ -598,7 +603,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 	****/
 	
-	protected final String pintarCriterios(FieldViewSet filtro_, final RequestWrapper request_) {
+	protected final String pintarCriterios(FieldViewSet filtro_, final Data data_) {
 		StringBuilder strBuffer = new StringBuilder();
 		// recorremos cada field, si tiene value, pintamos en el stringbuffer su valor, y aso...
 		Iterator<IFieldView> iteFieldViews = filtro_.getFieldViews().iterator();
@@ -611,18 +616,18 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				StringBuilder nombreCampoTraducido = new StringBuilder();
 				String suffix = "";
 				if ((fView.getEntityField().getParentFieldEntities() == null || fView.getEntityField().getParentFieldEntities().isEmpty()) && !fView.getEntityField().belongsPK() && !fView.getEntityField().isSequence()){
-					nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), fView
+					nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(data_.getLanguage(), fView
 							.getQualifiedContextName().replaceFirst(IRank.DESDE_SUFFIX, "").replaceFirst(IRank.HASTA_SUFFIX, "")));
 					suffix = fView.getQualifiedContextName().indexOf(IRank.DESDE_SUFFIX) != -1 ? Translator.traducePCMDefined(
-							CommonUtils.getLanguage(request_), IRank.DESDE_SUFFIX) : (fView.getQualifiedContextName().indexOf(
-							IRank.HASTA_SUFFIX) != -1 ? Translator.traducePCMDefined(CommonUtils.getLanguage(request_),
+							data_.getLanguage(), IRank.DESDE_SUFFIX) : (fView.getQualifiedContextName().indexOf(
+							IRank.HASTA_SUFFIX) != -1 ? Translator.traducePCMDefined(data_.getLanguage(),
 							IRank.HASTA_SUFFIX) : "");
 				
 				}else if ((fView.getEntityField().getParentFieldEntities() == null || fView.getEntityField().getParentFieldEntities().isEmpty()) && fView.getEntityField().isSequence()){
 					IFieldLogic descField= filtro_.getDescriptionField();
 					descFields.add(descField);
 					fValues = filtro_.getFieldvalue(descField.getName());
-					nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), filtro_.getEntityDef().getName().concat(".").concat(descField.getName())));
+					nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName().concat(".").concat(descField.getName())));
 				}else if (fView.getEntityField().getParentFieldEntities() != null && !fView.getEntityField().getParentFieldEntities().isEmpty()){
 					IFieldLogic fieldLogicAssociated = fView.getEntityField().getParentFieldEntities().get(0);
 					FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
@@ -647,7 +652,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 								}
 								strBuf.append(fSetParent.getValue(descFields.get(i).getName()));
 								if (countOfMapavalues==0){
-									nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(CommonUtils.getLanguage(request_), fSetParent.getEntityDef().getName().concat(".").concat(descFields.get(i).getName())));
+									nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(data_.getLanguage(), fSetParent.getEntityDef().getName().concat(".").concat(descFields.get(i).getName())));
 								}
 							}//for
 							countOfMapavalues++;
@@ -727,12 +732,8 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return null;
 	}
 
-	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final RequestWrapper request_,
-			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
-			final String aggregateFunction);
-
 	protected abstract String getUnitName(final IFieldLogic aggregateField, final IFieldLogic fieldForCategoriaDeAgrupacion,
-			final String aggregateFunction, final RequestWrapper request_);
+			final String aggregateFunction, final Data data_);
 	
 
 }

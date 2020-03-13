@@ -18,7 +18,7 @@ import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
@@ -30,7 +30,7 @@ import facturacionUte.common.ConstantesModelo;
 public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 
 	@Override
-	public void doBussinessStrategy(final RequestWrapper req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
 		if (iteFieldSets.hasNext()) {
@@ -42,22 +42,22 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 	}
 
 	@Override
-	protected void validParameters(RequestWrapper req) throws StrategyException {
+	protected void validParameters(Data req) throws StrategyException {
 		// OK
 	}
 
-	public void crearAnualidadesPrevision(final FieldViewSet datosPrevision_, final RequestWrapper req, final IDataAccess dataAccess) throws PCMConfigurationException {
+	public void crearAnualidadesPrevision(final FieldViewSet datosPrevision_, final Data req, final IDataAccess dataAccess) throws PCMConfigurationException {
 		try {
-			final IEntityLogic facturacionMesColaboradorEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.FACTURACIONMESPORCOLABORADOR_ENTIDAD);
-			final IEntityLogic categoriaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.CATEGORIA_PROFESIONAL_ENTIDAD);
-			final IEntityLogic colaboradorEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.COLABORADOR_ENTIDAD);
-			final IEntityLogic previsionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.DATOS_PREVISION_CONTRATO_ENTIDAD);
-			final IEntityLogic anualidadPrevisionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_ENTIDAD);
-			final IEntityLogic mesPrevisionAnualidadEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.RESULTADO_PREVISION_MES_ENTIDAD);
-			final IEntityLogic tarifaUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.CATEGORIA_PROFESIONAL_ENTIDAD);
-			final IEntityLogic concursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.CONCURSO_ENTIDAD);
-			final IEntityLogic frasMesesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
-			final IEntityLogic mesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.MES_ENTIDAD);
+			final IEntityLogic facturacionMesColaboradorEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.FACTURACIONMESPORCOLABORADOR_ENTIDAD);
+			final IEntityLogic categoriaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.CATEGORIA_PROFESIONAL_ENTIDAD);
+			final IEntityLogic colaboradorEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.COLABORADOR_ENTIDAD);
+			final IEntityLogic previsionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.DATOS_PREVISION_CONTRATO_ENTIDAD);
+			final IEntityLogic anualidadPrevisionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_ENTIDAD);
+			final IEntityLogic mesPrevisionAnualidadEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.RESULTADO_PREVISION_MES_ENTIDAD);
+			final IEntityLogic tarifaUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.CATEGORIA_PROFESIONAL_ENTIDAD);
+			final IEntityLogic concursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.CONCURSO_ENTIDAD);
+			final IEntityLogic frasMesesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
+			final IEntityLogic mesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.MES_ENTIDAD);
 			
 			FieldViewSet datosPrevision = null;
 			if (datosPrevision_.getValue(previsionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_1_ID).getName()) != null){
@@ -239,7 +239,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 					double horasEjecutadasEnEsteMes = 0, horasEjecutadasEnEsteMesConsultor = 0, horasEjecutadasEnEsteMesConsultorJunior = 0, horasEjecutadasEnEsteMesAnFuncional = 0, horasEjecutadasEnEsteMesAnProgramador = 0;
 					double importeEjecutadoEnEsteMes = 0, importeEjecutadoEnEsteMesConsultor = 0, importeEjecutadoEnEsteMesConsultorJunior = 0, importeEjecutadoEnEsteMesAnFuncional = 0, importeEjecutadoEnEsteMesAnProgramador = 0;
 
-					final IEntityLogic facturacionMesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
+					final IEntityLogic facturacionMesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
 					final FieldViewSet filtro4Agregados = new FieldViewSet(facturacionMesConcursoEntidad);
 					filtro4Agregados.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_4_ID_CONCURSO).getName(), idConcurso);
 					filtro4Agregados.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_2_ANYO).getName(), anualidadIesima);
@@ -540,7 +540,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 				anualidadPrevision.setValue(anualidadPrevisionEntidad.searchField(ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_34_SALDO_IMPORTE_TOTAL_EN_EJERCICIO_).getName(),
 						Double.valueOf(importeSimulacionEnEjercicio - importeEjecutadoEnEjercicio));
 								
-				final IEntityLogic facturacionMesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(req), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
+				final IEntityLogic facturacionMesConcursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.FACTURACIONMESPORCONCURSO_ENTIDAD);
 				final FieldViewSet filtro4Agregados = new FieldViewSet(facturacionMesConcursoEntidad);
 				filtro4Agregados.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_4_ID_CONCURSO).getName(), idConcurso);
 				filtro4Agregados.setValue(facturacionMesConcursoEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCONCURSO_2_ANYO).getName(), anualidadIesima);
@@ -578,7 +578,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 		} catch (TransactionException e3) {
 			throw new PCMConfigurationException("error in insert transaction", e3);
 		} catch (ParseException e) {
-			throw new PCMConfigurationException("error receiving data from request", e);
+			throw new PCMConfigurationException("error receiving data from data", e);
 		}
 	}
 

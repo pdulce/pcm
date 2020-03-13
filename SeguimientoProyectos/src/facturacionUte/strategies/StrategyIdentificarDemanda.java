@@ -12,8 +12,7 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
-import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -62,12 +61,12 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 		 * Si eso no es aso, este algoritmo de deteccion no funcionaro
 		 */
 		@Override
-		public void doBussinessStrategy(final RequestWrapper request, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+		public void doBussinessStrategy(final Data data, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 				throws StrategyException, PCMConfigurationException {
 			try {
 				dataAccess.setAutocommit(false);
-				final String dict = CommonUtils.getLanguage(request);
-				initEntitiesFactories(CommonUtils.getEntitiesDictionary(request));
+				final String dict = data.getLanguage();
+				initEntitiesFactories(data.getEntitiesDictionary());
 				
 				if (fieldViewSets.isEmpty()) {
 					throw new StrategyException(ERR_STRATEGY_IDENTIFICAR_DEMANDA);

@@ -6,9 +6,9 @@ import java.util.Iterator;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.common.utils.CommonUtils;
+
 import cdd.comunication.actions.Event;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
@@ -20,13 +20,13 @@ import facturacionUte.common.ConstantesModelo;
 public class StrategyEncajarNuevoDpto extends DefaultStrategyRequest {
 	
 	@Override
-	protected void validParameters(RequestWrapper req) throws StrategyException {
+	protected void validParameters(Data req) throws StrategyException {
 		// OK
 	}
 
 	
 	@Override
-	public void doBussinessStrategy(final RequestWrapper req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		
 		if (Event.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
@@ -39,9 +39,9 @@ public class StrategyEncajarNuevoDpto extends DefaultStrategyRequest {
 			datosDptoRequest = iteFieldSets.next();
 		}
 		if (datosDptoRequest == null) {
-			throw new PCMConfigurationException("Error objeto recibido de request es nulo", new Exception("null object"));
+			throw new PCMConfigurationException("Error objeto recibido de data es nulo", new Exception("null object"));
 		}
-		String lang = CommonUtils.getEntitiesDictionary(req);
+		String lang = req.getEntitiesDictionary();
 
 		try {
 			final IEntityLogic dptoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.DEPARTAMENTO_ENTIDAD);

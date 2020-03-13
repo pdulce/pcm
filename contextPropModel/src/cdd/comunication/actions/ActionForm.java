@@ -22,7 +22,8 @@ import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
 
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
+import cdd.comunication.bus.IFieldValue;
 
 import cdd.domain.services.DomainApplicationContext;
 import cdd.logicmodel.IDataAccess;
@@ -31,7 +32,6 @@ import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.AppCacheFactory;
 import cdd.logicmodel.factory.EntityLogicFactory;
 import cdd.strategies.DefaultStrategyLogin;
-import cdd.streamdata.IFieldValue;
 
 import cdd.viewmodel.components.BodyContainer;
 import cdd.viewmodel.components.Form;
@@ -61,8 +61,8 @@ public class ActionForm extends AbstractPcmAction {
 	
 	
 	
-	public ActionForm(final DomainApplicationContext context, final IBodyContainer container_, final RequestWrapper request_, final String serviceName, final String event_, final Collection<String> actionSet) {
-		this.servletRequest = request_;
+	public ActionForm(final DomainApplicationContext context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_, final Collection<String> actionSet) {
+		this.data = data_;
 		this.setEvent(event_);
 		this.container = container_;
 		this.registeredEvents = actionSet;
@@ -97,7 +97,7 @@ public class ActionForm extends AbstractPcmAction {
 	}
 
 	@Override
-	public SceneResult executeAction(final IDataAccess dataAccess_, final RequestWrapper request, final boolean submittedEvent_,
+	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final boolean submittedEvent_,
 			final Collection<MessageException> prevMessages) {
 
 		SceneResult result = new SceneResult();
@@ -127,7 +127,7 @@ public class ActionForm extends AbstractPcmAction {
 			XmlUtils.openXmlNode(sbXml, IViewComponent.HTML_);
 			final Iterator<MessageException> iteMsgs = erroresMsg.iterator();
 			while (iteMsgs.hasNext()) {
-				sbXml.append(iteMsgs.next().toXML(CommonUtils.getEntitiesDictionary(request)));
+				sbXml.append(iteMsgs.next().toXML(data.getEntitiesDictionary()));
 			}
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 			result.setXhtml(sbXml.toString());
@@ -135,7 +135,7 @@ public class ActionForm extends AbstractPcmAction {
 		return result;
 	}
 
-	public Collection<FieldViewSet> getFilterForProfile(final RequestWrapper ctx) throws PCMConfigurationException {
+	public Collection<FieldViewSet> getFilterForProfile(final Data ctx) throws PCMConfigurationException {
 		if (ctx == null) {
 			throw new PCMConfigurationException(InternalErrorsConstants.GETTING_PROFILE_EXCEPTION);
 		}
@@ -143,8 +143,8 @@ public class ActionForm extends AbstractPcmAction {
 	}
 
 	/*******************************************************************************************************************************************************************************
-	 * Prevalecen los atributos de la request o de la sesion tanto como los definidos como tal. Si
-	 * un fieldview se define como persistible en sesion o request, ha de llevarse a
+	 * Prevalecen los atributos de la data o de la sesion tanto como los definidos como tal. Si
+	 * un fieldview se define como persistible en sesion o data, ha de llevarse a
 	 * cabo aquo
 	 * 
 	 * @param fieldViewSet
@@ -181,22 +181,24 @@ public class ActionForm extends AbstractPcmAction {
 		if (form_.getFieldViewSetCollection().getFieldViewSets().isEmpty()) {
 			return null;
 		}
-		List<MessageException> err = new ArrayList<MessageException>();		
-		if (!submitted || Event.isFormularyEntryEvent(this.event) || Event.isDetailEvent(this.event)) {			
-			String sceneRedirect = this.servletRequest.getParameter(PCMConstants.EVENT);
-			if ((!submitted || IEvent.VOLVER.equals(this.servletRequest.getParameter(PCMConstants.MASTER_NEW_EVENT_)) || IEvent.CANCEL.equals(this.servletRequest.getParameter(PCMConstants.MASTER_NEW_EVENT_))) && sceneRedirect != null){
+		final int positionOfFirstEntityForm = getFirstFSetOfEntity(form_.getFieldViewSets());
+		List<MessageException> err = new ArrayList<MessageException>();	
+		if (positionOfFirstEntityForm > -1 && (Event.isFormularyEntryEvent(this.event) || Event.isDetailEvent(this.event))) {						
+			if (IEvent.VOLVER.equals(this.data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ||
+					IEvent.CANCEL.equals(this.data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ){
+				
+				String sceneRedirect = this.data.getParameter(PCMConstants.EVENT);
 				String serviceRedirect = sceneRedirect.split(PCMConstants.REGEXP_POINT)[0];
 				String eventRedirect = sceneRedirect.split(PCMConstants.REGEXP_POINT)[1];				
 				IAction actionObjectOfRedirect = null;
 				try {
 					Collection<String> regEvents = new ArrayList<String>();
-					IBodyContainer containerView_ = BodyContainer.getContainerOfView(this.servletRequest, dataAccess_, serviceRedirect, eventRedirect, getAppContext());
-					actionObjectOfRedirect = getAction(containerView_, serviceRedirect, eventRedirect, this.servletRequest, getAppContext(), regEvents);
+					IBodyContainer containerView_ = BodyContainer.getContainerOfView(this.data, dataAccess_, serviceRedirect, eventRedirect, getAppContext());
+					actionObjectOfRedirect = getAction(containerView_, serviceRedirect, eventRedirect, this.data, getAppContext(), regEvents);
 					Form originalForm = (Form) containerView_.getForms().get(0);
 					List<MessageException> messageExceptions = new ArrayList<MessageException>();
-					originalForm.bindUserInput(actionObjectOfRedirect, messageExceptions);
-					
-					FieldViewSet fSetOfParentEntity = form_.getFieldViewSets().get(getFirstFSetOfEntity(form_.getFieldViewSets()));
+					originalForm.bindUserInput(actionObjectOfRedirect, messageExceptions);					
+					FieldViewSet fSetOfParentEntity = form_.getFieldViewSets().get(positionOfFirstEntityForm);
 					IEntityLogic entidadPadre = fSetOfParentEntity.getEntityDef();
 					IFieldLogic pkField = entidadPadre.getFieldKey().getPkFieldSet().iterator().next();
 					
@@ -209,26 +211,25 @@ public class ActionForm extends AbstractPcmAction {
 						
 						Serializable serial_ = fSetOfChildEntity.getValue(fkField.getName());
 						paramMaster = entidadPadre.getName().concat(".").concat(pkField.getName()).concat("=").concat(serial_.toString());
-						this.getRequestContext().setAttribute(PCMConstants.MASTER_ID_SEL_, paramMaster);
+						this.getDataBus().setAttribute(PCMConstants.MASTER_ID_SEL_, paramMaster);
 						
 					}else{
 						//llega departamento.servicio si es de un servicio anidado, o si es del edicion a partir del evento-query raiz...tratar ambos casos
-						String lang = CommonUtils.getEntitiesDictionary(this.servletRequest);
+						String lang = this.data.getEntitiesDictionary();
 						String serial_ = null;
-						Iterator<String> enumPa = this.servletRequest.getParametersNames().iterator();
+						Iterator<String> enumPa = this.data.getParameterNames().iterator();
 						while (enumPa.hasNext()){
 							String param = enumPa.next();
 							String[] splitter = param.split(PCMConstants.REGEXP_POINT);
 							if (splitter.length == 2){
 								String entidadParam =  splitter[0];
 								String campoParam =  splitter[1];
-
 								boolean esEntidad =	EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(lang, entidadParam);
 								if (esEntidad){
 									IEntityLogic entidadInner = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, entidadParam);
 									IFieldLogic campoFK = entidadInner.searchByName(campoParam);
 									if (campoFK.getParentFieldEntity(entidadPadre.getName()) != null){
-										serial_ = this.servletRequest.getParameter(param);
+										serial_ = this.data.getParameter(param);
 										String[] splitterValue = serial_.split("=");
 										if (splitterValue.length == 2){
 											serial_ =  splitterValue[1];
@@ -240,7 +241,7 @@ public class ActionForm extends AbstractPcmAction {
 						}//while
 						if (serial_ != null){
 							paramMaster = entidadPadre.getName().concat(".").concat(pkField.getName()).concat("=").concat(serial_.toString());
-							this.getRequestContext().setAttribute(PCMConstants.MASTER_ID_SEL_, paramMaster);
+							this.getDataBus().setAttribute(PCMConstants.MASTER_ID_SEL_, paramMaster);
 						}
 					}//else
 					
@@ -248,7 +249,7 @@ public class ActionForm extends AbstractPcmAction {
 				catch (final PCMConfigurationException configExcep) {
 					throw configExcep;
 				}
-			}
+			}//if-end : when event pressed is volver o cancel 
 			
 			form_.bindPrimaryKeys(this, err);
 			
@@ -380,7 +381,7 @@ public class ActionForm extends AbstractPcmAction {
 						dataAccess.setAutocommit(false);
 						if (Event.isDeleteEvent(event_) ){
 							//ejecutar estrategia genorica de borrado protegiendo la integridad referencial	VS borrados en cascada											
-							dataAccess.getPreconditionStrategies().add("pcm.strategies.DefaultStrategyDelete");
+							dataAccess.getPreconditionStrategies().add("cdd.strategies.DefaultStrategyDelete");
 						}
 					}
 					
@@ -422,7 +423,7 @@ public class ActionForm extends AbstractPcmAction {
 							final StringBuilder name = new StringBuilder(fieldViewSet.getEntityDef().getName());
 							name.append(PCMConstants.POINT).append(fieldViewSet.getEntityDef().getName());
 							msg.addParameter(new Parameter(IViewComponent.ZERO, name.toString()));
-							msg.addParameter(new Parameter(IViewComponent.ONE, this.servletRequest.getAttribute(IViewComponent.APP_MSG)==null? "": (String) this.servletRequest.getAttribute(IViewComponent.APP_MSG)));
+							msg.addParameter(new Parameter(IViewComponent.ONE, this.data.getAttribute(IViewComponent.APP_MSG)==null? "": (String) this.data.getAttribute(IViewComponent.APP_MSG)));
 							msgs.add(msg);
 						}
 					}
@@ -492,32 +493,11 @@ public class ActionForm extends AbstractPcmAction {
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, throwExc00.getMessage()));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			} finally {
-				final Iterator<FieldViewSet> iteFieldViewSet_ = fCollectionIesimo.getFieldViewSets().iterator();
-				while (iteFieldViewSet_.hasNext()) {
-					final FieldViewSet fieldViewSet = iteFieldViewSet_.next();
-					final Iterator<IFieldView> iteFields = fieldViewSet.getFieldViews().iterator();
-					while (iteFields.hasNext()) {
-						final IFieldView fieldView = iteFields.next();
-						if (fieldView.isSeparator()) {
-							continue;
-						}
-						final String qualifiedN = fieldView.getQualifiedContextName();
-						final Serializable value = fieldViewSet.getValue(qualifiedN);
-						if (eventSubmitted_ && fieldView.persistsInRequest() && !fieldViewSet.getFieldvalue(qualifiedN).isNull()
-								&& !value.toString().equals(this.servletRequest.getAttribute(qualifiedN))) {
-							this.servletRequest.setAttribute(qualifiedN, value);
-						} else if (eventSubmitted_ && fieldView.persistsInSession() && !fieldViewSet.getFieldvalue(qualifiedN).isNull()
-								&& !value.toString().equals(this.servletRequest.getSession().getAttribute(qualifiedN))) {
-							this.servletRequest.getSession().setAttribute(qualifiedN, value);
-						}
-					}
-				}
 			}
 		}
 
 		msgs.addAll(prevMessages);
-		res.setXhtml(container.toXML(this.servletRequest, dataAccess, eventSubmitted_, msgs));
+		res.setXhtml(container.toXML(this.data, dataAccess, eventSubmitted_, msgs));
 		res.setMessages(msgs);
 		return res;
 	}
@@ -542,7 +522,7 @@ public class ActionForm extends AbstractPcmAction {
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
 					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.USU_MOD),
-							(String) this.servletRequest.getSession().getAttribute(DefaultStrategyLogin.USER_));
+							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
 					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.FEC_MOD), CommonUtils.getSystemDate());
 				}
 			}
@@ -553,7 +533,7 @@ public class ActionForm extends AbstractPcmAction {
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
 					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.USU_BAJA),
-							(String) this.servletRequest.getSession().getAttribute(DefaultStrategyLogin.USER_));
+							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
 					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.FEC_BAJA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}
@@ -565,7 +545,7 @@ public class ActionForm extends AbstractPcmAction {
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
 					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.USU_ALTA),
-							(String) this.servletRequest.getSession().getAttribute(DefaultStrategyLogin.USER_));
+							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
 					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.FEC_ALTA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}

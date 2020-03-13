@@ -23,7 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
@@ -113,14 +113,14 @@ public class ImportarFacturacionMes {
 		return "NOT FOUND";
 	}
 
-	private void initEntities(final RequestWrapper request_) {
+	private void initEntities(final Data data_) {
 		if (patronRecord == null) {
 			try {
-				String lang = CommonUtils.getEntitiesDictionary(request_);
+				String lang = data_.getEntitiesDictionary();
 				colaboradorEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.COLABORADOR_ENTIDAD);
 				concursoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.CONCURSO_ENTIDAD);
-				categoriaProfesional = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_), ConstantesModelo.CATEGORIA_PROFESIONAL_ENTIDAD);
-				facturacionMesColaborador = EntityLogicFactory.getFactoryInstance().getEntityDef(CommonUtils.getEntitiesDictionary(request_), ConstantesModelo.FACTURACIONMESPORCOLABORADOR_ENTIDAD);
+				categoriaProfesional = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(), ConstantesModelo.CATEGORIA_PROFESIONAL_ENTIDAD);
+				facturacionMesColaborador = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(), ConstantesModelo.FACTURACIONMESPORCOLABORADOR_ENTIDAD);
 				facturacionMesColaboradoryAppEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.FACTURACIONMESPORCOLABORADORYAPP_ENTIDAD);
 				facturacionMesApp = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.FACTURACIONMESPORAPP_ENTIDAD);
 				appEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, ConstantesModelo.PROYECTO_ENTIDAD);
@@ -197,7 +197,7 @@ public class ImportarFacturacionMes {
 		}
 	}
 	
-	public ImportarFacturacionMes(IDataAccess dataAccess_, RequestWrapper req) {
+	public ImportarFacturacionMes(IDataAccess dataAccess_, Data req) {
 		this.dataAccess = dataAccess_;
 		initEntities(req);
 	}
@@ -214,7 +214,7 @@ public class ImportarFacturacionMes {
 		return 1;
 	}
 	
- 	private int procesarFilas(final XSSFSheet sheetNewVersion_HOJA_0, final XSSFSheet sheetNewVersion_HOJA_1, final RequestWrapper request, final FieldViewSet mesFSet, final int ejercicio, final Long idContrato) throws Throwable {
+ 	private int procesarFilas(final XSSFSheet sheetNewVersion_HOJA_0, final XSSFSheet sheetNewVersion_HOJA_1, final Data data, final FieldViewSet mesFSet, final int ejercicio, final Long idContrato) throws Throwable {
 
 		int nrow = 3;//la primera de la Excel es la 0-osima al recorrer el fichero con la api
 		//buscamos las columnas-posiciones que vamos a extrear al iterar cada columna
@@ -333,7 +333,7 @@ public class ImportarFacturacionMes {
 				}			
 			}// for columnas de la HOJA 1
 			if (computadaFila){
-				grabarEnBBDD(request, fila, mesFSet, ejercicio, idContrato);
+				grabarEnBBDD(data, fila, mesFSet, ejercicio, idContrato);
 				nrow++;
 			}
 			
@@ -345,10 +345,10 @@ public class ImportarFacturacionMes {
 		List<FieldViewSet> previsiones = dataAccess.searchByCriteria(filterOfSimulaciones);
 		for (int prev=0;prev<previsiones.size();prev++){
 			FieldViewSet prevision = previsiones.get(prev);
-			new StratBorrarAnualidadesPrevision().borrarAnualidadesPrevision(prevision, request, dataAccess);
+			new StratBorrarAnualidadesPrevision().borrarAnualidadesPrevision(prevision, data, dataAccess);
 			FieldViewSet previsionNew = new FieldViewSet(simulacionEntidad);
 			previsionNew.setValue(simulacionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_1_ID).getName(), prevision.getValue(simulacionEntidad.searchField(ConstantesModelo.DATOS_PREVISION_CONTRATO_1_ID).getName()));
-			new StratCrearAnualidadesPrevision().crearAnualidadesPrevision(previsionNew, request, dataAccess);
+			new StratCrearAnualidadesPrevision().crearAnualidadesPrevision(previsionNew, data, dataAccess);
 		}
 				
 		return nrow-4;
@@ -373,11 +373,11 @@ public class ImportarFacturacionMes {
 	 *  
 	 *  	Si no existe, continuamos con la siguiente iteracion dentro del bucle
 	 */		
-	private int grabarEnBBDD(final RequestWrapper request, FieldViewSet registro, final FieldViewSet mesFSet, final int ejercicio, final Long idContrato) throws Throwable{
+	private int grabarEnBBDD(final Data data, FieldViewSet registro, final FieldViewSet mesFSet, final int ejercicio, final Long idContrato) throws Throwable{
 		
 		this.dataAccess.setAutocommit(false);
 		int numImputadas = 0;
-		request.setAttribute("noUpdateSimul", "NO_UPDATE");
+		data.setAttribute("noUpdateSimul", "NO_UPDATE");
 		Long idMes = (Long) mesFSet.getValue(mesEntidad.searchField(ConstantesModelo.MES_1_ID).getName());
 		
 		FieldViewSet concursoDeServicio = new FieldViewSet(concursoEntidad);
@@ -518,7 +518,7 @@ public class ImportarFacturacionMes {
 				List<FieldViewSet> fset = new ArrayList<FieldViewSet>();
 				fset.add(colaboradorExistente);
 				IStrategy strat = new StrategyCrearAgregadosMesesColab();
-				strat.doBussinessStrategy(request, this.dataAccess, fset);
+				strat.doBussinessStrategy(data, this.dataAccess, fset);
 				//ahora tomamos la app de este colaborador, y creamos la asignacion app-colaborador, y luego invocamos la estrategia StrategyGrabarUTsMesColabyApp
 				
 				// Recorremos las apps asignadas al colaborador, y comprobamos si existe la app
@@ -547,7 +547,7 @@ public class ImportarFacturacionMes {
 						List<FieldViewSet> fset33 = new ArrayList<FieldViewSet>();
 						fset33.add(aplicacion);
 						IStrategy strat33 = new StrategyCrearAgregadosMesesAppDptoServicio();
-						strat33.doBussinessStrategy(request, this.dataAccess, fset33);							
+						strat33.doBussinessStrategy(data, this.dataAccess, fset33);							
 					}else{
 						aplicacion = listaAppsPorFiltro2.get(0);
 					}
@@ -626,7 +626,7 @@ public class ImportarFacturacionMes {
 					List<FieldViewSet> fset2 = new ArrayList<FieldViewSet>();
 					fset2.add(appDeColaborador);
 					IStrategy strat2 = new StrategyGrabarUTsMesColabyApp();//esta estrategia crea los objetos fra-mes-app, si ya existen los objetos fra-mes y fra-app, pero no los mes-app-colaborador
-					strat2.doBussinessStrategy(request, this.dataAccess, fset2);
+					strat2.doBussinessStrategy(data, this.dataAccess, fset2);
 				}
 				//deben existir ahora, se hayan creado antes o en este momento
 				facturaMesColaboradoryApp = new FieldViewSet(facturacionMesColaboradoryAppEntidad);
@@ -647,7 +647,7 @@ public class ImportarFacturacionMes {
 				List<FieldViewSet> fset = new ArrayList<FieldViewSet>();
 				fset.add(facturaMesColaboradoryApp);
 				IStrategy strat = new StrategyRecalculateFacturacionMes();				
-				strat.doBussinessStrategy(request, this.dataAccess, fset);
+				strat.doBussinessStrategy(data, this.dataAccess, fset);
 				
 				int ok = this.dataAccess.modifyEntity(facturaMesColaboradoryApp);
 				if (ok != 1){//
@@ -730,7 +730,7 @@ public class ImportarFacturacionMes {
 		return arr;
 	}
 	
-	public TuplaMesEjercicioEntradas importar(final RequestWrapper request, final String path, final FieldViewSet importacionFSet, final Long idContrato, final Long idMes_, final Integer anyo) throws Exception {
+	public TuplaMesEjercicioEntradas importar(final Data data, final String path, final FieldViewSet importacionFSet, final Long idContrato, final Long idMes_, final Integer anyo) throws Exception {
 		
 		long timeStart = Calendar.getInstance().getTimeInMillis();
 		int numImportadas = 0;
@@ -770,7 +770,7 @@ public class ImportarFacturacionMes {
 			//recorremos la lista de fichas mensuales...
 			for (int f=0;f<fichasMeses.size();f++){
 				TuplaMesEjercicioFicha tupla = fichasMeses.get(f);
-				numImportadas = procesarFilas(tupla.getFichaMes(), sheetResumen, request, tupla.getMes(), tupla.getEjercicio(), idContrato);
+				numImportadas = procesarFilas(tupla.getFichaMes(), sheetResumen, data, tupla.getMes(), tupla.getEjercicio(), idContrato);
 				if ((anyo==null || idMes==null || fichasMeses.size() > 1) && f==(fichasMeses.size()-1)){//si es una carga moltiple y es el oltimo inicializo ejercicio y mes
 					ejercicio = tupla.getEjercicio();
 					idMes = (Long) tupla.getMes().getValue(tupla.getMes().getEntityDef().searchField(ConstantesModelo.MES_1_ID).getName());

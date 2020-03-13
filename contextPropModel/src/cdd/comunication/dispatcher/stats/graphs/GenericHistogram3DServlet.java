@@ -13,7 +13,7 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -35,12 +35,12 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 	}
 	/***El campo agregacion se coloca en el eje Z, los campos agregados son cada columna (eje X) ***/
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final RequestWrapper request_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion==null || fieldsCategoriaDeAgrupacion[0]==null ? null:  fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
-		String escalado = request_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
+		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
 		}
@@ -51,13 +51,13 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 		Number total_ = Double.valueOf(0);
 		Number[] totalizacionColumnas = null;
 		//el tamanyo de la totalizacion sero el nom. de valores distintos de categorias-agregado (eje X), y si hay mos de un agregado, como se sitouan en el ejz solo contabilizo el primero
-		String lang = CommonUtils.getLanguage(request_), unidades = "";
+		String lang = data_.getLanguage(), unidades = "";
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
 
 		if (agrupacionInterna == null) {
 			agrupacionInterna = getUserFilterWithDateType(filtro_) == null ? filtro_.getEntityDef().searchField(
-					Integer.parseInt(request_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
+					Integer.parseInt(data_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
 					: getUserFilterWithDateType(filtro_);
 			List<FieldViewSet> petsAgrupadasPorCampoEjeX = new ArrayList<FieldViewSet>();
 			if (agrupacionInterna.getAbstractField().isDecimal() || agrupacionInterna.getAbstractField().isDate()) {
@@ -73,7 +73,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 			try {
 				periodos = obtenerPeriodosEjeXConEscalado(this._dataAccess, agrupacionInterna, filtro_, escalado);
 				if (periodos.size() == 0){
-					request_.setAttribute(CHART_TITLE, "No hay datos: revise si la fecha final del rango especificado es posterior a la inicial");
+					data_.setAttribute(CHART_TITLE, "No hay datos: revise si la fecha final del rango especificado es posterior a la inicial");
 					return 0;
 				}
 			} catch (DatabaseException e) {
@@ -152,7 +152,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 				final String media_formatted = CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(periodos.size())));
 				final String plural = CommonUtils.pluralDe(itemGrafico.toLowerCase());
 								
-				request_.setAttribute(CHART_TITLE, "Histograma de " + plural + " (" + total_formatted + "), promedio en periodo: " + 
+				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + " (" + total_formatted + "), promedio en periodo: " + 
 														media_formatted + " " + traducirEscala(escalado) + ". ");				
 				registrosJSON.put((clavePeticion == null) ? itemGrafico : clavePeticion, subtotalPorCategoriaDeEjeX);
 			}
@@ -200,7 +200,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 						}
 					}else if (agrupacionInterna.getAbstractField().isDecimal() || agrupacionInterna.getAbstractField().isTimestamp()
 							|| agrupacionInterna.getAbstractField().isDate() || agrupacionInterna.getAbstractField().isLong()){
-						unidades = getUnitName(sinAgregado ?null:agregados[agg], agrupacionInterna, aggregateFunction, request_);
+						unidades = getUnitName(sinAgregado ?null:agregados[agg], agrupacionInterna, aggregateFunction, data_);
 						valorParaCategoria1EnEsteRegistroAgregado = unidades;
 					}
 					
@@ -274,7 +274,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 			 ***/
 			
 			String itemGrafico = entidadTraslated;
-			unidades = unidades.equals("")? getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, request_): unidades;
+			unidades = unidades.equals("")? getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, data_): unidades;
 			double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(totalizacionColumnas.length));
 			if (sinAgregado){
 				itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
@@ -294,7 +294,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 				itemGrafico = "en " + unidades;
 			}
 			
-			request_.setAttribute(CHART_TITLE, 
+			data_.setAttribute(CHART_TITLE, 
 					(agregados!=null && agregados.length>1 ? 
 							" Comparativa " : "") + "3D-Histograma " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
 							+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
@@ -303,9 +303,9 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 		}// else
 
 		JSONArray jsArrayEjeAbcisas = new JSONArray();	
-		String serieJson = regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, request_);
-		request_.setAttribute(JSON_OBJECT, serieJson);
-		request_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
+		String serieJson = regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, data_);
+		data_.setAttribute(JSON_OBJECT, serieJson);
+		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
 		
 		//List<Double> valoresInListaOcurrencias = CommonUtils.getValueListInJsonSerie(serieJson);
 		JSONArray newArrayEjeAbcisas = new JSONArray();
@@ -316,10 +316,10 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 			// String ejeX_totalizado = ejeX_literal + columnaTotalizada;
 			// newArrayEjeAbcisas.add(ejeX_totalizado);
 		//}
-		request_.setAttribute("abscisas", newArrayEjeAbcisas.isEmpty() ? jsArrayEjeAbcisas.toString(): newArrayEjeAbcisas.toJSONString());
-		request_.setAttribute("minEjeRef", minimal);
+		data_.setAttribute("abscisas", newArrayEjeAbcisas.isEmpty() ? jsArrayEjeAbcisas.toString(): newArrayEjeAbcisas.toJSONString());
+		data_.setAttribute("minEjeRef", minimal);
 		
-		request_.setAttribute("profundidad" , agregados==null? 15 : 10 + 5*(agregados.length));
+		data_.setAttribute("profundidad" , agregados==null? 15 : 10 + 5*(agregados.length));
 		
 		return total_.doubleValue();
 	}

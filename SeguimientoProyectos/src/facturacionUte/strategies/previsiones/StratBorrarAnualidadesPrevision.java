@@ -7,8 +7,7 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
-import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
@@ -20,7 +19,7 @@ import facturacionUte.common.ConstantesModelo;
 public class StratBorrarAnualidadesPrevision extends DefaultStrategyRequest {
 
 	@Override
-	public void doBussinessStrategy(final RequestWrapper req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 
 		Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
@@ -38,20 +37,20 @@ public class StratBorrarAnualidadesPrevision extends DefaultStrategyRequest {
 	}
 
 	@Override
-	protected void validParameters(RequestWrapper req) throws StrategyException {
+	protected void validParameters(Data req) throws StrategyException {
 		// OK
 	}
 
-	public void borrarAnualidadesPrevision(final FieldViewSet datosPrevision, final RequestWrapper req, final IDataAccess dataAccess)
+	public void borrarAnualidadesPrevision(final FieldViewSet datosPrevision, final Data req, final IDataAccess dataAccess)
 			throws PCMConfigurationException {
 		try {
 
 			final IEntityLogic previsionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
-					CommonUtils.getEntitiesDictionary(req), ConstantesModelo.DATOS_PREVISION_CONTRATO_ENTIDAD);
+					req.getEntitiesDictionary(), ConstantesModelo.DATOS_PREVISION_CONTRATO_ENTIDAD);
 			final IEntityLogic anualidadEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
-					CommonUtils.getEntitiesDictionary(req), ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_ENTIDAD);
+					req.getEntitiesDictionary(), ConstantesModelo.RESULTADO_PREVISION_ANUALIDAD_ENTIDAD);
 			final IEntityLogic mesPrevisionAnualidadEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
-					CommonUtils.getEntitiesDictionary(req), ConstantesModelo.RESULTADO_PREVISION_MES_ENTIDAD);
+					req.getEntitiesDictionary(), ConstantesModelo.RESULTADO_PREVISION_MES_ENTIDAD);
 			final Long idPrevisionConcurso = Long.valueOf (datosPrevision.getValue(previsionEntidad.searchField(
 					ConstantesModelo.DATOS_PREVISION_CONTRATO_1_ID).getName()).toString());
 

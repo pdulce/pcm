@@ -11,10 +11,9 @@ import java.util.Map;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.common.utils.CommonUtils;
 import cdd.comunication.actions.Event;
 import cdd.comunication.actions.IEvent;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
@@ -43,13 +42,13 @@ public class StrategyImportacion extends StrategyLogin {
 	}
 
 	@Override
-	public void doBussinessStrategy(final RequestWrapper request, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Data data, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 		try {
-			if (!Event.isTransactionalEvent(request.getParameter(PCMConstants.EVENT))) {
+			if (!Event.isTransactionalEvent(data.getParameter(PCMConstants.EVENT))) {
 				return;
 			}
-			initEntitiesFactories(CommonUtils.getEntitiesDictionary(request));
+			initEntitiesFactories(data.getEntitiesDictionary());
 			if (fieldViewSets.isEmpty()) {
 				return;
 			}
@@ -83,13 +82,13 @@ public class StrategyImportacion extends StrategyLogin {
 			fSetConEseRochade.setValue(importacionEntidad.searchField(ConstantesModelo.IMPORTACIONESGEDEON_1_ROCHADE).getName(), importacion);
 			fSetConEseRochade = dataAccess.searchEntityByPk(fSetConEseRochade);
 
-			if (request.getParameter(PCMConstants.EVENT).endsWith(IEvent.CREATE) && fSetConEseRochade != null) {
+			if (data.getParameter(PCMConstants.EVENT).endsWith(IEvent.CREATE) && fSetConEseRochade != null) {
 				throw new StrategyException(ERR_PROYECTO_CON_IMPORTACION_EXISTENTE);
 			}
 			
 			/** TOMAMOS LAS DECISIONES DE NEGOCIO QUE CORRESPONDA * */
 			Integer numEntradas = Integer.valueOf("0"), numFilasOfFile = Integer.valueOf("0");
-			ImportarTareasGEDEON importador = new ImportarTareasGEDEON(dataAccess, CommonUtils.getEntitiesDictionary(request));
+			ImportarTareasGEDEON importador = new ImportarTareasGEDEON(dataAccess, data.getEntitiesDictionary());
 			try {
 				Map<Integer, String> numEntradasMap = importador.importar(filePath, importacionFSet);
 				//la entrada con la key mos baja, es la que queremos aqui obtener

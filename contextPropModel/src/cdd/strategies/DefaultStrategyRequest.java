@@ -4,14 +4,14 @@ import java.util.Collection;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.comunication.dispatcher.RequestWrapper;
+import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.definitions.FieldViewSet;
 
 
 public abstract class DefaultStrategyRequest implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final RequestWrapper req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		try {
 			this.validParameters(req);
@@ -20,6 +20,6 @@ public abstract class DefaultStrategyRequest implements IStrategy {
 		}
 	}
 
-	protected abstract void validParameters(RequestWrapper req) throws StrategyException;
+	protected abstract void validParameters(Data req) throws StrategyException;
 
 }
