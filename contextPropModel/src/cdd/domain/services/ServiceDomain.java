@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -28,6 +29,7 @@ import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.CDDWebController;
+import cdd.comunication.dispatcher.NavigationAppManager;
 import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyLogin;
@@ -105,16 +107,16 @@ public class ServiceDomain {
 		return this.docOfServiceFileDescr;
 	}
 	
-	public Element getSubCase(){				
+	public Element getUseCaseElement(){				
 		return this.useCase;
 	}
 	
-	public String getSubCaseName(){	
-		return this.getSubCase().getAttribute(ApplicationDomain.NAME_ATTR);
+	public String getUseCaseName(){	
+		return this.getUseCaseElement().getAttribute(ApplicationDomain.NAME_ATTR);
 	}
 	
-	public Element getSubCaseOfServiceName (final String subcaseName){
-		return getSubCaseName().equals(subcaseName) ? this.useCase : null;
+	public Element getSubCaseOfServiceName_ (final String usecase){
+		return getUseCaseName().equals(usecase) ? this.useCase : null;
 	}
 	
 	public final Collection<String> discoverAllEvents() {
@@ -186,8 +188,25 @@ public class ServiceDomain {
 		return strategs;
 	}
 	
+	public String getTitleOfAction(final String event){		
+		String serviceSceneTitle = "";
+		try {
+			Element actionElementNode = extractActionElementByService(event);
+			NodeList nodes = actionElementNode.getElementsByTagName("form");
+			int n = nodes.getLength();
+			for (int nn=0;nn<n;nn++){
+				Node elem = nodes.item(nn);
+				if (elem.getNodeName().equals("form")){
+					serviceSceneTitle = ((Element)elem).getAttribute("title");
+				}
+			}
+		} catch (PCMConfigurationException e) {
+			NavigationAppManager.log.log(Level.INFO, "Error getting title of " + this.getUseCaseName() + " event: " + event, e);
+		}
+		return serviceSceneTitle;
+	}
 	
-	public SceneResult paintCoreService(final ApplicationDomain ctx, final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
+	public SceneResult paintCoreService(final ApplicationDomain appDomain, final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
 			IAction action, Collection<MessageException> messageExceptions) {
 		
 		final String lang = data.getLanguage();
@@ -198,7 +217,7 @@ public class ServiceDomain {
 		String eventRedirect = null;
 		try {
 			
-			IBodyContainer containerView = BodyContainer.getContainerOfView(data, dataAccess, data.getService(), event, ctx);
+			IBodyContainer containerView = BodyContainer.getContainerOfView(data, dataAccess, data.getService(), event, appDomain);
 
 			if (dataAccess.getPreconditionStrategies().isEmpty()) {
 				dataAccess.getPreconditionStrategies().addAll(
@@ -207,9 +226,9 @@ public class ServiceDomain {
 			sceneResult = action.executeAction(dataAccess, data, eventSubmitted, messageExceptions);
 			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
 			if (eventSubmitted) {
-				if ((sceneRedirect == null || sceneRedirect.indexOf(PCMConstants.CHAR_POINT) == -1) && !ctx.isInitService(data)) {
+				if ((sceneRedirect == null || sceneRedirect.indexOf(PCMConstants.CHAR_POINT) == -1) && !appDomain.isInitService(data)) {
 					throw new PCMConfigurationException(InternalErrorsConstants.MUST_DEFINE_FORM_COMPONENT);
-				} else if ((sceneRedirect == null || sceneRedirect.indexOf(PCMConstants.CHAR_POINT) == -1) && ctx.isInitService(data)) {
+				} else if ((sceneRedirect == null || sceneRedirect.indexOf(PCMConstants.CHAR_POINT) == -1) && appDomain.isInitService(data)) {
 					String userLogged = (String) data.getAttribute(DefaultStrategyLogin.COMPLETED_NAME);
 					String textoBienvenida = Translator.traducePCMDefined(lang, WELLCOME_TXT);
 					StringBuilder xhtml = new StringBuilder("<br><br><hr>");
@@ -229,25 +248,25 @@ public class ServiceDomain {
 						serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
 						eventRedirect = sceneRedirect.substring(serviceRedirect.length() + 1, sceneRedirect.length());
 						
-						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(data, dataAccess, serviceRedirect, eventRedirect, ctx);
+						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(data, dataAccess, serviceRedirect, eventRedirect, appDomain);
 						
-						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getSubCaseName()) && eventRedirect.equals(event)))) {
+						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
 							IAction actionObjectOfRedirect = null;
 							try {
 								Collection<String> regEvents = new ArrayList<String>();
-								actionObjectOfRedirect = AbstractPcmAction.getAction(containerViewRedirect,	serviceRedirect, eventRedirect, data, ctx, regEvents);
+								actionObjectOfRedirect = AbstractPcmAction.getAction(containerViewRedirect,	serviceRedirect, eventRedirect, data, appDomain, regEvents);
 							}
 							catch (final PCMConfigurationException configExcep) {
 								throw configExcep;
 							}							
-							sceneResult = ctx.getDomainService(serviceRedirect).paintCoreService(ctx, _dataAccess, eventRedirect, data, false, actionObjectOfRedirect, sceneResult.getMessages());						
+							sceneResult = appDomain.getDomainService(serviceRedirect).paintCoreService(appDomain, _dataAccess, eventRedirect, data, false, actionObjectOfRedirect, sceneResult.getMessages());						
 							data.setAttribute(IViewComponent.RETURN_SCENE, new StringBuilder(serviceRedirect).append(PCMConstants.POINT).append(eventRedirect).toString());
 							redirected = true;							
 							final Iterator<IViewComponent> iteratorGrids = containerViewRedirect.getGrids().iterator();
 							while (iteratorGrids.hasNext()) {
 								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 								if (paginationGrid.getMasterNamespace() != null) {
-									final ActionPagination actionPagination = new ActionPagination(ctx, containerViewRedirect, data, this.getSubCaseName(), eventRedirect);
+									final ActionPagination actionPagination = new ActionPagination(appDomain, containerViewRedirect, data, this.getUseCaseName(), eventRedirect);
 									actionPagination.setEvent(serviceRedirect.concat(".").concat(eventRedirect)); 
 									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, false/*eventSubmitted*/, messageExceptions)
 											.getXhtml());
@@ -262,8 +281,8 @@ public class ServiceDomain {
 			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(ctx, containerView, data, this.getSubCaseName(), event);
-					actionPagination.setEvent(this.getSubCaseName().concat(".").concat(event)); 
+					final ActionPagination actionPagination = new ActionPagination(appDomain, containerView, data, this.getUseCaseName(), event);
+					actionPagination.setEvent(this.getUseCaseName().concat(".").concat(event)); 
 					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventSubmitted, messageExceptions)
 							.getXhtml());
 					break;

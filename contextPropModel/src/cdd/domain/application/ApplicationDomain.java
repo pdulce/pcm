@@ -30,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -46,6 +47,7 @@ import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.IEvent;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
+import cdd.comunication.dispatcher.NavigationAppManager;
 import cdd.domain.services.ResourcesConfig;
 import cdd.domain.services.ServiceDomain;
 import cdd.logicmodel.DataAccess;
@@ -170,6 +172,24 @@ public class ApplicationDomain implements Serializable {
 			this.getInitService();
 		}
 		return this.initEvent;
+	}
+	
+	public String getTitleOfAction(final String useCase, final String event){		
+		String serviceSceneTitle = "";
+		try {
+			Element actionElementNode = getDomainService(useCase).extractActionElementByService(event);
+			NodeList nodes = actionElementNode.getElementsByTagName("form");
+			int n = nodes.getLength();
+			for (int nn=0;nn<n;nn++){
+				Node elem = nodes.item(nn);
+				if (elem.getNodeName().equals("form")){
+					serviceSceneTitle = ((Element)elem).getAttribute("title");
+				}
+			}
+		} catch (PCMConfigurationException e) {
+			NavigationAppManager.log.log(Level.INFO, "Error getting title of " + useCase + " event: " + event, e);
+		}
+		return serviceSceneTitle;
 	}
 	
 	
@@ -349,7 +369,7 @@ public class ApplicationDomain implements Serializable {
 	
 	public ServiceDomain getDomainService(final String subUseCase){		
 		for (ServiceDomain serviceModel : this.getDomainServices()){
-			if (serviceModel.getSubCaseName().equals(subUseCase)){
+			if (serviceModel.getUseCaseName().equals(subUseCase)){
 				return serviceModel;
 			}
 		}
@@ -382,7 +402,7 @@ public class ApplicationDomain implements Serializable {
 	public final Collection<String> extractServiceNames() throws PCMConfigurationException {		
 		final Collection<String> services = new ArrayList<String>();		
 		for (ServiceDomain serviceModel : this.getDomainServices()){
-			services.add(serviceModel.getSubCaseName());			
+			services.add(serviceModel.getUseCaseName());			
 		}		
 		return services;
 	}
@@ -550,7 +570,7 @@ public class ApplicationDomain implements Serializable {
 				ServiceDomain domainServiceUseCase = iteDomainServiceUseCase.next();
 				System.out.println("Service UUID: " + domainServiceUseCase.getUUID_());
 				
-					System.out.println("----> UseCase: " + domainServiceUseCase.getSubCaseName());
+					System.out.println("----> UseCase: " + domainServiceUseCase.getUseCaseName());
 					Iterator<String> iteActionSet = domainServiceUseCase.discoverAllEvents().iterator();
 					while (iteActionSet.hasNext()){
 						String action = iteActionSet.next();

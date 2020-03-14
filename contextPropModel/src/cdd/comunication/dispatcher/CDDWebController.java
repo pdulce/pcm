@@ -320,7 +320,7 @@ public class CDDWebController extends HttpServlet {
 				if (ApplicationDomain.EVENTO_CONFIGURATION.equals(data.getParameter(ApplicationDomain.EXEC_PARAM))) {					
 					data.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 				}
-				String escenarioTraducido = this.navigationManager.getTitleOfAction(this.contextApp, data.getService(), data.getEvent());
+				String escenarioTraducido = this.contextApp.getTitleOfAction(data.getService(), data.getEvent());
 				String innerContent_ = this.contextApp.paintLayout(data, eventSubmitted, escenarioTraducido);
 				
 				ApplicationLayout appLayout = new ApplicationLayout();

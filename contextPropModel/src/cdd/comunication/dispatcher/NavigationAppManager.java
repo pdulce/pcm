@@ -19,7 +19,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -109,25 +108,6 @@ public static Logger log = Logger.getLogger("cdd.comunication.dispatcher.Navigat
 		throw new PCMConfigurationException(excep.toString());
 	}
 	
-	
-	public String getTitleOfAction(final ApplicationDomain applicationDomain, final String service, final String event){		
-		String serviceSceneTitle = "";
-		try {
-			
-			Element actionElementNode = applicationDomain.getDomainService(service).extractActionElementByService(event);
-			NodeList nodes = actionElementNode.getElementsByTagName("form");
-			int n = nodes.getLength();
-			for (int nn=0;nn<n;nn++){
-				Node elem = nodes.item(nn);
-				if (elem.getNodeName().equals("form")){
-					serviceSceneTitle = ((Element)elem).getAttribute("title");
-				}
-			}
-		} catch (PCMConfigurationException e) {
-			NavigationAppManager.log.log(Level.INFO, "Error getting title of " + service + " event: " + event, e);
-		}
-		return serviceSceneTitle;
-	}
 	
 	
 }
