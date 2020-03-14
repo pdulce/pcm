@@ -147,14 +147,14 @@ public class DomainApplicationContext implements Serializable {
 	public String getInitService() {
 		if (this.initService == null || "".equals(this.initService)) {
 			try {
-				DomainUseCaseService initialDomainService = this.getDomainService("appInitialService");
+				DomainUseCaseService initialDomainService = this.getDomainService("Authentication");
 				if (initialDomainService == null){
-					throw new RuntimeException("You must have appInitialService.xml as the initial service domain config (XML) of your application");
+					throw new RuntimeException("You must have one authentication service in some of your .xml service files");
 				}
 				if (initialDomainService.extractActionElementByService("submitForm") == null){
 					throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service");
 				}
-				this.initService = "Autenticacion";	
+				this.initService = "Authentication";	
 				this.initEvent = "submitForm";
 			}
 			catch (final Throwable exc) {
