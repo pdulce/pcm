@@ -34,7 +34,7 @@ import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.stats.graphs.AbstractGenericHistogram;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldLogic;
@@ -90,7 +90,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 	
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final DomainApplicationContext contextApp, final Data data_) {
+	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain contextApp, final Data data_) {
 		
 		IDataAccess dataAccess = null;
 		try {

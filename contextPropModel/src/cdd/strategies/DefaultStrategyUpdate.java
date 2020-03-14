@@ -8,7 +8,7 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.StrategyException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.persistence.SQLUtils;
@@ -32,7 +32,7 @@ public class DefaultStrategyUpdate implements IStrategy {
 				continue;
 			}
 			final IFieldLogic fieldFecMod = fieldViewSet.getEntityDef().getFieldSet()
-					.get(dataAccess.getDaoRef().getAuditFieldset().getProperty(DomainApplicationContext.FEC_MOD));
+					.get(dataAccess.getDaoRef().getAuditFieldset().getProperty(ApplicationDomain.FEC_MOD));
 			if (fieldFecMod != null) {
 				final Timestamp fecModOfActualRecord = SQLUtils.getTimestamp(fieldViewSet.getFieldvalue(fieldFecMod).getValue());
 				if (fecModOfActualRecord == null) {

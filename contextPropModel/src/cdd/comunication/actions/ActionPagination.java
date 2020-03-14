@@ -15,7 +15,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IEntityLogic;
@@ -45,7 +45,7 @@ public class ActionPagination extends AbstractPcmAction {
 
 	protected String filtra;
 
-	public ActionPagination(final DomainApplicationContext context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_) {
+	public ActionPagination(final ApplicationDomain context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_) {
 		this.data = data_;
 		this.container = container_;
 		this.setEvent(event_);

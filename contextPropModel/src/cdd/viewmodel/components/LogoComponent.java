@@ -19,7 +19,7 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.controls.ICtrl;
@@ -52,7 +52,7 @@ public class LogoComponent extends AbstractComponent {
 				imgCtrl.setAlt(logoElm.getAttribute(ALT));
 				imgCtrl.setWidth(Integer.parseInt(logoElm.getAttribute(WIDTH)));// 184
 				imgCtrl.setHeight(Integer.parseInt(logoElm.getAttribute(HEIGHT)));// 42
-				imgCtrl.setSrc(logoElm.getAttribute(DomainApplicationContext.CONTENT_ATTR));
+				imgCtrl.setSrc(logoElm.getAttribute(ApplicationDomain.CONTENT_ATTR));
 				final LinkButton aLinkButton = new LinkButton();
 				this.uri = logoElm.getAttribute(URI_ATTR);
 				aLinkButton.setRef(this.uri);

@@ -24,7 +24,7 @@ import cdd.comunication.bus.Data;
 import cdd.comunication.bus.FieldValue;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.bus.SerializedValues;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
@@ -43,7 +43,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 
 	protected String uri, event, service, nameContext, destine;
 
-	protected DomainApplicationContext appContext;
+	protected ApplicationDomain appContext;
 
 	protected List<FieldViewSetCollection> fieldViewSetCollection;
 
@@ -57,11 +57,11 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 		this.destine = destine;
 	}
 
-	public final DomainApplicationContext getAppContext() {
+	public final ApplicationDomain getAppContext() {
 		return this.appContext;
 	}
 
-	protected final void setAppContext(final DomainApplicationContext appContext) {
+	protected final void setAppContext(final ApplicationDomain appContext) {
 		this.appContext = appContext;
 	}
 

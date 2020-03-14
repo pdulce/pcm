@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.persistence.IDAOImpl;
 
 
@@ -34,7 +34,7 @@ public class DAOImplementationFactory implements IDAOImplementationFactory {
 	}
 
 	@Override
-	public void initDAOTraductorImpl(final DomainApplicationContext ctx, final Map<String, String> auditFieldSet) throws PCMConfigurationException {
+	public void initDAOTraductorImpl(final ApplicationDomain ctx, final Map<String, String> auditFieldSet) throws PCMConfigurationException {
 		IDAOImpl daoImpl = null;
 		try {
 			@SuppressWarnings("unchecked")

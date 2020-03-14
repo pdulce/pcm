@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.persistence.DAOConnection;
 
 
@@ -46,7 +46,7 @@ public class DataSourceURLFactoryImpl implements IPCMDataSource, Serializable {
 	}
 	
 	@Override
-	public void initDataSource(final DomainApplicationContext appCtx, final javax.naming.InitialContext initialContext)	throws PCMConfigurationException {
+	public void initDataSource(final ApplicationDomain appCtx, final javax.naming.InitialContext initialContext)	throws PCMConfigurationException {
 		this.driverDefined = appCtx.getResourcesConfiguration().getDriverDDBB();
 		this.info = new Properties();
 		if (appCtx.getResourcesConfiguration().getSchemaDDBB().endsWith(".db")) {

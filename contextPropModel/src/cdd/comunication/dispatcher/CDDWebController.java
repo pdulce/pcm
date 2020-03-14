@@ -29,7 +29,7 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.viewmodel.ApplicationLayout;
 
 
@@ -71,7 +71,7 @@ public class CDDWebController extends HttpServlet {
 	
 	protected String servletPral;
 	protected ServletConfig webconfig;		
-	protected DomainApplicationContext contextApp;	
+	protected ApplicationDomain contextApp;	
 	protected NavigationAppManager navigationManager;
 	
 	protected Map<String, Collection<String>> sceneMap = new HashMap<String, Collection<String>>();
@@ -112,7 +112,7 @@ public class CDDWebController extends HttpServlet {
 			if (cddConfig == null){
 				throw new ServletException("navigationWebModel file not found, relative path: " + CONFIG_CDD_XML);
 			}
-			this.contextApp = new DomainApplicationContext(cddConfig);			
+			this.contextApp = new ApplicationDomain(cddConfig);			
 			String pathBase = globalCfg_.getServletContext().getRealPath("");
 			if (pathBase.indexOf("server") != -1) {
 				String leftPart = pathBase.split("server")[0];
@@ -223,7 +223,7 @@ public class CDDWebController extends HttpServlet {
 		
 		Data data = null;
 		try {
-			String profile = DomainApplicationContext.extractProfiles(navigationManager.getAppNavigation()).iterator().next();
+			String profile = ApplicationDomain.extractProfiles(navigationManager.getAppNavigation()).iterator().next();
 			data = new Data(this.contextApp, profile);
 			data.setAttribute(PCMConstants.APP_CONTEXT, this.servletPral);			
 			data.setAttribute(PCMConstants.APPURI_, this.contextApp.getResourcesConfiguration().getUri());
@@ -317,8 +317,8 @@ public class CDDWebController extends HttpServlet {
 
 		try {
 			if (!isJsonResult()){
-				if (DomainApplicationContext.EVENTO_CONFIGURATION.equals(data.getParameter(DomainApplicationContext.EXEC_PARAM))) {					
-					data.setAppProfileSet(DomainApplicationContext.extractProfiles(this.navigationManager.getAppNavigation()));
+				if (ApplicationDomain.EVENTO_CONFIGURATION.equals(data.getParameter(ApplicationDomain.EXEC_PARAM))) {					
+					data.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 				}
 				String escenarioTraducido = this.navigationManager.getTitleOfAction(this.contextApp, data.getService(), data.getEvent());
 				String innerContent_ = this.contextApp.paintLayout(data, eventSubmitted, escenarioTraducido);
@@ -349,7 +349,7 @@ public class CDDWebController extends HttpServlet {
 	}
 		
 	
-	protected SceneResult renderRequestFromNodePrv(final DomainApplicationContext context, final Data data_) {
+	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
 		return null;
 	}
 

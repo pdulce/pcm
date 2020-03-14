@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.persistence.DAOConnection;
 
 
@@ -30,7 +30,7 @@ public class DataSourceJNDIFactoryImpl implements IPCMDataSource, Serializable {
 		throw new RuntimeException("Donot use this method for JNDI connection pool");
 	}
 	@Override
-	public void initDataSource(final DomainApplicationContext appCtx, final javax.naming.InitialContext initialContext)
+	public void initDataSource(final ApplicationDomain appCtx, final javax.naming.InitialContext initialContext)
 			throws PCMConfigurationException {
 		if (this.dataSource == null) {
 			try {

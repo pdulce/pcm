@@ -25,7 +25,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldLogic;
 import cdd.logicmodel.definitions.FieldLogicComparator;
@@ -151,7 +151,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 
 		if (IDataAccess.ELIMINAR_ENTIDAD.equals(service)) {
 			final IFieldLogic fieldFecBaja = fieldViewSet.getEntityDef().getFieldSet()
-					.get(this.auditFieldSet.getProperty(DomainApplicationContext.FEC_BAJA));
+					.get(this.auditFieldSet.getProperty(ApplicationDomain.FEC_BAJA));
 			if (fieldFecBaja != null) {
 				final Timestamp fecBajaOfActualRecord = SQLUtils.getTimestamp(fieldViewSet.getFieldvalue(fieldFecBaja).getValue());
 				if (fecBajaOfActualRecord == null) {

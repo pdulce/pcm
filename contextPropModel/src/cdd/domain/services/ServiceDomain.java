@@ -37,7 +37,7 @@ import cdd.viewmodel.components.PaginationGrid;
 import cdd.viewmodel.components.controls.html.Span;
 import cdd.viewmodel.factory.IBodyContainer;
 
-public class DomainUseCaseService {
+public class ServiceDomain {
 	
 	private static final String WELLCOME_TXT = "WELLCOME_TXT", 
 			STRATEGY_ATTR = "strategy", STRATEGY_PRECONDITION_ATTR = "strategyPre";
@@ -51,7 +51,7 @@ public class DomainUseCaseService {
 	private final Collection<Element> discoverAllActions() {
 		final Collection<Element> events = new ArrayList<Element>();
 		try {
-			final NodeList actionNodeSet = this.useCase.getElementsByTagName(DomainApplicationContext.ACTION_ELEMENT);
+			final NodeList actionNodeSet = this.useCase.getElementsByTagName(ApplicationDomain.ACTION_ELEMENT);
 			for (int i = 0; i < actionNodeSet.getLength(); i++) {
 				events.add((Element) actionNodeSet.item(i));
 			}
@@ -62,7 +62,7 @@ public class DomainUseCaseService {
 	}
 	
 	
-	public DomainUseCaseService(String path_){
+	public ServiceDomain(String path_){
 		int sep = path_.lastIndexOf(File.separator);
 		this.uuid = path_.substring(sep+1, path_.length());
 		this.source = path_;
@@ -81,14 +81,14 @@ public class DomainUseCaseService {
 	ParserConfigurationException {		
 		File fileOfService = new File(this.source);
 		this.docOfServiceFileDescr = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream(fileOfService));
-		final NodeList listaNodes = this.docOfServiceFileDescr.getElementsByTagName(DomainApplicationContext.SERVICE_ELEMENT);
+		final NodeList listaNodes = this.docOfServiceFileDescr.getElementsByTagName(ApplicationDomain.SERVICE_ELEMENT);
 		if (listaNodes.getLength() == 0) {
 			throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(" ")
 					.append(" need some service nodes").toString());
 		}
 		
 		final Element serviceNode = (Element) listaNodes.item(0);
-		if (!serviceNode.hasAttribute(DomainApplicationContext.NAME_ATTR)) {
+		if (!serviceNode.hasAttribute(ApplicationDomain.NAME_ATTR)) {
 			throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(" ")
 					.append(" need NAME ATTRIBUTE in metamodel file definition").toString());
 		}
@@ -109,7 +109,7 @@ public class DomainUseCaseService {
 	}
 	
 	public String getSubCaseName(){	
-		return this.getSubCase().getAttribute(DomainApplicationContext.NAME_ATTR);
+		return this.getSubCase().getAttribute(ApplicationDomain.NAME_ATTR);
 	}
 	
 	public Element getSubCaseOfServiceName (final String subcaseName){
@@ -123,7 +123,7 @@ public class DomainUseCaseService {
 			Iterator<Element> iteActionSet = actionSet.iterator();
 			while (iteActionSet.hasNext()){
 				Element actionElement = iteActionSet.next();
-				events.add(actionElement.getAttribute(DomainApplicationContext.EVENT_ATTR));
+				events.add(actionElement.getAttribute(ApplicationDomain.EVENT_ATTR));
 			}
 		}
 		return this.events;
@@ -131,11 +131,11 @@ public class DomainUseCaseService {
 	
 	public final Element extractActionElementByService(final String actionName)
 			throws PCMConfigurationException {
-		final NodeList listaNodes = this.useCase.getElementsByTagName(DomainApplicationContext.ACTION_ELEMENT);
+		final NodeList listaNodes = this.useCase.getElementsByTagName(ApplicationDomain.ACTION_ELEMENT);
 		for (int i = 0; i < listaNodes.getLength(); i++) {
 			final Element node = (Element) listaNodes.item(i);
-			if (node.getAttributes() != null && node.hasAttribute(DomainApplicationContext.EVENT_ATTR)
-					&& actionName.toLowerCase().endsWith(node.getAttribute(DomainApplicationContext.EVENT_ATTR).toLowerCase()) ) {
+			if (node.getAttributes() != null && node.hasAttribute(ApplicationDomain.EVENT_ATTR)
+					&& actionName.toLowerCase().endsWith(node.getAttribute(ApplicationDomain.EVENT_ATTR).toLowerCase()) ) {
 				return node;
 			}
 		}
@@ -148,12 +148,12 @@ public class DomainUseCaseService {
 	public final Collection<Element> extractViewComponentElementsByEvent(final String event)
 			throws PCMConfigurationException {
 		Collection<Element> arrViewComponents = new ArrayList<Element>();
-		final NodeList _listaNodes = this.useCase.getElementsByTagName(DomainApplicationContext.ACTION_ELEMENT);
+		final NodeList _listaNodes = this.useCase.getElementsByTagName(ApplicationDomain.ACTION_ELEMENT);
 		for (int i = 0; i < _listaNodes.getLength(); i++) {
 			final Element actionParentNode = (Element) _listaNodes.item(i);
-			if (actionParentNode.hasAttribute(DomainApplicationContext.EVENT_ATTR)) {
-				if (event.equals(actionParentNode.getAttribute(DomainApplicationContext.EVENT_ATTR))) {
-					final NodeList listaNodes_ = actionParentNode.getElementsByTagName(DomainApplicationContext.VIEWCOMPONENT_ELEMENT);
+			if (actionParentNode.hasAttribute(ApplicationDomain.EVENT_ATTR)) {
+				if (event.equals(actionParentNode.getAttribute(ApplicationDomain.EVENT_ATTR))) {
+					final NodeList listaNodes_ = actionParentNode.getElementsByTagName(ApplicationDomain.VIEWCOMPONENT_ELEMENT);
 					for (int j = 0; j < listaNodes_.getLength(); j++) {
 						arrViewComponents.add((Element) listaNodes_.item(j));
 					}
@@ -186,7 +186,7 @@ public class DomainUseCaseService {
 	}
 	
 	
-	public SceneResult paintCoreService(final DomainApplicationContext ctx, final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
+	public SceneResult paintCoreService(final ApplicationDomain ctx, final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
 			IAction action, Collection<MessageException> messageExceptions) {
 		
 		final String lang = data.getLanguage();

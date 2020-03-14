@@ -26,7 +26,7 @@ import cdd.comunication.actions.validators.RelationalAndCIFValidator;
 import cdd.comunication.actions.validators.StringValidator;
 import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -568,11 +568,11 @@ public class FieldView implements IFieldView, Serializable {
 	/** *** END OF CONSTRUCTORS ***** */
 
 	private void setCommonAttrs(final Element nodeField) {
-		if (nodeField.hasAttribute(DomainApplicationContext.NAME_ATTR)) {
+		if (nodeField.hasAttribute(ApplicationDomain.NAME_ATTR)) {
 			if (!nodeField.hasAttribute(ContextProperties.MAPPING_TO_ATTR)) {
 				this.userDefined = true;
 			}
-			this.setUserName(nodeField.getAttribute(DomainApplicationContext.NAME_ATTR));
+			this.setUserName(nodeField.getAttribute(ApplicationDomain.NAME_ATTR));
 			this.setQualifiedContextName(getContextName().concat(PCMConstants.POINT).concat(this.getUserNamed()));
 		}
 		if (nodeField.hasAttribute(ContextProperties.DISABLED_ATTR)) {
@@ -660,8 +660,8 @@ public class FieldView implements IFieldView, Serializable {
 				multiple = el.getAttribute(ContextProperties.SELECTION_MULTIPLE_ATTR).equals(IViewComponent.TRUE);
 			}
 			final NodeList options = optionSet.getElementsByTagName(IFieldView.OPTION_NODENAME);
-			if (optionSet.hasAttribute(DomainApplicationContext.ENTITYMODEL_ATTR)) {
-				final String entityOptionsName = optionSet.getAttribute(DomainApplicationContext.ENTITYMODEL_ATTR);
+			if (optionSet.hasAttribute(ApplicationDomain.ENTITYMODEL_ATTR)) {
+				final String entityOptionsName = optionSet.getAttribute(ApplicationDomain.ENTITYMODEL_ATTR);
 				String descrMapps = optionSet.getAttribute(OptionsSelection.DESC_MAPPING_FIELD);
 				String[] splitter = descrMapps.split(",");
 				int[] descrArr = new int[splitter.length];

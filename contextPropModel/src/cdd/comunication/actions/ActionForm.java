@@ -25,7 +25,7 @@ import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
 
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -61,7 +61,7 @@ public class ActionForm extends AbstractPcmAction {
 	
 	
 	
-	public ActionForm(final DomainApplicationContext context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_, final Collection<String> actionSet) {
+	public ActionForm(final ApplicationDomain context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_, final Collection<String> actionSet) {
 		this.data = data_;
 		this.setEvent(event_);
 		this.container = container_;
@@ -513,40 +513,40 @@ public class ActionForm extends AbstractPcmAction {
 		return PCMConstants.EMPTY_;
 	}
 
-	private void doTransaction(final String event_, final Form form_, final IDataAccess dataAccess, DomainApplicationContext ctx)
+	private void doTransaction(final String event_, final Form form_, final IDataAccess dataAccess, ApplicationDomain ctx)
 			throws TransactionException {
 		final List<FieldViewSet> fs = form_.getFieldViewSetCollection().getFieldViewSets();
 		if (event_.startsWith(IEvent.UPDATE)) {
-			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(DomainApplicationContext.USU_MOD) != null) {
+			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(ApplicationDomain.USU_MOD) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.USU_MOD),
+					fieldViewSet.setValue(this.audits.get(ApplicationDomain.USU_MOD),
 							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.FEC_MOD), CommonUtils.getSystemDate());
+					fieldViewSet.setValue(this.audits.get(ApplicationDomain.FEC_MOD), CommonUtils.getSystemDate());
 				}
 			}
 			dataAccess.modifyEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.DELETE)) {
-			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(DomainApplicationContext.USU_BAJA) != null) {
+			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(ApplicationDomain.USU_BAJA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.USU_BAJA),
+					fieldViewSet.setValue(this.audits.get(ApplicationDomain.USU_BAJA),
 							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.FEC_BAJA),
+					fieldViewSet.setValue(this.audits.get(ApplicationDomain.FEC_BAJA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}
 			}
 			dataAccess.deleteEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.CREATE)) {
-			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(DomainApplicationContext.USU_ALTA) != null) {
+			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(ApplicationDomain.USU_ALTA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.USU_ALTA),
+					fieldViewSet.setValue(this.audits.get(ApplicationDomain.USU_ALTA),
 							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(DomainApplicationContext.FEC_ALTA),
+					fieldViewSet.setValue(this.audits.get(ApplicationDomain.FEC_ALTA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}
 			}

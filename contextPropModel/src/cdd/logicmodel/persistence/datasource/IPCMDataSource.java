@@ -6,7 +6,7 @@ package cdd.logicmodel.persistence.datasource;
 import javax.naming.InitialContext;
 
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.persistence.DAOConnection;
 
 
@@ -17,7 +17,7 @@ public interface IPCMDataSource {
 
 	public void initDataSource(final String url_, final String user, final String passwd, final String driver_);
 	
-	public void initDataSource(DomainApplicationContext appCtx, InitialContext initialContext) throws PCMConfigurationException;
+	public void initDataSource(ApplicationDomain appCtx, InitialContext initialContext) throws PCMConfigurationException;
 
 	public DAOConnection getConnection() throws PCMConfigurationException;
 

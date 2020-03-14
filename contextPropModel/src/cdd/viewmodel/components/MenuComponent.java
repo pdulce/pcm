@@ -23,7 +23,7 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.controls.ICtrl;
@@ -63,15 +63,15 @@ public class MenuComponent extends AbstractComponent {
 			final String keyComposed = new StringBuilder(this.uri).append(profileUser).append(lang).toString();
 			if (menuElement != null && !MenuComponent.menusCached.containsKey(keyComposed)) {
 				final StringBuilder items = new StringBuilder();
-				final NodeList nodeSet = menuElement.getElementsByTagName(DomainApplicationContext.MENU_ENTRY_ELEMENT);
+				final NodeList nodeSet = menuElement.getElementsByTagName(ApplicationDomain.MENU_ENTRY_ELEMENT);
 				int nodesCount = nodeSet.getLength();
 				for (int i = 0; i < nodesCount; i++) {
 					final Element menuEntry = (Element) nodeSet.item(i);
-					final String profOfEntry = menuEntry.getAttribute(DomainApplicationContext.PROFILE_ATTR);
+					final String profOfEntry = menuEntry.getAttribute(ApplicationDomain.PROFILE_ATTR);
 					final Collection<String> profilesOfEntry = this.getMenuItemProfiles(profOfEntry.split(PCMConstants.COMMA));
 					if (profilesOfEntry.contains(profileUser)) {
-						final String name4Entry = menuEntry.getAttribute(DomainApplicationContext.NAME_ATTR);
-						final String eventN = menuEntry.getAttribute(DomainApplicationContext.ACTION_ELEMENT);
+						final String name4Entry = menuEntry.getAttribute(ApplicationDomain.NAME_ATTR);
+						final String eventN = menuEntry.getAttribute(ApplicationDomain.ACTION_ELEMENT);
 						final StringBuilder refUri = new StringBuilder(this.uri).append(PCMConstants.HTTP_FIRST_URI_SEPARATOR).append(
 								eventN.replaceAll("#", "&"));
 						final LinkButton aLinkButton = new LinkButton();

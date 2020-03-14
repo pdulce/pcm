@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import cdd.common.PCMConstants;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 
 public class Data {
 	
@@ -49,7 +49,7 @@ public class Data {
 	private int pageSize;
 	
 	
-	public Data(final DomainApplicationContext contextApp, final String userProfile_){		
+	public Data(final ApplicationDomain contextApp, final String userProfile_){		
 		final String entitiesDictionary_ = contextApp.getResourcesConfiguration().getEntitiesDictionary();
 		this.data = new HashMap<String, List<Object>>();
 		this.setPageSize(Integer.valueOf(contextApp.getResourcesConfiguration().getPageSize()).intValue());
@@ -62,7 +62,7 @@ public class Data {
 	}
 		
 	public String getOriginalEvent() {
-		final String ev = this.getParameter(DomainApplicationContext.EVENT_ATTR);
+		final String ev = this.getParameter(ApplicationDomain.EVENT_ATTR);
 		return ev != null ? ev : PCMConstants.EMPTY_;		
 	}
 	

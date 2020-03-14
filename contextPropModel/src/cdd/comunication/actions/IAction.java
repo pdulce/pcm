@@ -5,7 +5,7 @@ import java.util.Collection;
 import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.IStrategyFactory;
 import cdd.viewmodel.definitions.IFieldView;
@@ -125,8 +125,8 @@ public interface IAction {
 
 	public void setStrategyFactory(IStrategyFactory fact);
 
-	public void setAppContext(DomainApplicationContext ctx);
+	public void setAppContext(ApplicationDomain ctx);
 
-	public DomainApplicationContext getAppContext();
+	public ApplicationDomain getAppContext();
 
 }

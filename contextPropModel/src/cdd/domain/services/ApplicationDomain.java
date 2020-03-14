@@ -72,7 +72,7 @@ import cdd.viewmodel.components.XmlUtils;
  * @since 2014-03-31
  */
 
-public class DomainApplicationContext implements Serializable {
+public class ApplicationDomain implements Serializable {
 
 	private static final long serialVersionUID = 55669998888190L;
 	
@@ -111,7 +111,7 @@ public class DomainApplicationContext implements Serializable {
 	}
 	private String initService;
 	private String initEvent;
-	private Collection<DomainUseCaseService> domainServices;
+	private Collection<ServiceDomain> domainServices;
 	private ResourcesConfig resourcesConfiguration;	
 	
 	
@@ -119,7 +119,7 @@ public class DomainApplicationContext implements Serializable {
 	private final void readDomainServices() throws FileNotFoundException, SAXException, IOException,
 		ParserConfigurationException {
 		
-		this.domainServices = new ArrayList<DomainUseCaseService>();
+		this.domainServices = new ArrayList<ServiceDomain>();
 		File[] pFiles = new File(this.resourcesConfiguration.getServiceDirectory()).listFiles();		
 		if (pFiles == null) {
 			throw new RuntimeException("Error instantiating DomainServiceContainer: service directory " + 
@@ -127,8 +127,8 @@ public class DomainApplicationContext implements Serializable {
 		}
 		for (File pFile : pFiles) {
 			if (pFile.isFile() && pFile.getName().endsWith(".xml")) {
-				DomainUseCaseService service = new DomainUseCaseService(pFile.getAbsolutePath());
-				//DomainApplicationContext.log.log(Level.INFO, "service: " + service.getUseCaseName());
+				ServiceDomain service = new ServiceDomain(pFile.getAbsolutePath());
+				//ApplicationDomain.log.log(Level.INFO, "service: " + service.getUseCaseName());
 				this.domainServices.add(service);
 			}
 		}
@@ -147,7 +147,7 @@ public class DomainApplicationContext implements Serializable {
 	public String getInitService() {
 		if (this.initService == null || "".equals(this.initService)) {
 			try {
-				DomainUseCaseService initialDomainService = this.getDomainService("Authentication");
+				ServiceDomain initialDomainService = this.getDomainService("Authentication");
 				if (initialDomainService == null){
 					throw new RuntimeException("You must have one authentication service in some of your .xml service files");
 				}
@@ -172,7 +172,7 @@ public class DomainApplicationContext implements Serializable {
 	}
 	
 	
-	public DomainApplicationContext(InputStream navigationWebModel) {
+	public ApplicationDomain(InputStream navigationWebModel) {
 		try {
 			final Document configRoot = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(navigationWebModel);
 			final NodeList configNodeList = configRoot.getElementsByTagName(CONFIG_NODE);
@@ -210,7 +210,7 @@ public class DomainApplicationContext implements Serializable {
 
 		}
 		catch (final Throwable e) {
-			DomainApplicationContext.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e);
+			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e);
 			e.printStackTrace();
 		}
 		
@@ -242,7 +242,7 @@ public class DomainApplicationContext implements Serializable {
 				this.resourcesConfiguration.setDataSourceFactoryImplObject(pcmDataSourceFactory);
 			}
 			catch (final NamingException evnExc) {
-				DomainApplicationContext.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, evnExc);
+				ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, evnExc);
 				throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, evnExc);
 			}
 	
@@ -258,7 +258,7 @@ public class DomainApplicationContext implements Serializable {
 							AppCacheFactory.getFactoryInstance().initAppCache(myAppProperties);
 						}
 						catch (final Throwable exc) {
-							DomainApplicationContext.log.log(Level.SEVERE, "Error", exc);
+							ApplicationDomain.log.log(Level.SEVERE, "Error", exc);
 							throw new PCMConfigurationException(InternalErrorsConstants.DAOIMPL_INVOKE_EXCEPTION, exc);
 						}
 					} else {
@@ -276,7 +276,7 @@ public class DomainApplicationContext implements Serializable {
 								conn_, this.resourcesConfiguration.getDataSourceFactoryImplObject());
 					}
 					catch (final Throwable exc) {
-						DomainApplicationContext.log.log(Level.SEVERE, "Error", exc);
+						ApplicationDomain.log.log(Level.SEVERE, "Error", exc);
 						throw new PCMConfigurationException(InternalErrorsConstants.DAOIMPL_INVOKE_EXCEPTION, exc);
 					} finally {
 						this.resourcesConfiguration.getDataSourceFactoryImplObject().freeConnection(conn_);
@@ -291,13 +291,13 @@ public class DomainApplicationContext implements Serializable {
 			readDomainServices();
 			
 		}catch (PCMConfigurationException exc){
-			DomainApplicationContext.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, exc);
+			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, exc);
 			throw exc;
 		} catch (MalformedURLException e1) {
-			DomainApplicationContext.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e1);
+			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e1);
 			throw new PCMConfigurationException("MalformedURLException accesing inputstream", e1);
 		} catch (IOException e2) {
-			DomainApplicationContext.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e2);
+			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e2);
 			throw new PCMConfigurationException("IOException accesing inputstream", e2);
 		}finally{
 			if (dictionaryStream != null){
@@ -326,12 +326,12 @@ public class DomainApplicationContext implements Serializable {
 		return arrViewComponents;
 	}
 	
-	public IDataAccess getDataAccess(final DomainUseCaseService domainService, final String event) 
+	public IDataAccess getDataAccess(final ServiceDomain domainService, final String event) 
 			throws PCMConfigurationException {
 		try {			
 			DAOConnection conn = this.getResourcesConfiguration().getDataSourceFactoryImplObject().getConnection();
 			if (conn == null) {
-				DomainApplicationContext.log.log(Level.SEVERE, "ATENCION ooconexion es NULA!!");
+				ApplicationDomain.log.log(Level.SEVERE, "ATENCION ooconexion es NULA!!");
 				throw new PCMConfigurationException("ooconexion es NULA!!");
 			}
 			return new DataAccess(this.getResourcesConfiguration().getEntitiesDictionary(), 
@@ -341,13 +341,13 @@ public class DomainApplicationContext implements Serializable {
 					domainService.extractStrategiesPreElementByAction(event), 
 					this.getResourcesConfiguration().getDataSourceFactoryImplObject());
 		} catch (final PCMConfigurationException sqlExc) {
-			DomainApplicationContext.log.log(Level.SEVERE, "Error", sqlExc);
+			ApplicationDomain.log.log(Level.SEVERE, "Error", sqlExc);
 			throw new PCMConfigurationException(InternalErrorsConstants.BBDD_CONNECT_EXCEPTION, sqlExc);
 		}
 	}
 	
-	public DomainUseCaseService getDomainService(final String subUseCase){		
-		for (DomainUseCaseService serviceModel : this.getDomainServices()){
+	public ServiceDomain getDomainService(final String subUseCase){		
+		for (ServiceDomain serviceModel : this.getDomainServices()){
 			if (serviceModel.getSubCaseName().equals(subUseCase)){
 				return serviceModel;
 			}
@@ -359,12 +359,12 @@ public class DomainApplicationContext implements Serializable {
 	public static Collection<String> extractProfiles(Document app) throws PCMConfigurationException {
 		
 		final Collection<String> profilesRec = new ArrayList<String>();
-		final NodeList listaNodes = app.getDocumentElement().getElementsByTagName(DomainApplicationContext.PROFILES_ELEMENT);
+		final NodeList listaNodes = app.getDocumentElement().getElementsByTagName(ApplicationDomain.PROFILES_ELEMENT);
 		if (listaNodes.getLength() > 0) {
 			final Element initS = (Element) listaNodes.item(0);
-			final NodeList profiles = initS.getElementsByTagName(DomainApplicationContext.PROFILE_ELEMENT);
+			final NodeList profiles = initS.getElementsByTagName(ApplicationDomain.PROFILE_ELEMENT);
 			for (int i = 0; i < profiles.getLength(); i++) {
-				profilesRec.add(((Element) profiles.item(i)).getAttribute(DomainApplicationContext.NAME_ATTR));
+				profilesRec.add(((Element) profiles.item(i)).getAttribute(ApplicationDomain.NAME_ATTR));
 			}
 		}
 		return profilesRec;
@@ -374,13 +374,13 @@ public class DomainApplicationContext implements Serializable {
 		return this.resourcesConfiguration;
 	}
 	
-	public Collection<DomainUseCaseService> getDomainServices(){
+	public Collection<ServiceDomain> getDomainServices(){
 		return this.domainServices;
 	}
 	
 	public final Collection<String> extractServiceNames() throws PCMConfigurationException {		
 		final Collection<String> services = new ArrayList<String>();		
-		for (DomainUseCaseService serviceModel : this.getDomainServices()){
+		for (ServiceDomain serviceModel : this.getDomainServices()){
 			services.add(serviceModel.getSubCaseName());			
 		}		
 		return services;
@@ -443,12 +443,12 @@ public class DomainApplicationContext implements Serializable {
 			
 			Map<String, String> scene = new HashMap<String, String>();
 			scene.put(data.getService(), data.getEvent());
-			DomainUseCaseService domainService = getDomainService(data.getService());
+			ServiceDomain domainService = getDomainService(data.getService());
 		
 			if (getDomainService(data.getService()).extractActionElementByService(data.getEvent()) == null) {
 				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,
 						data.getService().concat(".").concat(data.getEvent()));
-				DomainApplicationContext.log.log(Level.SEVERE, s.toString());
+				ApplicationDomain.log.log(Level.SEVERE, s.toString());
 				throw new PCMConfigurationException(s.toString());
 			}
 			if (Event.isQueryEvent(data.getEvent())) {
@@ -522,7 +522,7 @@ public class DomainApplicationContext implements Serializable {
 					this.getResourcesConfiguration().getDataSourceFactoryImplObject().freeConnection(dataAccess_.getConn());
 				}
 			} catch (final Throwable excSQL) {
-				DomainApplicationContext.log.log(Level.SEVERE, "Error", excSQL);
+				ApplicationDomain.log.log(Level.SEVERE, "Error", excSQL);
 				throw new ServletException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, excSQL);
 			}
 		}
@@ -535,7 +535,7 @@ public class DomainApplicationContext implements Serializable {
 		try {
 			stream = new URL("file:////home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/cddconfig.xml").openStream();
 			//stream = new URL("file:///C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\cddconfig.xml").openStream();
-			DomainApplicationContext ctx = new DomainApplicationContext(stream);
+			ApplicationDomain ctx = new ApplicationDomain(stream);
 			ctx.invoke();
 			System.out.println("Title: " + ctx.getResourcesConfiguration().getAppTitle());
 			System.out.println("NavigationApp file: " + ctx.getResourcesConfiguration().getNavigationApp());
@@ -544,9 +544,9 @@ public class DomainApplicationContext implements Serializable {
 			System.out.println("**** INICIO ARBOL DE APLICACION ****");
 			System.out.println("");
 			
-			Iterator<DomainUseCaseService> iteDomainServiceUseCase = ctx.getDomainServices().iterator();
+			Iterator<ServiceDomain> iteDomainServiceUseCase = ctx.getDomainServices().iterator();
 			while (iteDomainServiceUseCase.hasNext()){
-				DomainUseCaseService domainServiceUseCase = iteDomainServiceUseCase.next();
+				ServiceDomain domainServiceUseCase = iteDomainServiceUseCase.next();
 				System.out.println("Service UUID: " + domainServiceUseCase.getUUID_());
 				
 					System.out.println("----> UseCase: " + domainServiceUseCase.getSubCaseName());

@@ -35,7 +35,7 @@ import cdd.comunication.actions.validators.RelationalAndCIFValidator;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
@@ -108,7 +108,7 @@ public class Form extends AbstractComponent {
 	}
 
 	public Form(final String service_, final String event_, final Element formElement_, final IDataAccess dataAccess_,
-			final DomainApplicationContext appCtx_, final Data data_) throws PCMConfigurationException {
+			final ApplicationDomain appCtx_, final Data data_) throws PCMConfigurationException {
 		this.setAppContext(appCtx_);
 		this.service = service_;
 		this.visibleControls = new HashMap<ICtrl, List<ICtrl>>();
@@ -249,31 +249,31 @@ public class Form extends AbstractComponent {
 			int order_int = 0;
 			Map<String, LinkButton> botonesProvisional = new HashMap<String, LinkButton>();
 			String lang = data.getEntitiesDictionary();
-			final NodeList nodosUserButtons = element.getElementsByTagName(DomainApplicationContext.USERBUTTONS_ELEMENT);
+			final NodeList nodosUserButtons = element.getElementsByTagName(ApplicationDomain.USERBUTTONS_ELEMENT);
 			int nodosLength= nodosUserButtons.getLength();
 			for (int i = 0; i < nodosLength; i++) {
 				final Element userButtonsNode = (Element) nodosUserButtons.item(i);
 				FieldsetControl fsetInternoCtrl = null;
-				if (userButtonsNode.getParentNode().getNodeName().equals(DomainApplicationContext.FIELDSET_ELEMENT)) {
+				if (userButtonsNode.getParentNode().getNodeName().equals(ApplicationDomain.FIELDSET_ELEMENT)) {
 					// abrir fieldSet
 					Element fieldSetOfUserButtons = ((Element) userButtonsNode.getParentNode());
-					if (fieldSetOfUserButtons.hasAttribute(DomainApplicationContext.LEGEND_ATTR)) {
-						String legend = fieldSetOfUserButtons.getAttribute(DomainApplicationContext.LEGEND_ATTR);
+					if (fieldSetOfUserButtons.hasAttribute(ApplicationDomain.LEGEND_ATTR)) {
+						String legend = fieldSetOfUserButtons.getAttribute(ApplicationDomain.LEGEND_ATTR);
 						fsetInternoCtrl = AbstractCtrl
 								.getFieldsetInstance(legend, "div_".concat(String.valueOf(order_int)), true/* userdefined */);
 						fsetInternoCtrl.setOrderInForm(order_int++);
 					}
 				}
-				final NodeList nodosButton = userButtonsNode.getElementsByTagName(DomainApplicationContext.BUTTON_ELEMENT);
+				final NodeList nodosButton = userButtonsNode.getElementsByTagName(ApplicationDomain.BUTTON_ELEMENT);
 				int nodosButtonLength= nodosButton.getLength();
 				int order_ = 1;
 				for (int j = 0; j < nodosButtonLength; j++) {
 					final Element button = (Element) nodosButton.item(j);
-					final String name_ = button.getAttribute(DomainApplicationContext.NAME_ATTR);
+					final String name_ = button.getAttribute(ApplicationDomain.NAME_ATTR);
 					final String name = Translator.traducePCMDefined(data.getLanguage(), name_);
-					final String link = button.getAttribute(DomainApplicationContext.LINK_ATTR);
-					final String id = button.getAttribute(DomainApplicationContext.ID_ATTR);
-					final String onClickAttr = button.getAttribute(DomainApplicationContext.ONCLICK_ATTR);
+					final String link = button.getAttribute(ApplicationDomain.LINK_ATTR);
+					final String id = button.getAttribute(ApplicationDomain.ID_ATTR);
+					final String onClickAttr = button.getAttribute(ApplicationDomain.ONCLICK_ATTR);
 					LinkButton newUserButton = new LinkButton();
 					newUserButton.setOrder(order_++);
 					newUserButton.setName(name);
@@ -311,16 +311,16 @@ public class Form extends AbstractComponent {
 			}
 			final StringBuilder validationBlock = new StringBuilder();
 			final List<FieldViewSet> fieldViewSets = new ArrayList<FieldViewSet>();
-			final NodeList nodosFieldViewSets = element.getElementsByTagName(DomainApplicationContext.FIELDVIEWSET_ELEMENT);
+			final NodeList nodosFieldViewSets = element.getElementsByTagName(ApplicationDomain.FIELDVIEWSET_ELEMENT);
 			int nodosFieldViewLength= nodosFieldViewSets.getLength();
 			for (int i = 0; i < nodosFieldViewLength; i++) {
 
 				final Element fieldViewSetNode = (Element) nodosFieldViewSets.item(i);
-				final String nameSpace = fieldViewSetNode.getAttribute(DomainApplicationContext.NAMESPACE_ENTITY_ATTR);
+				final String nameSpace = fieldViewSetNode.getAttribute(ApplicationDomain.NAMESPACE_ENTITY_ATTR);
 				
-				String entityNameInMetamodel = fieldViewSetNode.getAttribute(DomainApplicationContext.ENTITYMODEL_ATTR);
-				final String persistToBBDD = fieldViewSetNode.getAttribute(DomainApplicationContext.PERSIST_ATTR);
-				final String order = fieldViewSetNode.getAttribute(DomainApplicationContext.ORDER_ATTR);
+				String entityNameInMetamodel = fieldViewSetNode.getAttribute(ApplicationDomain.ENTITYMODEL_ATTR);
+				final String persistToBBDD = fieldViewSetNode.getAttribute(ApplicationDomain.PERSIST_ATTR);
+				final String order = fieldViewSetNode.getAttribute(ApplicationDomain.ORDER_ATTR);
 				if (!"".equals(order)) {
 					order_int = Integer.valueOf(order).intValue();
 				}
@@ -330,7 +330,7 @@ public class Form extends AbstractComponent {
 						"".equals(nameSpace));
 				fieldSetPrincipalCtrl.setOrderInForm(order_int++);
 				
-				NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(DomainApplicationContext.FIELDVIEW_ELEMENT);
+				NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(ApplicationDomain.FIELDVIEW_ELEMENT);
 				List<Element> listaFieldViewSets = new ArrayList<Element>();
 				int nodosFieldViewsLength= nodosFieldViews.getLength();
 				for (int k = 0; k < nodosFieldViewsLength; k++) {
@@ -339,15 +339,15 @@ public class Form extends AbstractComponent {
 				}
 				coleccionFieldViews.addAll(obtenerColeccionFieldViews(listaFieldViewSets, fieldSetPrincipalCtrl, data, dataAccess_,
 						entityNameInMetamodel, nameSpace, validationBlock,
-						/* isButtonParam */fieldViewSetNode.getParentNode().getNodeName().equals(DomainApplicationContext.BUTTON_ELEMENT)));
+						/* isButtonParam */fieldViewSetNode.getParentNode().getNodeName().equals(ApplicationDomain.BUTTON_ELEMENT)));
 				FieldViewSet fieldViewSet = ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)? new FieldViewSet(lang, nameSpace, coleccionFieldViews):
 					new FieldViewSet(lang, nameSpace, coleccionFieldViews);
 				fieldViewSet.setOrder(order_int);
 				if (!"".equals(persistToBBDD)) {
 					fieldViewSet.setPersist(Boolean.valueOf(persistToBBDD).booleanValue());
 				}
-				if (fieldViewSetNode.getParentNode().getNodeName().equals(DomainApplicationContext.BUTTON_ELEMENT)) {
-					final String id = ((Element) fieldViewSetNode.getParentNode()).getAttribute(DomainApplicationContext.ID_ATTR);
+				if (fieldViewSetNode.getParentNode().getNodeName().equals(ApplicationDomain.BUTTON_ELEMENT)) {
+					final String id = ((Element) fieldViewSetNode.getParentNode()).getAttribute(ApplicationDomain.ID_ATTR);
 					this.userButtons.put(botonesProvisional.get(id), fieldViewSet);
 				} else {
 					fieldViewSets.add(fieldViewSet);

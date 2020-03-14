@@ -19,7 +19,7 @@ import cdd.comunication.actions.Event;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.FieldViewSetCollection;
@@ -74,7 +74,7 @@ public class BodyContainer implements IBodyContainer {
 		this.getSubComponents().values();
 	}
 
-	public BodyContainer(String service, final IDataAccess dataAccess_, final DomainApplicationContext appCtx,
+	public BodyContainer(String service, final IDataAccess dataAccess_, final ApplicationDomain appCtx,
 			final Data data, final String event_) throws PCMConfigurationException {
 		
 		final Collection<Element> viewElements_ = appCtx.extractViewComponentElementsByAction(service, event_);
@@ -88,15 +88,15 @@ public class BodyContainer implements IBodyContainer {
 		int posicion = 0;
 		while (iteViewComponents.hasNext()) {
 			Element viewComponentElement = iteViewComponents.next();
-			int numberOfForms = viewComponentElement.getElementsByTagName(DomainApplicationContext.FORM_ELEMENT).getLength();
+			int numberOfForms = viewComponentElement.getElementsByTagName(ApplicationDomain.FORM_ELEMENT).getLength();
 			for (int i = 0; i < numberOfForms; i++) {
-				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(DomainApplicationContext.FORM_ELEMENT).item(i);
+				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(ApplicationDomain.FORM_ELEMENT).item(i);
 				forms.add(posicion++, new Form(service, event_, elementForm, dataAccess_, appCtx, data));
 			}
 
-			int numGrids = viewComponentElement.getElementsByTagName(DomainApplicationContext.GRID_ELEMENT).getLength();
+			int numGrids = viewComponentElement.getElementsByTagName(ApplicationDomain.GRID_ELEMENT).getLength();
 			for (int j = 0; j < numGrids; j++) {
-				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(DomainApplicationContext.GRID_ELEMENT).item(j);
+				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(ApplicationDomain.GRID_ELEMENT).item(j);
 				/** engarzo con el oltimo form de este view component ***/
 				grids.add(new PaginationGrid(service, elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), appCtx, data));
 			}
@@ -278,7 +278,7 @@ public class BodyContainer implements IBodyContainer {
 	
 	
 	public static final IBodyContainer getContainerOfView(final Data data, final IDataAccess dataAccess_,
-			final String serviceName, final String event, final DomainApplicationContext context) throws PCMConfigurationException, DatabaseException {		
+			final String serviceName, final String event, final ApplicationDomain context) throws PCMConfigurationException, DatabaseException {		
 		try {			
 			return BodyContainerFactory.getFactoryInstance().getViewComponent(
 					dataAccess_, 

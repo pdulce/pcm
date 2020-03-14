@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 
 
 public class NavigationAppManager {
@@ -88,21 +88,21 @@ public static Logger log = Logger.getLogger("cdd.comunication.dispatcher.Navigat
 	public final Map<String, String> extractAuditFieldSet() throws PCMConfigurationException {
 		Map<String, String> auditFieldSet = null;		
 		final NodeList listaNodes = this.getAppNavigation().getDocumentElement()
-				.getElementsByTagName(DomainApplicationContext.AUDITFIELDSET_ELEMENT);
+				.getElementsByTagName(ApplicationDomain.AUDITFIELDSET_ELEMENT);
 		if (listaNodes.getLength() > 0) {
 			auditFieldSet = new HashMap<String, String>();
 			final Element auditFieldSetElem = (Element) listaNodes.item(0);
-			final NodeList listaChildren = auditFieldSetElem.getElementsByTagName(DomainApplicationContext.AUDITFIELD_ELEMENT);
+			final NodeList listaChildren = auditFieldSetElem.getElementsByTagName(ApplicationDomain.AUDITFIELD_ELEMENT);
 			if (listaChildren.getLength() < 6) {
 				final StringBuilder excep = new StringBuilder(InternalErrorsConstants.AUDIT_FIELDS_NOT_FOUND);
 				throw new PCMConfigurationException(excep.toString());
 			}
-			auditFieldSet.put(DomainApplicationContext.USU_ALTA, listaChildren.item(0).getFirstChild().getNodeValue());
-			auditFieldSet.put(DomainApplicationContext.USU_MOD, listaChildren.item(1).getFirstChild().getNodeValue());
-			auditFieldSet.put(DomainApplicationContext.USU_BAJA, listaChildren.item(2).getFirstChild().getNodeValue());
-			auditFieldSet.put(DomainApplicationContext.FEC_ALTA, listaChildren.item(3).getFirstChild().getNodeValue());
-			auditFieldSet.put(DomainApplicationContext.FEC_MOD, listaChildren.item(4).getFirstChild().getNodeValue());
-			auditFieldSet.put(DomainApplicationContext.FEC_BAJA, listaChildren.item(5).getFirstChild().getNodeValue());
+			auditFieldSet.put(ApplicationDomain.USU_ALTA, listaChildren.item(0).getFirstChild().getNodeValue());
+			auditFieldSet.put(ApplicationDomain.USU_MOD, listaChildren.item(1).getFirstChild().getNodeValue());
+			auditFieldSet.put(ApplicationDomain.USU_BAJA, listaChildren.item(2).getFirstChild().getNodeValue());
+			auditFieldSet.put(ApplicationDomain.FEC_ALTA, listaChildren.item(3).getFirstChild().getNodeValue());
+			auditFieldSet.put(ApplicationDomain.FEC_MOD, listaChildren.item(4).getFirstChild().getNodeValue());
+			auditFieldSet.put(ApplicationDomain.FEC_BAJA, listaChildren.item(5).getFirstChild().getNodeValue());
 			return auditFieldSet;
 		}
 		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.APP_NOT_FOUND.replaceFirst(InternalErrorsConstants.ARG_1, "application"));
@@ -110,11 +110,11 @@ public static Logger log = Logger.getLogger("cdd.comunication.dispatcher.Navigat
 	}
 	
 	
-	public String getTitleOfAction(final DomainApplicationContext domainApplicationContext, final String service, final String event){		
+	public String getTitleOfAction(final ApplicationDomain applicationDomain, final String service, final String event){		
 		String serviceSceneTitle = "";
 		try {
 			
-			Element actionElementNode = domainApplicationContext.getDomainService(service).extractActionElementByService(event);
+			Element actionElementNode = applicationDomain.getDomainService(service).extractActionElementByService(event);
 			NodeList nodes = actionElementNode.getElementsByTagName("form");
 			int n = nodes.getLength();
 			for (int nn=0;nn<n;nn++){

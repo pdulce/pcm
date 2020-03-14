@@ -23,7 +23,7 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -84,10 +84,10 @@ public class TreeComponent extends AbstractComponent {
 	private void drawFolder(int grandGrandParentFolderId, int grandParentFolderId, final StringBuilder xml, final Element folder,
 			final String lang) {
 		StringBuilder node_ = new StringBuilder(TEMPLATE_FOLDER_NODE.replaceFirst(FOLDERNUM_, String.valueOf(this.contadorNodos++)));
-		node_ = new StringBuilder(node_.toString().replaceFirst(NAME_, folder.getAttribute(DomainApplicationContext.NAME_ATTR)));
-		if (folder.hasAttribute(DomainApplicationContext.LINK_ATTR)) {
+		node_ = new StringBuilder(node_.toString().replaceFirst(NAME_, folder.getAttribute(ApplicationDomain.NAME_ATTR)));
+		if (folder.hasAttribute(ApplicationDomain.LINK_ATTR)) {
 			final StringBuilder href_ = new StringBuilder();
-			drawHref(href_, folder.getAttribute(DomainApplicationContext.LINK_ATTR));
+			drawHref(href_, folder.getAttribute(ApplicationDomain.LINK_ATTR));
 			node_ = new StringBuilder(node_.toString().replaceFirst(LINK_REL, href_.toString()));
 		} else {
 			node_ = new StringBuilder(node_.toString().replaceFirst(LINK_REL, "#"));
@@ -99,11 +99,11 @@ public class TreeComponent extends AbstractComponent {
 		int nodesChildrenCount = folder.getChildNodes().getLength();
 		for (int j = 0; j < nodesChildrenCount; j++) {
 			final Node leafNode = folder.getChildNodes().item(j);
-			if (!leafNode.getNodeName().equals(DomainApplicationContext.LEAF_ELEMENT)) {
+			if (!leafNode.getNodeName().equals(ApplicationDomain.LEAF_ELEMENT)) {
 				continue;
 			}
 			final Element leaf = (Element) leafNode;
-			final String linkUri = leaf.getAttribute(DomainApplicationContext.LINK_ATTR);
+			final String linkUri = leaf.getAttribute(ApplicationDomain.LINK_ATTR);
 			final StringBuilder link = new StringBuilder(linkUri);
 			if (linkUri.startsWith("/") || linkUri.startsWith("file:") || esArchivo(link.toString())) {
 				// nothing else to append porque se abre una window (popup)
@@ -111,7 +111,7 @@ public class TreeComponent extends AbstractComponent {
 				link.append("&" + paramfID + "=").append(parentFolder).append("&" + paramfIDGrantPa + "=");
 				link.append(grandParentFolderId).append("&" + paramfIDGrantPa2 + "=").append(grandGrandParentFolderId);
 			}
-			final String name = leaf.getAttribute(DomainApplicationContext.NAME_ATTR);
+			final String name = leaf.getAttribute(ApplicationDomain.NAME_ATTR);
 			XmlUtils.openXmlNode(xml, IViewComponent.LI_TREE);
 			xml.append(A_LINK_);
 			drawHref(xml, link.toString());
@@ -121,7 +121,7 @@ public class TreeComponent extends AbstractComponent {
 		}
 		for (int k = 0; k < nodesChildrenCount; k++) {
 			final Node folderChildNode = folder.getChildNodes().item(k);
-			if (!folderChildNode.getNodeName().equals(DomainApplicationContext.FOLDER_ELEMENT)) {
+			if (!folderChildNode.getNodeName().equals(ApplicationDomain.FOLDER_ELEMENT)) {
 				continue;
 			}
 			final Element folderChild = (Element) folderChildNode;
@@ -145,11 +145,11 @@ public class TreeComponent extends AbstractComponent {
 				XmlUtils.openXmlNode(xml, IViewComponent.UL_TREE);
 				for (int i = 0; i < treeElem.getChildNodes().getLength(); i++) {
 					final Node folderNode = treeElem.getChildNodes().item(i);
-					if (!folderNode.getNodeName().equals(DomainApplicationContext.FOLDER_ELEMENT)) {
+					if (!folderNode.getNodeName().equals(ApplicationDomain.FOLDER_ELEMENT)) {
 						continue;
 					}
 					Element folder = (Element) folderNode;
-					final String profOfEntry = folder.getAttribute(DomainApplicationContext.PROFILE_ATTR);
+					final String profOfEntry = folder.getAttribute(ApplicationDomain.PROFILE_ATTR);
 					final String[] splitter = profOfEntry.split(PCMConstants.COMMA);
 					final Collection<String> profilesOfEntry = new ArrayList<String>();
 					for (final String element : splitter) {

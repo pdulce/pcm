@@ -17,7 +17,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyFactory;
 import cdd.strategies.DefaultStrategyUpdate;
@@ -47,7 +47,7 @@ public abstract class AbstractPcmAction implements IAction {
 	
 	private static IStrategyFactory strategyFactory;
 		
-	protected DomainApplicationContext contextApp;
+	protected ApplicationDomain contextApp;
 	protected String event;
 	protected Element actionElement;	
 	protected Collection<String> registeredEvents;
@@ -187,12 +187,12 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getSubmitSuccess() {
-		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	@Override
 	public String getSubmitError() {
-		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	@Override
@@ -202,7 +202,7 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getEvent() {
-		return this.event == null ? this.actionElement.getAttribute(DomainApplicationContext.EVENT_ATTR) : this.event;
+		return this.event == null ? this.actionElement.getAttribute(ApplicationDomain.EVENT_ATTR) : this.event;
 	}
 
 	@Override
@@ -212,15 +212,15 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getTarget() {
-		return this.actionElement.getAttribute(DomainApplicationContext.TARGET_ATTR);
+		return this.actionElement.getAttribute(ApplicationDomain.TARGET_ATTR);
 	}
 
 	public String getSuccessViewSPM() {
-		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	public String getErrorViewSPM() {
-		return this.actionElement.getAttribute(DomainApplicationContext.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	protected IStrategyFactory getStrategyFactory() {
@@ -241,17 +241,17 @@ public abstract class AbstractPcmAction implements IAction {
 	}
 
 	@Override
-	public void setAppContext(final DomainApplicationContext ctx) {
+	public void setAppContext(final ApplicationDomain ctx) {
 		this.contextApp = ctx;
 	}
 
 	@Override
-	public DomainApplicationContext getAppContext() {
+	public ApplicationDomain getAppContext() {
 		return this.contextApp;
 	}
 	
 	public static final IAction getAction(final IBodyContainer containerView, final String serviceName, final String event,
-			final Data dataWrapper, final DomainApplicationContext ctx, final Collection<String> actionSet) throws Throwable {
+			final Data dataWrapper, final ApplicationDomain ctx, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
 			if (Event.isQueryEvent(event)) {

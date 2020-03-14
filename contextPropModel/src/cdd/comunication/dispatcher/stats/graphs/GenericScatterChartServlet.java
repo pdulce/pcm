@@ -27,7 +27,7 @@ import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.stats.GenericStatsServlet;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -157,7 +157,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final DomainApplicationContext context, final Data data_) {
+	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
 		
 		IDataAccess dataAccess = null;
 		try {

@@ -7,7 +7,7 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.components.BodyContainer;
 
@@ -30,7 +30,7 @@ public class BodyContainerFactory {
 	private final Map<String, IBodyContainer> viewcomponents;
 
 	public IBodyContainer getViewComponent(final IDataAccess dataAccess,
-			final DomainApplicationContext appCtx_, final Data data, final String service, final String event) throws PCMConfigurationException,
+			final ApplicationDomain appCtx_, final Data data, final String service, final String event) throws PCMConfigurationException,
 			DatabaseException {
 		
 		String profile = (String) data.getAppProfile();
