@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Locale;
 
 import cdd.common.PCMConstants;
-import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.component.html.IViewComponent;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 

@@ -6,7 +6,7 @@ package cdd.common.comparator;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import cdd.domain.component.components.controls.html.LinkButton;
+import cdd.domain.component.html.controls.html.LinkButton;
 
 
 /**

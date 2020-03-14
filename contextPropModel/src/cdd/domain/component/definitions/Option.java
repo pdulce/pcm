@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.w3c.dom.Element;
 
 import cdd.common.PCMConstants;
-import cdd.domain.component.components.controls.html.AbstractHtmlCtrl;
+import cdd.domain.component.html.controls.html.AbstractHtmlCtrl;
 
 
 public class Option implements Serializable {

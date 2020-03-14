@@ -10,7 +10,7 @@ import java.util.Date;
 
 import cdd.common.PCMConstants;
 import cdd.common.utils.CommonUtils;
-import cdd.domain.component.components.IViewComponent;
+import cdd.domain.component.html.IViewComponent;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.dto.IFieldValue;
 
