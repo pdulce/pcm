@@ -3,7 +3,7 @@
 	<display-name>sg</display-name>
 	<servlet>
 		<servlet-name>PrincipalServlet</servlet-name>
-		<servlet-class>cdd.comunication.dispatcher.CDDWebController</servlet-class>
+		<servlet-class>cdd.webapp.CDDWebController</servlet-class>
 	</servlet>
 	
 	<servlet>
