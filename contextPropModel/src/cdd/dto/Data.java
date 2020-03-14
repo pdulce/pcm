@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import cdd.common.PCMConstants;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 
 public class Data {
 	
@@ -63,7 +63,7 @@ public class Data {
 	}
 		
 	public String getOriginalEvent() {
-		final String ev = this.getParameter(ServiceDomain.EVENT_ATTR);
+		final String ev = this.getParameter(DomainService.EVENT_ATTR);
 		return ev != null ? ev : PCMConstants.EMPTY_;		
 	}
 	

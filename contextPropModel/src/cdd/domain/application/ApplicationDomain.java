@@ -53,7 +53,7 @@ import cdd.domain.entitymodel.persistence.DAOConnection;
 import cdd.domain.entitymodel.persistence.datasource.IPCMDataSource;
 import cdd.domain.entitymodel.persistence.datasource.PCMDataSourceFactory;
 import cdd.domain.service.ResourcesConfig;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.domain.service.event.AbstractPcmAction;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
@@ -95,7 +95,7 @@ public class ApplicationDomain implements Serializable {
 	}
 	private String initService;
 	private String initEvent;
-	private Map<String, ServiceDomain> domainServices;
+	private Map<String, DomainService> domainServices;
 	private ResourcesConfig resourcesConfiguration;	
 	
 	
@@ -103,7 +103,7 @@ public class ApplicationDomain implements Serializable {
 	private final void readDomainServices() throws FileNotFoundException, SAXException, IOException,
 		ParserConfigurationException {
 		
-		this.domainServices = new HashMap<String, ServiceDomain>();
+		this.domainServices = new HashMap<String, DomainService>();
 		File[] pFiles = new File(this.resourcesConfiguration.getServiceDirectory()).listFiles();		
 		if (pFiles == null) {
 			throw new RuntimeException("Error instantiating DomainServiceContainer: service directory " + 
@@ -111,7 +111,7 @@ public class ApplicationDomain implements Serializable {
 		}
 		for (File pFile : pFiles) {
 			if (pFile.isFile() && pFile.getName().endsWith(".xml")) {
-				ServiceDomain service = new ServiceDomain(pFile.getAbsolutePath(), getResourcesConfiguration().isAuditOn());
+				DomainService service = new DomainService(pFile.getAbsolutePath(), getResourcesConfiguration().isAuditOn());
 				//ApplicationDomain.log.log(Level.INFO, "service: " + service.getUseCaseName());
 				this.domainServices.put(service.getUseCaseName(), service);
 			}
@@ -130,7 +130,7 @@ public class ApplicationDomain implements Serializable {
 	public String getInitService() {
 		if (this.initService == null || "".equals(this.initService)) {
 			try {
-				ServiceDomain initialDomainService = this.getDomainService("Authentication");
+				DomainService initialDomainService = this.getDomainService("Authentication");
 				if (initialDomainService == null){
 					throw new RuntimeException("You must have one authentication service in some of your .xml service files");
 				}
@@ -303,7 +303,7 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	public IDataAccess getDataAccess(final ServiceDomain domainService, final String event) 
+	public IDataAccess getDataAccess(final DomainService domainService, final String event) 
 			throws PCMConfigurationException {
 		try {			
 			DAOConnection conn = this.getResourcesConfiguration().getDataSourceFactoryImplObject().getConnection();
@@ -323,8 +323,8 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	public ServiceDomain getDomainService(final String _useCase){
-		ServiceDomain sr = this.domainServices.get(_useCase);
+	public DomainService getDomainService(final String _useCase){
+		DomainService sr = this.domainServices.get(_useCase);
 		if (sr != null) {
 			return sr;
 		}
@@ -339,7 +339,7 @@ public class ApplicationDomain implements Serializable {
 			final Element initS = (Element) listaNodes.item(0);
 			final NodeList profiles = initS.getElementsByTagName(ApplicationDomain.PROFILE_ELEMENT);
 			for (int i = 0; i < profiles.getLength(); i++) {
-				profilesRec.add(((Element) profiles.item(i)).getAttribute(ServiceDomain.NAME_ATTR));
+				profilesRec.add(((Element) profiles.item(i)).getAttribute(DomainService.NAME_ATTR));
 			}
 		}
 		return profilesRec;
@@ -349,7 +349,7 @@ public class ApplicationDomain implements Serializable {
 		return this.resourcesConfiguration;
 	}
 	
-	public Map<String,ServiceDomain> getDomainServices(){
+	public Map<String,DomainService> getDomainServices(){
 		return this.domainServices;
 	}
 	
@@ -415,7 +415,7 @@ public class ApplicationDomain implements Serializable {
 			
 			Map<String, String> scene = new HashMap<String, String>();
 			scene.put(data.getService(), data.getEvent());
-			ServiceDomain domainService = getDomainService(data.getService());
+			DomainService domainService = getDomainService(data.getService());
 		
 			if (domainService.extractActionElementByService(data.getEvent()) == null) {
 				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,
@@ -450,7 +450,7 @@ public class ApplicationDomain implements Serializable {
 			
 			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
 			
-			ServiceDomain domainRedirectingService = null;
+			DomainService domainRedirectingService = null;
 			if (eventSubmitted) {
 				final String serviceQName = new StringBuilder(data.getService()).append(PCMConstants.CHAR_POINT).append(data.getEvent()).toString();
 				if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {						
@@ -529,9 +529,9 @@ public class ApplicationDomain implements Serializable {
 			System.out.println("**** INICIO ARBOL DE APLICACION ****");
 			System.out.println("");
 			
-			Iterator<ServiceDomain> iteDomainServiceUseCase = ctx.getDomainServices().values().iterator();
+			Iterator<DomainService> iteDomainServiceUseCase = ctx.getDomainServices().values().iterator();
 			while (iteDomainServiceUseCase.hasNext()){
-				ServiceDomain domainServiceUseCase = iteDomainServiceUseCase.next();
+				DomainService domainServiceUseCase = iteDomainServiceUseCase.next();
 				System.out.println("Service UUID: " + domainServiceUseCase.getUUID_());
 				
 					System.out.println("----> UseCase: " + domainServiceUseCase.getUseCaseName());

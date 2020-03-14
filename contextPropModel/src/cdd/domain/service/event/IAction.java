@@ -6,7 +6,7 @@ import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.dto.Data;
 import cdd.strategies.IStrategyFactory;
 
@@ -125,5 +125,5 @@ public interface IAction {
 
 	public void setStrategyFactory(IStrategyFactory fact);
 	
-	public void setServiceDomain(final ServiceDomain servDomain);
+	public void setServiceDomain(final DomainService servDomain);
 }

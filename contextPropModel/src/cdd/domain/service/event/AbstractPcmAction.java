@@ -25,7 +25,7 @@ import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.dto.Data;
 import cdd.strategies.DefaultStrategyFactory;
 import cdd.strategies.DefaultStrategyUpdate;
@@ -49,7 +49,7 @@ public abstract class AbstractPcmAction implements IAction {
 	
 	private static IStrategyFactory strategyFactory;
 	
-	protected ServiceDomain serviceDomain;
+	protected DomainService domainService;
 	protected String event;
 	protected Element actionElement;	
 	protected Collection<String> registeredEvents;
@@ -154,8 +154,8 @@ public abstract class AbstractPcmAction implements IAction {
 		}
 	}
 	
-	public void setServiceDomain(final ServiceDomain servDomain) {
-		this.serviceDomain = servDomain;
+	public void setServiceDomain(final DomainService servDomain) {
+		this.domainService = servDomain;
 	}
 	
 	public void executeStrategyPost(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection) throws StrategyException,
@@ -228,7 +228,7 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getEvent() {
-		return this.event == null ? this.actionElement.getAttribute(ServiceDomain.EVENT_ATTR) : this.event;
+		return this.event == null ? this.actionElement.getAttribute(DomainService.EVENT_ATTR) : this.event;
 	}
 
 	@Override
@@ -266,18 +266,18 @@ public abstract class AbstractPcmAction implements IAction {
 				: AbstractPcmAction.strategyFactory;
 	}
 
-	public static final IAction getAction(final IBodyContainer containerView, final ServiceDomain serviceDomain, final String event,
+	public static final IAction getAction(final IBodyContainer containerView, final DomainService domainService, final String event,
 			final Data dataWrapper, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
 			if (Event.isQueryEvent(event)) {
-				action = new ActionPagination(containerView, dataWrapper, serviceDomain, event);
+				action = new ActionPagination(containerView, dataWrapper, domainService, event);
 				action.setEvent(event);
 			} else {
-				action = new ActionForm(containerView, dataWrapper, serviceDomain, event, actionSet);
+				action = new ActionForm(containerView, dataWrapper, domainService, event, actionSet);
 				action.setStrategyFactory(DefaultStrategyFactory.getFactoryInstance());
 			}
-			action.setServiceDomain(serviceDomain);
+			action.setServiceDomain(domainService);
 			return action;
 		}
 		catch (final Throwable exc) {

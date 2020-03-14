@@ -23,7 +23,7 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 
@@ -83,7 +83,7 @@ public class TreeComponent extends AbstractComponent {
 	private void drawFolder(int grandGrandParentFolderId, int grandParentFolderId, final StringBuilder xml, final Element folder,
 			final String lang) {
 		StringBuilder node_ = new StringBuilder(TEMPLATE_FOLDER_NODE.replaceFirst(FOLDERNUM_, String.valueOf(this.contadorNodos++)));
-		node_ = new StringBuilder(node_.toString().replaceFirst(NAME_, folder.getAttribute(ServiceDomain.NAME_ATTR)));
+		node_ = new StringBuilder(node_.toString().replaceFirst(NAME_, folder.getAttribute(DomainService.NAME_ATTR)));
 		if (folder.hasAttribute(LINK_ATTR)) {
 			final StringBuilder href_ = new StringBuilder();
 			drawHref(href_, folder.getAttribute(LINK_ATTR));
@@ -110,7 +110,7 @@ public class TreeComponent extends AbstractComponent {
 				link.append("&" + paramfID + "=").append(parentFolder).append("&" + paramfIDGrantPa + "=");
 				link.append(grandParentFolderId).append("&" + paramfIDGrantPa2 + "=").append(grandGrandParentFolderId);
 			}
-			final String name = leaf.getAttribute(ServiceDomain.NAME_ATTR);
+			final String name = leaf.getAttribute(DomainService.NAME_ATTR);
 			XmlUtils.openXmlNode(xml, IViewComponent.LI_TREE);
 			xml.append(A_LINK_);
 			drawHref(xml, link.toString());

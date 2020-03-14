@@ -20,7 +20,7 @@ import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.factory.BodyContainerFactory;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.domain.service.event.Event;
 import cdd.dto.Data;
 import cdd.dto.IFieldValue;
@@ -73,7 +73,7 @@ public class BodyContainer implements IBodyContainer {
 		this.getSubComponents().values();
 	}
 
-	public BodyContainer(final ServiceDomain domainService, final IDataAccess dataAccess_, final Data data, 
+	public BodyContainer(final DomainService domainService, final IDataAccess dataAccess_, final Data data, 
 			final String event_) throws PCMConfigurationException {
 		
 		final Collection<Element> viewElements_ = domainService.extractViewComponentElementsByAction(event_);
@@ -277,12 +277,12 @@ public class BodyContainer implements IBodyContainer {
 	
 	
 	public static final IBodyContainer getContainerOfView(final Data data, final IDataAccess dataAccess_,
-			final ServiceDomain serviceDomain, final String event) throws PCMConfigurationException, DatabaseException {		
+			final DomainService domainService, final String event) throws PCMConfigurationException, DatabaseException {		
 		try {			
 			return BodyContainerFactory.getFactoryInstance().getViewComponent(
-					dataAccess_, data, serviceDomain, event);
+					dataAccess_, data, domainService, event);
 		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceDomain.getUseCaseName() + " and EVENT: " +event);
+			throw new RuntimeException("Error getting org.w3c.Element, CU: " + domainService.getUseCaseName() + " and EVENT: " +event);
 		}
 	}
 	

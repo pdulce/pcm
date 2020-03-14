@@ -26,7 +26,7 @@ import cdd.domain.entitymodel.definitions.FieldCompositePK;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.definitions.ILogicTypes;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.Parameter;
 import cdd.domain.service.event.validators.ByteValidator;
@@ -586,11 +586,11 @@ public class FieldView implements IFieldView, Serializable {
 	/** *** END OF CONSTRUCTORS ***** */
 
 	private void setCommonAttrs(final Element nodeField) {
-		if (nodeField.hasAttribute(ServiceDomain.NAME_ATTR)) {
+		if (nodeField.hasAttribute(DomainService.NAME_ATTR)) {
 			if (!nodeField.hasAttribute(ContextProperties.MAPPING_TO_ATTR)) {
 				this.userDefined = true;
 			}
-			this.setUserName(nodeField.getAttribute(ServiceDomain.NAME_ATTR));
+			this.setUserName(nodeField.getAttribute(DomainService.NAME_ATTR));
 			this.setQualifiedContextName(getContextName().concat(PCMConstants.POINT).concat(this.getUserNamed()));
 		}
 		if (nodeField.hasAttribute(ContextProperties.DISABLED_ATTR)) {

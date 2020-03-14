@@ -25,7 +25,7 @@ import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.entitymodel.definitions.FieldCompositePK;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.dto.Data;
 
 
@@ -45,7 +45,7 @@ public class ActionPagination extends AbstractPcmAction {
 
 	protected String filtra;
 
-	public ActionPagination(final IBodyContainer container_, final Data data_, final ServiceDomain domainService, 
+	public ActionPagination(final IBodyContainer container_, final Data data_, final DomainService domainService, 
 			final String event_) {
 		this.data = data_;
 		this.container = container_;

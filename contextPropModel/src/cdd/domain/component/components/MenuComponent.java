@@ -25,7 +25,7 @@ import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.component.components.controls.html.LinkButton;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 
@@ -69,8 +69,8 @@ public class MenuComponent extends AbstractComponent {
 					final String profOfEntry = menuEntry.getAttribute(PROFILE_ATTR);
 					final Collection<String> profilesOfEntry = this.getMenuItemProfiles(profOfEntry.split(PCMConstants.COMMA));
 					if (profilesOfEntry.contains(profileUser)) {
-						final String name4Entry = menuEntry.getAttribute(ServiceDomain.NAME_ATTR);
-						final String eventN = menuEntry.getAttribute(ServiceDomain.ACTION_ELEMENT);
+						final String name4Entry = menuEntry.getAttribute(DomainService.NAME_ATTR);
+						final String eventN = menuEntry.getAttribute(DomainService.ACTION_ELEMENT);
 						final StringBuilder refUri = new StringBuilder(this.uri).append(PCMConstants.HTTP_FIRST_URI_SEPARATOR).append(
 								eventN.replaceAll("#", "&"));
 						final LinkButton aLinkButton = new LinkButton();

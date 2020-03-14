@@ -40,7 +40,7 @@ import cdd.domain.service.event.SceneResult;
 import cdd.dto.Data;
 import cdd.strategies.DefaultStrategyLogin;
 
-public class ServiceDomain {
+public class DomainService {
 	
 	public static final String WELLCOME_TXT = "WELLCOME_TXT", 
 		NAME_ATTR = "name",
@@ -58,7 +58,7 @@ public class ServiceDomain {
 	private boolean isInitial = false;
 	private List<String> events;
 	
-	protected static Logger log = Logger.getLogger(ServiceDomain.class.getName());
+	protected static Logger log = Logger.getLogger(DomainService.class.getName());
 	
 	static {
 		if (log.getHandlers().length == 0) {
@@ -89,18 +89,18 @@ public class ServiceDomain {
 	private final Collection<Element> discoverAllActions() {
 		final Collection<Element> events = new ArrayList<Element>();
 		try {
-			final NodeList actionNodeSet = this.useCase.getElementsByTagName(ServiceDomain.ACTION_ELEMENT);
+			final NodeList actionNodeSet = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
 			for (int i = 0; i < actionNodeSet.getLength(); i++) {
 				events.add((Element) actionNodeSet.item(i));
 			}
 		} catch (final Throwable exc) {
-			ServiceDomain.log.log(Level.SEVERE, "Error", exc);
+			DomainService.log.log(Level.SEVERE, "Error", exc);
 		}
 		return events;
 	}
 	
 	
-	public ServiceDomain(String path_, boolean auditOn_){
+	public DomainService(String path_, boolean auditOn_){
 		this.setAuditOnService(auditOn_);
 		int sep = path_.lastIndexOf(File.separator);
 		this.uuid = path_.substring(sep+1, path_.length());
@@ -120,14 +120,14 @@ public class ServiceDomain {
 	ParserConfigurationException {		
 		File fileOfService = new File(this.source);
 		this.docOfServiceFileDescr = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream(fileOfService));
-		final NodeList listaNodes = this.docOfServiceFileDescr.getElementsByTagName(ServiceDomain.SERVICE_ELEMENT);
+		final NodeList listaNodes = this.docOfServiceFileDescr.getElementsByTagName(DomainService.SERVICE_ELEMENT);
 		if (listaNodes.getLength() == 0) {
 			throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(" ")
 					.append(" need some service nodes").toString());
 		}
 		
 		final Element serviceNode = (Element) listaNodes.item(0);
-		if (!serviceNode.hasAttribute(ServiceDomain.NAME_ATTR)) {
+		if (!serviceNode.hasAttribute(DomainService.NAME_ATTR)) {
 			throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(" ")
 					.append(" need NAME ATTRIBUTE in metamodel file definition").toString());
 		}
@@ -148,7 +148,7 @@ public class ServiceDomain {
 	}
 	
 	public String getUseCaseName(){	
-		return this.getUseCaseElement().getAttribute(ServiceDomain.NAME_ATTR);
+		return this.getUseCaseElement().getAttribute(DomainService.NAME_ATTR);
 	}
 	
 	public final Collection<String> discoverAllEvents() {
@@ -158,7 +158,7 @@ public class ServiceDomain {
 			Iterator<Element> iteActionSet = actionSet.iterator();
 			while (iteActionSet.hasNext()){
 				Element actionElement = iteActionSet.next();
-				events.add(actionElement.getAttribute(ServiceDomain.EVENT_ATTR));
+				events.add(actionElement.getAttribute(DomainService.EVENT_ATTR));
 			}
 		}
 		return this.events;
@@ -166,11 +166,11 @@ public class ServiceDomain {
 	
 	public final Element extractActionElementByService(final String actionName)
 			throws PCMConfigurationException {
-		final NodeList listaNodes = this.useCase.getElementsByTagName(ServiceDomain.ACTION_ELEMENT);
+		final NodeList listaNodes = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
 		for (int i = 0; i < listaNodes.getLength(); i++) {
 			final Element node = (Element) listaNodes.item(i);
-			if (node.getAttributes() != null && node.hasAttribute(ServiceDomain.EVENT_ATTR)
-					&& actionName.toLowerCase().endsWith(node.getAttribute(ServiceDomain.EVENT_ATTR).toLowerCase()) ) {
+			if (node.getAttributes() != null && node.hasAttribute(DomainService.EVENT_ATTR)
+					&& actionName.toLowerCase().endsWith(node.getAttribute(DomainService.EVENT_ATTR).toLowerCase()) ) {
 				return node;
 			}
 		}
@@ -183,11 +183,11 @@ public class ServiceDomain {
 	public final Collection<Element> extractViewComponentElementsByEvent(final String event)
 			throws PCMConfigurationException {
 		Collection<Element> arrViewComponents = new ArrayList<Element>();
-		final NodeList _listaNodes = this.useCase.getElementsByTagName(ServiceDomain.ACTION_ELEMENT);
+		final NodeList _listaNodes = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
 		for (int i = 0; i < _listaNodes.getLength(); i++) {
 			final Element actionParentNode = (Element) _listaNodes.item(i);
-			if (actionParentNode.hasAttribute(ServiceDomain.EVENT_ATTR)) {
-				if (event.equals(actionParentNode.getAttribute(ServiceDomain.EVENT_ATTR))) {
+			if (actionParentNode.hasAttribute(DomainService.EVENT_ATTR)) {
+				if (event.equals(actionParentNode.getAttribute(DomainService.EVENT_ATTR))) {
 					final NodeList listaNodes_ = actionParentNode.getElementsByTagName(VIEWCOMPONENT_ELEMENT);
 					for (int j = 0; j < listaNodes_.getLength(); j++) {
 						arrViewComponents.add((Element) listaNodes_.item(j));
@@ -249,7 +249,7 @@ public class ServiceDomain {
 				}
 			}
 		} catch (PCMConfigurationException e) {
-			ServiceDomain.log.log(Level.INFO, "Error getting title of " + this.getUseCaseName() + " event: " + event, e);
+			DomainService.log.log(Level.INFO, "Error getting title of " + this.getUseCaseName() + " event: " + event, e);
 		}
 		return serviceSceneTitle;
 	}
@@ -260,12 +260,12 @@ public class ServiceDomain {
 		try {
 			return action.executeAction(dataAccess, data, eventSubmitted, messageExceptions);
 		}catch(Throwable exc) {
-			ServiceDomain.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
+			DomainService.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
 			return null;
 		}
 	}
 	
-	public SceneResult paintServiceCore(SceneResult sceneResult, final ServiceDomain serviceRedirectDomain, 
+	public SceneResult paintServiceCore(SceneResult sceneResult, final DomainService serviceRedirectDomain, 
 			final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
 			IAction action, Collection<MessageException> messageExceptions) {
 		boolean redirected = false;
@@ -346,7 +346,7 @@ public class ServiceDomain {
 				}
 			}			
 		} catch (final Throwable exc) {
-			ServiceDomain.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
+			DomainService.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(InternalErrorsConstants.BODY_CREATING_EXCEPTION);
 			values.add(" ********   ");

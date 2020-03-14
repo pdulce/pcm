@@ -36,7 +36,7 @@ import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.AppCacheFactory;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.dto.Data;
 import cdd.dto.IFieldValue;
 import cdd.strategies.DefaultStrategyLogin;
@@ -74,7 +74,7 @@ public class ActionForm extends AbstractPcmAction {
 		}
 	}
 	
-	public ActionForm(final IBodyContainer container_, final Data data_, final ServiceDomain serviceDomain, 
+	public ActionForm(final IBodyContainer container_, final Data data_, final DomainService domainService, 
 			final String event_, final Collection<String> actionSet) {
 		this.data = data_;
 		this.setEvent(event_);
@@ -82,9 +82,9 @@ public class ActionForm extends AbstractPcmAction {
 		this.registeredEvents = actionSet;
 		this.audits = AppCacheFactory.getFactoryInstance().getAppCache();
 		try {
-			this.actionElement = serviceDomain.extractActionElementByService(event_);
+			this.actionElement = domainService.extractActionElementByService(event_);
 		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceDomain.getUseCaseName() + " and EVENT: " +event_);
+			throw new RuntimeException("Error getting org.w3c.Element, CU: " + domainService.getUseCaseName() + " and EVENT: " +event_);
 		}
 	}
 
@@ -206,8 +206,8 @@ public class ActionForm extends AbstractPcmAction {
 				IAction actionObjectOfRedirect = null;
 				try {
 					Collection<String> regEvents = new ArrayList<String>();
-					IBodyContainer containerView_ = BodyContainer.getContainerOfView(this.data, dataAccess_, this.serviceDomain, eventRedirect);
-					actionObjectOfRedirect = getAction(containerView_, this.serviceDomain, eventRedirect, this.data, regEvents);
+					IBodyContainer containerView_ = BodyContainer.getContainerOfView(this.data, dataAccess_, this.domainService, eventRedirect);
+					actionObjectOfRedirect = getAction(containerView_, this.domainService, eventRedirect, this.data, regEvents);
 					Form originalForm = (Form) containerView_.getForms().get(0);
 					List<MessageException> messageExceptions = new ArrayList<MessageException>();
 					originalForm.bindUserInput(actionObjectOfRedirect, messageExceptions);					
@@ -530,7 +530,7 @@ public class ActionForm extends AbstractPcmAction {
 			throws TransactionException {
 		final List<FieldViewSet> fs = form_.getFieldViewSetCollection().getFieldViewSets();
 		if (event_.startsWith(IEvent.UPDATE)) {
-			if (this.serviceDomain.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_MOD) != null) {
+			if (this.domainService.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_MOD) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
@@ -541,7 +541,7 @@ public class ActionForm extends AbstractPcmAction {
 			}
 			dataAccess.modifyEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.DELETE)) {
-			if (this.serviceDomain.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_BAJA) != null) {
+			if (this.domainService.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_BAJA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
@@ -553,7 +553,7 @@ public class ActionForm extends AbstractPcmAction {
 			}
 			dataAccess.deleteEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.CREATE)) {
-			if (this.serviceDomain.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_ALTA) != null) {
+			if (this.domainService.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_ALTA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();

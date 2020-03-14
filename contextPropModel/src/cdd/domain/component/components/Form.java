@@ -46,7 +46,7 @@ import cdd.domain.entitymodel.definitions.EntityLogic;
 import cdd.domain.entitymodel.definitions.FieldCompositePK;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
-import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.DomainService;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
@@ -268,7 +268,7 @@ public class Form extends AbstractComponent {
 				int order_ = 1;
 				for (int j = 0; j < nodosButtonLength; j++) {
 					final Element button = (Element) nodosButton.item(j);
-					final String name_ = button.getAttribute(ServiceDomain.NAME_ATTR);
+					final String name_ = button.getAttribute(DomainService.NAME_ATTR);
 					final String name = Translator.traducePCMDefined(data.getLanguage(), name_);
 					final String link = button.getAttribute(LINK_ATTR);
 					final String id = button.getAttribute(ID_ATTR);
