@@ -42,23 +42,14 @@ import cdd.strategies.DefaultStrategyLogin;
 
 public class ServiceDomain {
 	
-	public static final String WELLCOME_TXT = "WELLCOME_TXT", NAME_ATTR = "name",
-		STRATEGY_ATTR = "strategy", STRATEGY_PRECONDITION_ATTR = "strategyPre", VIEWCOMPONENT_ELEMENT = "viewComponent",
-		FOLDER_ELEMENT = "FOLDER", LEAF_ELEMENT = "LEAF",
-		ID_ATTR = "id", 
-		LINK_ATTR = "link", 
-		 MENU_ENTRY_ELEMENT = "menu_entry", 
-		AUDITFIELD_ELEMENT = "audit", CONTEXT_ELEMENT = "context", SERVICE_ELEMENT = "service", 
-		SERVICE_GROUP_ELEMENT = "service-group", ACTION_ELEMENT = "action",
-		FORM_ELEMENT = "form", GRID_ELEMENT = "grid", BR = "br", HR = "hr",
-		FIELDVIEWSET_ELEMENT = "fieldViewSet", USERBUTTONS_ELEMENT = "userbuttons", BUTTON_ELEMENT = "button",
-		FIELDVIEW_ELEMENT = "fieldView", FIELDSET_ELEMENT = "fieldset", ENTITYMODEL_ELEMENT = "entitymodel", 
-		LEGEND_ATTR = "legend",
-		APP_URI_ATTR = "uri", PROFILE_ATTR = "profile", CONTENT_ATTR = "content", AUDIT_ACTIVATED_ATTR = "auditActivated",
-		EVENT_ATTR = "event", TARGET_ATTR = "target", TRANSACTIONAL_ATTR = "transactional", ORDER_ATTR = "order",
-		PERSIST_ATTR = "persist", ENTITYMODEL_ATTR = "entitymodel", NAMESPACE_ENTITY_ATTR = "nameSpace",
-		SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces", SUBMIT_ERROR_SCENE_ATTR = "submitError", ONCLICK_ATTR= "onClick",
-		ADDRESS_BOOR_ATTR = "addressBook";
+	public static final String WELLCOME_TXT = "WELLCOME_TXT", 
+		NAME_ATTR = "name",
+		STRATEGY_ATTR = "strategy", 
+		STRATEGY_PRECONDITION_ATTR = "strategyPre", 
+		VIEWCOMPONENT_ELEMENT = "viewComponent", 
+		SERVICE_ELEMENT = "service", 
+		ACTION_ELEMENT = "action",
+		EVENT_ATTR = "event";
 	
 	private boolean auditOn = false;
 	private String source, uuid;

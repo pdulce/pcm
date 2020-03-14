@@ -37,7 +37,7 @@ public class MenuComponent extends AbstractComponent {
 
 	private static final long serialVersionUID = 8882229997777L;
 
-	private static final String MENU_NAME = "menu";
+	private static final String MENU_NAME = "menu", MENU_ENTRY_ELEMENT = "menu_entry"; 
 
 	private static Map<String, String> menusCached = new HashMap<String, String>();
 
@@ -62,11 +62,11 @@ public class MenuComponent extends AbstractComponent {
 			final String keyComposed = new StringBuilder(this.uri).append(profileUser).append(lang).toString();
 			if (menuElement != null && !MenuComponent.menusCached.containsKey(keyComposed)) {
 				final StringBuilder items = new StringBuilder();
-				final NodeList nodeSet = menuElement.getElementsByTagName(ServiceDomain.MENU_ENTRY_ELEMENT);
+				final NodeList nodeSet = menuElement.getElementsByTagName(MENU_ENTRY_ELEMENT);
 				int nodesCount = nodeSet.getLength();
 				for (int i = 0; i < nodesCount; i++) {
 					final Element menuEntry = (Element) nodeSet.item(i);
-					final String profOfEntry = menuEntry.getAttribute(ServiceDomain.PROFILE_ATTR);
+					final String profOfEntry = menuEntry.getAttribute(PROFILE_ATTR);
 					final Collection<String> profilesOfEntry = this.getMenuItemProfiles(profOfEntry.split(PCMConstants.COMMA));
 					if (profilesOfEntry.contains(profileUser)) {
 						final String name4Entry = menuEntry.getAttribute(ServiceDomain.NAME_ATTR);

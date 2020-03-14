@@ -22,7 +22,6 @@ import cdd.domain.component.components.controls.html.Image;
 import cdd.domain.component.components.controls.html.LinkButton;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.service.ServiceDomain;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 
@@ -34,7 +33,9 @@ public class LogoComponent extends AbstractComponent {
 
 	private static final long serialVersionUID = 999991112222L;
 
-	private static final String INIT = "Inicio", WIDTH = "width", HEIGHT = "height", ALT = "alt", URI_ATTR = "uri";
+	private static final String CONTENT_ATTR = "content", 
+			INIT = "Inicio", WIDTH = "width", HEIGHT = "height", 
+			ALT = "alt", URI_ATTR = "uri";
 
 	private static Map<String, String> logosCached = new HashMap<String, String>();
 
@@ -51,7 +52,7 @@ public class LogoComponent extends AbstractComponent {
 				imgCtrl.setAlt(logoElm.getAttribute(ALT));
 				imgCtrl.setWidth(Integer.parseInt(logoElm.getAttribute(WIDTH)));// 184
 				imgCtrl.setHeight(Integer.parseInt(logoElm.getAttribute(HEIGHT)));// 42
-				imgCtrl.setSrc(logoElm.getAttribute(ServiceDomain.CONTENT_ATTR));
+				imgCtrl.setSrc(logoElm.getAttribute(CONTENT_ATTR));
 				final LinkButton aLinkButton = new LinkButton();
 				this.uri = logoElm.getAttribute(URI_ATTR);
 				aLinkButton.setRef(this.uri);

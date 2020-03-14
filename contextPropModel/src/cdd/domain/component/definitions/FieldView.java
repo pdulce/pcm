@@ -43,7 +43,8 @@ public class FieldView implements IFieldView, Serializable {
 
 	private static final long serialVersionUID = 939380301L;
 
-	public static final String LABEL_YES = "SI", LABEL_NOT = "NO";
+	public static final String ENTITYMODEL_ATTR = "entitymodel", 
+			LABEL_YES = "SI", LABEL_NOT = "NO";
 
 	private static final Collection<Option> BOOL_OPTIONS = new ArrayList<Option>();
 	static {
@@ -677,8 +678,8 @@ public class FieldView implements IFieldView, Serializable {
 				multiple = el.getAttribute(ContextProperties.SELECTION_MULTIPLE_ATTR).equals(IViewComponent.TRUE);
 			}
 			final NodeList options = optionSet.getElementsByTagName(IFieldView.OPTION_NODENAME);
-			if (optionSet.hasAttribute(ServiceDomain.ENTITYMODEL_ATTR)) {
-				final String entityOptionsName = optionSet.getAttribute(ServiceDomain.ENTITYMODEL_ATTR);
+			if (optionSet.hasAttribute(FieldView.ENTITYMODEL_ATTR)) {
+				final String entityOptionsName = optionSet.getAttribute(FieldView.ENTITYMODEL_ATTR);
 				String descrMapps = optionSet.getAttribute(OptionsSelection.DESC_MAPPING_FIELD);
 				String[] splitter = descrMapps.split(",");
 				int[] descrArr = new int[splitter.length];

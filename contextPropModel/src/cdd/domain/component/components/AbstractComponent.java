@@ -41,6 +41,12 @@ import cdd.dto.SerializedValues;
 public abstract class AbstractComponent implements IViewComponent, Serializable {
 
 	private static final long serialVersionUID = 1712657079370879083L;
+	protected static final String FIELDVIEWSET_ELEMENT = "fieldViewSet", 
+		LINK_ATTR = "link", USERBUTTONS_ELEMENT = "userbuttons",
+		ONCLICK_ATTR= "onClick", BUTTON_ELEMENT = "button", 
+		FIELDVIEW_ELEMENT = "fieldView", FIELDSET_ELEMENT = "fieldset", 
+		ORDER_ATTR = "order", NAMESPACE_ENTITY_ATTR = "nameSpace",
+		PROFILE_ATTR = "profile";
 	
 	protected static Logger log = Logger.getLogger(AbstractComponent.class.getName());
 	

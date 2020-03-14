@@ -56,6 +56,10 @@ public abstract class AbstractPcmAction implements IAction {
 	protected Data data;
 	protected IBodyContainer container;
 	
+	protected static final String TARGET_ATTR = "target", 
+			SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces", 
+			SUBMIT_ERROR_SCENE_ATTR = "submitError";
+	
 	protected static Logger log = Logger.getLogger(AbstractPcmAction.class.getName());
 	
 	static {
@@ -209,12 +213,12 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getSubmitSuccess() {
-		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	@Override
 	public String getSubmitError() {
-		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	@Override
@@ -234,15 +238,15 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getTarget() {
-		return this.actionElement.getAttribute(ServiceDomain.TARGET_ATTR);
+		return this.actionElement.getAttribute(TARGET_ATTR);
 	}
 
 	public String getSuccessViewSPM() {
-		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	public String getErrorViewSPM() {
-		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	protected IStrategyFactory getStrategyFactory() {

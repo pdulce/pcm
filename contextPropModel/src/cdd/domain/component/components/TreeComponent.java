@@ -43,11 +43,11 @@ public class TreeComponent extends AbstractComponent {
 
 	private static final String paramfIDGrantPa2 = "gP2fID";
 
-	private static final String TREE_NAME = "tree",
+	private static final String TREE_NAME = "tree", LEAF_ELEMENT = "LEAF",
 			TEMPLATE_FOLDER_NODE = "<LI><A id=\"dhtmlgoodies_treeNode#FOLDERNUM#\" HREF=\"#LINK_REL#\">#NAME#</A>",
 			INIT_TREE = "<TABLE width=\"100%\"><TR><TD>", SCRIPT_ = "</TD></TR></TABLE>", A_LINK_ = "<A HREF=\"",
 			ID_LINK_NODE = "\" id=\"dhtmlgoodies_treeNode", END_LINK = "\" >", END_HREF = "</A>", FOLDERNUM_ = "#FOLDERNUM#",
-			NAME_ = "#NAME#", LINK_REL = "#LINK_REL#";
+			NAME_ = "#NAME#", LINK_REL = "#LINK_REL#", FOLDER_ELEMENT = "FOLDER";
 
 	private static Map<String, String> treesCached = new HashMap<String, String>();
 
@@ -84,9 +84,9 @@ public class TreeComponent extends AbstractComponent {
 			final String lang) {
 		StringBuilder node_ = new StringBuilder(TEMPLATE_FOLDER_NODE.replaceFirst(FOLDERNUM_, String.valueOf(this.contadorNodos++)));
 		node_ = new StringBuilder(node_.toString().replaceFirst(NAME_, folder.getAttribute(ServiceDomain.NAME_ATTR)));
-		if (folder.hasAttribute(ServiceDomain.LINK_ATTR)) {
+		if (folder.hasAttribute(LINK_ATTR)) {
 			final StringBuilder href_ = new StringBuilder();
-			drawHref(href_, folder.getAttribute(ServiceDomain.LINK_ATTR));
+			drawHref(href_, folder.getAttribute(LINK_ATTR));
 			node_ = new StringBuilder(node_.toString().replaceFirst(LINK_REL, href_.toString()));
 		} else {
 			node_ = new StringBuilder(node_.toString().replaceFirst(LINK_REL, "#"));
@@ -98,11 +98,11 @@ public class TreeComponent extends AbstractComponent {
 		int nodesChildrenCount = folder.getChildNodes().getLength();
 		for (int j = 0; j < nodesChildrenCount; j++) {
 			final Node leafNode = folder.getChildNodes().item(j);
-			if (!leafNode.getNodeName().equals(ServiceDomain.LEAF_ELEMENT)) {
+			if (!leafNode.getNodeName().equals(LEAF_ELEMENT)) {
 				continue;
 			}
 			final Element leaf = (Element) leafNode;
-			final String linkUri = leaf.getAttribute(ServiceDomain.LINK_ATTR);
+			final String linkUri = leaf.getAttribute(LINK_ATTR);
 			final StringBuilder link = new StringBuilder(linkUri);
 			if (linkUri.startsWith("/") || linkUri.startsWith("file:") || esArchivo(link.toString())) {
 				// nothing else to append porque se abre una window (popup)
@@ -120,7 +120,7 @@ public class TreeComponent extends AbstractComponent {
 		}
 		for (int k = 0; k < nodesChildrenCount; k++) {
 			final Node folderChildNode = folder.getChildNodes().item(k);
-			if (!folderChildNode.getNodeName().equals(ServiceDomain.FOLDER_ELEMENT)) {
+			if (!folderChildNode.getNodeName().equals(FOLDER_ELEMENT)) {
 				continue;
 			}
 			final Element folderChild = (Element) folderChildNode;
@@ -144,11 +144,11 @@ public class TreeComponent extends AbstractComponent {
 				XmlUtils.openXmlNode(xml, IViewComponent.UL_TREE);
 				for (int i = 0; i < treeElem.getChildNodes().getLength(); i++) {
 					final Node folderNode = treeElem.getChildNodes().item(i);
-					if (!folderNode.getNodeName().equals(ServiceDomain.FOLDER_ELEMENT)) {
+					if (!folderNode.getNodeName().equals(FOLDER_ELEMENT)) {
 						continue;
 					}
 					Element folder = (Element) folderNode;
-					final String profOfEntry = folder.getAttribute(ServiceDomain.PROFILE_ATTR);
+					final String profOfEntry = folder.getAttribute(PROFILE_ATTR);
 					final String[] splitter = profOfEntry.split(PCMConstants.COMMA);
 					final Collection<String> profilesOfEntry = new ArrayList<String>();
 					for (final String element : splitter) {

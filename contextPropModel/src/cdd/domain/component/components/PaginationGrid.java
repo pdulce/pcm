@@ -43,7 +43,6 @@ import cdd.domain.entitymodel.definitions.FieldCompositePK;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
-import cdd.domain.service.ServiceDomain;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
@@ -361,15 +360,15 @@ public class PaginationGrid extends AbstractComponent {
 			}
 
 			final Collection<FieldViewSet> fieldViewSets = new ArrayList<FieldViewSet>();
-			final NodeList nodosFieldViewSets = element.getElementsByTagName(ServiceDomain.FIELDVIEWSET_ELEMENT);
+			final NodeList nodosFieldViewSets = element.getElementsByTagName(FIELDVIEWSET_ELEMENT);
 			int nodesFViewSetCount = nodosFieldViewSets.getLength();
 			for (int i = 0; i < nodesFViewSetCount; i++) {
 				final Element fieldViewSetNode = (Element) nodosFieldViewSets.item(i);
 				final NamedNodeMap attrs = fieldViewSetNode.getAttributes();
-				String nameSpaceEntity = attrs.getNamedItem(ServiceDomain.NAMESPACE_ENTITY_ATTR).getNodeValue();
-				String entityNameInMetamodel = attrs.getNamedItem(ServiceDomain.ENTITYMODEL_ATTR).getNodeValue();
+				String nameSpaceEntity = attrs.getNamedItem(NAMESPACE_ENTITY_ATTR).getNodeValue();
+				String entityNameInMetamodel = attrs.getNamedItem(FieldView.ENTITYMODEL_ATTR).getNodeValue();
 				final Collection<IFieldView> coleccionFieldViews = new ArrayList<IFieldView>();
-				final NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(ServiceDomain.FIELDVIEW_ELEMENT);
+				final NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(FIELDVIEW_ELEMENT);
 				FieldViewSet fieldViewSet = null;
 				if (ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)) {
 					entityNameInMetamodel = data.getParameter(nameSpaceEntity);

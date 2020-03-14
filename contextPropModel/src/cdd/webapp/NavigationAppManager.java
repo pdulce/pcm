@@ -20,12 +20,12 @@ import org.xml.sax.SAXException;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.service.ServiceDomain;
 import cdd.dto.Data;
 
 
 public class NavigationAppManager {
-
+	
+	protected static final String AUDITFIELD_ELEMENT = "audit";
 	private final List<Document> appRoots = new ArrayList<Document>();
 	private Document appNavigation;
 	
@@ -72,7 +72,7 @@ public class NavigationAppManager {
 		if (listaNodes.getLength() > 0) {
 			auditFieldSet = new HashMap<String, String>();
 			final Element auditFieldSetElem = (Element) listaNodes.item(0);
-			final NodeList listaChildren = auditFieldSetElem.getElementsByTagName(ServiceDomain.AUDITFIELD_ELEMENT);
+			final NodeList listaChildren = auditFieldSetElem.getElementsByTagName(AUDITFIELD_ELEMENT);
 			if (listaChildren.getLength() < 6) {
 				final StringBuilder excep = new StringBuilder(InternalErrorsConstants.AUDIT_FIELDS_NOT_FOUND);
 				throw new PCMConfigurationException(excep.toString());

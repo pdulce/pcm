@@ -28,7 +28,7 @@ import cdd.dto.IFieldValue;
 
 public class BodyContainer implements IBodyContainer {
 
-	//private String event_;
+	private static final String FORM_ELEMENT = "form", GRID_ELEMENT = "grid";
 
 	private Map<String, Collection<IViewComponent>> subcomponents;
 
@@ -87,15 +87,15 @@ public class BodyContainer implements IBodyContainer {
 		int posicion = 0;
 		while (iteViewComponents.hasNext()) {
 			Element viewComponentElement = iteViewComponents.next();
-			int numberOfForms = viewComponentElement.getElementsByTagName(ServiceDomain.FORM_ELEMENT).getLength();
+			int numberOfForms = viewComponentElement.getElementsByTagName(FORM_ELEMENT).getLength();
 			for (int i = 0; i < numberOfForms; i++) {
-				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(ServiceDomain.FORM_ELEMENT).item(i);
+				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(FORM_ELEMENT).item(i);
 				forms.add(posicion++, new Form(domainService.getUseCaseName(), event_, elementForm, dataAccess_, data));
 			}
 
-			int numGrids = viewComponentElement.getElementsByTagName(ServiceDomain.GRID_ELEMENT).getLength();
+			int numGrids = viewComponentElement.getElementsByTagName(GRID_ELEMENT).getLength();
 			for (int j = 0; j < numGrids; j++) {
-				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(ServiceDomain.GRID_ELEMENT).item(j);
+				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(GRID_ELEMENT).item(j);
 				/** engarzo con el oltimo form de este view component ***/
 				grids.add(new PaginationGrid(domainService.getUseCaseName(), elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), data));
 			}
