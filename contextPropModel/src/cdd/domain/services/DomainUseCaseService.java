@@ -96,7 +96,7 @@ public class DomainUseCaseService {
 		
 	}
 	
-	public String getUUID(){
+	public String getUUID_(){
 		return this.uuid;
 	}
 	
@@ -230,7 +230,7 @@ public class DomainUseCaseService {
 						
 						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(data, dataAccess, serviceRedirect, eventRedirect, ctx);
 						
-						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUUID()) && eventRedirect.equals(event)))) {
+						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getSubCaseName()) && eventRedirect.equals(event)))) {
 							IAction actionObjectOfRedirect = null;
 							try {
 								Collection<String> regEvents = new ArrayList<String>();
@@ -246,7 +246,7 @@ public class DomainUseCaseService {
 							while (iteratorGrids.hasNext()) {
 								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 								if (paginationGrid.getMasterNamespace() != null) {
-									final ActionPagination actionPagination = new ActionPagination(ctx, containerViewRedirect, data, this.getUUID(), eventRedirect);
+									final ActionPagination actionPagination = new ActionPagination(ctx, containerViewRedirect, data, this.getSubCaseName(), eventRedirect);
 									actionPagination.setEvent(serviceRedirect.concat(".").concat(eventRedirect)); 
 									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, false/*eventSubmitted*/, messageExceptions)
 											.getXhtml());
@@ -261,8 +261,8 @@ public class DomainUseCaseService {
 			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(ctx, containerView, data, this.getUUID(), event);
-					actionPagination.setEvent(this.getUUID().concat(".").concat(event)); 
+					final ActionPagination actionPagination = new ActionPagination(ctx, containerView, data, this.getSubCaseName(), event);
+					actionPagination.setEvent(this.getSubCaseName().concat(".").concat(event)); 
 					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventSubmitted, messageExceptions)
 							.getXhtml());
 					break;

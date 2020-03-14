@@ -547,7 +547,7 @@ public class DomainApplicationContext implements Serializable {
 			Iterator<DomainUseCaseService> iteDomainServiceUseCase = ctx.getDomainServices().iterator();
 			while (iteDomainServiceUseCase.hasNext()){
 				DomainUseCaseService domainServiceUseCase = iteDomainServiceUseCase.next();
-				System.out.println("Service UUID: " + domainServiceUseCase.getUUID());
+				System.out.println("Service UUID: " + domainServiceUseCase.getUUID_());
 				
 					System.out.println("----> UseCase: " + domainServiceUseCase.getSubCaseName());
 					Iterator<String> iteActionSet = domainServiceUseCase.discoverAllEvents().iterator();
