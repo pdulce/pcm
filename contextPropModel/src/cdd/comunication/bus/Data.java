@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import cdd.common.PCMConstants;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 
 public class Data {
 	

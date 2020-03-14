@@ -6,7 +6,7 @@ package cdd.logicmodel.persistence.datasource;
 import javax.naming.InitialContext;
 
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.persistence.DAOConnection;
 
 

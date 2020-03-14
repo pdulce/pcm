@@ -3,7 +3,7 @@ package cdd.logicmodel.persistence;
 import java.util.Map;
 import java.util.Properties;
 
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 
 
 /**

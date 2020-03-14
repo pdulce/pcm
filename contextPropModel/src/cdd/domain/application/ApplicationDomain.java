@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.domain.services;
+package cdd.domain.application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,7 +46,8 @@ import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.IEvent;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
-
+import cdd.domain.services.ResourcesConfig;
+import cdd.domain.services.ServiceDomain;
 import cdd.logicmodel.DataAccess;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.factory.AppCacheFactory;

@@ -34,7 +34,7 @@ import cdd.comunication.dispatcher.CDDWebController;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.stats.graphs.AbstractGenericHistogram;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldLogic;

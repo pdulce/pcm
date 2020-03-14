@@ -15,7 +15,7 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.TransactionException;
 import cdd.comunication.actions.IAction;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.LogicDataCacheFactory;

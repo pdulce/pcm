@@ -3,7 +3,7 @@ package cdd.logicmodel.factory;
 import java.util.Map;
 
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.persistence.IDAOImpl;
 
 

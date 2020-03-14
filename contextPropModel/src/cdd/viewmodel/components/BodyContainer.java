@@ -19,7 +19,7 @@ import cdd.comunication.actions.Event;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.FieldViewSetCollection;

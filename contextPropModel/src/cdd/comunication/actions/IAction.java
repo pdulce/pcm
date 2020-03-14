@@ -5,7 +5,7 @@ import java.util.Collection;
 import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.IStrategyFactory;
 import cdd.viewmodel.definitions.IFieldView;

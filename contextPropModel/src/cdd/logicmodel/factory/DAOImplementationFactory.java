@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.persistence.IDAOImpl;
 
 

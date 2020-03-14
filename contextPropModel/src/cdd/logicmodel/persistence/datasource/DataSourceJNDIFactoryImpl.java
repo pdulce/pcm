@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.persistence.DAOConnection;
 
 

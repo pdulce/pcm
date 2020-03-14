@@ -9,7 +9,7 @@ import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.definitions.FieldViewSet;

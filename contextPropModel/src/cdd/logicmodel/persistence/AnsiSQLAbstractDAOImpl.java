@@ -25,7 +25,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.bus.IFieldValue;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldLogic;
 import cdd.logicmodel.definitions.FieldLogicComparator;

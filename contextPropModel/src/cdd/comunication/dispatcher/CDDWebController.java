@@ -29,7 +29,7 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.viewmodel.ApplicationLayout;
 
 

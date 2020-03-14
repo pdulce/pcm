@@ -28,6 +28,7 @@ import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.CDDWebController;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyLogin;
 import cdd.viewmodel.Translator;

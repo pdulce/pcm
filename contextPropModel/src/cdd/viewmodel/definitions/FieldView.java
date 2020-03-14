@@ -26,7 +26,7 @@ import cdd.comunication.actions.validators.RelationalAndCIFValidator;
 import cdd.comunication.actions.validators.StringValidator;
 import cdd.comunication.bus.Data;
 import cdd.comunication.dispatcher.CDDWebController;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IFieldLogic;

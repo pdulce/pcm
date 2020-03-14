@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 
 
 public class NavigationAppManager {

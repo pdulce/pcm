@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import cdd.common.exceptions.DatabaseException;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.definitions.FieldViewSet;

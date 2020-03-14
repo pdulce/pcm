@@ -22,10 +22,9 @@ import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
 
 import cdd.comunication.dispatcher.CDDWebController;
+import cdd.domain.application.ApplicationDomain;
 import cdd.comunication.bus.Data;
 import cdd.comunication.bus.IFieldValue;
-
-import cdd.domain.services.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;

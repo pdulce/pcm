@@ -27,7 +27,7 @@ import cdd.common.comparator.ComparatorFieldViews;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
 import cdd.comunication.bus.IFieldValue;
-import cdd.domain.services.ApplicationDomain;
+import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
 import cdd.viewmodel.components.IViewComponent;
