@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.domain.component;
+package cdd.domain.application;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.component.Translator;
 import cdd.domain.component.html.FootComponent;
 import cdd.domain.component.html.LogoComponent;
 import cdd.domain.component.html.MenuComponent;

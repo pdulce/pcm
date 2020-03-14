@@ -28,7 +28,7 @@ import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
-import cdd.domain.component.ApplicationLayout;
+import cdd.domain.application.ApplicationLayout;
 import cdd.domain.service.event.SceneResult;
 import cdd.dto.Data;
 
