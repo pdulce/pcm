@@ -458,7 +458,9 @@ public class ApplicationDomain implements Serializable {
 					domainRedirectingService = getDomainService(serviceRedirect);
 				}
 			}
-			
+			if (isInitService(data)) {
+				domainService.setInitial();
+			}
 			domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, data.getEvent(), data, 
 					eventSubmitted, action, messages);
 			
