@@ -1,4 +1,4 @@
-package cdd.comunication.dispatcher.stats.graphs;
+package cdd.webapp.stats.graphs;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,10 +10,10 @@ import org.json.simple.JSONObject;
 
 import cdd.common.stats.CodigosISOProvinciasSpain;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.stats.GenericStatsServlet;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.webapp.stats.GenericStatsServlet;
 
 
 public abstract class GenericMapStatsServlet extends GenericStatsServlet {

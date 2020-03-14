@@ -1,4 +1,4 @@
-package cdd.comunication.actions;
+package cdd.domain.service.event;
 
 /**
  * <h1>IEvent</h1> The IEvent interface is used for defining every event registered in the IT

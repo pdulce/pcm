@@ -1,4 +1,4 @@
-package cdd.comunication.actions;
+package cdd.domain.service.event;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -9,6 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
@@ -21,10 +24,9 @@ import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
 
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
+import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
-import cdd.comunication.bus.Data;
-import cdd.comunication.bus.IFieldValue;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -58,7 +60,21 @@ public class ActionForm extends AbstractPcmAction {
 
 	private final Map<String, String> audits;
 	
+	protected static Logger log = Logger.getLogger(ActionForm.class.getName());
 	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public ActionForm(final ApplicationDomain context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_, final Collection<String> actionSet) {
 		this.data = data_;
@@ -161,7 +177,7 @@ public class ActionForm extends AbstractPcmAction {
 			}
 		}
 		catch (final Throwable ezxx) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.SETTING_USERINFO_EXCEPTION, ezxx);
+			ActionForm.log.log(Level.SEVERE, InternalErrorsConstants.SETTING_USERINFO_EXCEPTION, ezxx);
 		}
 	}
 	

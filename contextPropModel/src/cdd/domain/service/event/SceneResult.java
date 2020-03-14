@@ -1,4 +1,4 @@
-package cdd.comunication.actions;
+package cdd.domain.service.event;
 
 import java.util.Collection;
 

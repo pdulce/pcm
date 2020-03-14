@@ -1,10 +1,10 @@
-package cdd.comunication.actions;
+package cdd.domain.service.event;
 
 import java.util.Collection;
 
 import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.IStrategyFactory;

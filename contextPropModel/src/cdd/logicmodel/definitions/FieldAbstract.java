@@ -3,14 +3,15 @@ package cdd.logicmodel.definitions;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Element;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.CDDWebController;
-
 
 public class FieldAbstract implements IFieldAbstract, Serializable {
 
@@ -23,6 +24,23 @@ public class FieldAbstract implements IFieldAbstract, Serializable {
 	private Double minvalue = null, maxvalue = null;
 
 	private Serializable defaultValueObject;
+	
+	protected static Logger log = Logger.getLogger(FieldAbstract.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	
 	public FieldAbstract(String type_){
 		this.type = type_;
@@ -237,7 +255,7 @@ public class FieldAbstract implements IFieldAbstract, Serializable {
 			return this.equalsValues(newF.getDefaultValueObject(), this.getDefaultValueObject());
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", exc);
+			FieldAbstract.log.log(Level.SEVERE, "Error", exc);
 			return false;
 		}
 	}
@@ -268,7 +286,7 @@ public class FieldAbstract implements IFieldAbstract, Serializable {
 			return false;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", exc);
+			FieldAbstract.log.log(Level.SEVERE, "Error", exc);
 			return false;
 		}
 	}

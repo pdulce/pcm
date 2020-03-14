@@ -1,4 +1,4 @@
-package cdd.comunication.dispatcher.stats.graphs;
+package cdd.webapp.stats.graphs;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,12 +13,12 @@ import org.json.simple.JSONArray;
 import cdd.common.comparator.ComparatorEntryWithDouble;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.stats.IStats;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.IFieldView;
+import cdd.webapp.stats.IStats;
 
 
 public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {

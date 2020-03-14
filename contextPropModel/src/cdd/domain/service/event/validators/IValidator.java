@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.comunication.actions.validators;
+package cdd.domain.service.event.validators;
 
 /**
  * <h1>IValidator</h1> The IValidator interface is used for defining the validating methods for

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -15,18 +18,17 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.Parameter;
-import cdd.comunication.actions.validators.ByteValidator;
-import cdd.comunication.actions.validators.DateValidator;
-import cdd.comunication.actions.validators.DoubleValidator;
-import cdd.comunication.actions.validators.IntegerValidator;
-import cdd.comunication.actions.validators.LongValidator;
-import cdd.comunication.actions.validators.RelationalAndCIFValidator;
-import cdd.comunication.actions.validators.StringValidator;
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.Parameter;
+import cdd.domain.service.event.validators.ByteValidator;
+import cdd.domain.service.event.validators.DateValidator;
+import cdd.domain.service.event.validators.DoubleValidator;
+import cdd.domain.service.event.validators.IntegerValidator;
+import cdd.domain.service.event.validators.LongValidator;
+import cdd.domain.service.event.validators.RelationalAndCIFValidator;
+import cdd.domain.service.event.validators.StringValidator;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -47,6 +49,21 @@ public class FieldView implements IFieldView, Serializable {
 	static {
 		FieldView.BOOL_OPTIONS.add(new Option(IViewComponent.ZERO, FieldView.LABEL_NOT));
 		FieldView.BOOL_OPTIONS.add(new Option(IViewComponent.ONE, FieldView.LABEL_YES));
+	}
+	protected static Logger log = Logger.getLogger(FieldView.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private int position, userDefSize, userMaxLength;
@@ -116,7 +133,7 @@ public class FieldView implements IFieldView, Serializable {
 
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", exc);
+			FieldView.log.log(Level.SEVERE, "Error", exc);
 			return null;
 		}
 	}
@@ -559,7 +576,7 @@ public class FieldView implements IFieldView, Serializable {
 					.iterator().next().getValue().toString();
 		}
 		catch (final Throwable cfExc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", cfExc);
+			FieldView.log.log(Level.SEVERE, "Error", cfExc);
 			return null;
 		}
 	}
@@ -908,7 +925,7 @@ public class FieldView implements IFieldView, Serializable {
 			return esValido;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.CHECK_TYPES_ERROR, exc);
+			FieldView.log.log(Level.SEVERE, InternalErrorsConstants.CHECK_TYPES_ERROR, exc);
 			return false;
 		}
 	}

@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Element;
 
@@ -17,14 +20,13 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.IEvent;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
+import cdd.data.bus.FieldValue;
+import cdd.data.bus.IFieldValue;
+import cdd.data.bus.SerializedValues;
 import cdd.domain.application.ApplicationDomain;
-import cdd.comunication.bus.Data;
-import cdd.comunication.bus.FieldValue;
-import cdd.comunication.bus.IFieldValue;
-import cdd.comunication.bus.SerializedValues;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.IEvent;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
@@ -40,6 +42,22 @@ import cdd.viewmodel.definitions.IRank;
 public abstract class AbstractComponent implements IViewComponent, Serializable {
 
 	private static final long serialVersionUID = 1712657079370879083L;
+	
+	protected static Logger log = Logger.getLogger(AbstractComponent.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	protected String uri, event, service, nameContext, destine;
 
@@ -133,7 +151,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			return fieldViewSets;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_ERROR, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_ERROR, exc);
 			return null;
 		}
 	}
@@ -162,7 +180,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			}
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_REFRESH_ERROR, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_REFRESH_ERROR, exc);
 		}
 	}
 
@@ -194,7 +212,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			return serialized;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_SERIALIZED_ERROR, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_SERIALIZED_ERROR, exc);
 			return null;
 		}
 	}
@@ -270,7 +288,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			}// if
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_VALUE_ERROR, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_VALUE_ERROR, exc);
 		}
 		return new FieldValue();
 	}
@@ -333,7 +351,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			return null;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_ALLVALUES_ERROR, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_ALLVALUES_ERROR, exc);
 			return null;
 		}
 	}
@@ -367,7 +385,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			return columns;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_ALLVALUES_ERROR, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_ALLVALUES_ERROR, exc);
 			return null;
 		}
 	}

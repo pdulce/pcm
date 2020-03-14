@@ -41,15 +41,14 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 
-import cdd.comunication.actions.AbstractPcmAction;
-import cdd.comunication.actions.Event;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.IEvent;
-import cdd.comunication.actions.SceneResult;
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.NavigationAppManager;
-import cdd.domain.services.ResourcesConfig;
-import cdd.domain.services.ServiceDomain;
+import cdd.data.bus.Data;
+import cdd.domain.service.ResourcesConfig;
+import cdd.domain.service.ServiceDomain;
+import cdd.domain.service.event.AbstractPcmAction;
+import cdd.domain.service.event.Event;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.IEvent;
+import cdd.domain.service.event.SceneResult;
 import cdd.logicmodel.DataAccess;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.factory.AppCacheFactory;
@@ -99,7 +98,7 @@ public class ApplicationDomain implements Serializable {
 			USU_BAJA = "USU_B", FEC_ALTA = "FEC_A", FEC_MOD = "FEC_M", FEC_BAJA = "FEC_B", ONCLICK_ATTR= "onClick",
 			EVENTO_CONFIGURATION = "Configuration", EXEC_PARAM = "exec", ADDRESS_BOOR_ATTR = "addressBook";
 	
-	private static Logger log = Logger.getLogger("cdd.domain.DomainApplicationContext");	
+	private static Logger log = Logger.getLogger(ApplicationDomain.class.getName());	
 	static {
 		if (log.getHandlers().length == 0) {
 			try {
@@ -187,7 +186,7 @@ public class ApplicationDomain implements Serializable {
 				}
 			}
 		} catch (PCMConfigurationException e) {
-			NavigationAppManager.log.log(Level.INFO, "Error getting title of " + useCase + " event: " + event, e);
+			ApplicationDomain.log.log(Level.INFO, "Error getting title of " + useCase + " event: " + event, e);
 		}
 		return serviceSceneTitle;
 	}

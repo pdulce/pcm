@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import cdd.common.PCMConstants;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.Parameter;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.Parameter;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.components.XmlUtils;

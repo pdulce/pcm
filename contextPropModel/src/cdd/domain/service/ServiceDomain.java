@@ -1,4 +1,4 @@
-package cdd.domain.services;
+package cdd.domain.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,15 +25,13 @@ import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.comunication.actions.AbstractPcmAction;
-import cdd.comunication.actions.ActionPagination;
-import cdd.comunication.actions.Event;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.SceneResult;
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.dispatcher.NavigationAppManager;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.event.AbstractPcmAction;
+import cdd.domain.service.event.ActionPagination;
+import cdd.domain.service.event.Event;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.SceneResult;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyLogin;
 import cdd.viewmodel.Translator;
@@ -51,6 +52,22 @@ public class ServiceDomain {
 	private Element useCase;
 	private List<String> events;
 	
+	protected static Logger log = Logger.getLogger(ServiceDomain.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	private final Collection<Element> discoverAllActions() {
 		final Collection<Element> events = new ArrayList<Element>();
 		try {
@@ -59,7 +76,7 @@ public class ServiceDomain {
 				events.add((Element) actionNodeSet.item(i));
 			}
 		} catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", exc);
+			ServiceDomain.log.log(Level.SEVERE, "Error", exc);
 		}
 		return events;
 	}
@@ -201,7 +218,7 @@ public class ServiceDomain {
 				}
 			}
 		} catch (PCMConfigurationException e) {
-			NavigationAppManager.log.log(Level.INFO, "Error getting title of " + this.getUseCaseName() + " event: " + event, e);
+			ServiceDomain.log.log(Level.INFO, "Error getting title of " + this.getUseCaseName() + " event: " + event, e);
 		}
 		return serviceSceneTitle;
 	}
@@ -289,7 +306,7 @@ public class ServiceDomain {
 				}
 			}			
 		} catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
+			ServiceDomain.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(InternalErrorsConstants.BODY_CREATING_EXCEPTION);
 			values.add(" ********   ");

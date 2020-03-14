@@ -1,4 +1,4 @@
-package cdd.comunication.actions;
+package cdd.domain.service.event;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Element;
 
@@ -15,9 +18,8 @@ import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
-import cdd.comunication.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyFactory;
 import cdd.strategies.DefaultStrategyUpdate;
@@ -53,7 +55,23 @@ public abstract class AbstractPcmAction implements IAction {
 	protected Collection<String> registeredEvents;
 	protected Data data;
 	protected IBodyContainer container;
-
+	
+	protected static Logger log = Logger.getLogger(AbstractPcmAction.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	@Override
 	public final Collection<String> getRequestValues(final IFieldView fieldView) throws BindPcmException {
 		try {
@@ -94,7 +112,7 @@ public abstract class AbstractPcmAction implements IAction {
 			return vals;
 		}
 		catch (final Throwable e) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.GETTING_USERINFO_EXCEPTION, e);
+			AbstractPcmAction.log.log(Level.SEVERE, InternalErrorsConstants.GETTING_USERINFO_EXCEPTION, e);
 			throw new BindPcmException(InternalErrorsConstants.GETTING_USERINFO_EXCEPTION, e);
 		}
 	}
@@ -113,16 +131,16 @@ public abstract class AbstractPcmAction implements IAction {
 					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
 					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance();
 				} catch (InvocationTargetException e1) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e1);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e1);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				} catch (IllegalAccessException e2) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e2);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e2);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				} catch (ClassNotFoundException e3) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e3);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e3);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				} catch (InstantiationException e4) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e4);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e4);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				}
 				this.getStrategyFactory().addStrategy(strategyName, strategy);
@@ -145,16 +163,16 @@ public abstract class AbstractPcmAction implements IAction {
 					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
 					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance();					
 				} catch (InvocationTargetException e1) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e1);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e1);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				} catch (IllegalAccessException e2) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e2);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e2);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				} catch (ClassNotFoundException e3) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e3);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e3);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				} catch (InstantiationException e4) {
-					CDDWebController.log.log(Level.SEVERE, "Error", e4);
+					AbstractPcmAction.log.log(Level.SEVERE, "Error", e4);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				}
 				

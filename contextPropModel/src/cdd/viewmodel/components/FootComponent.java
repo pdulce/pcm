@@ -17,9 +17,8 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
+import cdd.domain.service.event.IAction;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.components.controls.ICtrl;
 import cdd.viewmodel.components.controls.html.IHtmlElement;
@@ -70,7 +69,7 @@ public class FootComponent extends AbstractComponent {
 			this.xhtml = FootComponent.footsCached.get(this.uri);
 		}
 		catch (final Throwable parqExc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", parqExc);
+			AbstractComponent.log.log(Level.SEVERE, "Error", parqExc);
 			throw new PCMConfigurationException(InternalErrorsConstants.XML_FOOT_GENERATION, parqExc);
 		}
 	}

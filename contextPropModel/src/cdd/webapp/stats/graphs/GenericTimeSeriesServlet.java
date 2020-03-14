@@ -1,4 +1,4 @@
-package cdd.comunication.dispatcher.stats.graphs;
+package cdd.webapp.stats.graphs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import org.json.simple.JSONArray;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;

@@ -1,4 +1,4 @@
-package cdd.comunication.dispatcher.stats.graphs;
+package cdd.webapp.stats.graphs;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -22,12 +22,11 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.stats.StatsUtils;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.SceneResult;
-import cdd.comunication.bus.Data;
-import cdd.comunication.bus.IFieldValue;
-import cdd.comunication.dispatcher.stats.GenericStatsServlet;
+import cdd.data.bus.Data;
+import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.SceneResult;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
@@ -38,6 +37,7 @@ import cdd.viewmodel.components.Form;
 import cdd.viewmodel.components.IViewComponent;
 import cdd.viewmodel.components.XmlUtils;
 import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.webapp.stats.GenericStatsServlet;
 
 
 public abstract class GenericScatterChartServlet extends GenericStatsServlet {

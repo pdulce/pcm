@@ -20,10 +20,9 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
-import cdd.comunication.bus.Data;
+import cdd.domain.service.event.IAction;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -177,7 +176,7 @@ public class TreeComponent extends AbstractComponent {
 			this.xhtml = treesCached.get(keyComposed);
 		}
 		catch (final Throwable parqExc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.XML_TREE_GENERATION, parqExc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.XML_TREE_GENERATION, parqExc);
 			throw new PCMConfigurationException(InternalErrorsConstants.XML_TREE_GENERATION, parqExc);
 		}
 	}
@@ -268,7 +267,7 @@ public class TreeComponent extends AbstractComponent {
 			return this.xhtml;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.XML_TREE_GENERATION, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.XML_TREE_GENERATION, exc);
 			return null;
 		}
 	}

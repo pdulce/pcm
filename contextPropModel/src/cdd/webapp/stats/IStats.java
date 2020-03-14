@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.comunication.dispatcher.stats;
+package cdd.webapp.stats;
 
 /**
  * @author 99GU3997

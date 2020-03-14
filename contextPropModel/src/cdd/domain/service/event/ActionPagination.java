@@ -1,4 +1,4 @@
-package cdd.comunication.actions;
+package cdd.domain.service.event;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldCompositePK;

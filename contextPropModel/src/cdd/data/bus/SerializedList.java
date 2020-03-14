@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.comunication.bus;
+package cdd.data.bus;
 
 import java.io.Serializable;
 import java.util.ArrayList;

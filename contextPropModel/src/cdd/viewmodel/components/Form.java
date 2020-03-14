@@ -26,16 +26,15 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.Event;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.IEvent;
-import cdd.comunication.actions.Parameter;
-import cdd.comunication.actions.validators.IValidator;
-import cdd.comunication.actions.validators.RelationalAndCIFValidator;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
+import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
-import cdd.comunication.bus.Data;
-import cdd.comunication.bus.IFieldValue;
+import cdd.domain.service.event.Event;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.IEvent;
+import cdd.domain.service.event.Parameter;
+import cdd.domain.service.event.validators.IValidator;
+import cdd.domain.service.event.validators.RelationalAndCIFValidator;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
@@ -374,7 +373,7 @@ public class Form extends AbstractComponent {
 			this.fieldViewSetCollection.add(new FieldViewSetCollection(fieldViewSets));
 		}
 		catch (final Throwable ex22) {
-			CDDWebController.log.log(Level.SEVERE, "Internal- Exception when creating form component: ", ex22);
+			AbstractComponent.log.log(Level.SEVERE, "Internal- Exception when creating form component: ", ex22);
 			throw new PCMConfigurationException(ex22.getMessage().toString(), ex22);
 		}
 	}
@@ -437,7 +436,7 @@ public class Form extends AbstractComponent {
 			}
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "error gral.", exc);
+			AbstractComponent.log.log(Level.SEVERE, "error gral.", exc);
 			throw new PCMConfigurationException(InternalErrorsConstants.XML_FORM_GENERATION, exc);
 		}
 	}
@@ -620,10 +619,10 @@ public class Form extends AbstractComponent {
 			ctrl.resetOptions(listaOpciones);
 			
 		} catch (final PCMConfigurationException cfgExc1) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, cfgExc1);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, cfgExc1);
 			throw new PCMConfigurationException(InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, cfgExc1);
 		} catch (final Throwable exc2) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, exc2);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, exc2);
 			throw new PCMConfigurationException(InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, exc2);
 		}
 	}
@@ -734,7 +733,7 @@ public class Form extends AbstractComponent {
 			accion.getDataBus().setAttribute("userCriteria", submitWithUserInputs);
 			
 		} catch (final Throwable excc2) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.BINDING_ERROR, excc2);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.BINDING_ERROR, excc2);
 			throw new ParameterBindingException(InternalErrorsConstants.BINDING_ERROR, excc2);
 		}
 	}// fin metodo bind
@@ -1097,7 +1096,7 @@ public class Form extends AbstractComponent {
 			return newXmlToPaint;
 		}
 		catch (final Throwable ez) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.XML_FORM_GENERATION, ez);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.XML_FORM_GENERATION, ez);
 			throw new DatabaseException(InternalErrorsConstants.XML_FORM_GENERATION, ez);
 		}
 	}

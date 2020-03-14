@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.comunication.dispatcher.stats;
+package cdd.webapp.stats;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -28,13 +28,12 @@ import cdd.common.comparator.ComparatorOrderKeyInXAxis;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.SceneResult;
-import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.bus.Data;
-import cdd.comunication.bus.IFieldValue;
-import cdd.comunication.dispatcher.stats.graphs.AbstractGenericHistogram;
+import cdd.webapp.CDDWebController;
+import cdd.data.bus.Data;
+import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.SceneResult;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldLogic;
@@ -49,6 +48,7 @@ import cdd.viewmodel.components.XmlUtils;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.IFieldView;
 import cdd.viewmodel.definitions.IRank;
+import cdd.webapp.stats.graphs.AbstractGenericHistogram;
 
 /**
  * @author 99GU3997

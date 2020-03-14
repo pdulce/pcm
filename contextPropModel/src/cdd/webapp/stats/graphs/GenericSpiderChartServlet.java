@@ -1,4 +1,4 @@
-package cdd.comunication.dispatcher.stats.graphs;
+package cdd.webapp.stats.graphs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,13 +10,13 @@ import org.json.simple.JSONArray;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.stats.GenericStatsServlet;
+import cdd.data.bus.Data;
+import cdd.domain.service.event.IAction;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.IFieldView;
+import cdd.webapp.stats.GenericStatsServlet;
 
 
 public abstract class GenericSpiderChartServlet extends GenericStatsServlet {

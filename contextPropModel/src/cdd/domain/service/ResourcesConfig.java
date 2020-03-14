@@ -1,4 +1,4 @@
-package cdd.domain.services;
+package cdd.domain.service;
 
 import cdd.common.PCMConstants;
 import cdd.logicmodel.persistence.datasource.IPCMDataSource;

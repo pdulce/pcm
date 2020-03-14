@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,9 +18,8 @@ import org.w3c.dom.NodeList;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
-import cdd.comunication.bus.Data;
 import cdd.viewmodel.components.FootComponent;
 import cdd.viewmodel.components.LogoComponent;
 import cdd.viewmodel.components.MenuComponent;
@@ -38,7 +40,22 @@ import cdd.viewmodel.components.controls.html.Span;
 public class ApplicationLayout implements Serializable {
 	
 	private static final long serialVersionUID = 786578583812182L;
+	protected static Logger log = Logger.getLogger(ApplicationLayout.class.getName());
 	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void paintScreen(final Document appNavigation, final Data data, final boolean startingApp){
 		// drawing markup at screen
 		data.setAttribute(PCMConstants.LOGO, this.paintLogo(appNavigation, data));
@@ -60,7 +77,7 @@ public class ApplicationLayout implements Serializable {
 			sbXML.append(new FootComponent((String) data.getAttribute(PCMConstants.APPURI_), extractFootElement(appNavigation)).toXHTML(data, null, true));
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.FOOT_CREATING_EXCEPTION, exc);
+			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.FOOT_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.FOOT_CREATING_EXCEPTION));
 			sbXML.append(new Span().toHTML(values));
@@ -76,7 +93,7 @@ public class ApplicationLayout implements Serializable {
 					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractTreeElement(appNavigation)).toXHTML(data, null, true));
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.LATERAL_CREATING_EXCEPTION, exc);
+			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.LATERAL_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.LATERAL_CREATING_EXCEPTION));
 			sbXML.append(new Span().toHTML(values));
@@ -91,7 +108,7 @@ public class ApplicationLayout implements Serializable {
 			sbXML.append(new LogoComponent(data.getLanguage(), extractLogoElement(appNavigation)).toXHTML(data, null/*dataAccess_*/, true));
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.LOGO_CREATING_EXCEPTION, exc);
+			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.LOGO_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.LOGO_CREATING_EXCEPTION));
 			sbXML.append(new Span().toHTML(values));
@@ -107,7 +124,7 @@ public class ApplicationLayout implements Serializable {
 					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractMenuElement(appNavigation)).toXHTML(data, null, true));
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.MENU_HEADER_CREATING_EXCEPTION, exc);
+			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.MENU_HEADER_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.LOGO_CREATING_EXCEPTION));
 			sbXML.append(new Span().toHTML(values));

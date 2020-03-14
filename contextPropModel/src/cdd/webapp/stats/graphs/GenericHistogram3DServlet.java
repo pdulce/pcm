@@ -1,4 +1,4 @@
-package cdd.comunication.dispatcher.stats.graphs;
+package cdd.webapp.stats.graphs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import org.json.simple.JSONArray;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
+import cdd.domain.service.event.IAction;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.Translator;
 import cdd.viewmodel.definitions.FieldViewSet;

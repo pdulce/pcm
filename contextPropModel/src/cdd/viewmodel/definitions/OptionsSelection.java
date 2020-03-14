@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import cdd.common.PCMConstants;
-import cdd.comunication.bus.IFieldValue;
+import cdd.data.bus.IFieldValue;
 
 
 public class OptionsSelection implements Serializable {

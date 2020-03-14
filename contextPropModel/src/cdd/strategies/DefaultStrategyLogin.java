@@ -6,8 +6,8 @@ import java.util.Map;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.StrategyException;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
+import cdd.domain.service.event.IAction;
 import cdd.logicmodel.factory.AppCacheFactory;
 
 

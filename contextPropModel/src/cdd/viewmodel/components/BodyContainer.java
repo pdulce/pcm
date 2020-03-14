@@ -15,11 +15,10 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.comunication.actions.Event;
-import cdd.comunication.bus.Data;
-import cdd.comunication.bus.IFieldValue;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
+import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.event.Event;
 import cdd.logicmodel.IDataAccess;
 import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.viewmodel.definitions.FieldViewSetCollection;
@@ -271,7 +270,7 @@ public class BodyContainer implements IBodyContainer {
 
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
 		}
 		return sbXML.toString();
 	}

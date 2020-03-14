@@ -1,4 +1,4 @@
-package cdd.comunication.actions.validators;
+package cdd.domain.service.event.validators;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

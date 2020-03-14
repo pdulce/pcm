@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
-import cdd.comunication.dispatcher.CDDWebController;
 import cdd.viewmodel.components.IViewComponent;
 
 
@@ -27,6 +29,23 @@ public class Translator {
 	private final Map<String, MessageFormat> hFormatter;
 
 	private final Map<String, Locale> hLocales;
+	
+	protected static Logger log = Logger.getLogger(Translator.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
 	private Translator() {
 		this.hResourceBundle = new HashMap<String, ResourceBundle>();
@@ -140,13 +159,13 @@ public class Translator {
 			return traduced.toString();
 		}
 		catch (final StringIndexOutOfBoundsException exc1) {
-			CDDWebController.log.log(Level.SEVERE,
+			Translator.log.log(Level.SEVERE,
 					InternalErrorsConstants.TRAD_LABEL_ERROR.replaceFirst(InternalErrorsConstants.ARG_1, newTxt == null ? "" : newTxt),
 					exc1);
 			traduced = new StringBuilder(newTxt);
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log
+			Translator.log
 					.log(Level.SEVERE, InternalErrorsConstants.TRAD_LABEL_ERROR.replaceFirst(InternalErrorsConstants.ARG_1,
 							newTxt == null ? "" : newTxt), exc);
 			traduced = new StringBuilder(newTxt);
@@ -199,7 +218,7 @@ public class Translator {
 			traduced = txt;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE,
+			Translator.log.log(Level.SEVERE,
 					InternalErrorsConstants.TRAD_LABEL_ERROR.replaceFirst(InternalErrorsConstants.ARG_1, txt == null ? "" : txt), exc);
 			traduced = txt;
 		}

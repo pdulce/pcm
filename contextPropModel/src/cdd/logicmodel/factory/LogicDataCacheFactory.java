@@ -8,12 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.domain.service.event.IAction;
 import cdd.logicmodel.DataAccess;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.cache.DataCache;
@@ -35,6 +37,21 @@ public class LogicDataCacheFactory implements ILogicDataCacheFactory {
 
 	private static final LogicDataCacheFactory logicDataCacheFactory_ = new LogicDataCacheFactory();
 
+	protected static Logger log = Logger.getLogger(LogicDataCacheFactory.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	private final Map<String, IDataCache> dataCacheMap;
 
 	public static ILogicDataCacheFactory getFactoryInstance() {
@@ -96,7 +113,7 @@ public class LogicDataCacheFactory implements ILogicDataCacheFactory {
 			}// for
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", exc);
+			LogicDataCacheFactory.log.log(Level.SEVERE, "Error", exc);
 			throw new PCMConfigurationException(InternalErrorsConstants.DICTIONARY_INIT_EXCEPTION, exc);
 		}
 	}

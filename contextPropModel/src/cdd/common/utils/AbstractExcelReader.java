@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,7 +20,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import cdd.common.exceptions.DatabaseException;
-import cdd.comunication.dispatcher.CDDWebController;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.viewmodel.definitions.FieldViewSet;
@@ -27,6 +29,21 @@ public abstract class AbstractExcelReader {
 	
 	protected static Map<String, Integer> COLUMNSET2ENTITYFIELDSET_MAP = new HashMap<String, Integer>();
 	
+	protected static Logger log = Logger.getLogger(AbstractExcelReader.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	/**
 	 * @param sheetNewVersion
 	 * @param sheetOldVersion
@@ -90,7 +107,7 @@ public abstract class AbstractExcelReader {
 				}
 				catch (Throwable excc) {
 					excc.printStackTrace();
-					CDDWebController.log.log(Level.SEVERE, "Exception thrown in processing column " + columnName + " while importing numbered row " + nrow);
+					AbstractExcelReader.log.log(Level.SEVERE, "Exception thrown in processing column " + columnName + " while importing numbered row " + nrow);
 				}
 			}// for
 			filas.add(fila);

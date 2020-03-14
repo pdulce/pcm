@@ -1,10 +1,10 @@
-package cdd.comunication.actions.validators;
+package cdd.domain.service.event.validators;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.Parameter;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.Parameter;
 import cdd.viewmodel.components.IViewComponent;
 
 /**

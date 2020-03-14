@@ -22,12 +22,11 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.actions.Event;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.actions.IEvent;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
-import cdd.comunication.bus.Data;
+import cdd.domain.service.event.Event;
+import cdd.domain.service.event.IAction;
+import cdd.domain.service.event.IEvent;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.FieldCompositePK;
@@ -1316,7 +1315,7 @@ public class PaginationGrid extends AbstractComponent {
 			XmlUtils.closeXmlNode(sbXML, IViewComponent.TABLE);
 		}
 		catch (final Throwable parqProsaExc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.XML_GRID_GENERATION, parqProsaExc);
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.XML_GRID_GENERATION, parqProsaExc);
 			throw new DatabaseException(InternalErrorsConstants.XML_GRID_GENERATION, parqProsaExc);
 		}
 

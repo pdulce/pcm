@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -13,7 +16,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import cdd.common.PCMConstants;
-import cdd.comunication.dispatcher.CDDWebController;
 
 
 /**
@@ -28,6 +30,21 @@ import cdd.comunication.dispatcher.CDDWebController;
 
 public class LogicDataMetamodel implements ILogicDataMetamodel {
 
+	protected static Logger log = Logger.getLogger(LogicDataMetamodel.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	private Document root;
 
 	private String name;
@@ -43,7 +60,7 @@ public class LogicDataMetamodel implements ILogicDataMetamodel {
 			this.name = name_;
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", exc);
+			LogicDataMetamodel.log.log(Level.SEVERE, "Error", exc);
 		} finally {
 			try {
 				if (uriXML != null) {
@@ -52,7 +69,7 @@ public class LogicDataMetamodel implements ILogicDataMetamodel {
 			}
 			catch (final IOException ioo) {
 				// ignored
-				CDDWebController.log.log(Level.SEVERE, "Error", ioo);
+				LogicDataMetamodel.log.log(Level.SEVERE, "Error", ioo);
 			}
 		}
 	}

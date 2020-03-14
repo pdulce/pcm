@@ -6,13 +6,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.comunication.dispatcher.CDDWebController;
 import cdd.logicmodel.definitions.EntityLogic;
 import cdd.logicmodel.definitions.IFieldLogic;
 
@@ -21,6 +23,23 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 
 	/** * instancia onica de la factoroa * */
 	private static EntityLogicFactory entityFactory_;
+	
+	protected static Logger log = Logger.getLogger(EntityLogicFactory.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
 	/** * miembros de Objeto * */
 	private final Map<String, Map<String, EntityLogic>> dataDictionaries;
@@ -45,7 +64,7 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 			return this.getEntityMap(dictionary) != null;
 		}
 		catch (final Throwable confExc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", confExc);
+			EntityLogicFactory.log.log(Level.SEVERE, "Error", confExc);
 			return false;
 		}
 	}
@@ -102,7 +121,7 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 			}// while
 		}
 		catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", exc);
+			EntityLogicFactory.log.log(Level.SEVERE, "Error", exc);
 			throw new PCMConfigurationException("Error:".concat(exc.getMessage()), exc);
 		}
 		throw new PCMConfigurationException(new StringBuilder("Error when searching tablename node for this entity: ").append(entidad_)
@@ -150,7 +169,7 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 				}
 			}
 			catch (final Throwable exc) {
-				CDDWebController.log.log(Level.SEVERE, "Error", exc);
+				EntityLogicFactory.log.log(Level.SEVERE, "Error", exc);
 				throw new PCMConfigurationException(
 						"Error when reading file .xml for entity : check if defined the name (case-sensitive mode on) of the table for this entity: ",
 						exc);

@@ -17,14 +17,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.bus.IFieldValue;
-import cdd.comunication.dispatcher.CDDWebController;
+import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.FieldLogic;
@@ -40,6 +42,22 @@ import cdd.viewmodel.definitions.IFieldView;
 
 
 public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements IDAOImpl {
+
+	protected static Logger log = Logger.getLogger(AnsiSQLAbstractDAOImpl.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	@Override
 	public final FieldViewSet insert(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException {
@@ -569,7 +587,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						tupla.add(valueSerialized);
 					}
 					catch (SQLException sqlExcc) {
-						CDDWebController.log.log(Level.SEVERE, "Error.. al obtener campo..." + fieldLogic.getName(), sqlExcc);
+						AnsiSQLAbstractDAOImpl.log.log(Level.SEVERE, "Error.. al obtener campo..." + fieldLogic.getName(), sqlExcc);
 						throw new DatabaseException(InternalErrorsConstants.BBDD_QUERY_EXCEPTION, new SQLException(
 								"Error.. al obtener campo..." + fieldLogic.getName()));
 					}
@@ -1629,7 +1647,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					}
 				}
 				catch (SQLException sqlExcc) {
-					CDDWebController.log.log(Level.SEVERE, "ERROR al obtener campo..." + fieldLogic.getName(), sqlExcc);
+					AnsiSQLAbstractDAOImpl.log.log(Level.SEVERE, "ERROR al obtener campo..." + fieldLogic.getName(), sqlExcc);
 					throw new DatabaseException("Error al obtener campo..." + fieldLogic.getName() + " de la query");
 				}
 			}

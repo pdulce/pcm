@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import cdd.common.exceptions.MessageException;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 
 

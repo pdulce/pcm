@@ -6,9 +6,9 @@ import java.util.Iterator;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.StrategyException;
-import cdd.comunication.actions.IAction;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.event.IAction;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.persistence.SQLUtils;
