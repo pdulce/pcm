@@ -24,8 +24,9 @@ public class LineCounter {
 
 	public static void main(final String[] args) {
 
-		final String[] rootPaths = new String[]{"C:\\workspace\\AYFL01GestionAyudas\\src", 
-				"C:\\workspace\\AYFL01GestionAyudasWeb\\WebContent"};
+		final String[] rootPaths = new String[]{
+				"/home/pedro/git/pcm/contextPropModel/src"
+				/*, "/home/pedro/git/pcm/SeguimientoProyectos/WebContent"*/};
 		
 		List<File> listaFiles = new ArrayList<File>();
 		for (int i=0;i<rootPaths.length;i++){
@@ -39,9 +40,9 @@ public class LineCounter {
 		System.out.println("Ficheros procesados = " + LineCounter.javas);
 		System.out.println("Lineas totales = " + LineCounter.lines);
 		
-		/*System.out.println("Ficheros de mos de 1000 lineas = " + LineCounter.pathFilesML.size());
+		System.out.println("Ficheros de mas de 1000 lineas = " + LineCounter.pathFilesML.size());
 		System.out.println("Media de lineas por fichero = " + ((double) LineCounter.lines / (double) LineCounter.javas));		
-		System.out.println("Ficheros de mos de 500 lineas = " + LineCounter.pathFilesQL.size());*/			
+		System.out.println("Ficheros de mas de 500 lineas = " + LineCounter.pathFilesQL.size());		
 
 	}
 	
