@@ -2,18 +2,18 @@
 <!--configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">
 https://github.com/pdulce/SeguimientoProyectos/WebContent/WEB-INF/**.xml
 -->
-<configuration serverPath="C:\\apache-tomcat-7.0.85\\default">
+<configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">
 	<entry key="appTitle" value="Seguimiento de Proyectos Lote GISS"></entry>
 	<entry key="auditActivated" value="false"></entry>
 	<entry key="template" value="/jsp/template.jsp"></entry>
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
-	<entry key="datasourceImpl" value="cdd.logicmodel.persistence.SqliteDAOSQLImpl"></entry>
+	<entry key="datasourceImpl" value="cdd.domain.entitymodel.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
-	value="file:///C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\entities.xml"></entry>
+	value="file:///home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/entities.xml"></entry>
 	<entry key="navigationApp" 
-	value="file:///C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\navigationWebModel.xml"></entry>			
+	value="file:///home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/navigationWebModel.xml"></entry>			
 	<entry key="serviceDirectory" 
-	value="C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\services"></entry>
+	value="/home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/services"></entry>
 	<entry key="driver-class" value="org.sqlite.JDBC"></entry>
 	<entry key="url-connection" value="jdbc:sqlite:"></entry>
 	<entry key="dbPort" value="-1"></entry><!-- SQLite no requiere puerto -->
