@@ -94,7 +94,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		
 		IDataAccess dataAccess = null;
 		try {
-			dataAccess = contextApp.getDataAccess(data_.getService(), data_.getEvent());
+			dataAccess = contextApp.getDataAccess(contextApp.getDomainService(data_.getService()), data_.getEvent());
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error creating DataAccess object", e);
 		}

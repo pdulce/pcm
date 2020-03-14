@@ -39,14 +39,13 @@ import cdd.common.comparator.ComparatorLexicographic;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
+
 import cdd.comunication.actions.AbstractPcmAction;
-import cdd.comunication.actions.ActionPagination;
 import cdd.comunication.actions.Event;
 import cdd.comunication.actions.IAction;
 import cdd.comunication.actions.IEvent;
 import cdd.comunication.actions.SceneResult;
 import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.CDDWebController;
 
 import cdd.logicmodel.DataAccess;
 import cdd.logicmodel.IDataAccess;
@@ -57,13 +56,10 @@ import cdd.logicmodel.factory.LogicDataCacheFactory;
 import cdd.logicmodel.persistence.DAOConnection;
 import cdd.logicmodel.persistence.datasource.IPCMDataSource;
 import cdd.logicmodel.persistence.datasource.PCMDataSourceFactory;
-import cdd.strategies.DefaultStrategyLogin;
-import cdd.viewmodel.Translator;
+
 import cdd.viewmodel.components.BodyContainer;
 import cdd.viewmodel.components.IViewComponent;
-import cdd.viewmodel.components.PaginationGrid;
 import cdd.viewmodel.components.XmlUtils;
-import cdd.viewmodel.components.controls.html.Span;
 
 
 /**
@@ -80,21 +76,25 @@ public class DomainApplicationContext implements Serializable {
 
 	private static final long serialVersionUID = 55669998888190L;
 	
-	public static final String APP_ELEMENT = "aplication", CONFIG_NODE = "configuration", ATTR_SERVER_PATH = "serverPath", VAR_SERVERPATH= "#serverPath#",
-			ENTRY_CONFIG_NODE = "entry", LOGO_ELEMENT = "logo", FOOT_ELEMENT = "foot", TREE_ELEMENT = "tree", FOLDER_ELEMENT = "FOLDER", LEAF_ELEMENT = "LEAF",
-			ID_ATTR = "id", LINK_ATTR = "link", NAME_ATTR = "name", PROFILES_ELEMENT = "profiles", PROFILE_ELEMENT = "profile",
+	public static final String APP_ELEMENT = "aplication", CONFIG_NODE = "configuration", ATTR_SERVER_PATH = "serverPath", 
+			VAR_SERVERPATH= "#serverPath#",	ENTRY_CONFIG_NODE = "entry", LOGO_ELEMENT = "logo", FOOT_ELEMENT = "foot", 
+			TREE_ELEMENT = "tree", FOLDER_ELEMENT = "FOLDER", LEAF_ELEMENT = "LEAF",
+			ID_ATTR = "id", LINK_ATTR = "link", NAME_ATTR = "name", PROFILES_ELEMENT = "profiles", 
+			PROFILE_ELEMENT = "profile",
 			MENU_ELEMENT = "menu", MENU_ENTRY_ELEMENT = "menu_entry", AUDITFIELDSET_ELEMENT = "auditFieldSet",
-			AUDITFIELD_ELEMENT = "audit", CONTEXT_ELEMENT = "context", SERVICE_ELEMENT = "service", SERVICE_GROUP_ELEMENT = "service-group", ACTION_ELEMENT = "action",
-			STRATEGY_ATTR = "strategy", STRATEGY_PRECONDITION_ATTR = "strategyPre", ADDRESS_BOOR_ATTR = "addressBook",
+			AUDITFIELD_ELEMENT = "audit", CONTEXT_ELEMENT = "context", SERVICE_ELEMENT = "service", 
+			SERVICE_GROUP_ELEMENT = "service-group", ACTION_ELEMENT = "action",
 			VIEWCOMPONENT_ELEMENT = "viewComponent", FORM_ELEMENT = "form", GRID_ELEMENT = "grid", BR = "br", HR = "hr",
 			FIELDVIEWSET_ELEMENT = "fieldViewSet", USERBUTTONS_ELEMENT = "userbuttons", BUTTON_ELEMENT = "button",
-			FIELDVIEW_ELEMENT = "fieldView", FIELDSET_ELEMENT = "fieldset", ENTITYMODEL_ELEMENT = "entitymodel", LEGEND_ATTR = "legend",
+			FIELDVIEW_ELEMENT = "fieldView", FIELDSET_ELEMENT = "fieldset", ENTITYMODEL_ELEMENT = "entitymodel", 
+			LEGEND_ATTR = "legend",
 			APP_URI_ATTR = "uri", PROFILE_ATTR = "profile", CONTENT_ATTR = "content", AUIDIT_ACTIVATED_ATTR = "auditActivated",
 			EVENT_ATTR = "event", TARGET_ATTR = "target", TRANSACTIONAL_ATTR = "transactional", ORDER_ATTR = "order",
 			PERSIST_ATTR = "persist", ENTITYMODEL_ATTR = "entitymodel", NAMESPACE_ENTITY_ATTR = "nameSpace",
-			SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces", SUBMIT_ERROR_SCENE_ATTR = "submitError", USU_ALTA = "USU_A", USU_MOD = "USU_M",
+			SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces", SUBMIT_ERROR_SCENE_ATTR = "submitError", USU_ALTA = "USU_A", 
+			USU_MOD = "USU_M",
 			USU_BAJA = "USU_B", FEC_ALTA = "FEC_A", FEC_MOD = "FEC_M", FEC_BAJA = "FEC_B", ONCLICK_ATTR= "onClick",
-			EVENTO_CONFIGURATION = "Configuration", EXEC_PARAM = "exec", WELLCOME_TXT = "WELLCOME_TXT";
+			EVENTO_CONFIGURATION = "Configuration", EXEC_PARAM = "exec", ADDRESS_BOOR_ATTR = "addressBook";
 	
 	private static Logger log = Logger.getLogger("cdd.domain.DomainApplicationContext");	
 	static {
@@ -109,12 +109,12 @@ public class DomainApplicationContext implements Serializable {
 			}
 		}
 	}
-	
-	private Collection<DomainUseCaseService> domainServices;
-	private ResourcesConfig resourcesConfiguration;	
 	private String initService;
 	private String initEvent;
-	private String addressBookServiceName;
+	private Collection<DomainUseCaseService> domainServices;
+	private ResourcesConfig resourcesConfiguration;	
+	
+	
 	
 	private final void readDomainServices() throws FileNotFoundException, SAXException, IOException,
 		ParserConfigurationException {
@@ -122,7 +122,8 @@ public class DomainApplicationContext implements Serializable {
 		this.domainServices = new ArrayList<DomainUseCaseService>();
 		File[] pFiles = new File(this.resourcesConfiguration.getServiceDirectory()).listFiles();		
 		if (pFiles == null) {
-			throw new RuntimeException("Error instantiating DomainServiceContainer: service directory " + this.resourcesConfiguration.getServiceDirectory() + " is empty");
+			throw new RuntimeException("Error instantiating DomainServiceContainer: service directory " + 
+		this.resourcesConfiguration.getServiceDirectory() + " is empty");
 		}
 		for (File pFile : pFiles) {
 			if (pFile.isFile() && pFile.getName().endsWith(".xml")) {
@@ -134,128 +135,42 @@ public class DomainApplicationContext implements Serializable {
 		
 	}
 	
-	private final Element extractActionElementByService_(final DomainUseCaseService serviceDomain, final String subcaseName, final String actionName)
-			throws PCMConfigurationException {
-		return serviceDomain.extractActionElementByService(subcaseName, actionName);
-	}
-	
-	private final Collection<Element> extractViewComponentElementsByEvent_(final DomainUseCaseService serviceDomain, final String subcaseName, final String event)
-			throws PCMConfigurationException {
-		
-		return serviceDomain.extractViewComponentElementsByEvent(subcaseName, event);
-	}
-	
-	private SceneResult renderRequestFromNode(final IDataAccess dataAccess, final String serviceName,
-			final String event, final Data data, final boolean eventSubmitted,
-			IAction action, Collection<MessageException> messageExceptions, final String lang) {
-
-		boolean redirected = false;
-		SceneResult sceneResult = new SceneResult();
-		IDataAccess _dataAccess = null;
-		String serviceRedirect = null;
-		String eventRedirect = null;
-		try {
-			if (dataAccess.getPreconditionStrategies().isEmpty()) {
-				dataAccess.getPreconditionStrategies().addAll(
-						this.extractStrategiesPreElementByAction(serviceName, event));
-			}
-			sceneResult = action.executeAction(dataAccess, data, eventSubmitted, messageExceptions);
-			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
-			if (eventSubmitted) {
-				if ((sceneRedirect == null || sceneRedirect.indexOf(PCMConstants.CHAR_POINT) == -1) && !isInitService(data)) {
-					throw new PCMConfigurationException(InternalErrorsConstants.MUST_DEFINE_FORM_COMPONENT);
-				} else if ((sceneRedirect == null || sceneRedirect.indexOf(PCMConstants.CHAR_POINT) == -1) && isInitService(data)) {
-					String userLogged = (String) data.getAttribute(DefaultStrategyLogin.COMPLETED_NAME);
-					String textoBienvenida = Translator.traducePCMDefined(lang, WELLCOME_TXT);
-					StringBuilder xhtml = new StringBuilder("<br><br><hr>");
-					if (userLogged != null) {
-						textoBienvenida = textoBienvenida.replaceFirst("\\$0", userLogged);
-						xhtml.append(textoBienvenida);
-						xhtml.append("<br><br><hr>");
-						if (this.addressBookServiceName != null && !this.addressBookServiceName.equals("")) {
-							ActionPagination actionPagination = new ActionPagination(this, BodyContainer.getContainerOfView(data, dataAccess, serviceName, event, this),
-									data, serviceName, IEvent.QUERY);
-							actionPagination.setAppContext(this);
-							actionPagination.setEvent(IEvent.QUERY);
-							dataAccess.getPreconditionStrategies().clear();
-							dataAccess.getPreconditionStrategies().addAll(
-									this.extractStrategiesPreElementByAction(this.addressBookServiceName, IEvent.QUERY));
-							xhtml.append(actionPagination.executeAction(dataAccess, data, true/* event submmitted */,
-									messageExceptions).getXhtml());
-						}
-					} else {
-						textoBienvenida = textoBienvenida.replaceFirst("\\$0", "");
-						xhtml.append(textoBienvenida);
-					}
-					sceneResult.setXhtml(xhtml.toString());
-
-				} else {					
-					final String serviceQName = new StringBuilder(data.getService()).append(PCMConstants.CHAR_POINT).append(data.getEvent()).toString();
-					if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {						
-						serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
-						eventRedirect = sceneRedirect.substring(serviceRedirect.length() + 1, sceneRedirect.length());
-						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(serviceName) && eventRedirect.equals(event)))) {							
-							_dataAccess = getDataAccess(serviceName, event);
-							IAction actionObjectOfRedirect = null;
-							try {
-								Collection<String> regEvents = new ArrayList<String>();
-								actionObjectOfRedirect = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, _dataAccess, serviceName, eventRedirect, this),
-										serviceRedirect, eventRedirect, data, this, regEvents);
-							}
-							catch (final PCMConfigurationException configExcep) {
-								throw configExcep;
-							}							
-							sceneResult = renderRequestFromNode(_dataAccess, serviceRedirect, eventRedirect,	data, false, actionObjectOfRedirect, sceneResult.getMessages(), lang);						
-							data.setAttribute(IViewComponent.RETURN_SCENE, new StringBuilder(serviceRedirect).append(PCMConstants.POINT).append(eventRedirect).toString());
-							redirected = true;							
-							final Iterator<IViewComponent> iteratorGrids = BodyContainer.getContainerOfView(data, _dataAccess, serviceName, eventRedirect, this).getGrids().iterator();
-							while (iteratorGrids.hasNext()) {
-								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
-								if (paginationGrid.getMasterNamespace() != null) {
-									final ActionPagination actionPagination = new ActionPagination(this, BodyContainer.getContainerOfView(data, _dataAccess, serviceName, eventRedirect, this), data, serviceName, eventRedirect);
-									actionPagination.setAppContext(this);
-									actionPagination.setEvent(serviceRedirect.concat(".").concat(eventRedirect)); 
-									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, false/*eventSubmitted*/, messageExceptions)
-											.getXhtml());
-									break;
-								}
-							}
-						}
-					}					
-				}
-			}			
-			final Iterator<IViewComponent> iteratorGrids = BodyContainer.getContainerOfView(data, _dataAccess, serviceName, event, this).getGrids().iterator();
-			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
-				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
-				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(this, BodyContainer.getContainerOfView(data, _dataAccess, serviceName, event, this), data, serviceName, event);
-					actionPagination.setAppContext(this);
-					actionPagination.setEvent(serviceName.concat(".").concat(event)); 
-					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventSubmitted, messageExceptions)
-							.getXhtml());
-					break;
-				}
-			}			
-		} catch (final Throwable exc) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
-			final Collection<String> values = new ArrayList<String>();
-			values.add(InternalErrorsConstants.BODY_CREATING_EXCEPTION);
-			values.add(" ********   ");
-			values.add(exc.getMessage());
-			values.add(" ********   ");
-			sceneResult.appendXhtml(new Span().toHTML(values));
-
-			final Span span = new Span();
-			final Collection<String> valuesContent = new ArrayList<String>();
-			valuesContent.add(Translator.traducePCMDefined(lang, exc.getMessage()));
-			sceneResult.appendXhtml(span.toHTML(valuesContent));
-		}
-		return sceneResult;
-	}
 
 								/****************************/
 								/**** PUBLIC METHODS ****/
 								/****************************/
+	public boolean isInitService(final Data data) {
+		final String event = data.getParameter(PCMConstants.EVENT);
+		return (event == null || event.startsWith(this.getInitService()) || event.indexOf(IEvent.TEST) != -1);
+	}
+	
+	public String getInitService() {
+		if (this.initService == null || "".equals(this.initService)) {
+			try {
+				DomainUseCaseService initialDomainService = this.getDomainService("appInitialService");
+				if (initialDomainService == null){
+					throw new RuntimeException("You must have appInitialService.xml as the initial service domain config (XML) of your application");
+				}
+				if (initialDomainService.extractActionElementByService("submitForm") == null){
+					throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service");
+				}
+				this.initService = "Autenticacion";	
+				this.initEvent = "submitForm";
+			}
+			catch (final Throwable exc) {
+				throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service", exc);
+			}
+		}
+		return this.initService;
+	}
+	
+	public String getInitEvent() {
+		if (this.initEvent == null || "".equals(this.initEvent)) {
+			this.getInitService();
+		}
+		return this.initEvent;
+	}
+	
 	
 	public DomainApplicationContext(InputStream navigationWebModel) {
 		try {
@@ -310,16 +225,19 @@ public class DomainApplicationContext implements Serializable {
 				if (!EntityLogicFactory.getFactoryInstance().isInitiated(this.resourcesConfiguration.getEntitiesDictionary())) {	
 					dictionaryStream = new URL(this.resourcesConfiguration.getEntitiesDictionary()).openStream();
 					if (dictionaryStream == null){
-						throw new PCMConfigurationException("dictionary uri-file not found: " + this.resourcesConfiguration.getEntitiesDictionary());
+						throw new PCMConfigurationException("dictionary uri-file not found: " + 
+					this.resourcesConfiguration.getEntitiesDictionary());
 					}
-					EntityLogicFactory.getFactoryInstance().initEntityFactory(this.resourcesConfiguration.getEntitiesDictionary(), dictionaryStream);
+					EntityLogicFactory.getFactoryInstance().initEntityFactory(this.resourcesConfiguration.getEntitiesDictionary(),
+							dictionaryStream);
 				}
 			} else {
 				throw new PCMConfigurationException(InternalErrorsConstants.DICTIONARY_INIT_EXCEPTION);
 			}
 	
 			try {
-				IPCMDataSource pcmDataSourceFactory = PCMDataSourceFactory.getDataSourceInstance(this.resourcesConfiguration.getDataSourceAccess());
+				IPCMDataSource pcmDataSourceFactory = PCMDataSourceFactory.getDataSourceInstance(
+						this.resourcesConfiguration.getDataSourceAccess());
 				pcmDataSourceFactory.initDataSource(this, new InitialContext());
 				this.resourcesConfiguration.setDataSourceFactoryImplObject(pcmDataSourceFactory);
 			}
@@ -351,8 +269,10 @@ public class DomainApplicationContext implements Serializable {
 					DAOConnection conn_ = null;
 					try {
 						conn_ = this.resourcesConfiguration.getDataSourceFactoryImplObject().getConnection();
-						LogicDataCacheFactory.getFactoryInstance().initDictionaryCache(this.resourcesConfiguration.getEntitiesDictionary(),
-								DAOImplementationFactory.getFactoryInstance().getDAOImpl(this.resourcesConfiguration.getDSourceImpl()),
+						LogicDataCacheFactory.getFactoryInstance().initDictionaryCache(
+								this.resourcesConfiguration.getEntitiesDictionary(),
+								DAOImplementationFactory.getFactoryInstance().getDAOImpl(
+										this.resourcesConfiguration.getDSourceImpl()),
 								conn_, this.resourcesConfiguration.getDataSourceFactoryImplObject());
 					}
 					catch (final Throwable exc) {
@@ -390,96 +310,50 @@ public class DomainApplicationContext implements Serializable {
 		}
 	}
 	
-	public final Collection<Element> extractViewComponentElementsByAction(final String service, final String event) throws PCMConfigurationException {
-		final Element actionParentNode = this.extractActionElementByService(service, event);
+	public final Collection<Element> extractViewComponentElementsByAction(final String service, final String event) 
+			throws PCMConfigurationException {
+		final Element actionParentNode = getDomainService(service).extractActionElementByService(event);
 		Collection<Element> arrViewComponents = new ArrayList<Element>();
 		final NodeList listaNodes_ = actionParentNode.getElementsByTagName(VIEWCOMPONENT_ELEMENT);
 		for (int i = 0; i < listaNodes_.getLength(); i++) {
 			arrViewComponents.add((Element) listaNodes_.item(i));
 		}
 		if (arrViewComponents.isEmpty()) {
-			throw new PCMConfigurationException(new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).append(actionParentNode)
+			throw new PCMConfigurationException(new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).
+					append(actionParentNode)
 					.append(InternalErrorsConstants.NOT_FOUND_LITERAL).toString());
 		}
 		return arrViewComponents;
 	}
 	
-	public IDataAccess getDataAccess(final String service, final String event) throws PCMConfigurationException {
+	public IDataAccess getDataAccess(final DomainUseCaseService domainService, final String event) 
+			throws PCMConfigurationException {
 		try {			
 			DAOConnection conn = this.getResourcesConfiguration().getDataSourceFactoryImplObject().getConnection();
 			if (conn == null) {
-				CDDWebController.log.log(Level.SEVERE, "ATENCION ooconexion es NULA!!");
+				DomainApplicationContext.log.log(Level.SEVERE, "ATENCION ooconexion es NULA!!");
 				throw new PCMConfigurationException("ooconexion es NULA!!");
 			}
-			return new DataAccess(this.getResourcesConfiguration().getEntitiesDictionary(), DAOImplementationFactory.getFactoryInstance()
+			return new DataAccess(this.getResourcesConfiguration().getEntitiesDictionary(), 
+					DAOImplementationFactory.getFactoryInstance()
 					.getDAOImpl(this.getResourcesConfiguration().getDSourceImpl()), conn, 
-					this.extractStrategiesElementByAction(service, event), 
-					this.extractStrategiesPreElementByAction(service, event), 
+					domainService.extractStrategiesElementByAction(event), 
+					domainService.extractStrategiesPreElementByAction(event), 
 					this.getResourcesConfiguration().getDataSourceFactoryImplObject());
 		} catch (final PCMConfigurationException sqlExc) {
-			CDDWebController.log.log(Level.SEVERE, "Error", sqlExc);
+			DomainApplicationContext.log.log(Level.SEVERE, "Error", sqlExc);
 			throw new PCMConfigurationException(InternalErrorsConstants.BBDD_CONNECT_EXCEPTION, sqlExc);
 		}
 	}
 	
-	public boolean isInitService(final Data data) {
-		final String event = data.getParameter(PCMConstants.EVENT);
-		return (event == null || event.startsWith(this.getInitService(data)) || event.indexOf(IEvent.TEST) != -1);
-	}
-	
-	public String getInitService(final Data data) {
-		if (this.initService == null || "".equals(this.initService)) {
-			try {
-				DomainUseCaseService initialDomainService = this.getDomainService("appInitialService");
-				if (initialDomainService == null){
-					throw new RuntimeException("You must have appInitialService.xml as the initial service domain config (XML) of your application");
-				}
-				if (initialDomainService.extractActionElementByService("Autenticacion", "submitForm") == null){
-					throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service");
-				}
-				this.initService = "Autenticacion";	
-				this.initEvent = "submitForm";
-			}
-			catch (final Throwable exc) {
-				throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service", exc);
-			}
-		}
-		return this.initService;
-	}
-	
-	public String getInitEvent(final Data data) {
-		if (this.initEvent == null || "".equals(this.initEvent)) {
-			getInitService(data);
-		}
-		return this.initEvent;
-	}
-	
-	public DomainUseCaseService getServiceDomainOfSubCase(final String subcase){		
+	public DomainUseCaseService getDomainService(final String subUseCase){		
 		for (DomainUseCaseService serviceModel : this.getDomainServices()){
-			if (serviceModel.getSubCasesNames().contains(subcase)){
+			if (serviceModel.getSubCaseName().equals(subUseCase)){
 				return serviceModel;
 			}
 		}
-		throw new RuntimeException(new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).append(" SUBCASE" + subcase)
+		throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(subUseCase)
 				.append(InternalErrorsConstants.NOT_FOUND_LITERAL).toString());
-	}
-	
-	public final Collection<String> extractStrategiesElementByAction(final String service, final String event) throws PCMConfigurationException {
-		Element actionParentNode = this.extractActionElementByService(service, event);
-		final Collection<String> strategs = new ArrayList<String>();
-		if (actionParentNode.hasAttribute(STRATEGY_ATTR)) {
-			strategs.add(actionParentNode.getAttribute(STRATEGY_ATTR));
-		}
-		return strategs;
-	}
-	
-	public final Collection<String> extractStrategiesPreElementByAction(final String service, final String event) throws PCMConfigurationException {
-		Element actionParentNode = this.extractActionElementByService(service, event);
-		final Collection<String> strategs = new ArrayList<String>();
-		if (actionParentNode.hasAttribute(STRATEGY_PRECONDITION_ATTR)) {
-			strategs.add(actionParentNode.getAttribute(STRATEGY_PRECONDITION_ATTR));
-		}
-		return strategs;
 	}
 	
 	public static Collection<String> extractProfiles(Document app) throws PCMConfigurationException {
@@ -504,176 +378,142 @@ public class DomainApplicationContext implements Serializable {
 		return this.domainServices;
 	}
 	
-	public DomainUseCaseService getDomainService(String useCase){
-		
-		for (DomainUseCaseService serviceModel : this.getDomainServices()){
-			if (serviceModel.getUseCaseName().equals(useCase)){
-				return serviceModel;
-			}
-		}
-		throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(useCase)
-				.append(InternalErrorsConstants.NOT_FOUND_LITERAL).toString());
-	}
-	
-	public Element getDomainServiceElement(String subCase){		
-		for (DomainUseCaseService serviceModel : this.getDomainServices()){
-			if (serviceModel.getSubCasesNames().contains(subCase)){
-				return serviceModel.getSubCaseOfServiceName(subCase);
-			}
-		}
-		throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(subCase)
-				.append(InternalErrorsConstants.NOT_FOUND_LITERAL).toString());
-	}
-	
 	public final Collection<String> extractServiceNames() throws PCMConfigurationException {		
 		final Collection<String> services = new ArrayList<String>();		
 		for (DomainUseCaseService serviceModel : this.getDomainServices()){
-			services.addAll(serviceModel.getSubCasesNames());			
+			services.add(serviceModel.getSubCaseName());			
 		}		
 		return services;
 	}
-		
-	public Map<String, Map<String, String>> extractInitServiceEventAndAddressBook() throws PCMConfigurationException {		
-		final Map<String, String> eventAndAddressBook = new HashMap<String, String>();
-		final Map<String, Map<String, String>> serviceInfo = new HashMap<String, Map<String, String>>();
-		final Element serviceElement = getDomainServiceElement("init");	
-		final NodeList actionNodeSet = serviceElement.getElementsByTagName(ACTION_ELEMENT);
-		if (actionNodeSet.getLength() > 0) {
-			String event = ((Element) actionNodeSet.item(0)).getAttribute(EVENT_ATTR);
-			String addressBook = ((Element) actionNodeSet.item(0)).getAttribute(ADDRESS_BOOR_ATTR);
-			eventAndAddressBook.put(event, addressBook == null ? "" : addressBook);
-			serviceInfo.put(serviceElement.getAttribute(NAME_ATTR), eventAndAddressBook);
-		}		
-		return serviceInfo;
-	}
 	
-	
-	public final Element extractActionElementByService(final String subcaseName, final String actionName)
-			throws PCMConfigurationException {
-		return extractActionElementByService_(getServiceDomainOfSubCase(subcaseName), subcaseName, actionName);
-	}
-	
-	public final Collection<Element> extractViewComponentElementsByEvent(final String subcaseName, final String event)
-			throws PCMConfigurationException {		
-		return extractViewComponentElementsByEvent_(getServiceDomainOfSubCase(subcaseName), subcaseName, event);
-	}
 	
 	public final Collection<String> discoverAllEvents(final String subcaseName) {
-		return getServiceDomainOfSubCase(subcaseName).discoverAllEvents(subcaseName);
+		return getDomainService(subcaseName).discoverAllEvents();
 	}
 	
-	public String paintLayout(final Data data, final boolean eventSubmitted, final String escenarioTraducido) throws Throwable {
+	public String paintConfiguration(final Data data) {
+		
+		StringBuilder htmlOutput = new StringBuilder("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\"");
+		htmlOutput.append(this.getResourcesConfiguration().getUri() + "\">");
+		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"\" />");
+		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\"event\" value=\"\" />");
 		
 		StringBuilder innerContent_ = new StringBuilder();
-		String lang = data.getLanguage() == null ? PCMConstants.DEFAULT_LANG : data.getLanguage();		
-		IDataAccess dataAccess_ = null;
+		//innerContent_.append("<input type=\"hidden\" id=\"" + PaginationGrid.ORDENACION + "\" name=\"" + PaginationGrid.ORDENACION + "\" value=\"\" />");				
+		htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");
+		htmlOutput.append("<td width=\"60%\">Valor actual</td></tr>");
 		
+		int itemsCount = ResourcesConfig.ITEM_NAMES.length;
+		for (int i = 0; i < itemsCount; i++) {
+			this.getResourcesConfiguration();
+			String itemName = ResourcesConfig.ITEM_NAMES[i];
+			String itemValue = this.getResourcesConfiguration().getItemValues()[i] == null ? "" : 
+				this.getResourcesConfiguration().getItemValues()[i];
+			htmlOutput.append("<tr class=\"").append(i % 2 == 0 ? PCMConstants.ESTILO_PAR : PCMConstants.ESTILO_IMPAR);
+			htmlOutput.append("\"><td><B>").append(itemName).append("</B></td><td><I>").append(itemValue).append("</I></td></tr>");
+		}
+		htmlOutput.append("</table>").append("<br/><br/>").append("<table width=\"85%\"><tr>").append("<td width=\"100%\">Roles</td></tr>");
+		Iterator<String> profilesIte = data.getAppProfileSet().iterator();
+		int count = 0;
+		while (profilesIte.hasNext()) {
+			String profileName = profilesIte.next();
+			htmlOutput.append("<tr class=\"").append(count % 2 == 0 ? PCMConstants.ESTILO_PAR : PCMConstants.ESTILO_IMPAR);
+			htmlOutput.append("\"><td>").append(profileName).append("</td></tr>");
+		}
+		htmlOutput.append("</table>").append("</form>");
+		innerContent_ = new StringBuilder(htmlOutput.toString());
+		
+		return innerContent_.toString();
+	}
+	
+	public String paintLayout(final Data data, final boolean eventSubmitted, final String escenarioTraducido) 
+			throws Throwable {
+		
+		if (EVENTO_CONFIGURATION.equals(data.getParameter(EXEC_PARAM))) {	
+			return paintConfiguration(data);
+		}
+		
+		IDataAccess dataAccess_ = null;
 		try {
+			StringBuilder innerContent_ = new StringBuilder();
+			String event = data.getParameter(PCMConstants.EVENT);
+			if (event == null){
+				data.setParameter(PCMConstants.EVENT, data.getService().concat(".").concat(data.getEvent()));
+			}						
 			
-			if (EVENTO_CONFIGURATION.equals(data.getParameter(EXEC_PARAM))) {
-								
-				StringBuilder htmlOutput = new StringBuilder("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\"");
-				htmlOutput.append(this.getResourcesConfiguration().getUri() + "\">");
-				htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"\" />");
-				htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\"event\" value=\"\" />");
-				innerContent_.append("<input type=\"hidden\" id=\"MASTER_ID_SEL_\" name=\"MASTER_ID_SEL_\" value=\"\" />");
-				innerContent_.append("<input type=\"hidden\" id=\"masterNewEvent\" name=\"masterNewEvent\" value=\"\" />");
-				innerContent_.append("<input type=\"hidden\" id=\"" + PaginationGrid.ORDENACION + "\" name=\"" + PaginationGrid.ORDENACION + "\" value=\"\" />");				
-				htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");
-				htmlOutput.append("<td width=\"60%\">Valor actual</td></tr>");
-				
-				int itemsCount = ResourcesConfig.ITEM_NAMES.length;
-				for (int i = 0; i < itemsCount; i++) {
-					this.getResourcesConfiguration();
-					String itemName = ResourcesConfig.ITEM_NAMES[i];
-					String itemValue = this.getResourcesConfiguration().getItemValues()[i] == null ? "" : this.getResourcesConfiguration().getItemValues()[i];
-					htmlOutput.append("<tr class=\"").append(i % 2 == 0 ? PCMConstants.ESTILO_PAR : PCMConstants.ESTILO_IMPAR);
-					htmlOutput.append("\"><td><B>").append(itemName).append("</B></td><td><I>").append(itemValue).append("</I></td></tr>");
-				}
-				htmlOutput.append("</table>").append("<br/><br/>").append("<table width=\"85%\"><tr>").append("<td width=\"100%\">Roles</td></tr>");
-				Iterator<String> profilesIte = data.getAppProfileSet().iterator();
-				int count = 0;
-				while (profilesIte.hasNext()) {
-					String profileName = profilesIte.next();
-					htmlOutput.append("<tr class=\"").append(count % 2 == 0 ? PCMConstants.ESTILO_PAR : PCMConstants.ESTILO_IMPAR);
-					htmlOutput.append("\"><td>").append(profileName).append("</td></tr>");
-				}
-				htmlOutput.append("</table>").append("</form>");
-				innerContent_ = new StringBuilder(htmlOutput.toString());
-				
-			} else {
-				
-				IAction action = null;
-				
-				String event = data.getParameter(PCMConstants.EVENT);
-				if (event == null){
-					data.setParameter(PCMConstants.EVENT, data.getService().concat(".").concat(data.getEvent()));
-				}						
-				
-				Map<String, String> scene = new HashMap<String, String>();
-				scene.put(data.getService(), data.getEvent());
-			
-				if (extractActionElementByService(data.getService(), data.getEvent()) == null) {
-					final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1, data.getService().concat(".").concat(data.getEvent()));
-					CDDWebController.log.log(Level.SEVERE, s.toString());
-					throw new PCMConfigurationException(s.toString());
-				}
-				if (Event.isQueryEvent(data.getEvent())) {
-					dataAccess_ = getDataAccess(data.getService(), IEvent.QUERY);
-				} else if (Event.isFormularyEntryEvent(data.getEvent()) && discoverAllEvents(data.getService()).contains(Event.getInherentEvent(data.getEvent()))) {
-					dataAccess_ = getDataAccess(data.getService(), Event.getInherentEvent(data.getEvent()));					
-				} else {
-					dataAccess_ = getDataAccess(data.getService(), data.getEvent());
-				}
-									
-				try {
-					action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, data.getService(), data.getEvent(), this), 
-							data.getService(), data.getEvent(), data, this, discoverAllEvents(data.getService()));
-				} catch (final PCMConfigurationException configExcep) {
-					throw configExcep;
-				} catch (final DatabaseException recExc) {
-					throw recExc;
-				}
-				
-				SceneResult sceneResult = renderRequestFromNode(dataAccess_, data.getService(), data.getEvent(), data, eventSubmitted, action, new ArrayList<MessageException>(), lang);
-				
-				String bodyContentOfService = sceneResult.getXhtml();
-				
-				final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
-				final String thisScene = data.getService().concat(PCMConstants.POINT).concat(data.getEvent());
-				final boolean hayRedireccion = eventSubmitted && !thisScene.equals(sceneRedirect);
-				
-				if (IEvent.VOLVER.equals(data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) || 
-						IEvent.CANCEL.equals(data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ||
-							hayRedireccion){		
-					//TODO
-				}				
-				final String stackNavShown = "", idsPila = "";
-				XmlUtils.openXmlNode(innerContent_, IViewComponent.DIV_LAYER_PRAL);
-				String pilaNavegacion2Show = "<br/><font style=\"color:green;font-weight:normal;font-size:78%;\"> " + ((!"".equals(stackNavShown)? "Ruta nav.: <I>" + stackNavShown + "</I>" : "") + "</font>");
-				innerContent_.append(pilaNavegacion2Show);
-				innerContent_.append(IViewComponent.NEW_ROW);
-								
-				String idsDeNavegacion= "<font style=\"color:blue;font-weight:normal;font-size:74%;\"> " + ((!"".equals(idsPila) ? "Identif.: <I>" + idsPila + "</I>" : "") + "</font>");
-				innerContent_.append(idsDeNavegacion);
-				innerContent_.append(IViewComponent.NEW_ROW);
-				
-				final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
-				htmFormElement_.append(IViewComponent.FORM_ATTRS);
-				htmFormElement_.append((String) data.getAttribute(PCMConstants.APPURI_));
-				htmFormElement_.append(IViewComponent.ENC_TYPE_FORM);
-				XmlUtils.openXmlNode(innerContent_, htmFormElement_.toString());
-				
-				innerContent_.append("<input type=\"hidden\" id=\"MASTER_ID_SEL_\" name=\"MASTER_ID_SEL_\" value=\"\" />");
-				innerContent_.append("<input type=\"hidden\" id=\"masterNewEvent\" name=\"masterNewEvent\" value=\"\" />");
-				innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");
-				innerContent_.append("<input type=\"hidden\" id=\"" + PaginationGrid.ORDENACION + "\" name=\"" + PaginationGrid.ORDENACION + "\" value=\"\" />");
-				
-				innerContent_.append(bodyContentOfService);
-				
-				XmlUtils.closeXmlNode(innerContent_, IViewComponent.FORM_TYPE);
-				XmlUtils.closeXmlNode(innerContent_, IViewComponent.DIV_LAYER);
+			Map<String, String> scene = new HashMap<String, String>();
+			scene.put(data.getService(), data.getEvent());
+			DomainUseCaseService domainService = getDomainService(data.getService());
+		
+			if (getDomainService(data.getService()).extractActionElementByService(data.getEvent()) == null) {
+				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,
+						data.getService().concat(".").concat(data.getEvent()));
+				DomainApplicationContext.log.log(Level.SEVERE, s.toString());
+				throw new PCMConfigurationException(s.toString());
 			}
+			if (Event.isQueryEvent(data.getEvent())) {
+				dataAccess_ = getDataAccess(domainService, IEvent.QUERY);
+			} else if (Event.isFormularyEntryEvent(data.getEvent()) && discoverAllEvents(data.getService()).
+					contains(Event.getInherentEvent(data.getEvent()))) {
+				dataAccess_ = getDataAccess(domainService, Event.getInherentEvent(data.getEvent()));					
+			} else {
+				dataAccess_ = getDataAccess(domainService, data.getEvent());
+			}
+			
+			IAction action = null;
+			try {
+				action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, data.getService(), 
+						data.getEvent(), this), 
+						data.getService(), data.getEvent(), data, this, discoverAllEvents(data.getService()));
+			} catch (final PCMConfigurationException configExcep) {
+				throw configExcep;
+			} catch (final DatabaseException recExc) {
+				throw recExc;
+			}
+			
+			SceneResult sceneResult = domainService.paintCoreService(this, dataAccess_, data.getEvent(), data, 
+					eventSubmitted, action, 
+					new ArrayList<MessageException>());
+			
+			String bodyContentOfService = sceneResult.getXhtml();
+			
+			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
+			final String thisScene = data.getService().concat(PCMConstants.POINT).concat(data.getEvent());
+			final boolean hayRedireccion = eventSubmitted && !thisScene.equals(sceneRedirect);
+			
+			if (IEvent.VOLVER.equals(data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) || 
+					IEvent.CANCEL.equals(data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ||
+						hayRedireccion){		
+				//TODO
+			}				
+			final String stackNavShown = "", idsPila = "";
+			XmlUtils.openXmlNode(innerContent_, IViewComponent.DIV_LAYER_PRAL);
+			String pilaNavegacion2Show = "<br/><font style=\"color:green;font-weight:normal;font-size:78%;\"> " + 
+			((!"".equals(stackNavShown)? "Ruta nav.: <I>" + stackNavShown + "</I>" : "") + "</font>");
+			innerContent_.append(pilaNavegacion2Show);
+			innerContent_.append(IViewComponent.NEW_ROW);
+							
+			String idsDeNavegacion= "<font style=\"color:blue;font-weight:normal;font-size:74%;\"> " + 
+			((!"".equals(idsPila) ? "Identif.: <I>" + idsPila + "</I>" : "") + "</font>");
+			innerContent_.append(idsDeNavegacion);
+			innerContent_.append(IViewComponent.NEW_ROW);
+			
+			final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
+			htmFormElement_.append(IViewComponent.FORM_ATTRS);
+			htmFormElement_.append((String) data.getAttribute(PCMConstants.APPURI_));
+			htmFormElement_.append(IViewComponent.ENC_TYPE_FORM);
+			XmlUtils.openXmlNode(innerContent_, htmFormElement_.toString());
+			
+			innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");
+			//innerContent_.append("<input type=\"hidden\" id=\"" + PaginationGrid.ORDENACION + "\" name=\"" + PaginationGrid.ORDENACION + "\" value=\"\" />");
+			
+			innerContent_.append(bodyContentOfService);
+			
+			XmlUtils.closeXmlNode(innerContent_, IViewComponent.FORM_TYPE);
+			XmlUtils.closeXmlNode(innerContent_, IViewComponent.DIV_LAYER);
+			
+			return innerContent_.toString();
+			
 		} catch (final Throwable e2) {
 			throw new ServletException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, e2);		
 		} finally {
@@ -682,20 +522,19 @@ public class DomainApplicationContext implements Serializable {
 					this.getResourcesConfiguration().getDataSourceFactoryImplObject().freeConnection(dataAccess_.getConn());
 				}
 			} catch (final Throwable excSQL) {
-				CDDWebController.log.log(Level.SEVERE, "Error", excSQL);
+				DomainApplicationContext.log.log(Level.SEVERE, "Error", excSQL);
 				throw new ServletException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, excSQL);
 			}
-			//CDDWebController.log.log(Level.INFO, "XML salida: " + innerContent_.toString());		
 		}
-		return innerContent_.toString();
+		
 	}
 	
 	public static void main(String[] args){
 		
 		InputStream stream = null;
 		try {
-			//stream = new URL("https://github.com/pdulce/SeguimientoProyetos/WebContent/WEB-INF/cddconfig.xml").openStream();
-			stream = new URL("file:///C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\cddconfig.xml").openStream();
+			stream = new URL("file:////home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/cddconfig.xml").openStream();
+			//stream = new URL("file:///C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\cddconfig.xml").openStream();
 			DomainApplicationContext ctx = new DomainApplicationContext(stream);
 			ctx.invoke();
 			System.out.println("Title: " + ctx.getResourcesConfiguration().getAppTitle());
@@ -708,17 +547,15 @@ public class DomainApplicationContext implements Serializable {
 			Iterator<DomainUseCaseService> iteDomainServiceUseCase = ctx.getDomainServices().iterator();
 			while (iteDomainServiceUseCase.hasNext()){
 				DomainUseCaseService domainServiceUseCase = iteDomainServiceUseCase.next();
-				System.out.println("UseCase: " + domainServiceUseCase.getUseCaseName());
-				Iterator<String> iteSCUSet = domainServiceUseCase.getSubCasesNames().iterator();
-				while (iteSCUSet.hasNext()){
-					String sCU = iteSCUSet.next();
-					System.out.println("----> Sub-UseCase: " + sCU);
-					Iterator<String> iteActionSet = domainServiceUseCase.discoverAllEvents(sCU).iterator();
+				System.out.println("Service UUID: " + domainServiceUseCase.getUUID());
+				
+					System.out.println("----> UseCase: " + domainServiceUseCase.getSubCaseName());
+					Iterator<String> iteActionSet = domainServiceUseCase.discoverAllEvents().iterator();
 					while (iteActionSet.hasNext()){
 						String action = iteActionSet.next();
 						System.out.println(" ----------------> Action: " + action);
 					}
-				}
+				
 			}
 			System.out.println("");
 			System.out.println("**** FIN ARBOL DE APLICACION ****");
@@ -726,6 +563,7 @@ public class DomainApplicationContext implements Serializable {
 			
 			String profile = "ADMINISTRADOR";
 			Data data = new Data(ctx, profile);
+			data.setLanguage("es_");
 			data.setService("GestionResponsablesCentros");
 			data.setEvent("query");			
 			

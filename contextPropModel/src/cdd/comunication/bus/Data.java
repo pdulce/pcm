@@ -40,6 +40,7 @@ public class Data {
 
 	public void setEvent(String event_) {
 		this.event = event_;
+		this.setParameter(PCMConstants.EVENT, getService().concat(".").concat(event_));
 	}
 
 	private String language;

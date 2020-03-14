@@ -113,7 +113,8 @@ public static Logger log = Logger.getLogger("cdd.comunication.dispatcher.Navigat
 	public String getTitleOfAction(final DomainApplicationContext domainApplicationContext, final String service, final String event){		
 		String serviceSceneTitle = "";
 		try {
-			Element actionElementNode = domainApplicationContext.extractActionElementByService(service, event);
+			
+			Element actionElementNode = domainApplicationContext.getDomainService(service).extractActionElementByService(event);
 			NodeList nodes = actionElementNode.getElementsByTagName("form");
 			int n = nodes.getLength();
 			for (int nn=0;nn<n;nn++){

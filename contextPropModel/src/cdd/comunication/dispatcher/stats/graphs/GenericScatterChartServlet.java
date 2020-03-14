@@ -161,7 +161,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 		
 		IDataAccess dataAccess = null;
 		try {
-			dataAccess = contextApp.getDataAccess(data_.getService(), data_.getEvent());
+			dataAccess = contextApp.getDataAccess(contextApp.getDomainService(data_.getService()), data_.getEvent());
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error creating DataAccess object", e);
 		}

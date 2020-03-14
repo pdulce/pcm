@@ -247,8 +247,8 @@ public class CDDWebController extends HttpServlet {
 		}
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, data);
 		
-		final String initService = this.contextApp.getInitService(data);
-		final String initEvent = this.contextApp.getInitEvent(data);
+		final String initService = this.contextApp.getInitService();
+		final String initEvent = this.contextApp.getInitEvent();
 		String service = "";
 		boolean eventSubmitted = false, startingApp = false;
 		String event = data.getParameter(PCMConstants.EVENT);

@@ -49,11 +49,13 @@ public class ActionPagination extends AbstractPcmAction {
 		this.data = data_;
 		this.container = container_;
 		this.setEvent(event_);
+		this.setAppContext(context);
 		try {
-			this.actionElement = context.extractActionElementByService(serviceName, event_);
+			this.actionElement = context.getDomainService(serviceName).extractActionElementByService(event_);
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event_);
 		}
+		
 	}
 
 	@Override

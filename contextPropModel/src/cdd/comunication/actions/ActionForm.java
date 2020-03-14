@@ -68,7 +68,7 @@ public class ActionForm extends AbstractPcmAction {
 		this.registeredEvents = actionSet;
 		this.audits = AppCacheFactory.getFactoryInstance().getAppCache();
 		try {
-			this.actionElement = context.extractActionElementByService(serviceName, event_);
+			this.actionElement = context.getDomainService(serviceName).extractActionElementByService(event_);
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event_);
 		}
