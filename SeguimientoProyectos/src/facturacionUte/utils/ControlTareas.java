@@ -72,6 +72,8 @@ public class ControlTareas extends GeneradorPresentaciones{
 					actualListPeticiones4ThisApp.add(peticionDeApp);
 				}
 				
+				input.close();
+				
 				final StringBuilder strBuilder = new StringBuilder();
 				// ahora, recorremos cada app del mapa, y serializamos con separador ";" sus peticiones
 				Iterator<String> iteApps = mapaAppsPeticiones.keySet().iterator();

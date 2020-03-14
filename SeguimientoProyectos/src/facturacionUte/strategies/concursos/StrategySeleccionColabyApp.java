@@ -11,9 +11,8 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-
-import cdd.comunication.actions.Event;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
+import cdd.domain.service.event.Event;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;

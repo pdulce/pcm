@@ -1,8 +1,8 @@
 package facturacionUte.servlets.diagramas;
 
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.stats.graphs.GenericBarChartServlet;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.webapp.stats.graphs.GenericBarChartServlet;
 import facturacionUte.common.UnitsForFields;
 
 public class MyBarChartStatsServlet extends GenericBarChartServlet {

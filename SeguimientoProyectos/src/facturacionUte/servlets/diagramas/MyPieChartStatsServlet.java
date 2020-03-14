@@ -1,8 +1,8 @@
 package facturacionUte.servlets.diagramas;
 
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.stats.graphs.GenericPieChartServlet;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.webapp.stats.graphs.GenericPieChartServlet;
 import facturacionUte.common.UnitsForFields;
 
 public class MyPieChartStatsServlet extends GenericPieChartServlet {

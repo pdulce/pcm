@@ -3,7 +3,7 @@
  */
 package facturacionUte.common;
 
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
 
 /**

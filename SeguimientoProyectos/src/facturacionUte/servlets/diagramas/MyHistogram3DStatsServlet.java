@@ -1,8 +1,8 @@
 package facturacionUte.servlets.diagramas;
 
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.stats.graphs.GenericHistogram3DServlet;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.webapp.stats.graphs.GenericHistogram3DServlet;
 import facturacionUte.common.UnitsForFields;
 
 public class MyHistogram3DStatsServlet extends GenericHistogram3DServlet {

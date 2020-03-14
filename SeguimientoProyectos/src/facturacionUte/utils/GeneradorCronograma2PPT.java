@@ -15,6 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.Cell;
@@ -24,7 +27,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import cdd.common.comparator.ComparatorInteger;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.CDDWebController;
+
 import cdd.logicmodel.definitions.IFieldLogic;
 import cdd.logicmodel.factory.EntityLogicFactory;
 import cdd.logicmodel.factory.IEntityLogicFactory;
@@ -45,7 +48,23 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 	private static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_INI_DESAR = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO);
 	private static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR = MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS;
 	private static final Integer MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES);
-
+	
+	protected static Logger log = Logger.getLogger(GeneradorCronograma2PPT.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public GeneradorCronograma2PPT(final boolean dummy_, final String url_, final String entitiesDictionary, final String carpetaTrabajo_, final String carpetaSubdirec_, final String subDireccName_, final String patternsPath_, final List<File> excelInputFiles_){
 		super(dummy_, url_, entitiesDictionary, carpetaTrabajo_, carpetaSubdirec_, subDireccName_, patternsPath_, excelInputFiles_);
 	}	
@@ -135,7 +154,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 									fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName(), newPreffix.concat(moduloName));									
 									esFilaModulo = true;
 								}else if (!esFilaModulo){
-									CDDWebController.log.log(Level.SEVERE, "Error en columna " + nColum + " fila ..." + rowIEsima.getRowNum() + ": la fecha " + valueCell + " no es una fecha valida");
+									GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error en columna " + nColum + " fila ..." + rowIEsima.getRowNum() + ": la fecha " + valueCell + " no es una fecha valida");
 									throw new RuntimeException("Error en columna " + nColum);
 								}
 								valueCell = null;
@@ -149,13 +168,13 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 						valueCell = valueCell.equals("") ? null : CommonUtils.numberFormatter.parse(valueCell);
 					}catch (NumberFormatException excc){
 						if (!esFilaModulo){
-							CDDWebController.log.log(Level.SEVERE, "Error en columna " + nColum + " fila ..." + rowIEsima.getRowNum() + ": la fecha " + valueCell + " no es una numero");
+							GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error en columna " + nColum + " fila ..." + rowIEsima.getRowNum() + ": la fecha " + valueCell + " no es una numero");
 							throw new RuntimeException("Error en columna " + nColum);
 						}
 						valueCell = null;
 					}catch (ParseException exc2){
 						if (!esFilaModulo){
-							CDDWebController.log.log(Level.SEVERE, "Error en columna " + nColum + " fila ..." + rowIEsima.getRowNum() + ": la fecha " + valueCell + " no es una numero");
+							GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error en columna " + nColum + " fila ..." + rowIEsima.getRowNum() + ": la fecha " + valueCell + " no es una numero");
 							throw new RuntimeException("Error en columna " + nColum);
 						}
 						valueCell = null;
@@ -184,12 +203,12 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 			}catch (IllegalStateException excc1) {
 				if (!esFilaModulo){
 					excc1.printStackTrace();
-					CDDWebController.log.log(Level.SEVERE, "Error en columna " + nColum + " al importar fila ..." + rowIEsima.getRowNum());
+					GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error en columna " + nColum + " al importar fila ..." + rowIEsima.getRowNum());
 					throw new RuntimeException("Error en columna " + nColum);
 				}
 			}catch (Throwable excc2) {
 				excc2.printStackTrace();
-				CDDWebController.log.log(Level.SEVERE, "Error en columna " + nColum + " al importar fila ..." + rowIEsima.getRowNum());
+				GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error en columna " + nColum + " al importar fila ..." + rowIEsima.getRowNum());
 				throw new RuntimeException("Error en columna " + nColum);
 			}
 		}// for-each columnas
@@ -267,7 +286,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 		proyectoFSet.setValue(proyectoEntidad.searchField(ConstantesModelo.PROYECTO_2_CODIGO).getName(), aplicacionRochade);
 		List<FieldViewSet> proyectos = dataAccess.searchByCriteria(proyectoFSet);
 		if (proyectos == null || proyectos.isEmpty()){
-			CDDWebController.log.log(Level.SEVERE, "No se localiza el proyecto FOM2");
+			GeneradorCronograma2PPT.log.log(Level.SEVERE, "No se localiza el proyecto FOM2");
 			throw new RuntimeException("No se localiza el proyecto FOM2");
 		}
 		proyectoFSet = proyectos.get(0);
@@ -449,7 +468,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					//grabamos en BBDD esta peticion dummy
 					final int grabadaFila = dataAccess.insertEntity(fila);
 					if (grabadaFila < 1){
-						CDDWebController.log.log(Level.SEVERE, "Error al grabar fila");
+						GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error al grabar fila");
 						throw new RuntimeException("Error al grabar fila");
 					}
 
@@ -482,7 +501,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					//grabamos en BBDD esta peticion
 					final int grabadaFila = dataAccess.insertEntity(fila);
 					if (grabadaFila < 1){
-						CDDWebController.log.log(Level.SEVERE, "Error al grabar fila");
+						GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error al grabar fila");
 						throw new RuntimeException("Error al grabar fila");
 					}
 					

@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.comunication.actions.SceneResult;
-import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.bus.Data;
-import cdd.domain.services.DomainApplicationContext;
+import cdd.webapp.CDDWebController;
+import cdd.data.bus.Data;
+import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.event.SceneResult;
 import cdd.logicmodel.IDataAccess;
 
 import facturacionUte.utils.bolsa.ValoresActuales;
@@ -86,13 +86,13 @@ public class LauncherServlet extends CDDWebController {
 	}
 
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final DomainApplicationContext context, 
+	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain context, 
 			final Data data_) {
 		
 		
 		IDataAccess dataAccess = null;
 		try {
-			dataAccess = contextApp.getDataAccess(data_.getService(), data_.getEvent());
+			dataAccess = contextApp.getDataAccess(context.getDomainService(data_.getService()), data_.getEvent());
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error creating DataAccess object", e);
 		}
@@ -100,15 +100,15 @@ public class LauncherServlet extends CDDWebController {
 		StringBuilder htmlOutput = new StringBuilder();
 		htmlOutput.append("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\""
 				+ UTIL_URI_SERVLET + "\">");
-		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"" + data_.getParameter(DomainApplicationContext.EXEC_PARAM) + "\" />");
+		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"" + data_.getParameter(ApplicationDomain.EXEC_PARAM) + "\" />");
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\""+PCMConstants.EVENT+"\" value=\"" + event + "\" />");
 		
-		if (data_.getParameter(DomainApplicationContext.EXEC_PARAM) == null){
+		if (data_.getParameter(ApplicationDomain.EXEC_PARAM) == null){
 			return new SceneResult();
-		}else if (data_.getParameter(DomainApplicationContext.EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
+		}else if (data_.getParameter(ApplicationDomain.EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
 			//actualizar todos los valores desde invertia.com/historicos
 			htmlOutput.append(new ValoresActuales().refrescarIndicesBursatiles(data_, dataAccess));						
-		}else if (data_.getParameter(DomainApplicationContext.EXEC_PARAM).startsWith(EVENTO_MY_INFO_BOLSA_VALORES)) {
+		}else if (data_.getParameter(ApplicationDomain.EXEC_PARAM).startsWith(EVENTO_MY_INFO_BOLSA_VALORES)) {
 			//pintar el valor oltimo de las empresas/sectores/ondices bursotiles de la lista
 			htmlOutput.append(new ValoresActuales().refreshMiCartera(data_, dataAccess));
 		}

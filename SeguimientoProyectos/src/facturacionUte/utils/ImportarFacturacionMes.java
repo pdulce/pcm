@@ -14,6 +14,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -22,8 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.comunication.dispatcher.CDDWebController;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.logicmodel.definitions.IEntityLogic;
 import cdd.logicmodel.definitions.ILogicTypes;
@@ -65,6 +67,23 @@ public class ImportarFacturacionMes {
 
 	private static IEntityLogic tarifaPerfilEntidad, simulacionEntidad, concursoEntidad, empresaEntidad, colaboradorEntidad, facturacionMesColaboradoryAppEntidad, appEntidad, servicioEntidad, dptoEntidad, 
 	facturacionMesColaborador, facturacionMesApp, categoriaProfesional, mesEntidad, appColaboradorEntidad;
+	
+	protected static Logger log = Logger.getLogger(ImportarFacturacionMes.class.getName());
+	
+	static {
+		if (log.getHandlers().length == 0) {
+			try {
+				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
+				log.addHandler(strdout);
+				log.setLevel(Level.INFO);
+				log.log(Level.INFO, "Logger activado");
+			}
+			catch (SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	
 	private static final String getColumName(int hoja, final int position){
 		if (hoja == 0){
@@ -275,7 +294,7 @@ public class ImportarFacturacionMes {
 				}
 				catch (Throwable excc) {
 					excc.printStackTrace();
-					CDDWebController.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
+					ImportarFacturacionMes.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
 					return -1;
 				}
 			}// for columnas de la HOJA 0
@@ -328,7 +347,7 @@ public class ImportarFacturacionMes {
 				}
 				catch (Throwable excc) {
 					excc.printStackTrace();
-					CDDWebController.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
+					ImportarFacturacionMes.log.log(Level.SEVERE, "Error en columna al importar fila..." + nrow);
 					return -1;
 				}			
 			}// for columnas de la HOJA 1

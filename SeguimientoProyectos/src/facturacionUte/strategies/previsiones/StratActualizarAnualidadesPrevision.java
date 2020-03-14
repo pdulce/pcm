@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.comunication.bus.Data;
+import cdd.data.bus.Data;
 import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyRequest;
 import cdd.viewmodel.definitions.FieldViewSet;

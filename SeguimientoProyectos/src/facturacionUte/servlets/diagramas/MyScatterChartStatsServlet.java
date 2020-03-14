@@ -1,9 +1,9 @@
 package facturacionUte.servlets.diagramas;
 
 
-import cdd.comunication.bus.Data;
-import cdd.comunication.dispatcher.stats.graphs.GenericScatterChartServlet;
+import cdd.data.bus.Data;
 import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.webapp.stats.graphs.GenericScatterChartServlet;
 import facturacionUte.common.UnitsForFields;
 
 public class MyScatterChartStatsServlet extends GenericScatterChartServlet {
