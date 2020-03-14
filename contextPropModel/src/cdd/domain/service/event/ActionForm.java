@@ -23,7 +23,6 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
-import cdd.domain.component.components.BodyContainer;
 import cdd.domain.component.components.Form;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.components.XmlUtils;
@@ -35,7 +34,6 @@ import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.AppCacheFactory;
-import cdd.domain.entitymodel.factory.EntityLogicFactory;
 import cdd.domain.service.DomainService;
 import cdd.dto.Data;
 import cdd.dto.IFieldValue;
@@ -55,11 +53,8 @@ import cdd.strategies.DefaultStrategyLogin;
  */
 
 public class ActionForm extends AbstractPcmAction {
-
-	private final Map<String, String> audits;
 	
 	protected static Logger log = Logger.getLogger(ActionForm.class.getName());
-	
 	static {
 		if (log.getHandlers().length == 0) {
 			try {
@@ -67,12 +62,12 @@ public class ActionForm extends AbstractPcmAction {
 				log.addHandler(strdout);
 				log.setLevel(Level.INFO);
 				log.log(Level.INFO, "Logger activado");
-			}
-			catch (SecurityException e) {
+			} catch (SecurityException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	private final Map<String, String> audits;
 	
 	public ActionForm(final IBodyContainer container_, final Data data_, final DomainService domainService, 
 			final String event_, final Collection<String> actionSet) {
@@ -116,7 +111,6 @@ public class ActionForm extends AbstractPcmAction {
 
 		SceneResult result = new SceneResult();
 		final Collection<MessageException> erroresMsg = new ArrayList<MessageException>();
-
 		try {
 			result = executeEvent(dataAccess_, this.getEvent(), submittedEvent_, this.container, prevMessages);
 			Iterator<IViewComponent> iteForms = this.container.getForms().iterator();
@@ -124,9 +118,7 @@ public class ActionForm extends AbstractPcmAction {
 				Form form_ = (Form) iteForms.next();
 				form_.setDestine(result.isSuccess() ? this.getSubmitSuccess() : this.getSubmitError());
 			}
-
-		}
-		catch (final Throwable parqExc) {
+		} catch (final Throwable parqExc) {
 			final MessageException errorMsg = new MessageException(IAction.ERROR_BUSCANDO_REGISTROS_MSG_CODE);
 			errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, parqExc.getMessage()));
 			erroresMsg.add(errorMsg);
@@ -174,8 +166,7 @@ public class ActionForm extends AbstractPcmAction {
 				final Collection<String> vals = this.getRequestValues(fieldView);
 				fieldViewSet.setValues(fieldView.getQualifiedContextName(), vals);
 			}
-		}
-		catch (final Throwable ezxx) {
+		} catch (final Throwable ezxx) {
 			ActionForm.log.log(Level.SEVERE, InternalErrorsConstants.SETTING_USERINFO_EXCEPTION, ezxx);
 		}
 	}
@@ -190,86 +181,19 @@ public class ActionForm extends AbstractPcmAction {
 		
 	}
 
-	private List<MessageException> bindingPhase(final String event_, final Form form_, final IDataAccess dataAccess_, boolean submitted)
-			throws Throwable {
+	private List<MessageException> bindingPhase(final String event_, final Form form_, 
+			final IDataAccess dataAccess_, boolean submitted) throws Throwable {
+		
+		List<MessageException> err = new ArrayList<MessageException>();	
 		if (form_.getFieldViewSetCollection().getFieldViewSets().isEmpty()) {
-			return null;
+			return err;
 		}
 		final int positionOfFirstEntityForm = getFirstFSetOfEntity(form_.getFieldViewSets());
-		List<MessageException> err = new ArrayList<MessageException>();	
-		if (positionOfFirstEntityForm > -1 && (Event.isFormularyEntryEvent(this.event) || Event.isDetailEvent(this.event))) {						
-			if (IEvent.VOLVER.equals(this.data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ||
-					IEvent.CANCEL.equals(this.data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ){
-				
-				String sceneRedirect = this.data.getParameter(PCMConstants.EVENT);
-				String eventRedirect = sceneRedirect.split(PCMConstants.REGEXP_POINT)[1];				
-				IAction actionObjectOfRedirect = null;
-				try {
-					Collection<String> regEvents = new ArrayList<String>();
-					IBodyContainer containerView_ = BodyContainer.getContainerOfView(this.data, dataAccess_, this.domainService, eventRedirect);
-					actionObjectOfRedirect = getAction(containerView_, this.domainService, eventRedirect, this.data, regEvents);
-					Form originalForm = (Form) containerView_.getForms().get(0);
-					List<MessageException> messageExceptions = new ArrayList<MessageException>();
-					originalForm.bindUserInput(actionObjectOfRedirect, messageExceptions);					
-					FieldViewSet fSetOfParentEntity = form_.getFieldViewSets().get(positionOfFirstEntityForm);
-					IEntityLogic entidadPadre = fSetOfParentEntity.getEntityDef();
-					IFieldLogic pkField = entidadPadre.getFieldKey().getPkFieldSet().iterator().next();
-					
-					FieldViewSet fSetOfChildEntity = originalForm.getFieldViewSets().get(getFirstFSetOfEntity(originalForm.getFieldViewSets()));
-					IEntityLogic entidadHija = fSetOfChildEntity.getEntityDef();
-					String paramMaster = "";
-					if (!entidadPadre.getName().equals(entidadHija.getName())){
-												
-						IFieldLogic fkField = entidadHija.getFkFields(pkField).iterator().next();
-						
-						Serializable serial_ = fSetOfChildEntity.getValue(fkField.getName());
-						paramMaster = entidadPadre.getName().concat(".").concat(pkField.getName()).concat("=").concat(serial_.toString());
-						this.getDataBus().setAttribute(PCMConstants.MASTER_ID_SEL_, paramMaster);
-						
-					}else{
-						//llega departamento.servicio si es de un servicio anidado, o si es del edicion a partir del evento-query raiz...tratar ambos casos
-						String lang = this.data.getEntitiesDictionary();
-						String serial_ = null;
-						Iterator<String> enumPa = this.data.getParameterNames().iterator();
-						while (enumPa.hasNext()){
-							String param = enumPa.next();
-							String[] splitter = param.split(PCMConstants.REGEXP_POINT);
-							if (splitter.length == 2){
-								String entidadParam =  splitter[0];
-								String campoParam =  splitter[1];
-								boolean esEntidad =	EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(lang, entidadParam);
-								if (esEntidad){
-									IEntityLogic entidadInner = EntityLogicFactory.getFactoryInstance().getEntityDef(lang, entidadParam);
-									IFieldLogic campoFK = entidadInner.searchByName(campoParam);
-									if (campoFK.getParentFieldEntity(entidadPadre.getName()) != null){
-										serial_ = this.data.getParameter(param);
-										String[] splitterValue = serial_.split("=");
-										if (splitterValue.length == 2){
-											serial_ =  splitterValue[1];
-										}
-										break;
-									}//
-								}//
-							}//if
-						}//while
-						if (serial_ != null){
-							paramMaster = entidadPadre.getName().concat(".").concat(pkField.getName()).concat("=").concat(serial_.toString());
-							this.getDataBus().setAttribute(PCMConstants.MASTER_ID_SEL_, paramMaster);
-						}
-					}//else
-					
-				}
-				catch (final PCMConfigurationException configExcep) {
-					throw configExcep;
-				}
-			}//if-end : when event pressed is volver o cancel 
-			
+		if (positionOfFirstEntityForm > -1 && (Event.isFormularyEntryEvent(this.event) || Event.isDetailEvent(this.event))) {
 			form_.bindPrimaryKeys(this, err);
-			
 			if (!err.isEmpty() && !event_.equals(IEvent.SHOW_FORM_CREATE) && !event_.equals(IEvent.CREATE)) {
 				throw new KeyNotFoundException(InternalErrorsConstants.GETTING_PK_RECORD_EXCEPTION);
 			}
-			
 		}
 		
 		final Iterator<FieldViewSet> fieldViewSetIte = form_.getFieldViewSetCollection().getFieldViewSets().iterator();
@@ -345,7 +269,6 @@ public class ActionForm extends AbstractPcmAction {
 			} else if (entidadRelacionada.getParentEntities().contains(entidad)) {
 				IFieldLogic fieldPKMaster = entidad.getFieldKey().getPkFieldSet().iterator().next();
 				IFieldLogic fkDetail = entidadRelacionada.getFkFields(fieldPKMaster).iterator().next();
-
 				Serializable value = f.getValue(fkDetail.getName());
 				if (value != null) {
 					wasFilledWithAnyValue = true;
@@ -369,16 +292,10 @@ public class ActionForm extends AbstractPcmAction {
 		while (iteFCollections.hasNext()) {
 			Form form_ = (Form) iteFCollections.next();
 			FieldViewSetCollection fCollectionIesimo = form_.getFieldViewSetCollection();
-
 			try {
-
-				/** TRATAMIENTO DE ESTE COMPONENTE FORMULARIO **/
-
 				msgs = this.bindingPhase(event_, form_, dataAccess, eventSubmitted_);
 				if (eventSubmitted_) {
-					
 					if (this.isTransactional()) {
-						
 						final Iterator<FieldViewSet> iteratorfSet = fCollectionIesimo.getFieldViewSets().iterator();
 						while (iteratorfSet.hasNext()) {
 							FieldViewSet fSet = iteratorfSet.next();
@@ -390,7 +307,6 @@ public class ActionForm extends AbstractPcmAction {
 								|| (dataAccess.getEntitiesToUpdate().isEmpty() && fCollectionIesimo.getFieldViewSets().size() < 1)) {
 							throw new ParameterBindingException("Errores en transaccion");
 						}
-						
 						dataAccess.setAutocommit(false);
 						if (Event.isDeleteEvent(event_) ){
 							//ejecutar estrategia genorica de borrado protegiendo la integridad referencial	VS borrados en cascada											
@@ -400,7 +316,7 @@ public class ActionForm extends AbstractPcmAction {
 					
 					if (!dataAccess.getPreconditionStrategies().isEmpty()) {
 						try {
-							executeStrategyPre(dataAccess, fCollectionIesimo);// Pre-condiciones
+							executeStrategyPre(dataAccess, fCollectionIesimo);
 						} catch (final StrategyException stratExc) {
 							if (this.isTransactional()) {
 								dataAccess.rollback();
@@ -409,11 +325,9 @@ public class ActionForm extends AbstractPcmAction {
 						}
 					}
 					
-					if (this.isTransactional()) {
-												
+					if (this.isTransactional()) {	
 						this.doTransaction(event_, form_, dataAccess);
 						dataAccess.commit();
-						
 						if (!dataAccess.getStrategies().isEmpty()) {//estrategias de POST
 							dataAccess.setAutocommit(false);
 							try{
@@ -424,11 +338,10 @@ public class ActionForm extends AbstractPcmAction {
 								throw stratPostExc;
 							}
 						}
-
 						final Iterator<FieldViewSet> iterador = fCollectionIesimo.getFieldViewSets().iterator();
 						while (iterador.hasNext()) {
 							final FieldViewSet fieldViewSet = iterador.next();
-							if (fieldViewSet.isUserDefined()
+							if (fieldViewSet.isUserDefined() 
 									|| !dataAccess.getEntitiesToUpdate().contains(fieldViewSet.getEntityDef().getName())) {
 								continue;
 							}
@@ -451,37 +364,30 @@ public class ActionForm extends AbstractPcmAction {
 						}
 					}
 				}
-
 				res.setSuccess(Boolean.TRUE);
-			}
-			catch (final PCMConfigurationException configExcep1) {
+			} catch (final PCMConfigurationException configExcep1) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_LEYENDO_CONFIGURACION_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.CONFIG_PARAM, configExcep1.getMessage()));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final ParameterBindingException formatExc) {
+			} catch (final ParameterBindingException formatExc) {
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final KeyNotFoundException elementExc) {
+			} catch (final KeyNotFoundException elementExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, " seleccion "));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final DatabaseException recExc) {
+			} catch (final DatabaseException recExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_LLENANDO_ENTITIES_MSG_CODE);
 				errorMsg.addParameter(new Parameter(PCMConstants.ENTIYY_PARAM, recExc.getMessage()));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final TransactionException transacExc) {
+			} catch (final TransactionException transacExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_GRABANDO_REGISTRO_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, transacExc.getMessage()));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final StrategyException stratExc) {
+			} catch (final StrategyException stratExc) {
 				boolean defaultStrategy = stratExc.getMessage().indexOf("_STRATEGY_") != -1;
 				final MessageException errorMsg = new MessageException(stratExc.getMessage(), !defaultStrategy/*si es default strategy no es app rule***/, MessageException.ERROR);
 				final Collection<Object> params = stratExc.getParams();
@@ -494,21 +400,18 @@ public class ActionForm extends AbstractPcmAction {
 				}
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final SQLException parqExc) {
+			} catch (final SQLException parqExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_GRABANDO_REGISTRO_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, parqExc.getMessage()));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final Throwable throwExc00) {
+			} catch (final Throwable throwExc00) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_BINDING_CODE);
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, throwExc00.getMessage()));
 				msgs.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
 			}
 		}
-
 		msgs.addAll(prevMessages);
 		res.setXhtml(container.toXML(this.data, dataAccess, eventSubmitted_, msgs));
 		res.setMessages(msgs);

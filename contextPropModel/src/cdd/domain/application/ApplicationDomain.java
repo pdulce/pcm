@@ -465,26 +465,6 @@ public class ApplicationDomain implements Serializable {
 					eventSubmitted, action, messages);
 			
 			String bodyContentOfService = sceneResult.getXhtml();
-			final String thisScene = data.getService().concat(PCMConstants.POINT).concat(data.getEvent());
-			final boolean hayRedireccion = eventSubmitted && !thisScene.equals(sceneRedirect);
-			
-			if (IEvent.VOLVER.equals(data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) || 
-					IEvent.CANCEL.equals(data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ||
-						hayRedireccion){		
-				//TODO
-			}				
-			final String stackNavShown = "", idsPila = "";
-			XmlUtils.openXmlNode(innerContent_, IViewComponent.DIV_LAYER_PRAL);
-			String pilaNavegacion2Show = "<br/><font style=\"color:green;font-weight:normal;font-size:78%;\"> " + 
-			((!"".equals(stackNavShown)? "Ruta nav.: <I>" + stackNavShown + "</I>" : "") + "</font>");
-			innerContent_.append(pilaNavegacion2Show);
-			innerContent_.append(IViewComponent.NEW_ROW);
-							
-			String idsDeNavegacion= "<font style=\"color:blue;font-weight:normal;font-size:74%;\"> " + 
-			((!"".equals(idsPila) ? "Identif.: <I>" + idsPila + "</I>" : "") + "</font>");
-			innerContent_.append(idsDeNavegacion);
-			innerContent_.append(IViewComponent.NEW_ROW);
-			
 			final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
 			htmFormElement_.append(IViewComponent.FORM_ATTRS);
 			htmFormElement_.append((String) data.getAttribute(PCMConstants.APPURI_));

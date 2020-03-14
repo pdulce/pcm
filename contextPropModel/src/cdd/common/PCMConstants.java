@@ -42,7 +42,6 @@ public interface PCMConstants {
 			COMMA = ",", POINT = ".", AMPERSAND = "#", SEPARATOR_SPECIAL = "o", POINT_COMMA = ";", EQUALS = "=", END_FUNC = "')",
 			BEGIN_PARENTHESIS = "(", END_PARENTHESIS = ")", NEXT_STRING_ARG = "','", NEXT_NO_STRING_ARG = "', ", SIMPLE_COMILLA = "'",
 			UNDERSCORE = "_", COMMA_ARGS = "\",\"", SECOND_COMMA_ARGS = ",\"", STRING_SPACE = " ", END_BLOCK = "}", EVENT = "event", 								
-			MASTER_ID_SEL_ = "MASTER_ID_SEL_", MASTER_NEW_EVENT_ = "masterNewEvent",
 			BEGIN_BLOCK = "{", SIMPLE_SEPARATOR = "-",
 			HTTP_PARAM_SEPARATOR = "&", ENTIYY_PARAM = "entity", HTTP_FIRST_PARAM_SEPARATOR = "?", PERCENTAGE_SCAPED = "\\%",
 			PERCENTAGE = "%", INVERSE_SLASH = "/", CHAR_DOBLE_POINT_S = ":", ESTILO_PAR = "trPaired", ESTILO_IMPAR = "trImpaired",

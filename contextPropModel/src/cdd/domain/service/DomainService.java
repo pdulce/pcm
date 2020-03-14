@@ -51,15 +51,7 @@ public class DomainService {
 		ACTION_ELEMENT = "action",
 		EVENT_ATTR = "event";
 	
-	private boolean auditOn = false;
-	private String source, uuid;
-	private Document docOfServiceFileDescr;
-	private Element useCase;
-	private boolean isInitial = false;
-	private List<String> events;
-	
 	protected static Logger log = Logger.getLogger(DomainService.class.getName());
-	
 	static {
 		if (log.getHandlers().length == 0) {
 			try {
@@ -71,6 +63,28 @@ public class DomainService {
 			catch (SecurityException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	private boolean auditOn = false;
+	private String source, uuid;
+	private Document docOfServiceFileDescr;
+	private Element useCase;
+	private boolean isInitial = false;
+	private List<String> events;
+	
+	public DomainService(String path_, boolean auditOn_){
+		this.setAuditOnService(auditOn_);
+		int sep = path_.lastIndexOf(File.separator);
+		this.uuid = path_.substring(sep+1, path_.length());
+		this.source = path_;
+		try {
+			readDomainService();
+		} catch (SAXException e1) {
+			throw new RuntimeException("SAXException: " + e1);
+		} catch (IOException e2) {
+			throw new RuntimeException("IOException: " + e2);
+		} catch (ParserConfigurationException e3) {
+			throw new RuntimeException("ParserConfigurationException: " + e3);
 		}
 	}
 	
@@ -100,39 +114,24 @@ public class DomainService {
 	}
 	
 	
-	public DomainService(String path_, boolean auditOn_){
-		this.setAuditOnService(auditOn_);
-		int sep = path_.lastIndexOf(File.separator);
-		this.uuid = path_.substring(sep+1, path_.length());
-		this.source = path_;
-		try {
-			readDomainService();
-		} catch (SAXException e1) {
-			throw new RuntimeException("SAXException: " + e1);
-		} catch (IOException e2) {
-			throw new RuntimeException("IOException: " + e2);
-		} catch (ParserConfigurationException e3) {
-			throw new RuntimeException("ParserConfigurationException: " + e3);
-		}
-	}
+	
 	
 	public final void readDomainService() throws SAXException, IOException,
 	ParserConfigurationException {		
 		File fileOfService = new File(this.source);
-		this.docOfServiceFileDescr = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new FileInputStream(fileOfService));
+		this.docOfServiceFileDescr = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+				new FileInputStream(fileOfService));
 		final NodeList listaNodes = this.docOfServiceFileDescr.getElementsByTagName(DomainService.SERVICE_ELEMENT);
 		if (listaNodes.getLength() == 0) {
 			throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(" ")
 					.append(" need some service nodes").toString());
 		}
-		
 		final Element serviceNode = (Element) listaNodes.item(0);
 		if (!serviceNode.hasAttribute(DomainService.NAME_ATTR)) {
 			throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(" ")
 					.append(" need NAME ATTRIBUTE in metamodel file definition").toString());
 		}
 		this.useCase = serviceNode;
-		
 	}
 	
 	public String getUUID_(){
@@ -176,7 +175,8 @@ public class DomainService {
 		}
 		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).append(actionName).append(
 				PCMConstants.STRING_SPACE);
-		excep.append(InternalErrorsConstants.SERVICE_LITERAL).append(this.docOfServiceFileDescr).append(InternalErrorsConstants.NOT_FOUND_LITERAL);
+		excep.append(InternalErrorsConstants.SERVICE_LITERAL).append(this.docOfServiceFileDescr).append(
+				InternalErrorsConstants.NOT_FOUND_LITERAL);
 		throw new PCMConfigurationException(excep.toString());
 	}
 	
@@ -218,7 +218,8 @@ public class DomainService {
 		return arrViewComponents;
 	}
 	
-	public final Collection<String> extractStrategiesPreElementByAction(final String event) throws PCMConfigurationException {
+	public final Collection<String> extractStrategiesPreElementByAction(final String event) 
+			throws PCMConfigurationException {
 		Element actionParentNode = this.extractActionElementByService(event);
 		final Collection<String> strategs = new ArrayList<String>();
 		if (actionParentNode.hasAttribute(STRATEGY_PRECONDITION_ATTR)) {
@@ -227,7 +228,8 @@ public class DomainService {
 		return strategs;
 	}
 	
-	public final Collection<String> extractStrategiesElementByAction(final String event) throws PCMConfigurationException {
+	public final Collection<String> extractStrategiesElementByAction(final String event) 
+			throws PCMConfigurationException {
 		Element actionParentNode = this.extractActionElementByService(event);
 		final Collection<String> strategs = new ArrayList<String>();
 		if (actionParentNode.hasAttribute(STRATEGY_ATTR)) {
@@ -256,7 +258,6 @@ public class DomainService {
 	
 	public SceneResult invokeServiceCore(final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
 			IAction action, Collection<MessageException> messageExceptions) {
-		
 		try {
 			return action.executeAction(dataAccess, data, eventSubmitted, messageExceptions);
 		}catch(Throwable exc) {
@@ -274,7 +275,6 @@ public class DomainService {
 		String eventRedirect = null;
 		try {
 			IBodyContainer containerView = BodyContainer.getContainerOfView(data, dataAccess, this, event);
-
 			if (dataAccess.getPreconditionStrategies().isEmpty()) {
 				dataAccess.getPreconditionStrategies().addAll(
 						this.extractStrategiesPreElementByAction(event));
@@ -299,9 +299,9 @@ public class DomainService {
 				} else {					
 					final String serviceQName = new StringBuilder(data.getService()).append(PCMConstants.CHAR_POINT).append(data.getEvent()).toString();
 					if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {
+						
 						serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
 						eventRedirect = sceneRedirect.substring(serviceRedirect.length() + 1, sceneRedirect.length());
-						
 						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(data, dataAccess, serviceRedirectDomain, eventRedirect);
 						
 						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
@@ -349,7 +349,7 @@ public class DomainService {
 			DomainService.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(InternalErrorsConstants.BODY_CREATING_EXCEPTION);
-			values.add(" ********   ");
+			values.add(" ******** ERROR:   ");
 			values.add(exc.getMessage());
 			values.add(" ********   ");
 			sceneResult.appendXhtml(new Span().toHTML(values));
@@ -361,7 +361,6 @@ public class DomainService {
 		}
 		return sceneResult;
 	}
-	
 	
 	
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
@@ -136,27 +135,24 @@ public class ActionPagination extends AbstractPcmAction {
 						throw stratExc;
 					}
 				}
-				
-				//control de paginacion
 				if (paginationGrid.getDefaultOrderFields() == null || paginationGrid.getDefaultOrderFields().length==0){
 					throw new PCMConfigurationException(InternalErrorsConstants.MUST_DEFINE_ORDER_FIELD);
 				}
+				
 				String nameSpace = paginationGrid.getDefaultOrderFields()[0].split(PCMConstants.REGEXP_POINT)[0];
-				
 				String paramOrdenacion = this.getDataBus().getParameter(PaginationGrid.ORDENACION);
-				
 				String nameSpaceActual = paramOrdenacion==null?"":paramOrdenacion.split(PCMConstants.REGEXP_POINT)[0];
 				String[] camposOrdenacionActual = paramOrdenacion==null?null:paramOrdenacion.split(PCMConstants.COMMA);
 				String dirOrdenacionActual = this.getDataBus().getParameter(PaginationGrid.DIRECCION);
 				if (camposOrdenacionActual != null && camposOrdenacionActual.length > 0 && nameSpace.equals(nameSpaceActual)){
 					paginationGrid.setOrdenationFieldsSel(camposOrdenacionActual);
 					if (dirOrdenacionActual != null && !"".equals(dirOrdenacionActual)){
-						paginationGrid.setOrdenacionDirectionSel(dirOrdenacionActual);//.equals("asc")? "desc" : "asc"), por si necesitamos invertir el orden
+						paginationGrid.setOrdenacionDirectionSel(dirOrdenacionActual);
 					}
 				}
 
-				if (paginationGrid.getMasterNamespace() != null && !paginationGrid.getFieldViewSetCollection().getFieldViewSets().isEmpty()
-						&& myForm != null) {					
+				if (paginationGrid.getMasterNamespace() != null && 
+						!paginationGrid.getFieldViewSetCollection().getFieldViewSets().isEmpty() && myForm != null) {					
 					pageSize = 100;
 					detailGridElement = paginationGrid.getFieldViewSetCollection().getFieldViewSets().iterator().next();
 					detailGridElement.getNamedValues().clear();
@@ -171,17 +167,7 @@ public class ActionPagination extends AbstractPcmAction {
 					if (valueofPk == null) {
 						valueofPk = data.getParameter(pkSel.replaceFirst("Sel", ""));
 						if (valueofPk == null){
-							valueofPk = data.getParameter(paginationGrid.getMasterEntityNamespace().concat(".").concat(idMasterId));													
-							if (valueofPk == null){
-								valueofPk = data.getParameter(PCMConstants.MASTER_ID_SEL_);								
-								if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {
-									valueofPk = (String) this.getDataBus().getAttribute(PCMConstants.MASTER_ID_SEL_);
-									if (valueofPk != null && !valueofPk.equals("")){
-										String[] args = valueofPk.split(";");
-										valueofPk = args[args.length-1].split("=")[1];
-									}
-								}
-							}				
+							valueofPk = data.getParameter(paginationGrid.getMasterEntityNamespace().concat(".").concat(idMasterId));																	
 						}
 					}
 					Serializable value = null;
@@ -190,16 +176,6 @@ public class ActionPagination extends AbstractPcmAction {
 							value = FieldCompositePK.desempaquetarPK(valueofPk, entidadPadre.getName()).values().iterator().next();
 						} else {
 							value = valueofPk;
-						}
-					} else if (data.getParameter(PCMConstants.MASTER_ID_SEL_) != null
-							&& !PCMConstants.EMPTY_.equals(data.getParameter(PCMConstants.MASTER_ID_SEL_))) {
-						valueofPk = data.getParameter(PCMConstants.MASTER_ID_SEL_);
-						final Map<String, Serializable> valoresCamposPK = FieldCompositePK.desempaquetarPK(valueofPk.toString(),
-								paginationGrid.getMasterNamespace());
-						final Iterator<Map.Entry<String, Serializable>> ite = valoresCamposPK.entrySet().iterator();
-						while (ite.hasNext()) {
-							final Map.Entry<String, Serializable> entry = ite.next();
-							value = entry.getValue() != null ? entry.getValue().toString() : PCMConstants.EMPTY_;
 						}
 					} else {
 						String nombreInputHiddenMasterEntityId = paginationGrid.getMasterNamespace().concat(".")
@@ -246,9 +222,11 @@ public class ActionPagination extends AbstractPcmAction {
 				}else{
 					filtroForQuery.getFieldViewSets().addAll(myForm.getFieldViewSetCollection().getFieldViewSets());
 				}
+				boolean noCriteriaOrder =paginationGrid.getOrdenationFieldSel().length == 0 || (paginationGrid.getOrdenationFieldSel().length == 1
+						|| paginationGrid.getOrdenationFieldSel()[0] == null);
 				List<FieldViewSetCollection> coleccion = dataAccess_.searchRowsWithPagination(filtroForQuery,
 						paginationGrid.getFieldViewSetCollection(), pageSize, paginationGrid.getCurrentPage(),
-						"".equals(paginationGrid.getOrdenationFieldSel()) ? paginationGrid.getDefaultOrderFields() : paginationGrid.getOrdenationFieldSel(), 
+						noCriteriaOrder ? paginationGrid.getDefaultOrderFields() : paginationGrid.getOrdenationFieldSel(), 
 								"".equals(paginationGrid.getOrdenacionDirectionSel()) ? paginationGrid.getDefaultOrderDirection() : paginationGrid.getOrdenacionDirectionSel());
 				if (paginationGrid.getFilterField() != null) {
 					Collection<FieldViewSetCollection> newCollection = new ArrayList<FieldViewSetCollection>();
@@ -283,27 +261,23 @@ public class ActionPagination extends AbstractPcmAction {
 					paginationGrid.setCurrentPage(1);
 				}
 				res.setSuccess(Boolean.TRUE);
-			}
-			catch (final PCMConfigurationException configExcep) {
+			} catch (final PCMConfigurationException configExcep) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_LEYENDO_CONFIGURACION_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.CONFIG_PARAM, configExcep.getMessage()));
 				erroresMsg.add(errorMsg);
 				configExcep.setErrors(erroresMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final ParameterBindingException formatExc) {
+			} catch (final ParameterBindingException formatExc) {
 				erroresMsg.addAll(erroresMsg);
 				formatExc.setErrors(erroresMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final DatabaseException recExc) {
+			} catch (final DatabaseException recExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_LLENANDO_ENTITIES_MSG_CODE);
 				errorMsg.addParameter(new Parameter(PCMConstants.ENTIYY_PARAM, recExc.getMessage()));
 				erroresMsg.add(errorMsg);
 				recExc.setErrors(erroresMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final StrategyException stratExc) {
+			} catch (final StrategyException stratExc) {
 				boolean defaultStrategy = stratExc.getMessage().indexOf("_STRATEGY_") != -1;
 				final MessageException errorMsg = new MessageException(stratExc.getMessage(), !defaultStrategy/*si es default strategy no es app rule***/, MessageException.ERROR);
 				final Collection<Object> params = stratExc.getParams();
@@ -316,8 +290,7 @@ public class ActionPagination extends AbstractPcmAction {
 				}
 				erroresMsg.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
-			}
-			catch (final Throwable parqExc) {
+			} catch (final Throwable parqExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_BUSCANDO_REGISTROS_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, parqExc.getMessage()));
 				erroresMsg.add(errorMsg);
@@ -329,12 +302,11 @@ public class ActionPagination extends AbstractPcmAction {
 				try {
 					res.appendXhtml(paginationGrid.toXHTML(data, dataAccess_, eventSubmitted_));
 					hayMasterSpace = true;
-				}
-				catch (DatabaseException e) {
+				} catch (DatabaseException e) {
 					res.appendXhtml("Error generating depending  grid of children elements".concat(" Exception: ").concat(e.getMessage()));
 				}
 			}
-		}// while iteration components...
+		}
 
 		if (!res.isSuccess()) {
 			erroresMsg.addAll(prevMessages);
@@ -349,7 +321,6 @@ public class ActionPagination extends AbstractPcmAction {
 		} else if (!hayMasterSpace && this.container != null) {
 			res.appendXhtml(this.container.toXML(data, dataAccess_, eventSubmitted_, erroresMsg));
 		}
-
 		return res;
 	}
 }

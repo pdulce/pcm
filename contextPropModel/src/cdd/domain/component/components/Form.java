@@ -773,15 +773,7 @@ public class Form extends AbstractComponent {
 				String paramPKField = fieldViewSet.getContextName().concat(".").concat(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName());
 				if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {					
 					if (accion.getDataBus().getParameter(paramPKField) != null){
-						valueofPk = paramPKField.concat("=").concat(accion.getDataBus().getParameter(paramPKField));
-					}else if (accion.getDataBus().getParameter(PCMConstants.MASTER_ID_SEL_) != null) {
-						valueofPk = accion.getDataBus().getParameter(PCMConstants.MASTER_ID_SEL_);
-						if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {
-							valueofPk = (String) accion.getDataBus().getAttribute(PCMConstants.MASTER_ID_SEL_);
-							if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {
-								continue;
-							}
-						}										
+						valueofPk = paramPKField.concat("=").concat(accion.getDataBus().getParameter(paramPKField));										
 					} else {
 						continue;
 					}
@@ -1128,20 +1120,20 @@ public class Form extends AbstractComponent {
 		if (!Event.isQueryEvent(this.event)){
 			StringBuilder javascrReturn = new StringBuilder();
 			final String backEvent = Event.isDeleteEvent(this.event) ? IEvent.CANCEL : IEvent.RETURN_BACK;			
-			javascrReturn.append("document.getElementById('" + PCMConstants.MASTER_NEW_EVENT_ + "').value='");
+			javascrReturn.append("document.getElementById('" + "miPadre" + "').value='");
 			if (Event.isFormularyEntryEvent(this.event) && (Event.isCreateEvent(this.event) || Event.isDeleteEvent(this.event)) ){
 				javascrReturn.append(IEvent.CANCEL);
 			}else{
 				javascrReturn.append(IEvent.VOLVER);
 			}
 			javascrReturn.append("';");
-			if (IEvent.CANCEL.equals(data_.getParameter(PCMConstants.MASTER_NEW_EVENT_))){
+			if (IEvent.CANCEL.equals(data_.getEvent())){
 				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ "padre.anterior" + "';");
 			}else{
 				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ "padre.anterior" + "';");
 			}
 			javascrReturn.append("document.getElementById('" + PaginationGrid.ORDENACION + "').value='';");
-			javascrReturn.append("document.getElementById('" + PCMConstants.MASTER_ID_SEL_ + "').value='"+ "padre.anterior" + "';");
+			javascrReturn.append("document.getElementById('" + "padre.anterior" + "').value='"+ "padre.anterior" + "';");
 			javascrReturn.append(IViewComponent.SUBMIT_SENTENCE).append(IViewComponent.RETURN_SENTENCE);
 			buttons.add(this.paintSubmitButtonWithoutReturn(backEvent, javascrReturn.toString()));
 		}
