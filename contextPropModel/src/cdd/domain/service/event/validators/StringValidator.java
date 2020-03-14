@@ -5,9 +5,9 @@ import java.util.regex.Pattern;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
+import cdd.domain.component.components.IViewComponent;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.Parameter;
-import cdd.viewmodel.components.IViewComponent;
 
 
 public class StringValidator implements IValidator {

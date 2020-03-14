@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import cdd.common.utils.CommonUtils;
-import cdd.viewmodel.components.IViewComponent;
+import cdd.domain.component.components.IViewComponent;
 
 
 /**

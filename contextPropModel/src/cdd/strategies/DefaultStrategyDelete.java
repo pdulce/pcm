@@ -10,12 +10,12 @@ import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.utils.CommonUtils;
 import cdd.data.bus.Data;
+import cdd.domain.component.Translator;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.definitions.IEntityLogic;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 import cdd.domain.service.event.IAction;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.viewmodel.Translator;
-import cdd.viewmodel.definitions.FieldViewSet;
 
 
 public class DefaultStrategyDelete implements IStrategy {

@@ -2,9 +2,9 @@ package cdd.domain.service.event.validators;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
+import cdd.domain.component.components.IViewComponent;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.Parameter;
-import cdd.viewmodel.components.IViewComponent;
 
 /**
  * <h1>IntegerValidator</h1> The IntegerValidator class is used for validating data of 'int' type.

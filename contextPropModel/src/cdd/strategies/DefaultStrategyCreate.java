@@ -9,11 +9,11 @@ import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.FieldViewSetCollection;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 import cdd.domain.service.event.IAction;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.FieldViewSetCollection;
 
 
 public class DefaultStrategyCreate implements IStrategy {

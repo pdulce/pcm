@@ -1,7 +1,7 @@
 package cdd.domain.service;
 
 import cdd.common.PCMConstants;
-import cdd.logicmodel.persistence.datasource.IPCMDataSource;
+import cdd.domain.logicmodel.persistence.datasource.IPCMDataSource;
 
 public class ResourcesConfig {
 

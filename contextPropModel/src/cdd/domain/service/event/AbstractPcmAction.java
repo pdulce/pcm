@@ -20,17 +20,17 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
-import cdd.logicmodel.IDataAccess;
+import cdd.domain.component.components.PaginationGrid;
+import cdd.domain.component.definitions.ContextProperties;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.FieldViewSetCollection;
+import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.component.factory.IBodyContainer;
+import cdd.domain.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyFactory;
 import cdd.strategies.DefaultStrategyUpdate;
 import cdd.strategies.IStrategy;
 import cdd.strategies.IStrategyFactory;
-import cdd.viewmodel.components.PaginationGrid;
-import cdd.viewmodel.definitions.ContextProperties;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.FieldViewSetCollection;
-import cdd.viewmodel.definitions.IFieldView;
-import cdd.viewmodel.factory.IBodyContainer;
 
 
 /**

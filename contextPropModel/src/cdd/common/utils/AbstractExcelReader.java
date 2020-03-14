@@ -20,9 +20,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import cdd.common.exceptions.DatabaseException;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.logicmodel.definitions.IEntityLogic;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 
 
 public abstract class AbstractExcelReader {

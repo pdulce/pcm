@@ -27,21 +27,20 @@ import cdd.common.utils.CommonUtils;
 import cdd.data.bus.Data;
 import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.logicmodel.factory.AppCacheFactory;
-import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.domain.component.components.BodyContainer;
+import cdd.domain.component.components.Form;
+import cdd.domain.component.components.IViewComponent;
+import cdd.domain.component.components.XmlUtils;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.FieldViewSetCollection;
+import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.component.factory.IBodyContainer;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.definitions.IEntityLogic;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.logicmodel.factory.AppCacheFactory;
+import cdd.domain.logicmodel.factory.EntityLogicFactory;
 import cdd.strategies.DefaultStrategyLogin;
-
-import cdd.viewmodel.components.BodyContainer;
-import cdd.viewmodel.components.Form;
-import cdd.viewmodel.components.IViewComponent;
-import cdd.viewmodel.components.XmlUtils;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.FieldViewSetCollection;
-import cdd.viewmodel.definitions.IFieldView;
-import cdd.viewmodel.factory.IBodyContainer;
 
 
 /**

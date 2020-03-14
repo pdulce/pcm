@@ -42,6 +42,18 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 
 import cdd.data.bus.Data;
+import cdd.domain.component.components.BodyContainer;
+import cdd.domain.component.components.IViewComponent;
+import cdd.domain.component.components.XmlUtils;
+import cdd.domain.logicmodel.DataAccess;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.factory.AppCacheFactory;
+import cdd.domain.logicmodel.factory.DAOImplementationFactory;
+import cdd.domain.logicmodel.factory.EntityLogicFactory;
+import cdd.domain.logicmodel.factory.LogicDataCacheFactory;
+import cdd.domain.logicmodel.persistence.DAOConnection;
+import cdd.domain.logicmodel.persistence.datasource.IPCMDataSource;
+import cdd.domain.logicmodel.persistence.datasource.PCMDataSourceFactory;
 import cdd.domain.service.ResourcesConfig;
 import cdd.domain.service.ServiceDomain;
 import cdd.domain.service.event.AbstractPcmAction;
@@ -49,19 +61,6 @@ import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
 import cdd.domain.service.event.SceneResult;
-import cdd.logicmodel.DataAccess;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.factory.AppCacheFactory;
-import cdd.logicmodel.factory.DAOImplementationFactory;
-import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.logicmodel.factory.LogicDataCacheFactory;
-import cdd.logicmodel.persistence.DAOConnection;
-import cdd.logicmodel.persistence.datasource.IPCMDataSource;
-import cdd.logicmodel.persistence.datasource.PCMDataSourceFactory;
-
-import cdd.viewmodel.components.BodyContainer;
-import cdd.viewmodel.components.IViewComponent;
-import cdd.viewmodel.components.XmlUtils;
 
 
 /**

@@ -3,7 +3,7 @@ package cdd.common.comparator;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.domain.component.definitions.FieldViewSet;
 
 
 /**

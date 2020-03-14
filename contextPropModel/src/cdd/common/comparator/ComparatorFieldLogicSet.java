@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
 
-import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 
 
 /**

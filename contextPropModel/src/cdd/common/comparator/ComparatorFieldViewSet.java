@@ -3,8 +3,8 @@ package cdd.common.comparator;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.viewmodel.definitions.FieldViewSet;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 
 
 public class ComparatorFieldViewSet implements Comparator<FieldViewSet>, Serializable {

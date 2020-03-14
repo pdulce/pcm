@@ -27,19 +27,19 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.component.Translator;
+import cdd.domain.component.components.BodyContainer;
+import cdd.domain.component.components.IViewComponent;
+import cdd.domain.component.components.PaginationGrid;
+import cdd.domain.component.components.controls.html.Span;
+import cdd.domain.component.factory.IBodyContainer;
+import cdd.domain.logicmodel.IDataAccess;
 import cdd.domain.service.event.AbstractPcmAction;
 import cdd.domain.service.event.ActionPagination;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.SceneResult;
-import cdd.logicmodel.IDataAccess;
 import cdd.strategies.DefaultStrategyLogin;
-import cdd.viewmodel.Translator;
-import cdd.viewmodel.components.BodyContainer;
-import cdd.viewmodel.components.IViewComponent;
-import cdd.viewmodel.components.PaginationGrid;
-import cdd.viewmodel.components.controls.html.Span;
-import cdd.viewmodel.factory.IBodyContainer;
 
 public class ServiceDomain {
 	

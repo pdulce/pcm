@@ -16,17 +16,17 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
 import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.FieldCompositePK;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.viewmodel.components.Form;
-import cdd.viewmodel.components.IViewComponent;
-import cdd.viewmodel.components.PaginationGrid;
-import cdd.viewmodel.components.XmlUtils;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.FieldViewSetCollection;
-import cdd.viewmodel.factory.IBodyContainer;
+import cdd.domain.component.components.Form;
+import cdd.domain.component.components.IViewComponent;
+import cdd.domain.component.components.PaginationGrid;
+import cdd.domain.component.components.XmlUtils;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.FieldViewSetCollection;
+import cdd.domain.component.factory.IBodyContainer;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.definitions.FieldCompositePK;
+import cdd.domain.logicmodel.definitions.IEntityLogic;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 
 
 /**

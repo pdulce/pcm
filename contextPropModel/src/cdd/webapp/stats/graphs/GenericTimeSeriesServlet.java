@@ -11,10 +11,10 @@ import org.json.simple.JSONArray;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
 import cdd.data.bus.Data;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.viewmodel.Translator;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.IFieldView;
+import cdd.domain.component.Translator;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 
 
 public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram {

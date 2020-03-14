@@ -8,11 +8,11 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.StrategyException;
 import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.logicmodel.persistence.SQLUtils;
 import cdd.domain.service.event.IAction;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.logicmodel.persistence.SQLUtils;
-import cdd.viewmodel.definitions.FieldViewSet;
 
 
 public class DefaultStrategyUpdate implements IStrategy {

@@ -13,13 +13,13 @@ import java.util.regex.Pattern;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.component.definitions.IRank;
+import cdd.domain.component.definitions.Rank;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
 import cdd.domain.service.event.IAction;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.IFieldView;
-import cdd.viewmodel.definitions.IRank;
-import cdd.viewmodel.definitions.Rank;
 import cdd.webapp.stats.GenericStatsServlet;
 
 

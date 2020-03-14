@@ -25,18 +25,18 @@ import cdd.common.utils.CommonUtils;
 import cdd.data.bus.Data;
 import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.component.Translator;
+import cdd.domain.component.components.BodyContainer;
+import cdd.domain.component.components.Form;
+import cdd.domain.component.components.IViewComponent;
+import cdd.domain.component.components.XmlUtils;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.logicmodel.definitions.EntityLogic;
+import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.logicmodel.factory.EntityLogicFactory;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.SceneResult;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.EntityLogic;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.viewmodel.Translator;
-import cdd.viewmodel.components.BodyContainer;
-import cdd.viewmodel.components.Form;
-import cdd.viewmodel.components.IViewComponent;
-import cdd.viewmodel.components.XmlUtils;
-import cdd.viewmodel.definitions.FieldViewSet;
 import cdd.webapp.stats.GenericStatsServlet;
 
 

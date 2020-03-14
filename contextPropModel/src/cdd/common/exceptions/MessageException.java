@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import cdd.common.PCMConstants;
+import cdd.domain.component.Translator;
+import cdd.domain.component.components.IViewComponent;
+import cdd.domain.component.components.XmlUtils;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.Parameter;
-import cdd.viewmodel.Translator;
-import cdd.viewmodel.components.IViewComponent;
-import cdd.viewmodel.components.XmlUtils;
 
 
 public class MessageException {
