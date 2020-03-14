@@ -1,9 +1,9 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.io.InputStream;
 
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.logicmodel.ILogicDataMetamodel;
+import cdd.domain.entitymodel.ILogicDataMetamodel;
 
 
 public interface ILogicDataMetamodelFactory {

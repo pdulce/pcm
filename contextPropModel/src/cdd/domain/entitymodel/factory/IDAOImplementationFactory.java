@@ -1,10 +1,10 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.util.Map;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
-import cdd.domain.logicmodel.persistence.IDAOImpl;
+import cdd.domain.entitymodel.persistence.IDAOImpl;
 
 
 public interface IDAOImplementationFactory {

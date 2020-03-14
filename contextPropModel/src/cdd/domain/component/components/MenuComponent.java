@@ -26,7 +26,7 @@ import cdd.domain.component.Translator;
 import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.component.components.controls.html.LinkButton;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.service.event.IAction;
 
 

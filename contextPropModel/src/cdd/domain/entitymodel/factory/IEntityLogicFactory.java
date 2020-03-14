@@ -1,10 +1,10 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.io.InputStream;
 import java.util.Map;
 
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.logicmodel.definitions.EntityLogic;
+import cdd.domain.entitymodel.definitions.EntityLogic;
 
 
 public interface IEntityLogicFactory {

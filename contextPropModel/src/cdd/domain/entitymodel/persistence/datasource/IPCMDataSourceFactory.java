@@ -1,14 +1,14 @@
 /**
  * 
  */
-package cdd.domain.logicmodel.persistence.datasource;
+package cdd.domain.entitymodel.persistence.datasource;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
-import cdd.domain.logicmodel.persistence.DAOConnection;
+import cdd.domain.entitymodel.persistence.DAOConnection;
 
 
 /**

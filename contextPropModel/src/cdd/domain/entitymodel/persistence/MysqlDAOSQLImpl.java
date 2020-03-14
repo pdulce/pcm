@@ -1,7 +1,7 @@
-package cdd.domain.logicmodel.persistence;
+package cdd.domain.entitymodel.persistence;
 
 import cdd.common.PCMConstants;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 public class MysqlDAOSQLImpl extends AnsiSQLAbstractDAOImpl {
 

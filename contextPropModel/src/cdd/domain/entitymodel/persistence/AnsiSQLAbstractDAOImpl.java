@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.persistence;
+package cdd.domain.entitymodel.persistence;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,13 +32,13 @@ import cdd.domain.component.definitions.FieldView;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
-import cdd.domain.logicmodel.IDataAccess;
-import cdd.domain.logicmodel.definitions.FieldLogic;
-import cdd.domain.logicmodel.definitions.FieldLogicComparator;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldAbstract;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
-import cdd.domain.logicmodel.factory.EntityLogicFactory;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.FieldLogic;
+import cdd.domain.entitymodel.definitions.FieldLogicComparator;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldAbstract;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
 
 
 public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements IDAOImpl {

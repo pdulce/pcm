@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.definitions;
+package cdd.domain.entitymodel.definitions;
 
 import java.io.Serializable;
 import java.util.Comparator;

@@ -35,11 +35,11 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.factory.IBodyContainer;
-import cdd.domain.logicmodel.IDataAccess;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
-import cdd.domain.logicmodel.factory.AppCacheFactory;
-import cdd.domain.logicmodel.factory.EntityLogicFactory;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.factory.AppCacheFactory;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
 import cdd.strategies.DefaultStrategyLogin;
 
 

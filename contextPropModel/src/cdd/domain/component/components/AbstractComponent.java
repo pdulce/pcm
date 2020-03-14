@@ -32,9 +32,9 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.definitions.IRank;
-import cdd.domain.logicmodel.IDataAccess;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.ILogicTypes;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.ILogicTypes;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
 

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import cdd.common.PCMConstants;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 /**

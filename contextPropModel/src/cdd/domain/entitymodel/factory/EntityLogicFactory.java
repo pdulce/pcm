@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.io.InputStream;
 import java.util.Collection;
@@ -15,8 +15,8 @@ import org.w3c.dom.NodeList;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.logicmodel.definitions.EntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.EntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 public class EntityLogicFactory implements IEntityLogicFactory {

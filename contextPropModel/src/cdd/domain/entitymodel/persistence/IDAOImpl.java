@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.persistence;
+package cdd.domain.entitymodel.persistence;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,8 +9,8 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 public interface IDAOImpl {

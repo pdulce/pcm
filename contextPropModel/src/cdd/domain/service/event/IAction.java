@@ -7,7 +7,7 @@ import cdd.common.exceptions.MessageException;
 import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.IFieldView;
-import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.entitymodel.IDataAccess;
 import cdd.strategies.IStrategyFactory;
 
 

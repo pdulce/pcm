@@ -1,10 +1,10 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import cdd.domain.logicmodel.definitions.IFieldAbstract;
+import cdd.domain.entitymodel.definitions.IFieldAbstract;
 
 
 public class FieldAbstractFactory {

@@ -26,7 +26,7 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.factory.IBodyContainer;
-import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.entitymodel.IDataAccess;
 import cdd.strategies.DefaultStrategyFactory;
 import cdd.strategies.DefaultStrategyUpdate;
 import cdd.strategies.IStrategy;

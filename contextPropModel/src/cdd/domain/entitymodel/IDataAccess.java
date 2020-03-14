@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel;
+package cdd.domain.entitymodel;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -10,11 +10,11 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.TransactionException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
-import cdd.domain.logicmodel.persistence.DAOConnection;
-import cdd.domain.logicmodel.persistence.IDAOImpl;
-import cdd.domain.logicmodel.persistence.datasource.IPCMDataSource;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.persistence.DAOConnection;
+import cdd.domain.entitymodel.persistence.IDAOImpl;
+import cdd.domain.entitymodel.persistence.datasource.IPCMDataSource;
 
 
 /**

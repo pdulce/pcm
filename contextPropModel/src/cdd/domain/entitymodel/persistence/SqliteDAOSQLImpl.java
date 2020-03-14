@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.persistence;
+package cdd.domain.entitymodel.persistence;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import cdd.common.PCMConstants;
 import cdd.common.utils.CommonUtils;
 import cdd.data.bus.IFieldValue;
 import cdd.domain.component.components.IViewComponent;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 public class SqliteDAOSQLImpl extends AnsiSQLAbstractDAOImpl {

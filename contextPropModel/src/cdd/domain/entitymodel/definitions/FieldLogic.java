@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.definitions;
+package cdd.domain.entitymodel.definitions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import org.w3c.dom.Element;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.logicmodel.factory.EntityLogicFactory;
-import cdd.domain.logicmodel.factory.FieldAbstractFactory;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.entitymodel.factory.FieldAbstractFactory;
 
 
 /**

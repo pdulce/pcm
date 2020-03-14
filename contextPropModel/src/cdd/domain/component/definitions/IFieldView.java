@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import cdd.common.exceptions.MessageException;
 import cdd.data.bus.Data;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 /**

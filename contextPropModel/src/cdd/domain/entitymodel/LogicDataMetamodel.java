@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel;
+package cdd.domain.entitymodel;
 
 import java.io.IOException;
 import java.io.InputStream;

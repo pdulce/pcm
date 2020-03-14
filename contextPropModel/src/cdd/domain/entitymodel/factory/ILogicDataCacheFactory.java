@@ -1,10 +1,10 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.logicmodel.cache.IDataCache;
-import cdd.domain.logicmodel.persistence.DAOConnection;
-import cdd.domain.logicmodel.persistence.IDAOImpl;
-import cdd.domain.logicmodel.persistence.datasource.IPCMDataSource;
+import cdd.domain.entitymodel.cache.IDataCache;
+import cdd.domain.entitymodel.persistence.DAOConnection;
+import cdd.domain.entitymodel.persistence.IDAOImpl;
+import cdd.domain.entitymodel.persistence.datasource.IPCMDataSource;
 
 public interface ILogicDataCacheFactory {
 

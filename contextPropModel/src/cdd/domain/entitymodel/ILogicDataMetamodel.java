@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel;
+package cdd.domain.entitymodel;
 
 import java.util.Collection;
 

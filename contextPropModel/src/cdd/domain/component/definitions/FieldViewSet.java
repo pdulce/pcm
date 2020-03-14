@@ -18,11 +18,11 @@ import cdd.data.bus.FieldValue;
 import cdd.data.bus.IFieldValue;
 import cdd.domain.component.components.XmlUtils;
 import cdd.domain.component.components.controls.ICtrl;
-import cdd.domain.logicmodel.definitions.EntityLogic;
-import cdd.domain.logicmodel.definitions.FieldAbstract;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldAbstract;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.EntityLogic;
+import cdd.domain.entitymodel.definitions.FieldAbstract;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldAbstract;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 public class FieldViewSet implements Serializable {

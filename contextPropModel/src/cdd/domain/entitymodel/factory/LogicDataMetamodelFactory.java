@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -10,8 +10,8 @@ import java.util.logging.StreamHandler;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.logicmodel.ILogicDataMetamodel;
-import cdd.domain.logicmodel.LogicDataMetamodel;
+import cdd.domain.entitymodel.ILogicDataMetamodel;
+import cdd.domain.entitymodel.LogicDataMetamodel;
 
 public class LogicDataMetamodelFactory implements ILogicDataMetamodelFactory {
 

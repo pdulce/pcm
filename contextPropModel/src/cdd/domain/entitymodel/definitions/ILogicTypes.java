@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.definitions;
+package cdd.domain.entitymodel.definitions;
 
 public interface ILogicTypes {
 

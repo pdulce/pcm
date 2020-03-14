@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.domain.logicmodel.persistence;
+package cdd.domain.entitymodel.persistence;
 
 import java.io.File;
 import java.io.Serializable;
@@ -32,8 +32,8 @@ import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.definitions.IRank;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
-import cdd.domain.logicmodel.definitions.ILogicTypes;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.ILogicTypes;
 
 
 /**

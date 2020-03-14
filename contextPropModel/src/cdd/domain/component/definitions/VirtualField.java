@@ -6,10 +6,10 @@ import java.util.StringTokenizer;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.logicmodel.definitions.EntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
-import cdd.domain.logicmodel.factory.EntityLogicFactory;
-import cdd.domain.logicmodel.persistence.IDAOImpl;
+import cdd.domain.entitymodel.definitions.EntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.entitymodel.persistence.IDAOImpl;
 
 
 public class VirtualField implements IVirtualField, Serializable {

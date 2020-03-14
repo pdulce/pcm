@@ -17,7 +17,7 @@ import cdd.data.bus.Data;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.IFieldView;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.webapp.stats.IStats;
 
 

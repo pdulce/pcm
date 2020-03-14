@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,17 +17,17 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
-import cdd.domain.logicmodel.DataAccess;
-import cdd.domain.logicmodel.IDataAccess;
-import cdd.domain.logicmodel.cache.DataCache;
-import cdd.domain.logicmodel.cache.IDataCache;
-import cdd.domain.logicmodel.definitions.EntityLogic;
-import cdd.domain.logicmodel.definitions.FieldLogicComparator;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
-import cdd.domain.logicmodel.persistence.DAOConnection;
-import cdd.domain.logicmodel.persistence.IDAOImpl;
-import cdd.domain.logicmodel.persistence.datasource.IPCMDataSource;
+import cdd.domain.entitymodel.DataAccess;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.cache.DataCache;
+import cdd.domain.entitymodel.cache.IDataCache;
+import cdd.domain.entitymodel.definitions.EntityLogic;
+import cdd.domain.entitymodel.definitions.FieldLogicComparator;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.persistence.DAOConnection;
+import cdd.domain.entitymodel.persistence.IDAOImpl;
+import cdd.domain.entitymodel.persistence.datasource.IPCMDataSource;
 import cdd.domain.service.event.IAction;
 
 

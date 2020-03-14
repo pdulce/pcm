@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.persistence;
+package cdd.domain.entitymodel.persistence;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -20,8 +20,8 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.definitions.IRank;
-import cdd.domain.logicmodel.definitions.IEntityLogic;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 public class SQLUtils {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.domain.logicmodel.persistence.datasource;
+package cdd.domain.entitymodel.persistence.datasource;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
-import cdd.domain.logicmodel.persistence.DAOConnection;
+import cdd.domain.entitymodel.persistence.DAOConnection;
 
 
 /**

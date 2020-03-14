@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.persistence.datasource;
+package cdd.domain.entitymodel.persistence.datasource;
 
 import cdd.common.PCMConstants;
 

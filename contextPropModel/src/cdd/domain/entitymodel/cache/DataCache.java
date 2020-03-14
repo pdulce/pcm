@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.cache;
+package cdd.domain.entitymodel.cache;
 
 import java.io.Serializable;
 import java.util.ArrayList;

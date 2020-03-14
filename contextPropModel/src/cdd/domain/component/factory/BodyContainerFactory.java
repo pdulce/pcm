@@ -9,7 +9,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.BodyContainer;
-import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.entitymodel.IDataAccess;
 
 
 public class BodyContainerFactory {

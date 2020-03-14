@@ -18,7 +18,7 @@ import java.util.Locale;
 import cdd.common.PCMConstants;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.definitions.IFieldView;
-import cdd.domain.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
 
 
 /**

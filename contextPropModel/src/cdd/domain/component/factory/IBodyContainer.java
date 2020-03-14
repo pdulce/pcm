@@ -10,7 +10,7 @@ import cdd.data.bus.Data;
 import cdd.data.bus.IFieldValue;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.definitions.FieldViewSetCollection;
-import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.entitymodel.IDataAccess;
 
 
 public interface IBodyContainer {

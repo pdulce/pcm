@@ -6,7 +6,7 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.data.bus.Data;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.entitymodel.IDataAccess;
 
 
 public abstract class DefaultStrategyRequest implements IStrategy {

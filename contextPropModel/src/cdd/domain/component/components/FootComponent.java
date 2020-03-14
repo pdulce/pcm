@@ -23,7 +23,7 @@ import cdd.domain.component.components.controls.html.IHtmlElement;
 import cdd.domain.component.components.controls.html.LinkButton;
 import cdd.domain.component.components.controls.html.Span;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.logicmodel.IDataAccess;
+import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.service.event.IAction;
 
 

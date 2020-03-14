@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.util.HashMap;
 import java.util.Map;

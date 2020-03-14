@@ -1,4 +1,4 @@
-package cdd.domain.logicmodel.factory;
+package cdd.domain.entitymodel.factory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.logging.StreamHandler;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
-import cdd.domain.logicmodel.persistence.IDAOImpl;
+import cdd.domain.entitymodel.persistence.IDAOImpl;
 
 public class DAOImplementationFactory implements IDAOImplementationFactory {
 
