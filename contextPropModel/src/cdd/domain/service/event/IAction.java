@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.service.ServiceDomain;
 import cdd.dto.Data;
 import cdd.strategies.IStrategyFactory;
 
@@ -124,9 +124,6 @@ public interface IAction {
 	public String getSubmitError();
 
 	public void setStrategyFactory(IStrategyFactory fact);
-
-	public void setAppContext(ApplicationDomain ctx);
-
-	public ApplicationDomain getAppContext();
-
+	
+	public void setServiceDomain(final ServiceDomain servDomain);
 }

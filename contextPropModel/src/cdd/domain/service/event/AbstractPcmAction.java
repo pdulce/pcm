@@ -18,7 +18,6 @@ import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.PaginationGrid;
 import cdd.domain.component.definitions.ContextProperties;
 import cdd.domain.component.definitions.FieldViewSet;
@@ -26,6 +25,7 @@ import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.service.ServiceDomain;
 import cdd.dto.Data;
 import cdd.strategies.DefaultStrategyFactory;
 import cdd.strategies.DefaultStrategyUpdate;
@@ -48,8 +48,8 @@ import cdd.strategies.IStrategyFactory;
 public abstract class AbstractPcmAction implements IAction {
 	
 	private static IStrategyFactory strategyFactory;
-		
-	protected ApplicationDomain contextApp;
+	
+	protected ServiceDomain serviceDomain;
 	protected String event;
 	protected Element actionElement;	
 	protected Collection<String> registeredEvents;
@@ -149,7 +149,11 @@ public abstract class AbstractPcmAction implements IAction {
 					: new ArrayList<FieldViewSet>());
 		}
 	}
-
+	
+	public void setServiceDomain(final ServiceDomain servDomain) {
+		this.serviceDomain = servDomain;
+	}
+	
 	public void executeStrategyPost(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection) throws StrategyException,
 			PCMConfigurationException {
 		final Collection<IStrategy> strategiasAEjecutar = new ArrayList<IStrategy>();
@@ -205,12 +209,12 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getSubmitSuccess() {
-		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	@Override
 	public String getSubmitError() {
-		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	@Override
@@ -220,7 +224,7 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getEvent() {
-		return this.event == null ? this.actionElement.getAttribute(ApplicationDomain.EVENT_ATTR) : this.event;
+		return this.event == null ? this.actionElement.getAttribute(ServiceDomain.EVENT_ATTR) : this.event;
 	}
 
 	@Override
@@ -230,15 +234,15 @@ public abstract class AbstractPcmAction implements IAction {
 
 	@Override
 	public String getTarget() {
-		return this.actionElement.getAttribute(ApplicationDomain.TARGET_ATTR);
+		return this.actionElement.getAttribute(ServiceDomain.TARGET_ATTR);
 	}
 
 	public String getSuccessViewSPM() {
-		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_SUCCESS_SCENE_ATTR);
+		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_SUCCESS_SCENE_ATTR);
 	}
 
 	public String getErrorViewSPM() {
-		return this.actionElement.getAttribute(ApplicationDomain.SUBMIT_ERROR_SCENE_ATTR);
+		return this.actionElement.getAttribute(ServiceDomain.SUBMIT_ERROR_SCENE_ATTR);
 	}
 
 	protected IStrategyFactory getStrategyFactory() {
@@ -258,29 +262,18 @@ public abstract class AbstractPcmAction implements IAction {
 				: AbstractPcmAction.strategyFactory;
 	}
 
-	@Override
-	public void setAppContext(final ApplicationDomain ctx) {
-		this.contextApp = ctx;
-	}
-
-	@Override
-	public ApplicationDomain getAppContext() {
-		return this.contextApp;
-	}
-	
-	public static final IAction getAction(final IBodyContainer containerView, final String serviceName, final String event,
-			final Data dataWrapper, final ApplicationDomain ctx, final Collection<String> actionSet) throws Throwable {
+	public static final IAction getAction(final IBodyContainer containerView, final ServiceDomain serviceDomain, final String event,
+			final Data dataWrapper, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
 			if (Event.isQueryEvent(event)) {
-				action = new ActionPagination(ctx, containerView, dataWrapper, serviceName, event);
-				action.setAppContext(ctx);
+				action = new ActionPagination(containerView, dataWrapper, serviceDomain, event);
 				action.setEvent(event);
 			} else {
-				action = new ActionForm(ctx, containerView, dataWrapper, serviceName, event, actionSet);
-				action.setAppContext(ctx);
+				action = new ActionForm(containerView, dataWrapper, serviceDomain, event, actionSet);
 				action.setStrategyFactory(DefaultStrategyFactory.getFactoryInstance());
 			}
+			action.setServiceDomain(serviceDomain);
 			return action;
 		}
 		catch (final Throwable exc) {

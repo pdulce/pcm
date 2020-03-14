@@ -44,6 +44,7 @@ import cdd.domain.entitymodel.definitions.FieldLogic;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.service.ServiceDomain;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.SceneResult;
 import cdd.dto.Data;
@@ -93,12 +94,13 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain contextApp, final Data data_) {
 		
 		IDataAccess dataAccess = null;
+		ServiceDomain serviceDomain = null;
 		try {
-			dataAccess = contextApp.getDataAccess(contextApp.getDomainService(data_.getService()), data_.getEvent());
+			serviceDomain = contextApp.getDomainService(data_.getService());
+			dataAccess = contextApp.getDataAccess(serviceDomain, data_.getEvent());
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error creating DataAccess object", e);
 		}
-		final String serviceName = data_.getService();
 		final String event = data_.getEvent();
 		
 		SceneResult scene = new SceneResult();
@@ -128,7 +130,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 					paramGeneric4Entity);
 			
-			Form formSubmitted = (Form) BodyContainer.getContainerOfView(data_, dataAccess, serviceName, event, this.contextApp).getForms().iterator().next();
+			Form formSubmitted = (Form) BodyContainer.getContainerOfView(data_, dataAccess, serviceDomain, event).getForms().iterator().next();
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
 				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {

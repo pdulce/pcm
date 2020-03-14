@@ -224,7 +224,10 @@ public class CDDWebController extends HttpServlet {
 		Data data = null;
 		try {
 			String profile = ApplicationDomain.extractProfiles(navigationManager.getAppNavigation()).iterator().next();
-			data = new Data(this.contextApp, profile);
+			final String entitiesDictionary_ = contextApp.getResourcesConfiguration().getEntitiesDictionary();
+			final int pageSize = Integer.valueOf(contextApp.getResourcesConfiguration().getPageSize()).intValue();
+			
+			data = new Data(profile, entitiesDictionary_, pageSize);
 			data.setAttribute(PCMConstants.APP_CONTEXT, this.servletPral);			
 			data.setAttribute(PCMConstants.APPURI_, this.contextApp.getResourcesConfiguration().getUri());
 		} catch (PCMConfigurationException e1) {
@@ -327,11 +330,8 @@ public class CDDWebController extends HttpServlet {
 				data.setAttribute(PCMConstants.TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
 				data.setAttribute(PCMConstants.BODY, innerContent_ == null ? "" : innerContent_.toString());				
 				appLayout.paintScreen(navigationManager.getAppNavigation(), data, startingApp);
-				
 			}else{
-				
 				renderRequestFromNodePrv(this.contextApp, data);
-				
 			}			
 			
 			transferDatabusToHttpRequest(data, httpRequest);
@@ -347,12 +347,9 @@ public class CDDWebController extends HttpServlet {
 	protected boolean isJsonResult(){
 		return false;
 	}
-		
 	
 	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
 		return null;
 	}
-
-	
 	
 }

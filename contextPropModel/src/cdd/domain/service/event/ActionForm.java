@@ -23,7 +23,6 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.BodyContainer;
 import cdd.domain.component.components.Form;
 import cdd.domain.component.components.IViewComponent;
@@ -37,6 +36,7 @@ import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.AppCacheFactory;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.service.ServiceDomain;
 import cdd.dto.Data;
 import cdd.dto.IFieldValue;
 import cdd.strategies.DefaultStrategyLogin;
@@ -74,16 +74,17 @@ public class ActionForm extends AbstractPcmAction {
 		}
 	}
 	
-	public ActionForm(final ApplicationDomain context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_, final Collection<String> actionSet) {
+	public ActionForm(final IBodyContainer container_, final Data data_, final ServiceDomain serviceDomain, 
+			final String event_, final Collection<String> actionSet) {
 		this.data = data_;
 		this.setEvent(event_);
 		this.container = container_;
 		this.registeredEvents = actionSet;
 		this.audits = AppCacheFactory.getFactoryInstance().getAppCache();
 		try {
-			this.actionElement = context.getDomainService(serviceName).extractActionElementByService(event_);
+			this.actionElement = serviceDomain.extractActionElementByService(event_);
 		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event_);
+			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceDomain.getUseCaseName() + " and EVENT: " +event_);
 		}
 	}
 
@@ -201,13 +202,12 @@ public class ActionForm extends AbstractPcmAction {
 					IEvent.CANCEL.equals(this.data.getParameter(PCMConstants.MASTER_NEW_EVENT_)) ){
 				
 				String sceneRedirect = this.data.getParameter(PCMConstants.EVENT);
-				String serviceRedirect = sceneRedirect.split(PCMConstants.REGEXP_POINT)[0];
 				String eventRedirect = sceneRedirect.split(PCMConstants.REGEXP_POINT)[1];				
 				IAction actionObjectOfRedirect = null;
 				try {
 					Collection<String> regEvents = new ArrayList<String>();
-					IBodyContainer containerView_ = BodyContainer.getContainerOfView(this.data, dataAccess_, serviceRedirect, eventRedirect, getAppContext());
-					actionObjectOfRedirect = getAction(containerView_, serviceRedirect, eventRedirect, this.data, getAppContext(), regEvents);
+					IBodyContainer containerView_ = BodyContainer.getContainerOfView(this.data, dataAccess_, this.serviceDomain, eventRedirect);
+					actionObjectOfRedirect = getAction(containerView_, this.serviceDomain, eventRedirect, this.data, regEvents);
 					Form originalForm = (Form) containerView_.getForms().get(0);
 					List<MessageException> messageExceptions = new ArrayList<MessageException>();
 					originalForm.bindUserInput(actionObjectOfRedirect, messageExceptions);					
@@ -411,7 +411,7 @@ public class ActionForm extends AbstractPcmAction {
 					
 					if (this.isTransactional()) {
 												
-						this.doTransaction(event_, form_, dataAccess, getAppContext());
+						this.doTransaction(event_, form_, dataAccess);
 						dataAccess.commit();
 						
 						if (!dataAccess.getStrategies().isEmpty()) {//estrategias de POST
@@ -526,40 +526,40 @@ public class ActionForm extends AbstractPcmAction {
 		return PCMConstants.EMPTY_;
 	}
 
-	private void doTransaction(final String event_, final Form form_, final IDataAccess dataAccess, ApplicationDomain ctx)
+	private void doTransaction(final String event_, final Form form_, final IDataAccess dataAccess)
 			throws TransactionException {
 		final List<FieldViewSet> fs = form_.getFieldViewSetCollection().getFieldViewSets();
 		if (event_.startsWith(IEvent.UPDATE)) {
-			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(ApplicationDomain.USU_MOD) != null) {
+			if (this.serviceDomain.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_MOD) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(ApplicationDomain.USU_MOD),
+					fieldViewSet.setValue(this.audits.get(Data.USU_MOD),
 							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(ApplicationDomain.FEC_MOD), CommonUtils.getSystemDate());
+					fieldViewSet.setValue(this.audits.get(Data.FEC_MOD), CommonUtils.getSystemDate());
 				}
 			}
 			dataAccess.modifyEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.DELETE)) {
-			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(ApplicationDomain.USU_BAJA) != null) {
+			if (this.serviceDomain.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_BAJA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(ApplicationDomain.USU_BAJA),
+					fieldViewSet.setValue(this.audits.get(Data.USU_BAJA),
 							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(ApplicationDomain.FEC_BAJA),
+					fieldViewSet.setValue(this.audits.get(Data.FEC_BAJA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}
 			}
 			dataAccess.deleteEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.CREATE)) {
-			if (ctx.getResourcesConfiguration().isAuditOn() && this.audits != null && this.audits.get(ApplicationDomain.USU_ALTA) != null) {
+			if (this.serviceDomain.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_ALTA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(ApplicationDomain.USU_ALTA),
+					fieldViewSet.setValue(this.audits.get(Data.USU_ALTA),
 							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(ApplicationDomain.FEC_ALTA),
+					fieldViewSet.setValue(this.audits.get(Data.FEC_ALTA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}
 			}

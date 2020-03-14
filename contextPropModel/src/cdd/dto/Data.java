@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import cdd.common.PCMConstants;
-import cdd.domain.application.ApplicationDomain;
+import cdd.domain.service.ServiceDomain;
 
 public class Data {
+	
+	public static final String USU_ALTA = "USU_A", USU_MOD = "USU_M",	USU_BAJA = "USU_B", 
+			FEC_ALTA = "FEC_A", FEC_MOD = "FEC_M", FEC_BAJA = "FEC_B", AUDITFIELDSET_ELEMENT = "auditFieldSet";
 	
 	private Map<String, List<Object>> data;
 	private Collection<String> attributeNames = new ArrayList<>();
@@ -17,6 +20,22 @@ public class Data {
 	private Collection<String> appProfileSet = new ArrayList<>();
 	private String service;
 	private String event;
+	private String language;
+	private String userProfile;
+	private String entitiesDictionary;
+	private int pageSize;
+	
+	
+	public Data(final String userProfile_, final String entitiesDictionary_, int pageSize){		
+		this.data = new HashMap<String, List<Object>>();
+		this.setPageSize(pageSize);
+		this.setAttribute(PCMConstants.APP_PROFILE, userProfile_);
+		this.userProfile = userProfile_;
+		this.setAttribute(PCMConstants.LANGUAGE, PCMConstants.DEFAULT_LANG);
+		this.language = PCMConstants.DEFAULT_LANG;
+		this.entitiesDictionary = entitiesDictionary_;
+		this.setAttribute(PCMConstants.APP_DICTIONARY, entitiesDictionary_);
+	}
 	
 	public Collection<String> getAppProfileSet() {
 		return this.appProfileSet;
@@ -42,27 +61,9 @@ public class Data {
 		this.event = event_;
 		this.setParameter(PCMConstants.EVENT, getService().concat(".").concat(event_));
 	}
-
-	private String language;
-	private String userProfile;
-	private String entitiesDictionary;
-	private int pageSize;
-	
-	
-	public Data(final ApplicationDomain contextApp, final String userProfile_){		
-		final String entitiesDictionary_ = contextApp.getResourcesConfiguration().getEntitiesDictionary();
-		this.data = new HashMap<String, List<Object>>();
-		this.setPageSize(Integer.valueOf(contextApp.getResourcesConfiguration().getPageSize()).intValue());
-		this.setAttribute(PCMConstants.APP_PROFILE, userProfile_);
-		this.userProfile = userProfile_;
-		this.setAttribute(PCMConstants.LANGUAGE, PCMConstants.DEFAULT_LANG);
-		this.language = PCMConstants.DEFAULT_LANG;
-		this.entitiesDictionary = entitiesDictionary_;
-		this.setAttribute(PCMConstants.APP_DICTIONARY, entitiesDictionary_);
-	}
 		
 	public String getOriginalEvent() {
-		final String ev = this.getParameter(ApplicationDomain.EVENT_ATTR);
+		final String ev = this.getParameter(ServiceDomain.EVENT_ATTR);
 		return ev != null ? ev : PCMConstants.EMPTY_;		
 	}
 	

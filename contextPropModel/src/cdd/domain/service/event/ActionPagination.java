@@ -14,7 +14,6 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.Form;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.components.PaginationGrid;
@@ -26,6 +25,7 @@ import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.entitymodel.definitions.FieldCompositePK;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.service.ServiceDomain;
 import cdd.dto.Data;
 
 
@@ -45,15 +45,15 @@ public class ActionPagination extends AbstractPcmAction {
 
 	protected String filtra;
 
-	public ActionPagination(final ApplicationDomain context, final IBodyContainer container_, final Data data_, final String serviceName, final String event_) {
+	public ActionPagination(final IBodyContainer container_, final Data data_, final ServiceDomain domainService, 
+			final String event_) {
 		this.data = data_;
 		this.container = container_;
 		this.setEvent(event_);
-		this.setAppContext(context);
 		try {
-			this.actionElement = context.getDomainService(serviceName).extractActionElementByService(event_);
+			this.actionElement = domainService.extractActionElementByService(event_);
 		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event_);
+			throw new RuntimeException("Error getting org.w3c.Element, CU: " + domainService.getUseCaseName() + " and EVENT: " +event_);
 		}
 		
 	}

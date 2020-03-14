@@ -16,13 +16,13 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.Translator;
 import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.component.components.controls.html.Image;
 import cdd.domain.component.components.controls.html.LinkButton;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.service.ServiceDomain;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 
@@ -51,7 +51,7 @@ public class LogoComponent extends AbstractComponent {
 				imgCtrl.setAlt(logoElm.getAttribute(ALT));
 				imgCtrl.setWidth(Integer.parseInt(logoElm.getAttribute(WIDTH)));// 184
 				imgCtrl.setHeight(Integer.parseInt(logoElm.getAttribute(HEIGHT)));// 42
-				imgCtrl.setSrc(logoElm.getAttribute(ApplicationDomain.CONTENT_ATTR));
+				imgCtrl.setSrc(logoElm.getAttribute(ServiceDomain.CONTENT_ATTR));
 				final LinkButton aLinkButton = new LinkButton();
 				this.uri = logoElm.getAttribute(URI_ATTR);
 				aLinkButton.setRef(this.uri);

@@ -20,12 +20,12 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.Translator;
 import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.component.components.controls.html.LinkButton;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.service.ServiceDomain;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 
@@ -62,15 +62,15 @@ public class MenuComponent extends AbstractComponent {
 			final String keyComposed = new StringBuilder(this.uri).append(profileUser).append(lang).toString();
 			if (menuElement != null && !MenuComponent.menusCached.containsKey(keyComposed)) {
 				final StringBuilder items = new StringBuilder();
-				final NodeList nodeSet = menuElement.getElementsByTagName(ApplicationDomain.MENU_ENTRY_ELEMENT);
+				final NodeList nodeSet = menuElement.getElementsByTagName(ServiceDomain.MENU_ENTRY_ELEMENT);
 				int nodesCount = nodeSet.getLength();
 				for (int i = 0; i < nodesCount; i++) {
 					final Element menuEntry = (Element) nodeSet.item(i);
-					final String profOfEntry = menuEntry.getAttribute(ApplicationDomain.PROFILE_ATTR);
+					final String profOfEntry = menuEntry.getAttribute(ServiceDomain.PROFILE_ATTR);
 					final Collection<String> profilesOfEntry = this.getMenuItemProfiles(profOfEntry.split(PCMConstants.COMMA));
 					if (profilesOfEntry.contains(profileUser)) {
-						final String name4Entry = menuEntry.getAttribute(ApplicationDomain.NAME_ATTR);
-						final String eventN = menuEntry.getAttribute(ApplicationDomain.ACTION_ELEMENT);
+						final String name4Entry = menuEntry.getAttribute(ServiceDomain.NAME_ATTR);
+						final String eventN = menuEntry.getAttribute(ServiceDomain.ACTION_ELEMENT);
 						final StringBuilder refUri = new StringBuilder(this.uri).append(PCMConstants.HTTP_FIRST_URI_SEPARATOR).append(
 								eventN.replaceAll("#", "&"));
 						final LinkButton aLinkButton = new LinkButton();

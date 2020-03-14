@@ -7,7 +7,6 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.entitymodel.IDataAccess;
@@ -42,7 +41,7 @@ public class DefaultStrategyCreate implements IStrategy {
 			}
 			if (dataAccess.getDaoRef().isAuditActivated()) {
 				// miro si ha sido dado de baja, en caso de que existan campos de auditoroa
-				final String fecBajaField = dataAccess.getDaoRef().getAuditFieldset().getProperty(ApplicationDomain.FEC_BAJA);
+				final String fecBajaField = dataAccess.getDaoRef().getAuditFieldset().getProperty(Data.FEC_BAJA);
 				if (fecBajaField == null || PCMConstants.EMPTY_.equals(fecBajaField)) {
 					dataAccess.deletePhysicalEntity(entidadInDataModel);
 				}

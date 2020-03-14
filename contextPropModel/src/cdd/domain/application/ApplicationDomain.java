@@ -75,26 +75,10 @@ import cdd.dto.Data;
 public class ApplicationDomain implements Serializable {
 
 	private static final long serialVersionUID = 55669998888190L;
-	
-	public static final String APP_ELEMENT = "aplication", CONFIG_NODE = "configuration", ATTR_SERVER_PATH = "serverPath", 
-			VAR_SERVERPATH= "#serverPath#",	ENTRY_CONFIG_NODE = "entry", LOGO_ELEMENT = "logo", FOOT_ELEMENT = "foot", 
-			TREE_ELEMENT = "tree", FOLDER_ELEMENT = "FOLDER", LEAF_ELEMENT = "LEAF",
-			ID_ATTR = "id", LINK_ATTR = "link", NAME_ATTR = "name", PROFILES_ELEMENT = "profiles", 
-			PROFILE_ELEMENT = "profile",
-			MENU_ELEMENT = "menu", MENU_ENTRY_ELEMENT = "menu_entry", AUDITFIELDSET_ELEMENT = "auditFieldSet",
-			AUDITFIELD_ELEMENT = "audit", CONTEXT_ELEMENT = "context", SERVICE_ELEMENT = "service", 
-			SERVICE_GROUP_ELEMENT = "service-group", ACTION_ELEMENT = "action",
-			VIEWCOMPONENT_ELEMENT = "viewComponent", FORM_ELEMENT = "form", GRID_ELEMENT = "grid", BR = "br", HR = "hr",
-			FIELDVIEWSET_ELEMENT = "fieldViewSet", USERBUTTONS_ELEMENT = "userbuttons", BUTTON_ELEMENT = "button",
-			FIELDVIEW_ELEMENT = "fieldView", FIELDSET_ELEMENT = "fieldset", ENTITYMODEL_ELEMENT = "entitymodel", 
-			LEGEND_ATTR = "legend",
-			APP_URI_ATTR = "uri", PROFILE_ATTR = "profile", CONTENT_ATTR = "content", AUIDIT_ACTIVATED_ATTR = "auditActivated",
-			EVENT_ATTR = "event", TARGET_ATTR = "target", TRANSACTIONAL_ATTR = "transactional", ORDER_ATTR = "order",
-			PERSIST_ATTR = "persist", ENTITYMODEL_ATTR = "entitymodel", NAMESPACE_ENTITY_ATTR = "nameSpace",
-			SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces", SUBMIT_ERROR_SCENE_ATTR = "submitError", USU_ALTA = "USU_A", 
-			USU_MOD = "USU_M",
-			USU_BAJA = "USU_B", FEC_ALTA = "FEC_A", FEC_MOD = "FEC_M", FEC_BAJA = "FEC_B", ONCLICK_ATTR= "onClick",
-			EVENTO_CONFIGURATION = "Configuration", EXEC_PARAM = "exec", ADDRESS_BOOR_ATTR = "addressBook";
+	public static final String PROFILE_ELEMENT = "profile", PROFILES_ELEMENT = "profiles", 
+			EVENTO_CONFIGURATION = "Configuration", EXEC_PARAM = "exec", APP_ELEMENT = "aplication", 
+			CONFIG_NODE = "configuration", VAR_SERVERPATH= "#serverPath#",	ENTRY_CONFIG_NODE = "entry", 
+			ATTR_SERVER_PATH = "serverPath"; 
 	
 	private static Logger log = Logger.getLogger(ApplicationDomain.class.getName());	
 	static {
@@ -111,7 +95,7 @@ public class ApplicationDomain implements Serializable {
 	}
 	private String initService;
 	private String initEvent;
-	private Collection<ServiceDomain> domainServices;
+	private Map<String, ServiceDomain> domainServices;
 	private ResourcesConfig resourcesConfiguration;	
 	
 	
@@ -119,7 +103,7 @@ public class ApplicationDomain implements Serializable {
 	private final void readDomainServices() throws FileNotFoundException, SAXException, IOException,
 		ParserConfigurationException {
 		
-		this.domainServices = new ArrayList<ServiceDomain>();
+		this.domainServices = new HashMap<String, ServiceDomain>();
 		File[] pFiles = new File(this.resourcesConfiguration.getServiceDirectory()).listFiles();		
 		if (pFiles == null) {
 			throw new RuntimeException("Error instantiating DomainServiceContainer: service directory " + 
@@ -127,12 +111,11 @@ public class ApplicationDomain implements Serializable {
 		}
 		for (File pFile : pFiles) {
 			if (pFile.isFile() && pFile.getName().endsWith(".xml")) {
-				ServiceDomain service = new ServiceDomain(pFile.getAbsolutePath());
+				ServiceDomain service = new ServiceDomain(pFile.getAbsolutePath(), getResourcesConfiguration().isAuditOn());
 				//ApplicationDomain.log.log(Level.INFO, "service: " + service.getUseCaseName());
-				this.domainServices.add(service);
+				this.domainServices.put(service.getUseCaseName(), service);
 			}
 		}
-		
 	}
 	
 
@@ -197,24 +180,19 @@ public class ApplicationDomain implements Serializable {
 			if (configNodeList.getLength() == 0) {
 				throw new PCMConfigurationException("Error:  element configuration does not exist in appmetamodel.");
 			}
-			
 			List<Map<String, String>> keyset = new ArrayList<Map<String, String>>();
 			final Element configElement = (Element) configNodeList.item(0);
-			//extraemos el elemento de configuracion del serverPath
 			String serverPath = configElement.getAttributes().getNamedItem(ATTR_SERVER_PATH).getNodeValue();
-			
 			final NodeList entryNodes = configElement.getElementsByTagName(ENTRY_CONFIG_NODE);
 			int entriesCount = entryNodes.getLength();
 			for (int i = 0; i < entriesCount; i++) {
 				final Element entryConfig = (Element) entryNodes.item(i);
 				Map<String, String> entry = new HashMap<String, String>();
-				
 				String nameOfProperty = entryConfig.getAttributes().getNamedItem("key").getNodeValue();
 				String valueOfProperty = entryConfig.getAttributes().getNamedItem("value").getNodeValue();
 				if (valueOfProperty.indexOf(VAR_SERVERPATH) != -1){
 					valueOfProperty = valueOfProperty.replaceAll(VAR_SERVERPATH, serverPath);
 				}
-				
 				entry.put(nameOfProperty, valueOfProperty);			
 				keyset.add(entry);
 			}
@@ -225,15 +203,12 @@ public class ApplicationDomain implements Serializable {
 				String value = entry.values().iterator().next();
 				this.resourcesConfiguration.setNewEntry(key, value);
 			}
-
 		}
 		catch (final Throwable e) {
 			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e);
 			e.printStackTrace();
 		}
-		
 	}
-	
 	
 	public void invoke() throws Throwable{
 		
@@ -328,22 +303,6 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	public final Collection<Element> extractViewComponentElementsByAction(final String service, final String event) 
-			throws PCMConfigurationException {
-		final Element actionParentNode = getDomainService(service).extractActionElementByService(event);
-		Collection<Element> arrViewComponents = new ArrayList<Element>();
-		final NodeList listaNodes_ = actionParentNode.getElementsByTagName(VIEWCOMPONENT_ELEMENT);
-		for (int i = 0; i < listaNodes_.getLength(); i++) {
-			arrViewComponents.add((Element) listaNodes_.item(i));
-		}
-		if (arrViewComponents.isEmpty()) {
-			throw new PCMConfigurationException(new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).
-					append(actionParentNode)
-					.append(InternalErrorsConstants.NOT_FOUND_LITERAL).toString());
-		}
-		return arrViewComponents;
-	}
-	
 	public IDataAccess getDataAccess(final ServiceDomain domainService, final String event) 
 			throws PCMConfigurationException {
 		try {			
@@ -364,25 +323,23 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	public ServiceDomain getDomainService(final String subUseCase){		
-		for (ServiceDomain serviceModel : this.getDomainServices()){
-			if (serviceModel.getUseCaseName().equals(subUseCase)){
-				return serviceModel;
-			}
+	public ServiceDomain getDomainService(final String _useCase){
+		ServiceDomain sr = this.domainServices.get(_useCase);
+		if (sr != null) {
+			return sr;
 		}
-		throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(subUseCase)
+		throw new RuntimeException(new StringBuilder(InternalErrorsConstants.SERVICE_LITERAL).append(_useCase)
 				.append(InternalErrorsConstants.NOT_FOUND_LITERAL).toString());
 	}
 	
 	public static Collection<String> extractProfiles(Document app) throws PCMConfigurationException {
-		
 		final Collection<String> profilesRec = new ArrayList<String>();
 		final NodeList listaNodes = app.getDocumentElement().getElementsByTagName(ApplicationDomain.PROFILES_ELEMENT);
 		if (listaNodes.getLength() > 0) {
 			final Element initS = (Element) listaNodes.item(0);
 			final NodeList profiles = initS.getElementsByTagName(ApplicationDomain.PROFILE_ELEMENT);
 			for (int i = 0; i < profiles.getLength(); i++) {
-				profilesRec.add(((Element) profiles.item(i)).getAttribute(ApplicationDomain.NAME_ATTR));
+				profilesRec.add(((Element) profiles.item(i)).getAttribute(ServiceDomain.NAME_ATTR));
 			}
 		}
 		return profilesRec;
@@ -392,15 +349,13 @@ public class ApplicationDomain implements Serializable {
 		return this.resourcesConfiguration;
 	}
 	
-	public Collection<ServiceDomain> getDomainServices(){
+	public Map<String,ServiceDomain> getDomainServices(){
 		return this.domainServices;
 	}
 	
 	public final Collection<String> extractServiceNames() throws PCMConfigurationException {		
-		final Collection<String> services = new ArrayList<String>();		
-		for (ServiceDomain serviceModel : this.getDomainServices()){
-			services.add(serviceModel.getUseCaseName());			
-		}		
+		final Collection<String> services = new ArrayList<String>();
+		services.addAll(this.domainServices.keySet());
 		return services;
 	}
 	
@@ -417,7 +372,6 @@ public class ApplicationDomain implements Serializable {
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\"event\" value=\"\" />");
 		
 		StringBuilder innerContent_ = new StringBuilder();
-		//innerContent_.append("<input type=\"hidden\" id=\"" + PaginationGrid.ORDENACION + "\" name=\"" + PaginationGrid.ORDENACION + "\" value=\"\" />");				
 		htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");
 		htmlOutput.append("<td width=\"60%\">Valor actual</td></tr>");
 		
@@ -463,7 +417,7 @@ public class ApplicationDomain implements Serializable {
 			scene.put(data.getService(), data.getEvent());
 			ServiceDomain domainService = getDomainService(data.getService());
 		
-			if (getDomainService(data.getService()).extractActionElementByService(data.getEvent()) == null) {
+			if (domainService.extractActionElementByService(data.getEvent()) == null) {
 				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,
 						data.getService().concat(".").concat(data.getEvent()));
 				ApplicationDomain.log.log(Level.SEVERE, s.toString());
@@ -480,22 +434,35 @@ public class ApplicationDomain implements Serializable {
 			
 			IAction action = null;
 			try {
-				action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, data.getService(), 
-						data.getEvent(), this), 
-						data.getService(), data.getEvent(), data, this, discoverAllEvents(data.getService()));
+				action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, domainService,	data.getEvent()), 
+						domainService, data.getEvent(), data, discoverAllEvents(data.getService()));
 			} catch (final PCMConfigurationException configExcep) {
 				throw configExcep;
 			} catch (final DatabaseException recExc) {
 				throw recExc;
 			}
 			
-			SceneResult sceneResult = domainService.paintCoreService(this, dataAccess_, data.getEvent(), data, 
-					eventSubmitted, action, 
-					new ArrayList<MessageException>());
+			List<MessageException> messages = new ArrayList<MessageException>();
+			SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, data.getEvent(), data, 
+					eventSubmitted, action, messages);
 			
-			String bodyContentOfService = sceneResult.getXhtml();
+			//descubrimos como ha ido, y obtenemos el otro objeto domainService
 			
 			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
+			
+			ServiceDomain domainRedirectingService = null;
+			if (eventSubmitted) {
+				final String serviceQName = new StringBuilder(data.getService()).append(PCMConstants.CHAR_POINT).append(data.getEvent()).toString();
+				if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {						
+					String serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
+					domainRedirectingService = getDomainService(serviceRedirect);
+				}
+			}
+			
+			domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, data.getEvent(), data, 
+					eventSubmitted, action, messages);
+			
+			String bodyContentOfService = sceneResult.getXhtml();
 			final String thisScene = data.getService().concat(PCMConstants.POINT).concat(data.getEvent());
 			final boolean hayRedireccion = eventSubmitted && !thisScene.equals(sceneRedirect);
 			
@@ -522,9 +489,7 @@ public class ApplicationDomain implements Serializable {
 			htmFormElement_.append(IViewComponent.ENC_TYPE_FORM);
 			XmlUtils.openXmlNode(innerContent_, htmFormElement_.toString());
 			
-			innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");
-			//innerContent_.append("<input type=\"hidden\" id=\"" + PaginationGrid.ORDENACION + "\" name=\"" + PaginationGrid.ORDENACION + "\" value=\"\" />");
-			
+			innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");			
 			innerContent_.append(bodyContentOfService);
 			
 			XmlUtils.closeXmlNode(innerContent_, IViewComponent.FORM_TYPE);
@@ -562,7 +527,7 @@ public class ApplicationDomain implements Serializable {
 			System.out.println("**** INICIO ARBOL DE APLICACION ****");
 			System.out.println("");
 			
-			Iterator<ServiceDomain> iteDomainServiceUseCase = ctx.getDomainServices().iterator();
+			Iterator<ServiceDomain> iteDomainServiceUseCase = ctx.getDomainServices().values().iterator();
 			while (iteDomainServiceUseCase.hasNext()){
 				ServiceDomain domainServiceUseCase = iteDomainServiceUseCase.next();
 				System.out.println("Service UUID: " + domainServiceUseCase.getUUID_());
@@ -580,7 +545,8 @@ public class ApplicationDomain implements Serializable {
 			System.out.println("");
 			
 			String profile = "ADMINISTRADOR";
-			Data data = new Data(ctx, profile);
+			Data data = new Data(profile, ctx.getResourcesConfiguration().getEntitiesDictionary(), 
+					Integer.valueOf(ctx.getResourcesConfiguration().getPageSize()).intValue());
 			data.setLanguage("es_");
 			data.setService("GestionResponsablesCentros");
 			data.setEvent("query");			

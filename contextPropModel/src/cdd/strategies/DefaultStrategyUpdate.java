@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.StrategyException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
@@ -32,7 +31,7 @@ public class DefaultStrategyUpdate implements IStrategy {
 				continue;
 			}
 			final IFieldLogic fieldFecMod = fieldViewSet.getEntityDef().getFieldSet()
-					.get(dataAccess.getDaoRef().getAuditFieldset().getProperty(ApplicationDomain.FEC_MOD));
+					.get(dataAccess.getDaoRef().getAuditFieldset().getProperty(Data.FEC_MOD));
 			if (fieldFecMod != null) {
 				final Timestamp fecModOfActualRecord = SQLUtils.getTimestamp(fieldViewSet.getFieldvalue(fieldFecMod).getValue());
 				if (fecModOfActualRecord == null) {

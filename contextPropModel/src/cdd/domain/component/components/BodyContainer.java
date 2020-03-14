@@ -15,12 +15,12 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.factory.BodyContainerFactory;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.service.ServiceDomain;
 import cdd.domain.service.event.Event;
 import cdd.dto.Data;
 import cdd.dto.IFieldValue;
@@ -73,10 +73,10 @@ public class BodyContainer implements IBodyContainer {
 		this.getSubComponents().values();
 	}
 
-	public BodyContainer(String service, final IDataAccess dataAccess_, final ApplicationDomain appCtx,
-			final Data data, final String event_) throws PCMConfigurationException {
+	public BodyContainer(final ServiceDomain domainService, final IDataAccess dataAccess_, final Data data, 
+			final String event_) throws PCMConfigurationException {
 		
-		final Collection<Element> viewElements_ = appCtx.extractViewComponentElementsByAction(service, event_);
+		final Collection<Element> viewElements_ = domainService.extractViewComponentElementsByAction(event_);
 
 		if (viewElements_.isEmpty()) {
 			throw new PCMConfigurationException("Error: viewcomponent must be defined for this service");
@@ -87,17 +87,17 @@ public class BodyContainer implements IBodyContainer {
 		int posicion = 0;
 		while (iteViewComponents.hasNext()) {
 			Element viewComponentElement = iteViewComponents.next();
-			int numberOfForms = viewComponentElement.getElementsByTagName(ApplicationDomain.FORM_ELEMENT).getLength();
+			int numberOfForms = viewComponentElement.getElementsByTagName(ServiceDomain.FORM_ELEMENT).getLength();
 			for (int i = 0; i < numberOfForms; i++) {
-				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(ApplicationDomain.FORM_ELEMENT).item(i);
-				forms.add(posicion++, new Form(service, event_, elementForm, dataAccess_, appCtx, data));
+				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(ServiceDomain.FORM_ELEMENT).item(i);
+				forms.add(posicion++, new Form(domainService.getUseCaseName(), event_, elementForm, dataAccess_, data));
 			}
 
-			int numGrids = viewComponentElement.getElementsByTagName(ApplicationDomain.GRID_ELEMENT).getLength();
+			int numGrids = viewComponentElement.getElementsByTagName(ServiceDomain.GRID_ELEMENT).getLength();
 			for (int j = 0; j < numGrids; j++) {
-				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(ApplicationDomain.GRID_ELEMENT).item(j);
+				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(ServiceDomain.GRID_ELEMENT).item(j);
 				/** engarzo con el oltimo form de este view component ***/
-				grids.add(new PaginationGrid(service, elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), appCtx, data));
+				grids.add(new PaginationGrid(domainService.getUseCaseName(), elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), data));
 			}
 
 		}// while viewcomponents
@@ -277,14 +277,12 @@ public class BodyContainer implements IBodyContainer {
 	
 	
 	public static final IBodyContainer getContainerOfView(final Data data, final IDataAccess dataAccess_,
-			final String serviceName, final String event, final ApplicationDomain context) throws PCMConfigurationException, DatabaseException {		
+			final ServiceDomain serviceDomain, final String event) throws PCMConfigurationException, DatabaseException {		
 		try {			
 			return BodyContainerFactory.getFactoryInstance().getViewComponent(
-					dataAccess_, 
-					context,	
-					data, serviceName, event);
+					dataAccess_, data, serviceDomain, event);
 		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceName + " and EVENT: " +event);
+			throw new RuntimeException("Error getting org.w3c.Element, CU: " + serviceDomain.getUseCaseName() + " and EVENT: " +event);
 		}
 	}
 	

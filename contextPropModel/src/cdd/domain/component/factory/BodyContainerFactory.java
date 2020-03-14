@@ -6,9 +6,9 @@ import java.util.Map;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.BodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.service.ServiceDomain;
 import cdd.dto.Data;
 
 
@@ -30,17 +30,17 @@ public class BodyContainerFactory {
 	private final Map<String, IBodyContainer> viewcomponents;
 
 	public IBodyContainer getViewComponent(final IDataAccess dataAccess,
-			final ApplicationDomain appCtx_, final Data data, final String service, final String event) throws PCMConfigurationException,
+			final Data data, final ServiceDomain serviceDomain, final String event) throws PCMConfigurationException,
 			DatabaseException {
 		
 		String profile = (String) data.getAppProfile();
 		profile = profile == null ? "" : profile;
 		final String entityNameParamValue = data.getParameter(IBodyContainer.ENTITYPARAM) == null ? PCMConstants.EMPTY_ : data
 				.getParameter(IBodyContainer.ENTITYPARAM);
-		final String strName = new StringBuilder(PCMConstants.UNDERSCORE).append(service).append(PCMConstants.UNDERSCORE).append(event)
+		final String strName = new StringBuilder(PCMConstants.UNDERSCORE).append(serviceDomain.getUseCaseName()).append(PCMConstants.UNDERSCORE).append(event)
 				.append(PCMConstants.UNDERSCORE).append(entityNameParamValue).append(profile).toString();
 		if (this.viewcomponents.get(strName) == null) {
-			this.viewcomponents.put(strName, new BodyContainer(service, dataAccess, appCtx_, data, event));
+			this.viewcomponents.put(strName, new BodyContainer(serviceDomain, dataAccess, data, event));
 		}
 		return this.viewcomponents.get(strName).copyOf();
 	}

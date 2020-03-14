@@ -14,7 +14,6 @@ import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.TransactionException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.FieldViewSetComparator;
@@ -25,6 +24,7 @@ import cdd.domain.entitymodel.persistence.DAOConnection;
 import cdd.domain.entitymodel.persistence.IDAOImpl;
 import cdd.domain.entitymodel.persistence.datasource.IPCMDataSource;
 import cdd.domain.service.event.IAction;
+import cdd.dto.Data;
 
 
 /**
@@ -551,7 +551,7 @@ public class DataAccess implements IDataAccess {
 					entityName = fieldViewSet.getEntityDef().getName();
 				}
 				final boolean borradoLogico = fieldViewSet.getEntityDef().getFieldSet()
-						.get(this.getDaoRef().getAuditFieldset().getProperty(ApplicationDomain.FEC_BAJA)) != null;
+						.get(this.getDaoRef().getAuditFieldset().getProperty(Data.FEC_BAJA)) != null;
 				totalDeleted = borradoLogico ? this.getDaoRef().update(IDataAccess.ELIMINAR_ENTIDAD, fieldViewSet, this.conn) : this
 						.getDaoRef().delete(fieldViewSet, this.conn);
 				if (totalDeleted < 0) {
@@ -579,7 +579,7 @@ public class DataAccess implements IDataAccess {
 		int totalDeleted = 0;
 		try {
 			final boolean borradoLogico = this.getDaoRef().getAuditFieldset() != null && fieldViewSet.getEntityDef().getFieldSet()
-					.get(this.getDaoRef().getAuditFieldset().getProperty(ApplicationDomain.FEC_BAJA)) != null;
+					.get(this.getDaoRef().getAuditFieldset().getProperty(Data.FEC_BAJA)) != null;
 			totalDeleted = borradoLogico ? this.getDaoRef().update(IDataAccess.ELIMINAR_ENTIDAD, fieldViewSet, this.conn) : this
 					.getDaoRef().delete(fieldViewSet, this.conn);
 			if (totalDeleted < 0) {

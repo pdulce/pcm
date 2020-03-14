@@ -33,6 +33,7 @@ import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.definitions.IRank;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.definitions.ILogicTypes;
+import cdd.dto.Data;
 import cdd.dto.IFieldValue;
 
 
@@ -43,13 +44,13 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 
 	protected boolean auditActivated = false;
 
-	protected ApplicationDomain ctx;
+	protected ApplicationDomain appDomain;
 
 	protected Properties auditFieldSet;
 
 	@Override
 	public void setContext(final ApplicationDomain ctx) {
-		this.ctx = ctx;
+		this.appDomain = ctx;
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 	}
 
 	public ApplicationDomain getContextApp() {
-		return this.ctx;
+		return this.appDomain;
 	}
 
 	protected Map<String, Integer> getEntityFilter(final FieldViewSet fieldViewSet,
@@ -182,7 +183,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 		}// for de campos
 		if (this.needFecBajaFilter(fieldViewSet, fecBajaActivated, auditSet)) {
 			sqlWhereOfEntity.append(!sqlWhereOfEntity.toString().equals(PCMConstants.EMPTY_) ? IDAOImpl.AND_ : PCMConstants.EMPTY_);
-			sqlWhereOfEntity.append(alias).append(PCMConstants.POINT).append(auditSet.getProperty(ApplicationDomain.FEC_BAJA))
+			sqlWhereOfEntity.append(alias).append(PCMConstants.POINT).append(auditSet.getProperty(Data.FEC_BAJA))
 					.append(IDAOImpl.IS_NULL_);
 		}
 		final Map<String, Integer> filterWithNArgs = new HashMap<String, Integer>();
@@ -266,8 +267,6 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 				}
 			}
 			catch (final Throwable ezc) {
-				// AnsiSQLAbstractDAOImpl.log.error(InternalErrorsConstants.BBDD_FREE_EXCEPTION,
-				// ezc);
 				throw new DatabaseException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, ezc);
 			}
 		}
@@ -279,7 +278,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 	}
 
 	protected boolean needFecBajaFilter(final FieldViewSet fieldViewSet, final boolean fecBajaActivated, final Properties auditSet) {
-		return fecBajaActivated && fieldViewSet.getEntityDef().getFieldSet().get(auditSet.getProperty(ApplicationDomain.FEC_BAJA)) != null;
+		return fecBajaActivated && fieldViewSet.getEntityDef().getFieldSet().get(auditSet.getProperty(Data.FEC_BAJA)) != null;
 	}
 
 	protected Timestamp getTimestamp(final ResultSet resultSet, final String alias) throws SQLException {

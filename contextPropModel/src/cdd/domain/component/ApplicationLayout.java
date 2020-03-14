@@ -18,7 +18,6 @@ import org.w3c.dom.NodeList;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.FootComponent;
 import cdd.domain.component.components.LogoComponent;
 import cdd.domain.component.components.MenuComponent;
@@ -39,6 +38,8 @@ import cdd.dto.Data;
 
 public class ApplicationLayout implements Serializable {
 	
+	private static final String LOGO_ELEMENT = "logo", MENU_ELEMENT = "menu", FOOT_ELEMENT = "foot", TREE_ELEMENT = "tree"; 
+				
 	private static final long serialVersionUID = 786578583812182L;
 	protected static Logger log = Logger.getLogger(ApplicationLayout.class.getName());
 	
@@ -133,19 +134,19 @@ public class ApplicationLayout implements Serializable {
 	}
 	
 	private Element extractLogoElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, ApplicationDomain.LOGO_ELEMENT);
+		return this.extractComponentElement(appNavigation, LOGO_ELEMENT);
 	}
 
 	private Element extractFootElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, ApplicationDomain.FOOT_ELEMENT);
+		return this.extractComponentElement(appNavigation, FOOT_ELEMENT);
 	}
 
 	private Element extractTreeElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, ApplicationDomain.TREE_ELEMENT);
+		return this.extractComponentElement(appNavigation, TREE_ELEMENT);
 	}
 
 	private Element extractMenuElement(final Document appNavigation) throws PCMConfigurationException {
-		return this.extractComponentElement(appNavigation, ApplicationDomain.MENU_ELEMENT);
+		return this.extractComponentElement(appNavigation, MENU_ELEMENT);
 	}
 
 	private Element extractComponentElement(final Document appNavigation, final String elemName_) throws PCMConfigurationException {

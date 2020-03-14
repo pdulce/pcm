@@ -20,7 +20,6 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.component.components.controls.html.GenericInput;
 import cdd.domain.component.components.controls.html.LinkButton;
@@ -61,8 +60,6 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 
 	protected String uri, event, service, nameContext, destine;
 
-	protected ApplicationDomain appContext;
-
 	protected List<FieldViewSetCollection> fieldViewSetCollection;
 
 	@Override
@@ -73,14 +70,6 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 	@Override
 	public final void setDestine(final String destine) {
 		this.destine = destine;
-	}
-
-	public final ApplicationDomain getAppContext() {
-		return this.appContext;
-	}
-
-	protected final void setAppContext(final ApplicationDomain appContext) {
-		this.appContext = appContext;
 	}
 
 	/** ** METODOS ABSTRACTOS *** */
