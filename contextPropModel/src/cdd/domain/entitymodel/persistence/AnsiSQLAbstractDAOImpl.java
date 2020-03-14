@@ -26,7 +26,6 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.FieldView;
 import cdd.domain.component.definitions.FieldViewSet;
@@ -39,6 +38,7 @@ import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldAbstract;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.dto.IFieldValue;
 
 
 public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements IDAOImpl {

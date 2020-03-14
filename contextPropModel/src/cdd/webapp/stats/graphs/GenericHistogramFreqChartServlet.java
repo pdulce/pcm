@@ -13,11 +13,11 @@ import org.json.simple.JSONArray;
 import cdd.common.comparator.ComparatorEntryWithDouble;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.Data;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.dto.Data;
 import cdd.webapp.stats.IStats;
 
 

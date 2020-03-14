@@ -27,10 +27,10 @@ import com.oreilly.servlet.MultipartRequest;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.ApplicationLayout;
 import cdd.domain.service.event.SceneResult;
+import cdd.dto.Data;
 
 
 /**

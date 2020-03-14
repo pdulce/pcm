@@ -40,8 +40,6 @@ import cdd.common.comparator.ComparatorLexicographic;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-
-import cdd.data.bus.Data;
 import cdd.domain.component.components.BodyContainer;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.components.XmlUtils;
@@ -61,6 +59,7 @@ import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
 import cdd.domain.service.event.SceneResult;
+import cdd.dto.Data;
 
 
 /**

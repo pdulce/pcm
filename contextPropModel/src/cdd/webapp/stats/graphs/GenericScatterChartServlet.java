@@ -22,8 +22,6 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.stats.StatsUtils;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.Data;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.Translator;
 import cdd.domain.component.components.BodyContainer;
@@ -37,6 +35,8 @@ import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.SceneResult;
+import cdd.dto.Data;
+import cdd.dto.IFieldValue;
 import cdd.webapp.stats.GenericStatsServlet;
 
 

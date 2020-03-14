@@ -14,8 +14,6 @@ import java.util.Map;
 import cdd.common.PCMConstants;
 import cdd.common.comparator.ComparatorFieldLogic;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.FieldValue;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.component.components.XmlUtils;
 import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.entitymodel.definitions.EntityLogic;
@@ -23,6 +21,8 @@ import cdd.domain.entitymodel.definitions.FieldAbstract;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldAbstract;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.dto.FieldValue;
+import cdd.dto.IFieldValue;
 
 
 public class FieldViewSet implements Serializable {

@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import cdd.common.exceptions.MessageException;
-import cdd.data.bus.Data;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.dto.Data;
 
 
 /**

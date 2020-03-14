@@ -25,7 +25,6 @@ import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.Translator;
 import cdd.domain.component.components.BodyContainer;
@@ -39,6 +38,7 @@ import cdd.domain.service.event.ActionPagination;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.SceneResult;
+import cdd.dto.Data;
 import cdd.strategies.DefaultStrategyLogin;
 
 public class ServiceDomain {

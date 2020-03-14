@@ -9,13 +9,13 @@ import java.util.List;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.Data;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.service.event.IAction;
+import cdd.dto.Data;
 
 
 public class DefaultStrategyDelete implements IStrategy {

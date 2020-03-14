@@ -14,7 +14,6 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.Form;
 import cdd.domain.component.components.IViewComponent;
@@ -27,6 +26,7 @@ import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.entitymodel.definitions.FieldCompositePK;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.dto.Data;
 
 
 /**

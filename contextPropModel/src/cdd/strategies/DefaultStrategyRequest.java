@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.data.bus.Data;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.dto.Data;
 
 
 public abstract class DefaultStrategyRequest implements IStrategy {

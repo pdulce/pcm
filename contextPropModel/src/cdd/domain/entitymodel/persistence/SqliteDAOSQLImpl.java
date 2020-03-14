@@ -10,9 +10,9 @@ import java.util.Date;
 
 import cdd.common.PCMConstants;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.dto.IFieldValue;
 
 
 public class SqliteDAOSQLImpl extends AnsiSQLAbstractDAOImpl {

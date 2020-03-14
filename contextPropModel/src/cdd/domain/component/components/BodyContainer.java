@@ -15,8 +15,6 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.data.bus.Data;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
@@ -24,6 +22,8 @@ import cdd.domain.component.factory.BodyContainerFactory;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.service.event.Event;
+import cdd.dto.Data;
+import cdd.dto.IFieldValue;
 
 
 public class BodyContainer implements IBodyContainer {

@@ -1,4 +1,4 @@
-package cdd.data.bus;
+package cdd.dto;
 
 import java.util.Collection;
 import java.util.Map;

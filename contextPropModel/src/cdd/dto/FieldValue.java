@@ -1,4 +1,4 @@
-package cdd.data.bus;
+package cdd.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;

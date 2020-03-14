@@ -18,7 +18,6 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.Translator;
 import cdd.domain.component.components.IViewComponent;
@@ -37,6 +36,7 @@ import cdd.domain.service.event.validators.IntegerValidator;
 import cdd.domain.service.event.validators.LongValidator;
 import cdd.domain.service.event.validators.RelationalAndCIFValidator;
 import cdd.domain.service.event.validators.StringValidator;
+import cdd.dto.Data;
 
 
 public class FieldView implements IFieldView, Serializable {

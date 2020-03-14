@@ -26,7 +26,6 @@ import cdd.common.PCMConstants;
 import cdd.common.comparator.ComparatorFieldViews;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.definitions.FieldViewSet;
@@ -34,6 +33,7 @@ import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.definitions.IRank;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.definitions.ILogicTypes;
+import cdd.dto.IFieldValue;
 
 
 /**

@@ -1,4 +1,4 @@
-package cdd.data.bus;
+package cdd.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;

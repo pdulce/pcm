@@ -26,8 +26,6 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.Data;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.Translator;
 import cdd.domain.component.components.controls.AbstractCtrl;
@@ -55,6 +53,8 @@ import cdd.domain.service.event.IEvent;
 import cdd.domain.service.event.Parameter;
 import cdd.domain.service.event.validators.IValidator;
 import cdd.domain.service.event.validators.RelationalAndCIFValidator;
+import cdd.dto.Data;
+import cdd.dto.IFieldValue;
 
 
 public class Form extends AbstractComponent {

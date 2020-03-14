@@ -6,10 +6,10 @@ import java.util.Map;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.BodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.dto.Data;
 
 
 public class BodyContainerFactory {

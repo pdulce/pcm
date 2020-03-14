@@ -22,7 +22,6 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.Translator;
 import cdd.domain.component.components.controls.ICtrl;
@@ -48,6 +47,7 @@ import cdd.domain.entitymodel.factory.EntityLogicFactory;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
+import cdd.dto.Data;
 
 
 public class PaginationGrid extends AbstractComponent {

@@ -20,10 +20,6 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.data.bus.Data;
-import cdd.data.bus.FieldValue;
-import cdd.data.bus.IFieldValue;
-import cdd.data.bus.SerializedValues;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.component.components.controls.html.GenericInput;
@@ -37,6 +33,10 @@ import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.ILogicTypes;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
+import cdd.dto.Data;
+import cdd.dto.FieldValue;
+import cdd.dto.IFieldValue;
+import cdd.dto.SerializedValues;
 
 
 public abstract class AbstractComponent implements IViewComponent, Serializable {

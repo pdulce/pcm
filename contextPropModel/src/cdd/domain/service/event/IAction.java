@@ -4,10 +4,10 @@ import java.util.Collection;
 
 import cdd.common.exceptions.BindPcmException;
 import cdd.common.exceptions.MessageException;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.dto.Data;
 import cdd.strategies.IStrategyFactory;
 
 

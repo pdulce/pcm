@@ -23,9 +23,6 @@ import cdd.common.exceptions.ParameterBindingException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
-
-import cdd.data.bus.Data;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.component.components.BodyContainer;
 import cdd.domain.component.components.Form;
@@ -40,6 +37,8 @@ import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.entitymodel.definitions.IFieldLogic;
 import cdd.domain.entitymodel.factory.AppCacheFactory;
 import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.dto.Data;
+import cdd.dto.IFieldValue;
 import cdd.strategies.DefaultStrategyLogin;
 
 

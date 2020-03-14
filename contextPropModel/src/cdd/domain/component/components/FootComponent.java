@@ -17,7 +17,6 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.data.bus.Data;
 import cdd.domain.component.components.controls.ICtrl;
 import cdd.domain.component.components.controls.html.IHtmlElement;
 import cdd.domain.component.components.controls.html.LinkButton;
@@ -25,6 +24,7 @@ import cdd.domain.component.components.controls.html.Span;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.service.event.IAction;
+import cdd.dto.Data;
 
 
 /**

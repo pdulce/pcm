@@ -8,14 +8,14 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
-import cdd.data.bus.Data;
-import cdd.data.bus.IFieldValue;
-import cdd.data.bus.SerializedValues;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.entitymodel.definitions.IEntityLogic;
 import cdd.domain.service.event.IAction;
+import cdd.dto.Data;
+import cdd.dto.IFieldValue;
+import cdd.dto.SerializedValues;
 
 
 public interface IViewComponent {

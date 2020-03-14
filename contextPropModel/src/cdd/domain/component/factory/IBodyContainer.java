@@ -6,11 +6,11 @@ import java.util.List;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.data.bus.Data;
-import cdd.data.bus.IFieldValue;
 import cdd.domain.component.components.IViewComponent;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.entitymodel.IDataAccess;
+import cdd.dto.Data;
+import cdd.dto.IFieldValue;
 
 
 public interface IBodyContainer {
