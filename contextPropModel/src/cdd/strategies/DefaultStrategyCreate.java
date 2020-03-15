@@ -9,8 +9,8 @@ import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
-import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 

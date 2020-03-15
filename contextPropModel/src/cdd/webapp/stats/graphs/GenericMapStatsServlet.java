@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 import cdd.common.stats.CodigosISOProvinciasSpain;
 import cdd.common.utils.CommonUtils;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.dto.Data;
 import cdd.webapp.stats.GenericStatsServlet;
 

@@ -7,9 +7,9 @@ import java.util.Iterator;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
-import cdd.domain.entitymodel.persistence.SQLUtils;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.persistence.SQLUtils;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 

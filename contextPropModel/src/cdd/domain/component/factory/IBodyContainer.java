@@ -8,7 +8,7 @@ import cdd.common.exceptions.MessageException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.component.definitions.FieldViewSetCollection;
-import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.dataccess.IDataAccess;
 import cdd.dto.Data;
 import cdd.dto.IFieldValue;
 

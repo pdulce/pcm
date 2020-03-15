@@ -1,6 +1,6 @@
 package cdd.domain.component.definitions;
 
-import cdd.domain.entitymodel.definitions.EntityLogic;
+import cdd.domain.dataccess.definitions.EntityLogic;
 
 public interface IAggregateField {
 

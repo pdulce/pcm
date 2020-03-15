@@ -20,10 +20,10 @@ import cdd.domain.component.XmlUtils;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.factory.IBodyContainer;
-import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.entitymodel.definitions.FieldCompositePK;
-import cdd.domain.entitymodel.definitions.IEntityLogic;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.definitions.FieldCompositePK;
+import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.service.DomainService;
 import cdd.dto.Data;
 

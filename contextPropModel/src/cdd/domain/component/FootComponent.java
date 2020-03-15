@@ -22,7 +22,7 @@ import cdd.domain.component.element.ICtrl;
 import cdd.domain.component.element.html.IHtmlElement;
 import cdd.domain.component.element.html.LinkButton;
 import cdd.domain.component.element.html.Span;
-import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.service.event.IAction;
 import cdd.dto.Data;
 

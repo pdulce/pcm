@@ -21,8 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.definitions.IEntityLogic;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 
 
 public abstract class AbstractExcelReader {

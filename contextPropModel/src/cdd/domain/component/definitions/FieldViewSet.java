@@ -16,11 +16,11 @@ import cdd.common.comparator.ComparatorFieldLogic;
 import cdd.common.utils.CommonUtils;
 import cdd.domain.component.XmlUtils;
 import cdd.domain.component.element.ICtrl;
-import cdd.domain.entitymodel.definitions.EntityLogic;
-import cdd.domain.entitymodel.definitions.FieldAbstract;
-import cdd.domain.entitymodel.definitions.IEntityLogic;
-import cdd.domain.entitymodel.definitions.IFieldAbstract;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.definitions.EntityLogic;
+import cdd.domain.dataccess.definitions.FieldAbstract;
+import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.definitions.IFieldAbstract;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.dto.FieldValue;
 import cdd.dto.IFieldValue;
 

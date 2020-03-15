@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import cdd.common.exceptions.MessageException;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.dto.Data;
 
 

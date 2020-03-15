@@ -2,7 +2,7 @@ package cdd.domain.component.definitions;
 
 import java.io.Serializable;
 
-import cdd.domain.entitymodel.definitions.EntityLogic;
+import cdd.domain.dataccess.definitions.EntityLogic;
 
 
 public class AggregateField implements IAggregateField, Serializable {

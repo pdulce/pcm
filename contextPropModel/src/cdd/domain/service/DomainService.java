@@ -31,7 +31,7 @@ import cdd.domain.component.PaginationGrid;
 import cdd.domain.component.Translator;
 import cdd.domain.component.element.html.Span;
 import cdd.domain.component.factory.IBodyContainer;
-import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.service.event.AbstractPcmAction;
 import cdd.domain.service.event.ActionPagination;
 import cdd.domain.service.event.Event;
