@@ -13,7 +13,6 @@ import java.util.logging.StreamHandler;
 
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
-import cdd.domain.component.html.IViewComponent;
 
 
 public class Translator {

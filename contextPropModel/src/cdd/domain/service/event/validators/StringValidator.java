@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.MessageException;
-import cdd.domain.component.html.IViewComponent;
+import cdd.domain.component.IViewComponent;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.Parameter;
 

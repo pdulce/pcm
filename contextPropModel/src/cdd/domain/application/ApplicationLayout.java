@@ -18,12 +18,12 @@ import org.w3c.dom.NodeList;
 import cdd.common.InternalErrorsConstants;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.component.FootComponent;
+import cdd.domain.component.LogoComponent;
+import cdd.domain.component.MenuComponent;
 import cdd.domain.component.Translator;
-import cdd.domain.component.html.FootComponent;
-import cdd.domain.component.html.LogoComponent;
-import cdd.domain.component.html.MenuComponent;
-import cdd.domain.component.html.TreeComponent;
-import cdd.domain.component.html.controls.html.Span;
+import cdd.domain.component.TreeComponent;
+import cdd.domain.component.element.html.Span;
 import cdd.dto.Data;
 
 

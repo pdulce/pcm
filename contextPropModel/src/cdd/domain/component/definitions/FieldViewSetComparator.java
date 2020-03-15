@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import cdd.common.utils.CommonUtils;
-import cdd.domain.component.html.IViewComponent;
+import cdd.domain.component.IViewComponent;
 
 
 public class FieldViewSetComparator implements Comparator<Object>, Serializable {

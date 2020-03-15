@@ -5,8 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import cdd.domain.component.html.controls.FieldsetControl;
-import cdd.domain.component.html.controls.ICtrl;
+import cdd.domain.component.element.FieldsetControl;
+import cdd.domain.component.element.ICtrl;
 
 
 /**

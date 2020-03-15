@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import cdd.common.PCMConstants;
+import cdd.domain.component.IViewComponent;
 import cdd.domain.component.Translator;
-import cdd.domain.component.html.IViewComponent;
-import cdd.domain.component.html.XmlUtils;
+import cdd.domain.component.XmlUtils;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.Parameter;
 

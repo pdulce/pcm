@@ -6,7 +6,7 @@ import java.util.Map;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
-import cdd.domain.component.html.BodyContainer;
+import cdd.domain.component.BodyContainer;
 import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.service.DomainService;
 import cdd.dto.Data;
