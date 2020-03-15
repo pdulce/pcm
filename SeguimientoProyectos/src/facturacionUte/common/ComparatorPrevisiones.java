@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.dataccess.definitions.IEntityLogic;
 
 
 public final class ComparatorPrevisiones implements Comparator<FieldViewSet>, Serializable {

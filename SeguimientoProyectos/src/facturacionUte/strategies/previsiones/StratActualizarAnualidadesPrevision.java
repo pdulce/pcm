@@ -6,9 +6,9 @@ import java.util.Iterator;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.service.conditions.DefaultStrategyRequest;
 import cdd.dto.Data;
-import cdd.strategies.DefaultStrategyRequest;
 import facturacionUte.common.ConstantesModelo;
 
 public class StratActualizarAnualidadesPrevision extends DefaultStrategyRequest {

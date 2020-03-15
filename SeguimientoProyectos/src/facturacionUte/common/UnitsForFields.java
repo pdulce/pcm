@@ -3,7 +3,7 @@
  */
 package facturacionUte.common;
 
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.dto.Data;
 
 /**

@@ -7,12 +7,12 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.entitymodel.definitions.IEntityLogic;
-import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.factory.EntityLogicFactory;
+import cdd.domain.service.conditions.DefaultStrategyRequest;
 import cdd.domain.service.event.Event;
 import cdd.dto.Data;
-import cdd.strategies.DefaultStrategyRequest;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyEncajarNuevoDpto extends DefaultStrategyRequest {

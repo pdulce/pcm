@@ -13,7 +13,7 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.webapp.CDDWebController;
 import cdd.domain.application.ApplicationDomain;
-import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.service.event.SceneResult;
 import cdd.dto.Data;
 import facturacionUte.utils.bolsa.ValoresActuales;

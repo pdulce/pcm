@@ -25,9 +25,9 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.CommonUtils;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.entitymodel.definitions.IEntityLogic;
-import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.dto.Data;
 import facturacionUte.common.ConstantesModelo;
 

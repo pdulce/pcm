@@ -1,4 +1,4 @@
-package cdd.strategies;
+package cdd.domain.service.conditions;
 
 import java.util.ArrayList;
 import java.util.Collection;

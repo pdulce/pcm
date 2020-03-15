@@ -5,9 +5,9 @@ import java.util.Collection;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.service.conditions.DefaultStrategyLogin;
 import cdd.dto.Data;
-import cdd.strategies.DefaultStrategyLogin;
 
 
 public class SampleConnector extends DefaultStrategyLogin {

@@ -35,9 +35,9 @@ import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.factory.AppCacheFactory;
 import cdd.domain.service.DomainService;
+import cdd.domain.service.conditions.DefaultStrategyLogin;
 import cdd.dto.Data;
 import cdd.dto.IFieldValue;
-import cdd.strategies.DefaultStrategyLogin;
 
 
 /**

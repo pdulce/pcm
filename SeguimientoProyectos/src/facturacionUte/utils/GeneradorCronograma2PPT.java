@@ -28,9 +28,9 @@ import cdd.common.comparator.ComparatorInteger;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
-import cdd.domain.entitymodel.factory.EntityLogicFactory;
-import cdd.domain.entitymodel.factory.IEntityLogicFactory;
+import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.factory.EntityLogicFactory;
+import cdd.domain.dataccess.factory.IEntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 public class GeneradorCronograma2PPT extends GeneradorPresentaciones{

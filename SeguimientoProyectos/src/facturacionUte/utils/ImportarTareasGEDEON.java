@@ -33,15 +33,15 @@ import cdd.common.exceptions.TransactionException;
 import cdd.common.utils.AbstractExcelReader;
 import cdd.common.utils.CommonUtils;
 import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.entitymodel.DataAccess;
-import cdd.domain.entitymodel.IDataAccess;
-import cdd.domain.entitymodel.definitions.IEntityLogic;
-import cdd.domain.entitymodel.definitions.IFieldLogic;
-import cdd.domain.entitymodel.factory.EntityLogicFactory;
-import cdd.domain.entitymodel.factory.IEntityLogicFactory;
-import cdd.domain.entitymodel.persistence.SqliteDAOSQLImpl;
-import cdd.domain.entitymodel.persistence.datasource.IPCMDataSource;
-import cdd.domain.entitymodel.persistence.datasource.PCMDataSourceFactory;
+import cdd.domain.dataccess.DataAccess;
+import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.factory.EntityLogicFactory;
+import cdd.domain.dataccess.factory.IEntityLogicFactory;
+import cdd.domain.dataccess.persistence.SqliteDAOSQLImpl;
+import cdd.domain.dataccess.persistence.datasource.IPCMDataSource;
+import cdd.domain.dataccess.persistence.datasource.PCMDataSourceFactory;
 import facturacionUte.common.ConstantesModelo;
 
 /**

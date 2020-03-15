@@ -1,6 +1,6 @@
 package facturacionUte.servlets.diagramas;
 
-import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.dto.Data;
 import cdd.webapp.stats.graphs.GenericHistogramFreqChartServlet;
 import facturacionUte.common.UnitsForFields;
