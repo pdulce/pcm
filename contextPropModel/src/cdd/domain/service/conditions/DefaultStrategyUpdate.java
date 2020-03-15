@@ -9,9 +9,9 @@ import cdd.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.persistence.SQLUtils;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
 
 
 public class DefaultStrategyUpdate implements IStrategy {

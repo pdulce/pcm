@@ -14,7 +14,7 @@ import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.dto.Data;
+import cdd.domain.dataccess.dto.Data;
 
 
 public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram {

@@ -32,13 +32,13 @@ import cdd.domain.component.Translator;
 import cdd.domain.component.element.html.Span;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.conditions.DefaultStrategyLogin;
 import cdd.domain.service.event.AbstractPcmAction;
 import cdd.domain.service.event.ActionPagination;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.SceneResult;
-import cdd.dto.Data;
 
 public class DomainService {
 	

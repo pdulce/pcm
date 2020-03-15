@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.dto;
+package cdd.domain.dataccess.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;

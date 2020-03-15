@@ -1,4 +1,4 @@
-package cdd.dto;
+package cdd.domain.dataccess.dto;
 
 import java.util.Collection;
 import java.util.Map;

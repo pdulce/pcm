@@ -17,8 +17,8 @@ import cdd.common.utils.CommonUtils;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
 import cdd.webapp.stats.GenericStatsServlet;
 
 

@@ -12,7 +12,7 @@ import cdd.common.stats.CodigosISOProvinciasSpain;
 import cdd.common.utils.CommonUtils;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.dto.Data;
+import cdd.domain.dataccess.dto.Data;
 import cdd.webapp.stats.GenericStatsServlet;
 
 

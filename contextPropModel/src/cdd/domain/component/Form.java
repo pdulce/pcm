@@ -44,6 +44,8 @@ import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.EntityLogic;
 import cdd.domain.dataccess.definitions.FieldCompositePK;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.domain.service.DomainService;
 import cdd.domain.service.event.Event;
@@ -52,8 +54,6 @@ import cdd.domain.service.event.IEvent;
 import cdd.domain.service.event.Parameter;
 import cdd.domain.service.event.validators.IValidator;
 import cdd.domain.service.event.validators.RelationalAndCIFValidator;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
 
 
 public class Form extends AbstractComponent {

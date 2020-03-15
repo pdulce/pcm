@@ -24,8 +24,8 @@ import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.FieldCompositePK;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.DomainService;
-import cdd.dto.Data;
 
 
 /**

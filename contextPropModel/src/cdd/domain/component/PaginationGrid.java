@@ -41,11 +41,11 @@ import cdd.domain.dataccess.definitions.EntityLogic;
 import cdd.domain.dataccess.definitions.FieldCompositePK;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
-import cdd.dto.Data;
 
 
 public class PaginationGrid extends AbstractComponent {

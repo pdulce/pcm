@@ -19,12 +19,12 @@ import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.FieldViewSetComparator;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.LogicDataCacheFactory;
 import cdd.domain.dataccess.persistence.DAOConnection;
 import cdd.domain.dataccess.persistence.IDAOImpl;
 import cdd.domain.dataccess.persistence.datasource.IPCMDataSource;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
 
 
 /**

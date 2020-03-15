@@ -30,12 +30,12 @@ import cdd.domain.component.element.html.LinkButton;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.ILogicTypes;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.FieldValue;
+import cdd.domain.dataccess.dto.IFieldValue;
+import cdd.domain.dataccess.dto.SerializedValues;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
-import cdd.dto.Data;
-import cdd.dto.FieldValue;
-import cdd.dto.IFieldValue;
-import cdd.dto.SerializedValues;
 
 
 public abstract class AbstractComponent implements IViewComponent, Serializable {

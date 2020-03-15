@@ -25,12 +25,12 @@ import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.DomainService;
 import cdd.domain.service.conditions.DefaultStrategyFactory;
 import cdd.domain.service.conditions.DefaultStrategyUpdate;
 import cdd.domain.service.conditions.IStrategy;
 import cdd.domain.service.conditions.IStrategyFactory;
-import cdd.dto.Data;
 
 
 /**

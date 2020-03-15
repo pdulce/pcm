@@ -24,7 +24,7 @@ import cdd.domain.component.MenuComponent;
 import cdd.domain.component.Translator;
 import cdd.domain.component.TreeComponent;
 import cdd.domain.component.element.html.Span;
-import cdd.dto.Data;
+import cdd.domain.dataccess.dto.Data;
 
 
 /**

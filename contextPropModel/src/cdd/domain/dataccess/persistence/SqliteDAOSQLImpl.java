@@ -12,7 +12,7 @@ import cdd.common.PCMConstants;
 import cdd.common.utils.CommonUtils;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.dto.IFieldValue;
+import cdd.domain.dataccess.dto.IFieldValue;
 
 
 public class SqliteDAOSQLImpl extends AnsiSQLAbstractDAOImpl {

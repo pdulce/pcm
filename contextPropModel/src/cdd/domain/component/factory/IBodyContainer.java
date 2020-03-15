@@ -9,8 +9,8 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.dataccess.IDataAccess;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
 
 
 public interface IBodyContainer {

@@ -14,8 +14,8 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
 
 
 public class DefaultStrategyDelete implements IStrategy {

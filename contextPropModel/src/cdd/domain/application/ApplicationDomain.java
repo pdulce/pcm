@@ -45,6 +45,7 @@ import cdd.domain.component.IViewComponent;
 import cdd.domain.component.XmlUtils;
 import cdd.domain.dataccess.DataAccess;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.AppCacheFactory;
 import cdd.domain.dataccess.factory.DAOImplementationFactory;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
@@ -59,7 +60,6 @@ import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.IEvent;
 import cdd.domain.service.event.SceneResult;
-import cdd.dto.Data;
 
 
 /**

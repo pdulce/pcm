@@ -20,10 +20,10 @@ import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.factory.BodyContainerFactory;
 import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
 import cdd.domain.service.DomainService;
 import cdd.domain.service.event.Event;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
 
 
 public class BodyContainer implements IBodyContainer {

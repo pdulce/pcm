@@ -21,8 +21,8 @@ import cdd.domain.dataccess.definitions.FieldAbstract;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldAbstract;
 import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.dto.FieldValue;
-import cdd.dto.IFieldValue;
+import cdd.domain.dataccess.dto.FieldValue;
+import cdd.domain.dataccess.dto.IFieldValue;
 
 
 public class FieldViewSet implements Serializable {

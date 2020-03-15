@@ -33,8 +33,8 @@ import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.component.definitions.IRank;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.definitions.ILogicTypes;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
 
 
 /**

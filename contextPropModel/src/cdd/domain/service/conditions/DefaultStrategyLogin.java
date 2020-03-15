@@ -6,9 +6,9 @@ import java.util.Map;
 
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.StrategyException;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.AppCacheFactory;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
 
 
 public class DefaultStrategyLogin extends DefaultStrategyRequest {

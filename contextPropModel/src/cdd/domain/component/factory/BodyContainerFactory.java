@@ -8,8 +8,8 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.component.BodyContainer;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.DomainService;
-import cdd.dto.Data;
 
 
 public class BodyContainerFactory {

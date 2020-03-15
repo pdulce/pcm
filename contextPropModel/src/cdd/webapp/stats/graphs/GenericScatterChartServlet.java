@@ -32,12 +32,12 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.EntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.domain.service.DomainService;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.SceneResult;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
 import cdd.webapp.stats.GenericStatsServlet;
 
 

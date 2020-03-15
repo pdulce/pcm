@@ -12,10 +12,10 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
+import cdd.domain.dataccess.dto.SerializedValues;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
-import cdd.dto.SerializedValues;
 
 
 public interface IViewComponent {

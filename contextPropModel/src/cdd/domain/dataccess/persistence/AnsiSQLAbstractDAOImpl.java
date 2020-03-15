@@ -36,9 +36,9 @@ import cdd.domain.dataccess.definitions.FieldLogicComparator;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldAbstract;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
 
 
 public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements IDAOImpl {

@@ -22,9 +22,9 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.ParameterBindingException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.DomainService;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
 
 
 /**

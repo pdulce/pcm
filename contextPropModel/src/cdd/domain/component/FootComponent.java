@@ -23,8 +23,8 @@ import cdd.domain.component.element.html.IHtmlElement;
 import cdd.domain.component.element.html.LinkButton;
 import cdd.domain.component.element.html.Span;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.event.IAction;
-import cdd.dto.Data;
 
 
 /**

@@ -29,8 +29,8 @@ import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.application.ApplicationLayout;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.event.SceneResult;
-import cdd.dto.Data;
 
 
 /**

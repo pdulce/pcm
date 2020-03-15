@@ -25,6 +25,7 @@ import cdd.domain.dataccess.definitions.EntityLogic;
 import cdd.domain.dataccess.definitions.FieldCompositePK;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.definitions.ILogicTypes;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.domain.service.DomainService;
 import cdd.domain.service.event.IAction;
@@ -36,7 +37,6 @@ import cdd.domain.service.event.validators.IntegerValidator;
 import cdd.domain.service.event.validators.LongValidator;
 import cdd.domain.service.event.validators.RelationalAndCIFValidator;
 import cdd.domain.service.event.validators.StringValidator;
-import cdd.dto.Data;
 
 
 public class FieldView implements IFieldView, Serializable {

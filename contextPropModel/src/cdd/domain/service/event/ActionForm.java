@@ -33,11 +33,11 @@ import cdd.domain.component.factory.IBodyContainer;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
+import cdd.domain.dataccess.dto.IFieldValue;
 import cdd.domain.dataccess.factory.AppCacheFactory;
 import cdd.domain.service.DomainService;
 import cdd.domain.service.conditions.DefaultStrategyLogin;
-import cdd.dto.Data;
-import cdd.dto.IFieldValue;
 
 
 /**

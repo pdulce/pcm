@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import cdd.common.exceptions.MessageException;
 import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.dto.Data;
+import cdd.domain.dataccess.dto.Data;
 
 
 /**
