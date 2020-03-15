@@ -12,17 +12,16 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
-import cdd.data.bus.Data;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.viewmodel.definitions.FieldView;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.IFieldView;
-import cdd.viewmodel.definitions.IRank;
-import cdd.viewmodel.definitions.Rank;
-
+import cdd.domain.component.definitions.FieldView;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.component.definitions.IRank;
+import cdd.domain.component.definitions.Rank;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.dto.Data;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyIdentificarDemanda extends StrategyLogin {

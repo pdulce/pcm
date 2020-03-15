@@ -11,15 +11,13 @@ import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.common.exceptions.TransactionException;
-import cdd.data.bus.Data;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
 import cdd.domain.service.event.Event;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.dto.Data;
 import cdd.strategies.DefaultStrategyRequest;
-import cdd.viewmodel.definitions.FieldViewSet;
-
-
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyBorrarAgregadosMesesColab extends DefaultStrategyRequest {

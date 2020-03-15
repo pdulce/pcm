@@ -3,8 +3,8 @@
  */
 package facturacionUte.common;
 
-import cdd.data.bus.Data;
-import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.dto.Data;
 
 /**
  * @author 99GU3997

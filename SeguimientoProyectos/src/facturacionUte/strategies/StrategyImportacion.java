@@ -11,14 +11,13 @@ import java.util.Map;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.data.bus.Data;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
 import cdd.domain.service.event.Event;
 import cdd.domain.service.event.IEvent;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.viewmodel.definitions.FieldViewSet;
-
+import cdd.dto.Data;
 import facturacionUte.common.ConstantesModelo;
 import facturacionUte.utils.ImportarTareasGEDEON;
 

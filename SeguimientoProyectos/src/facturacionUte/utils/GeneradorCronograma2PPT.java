@@ -27,13 +27,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import cdd.common.comparator.ComparatorInteger;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.logicmodel.factory.IEntityLogicFactory;
-import cdd.viewmodel.definitions.FieldViewSet;
-
-
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.entitymodel.factory.IEntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 public class GeneradorCronograma2PPT extends GeneradorPresentaciones{

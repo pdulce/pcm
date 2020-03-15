@@ -12,11 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import cdd.common.PCMConstants;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.webapp.CDDWebController;
-import cdd.data.bus.Data;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.entitymodel.IDataAccess;
 import cdd.domain.service.event.SceneResult;
-import cdd.logicmodel.IDataAccess;
-
+import cdd.dto.Data;
 import facturacionUte.utils.bolsa.ValoresActuales;
 
 /**

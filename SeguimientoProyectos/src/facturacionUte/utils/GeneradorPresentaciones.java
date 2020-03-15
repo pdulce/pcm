@@ -61,18 +61,16 @@ import cdd.common.comparator.ComparatorInteger;
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.utils.CommonUtils;
-import cdd.logicmodel.DataAccess;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.definitions.IFieldLogic;
-import cdd.logicmodel.factory.EntityLogicFactory;
-import cdd.logicmodel.factory.IEntityLogicFactory;
-import cdd.logicmodel.persistence.SqliteDAOSQLImpl;
-import cdd.logicmodel.persistence.datasource.IPCMDataSource;
-import cdd.logicmodel.persistence.datasource.PCMDataSourceFactory;
-import cdd.viewmodel.definitions.FieldViewSet;
-
-
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.entitymodel.DataAccess;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.domain.entitymodel.factory.IEntityLogicFactory;
+import cdd.domain.entitymodel.persistence.SqliteDAOSQLImpl;
+import cdd.domain.entitymodel.persistence.datasource.IPCMDataSource;
+import cdd.domain.entitymodel.persistence.datasource.PCMDataSourceFactory;
 import facturacionUte.common.ComparatorBySameProjectAndEpigrafe;
 import facturacionUte.common.ComparatorMapEntry;
 import facturacionUte.common.ComparatorTasksBySituation;

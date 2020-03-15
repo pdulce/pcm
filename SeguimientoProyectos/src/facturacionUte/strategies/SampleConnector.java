@@ -4,10 +4,10 @@ import java.util.Collection;
 
 import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
-import cdd.data.bus.Data;
-import cdd.logicmodel.IDataAccess;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.dto.Data;
 import cdd.strategies.DefaultStrategyLogin;
-import cdd.viewmodel.definitions.FieldViewSet;
 
 
 public class SampleConnector extends DefaultStrategyLogin {

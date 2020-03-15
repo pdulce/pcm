@@ -25,16 +25,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import cdd.common.exceptions.DatabaseException;
 import cdd.common.utils.CommonUtils;
-import cdd.data.bus.Data;
-import cdd.logicmodel.IDataAccess;
-import cdd.logicmodel.definitions.IEntityLogic;
-import cdd.logicmodel.definitions.ILogicTypes;
-import cdd.logicmodel.factory.EntityLogicFactory;
+import cdd.domain.component.definitions.FieldView;
+import cdd.domain.component.definitions.FieldViewSet;
+import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.entitymodel.IDataAccess;
+import cdd.domain.entitymodel.definitions.IEntityLogic;
+import cdd.domain.entitymodel.definitions.ILogicTypes;
+import cdd.domain.entitymodel.factory.EntityLogicFactory;
+import cdd.dto.Data;
 import cdd.strategies.IStrategy;
-import cdd.viewmodel.definitions.FieldView;
-import cdd.viewmodel.definitions.FieldViewSet;
-import cdd.viewmodel.definitions.IFieldView;
-
 import facturacionUte.common.ConstantesModelo;
 import facturacionUte.strategies.TuplaMesEjercicioEntradas;
 import facturacionUte.strategies.concursos.StrategyCrearAgregadosMesesAppDptoServicio;

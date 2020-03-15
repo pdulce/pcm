@@ -1,7 +1,7 @@
 package facturacionUte.servlets.diagramas;
 
-import cdd.data.bus.Data;
-import cdd.logicmodel.definitions.IFieldLogic;
+import cdd.domain.entitymodel.definitions.IFieldLogic;
+import cdd.dto.Data;
 import cdd.webapp.stats.graphs.GenericMapStatsServlet;
 import facturacionUte.common.UnitsForFields;
 
