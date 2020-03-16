@@ -51,6 +51,7 @@ public class TestServiceEventQuery extends TestCase {
 			
 			String profile = "ADMINISTRADOR";
 			Data data = new Data(profile, ctx.getResourcesConfiguration().getEntitiesDictionary(), 
+					ctx.getResourcesConfiguration().getUri(),
 					Integer.valueOf(ctx.getResourcesConfiguration().getPageSize()).intValue());
 			data.setLanguage("es_");
 			data.setService("GestionResponsablesCentros");

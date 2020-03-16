@@ -26,7 +26,7 @@ public class Data {
 	private int pageSize;
 	
 	
-	public Data(final String userProfile_, final String entitiesDictionary_, int pageSize){		
+	public Data(final String userProfile_, final String entitiesDictionary_, final String uri_, final int pageSize){		
 		this.data = new HashMap<String, List<Object>>();
 		this.setPageSize(pageSize);
 		this.setAttribute(PCMConstants.APP_PROFILE, userProfile_);
@@ -35,6 +35,7 @@ public class Data {
 		this.language = PCMConstants.DEFAULT_LANG;
 		this.entitiesDictionary = entitiesDictionary_;
 		this.setAttribute(PCMConstants.APP_DICTIONARY, entitiesDictionary_);
+		this.setAttribute(PCMConstants.APPURI_, uri_);
 	}
 	
 	public Collection<String> getAppProfileSet() {

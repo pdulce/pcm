@@ -48,7 +48,7 @@ public class CDDWebController extends HttpServlet {
 
 	private static final String MULTIPART_DATA = "multipart/form-data";
 	private static final String CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
-	private static final String BODY = "#BODY#", APP_CONTEXT = "appContext", TITLE = "#TITLE#"; 
+	private static final String BODY = "#BODY#", TITLE = "#TITLE#"; 
 
 	protected static final String[] coloresHistogramas = { "Maroon", "Red", "Orange", "Blue", "Navy", "Green", "Purple",
 		"Fuchsia",	"Lime", "Teal", "Aqua", "Olive", "Black", "Gray", "Silver"};
@@ -224,12 +224,11 @@ public class CDDWebController extends HttpServlet {
 		Data data = null;
 		try {
 			String profile = ApplicationDomain.extractProfiles(navigationManager.getAppNavigation()).iterator().next();
-			final String entitiesDictionary_ = contextApp.getResourcesConfiguration().getEntitiesDictionary();
-			final int pageSize = Integer.valueOf(contextApp.getResourcesConfiguration().getPageSize()).intValue();
+			final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
+			final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
+			final String uri = this.contextApp.getResourcesConfiguration().getUri();
+			data = new Data(profile, entitiesDictionary_, uri, pageSize);		
 			
-			data = new Data(profile, entitiesDictionary_, pageSize);
-			data.setAttribute(APP_CONTEXT, this.servletPral);			
-			data.setAttribute(PCMConstants.APPURI_, this.contextApp.getResourcesConfiguration().getUri());
 		} catch (PCMConfigurationException e1) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e1);
 			return;
