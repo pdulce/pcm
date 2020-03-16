@@ -1,4 +1,4 @@
-package cdd.common.stats.regression;
+package cdd.domain.common.stats.regression;
 
 public class Range {
 	

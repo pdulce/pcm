@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.ContextProperties;

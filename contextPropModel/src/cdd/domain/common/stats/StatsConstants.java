@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.common.stats;
+package cdd.domain.common.stats;
 
 /**
  * @author 99GU3997

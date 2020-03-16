@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.component.element.ICtrl;
 
 

@@ -2,8 +2,8 @@ package cdd.domain.service.event;
 
 import java.util.Collection;
 
-import cdd.common.exceptions.BindPcmException;
-import cdd.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.BindPcmException;
+import cdd.domain.common.exceptions.MessageException;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.dto.Data;

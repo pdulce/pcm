@@ -1,10 +1,10 @@
-package cdd.common.exceptions;
+package cdd.domain.common.exceptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.component.Translator;
 import cdd.domain.component.XmlUtils;

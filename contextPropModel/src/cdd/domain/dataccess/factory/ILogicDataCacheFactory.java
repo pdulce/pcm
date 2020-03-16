@@ -1,6 +1,6 @@
 package cdd.domain.dataccess.factory;
 
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.cache.IDataCache;
 import cdd.domain.dataccess.persistence.DAOConnection;
 import cdd.domain.dataccess.persistence.IDAOImpl;

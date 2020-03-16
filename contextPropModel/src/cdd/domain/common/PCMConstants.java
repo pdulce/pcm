@@ -1,4 +1,4 @@
-package cdd.common;
+package cdd.domain.common;
 
 /**
  * <h1>PCMConstants</h1> The InternalErrorsConstants interface

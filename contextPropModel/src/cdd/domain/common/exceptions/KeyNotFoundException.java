@@ -1,4 +1,4 @@
-package cdd.common.exceptions;
+package cdd.domain.common.exceptions;
 
 public class KeyNotFoundException extends PcmException {
 

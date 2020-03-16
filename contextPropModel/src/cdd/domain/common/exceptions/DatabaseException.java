@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.common.exceptions;
+package cdd.domain.common.exceptions;
 
 /**
  * @author 99GU3997

@@ -1,4 +1,4 @@
-package cdd.common;
+package cdd.domain.common;
 
 import java.io.File;
 import java.io.FileNotFoundException;

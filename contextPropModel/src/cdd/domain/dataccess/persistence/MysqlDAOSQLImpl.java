@@ -1,6 +1,6 @@
 package cdd.domain.dataccess.persistence;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 
 public class MysqlDAOSQLImpl extends AnsiSQLAbstractDAOImpl {

@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.domain.dataccess.factory.FieldAbstractFactory;
 

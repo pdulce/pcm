@@ -2,9 +2,9 @@ package cdd.domain.service.event.validators;
 
 import java.text.ParseException;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.MessageException;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.MessageException;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.service.event.IAction;
 import cdd.domain.service.event.Parameter;

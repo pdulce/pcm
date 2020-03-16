@@ -1,4 +1,4 @@
-package cdd.common.stats;
+package cdd.domain.common.stats;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +11,7 @@ import org.apache.commons.math3.optim.linear.LinearObjectiveFunction;
 import org.apache.commons.math3.stat.inference.AlternativeHypothesis;
 import org.apache.commons.math3.stat.inference.BinomialTest;
 
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.utils.CommonUtils;
 
 
 /**

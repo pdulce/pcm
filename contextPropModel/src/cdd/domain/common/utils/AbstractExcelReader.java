@@ -1,4 +1,4 @@
-package cdd.common.utils;
+package cdd.domain.common.utils;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -19,7 +19,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
-import cdd.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.DatabaseException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;

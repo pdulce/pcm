@@ -15,9 +15,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.component.FootComponent;
 import cdd.domain.component.LogoComponent;
 import cdd.domain.component.MenuComponent;

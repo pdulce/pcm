@@ -1,4 +1,4 @@
-package cdd.common.utils;
+package cdd.domain.common.utils;
 
 import java.util.HashMap;
 import java.util.Iterator;

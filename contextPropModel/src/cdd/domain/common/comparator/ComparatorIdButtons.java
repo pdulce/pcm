@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.common.comparator;
+package cdd.domain.common.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;

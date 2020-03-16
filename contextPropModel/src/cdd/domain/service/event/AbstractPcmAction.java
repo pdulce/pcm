@@ -13,11 +13,11 @@ import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Element;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.BindPcmException;
-import cdd.common.exceptions.MessageException;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.StrategyException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.BindPcmException;
+import cdd.domain.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.StrategyException;
 import cdd.domain.component.PaginationGrid;
 import cdd.domain.component.definitions.ContextProperties;
 import cdd.domain.component.definitions.FieldViewSet;

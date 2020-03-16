@@ -1,11 +1,11 @@
-package cdd.common.stats.regression;
+package cdd.domain.common.stats.regression;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.utils.CommonUtils;
 
 
 public class SampleModel {

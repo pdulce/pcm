@@ -1,4 +1,4 @@
-package cdd.common.utils;
+package cdd.domain.common.utils;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 
 
 /**

@@ -1,6 +1,6 @@
 package cdd.domain.service.conditions;
 
-import cdd.common.exceptions.StrategyException;
+import cdd.domain.common.exceptions.StrategyException;
 
 public interface IStrategyFactory {
 

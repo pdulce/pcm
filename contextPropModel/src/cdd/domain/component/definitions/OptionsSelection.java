@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.dataccess.dto.IFieldValue;
 
 

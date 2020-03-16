@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.component.definitions.Option;
 
 

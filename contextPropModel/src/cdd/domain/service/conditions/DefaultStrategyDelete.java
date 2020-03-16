@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.StrategyException;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.StrategyException;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;

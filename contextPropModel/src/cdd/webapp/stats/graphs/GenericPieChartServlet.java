@@ -11,9 +11,9 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.definitions.IFieldLogic;

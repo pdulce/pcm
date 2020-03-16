@@ -23,13 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import cdd.common.PCMConstants;
-import cdd.common.comparator.ComparatorOrderKeyInXAxis;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.utils.CommonUtils;
 import cdd.webapp.CDDWebController;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.comparator.ComparatorOrderKeyInXAxis;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.BodyContainer;
 import cdd.domain.component.Form;
 import cdd.domain.component.IViewComponent;

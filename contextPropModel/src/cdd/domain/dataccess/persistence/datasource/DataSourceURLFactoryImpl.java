@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.persistence.DAOConnection;
 
 

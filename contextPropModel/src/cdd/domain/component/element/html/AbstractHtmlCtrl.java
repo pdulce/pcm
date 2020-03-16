@@ -5,7 +5,7 @@ package cdd.domain.component.element.html;
 
 import java.io.Serializable;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.component.XmlUtils;
 
 

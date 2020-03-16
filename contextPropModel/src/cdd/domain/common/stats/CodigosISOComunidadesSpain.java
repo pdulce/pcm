@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.common.stats;
+package cdd.domain.common.stats;
 
 import java.util.ArrayList;
 import java.util.HashMap;

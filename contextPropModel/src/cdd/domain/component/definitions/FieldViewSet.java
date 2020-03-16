@@ -11,9 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import cdd.common.PCMConstants;
-import cdd.common.comparator.ComparatorFieldLogic;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.comparator.ComparatorFieldLogic;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.XmlUtils;
 import cdd.domain.component.element.ICtrl;
 import cdd.domain.dataccess.definitions.EntityLogic;

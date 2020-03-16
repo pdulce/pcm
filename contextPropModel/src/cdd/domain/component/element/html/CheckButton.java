@@ -5,7 +5,7 @@ package cdd.domain.component.element.html;
 
 import java.util.Collection;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.component.element.ICtrl;
 
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.w3c.dom.Element;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.component.element.html.AbstractHtmlCtrl;
 
 

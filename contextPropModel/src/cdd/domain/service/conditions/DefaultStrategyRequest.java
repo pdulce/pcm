@@ -2,8 +2,8 @@ package cdd.domain.service.conditions;
 
 import java.util.Collection;
 
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.StrategyException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.dto.Data;

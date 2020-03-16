@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import cdd.common.exceptions.DatabaseException;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.common.exceptions.DatabaseException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.dataccess.definitions.IEntityLogic;

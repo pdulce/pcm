@@ -8,8 +8,8 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import cdd.common.stats.CodigosISOProvinciasSpain;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.stats.CodigosISOProvinciasSpain;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.dto.Data;

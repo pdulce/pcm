@@ -2,8 +2,8 @@ package cdd.domain.dataccess.factory;
 
 import java.util.Map;
 
-import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.persistence.IDAOImpl;
 
 

@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.PCMConstants;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.PCMConstants;
 
 
 public class Translator {

@@ -1,4 +1,4 @@
-package cdd.common.utils;
+package cdd.domain.common.utils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 
 
 /**

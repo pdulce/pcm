@@ -3,9 +3,9 @@ package cdd.domain.component.definitions;
 import java.io.Serializable;
 import java.util.StringTokenizer;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.definitions.EntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.factory.EntityLogicFactory;

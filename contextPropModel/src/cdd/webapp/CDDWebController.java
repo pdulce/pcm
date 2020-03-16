@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.oreilly.servlet.MultipartRequest;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.application.ApplicationLayout;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.dto.Data;
 
 

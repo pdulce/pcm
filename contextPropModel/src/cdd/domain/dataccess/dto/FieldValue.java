@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 
 
 /**

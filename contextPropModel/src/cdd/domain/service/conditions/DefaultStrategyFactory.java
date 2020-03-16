@@ -3,8 +3,8 @@ package cdd.domain.service.conditions;
 import java.util.HashMap;
 import java.util.Map;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.StrategyException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.StrategyException;
 
 
 public class DefaultStrategyFactory implements IStrategyFactory {

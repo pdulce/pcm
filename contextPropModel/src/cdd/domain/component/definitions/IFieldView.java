@@ -3,7 +3,7 @@ package cdd.domain.component.definitions;
 import java.io.Serializable;
 import java.util.Collection;
 
-import cdd.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.MessageException;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.dto.Data;
 

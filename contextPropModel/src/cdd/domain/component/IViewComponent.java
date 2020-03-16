@@ -3,11 +3,11 @@ package cdd.domain.component;
 import java.util.HashMap;
 import java.util.List;
 
-import cdd.common.exceptions.ClonePcmException;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.MessageException;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.ParameterBindingException;
+import cdd.domain.common.exceptions.ClonePcmException;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.ParameterBindingException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.dataccess.IDataAccess;

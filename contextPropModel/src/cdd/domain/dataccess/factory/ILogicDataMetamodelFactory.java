@@ -2,7 +2,7 @@ package cdd.domain.dataccess.factory;
 
 import java.io.InputStream;
 
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.ILogicDataMetamodel;
 
 

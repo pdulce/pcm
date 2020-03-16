@@ -1,4 +1,4 @@
-package cdd.common.exceptions;
+package cdd.domain.common.exceptions;
 
 /**
  * <h1>StrategyException</h1> The StrategyException class

@@ -1,4 +1,4 @@
-package cdd.common.exceptions;
+package cdd.domain.common.exceptions;
 
 /**
  * <h1>BindPcmException</h1> The BindPcmException class

@@ -3,10 +3,10 @@ package cdd.domain.service.conditions;
 import java.util.Collection;
 import java.util.Iterator;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.StrategyException;
-import cdd.common.exceptions.TransactionException;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.StrategyException;
+import cdd.domain.common.exceptions.TransactionException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.dataccess.IDataAccess;

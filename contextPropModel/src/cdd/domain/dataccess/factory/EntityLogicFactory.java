@@ -13,8 +13,8 @@ import java.util.logging.StreamHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.definitions.EntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 

@@ -1,4 +1,4 @@
-package cdd.common.stats;
+package cdd.domain.common.stats;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +9,9 @@ import java.util.Map;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
-import cdd.common.comparator.ComparatorDouble;
-import cdd.common.comparator.ComparatorVariablesXY;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.comparator.ComparatorDouble;
+import cdd.domain.common.comparator.ComparatorVariablesXY;
+import cdd.domain.common.utils.CommonUtils;
 
 
 /**

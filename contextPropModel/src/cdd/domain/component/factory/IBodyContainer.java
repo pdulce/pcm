@@ -3,9 +3,9 @@ package cdd.domain.component.factory;
 import java.util.HashMap;
 import java.util.List;
 
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.MessageException;
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.dataccess.IDataAccess;

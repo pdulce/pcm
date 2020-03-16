@@ -2,7 +2,7 @@ package cdd.domain.service.event;
 
 import java.util.Collection;
 
-import cdd.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.MessageException;
 
 
 /**

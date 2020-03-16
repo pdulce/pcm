@@ -3,7 +3,7 @@
  */
 package cdd.domain.component.element.html;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 
 /**
  * @author 99GU3997

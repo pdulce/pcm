@@ -1,4 +1,4 @@
-package cdd.common.stats.matrix;
+package cdd.domain.common.stats.matrix;
 
 /**
  * <h1>Matrix</h1> The Matrix class

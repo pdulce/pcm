@@ -1,6 +1,6 @@
 package cdd.domain.dataccess.persistence.datasource;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 
 public class PCMDataSourceFactory {
 	

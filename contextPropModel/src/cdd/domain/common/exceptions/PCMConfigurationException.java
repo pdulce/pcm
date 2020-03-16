@@ -1,4 +1,4 @@
-package cdd.common.exceptions;
+package cdd.domain.common.exceptions;
 
 /**
  * <h1>PCMConfigurationException</h1> The PCMConfigurationException class

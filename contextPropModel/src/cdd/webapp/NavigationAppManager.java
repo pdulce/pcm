@@ -18,8 +18,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.dto.Data;
 
 

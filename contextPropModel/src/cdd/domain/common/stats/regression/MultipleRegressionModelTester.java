@@ -1,4 +1,4 @@
-package cdd.common.stats.regression;
+package cdd.domain.common.stats.regression;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,8 +21,8 @@ import org.apache.commons.math3.stat.descriptive.MultivariateSummaryStatistics;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
-import cdd.common.stats.StatsConstants;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.stats.StatsConstants;
+import cdd.domain.common.utils.CommonUtils;
 
 
 /**

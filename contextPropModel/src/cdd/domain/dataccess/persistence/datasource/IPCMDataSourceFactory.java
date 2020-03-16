@@ -6,8 +6,8 @@ package cdd.domain.dataccess.persistence.datasource;
 import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 
-import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.persistence.DAOConnection;
 
 

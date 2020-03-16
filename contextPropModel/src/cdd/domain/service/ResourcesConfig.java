@@ -1,6 +1,6 @@
 package cdd.domain.service;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.dataccess.persistence.datasource.IPCMDataSource;
 
 public class ResourcesConfig {

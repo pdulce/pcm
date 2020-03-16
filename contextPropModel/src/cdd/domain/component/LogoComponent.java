@@ -10,12 +10,12 @@ import java.util.logging.Level;
 
 import org.w3c.dom.Element;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.ClonePcmException;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.MessageException;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.ParameterBindingException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.ClonePcmException;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.ParameterBindingException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.element.ICtrl;
 import cdd.domain.component.element.html.Image;

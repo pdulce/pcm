@@ -9,9 +9,9 @@ import java.sql.SQLException;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.dataccess.persistence.DAOConnection;
 
 

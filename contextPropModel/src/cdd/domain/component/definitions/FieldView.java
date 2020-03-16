@@ -13,11 +13,11 @@ import java.util.logging.StreamHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.MessageException;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.MessageException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.component.Translator;
 import cdd.domain.component.element.ICtrl;

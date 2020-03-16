@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.IViewComponent;
 
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cdd.common;
+package cdd.domain.common;
 
 /**
  * <h1>InternalErrorsConstants</h1> The InternalErrorsConstants interface maintains

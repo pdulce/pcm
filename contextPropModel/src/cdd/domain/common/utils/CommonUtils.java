@@ -1,4 +1,4 @@
-package cdd.common.utils;
+package cdd.domain.common.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.dataccess.definitions.IFieldLogic;

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.IViewComponent;
 
 

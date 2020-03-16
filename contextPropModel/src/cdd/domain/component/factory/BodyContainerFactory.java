@@ -3,9 +3,9 @@ package cdd.domain.component.factory;
 import java.util.HashMap;
 import java.util.Map;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
 import cdd.domain.component.BodyContainer;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.dto.Data;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.StrategyException;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.StrategyException;
 import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.AppCacheFactory;
 import cdd.domain.service.event.IAction;

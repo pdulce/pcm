@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import cdd.common.PCMConstants;
+import cdd.domain.common.PCMConstants;
 
 
 /**

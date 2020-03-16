@@ -8,8 +8,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
-import cdd.common.PCMConstants;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.IViewComponent;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.dto.IFieldValue;

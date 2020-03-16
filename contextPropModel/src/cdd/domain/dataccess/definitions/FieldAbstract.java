@@ -9,9 +9,9 @@ import java.util.logging.StreamHandler;
 
 import org.w3c.dom.Element;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.utils.CommonUtils;
+import cdd.domain.common.PCMConstants;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.utils.CommonUtils;
 
 public class FieldAbstract implements IFieldAbstract, Serializable {
 

@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import cdd.common.InternalErrorsConstants;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.TransactionException;
+import cdd.domain.common.InternalErrorsConstants;
+import cdd.domain.common.exceptions.DatabaseException;
+import cdd.domain.common.exceptions.PCMConfigurationException;
+import cdd.domain.common.exceptions.TransactionException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.FieldViewSetCollection;
 import cdd.domain.component.definitions.FieldViewSetComparator;
