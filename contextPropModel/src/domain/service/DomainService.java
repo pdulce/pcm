@@ -305,10 +305,11 @@ public class DomainService {
 						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(data, dataAccess, serviceRedirectDomain, eventRedirect);
 						
 						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
+							Element elementAction = serviceRedirectDomain.extractActionElementByService(eventRedirect);
 							IAction actionObjectOfRedirect = null;
 							try {
 								Collection<String> regEvents = new ArrayList<String>();
-								actionObjectOfRedirect = AbstractPcmAction.getAction(containerViewRedirect,	serviceRedirectDomain, eventRedirect, data, regEvents);
+								actionObjectOfRedirect = AbstractPcmAction.getAction(containerViewRedirect,	elementAction, eventRedirect, data, regEvents);
 							}
 							catch (final PCMConfigurationException configExcep) {
 								throw configExcep;
@@ -323,7 +324,7 @@ public class DomainService {
 							while (iteratorGrids.hasNext()) {
 								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 								if (paginationGrid.getMasterNamespace() != null) {
-									final ActionPagination actionPagination = new ActionPagination(containerViewRedirect, data, this, eventRedirect);
+									final ActionPagination actionPagination = new ActionPagination(containerViewRedirect, data, elementAction, eventRedirect);
 									actionPagination.setEvent(serviceRedirect.concat(".").concat(eventRedirect)); 
 									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, false/*eventSubmitted*/, messageExceptions)
 											.getXhtml());
@@ -338,7 +339,7 @@ public class DomainService {
 			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(containerView, data, this, event);
+					final ActionPagination actionPagination = new ActionPagination(containerView, data, this.extractActionElementByService(event), event);
 					actionPagination.setEvent(this.getUseCaseName().concat(".").concat(event)); 
 					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventSubmitted, messageExceptions)
 							.getXhtml());

@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
+import org.w3c.dom.Element;
+
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
@@ -23,7 +25,6 @@ import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
 import domain.common.utils.CommonUtils;
-import domain.service.DomainService;
 import domain.service.component.Form;
 import domain.service.component.IViewComponent;
 import domain.service.component.XmlUtils;
@@ -69,18 +70,14 @@ public class ActionForm extends AbstractPcmAction {
 	}
 	private final Map<String, String> audits;
 	
-	public ActionForm(final IBodyContainer container_, final Data data_, final DomainService domainService, 
+	public ActionForm(final IBodyContainer container_, final Data data_, final Element actionElement_, 
 			final String event_, final Collection<String> actionSet) {
 		this.data = data_;
 		this.setEvent(event_);
 		this.container = container_;
 		this.registeredEvents = actionSet;
 		this.audits = AppCacheFactory.getFactoryInstance().getAppCache();
-		try {
-			this.actionElement = domainService.extractActionElementByService(event_);
-		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error getting org.w3c.Element, CU: " + domainService.getUseCaseName() + " and EVENT: " +event_);
-		}
+		this.actionElement = actionElement_;
 	}
 
 	@Override
@@ -106,13 +103,14 @@ public class ActionForm extends AbstractPcmAction {
 	}
 
 	@Override
-	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final boolean submittedEvent_,
-			final Collection<MessageException> prevMessages) {
-
+	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, 
+			final boolean submittedEvent_,	final Collection<MessageException> prevMessages) {
+		
+		final boolean isAuditOn = dataAccess_.isAuditOn();
 		SceneResult result = new SceneResult();
 		final Collection<MessageException> erroresMsg = new ArrayList<MessageException>();
 		try {
-			result = executeEvent(dataAccess_, this.getEvent(), submittedEvent_, this.container, prevMessages);
+			result = executeEvent(dataAccess_, this.getEvent(), submittedEvent_, this.container, isAuditOn, prevMessages);
 			Iterator<IViewComponent> iteForms = this.container.getForms().iterator();
 			while (iteForms.hasNext()) {
 				Form form_ = (Form) iteForms.next();
@@ -279,8 +277,10 @@ public class ActionForm extends AbstractPcmAction {
 		return wasFilledWithAnyValue;
 	}
 
-	private SceneResult executeEvent(final IDataAccess dataAccess, final String event_, final boolean eventSubmitted_,
-			final IBodyContainer container, final Collection<MessageException> prevMessages) {
+	private SceneResult executeEvent(final IDataAccess dataAccess, 
+			final String event_, final boolean eventSubmitted_,
+			final IBodyContainer container, final boolean isAuditOn, 
+			final Collection<MessageException> prevMessages) {
 
 		final SceneResult res = new SceneResult();
 		List<MessageException> msgs = new ArrayList<MessageException>();
@@ -326,7 +326,7 @@ public class ActionForm extends AbstractPcmAction {
 					}
 					
 					if (this.isTransactional()) {	
-						this.doTransaction(event_, form_, dataAccess);
+						this.doTransaction(event_, form_, dataAccess, isAuditOn);
 						dataAccess.commit();
 						if (!dataAccess.getStrategies().isEmpty()) {//estrategias de POST
 							dataAccess.setAutocommit(false);
@@ -429,11 +429,12 @@ public class ActionForm extends AbstractPcmAction {
 		return PCMConstants.EMPTY_;
 	}
 
-	private void doTransaction(final String event_, final Form form_, final IDataAccess dataAccess)
+	private void doTransaction(final String event_, final Form form_, 
+			final IDataAccess dataAccess, final boolean isAuditOn)
 			throws TransactionException {
 		final List<FieldViewSet> fs = form_.getFieldViewSetCollection().getFieldViewSets();
 		if (event_.startsWith(IEvent.UPDATE)) {
-			if (this.domainService.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_MOD) != null) {
+			if (isAuditOn && this.audits != null && this.audits.get(Data.USU_MOD) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
@@ -444,7 +445,7 @@ public class ActionForm extends AbstractPcmAction {
 			}
 			dataAccess.modifyEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.DELETE)) {
-			if (this.domainService.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_BAJA) != null) {
+			if (isAuditOn && this.audits != null && this.audits.get(Data.USU_BAJA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
@@ -456,7 +457,7 @@ public class ActionForm extends AbstractPcmAction {
 			}
 			dataAccess.deleteEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.CREATE)) {
-			if (this.domainService.isAuditOnService() && this.audits != null && this.audits.get(Data.USU_ALTA) != null) {
+			if (isAuditOn && this.audits != null && this.audits.get(Data.USU_ALTA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();

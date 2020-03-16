@@ -110,6 +110,8 @@ public interface IDataAccess {
 	public DAOConnection getConn();
 
 	public boolean isConnectionActive();
+	
+	public boolean isAuditOn();
 
 	public void rollback() throws SQLException;
 }

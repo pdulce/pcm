@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.w3c.dom.Element;
+
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
@@ -13,7 +15,6 @@ import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
-import domain.service.DomainService;
 import domain.service.component.Form;
 import domain.service.component.IViewComponent;
 import domain.service.component.PaginationGrid;
@@ -44,17 +45,12 @@ public class ActionPagination extends AbstractPcmAction {
 
 	protected String filtra;
 
-	public ActionPagination(final IBodyContainer container_, final Data data_, final DomainService domainService, 
+	public ActionPagination(final IBodyContainer container_, final Data data_, final Element actionElement_, 
 			final String event_) {
 		this.data = data_;
 		this.container = container_;
 		this.setEvent(event_);
-		try {
-			this.actionElement = domainService.extractActionElementByService(event_);
-		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error getting org.w3c.Element, CU: " + domainService.getUseCaseName() + " and EVENT: " +event_);
-		}
-		
+		this.actionElement = actionElement_;
 	}
 
 	@Override

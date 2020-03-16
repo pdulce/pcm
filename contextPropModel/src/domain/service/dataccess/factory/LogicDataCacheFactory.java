@@ -77,7 +77,7 @@ public class LogicDataCacheFactory implements ILogicDataCacheFactory {
 
 	@Override
 	public void initDictionaryCache(final String dictionary, final IDAOImpl jdbcImpl, final DAOConnection conn,
-			final IPCMDataSource factory_) throws PCMConfigurationException {
+			final IPCMDataSource factory_, final boolean auditOn_) throws PCMConfigurationException {
 
 		if (this.dataCacheMap.get(dictionary) == null) {
 			this.dataCacheMap.put(dictionary, new DataCache());
@@ -87,7 +87,7 @@ public class LogicDataCacheFactory implements ILogicDataCacheFactory {
 			while (entidadesIte.hasNext()) {
 				final IEntityLogic entidad = entidadesIte.next();
 				if (entidad.isInCache()) {
-					final IDataAccess dataAccess = new DataAccess(dictionary, jdbcImpl, conn, factory_);
+					final IDataAccess dataAccess = new DataAccess(dictionary, jdbcImpl, conn, factory_, auditOn_);
 					final StringBuilder orderBy = new StringBuilder();
 					final List<IFieldLogic> l = new ArrayList<IFieldLogic>();
 					l.addAll(entidad.getFieldKey().getPkFieldSet());

@@ -1003,7 +1003,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	
 			IPCMDataSource dsourceFactory = PCMDataSourceFactory.getDataSourceInstance("JDBC");
 			dsourceFactory.initDataSource(url_, "", "", driverJDBC);
-			final IDataAccess dataAccess_ = new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory);
+			final IDataAccess dataAccess_ = new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory, false/*auditOn*/);
 			
 			/*** Inicializamos la factoroa de Acceso Logico a DATOS **/		
 			final IEntityLogicFactory entityFactory = EntityLogicFactory.getFactoryInstance();

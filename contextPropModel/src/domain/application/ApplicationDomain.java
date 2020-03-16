@@ -85,6 +85,42 @@ public class ApplicationDomain implements Serializable {
 	private Map<String, DomainService> domainServices;
 	private ResourcesConfig resourcesConfiguration;
 	
+	public ApplicationDomain(InputStream navigationWebModel) {
+		try {
+			final Document configRoot = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(navigationWebModel);
+			final NodeList configNodeList = configRoot.getElementsByTagName(CONFIG_NODE);
+			if (configNodeList.getLength() == 0) {
+				throw new PCMConfigurationException("Error:  element configuration does not exist in appmetamodel.");
+			}
+			List<Map<String, String>> keyset = new ArrayList<Map<String, String>>();
+			final Element configElement = (Element) configNodeList.item(0);
+			String serverPath = configElement.getAttributes().getNamedItem(ATTR_SERVER_PATH).getNodeValue();
+			final NodeList entryNodes = configElement.getElementsByTagName(ENTRY_CONFIG_NODE);
+			int entriesCount = entryNodes.getLength();
+			for (int i = 0; i < entriesCount; i++) {
+				final Element entryConfig = (Element) entryNodes.item(i);
+				Map<String, String> entry = new HashMap<String, String>();
+				String nameOfProperty = entryConfig.getAttributes().getNamedItem("key").getNodeValue();
+				String valueOfProperty = entryConfig.getAttributes().getNamedItem("value").getNodeValue();
+				if (valueOfProperty.indexOf(VAR_SERVERPATH) != -1){
+					valueOfProperty = valueOfProperty.replaceAll(VAR_SERVERPATH, serverPath);
+				}
+				entry.put(nameOfProperty, valueOfProperty);			
+				keyset.add(entry);
+			}
+			this.resourcesConfiguration = new ResourcesConfig();
+			Collections.sort(keyset, new ComparatorLexicographic());
+			for (final Map<String, String> entry : keyset) {
+				String key = entry.keySet().iterator().next();
+				String value = entry.values().iterator().next();
+				this.resourcesConfiguration.setNewEntry(key, value);
+			}
+		} catch (final Throwable e) {
+			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e);
+			e.printStackTrace();
+		}
+	}
+	
 	private final void readDomainServices() throws FileNotFoundException, SAXException, IOException,
 		ParserConfigurationException {
 		
@@ -96,7 +132,7 @@ public class ApplicationDomain implements Serializable {
 		}
 		for (File pFile : pFiles) {
 			if (pFile.isFile() && pFile.getName().endsWith(".xml")) {
-				DomainService service = new DomainService(pFile.getAbsolutePath(), getResourcesConfiguration().isAuditOn());
+				DomainService service = new DomainService(pFile.getAbsolutePath(), resourcesConfiguration.isAuditOn());
 				//ApplicationDomain.log.log(Level.INFO, "service: " + service.getUseCaseName());
 				this.domainServices.put(service.getUseCaseName(), service);
 			}
@@ -106,6 +142,11 @@ public class ApplicationDomain implements Serializable {
 								/****************************/
 								/**** PUBLIC METHODS ****/
 								/****************************/
+	
+	public ResourcesConfig getResourcesConfiguration() {
+		return resourcesConfiguration;
+	}
+
 	public boolean isInitService(final Data data) {
 		final String event = data.getParameter(PCMConstants.EVENT);
 		return (event == null || event.startsWith(this.getInitService()) || event.indexOf(IEvent.TEST) != -1);
@@ -156,41 +197,6 @@ public class ApplicationDomain implements Serializable {
 	}
 	
 	
-	public ApplicationDomain(InputStream navigationWebModel) {
-		try {
-			final Document configRoot = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(navigationWebModel);
-			final NodeList configNodeList = configRoot.getElementsByTagName(CONFIG_NODE);
-			if (configNodeList.getLength() == 0) {
-				throw new PCMConfigurationException("Error:  element configuration does not exist in appmetamodel.");
-			}
-			List<Map<String, String>> keyset = new ArrayList<Map<String, String>>();
-			final Element configElement = (Element) configNodeList.item(0);
-			String serverPath = configElement.getAttributes().getNamedItem(ATTR_SERVER_PATH).getNodeValue();
-			final NodeList entryNodes = configElement.getElementsByTagName(ENTRY_CONFIG_NODE);
-			int entriesCount = entryNodes.getLength();
-			for (int i = 0; i < entriesCount; i++) {
-				final Element entryConfig = (Element) entryNodes.item(i);
-				Map<String, String> entry = new HashMap<String, String>();
-				String nameOfProperty = entryConfig.getAttributes().getNamedItem("key").getNodeValue();
-				String valueOfProperty = entryConfig.getAttributes().getNamedItem("value").getNodeValue();
-				if (valueOfProperty.indexOf(VAR_SERVERPATH) != -1){
-					valueOfProperty = valueOfProperty.replaceAll(VAR_SERVERPATH, serverPath);
-				}
-				entry.put(nameOfProperty, valueOfProperty);			
-				keyset.add(entry);
-			}
-			this.resourcesConfiguration = new ResourcesConfig();
-			Collections.sort(keyset, new ComparatorLexicographic());
-			for (final Map<String, String> entry : keyset) {
-				String key = entry.keySet().iterator().next();
-				String value = entry.values().iterator().next();
-				this.resourcesConfiguration.setNewEntry(key, value);
-			}
-		} catch (final Throwable e) {
-			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e);
-			e.printStackTrace();
-		}
-	}
 	
 	public void invoke() throws Throwable{
 		
@@ -246,7 +252,8 @@ public class ApplicationDomain implements Serializable {
 								this.resourcesConfiguration.getEntitiesDictionary(),
 								DAOImplementationFactory.getFactoryInstance().getDAOImpl(
 										this.resourcesConfiguration.getDSourceImpl()),
-								conn_, this.resourcesConfiguration.getDataSourceFactoryImplObject());
+								conn_, this.resourcesConfiguration.getDataSourceFactoryImplObject(),
+								this.resourcesConfiguration.isAuditOn());
 					} catch (final Throwable exc) {
 						ApplicationDomain.log.log(Level.SEVERE, "Error", exc);
 						throw new PCMConfigurationException(InternalErrorsConstants.DAOIMPL_INVOKE_EXCEPTION, exc);
@@ -285,17 +292,18 @@ public class ApplicationDomain implements Serializable {
 	public IDataAccess getDataAccess(final DomainService domainService, final String event) 
 			throws PCMConfigurationException {
 		try {			
-			DAOConnection conn = this.getResourcesConfiguration().getDataSourceFactoryImplObject().getConnection();
+			DAOConnection conn = this.resourcesConfiguration.getDataSourceFactoryImplObject().getConnection();
 			if (conn == null) {
 				ApplicationDomain.log.log(Level.SEVERE, "ATENCION ooconexion es NULA!!");
 				throw new PCMConfigurationException("ooconexion es NULA!!");
 			}
-			return new DataAccess(this.getResourcesConfiguration().getEntitiesDictionary(), 
+			return new DataAccess(this.resourcesConfiguration.getEntitiesDictionary(), 
 					DAOImplementationFactory.getFactoryInstance()
-					.getDAOImpl(this.getResourcesConfiguration().getDSourceImpl()), conn, 
+					.getDAOImpl(this.resourcesConfiguration.getDSourceImpl()), conn, 
 					domainService.extractStrategiesElementByAction(event), 
 					domainService.extractStrategiesPreElementByAction(event), 
-					this.getResourcesConfiguration().getDataSourceFactoryImplObject());
+					this.resourcesConfiguration.getDataSourceFactoryImplObject(), 
+					this.resourcesConfiguration.isAuditOn());
 		} catch (final PCMConfigurationException sqlExc) {
 			ApplicationDomain.log.log(Level.SEVERE, "Error", sqlExc);
 			throw new PCMConfigurationException(InternalErrorsConstants.BBDD_CONNECT_EXCEPTION, sqlExc);
@@ -324,10 +332,6 @@ public class ApplicationDomain implements Serializable {
 		return profilesRec;
 	}
 	
-	public ResourcesConfig getResourcesConfiguration(){
-		return this.resourcesConfiguration;
-	}
-	
 	public Map<String,DomainService> getDomainServices(){
 		return this.domainServices;
 	}
@@ -353,10 +357,9 @@ public class ApplicationDomain implements Serializable {
 		htmlOutput.append("<td width=\"60%\">Valor actual</td></tr>");
 		int itemsCount = ResourcesConfig.ITEM_NAMES.length;
 		for (int i = 0; i < itemsCount; i++) {
-			this.getResourcesConfiguration();
 			String itemName = ResourcesConfig.ITEM_NAMES[i];
-			String itemValue = this.getResourcesConfiguration().getItemValues()[i] == null ? "" : 
-				this.getResourcesConfiguration().getItemValues()[i];
+			String itemValue = this.resourcesConfiguration.getItemValues()[i] == null ? "" : 
+				this.resourcesConfiguration.getItemValues()[i];
 			htmlOutput.append("<tr class=\"").append(i % 2 == 0 ? PCMConstants.ESTILO_PAR : PCMConstants.ESTILO_IMPAR);
 			htmlOutput.append("\"><td><B>").append(itemName).append("</B></td><td><I>").append(itemValue).append("</I></td></tr>");
 		}
@@ -403,7 +406,8 @@ public class ApplicationDomain implements Serializable {
 				dataAccess_ = getDataAccess(domainService, data.getEvent());
 			}
 			IAction	action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, 
-					domainService,	data.getEvent()), domainService, data.getEvent(), data, 
+					domainService,	data.getEvent()), domainService.extractActionElementByService(data.getEvent()), 
+					data.getEvent(), data, 
 					discoverAllEvents(data.getService()));
 			List<MessageException> messages = new ArrayList<MessageException>();
 			SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, data.getEvent(), data, 
@@ -441,7 +445,7 @@ public class ApplicationDomain implements Serializable {
 		} finally {
 			try {
 				if (dataAccess_ != null && dataAccess_.getConn() != null){
-					this.getResourcesConfiguration().getDataSourceFactoryImplObject().freeConnection(dataAccess_.getConn());
+					this.resourcesConfiguration.getDataSourceFactoryImplObject().freeConnection(dataAccess_.getConn());
 				}
 			} catch (final Throwable excSQL) {
 				ApplicationDomain.log.log(Level.SEVERE, "Error", excSQL);

@@ -48,8 +48,7 @@ import domain.service.dataccess.dto.Data;
 public abstract class AbstractPcmAction implements IAction {
 	
 	private static IStrategyFactory strategyFactory;
-	
-	protected DomainService domainService;
+
 	protected String event;
 	protected Element actionElement;	
 	protected Collection<String> registeredEvents;
@@ -152,10 +151,6 @@ public abstract class AbstractPcmAction implements IAction {
 			strategy.doBussinessStrategy(this.data, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
 					: new ArrayList<FieldViewSet>());
 		}
-	}
-	
-	public void setServiceDomain(final DomainService servDomain) {
-		this.domainService = servDomain;
 	}
 	
 	public void executeStrategyPost(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection) throws StrategyException,
@@ -266,18 +261,17 @@ public abstract class AbstractPcmAction implements IAction {
 				: AbstractPcmAction.strategyFactory;
 	}
 
-	public static final IAction getAction(final IBodyContainer containerView, final DomainService domainService, final String event,
+	public static final IAction getAction(final IBodyContainer containerView, final Element actionElement_, final String event,
 			final Data dataWrapper, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
 			if (Event.isQueryEvent(event)) {
-				action = new ActionPagination(containerView, dataWrapper, domainService, event);
+				action = new ActionPagination(containerView, dataWrapper, actionElement_, event);
 				action.setEvent(event);
 			} else {
-				action = new ActionForm(containerView, dataWrapper, domainService, event, actionSet);
+				action = new ActionForm(containerView, dataWrapper, actionElement_, event, actionSet);
 				action.setStrategyFactory(DefaultStrategyFactory.getFactoryInstance());
 			}
-			action.setServiceDomain(domainService);
 			return action;
 		}
 		catch (final Throwable exc) {

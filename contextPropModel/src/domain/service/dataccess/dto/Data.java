@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import domain.common.PCMConstants;
-import domain.service.DomainService;
+
 
 public class Data {
 	
@@ -63,11 +63,6 @@ public class Data {
 		this.setParameter(PCMConstants.EVENT, getService().concat(".").concat(event_));
 	}
 		
-	public String getOriginalEvent() {
-		final String ev = this.getParameter(DomainService.EVENT_ATTR);
-		return ev != null ? ev : PCMConstants.EMPTY_;		
-	}
-	
 	public void setPageSize(final int page_size){
 		this.pageSize = page_size;
 	}

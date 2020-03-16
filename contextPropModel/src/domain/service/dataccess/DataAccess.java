@@ -48,6 +48,8 @@ public class DataAccess implements IDataAccess {
 	private DAOConnection conn;
 
 	private final IDAOImpl jdbcImpl;
+	
+	private final boolean auditOn;
 
 	public DAOConnection getConn() {
 		return this.conn;
@@ -66,8 +68,13 @@ public class DataAccess implements IDataAccess {
 	public IDAOImpl getJdbcImpl() {
 		return this.jdbcImpl;
 	}
+	
+	public boolean isAuditOn() {
+		return this.auditOn;
+	}
 
 	public DataAccess(final IDataAccess olDataAccess) {
+		this.auditOn = olDataAccess.isAuditOn();
 		this.dictionaryName = olDataAccess.getDictionaryName();
 		this.jdbcImpl = olDataAccess.getJdbcImpl();
 		this.dataConnectionsFactory = olDataAccess.getDataConnectionsFactory();
@@ -79,7 +86,9 @@ public class DataAccess implements IDataAccess {
 		}
 	}
 
-	public DataAccess(final String dict, final IDAOImpl jdbcImpl_, final DAOConnection conn_, final IPCMDataSource factory_) {
+	public DataAccess(final String dict, final IDAOImpl jdbcImpl_, final DAOConnection conn_, 
+			final IPCMDataSource factory_, final boolean auditOn_) {
+		this.auditOn = auditOn_;
 		this.dictionaryName = dict;
 		this.jdbcImpl = jdbcImpl_;
 		this.conn = conn_;
@@ -95,8 +104,8 @@ public class DataAccess implements IDataAccess {
 	}
 
 	public DataAccess(final String dict, final IDAOImpl jdbcImpl_, final DAOConnection conn_, final Collection<String> strategiesElems_,
-			final Collection<String> strategiesPreElems_, final IPCMDataSource factory_) {
-				
+			final Collection<String> strategiesPreElems_, final IPCMDataSource factory_, final boolean auditOn_) {
+		this.auditOn = auditOn_;		
 		this.dictionaryName = dict;
 		this.jdbcImpl = jdbcImpl_;
 		this.conn = conn_;

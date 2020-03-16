@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import domain.common.exceptions.BindPcmException;
 import domain.common.exceptions.MessageException;
-import domain.service.DomainService;
 import domain.service.component.definitions.IFieldView;
 import domain.service.conditions.IStrategyFactory;
 import domain.service.dataccess.IDataAccess;
@@ -124,6 +123,5 @@ public interface IAction {
 	public String getSubmitError();
 
 	public void setStrategyFactory(IStrategyFactory fact);
-	
-	public void setServiceDomain(final DomainService servDomain);
+
 }

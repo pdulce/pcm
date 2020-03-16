@@ -260,7 +260,7 @@ public class BackupGeneradorPPT {
 		IPCMDataSource dsourceFactory = PCMDataSourceFactory.getDataSourceInstance("JDBC");
 		dsourceFactory.initDataSource(url_, "", "", SQLITE_DRIVER_CLASSNAME);
 		try {
-			return new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory);
+			return new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory, false/*auditOn*/);
 		} catch (PCMConfigurationException exc) {
 			exc.printStackTrace();
 			return null;

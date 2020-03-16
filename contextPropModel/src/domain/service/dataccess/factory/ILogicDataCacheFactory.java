@@ -10,7 +10,8 @@ public interface ILogicDataCacheFactory {
 
 	public boolean isInitiated(String dictionary);
 
-	public void initDictionaryCache(String dictionary, IDAOImpl dataSourceImpl, DAOConnection conn, final IPCMDataSource factory_)
+	public void initDictionaryCache(String dictionary, IDAOImpl dataSourceImpl, 
+			DAOConnection conn, final IPCMDataSource factory_, final boolean auditOn)
 			throws PCMConfigurationException;
 
 	public IDataCache getDictionaryCache(String dictionary);
