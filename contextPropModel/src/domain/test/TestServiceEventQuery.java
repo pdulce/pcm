@@ -62,7 +62,7 @@ public class TestServiceEventQuery extends TestCase {
 			System.out.println(result);
 			System.out.println("");
 			
-			Assert.assertTrue(result.length() > 100);
+			Assert.assertTrue(result.length() > 500);
 			
 		} catch (MalformedURLException e1){
 			e1.printStackTrace();
