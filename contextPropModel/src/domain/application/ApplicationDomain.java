@@ -36,7 +36,6 @@ import org.xml.sax.SAXException;
 
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
-import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
@@ -59,17 +58,6 @@ import domain.service.event.Event;
 import domain.service.event.IAction;
 import domain.service.event.IEvent;
 import domain.service.event.SceneResult;
-
-
-/**
- * <h1>ContextApp</h1> The ContextApp class maintains context variables, in other words, variables
- * shared by all the Use Cases of the IT system.
- * <p>
- * 
- * @author Pedro Dulce
- * @version 1.0
- * @since 2014-03-31
- */
 
 public class ApplicationDomain implements Serializable {
 
@@ -95,9 +83,7 @@ public class ApplicationDomain implements Serializable {
 	private String initService;
 	private String initEvent;
 	private Map<String, DomainService> domainServices;
-	private ResourcesConfig resourcesConfiguration;	
-	
-	
+	private ResourcesConfig resourcesConfiguration;
 	
 	private final void readDomainServices() throws FileNotFoundException, SAXException, IOException,
 		ParserConfigurationException {
@@ -117,7 +103,6 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-
 								/****************************/
 								/**** PUBLIC METHODS ****/
 								/****************************/
@@ -138,8 +123,7 @@ public class ApplicationDomain implements Serializable {
 				}
 				this.initService = "Authentication";	
 				this.initEvent = "submitForm";
-			}
-			catch (final Throwable exc) {
+			} catch (final Throwable exc) {
 				throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service", exc);
 			}
 		}
@@ -202,8 +186,7 @@ public class ApplicationDomain implements Serializable {
 				String value = entry.values().iterator().next();
 				this.resourcesConfiguration.setNewEntry(key, value);
 			}
-		}
-		catch (final Throwable e) {
+		} catch (final Throwable e) {
 			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e);
 			e.printStackTrace();
 		}
@@ -232,8 +215,7 @@ public class ApplicationDomain implements Serializable {
 						this.resourcesConfiguration.getDataSourceAccess());
 				pcmDataSourceFactory.initDataSource(this, new InitialContext());
 				this.resourcesConfiguration.setDataSourceFactoryImplObject(pcmDataSourceFactory);
-			}
-			catch (final NamingException evnExc) {
+			} catch (final NamingException evnExc) {
 				ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, evnExc);
 				throw new PCMConfigurationException(InternalErrorsConstants.ENVIRONMENT_EXCEPTION, evnExc);
 			}
@@ -248,8 +230,7 @@ public class ApplicationDomain implements Serializable {
 					if (!AppCacheFactory.getFactoryInstance().isInitiated()) {
 						try {
 							AppCacheFactory.getFactoryInstance().initAppCache(myAppProperties);
-						}
-						catch (final Throwable exc) {
+						} catch (final Throwable exc) {
 							ApplicationDomain.log.log(Level.SEVERE, "Error", exc);
 							throw new PCMConfigurationException(InternalErrorsConstants.DAOIMPL_INVOKE_EXCEPTION, exc);
 						}
@@ -266,8 +247,7 @@ public class ApplicationDomain implements Serializable {
 								DAOImplementationFactory.getFactoryInstance().getDAOImpl(
 										this.resourcesConfiguration.getDSourceImpl()),
 								conn_, this.resourcesConfiguration.getDataSourceFactoryImplObject());
-					}
-					catch (final Throwable exc) {
+					} catch (final Throwable exc) {
 						ApplicationDomain.log.log(Level.SEVERE, "Error", exc);
 						throw new PCMConfigurationException(InternalErrorsConstants.DAOIMPL_INVOKE_EXCEPTION, exc);
 					} finally {
@@ -364,16 +344,13 @@ public class ApplicationDomain implements Serializable {
 	}
 	
 	public String paintConfiguration(final Data data) {
-		
+			
 		StringBuilder htmlOutput = new StringBuilder("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\"");
 		htmlOutput.append(this.getResourcesConfiguration().getUri() + "\">");
 		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"\" />");
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\"event\" value=\"\" />");
-		
-		StringBuilder innerContent_ = new StringBuilder();
 		htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");
 		htmlOutput.append("<td width=\"60%\">Valor actual</td></tr>");
-		
 		int itemsCount = ResourcesConfig.ITEM_NAMES.length;
 		for (int i = 0; i < itemsCount; i++) {
 			this.getResourcesConfiguration();
@@ -392,9 +369,7 @@ public class ApplicationDomain implements Serializable {
 			htmlOutput.append("\"><td>").append(profileName).append("</td></tr>");
 		}
 		htmlOutput.append("</table>").append("</form>");
-		innerContent_ = new StringBuilder(htmlOutput.toString());
-		
-		return innerContent_.toString();
+		return htmlOutput.toString();
 	}
 	
 	public String paintLayout(final Data data, final boolean eventSubmitted, final String escenarioTraducido) 
@@ -403,7 +378,6 @@ public class ApplicationDomain implements Serializable {
 		if (EVENTO_CONFIGURATION.equals(data.getParameter(EXEC_PARAM))) {	
 			return paintConfiguration(data);
 		}
-		
 		IDataAccess dataAccess_ = null;
 		try {
 			StringBuilder innerContent_ = new StringBuilder();
@@ -411,11 +385,9 @@ public class ApplicationDomain implements Serializable {
 			if (event == null){
 				data.setParameter(PCMConstants.EVENT, data.getService().concat(".").concat(data.getEvent()));
 			}						
-			
 			Map<String, String> scene = new HashMap<String, String>();
 			scene.put(data.getService(), data.getEvent());
 			DomainService domainService = getDomainService(data.getService());
-		
 			if (domainService.extractActionElementByService(data.getEvent()) == null) {
 				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,
 						data.getService().concat(".").concat(data.getEvent()));
@@ -430,25 +402,14 @@ public class ApplicationDomain implements Serializable {
 			} else {
 				dataAccess_ = getDataAccess(domainService, data.getEvent());
 			}
-			
-			IAction action = null;
-			try {
-				action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, domainService,	data.getEvent()), 
-						domainService, data.getEvent(), data, discoverAllEvents(data.getService()));
-			} catch (final PCMConfigurationException configExcep) {
-				throw configExcep;
-			} catch (final DatabaseException recExc) {
-				throw recExc;
-			}
-			
+			IAction	action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, 
+					domainService,	data.getEvent()), domainService, data.getEvent(), data, 
+					discoverAllEvents(data.getService()));
 			List<MessageException> messages = new ArrayList<MessageException>();
 			SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, data.getEvent(), data, 
 					eventSubmitted, action, messages);
 			
-			//descubrimos como ha ido, y obtenemos el otro objeto domainService
-			
-			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
-			
+			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();			
 			DomainService domainRedirectingService = null;
 			if (eventSubmitted) {
 				final String serviceQName = new StringBuilder(data.getService()).append(PCMConstants.CHAR_POINT).append(data.getEvent()).toString();
@@ -460,21 +421,18 @@ public class ApplicationDomain implements Serializable {
 			if (isInitService(data)) {
 				domainService.setInitial();
 			}
-			domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, data.getEvent(), data, 
+			domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, 
+					data.getEvent(), data, 
 					eventSubmitted, action, messages);
 			
-			String bodyContentOfService = sceneResult.getXhtml();
 			final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
 			htmFormElement_.append(IViewComponent.FORM_ATTRS);
 			htmFormElement_.append((String) data.getAttribute(PCMConstants.APPURI_));
 			htmFormElement_.append(IViewComponent.ENC_TYPE_FORM);
 			XmlUtils.openXmlNode(innerContent_, htmFormElement_.toString());
-			
 			innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");			
-			innerContent_.append(bodyContentOfService);
-			
+			innerContent_.append(sceneResult.getXhtml());
 			XmlUtils.closeXmlNode(innerContent_, IViewComponent.FORM_TYPE);
-			//XmlUtils.closeXmlNode(innerContent_, IViewComponent.DIV_LAYER);
 			
 			return innerContent_.toString();
 			
@@ -490,8 +448,6 @@ public class ApplicationDomain implements Serializable {
 				throw new ServletException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, excSQL);
 			}
 		}
-		
 	}
-	
 	
 }
