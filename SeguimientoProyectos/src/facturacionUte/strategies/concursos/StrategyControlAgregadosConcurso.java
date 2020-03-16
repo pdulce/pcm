@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.StrategyException;
-import cdd.common.utils.CommonUtils;
-import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.dataccess.IDataAccess;
-import cdd.domain.dataccess.definitions.IEntityLogic;
-import cdd.domain.dataccess.dto.Data;
-import cdd.domain.dataccess.factory.EntityLogicFactory;
-import cdd.domain.service.conditions.DefaultStrategyRequest;
+import domain.common.exceptions.PCMConfigurationException;
+import domain.common.exceptions.StrategyException;
+import domain.common.utils.CommonUtils;
+import domain.component.definitions.FieldViewSet;
+import domain.dataccess.IDataAccess;
+import domain.dataccess.definitions.IEntityLogic;
+import domain.dataccess.dto.Data;
+import domain.dataccess.factory.EntityLogicFactory;
+import domain.service.conditions.DefaultStrategyRequest;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyControlAgregadosConcurso extends DefaultStrategyRequest {

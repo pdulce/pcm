@@ -1,9 +1,9 @@
 package facturacionUte.servlets.diagramas;
 
-import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.domain.dataccess.dto.Data;
-import cdd.webapp.stats.graphs.GenericPieChartServlet;
+import domain.dataccess.definitions.IFieldLogic;
+import domain.dataccess.dto.Data;
 import facturacionUte.common.UnitsForFields;
+import webservlet.stats.graphs.GenericPieChartServlet;
 
 public class MyPieChartStatsServlet extends GenericPieChartServlet {
 

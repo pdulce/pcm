@@ -3,16 +3,16 @@ package facturacionUte.strategies.concursos;
 import java.util.Collection;
 import java.util.Iterator;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.StrategyException;
-import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.dataccess.IDataAccess;
-import cdd.domain.dataccess.definitions.IEntityLogic;
-import cdd.domain.dataccess.dto.Data;
-import cdd.domain.dataccess.factory.EntityLogicFactory;
-import cdd.domain.service.conditions.DefaultStrategyRequest;
-import cdd.domain.service.event.Event;
+import domain.common.PCMConstants;
+import domain.common.exceptions.PCMConfigurationException;
+import domain.common.exceptions.StrategyException;
+import domain.component.definitions.FieldViewSet;
+import domain.dataccess.IDataAccess;
+import domain.dataccess.definitions.IEntityLogic;
+import domain.dataccess.dto.Data;
+import domain.dataccess.factory.EntityLogicFactory;
+import domain.service.conditions.DefaultStrategyRequest;
+import domain.service.event.Event;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyEncajarNuevaApp extends DefaultStrategyRequest {

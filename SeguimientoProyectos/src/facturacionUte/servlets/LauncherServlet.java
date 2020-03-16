@@ -9,14 +9,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.webapp.CDDWebController;
-import cdd.domain.application.ApplicationDomain;
-import cdd.domain.dataccess.IDataAccess;
-import cdd.domain.dataccess.dto.Data;
-import cdd.domain.service.event.SceneResult;
+import domain.application.ApplicationDomain;
+import domain.common.PCMConstants;
+import domain.common.exceptions.PCMConfigurationException;
+import domain.dataccess.IDataAccess;
+import domain.dataccess.dto.Data;
+import domain.service.event.SceneResult;
 import facturacionUte.utils.bolsa.ValoresActuales;
+import webservlet.CDDWebController;
 
 /**
  * @author 99GU3997

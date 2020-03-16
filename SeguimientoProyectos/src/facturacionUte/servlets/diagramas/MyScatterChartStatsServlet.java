@@ -1,10 +1,10 @@
 package facturacionUte.servlets.diagramas;
 
 
-import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.domain.dataccess.dto.Data;
-import cdd.webapp.stats.graphs.GenericScatterChartServlet;
+import domain.dataccess.definitions.IFieldLogic;
+import domain.dataccess.dto.Data;
 import facturacionUte.common.UnitsForFields;
+import webservlet.stats.graphs.GenericScatterChartServlet;
 
 public class MyScatterChartStatsServlet extends GenericScatterChartServlet {
 

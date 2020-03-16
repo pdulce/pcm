@@ -20,12 +20,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.dataccess.IDataAccess;
-import cdd.domain.dataccess.definitions.IEntityLogic;
-import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.domain.dataccess.dto.Data;
-import cdd.domain.dataccess.factory.EntityLogicFactory;
+import domain.component.definitions.FieldViewSet;
+import domain.dataccess.IDataAccess;
+import domain.dataccess.definitions.IEntityLogic;
+import domain.dataccess.definitions.IFieldLogic;
+import domain.dataccess.dto.Data;
+import domain.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 

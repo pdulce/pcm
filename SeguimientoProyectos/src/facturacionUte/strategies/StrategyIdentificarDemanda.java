@@ -7,21 +7,21 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import cdd.common.PCMConstants;
-import cdd.common.exceptions.DatabaseException;
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.StrategyException;
-import cdd.common.exceptions.TransactionException;
-import cdd.domain.component.definitions.FieldView;
-import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.component.definitions.IFieldView;
-import cdd.domain.component.definitions.IRank;
-import cdd.domain.component.definitions.Rank;
-import cdd.domain.dataccess.IDataAccess;
-import cdd.domain.dataccess.definitions.IEntityLogic;
-import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.domain.dataccess.dto.Data;
-import cdd.domain.dataccess.factory.EntityLogicFactory;
+import domain.common.PCMConstants;
+import domain.common.exceptions.DatabaseException;
+import domain.common.exceptions.PCMConfigurationException;
+import domain.common.exceptions.StrategyException;
+import domain.common.exceptions.TransactionException;
+import domain.component.definitions.FieldView;
+import domain.component.definitions.FieldViewSet;
+import domain.component.definitions.IFieldView;
+import domain.component.definitions.IRank;
+import domain.component.definitions.Rank;
+import domain.dataccess.IDataAccess;
+import domain.dataccess.definitions.IEntityLogic;
+import domain.dataccess.definitions.IFieldLogic;
+import domain.dataccess.dto.Data;
+import domain.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyIdentificarDemanda extends StrategyLogin {

@@ -1,9 +1,9 @@
 package facturacionUte.servlets.diagramas;
 
-import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.domain.dataccess.dto.Data;
-import cdd.webapp.stats.graphs.GenericMapStatsServlet;
+import domain.dataccess.definitions.IFieldLogic;
+import domain.dataccess.dto.Data;
 import facturacionUte.common.UnitsForFields;
+import webservlet.stats.graphs.GenericMapStatsServlet;
 
 public class MyMapStatsServlet extends GenericMapStatsServlet {
 

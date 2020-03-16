@@ -3,7 +3,7 @@ package facturacionUte.common;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import cdd.domain.component.definitions.FieldViewSet;
+import domain.component.definitions.FieldViewSet;
 import facturacionUte.utils.GeneradorPresentaciones;
 
 

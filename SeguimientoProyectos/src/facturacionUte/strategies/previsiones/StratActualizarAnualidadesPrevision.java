@@ -3,12 +3,12 @@ package facturacionUte.strategies.previsiones;
 import java.util.Collection;
 import java.util.Iterator;
 
-import cdd.common.exceptions.PCMConfigurationException;
-import cdd.common.exceptions.StrategyException;
-import cdd.domain.component.definitions.FieldViewSet;
-import cdd.domain.dataccess.IDataAccess;
-import cdd.domain.dataccess.dto.Data;
-import cdd.domain.service.conditions.DefaultStrategyRequest;
+import domain.common.exceptions.PCMConfigurationException;
+import domain.common.exceptions.StrategyException;
+import domain.component.definitions.FieldViewSet;
+import domain.dataccess.IDataAccess;
+import domain.dataccess.dto.Data;
+import domain.service.conditions.DefaultStrategyRequest;
 import facturacionUte.common.ConstantesModelo;
 
 public class StratActualizarAnualidadesPrevision extends DefaultStrategyRequest {
