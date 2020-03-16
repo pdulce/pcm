@@ -6,8 +6,8 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.conditions.DefaultStrategyLogin;
-import cdd.dto.Data;
 
 
 public class SampleConnector extends DefaultStrategyLogin {

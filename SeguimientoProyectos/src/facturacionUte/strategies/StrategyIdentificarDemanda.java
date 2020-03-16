@@ -20,8 +20,8 @@ import cdd.domain.component.definitions.Rank;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IEntityLogic;
 import cdd.domain.dataccess.definitions.IFieldLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
-import cdd.dto.Data;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyIdentificarDemanda extends StrategyLogin {

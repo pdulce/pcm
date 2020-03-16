@@ -4,7 +4,7 @@
 package facturacionUte.common;
 
 import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.dto.Data;
+import cdd.domain.dataccess.dto.Data;
 
 /**
  * @author 99GU3997

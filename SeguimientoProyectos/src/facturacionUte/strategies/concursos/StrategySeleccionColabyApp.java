@@ -14,10 +14,10 @@ import cdd.common.exceptions.StrategyException;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.domain.service.conditions.DefaultStrategyRequest;
 import cdd.domain.service.event.Event;
-import cdd.dto.Data;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategySeleccionColabyApp extends DefaultStrategyRequest {

@@ -11,9 +11,9 @@ import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.IFieldView;
 import cdd.domain.dataccess.IDataAccess;
 import cdd.domain.dataccess.definitions.IEntityLogic;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.EntityLogicFactory;
 import cdd.domain.service.conditions.DefaultStrategyRequest;
-import cdd.dto.Data;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyAltaColaborador extends DefaultStrategyRequest {

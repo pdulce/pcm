@@ -2,7 +2,7 @@ package facturacionUte.servlets.diagramas;
 
 
 import cdd.domain.dataccess.definitions.IFieldLogic;
-import cdd.dto.Data;
+import cdd.domain.dataccess.dto.Data;
 import cdd.webapp.stats.graphs.GenericScatterChartServlet;
 import facturacionUte.common.UnitsForFields;
 

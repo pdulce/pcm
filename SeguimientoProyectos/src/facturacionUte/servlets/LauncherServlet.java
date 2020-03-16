@@ -14,8 +14,8 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.webapp.CDDWebController;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.dto.Data;
 import cdd.domain.service.event.SceneResult;
-import cdd.dto.Data;
 import facturacionUte.utils.bolsa.ValoresActuales;
 
 /**
