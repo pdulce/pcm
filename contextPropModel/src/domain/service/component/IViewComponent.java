@@ -5,9 +5,7 @@ import java.util.List;
 
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.ParameterBindingException;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.dataccess.IDataAccess;
@@ -137,10 +135,6 @@ public interface IViewComponent {
 	public boolean isGrid();
 
 	public IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException;
-
-	public void bindPrimaryKeys(IAction accion, List<MessageException> msgs) throws ParameterBindingException;
-
-	public void bindUserInput(IAction accion, List<FieldViewSet> fs, List<MessageException> msgs) throws ParameterBindingException;
 
 	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 

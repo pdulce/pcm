@@ -4,7 +4,6 @@
 package domain.service.component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -14,17 +13,13 @@ import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.ParameterBindingException;
-import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.element.ICtrl;
 import domain.service.component.element.html.IHtmlElement;
 import domain.service.component.element.html.LinkButton;
 import domain.service.component.element.html.Span;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.dto.Data;
-import domain.service.event.IAction;
 
 
 /**
@@ -72,26 +67,6 @@ public class FootComponent extends AbstractComponent {
 			AbstractComponent.log.log(Level.SEVERE, "Error", parqExc);
 			throw new PCMConfigurationException(InternalErrorsConstants.XML_FOOT_GENERATION, parqExc);
 		}
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#bindPrimaryKeys(
-	 * contextmodel.framework.comunication.actions.IAction) */
-	@Override
-	public void bindPrimaryKeys(final IAction accion, final List<MessageException> parqMensajes) throws ParameterBindingException {
-		// nothing
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see
-	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#bindUserInput(contextmodel
-	 * .framework.comunication.actions.IAction) */
-	@Override
-	public void bindUserInput(final IAction accion, final List<FieldViewSet> fs, final List<MessageException> parqMensajes)
-			throws ParameterBindingException {
-		// nothing
 	}
 
 	/* (non-Javadoc)

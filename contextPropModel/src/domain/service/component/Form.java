@@ -1,9 +1,6 @@
 package domain.service.component;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,10 +16,7 @@ import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.ParameterBindingException;
-import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
 import domain.service.component.definitions.ContextProperties;
 import domain.service.component.definitions.FieldView;
@@ -48,28 +42,23 @@ import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.Event;
+import domain.service.event.AbstractAction;
 import domain.service.event.IAction;
 import domain.service.event.IEvent;
-import domain.service.event.Parameter;
-import domain.service.event.validators.IValidator;
-import domain.service.event.validators.RelationalAndCIFValidator;
 
 
 public class Form extends AbstractComponent {
 
 	private static final long serialVersionUID = 1335566662722L;
 
-	private static final String PERSIST_ATTR = "persist", 
-			HIDDEN_AREA = "HIDD_", VISIBLE_AREA = "VISIB_", 
-			HIDDEN_EVENT = "EVENT_";
-
-	public static final String FORM_NAME = "FORM", LEGEND_ATTR = "legend", ID_ATTR = "id";
+	private static final String PERSIST_ATTR = "persist", HIDDEN_AREA = "HIDD_", 
+			VISIBLE_AREA = "VISIB_", HIDDEN_EVENT = "EVENT_", FORM_NAME = "FORM", 
+			LEGEND_ATTR = "legend", ID_ATTR = "id";
 
 	private static String formTemplateDefinition;
 
 	private int columnsNumber, numberOfElements;
-
+	
 	private boolean bindedPk, editableForm;
 
 	private String entityName, title, align, formRenderedTemplate;
@@ -103,16 +92,24 @@ public class Form extends AbstractComponent {
 		this.event = event_;
 	}
 
+	public boolean isBindedPk() {
+		return bindedPk;
+	}
+
+	public void setBindedPk(boolean bindedPk) {
+		this.bindedPk = bindedPk;
+	}
+
 	public String getUniqueName() {
 		return this.service.concat("_").concat(this.event).concat("_").concat(this.title);
 	}
 
-	public Form(final String service_, final String event_, final Element formElement_, final IDataAccess dataAccess_,
-			final Data data_) throws PCMConfigurationException {
-		this.service = service_;
+	public Form(final Element formElement_, final IDataAccess dataAccess_, final Data data_) throws PCMConfigurationException {
+		this.service = ((Element)formElement_.getParentNode().getParentNode().getParentNode()).getAttribute(DomainService.NAME_ATTR);
+		final String event_ = ((Element)formElement_.getParentNode().getParentNode()).getAttribute(DomainService.EVENT_ATTR);
+		this.event = AbstractAction.isQueryEvent(event_) ? IEvent.QUERY : event_;
 		this.visibleControls = new HashMap<ICtrl, List<ICtrl>>();
 		this.hiddenControls = new ArrayList<ICtrl>();
-		this.event = Event.isQueryEvent(event_) ? IEvent.QUERY : event_;
 		this.editableForm = !this.event.equals(IEvent.DELETE) && !this.event.equals(IEvent.DETAIL)
 				&& !this.event.equals(IEvent.SHOW_CONFIRM_DELETE);
 		this.columnsNumber = formElement_.getAttributes().getNamedItem(IViewComponent.COLUMNS) != null ? Integer.parseInt(formElement_
@@ -136,6 +133,10 @@ public class Form extends AbstractComponent {
 	@Override
 	public final boolean isForm() {
 		return true;
+	}
+
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
 	}
 
 	@Override
@@ -191,9 +192,7 @@ public class Form extends AbstractComponent {
 				fieldViewDef = new FieldView(nameSpace, elem, entityOfFieldViewSet);
 			}
 			Element parent = (Element)elem.getParentNode();
-			
 			if (mapEntriesIte != null) {
-				
 				while (mapEntriesIte.hasNext()) {
 					Map.Entry<String, IFieldLogic> entry = mapEntriesIte.next();
 					final IFieldLogic fieldLogic = entry.getValue();
@@ -206,8 +205,8 @@ public class Form extends AbstractComponent {
 					}else {
 						fieldView.setDivParent("pral");
 					}
-					completarLista(dataAccess_, fieldView, fieldSetsCtrl, validationBlock, coleccionFieldViews, isButtonParam);
-				}// for each fieldLogic
+					completarLista(dataAccess_, fieldView, fieldSetsCtrl, validationBlock, coleccionFieldViews, data.getEvent(), isButtonParam);
+				}
 				break;
 			}else if (fieldViewDef != null){
 				if (fieldViewDef != null && parent.hasAttribute(IViewComponent.LEGEND.toLowerCase())){
@@ -218,22 +217,21 @@ public class Form extends AbstractComponent {
 			}
 			if (fieldViewDef != null){
 				fieldViewDef.setPosition(position++);
-				completarLista(dataAccess_, fieldViewDef, fieldSetsCtrl, validationBlock, coleccionFieldViews, isButtonParam);
+				completarLista(dataAccess_, fieldViewDef, fieldSetsCtrl, validationBlock, coleccionFieldViews, data.getEvent(), isButtonParam);
 			}
-			
 		}// for each node of list
 		this.numberOfElements = coleccionFieldViews.size();
 		return coleccionFieldViews;
 	}
 
 	private void completarLista(final IDataAccess dataAccess_, final IFieldView fieldViewLogic, final ICtrl fieldSetCtrl,
-			final StringBuilder validationBlock, final Collection<IFieldView> coleccionFieldViews, boolean isButtonParam)
+			final StringBuilder validationBlock, final Collection<IFieldView> coleccionFieldViews, final String action, boolean isButtonParam)
 			throws PCMConfigurationException {
 		Collection<IFieldView> rangeFields = createRangePairedField(fieldViewLogic);
 		Iterator<IFieldView> iteRango = rangeFields.iterator();
 		while (iteRango.hasNext()) {
 			IFieldView fieldViewRange = iteRango.next();
-			generateComponentPattern(dataAccess_, fieldSetCtrl, fieldViewRange, validationBlock, isButtonParam);
+			generateComponentPattern(dataAccess_, fieldSetCtrl, fieldViewRange, validationBlock, action, isButtonParam);
 		}
 		if (!fieldViewLogic.isSeparator()) {
 			coleccionFieldViews.addAll(rangeFields);
@@ -253,7 +251,6 @@ public class Form extends AbstractComponent {
 				final Element userButtonsNode = (Element) nodosUserButtons.item(i);
 				FieldsetControl fsetInternoCtrl = null;
 				if (userButtonsNode.getParentNode().getNodeName().equals(FIELDSET_ELEMENT)) {
-					// abrir fieldSet
 					Element fieldSetOfUserButtons = ((Element) userButtonsNode.getParentNode());
 					if (fieldSetOfUserButtons.hasAttribute(LEGEND_ATTR)) {
 						String legend = fieldSetOfUserButtons.getAttribute(LEGEND_ATTR);
@@ -292,11 +289,10 @@ public class Form extends AbstractComponent {
 						}
 					}
 					javascrLink.append(onClickAttr==null?"":onClickAttr);
-					javascrLink
-							.append("document.forms[0].action= '"
+					javascrLink.append("document.forms[0].action= '"
 									+ params[0]
-									+ "';document.getElementById('idPressed').value='"+ id +"';clickAndDisable(this);document.getElementById('principal').style.display='none';document.getElementById('loadingdiv').style.display='block';document.forms[0].submit();return true;");
-
+									+ "';document.getElementById('idPressed').value='"+ id +
+									"';clickAndDisable(this);document.getElementById('principal').style.display='none';document.getElementById('loadingdiv').style.display='block';document.forms[0].submit();return true;");
 					newUserButton.setOnClick(javascrLink.toString());
 					newUserButton.setUserDefinedButton(true);
 					if (fsetInternoCtrl != null) {
@@ -312,10 +308,8 @@ public class Form extends AbstractComponent {
 			final NodeList nodosFieldViewSets = element.getElementsByTagName(FIELDVIEWSET_ELEMENT);
 			int nodosFieldViewLength= nodosFieldViewSets.getLength();
 			for (int i = 0; i < nodosFieldViewLength; i++) {
-
 				final Element fieldViewSetNode = (Element) nodosFieldViewSets.item(i);
 				final String nameSpace = fieldViewSetNode.getAttribute(NAMESPACE_ENTITY_ATTR);
-				
 				String entityNameInMetamodel = fieldViewSetNode.getAttribute(FieldView.ENTITYMODEL_ATTR);
 				final String persistToBBDD = fieldViewSetNode.getAttribute(PERSIST_ATTR);
 				final String order = fieldViewSetNode.getAttribute(ORDER_ATTR);
@@ -323,11 +317,9 @@ public class Form extends AbstractComponent {
 					order_int = Integer.valueOf(order).intValue();
 				}
 				Collection<IFieldView> coleccionFieldViews = new ArrayList<IFieldView>();
-				
 				FieldsetControl fieldSetPrincipalCtrl = AbstractCtrl.getFieldsetInstance(PCMConstants.EMPTY_, "div_".concat(String.valueOf(order_int)),
 						"".equals(nameSpace));
 				fieldSetPrincipalCtrl.setOrderInForm(order_int++);
-				
 				NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(FIELDVIEW_ELEMENT);
 				List<Element> listaFieldViewSets = new ArrayList<Element>();
 				int nodosFieldViewsLength= nodosFieldViews.getLength();
@@ -350,8 +342,7 @@ public class Form extends AbstractComponent {
 				} else {
 					fieldViewSets.add(fieldViewSet);
 				}				
-			}// for del recorrido de fieldviewsts
-
+			}
 			final String serviceUri = this.getDestine() == null ? new StringBuilder(this.service).append(PCMConstants.POINT)
 					.append(this.event).toString() : this.getDestine();
 			final StringBuilder formRenderedTemplate_ = new StringBuilder(this.entityName != null
@@ -359,9 +350,6 @@ public class Form extends AbstractComponent {
 					.toHTML() : PCMConstants.EMPTY_);
 			formRenderedTemplate_.append(Form.formTemplateDefinition.replaceFirst(Form.HIDDEN_EVENT,
 					this.paintInputHidden(PCMConstants.EVENT, serviceUri).toHTML()));
-			
-			//formRenderedTemplate_.append(this.paintInputHidden("submitted", "false"));
-			
 			if (!PCMConstants.EMPTY_.equals(validationBlock.toString())) {
 				XmlUtils.openXmlNode(formRenderedTemplate_, IViewComponent.START_JAVASCRIPT_BLOCK);
 				formRenderedTemplate_.append(validationBlock);
@@ -370,8 +358,7 @@ public class Form extends AbstractComponent {
 			this.formRenderedTemplate = formRenderedTemplate_.toString();
 			this.fieldViewSetCollection = new ArrayList<FieldViewSetCollection>();
 			this.fieldViewSetCollection.add(new FieldViewSetCollection(fieldViewSets));
-		}
-		catch (final Throwable ex22) {
+		} catch (final Throwable ex22) {
 			AbstractComponent.log.log(Level.SEVERE, "Internal- Exception when creating form component: ", ex22);
 			throw new PCMConfigurationException(ex22.getMessage().toString(), ex22);
 		}
@@ -380,7 +367,7 @@ public class Form extends AbstractComponent {
 	
 	public final Collection<IFieldView> createRangePairedField(final IFieldView fieldView) {
 		final Collection<IFieldView> fields = new ArrayList<IFieldView>();
-		if (Event.isQueryEvent(this.event) && !fieldView.isRankField() && fieldView.isEditable() && !fieldView.isUserDefined()
+		if (AbstractAction.isQueryEvent(this.event) && !fieldView.isRankField() && fieldView.isEditable() && !fieldView.isUserDefined()
 				&& (fieldView.getEntityField().getAbstractField().isDate() || fieldView.getEntityField().getAbstractField().isDecimal())) {
 			final IFieldView fViewMinor = fieldView.copyOf();
 			final Rank rankDesde = new Rank(fieldView.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
@@ -397,15 +384,15 @@ public class Form extends AbstractComponent {
 	}
 
 	private final void generateComponentPattern(final IDataAccess dataAccess, final ICtrl fieldset, final IFieldView fieldView,
-			StringBuilder validationBlock, boolean isButtonParam) throws PCMConfigurationException {
+			StringBuilder validationBlock, final String action, boolean isButtonParam) throws PCMConfigurationException {
 		try {
 			if (!fieldView.isUserDefined() && fieldView.getEntityField().belongsPK() && fieldView.getEntityField().isAutoIncremental()
-					&& Event.isCreateEvent(this.event)) {
+					&& AbstractAction.isCreateEvent(action)) {
 				return;
-			} else if (!fieldView.isUserDefined() && fieldView.getEntityField().belongsPK() && Event.isUpdateEvent(this.event)) {
+			} else if (!fieldView.isUserDefined() && fieldView.getEntityField().belongsPK() && AbstractAction.isUpdateEvent(action)) {
 				fieldView.setEditable(false);
 			}
-			boolean validarFieldByModelDef = !fieldView.isUserDefined() && Event.isUniqueFormComposite(this.event)
+			boolean validarFieldByModelDef = !fieldView.isUserDefined() && AbstractAction.isUniqueFormComposite(action)
 					&& fieldView.isEditable() && !fieldView.isHidden() && fieldView.getEntityField().isRequired();
 			boolean validarFieldByUserDef = fieldView.isUserDefined() && fieldView.isRequired();
 			fieldView.setRequired(validarFieldByModelDef || validarFieldByUserDef);
@@ -626,194 +613,7 @@ public class Form extends AbstractComponent {
 		}
 	}
 
-	public final void bindUserInput(final IAction accion, final List<MessageException> messageExceptions) throws ParameterBindingException {
-		this.bind(accion, false, messageExceptions);
-	}
-
-	@Override
-	public void bindUserInput(final IAction accion, final List<FieldViewSet> fieldViewSets, final List<MessageException> parqMensajes)
-			throws ParameterBindingException {
-		try {
-			String submitWithUserInputs = null;
-			final boolean validacionObligatoria = Event.isUniqueFormComposite(accion.getEvent());
-			String minorRangeField = null, mayorRangeField = null;
-			final Iterator<FieldViewSet> fieldViewSetsIte = fieldViewSets.iterator();
-			this.bindedPk = false;
-			while (fieldViewSetsIte.hasNext()) {
-				final FieldViewSet fieldViewSet = fieldViewSetsIte.next();
-				if (fieldViewSet == null) {
-					continue;
-				}
-				// limpiamos antiguos valores del filtro, formulario
-				fieldViewSet.resetFieldValuesMap();
-
-				final Iterator<IFieldView> fieldViewsIterador = fieldViewSet.getFieldViews().iterator();
-				while (fieldViewsIterador.hasNext()) {
-					final IFieldView fieldView = fieldViewsIterador.next();
-					if (fieldView.isSeparator()) {
-						continue;
-					}
-					
-					Collection<String> dataValues = accion.getRequestValues(fieldView);
-					if (dataValues.isEmpty()) {
-						final boolean required = validacionObligatoria
-								&& fieldView.isRequired()
-								&& (fieldView.isUserDefined() || (!fieldView.isUserDefined()
-										&& !fieldView.getEntityField().isAutoIncremental() && !fieldView.getEntityField().isSequence()));
-						if (required) {
-							final MessageException parqMensaje = new MessageException(IAction.ERROR_BINDING_CODE);
-							parqMensaje.addParameter(new Parameter(IAction.BINDING_CONCRETE_MSG, IValidator.DATA_NEEDED));
-							parqMensaje.addParameter(new Parameter(IViewComponent.ZERO, fieldView.getQualifiedContextName()));
-							parqMensajes.add(parqMensaje);
-						}
-						continue;
-					}
-					if (!fieldView.isUserDefined()){
-						if (submitWithUserInputs == null){
-							submitWithUserInputs = String.valueOf(fieldView.getEntityField().getMappingTo());	
-						}else{
-							submitWithUserInputs += ",".concat(String.valueOf(fieldView.getEntityField().getMappingTo()));
-						}						
-					}
-					
-					if (!fieldView.isUserDefined() && 
-							fieldView.getEntityField().getAbstractField().isTimestamp() && 
-								"SYSDATE()".equals(fieldView.getDefaultValueExpr())){
-						dataValues = new ArrayList<String>();
-						dataValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
-					}
-					if (fieldView.isCheckOrRadioOrCombo() || dataValues.size() > 1) {
-						fieldViewSet.resetValues(fieldView.getQualifiedContextName());
-						if (fieldView.isCheckOrRadioOrCombo()){
-							fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
-						}
-					}
-					if (!fieldView.isUserDefined()) {
-						if (fieldView.getEntityField().belongsPK()) {
-							this.bindedPk = true;
-						}
-						final boolean fieldSinthacticValid = fieldView.isCheckOrRadioOrCombo() || fieldView.validateAndSaveValueInFieldview(accion.getDataBus(), fieldViewSet,
-								validacionObligatoria, dataValues, accion.getDataBus().getEntitiesDictionary(), parqMensajes);
-						if (fieldSinthacticValid) {
-
-							if (fieldView.isRankField()) {
-								final Serializable val = fieldViewSet.getValue(fieldView.getQualifiedContextName());								
-								if (val != null && !"".equals(val.toString())) {
-									if (fieldView.getRankField().isMinorInRange()) {
-										minorRangeField = fieldView.getQualifiedContextName();
-									} else {
-										mayorRangeField = fieldView.getQualifiedContextName();
-									}
-									if (minorRangeField != null && mayorRangeField != null) {
-										final Serializable minorVal = fieldViewSet.getValue(minorRangeField), mayorVal = fieldViewSet
-												.getValue(mayorRangeField);
-										final boolean semanthicIsCorrect = fieldView.getEntityField().getAbstractField().isDate() ? RelationalAndCIFValidator
-												.relationalDateValidation(minorVal, mayorVal) : RelationalAndCIFValidator
-												.relationalNumberValidation(minorVal, mayorVal);
-										if (!semanthicIsCorrect) {
-											final MessageException msg = new MessageException(IAction.ERROR_SEMANTHIC_CODE);
-											msg.addParameter(new Parameter(IAction.ERROR_SEMANTHIC_CODE, IValidator.DATA_RANGE_INVALID));
-											msg.addParameter(new Parameter(IViewComponent.ZERO, mayorRangeField));
-											msg.addParameter(new Parameter(IViewComponent.ONE, mayorVal.toString()));
-											msg.addParameter(new Parameter("2", minorRangeField));
-											msg.addParameter(new Parameter("3", minorVal.toString()));
-											parqMensajes.add(msg);
-										}
-										minorRangeField = null;
-										mayorRangeField = null;
-									}
-								}
-							}
-						}
-					}
-				}// for
-			}// while each fieldViewSet
-			
-			accion.getDataBus().setAttribute("userCriteria", submitWithUserInputs);
-			
-		} catch (final Throwable excc2) {
-			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.BINDING_ERROR, excc2);
-			throw new ParameterBindingException(InternalErrorsConstants.BINDING_ERROR, excc2);
-		}
-	}// fin metodo bind
-
-	/*******************************************************************************************************************************************************************************
-	 * Crea los f de cada fieldview de cada fieldviewset
-	 * 
-	 * @param accion
-	 * @return
-	 * @throws ParameterBindingException
-	 */
-	@Override
-	public void bindPrimaryKeys(final IAction accion, final List<MessageException> parqMensajes) throws ParameterBindingException {
-		this.bindedPk = false;
-		String valueofPk = null;
-		boolean fieldViewSetWithEntityDef = false;
-		final Iterator<FieldViewSet> entitiesIte = this.getFieldViewSets().iterator();
-		while (entitiesIte.hasNext()) {
-			final FieldViewSet fieldViewSet = entitiesIte.next();
-			if (fieldViewSet.isUserDefined()) {
-				continue;
-			}			
-			String pkSel = fieldViewSet.getEntityDef().getFieldKey().getComposedName(fieldViewSet.getContextName());
-			if (accion.getEvent().equals(IEvent.SHOW_FORM_CREATE)) {// recarga por registro pattern
-				pkSel = pkSel.replaceFirst(PCMConstants.SEL_PREFFIX, PCMConstants.POINT).replaceFirst(PCMConstants.POINT_COMMA,
-						PCMConstants.EMPTY_);
-				final String val_ = accion.getDataBus().getParameter(pkSel);
-				if (val_ == null || PCMConstants.EMPTY_.equals(val_)) {
-					continue;
-				}
-				final String newQualifiedName = new StringBuilder(fieldViewSet.getContextName()).append(FieldViewSet.FIELD_SEPARATOR)
-						.append(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName()).toString();
-				valueofPk = new StringBuilder(newQualifiedName).append(PCMConstants.EQUALS).append(val_).toString();
-			} else {
-				fieldViewSetWithEntityDef = true;
-				valueofPk = accion.getDataBus().getParameter(pkSel);
-				String paramPKField = fieldViewSet.getContextName().concat(".").concat(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName());
-				if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {					
-					if (accion.getDataBus().getParameter(paramPKField) != null){
-						valueofPk = paramPKField.concat("=").concat(accion.getDataBus().getParameter(paramPKField));										
-					} else {
-						continue;
-					}
-				}else if (valueofPk != null && valueofPk.split("=").length < 2){
-					valueofPk = paramPKField.concat("=").concat(valueofPk);
-				}
-			}			
-			this.entityName = fieldViewSet.getEntityDef().getName();
-			final Map<String, Serializable> valoresCamposPK = FieldCompositePK.desempaquetarPK(valueofPk.toString(),
-					fieldViewSet.getContextName());
-			final Iterator<Map.Entry<String, Serializable>> ite = valoresCamposPK.entrySet().iterator();
-			while (ite.hasNext()) {
-				final Map.Entry<String, Serializable> entry = ite.next();
-				final String fieldValue = entry.getValue() != null ? entry.getValue().toString() : PCMConstants.EMPTY_;
-				final IFieldView fieldView = fieldViewSet.getFieldView(entry.getKey()/* qualifiedName */);
-				if (fieldView == null) {
-					final StringBuilder str = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL);
-					str.append(accion.getEvent()).append(" key: ").append(entry.getKey());
-					throw new ParameterBindingException(str.toString());
-				}
-				if (fieldValue == null || PCMConstants.EMPTY_.equals(fieldValue.trim())) {
-					final MessageException parqMensaje = new MessageException(IAction.ERROR_BINDING_CODE);
-					parqMensaje.addParameter(new Parameter(IAction.FIELD_PARAM, fieldViewSet.getEntityDef().getFieldKey()
-							.getComposedName(fieldViewSet.getContextName())));
-					parqMensajes.add(parqMensaje);
-				} else {
-					fieldViewSet.setValue(fieldView.getQualifiedContextName(), fieldValue);
-					if (!this.bindedPk) {
-						this.bindedPk = true;
-					}
-				}
-			}
-			break;
-		}
-		if (!this.bindedPk && fieldViewSetWithEntityDef) {
-			final MessageException parqMensaje = new MessageException(IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE);
-			parqMensaje.addParameter(new Parameter(PCMConstants.ENTIYY_PARAM, IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE));
-			parqMensajes.add(parqMensaje);
-		}		
-	}
-
+	
 	private final void recreateControls4FieldViewSets(List<FieldViewSet> fViewSets, Map<ICtrl, List<ICtrl>> visibleControls_,
 			List<ICtrl> hiddenControls_) {
 		for (final FieldViewSet fSet : fViewSets) {
@@ -866,7 +666,7 @@ public class Form extends AbstractComponent {
 				hiddens.append(control.getInnerHTML(lang, this.getFormattedValues(control.getQName())));
 			}
 			
-			if (!Event.isQueryEvent(this.event) && data.getParameter(PaginationGrid.CURRENT_PAGE) != null
+			if (!AbstractAction.isQueryEvent(this.event) && data.getParameter(PaginationGrid.CURRENT_PAGE) != null
 					&& !"".equals(data.getParameter(PaginationGrid.CURRENT_PAGE))) {
 				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_PAGINAS, data.getParameter(PaginationGrid.TOTAL_PAGINAS))
 						.toHTML());
@@ -956,7 +756,7 @@ public class Form extends AbstractComponent {
 						}
 						
 						fillCheckAndSelection(dataAccess_, control.getFieldView(), fkValuesUnformatted, 
-								Event.isQueryEvent(this.event) && control.getFieldView().getDefaultFirstOfOptions() != null ? 
+								AbstractAction.isQueryEvent(this.event) && control.getFieldView().getDefaultFirstOfOptions() != null ? 
 										control.getFieldView().getDefaultFirstOfOptions().toString() : "");
 						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, fkValuesUnformatted));
 					} else {
@@ -974,7 +774,6 @@ public class Form extends AbstractComponent {
 				}
 				if (!innerHTMLFieldsSetInterno.toString().endsWith(IViewComponent.NEW_ROW)){
 					innerHTMLFieldsSetInterno.append(IViewComponent.NEW_ROW);
-					//innerHTMLFieldsSetInterno.append(IViewComponent.NEW_ROW);
 				}
 
 				int salto = 2;
@@ -1033,7 +832,6 @@ public class Form extends AbstractComponent {
 								} else if (!control.getFieldView().isSeparator()) {
 									buttonsStrBuilder.append(control.getInnerHTML(lang, values_));
 								}
-								//buttonsStrBuilder.append(NEW_ROW);
 							}
 						}
 						XmlUtils.closeXmlNode(buttonsStrBuilder, IViewComponent.LI_LABEL);
@@ -1050,17 +848,12 @@ public class Form extends AbstractComponent {
 					if (!buttonsStrBuilder.toString().endsWith("</UL>")){
 						XmlUtils.closeXmlNode(buttonsStrBuilder, IViewComponent.UL_LABEL);
 					}
-
 					buttonsStrBuilder.append(NEW_ROW);
 					buttonsStrBuilder.append("</DIV>");
 					XmlUtils.closeXmlNode(buttonsStrBuilder, "FIELDSET");
-					
 					innerHTMLFieldsSetInterno.append(buttonsStrBuilder);
-
 					userButtonsPainted = true;
-
 				}
-
 				innerHTMLFieldsSetGlobal.append(innerHTMLFieldsSetInterno);
 			}
 
@@ -1095,7 +888,8 @@ public class Form extends AbstractComponent {
 	private final List<LinkButton> initButtonsWithRequest(final Data data_, boolean submitted) {
 		
 		List<LinkButton> buttons = new ArrayList<LinkButton>();
-		final String event_ = Event.isFormularyEntryEvent(this.event) ? Event.getInherentEvent(this.event) : this.event;
+		final String event_ = AbstractAction.isFormularyEntryEvent(this.event) ? 
+				AbstractAction.getInherentEvent(this.event) : this.event;
 		String escenario = this.service.concat(".").concat(event_);
 		
 		final StringBuilder javascriptF = new StringBuilder();
@@ -1110,17 +904,18 @@ public class Form extends AbstractComponent {
 				event_.indexOf(PCMConstants.POINT) == -1 ? event_ : event_.substring(event_.indexOf(PCMConstants.POINT) + 1),
 				javascriptF.toString()));
 		
-		if (Event.isQueryEvent(this.event) || IEvent.SUBMIT_FORM.equals(this.event)) {
+		if (AbstractAction.isQueryEvent(this.event) || IEvent.SUBMIT_FORM.equals(this.event)) {
 			buttons.add(this.paintSubmitButtonWithoutReturn(PCMConstants.CLEAN_EVENT, IViewComponent.CLEAN_FUNC));
 		} else if ((!this.event.equals(IEvent.DETAIL) || !this.userButtons.isEmpty()) && !this.event.equals(IEvent.DELETE) && !this.event.equals(IEvent.SHOW_CONFIRM_DELETE)) {
 			buttons.add(this.paintSubmitButtonWithoutReturn(PCMConstants.RESET_EVENT, IViewComponent.RESET_FUNC));
 		}
 		
-		if (!Event.isQueryEvent(this.event)){
+		if (!AbstractAction.isQueryEvent(this.event)){
 			StringBuilder javascrReturn = new StringBuilder();
-			final String backEvent = Event.isDeleteEvent(this.event) ? IEvent.CANCEL : IEvent.RETURN_BACK;			
+			final String backEvent = AbstractAction.isDeleteEvent(this.event) ? IEvent.CANCEL : IEvent.RETURN_BACK;			
 			javascrReturn.append("document.getElementById('" + "miPadre" + "').value='");
-			if (Event.isFormularyEntryEvent(this.event) && (Event.isCreateEvent(this.event) || Event.isDeleteEvent(this.event)) ){
+			if (AbstractAction.isFormularyEntryEvent(this.event) && 
+					(AbstractAction.isCreateEvent(this.event) || AbstractAction.isDeleteEvent(this.event)) ){
 				javascrReturn.append(IEvent.CANCEL);
 			}else{
 				javascrReturn.append(IEvent.VOLVER);
@@ -1136,7 +931,6 @@ public class Form extends AbstractComponent {
 			javascrReturn.append(IViewComponent.SUBMIT_SENTENCE).append(IViewComponent.RETURN_SENTENCE);
 			buttons.add(this.paintSubmitButtonWithoutReturn(backEvent, javascrReturn.toString()));
 		}
-		
 		return buttons;
 	}
 	

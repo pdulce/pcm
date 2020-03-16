@@ -15,6 +15,7 @@ import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
+import domain.service.DomainService;
 import domain.service.component.Form;
 import domain.service.component.IViewComponent;
 import domain.service.component.PaginationGrid;
@@ -29,27 +30,13 @@ import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Data;
 
 
-/**
- * <h1>ActionPagination</h1> The ActionPagination class
- * is used for implement activities of general purpose which are common (to every action with
- * pagination defined in the IT system) and are required to be executed in a specific order, when a
- * SubCase of Use is invoked.
- * <p>
- * 
- * @author Pedro Dulce
- * @version 1.0
- * @since 2014-03-31
- */
-
-public class ActionPagination extends AbstractPcmAction {
+public class ActionPagination extends AbstractAction {
 
 	protected String filtra;
 
-	public ActionPagination(final IBodyContainer container_, final Data data_, final Element actionElement_, 
-			final String event_) {
+	public ActionPagination(final IBodyContainer container_, final Data data_, final Element actionElement_) {
 		this.data = data_;
 		this.container = container_;
-		this.setEvent(event_);
 		this.actionElement = actionElement_;
 	}
 
@@ -78,6 +65,58 @@ public class ActionPagination extends AbstractPcmAction {
 		return false;
 	}
 
+	@Override
+	public void bindPrimaryKeys(final IViewComponent paginationComp, final List<MessageException> msgs) 
+			throws ParameterBindingException {
+		// nothing
+	}
+
+	@Override
+	public void bindUserInput(final IViewComponent paginationComp, final List<MessageException> msgs)
+			throws ParameterBindingException {	
+		if (!this.isPaginationEvent()) {
+			return;
+		}
+		PaginationGrid pagGrid = (PaginationGrid) paginationComp;
+		String[] actualOrderFields = null;
+		String actualOrderDirection = null;
+		if (this.getDataBus().getParameter(PaginationGrid.ORDENACION) != null
+				&& !PCMConstants.EMPTY_.equals(this.getDataBus().getParameter(PaginationGrid.ORDENACION))) {
+			actualOrderFields = new String[]{this.getDataBus().getParameter(PaginationGrid.ORDENACION)};
+			actualOrderDirection = this.getDataBus().getParameter(PaginationGrid.DIRECCION);
+		} else if (this.getDataBus().getParameter(PaginationGrid.ORDENACION_ACTUAL) != null 
+				&& !PCMConstants.EMPTY_.equals(this.getDataBus().getParameter(PaginationGrid.ORDENACION_ACTUAL))	){ 
+			actualOrderFields = new String[]{this.getDataBus().getParameter(PaginationGrid.ORDENACION_ACTUAL)};
+			actualOrderDirection = this.getDataBus().getParameter(PaginationGrid.DIRECCION_ACTUAL);
+		} else if (actualOrderFields == null){
+			actualOrderFields = pagGrid.getDefaultOrderFields();
+			actualOrderDirection = pagGrid.getDefaultOrderDirection();
+			if (actualOrderFields == null || PCMConstants.EMPTY_.equals(actualOrderFields[0])) {
+				throw new ParameterBindingException(InternalErrorsConstants.GRID_ORDERFIELD_ERROR);
+			}
+			if (actualOrderDirection == null || PCMConstants.EMPTY_.equals(actualOrderDirection)) {
+				throw new ParameterBindingException(InternalErrorsConstants.GRID_ORDERDIR_ERROR);
+			}
+		}
+		int incrementoDePagina = 0;
+		if (this.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED) != null
+				&& !IViewComponent.UNDEFINED.equals(this.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED))) {
+			incrementoDePagina = Integer.parseInt(this.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED));
+		}
+		pagGrid.setIncrementPage(incrementoDePagina);
+		final int currentPage = (this.getDataBus().getParameter(PaginationGrid.CURRENT_PAGE) != null ? 
+				Integer.parseInt(getDataBus().getParameter(PaginationGrid.CURRENT_PAGE)) : 0);
+		pagGrid.setCurrentPage(currentPage + incrementoDePagina);
+		final int totalPages = (this.getDataBus().getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? 
+				Integer.parseInt(getDataBus().getParameter(PaginationGrid.TOTAL_PAGINAS)) : 0);
+		pagGrid.setTotalPages(totalPages);
+		final int totalRecords = (this.getDataBus().getParameter(PaginationGrid.TOTAL_RECORDS) != null ? 
+				Integer.parseInt(getDataBus().getParameter(PaginationGrid.TOTAL_RECORDS)) : 0);
+		pagGrid.setTotalRecords(totalRecords);
+		pagGrid.setOrdenationFieldsSel(actualOrderFields);
+		pagGrid.setOrdenacionDirectionSel(actualOrderDirection);
+	}
+	
 	@Override
 	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final boolean eventSubmitted_,
 			final Collection<MessageException> prevMessages) {
@@ -108,11 +147,11 @@ public class ActionPagination extends AbstractPcmAction {
 
 				int pageSize = data.getPageSize();
 				FieldViewSet detailGridElement = null;				
-				if (Event.isQueryEvent(this.event)){
-					myForm.bindUserInput(this, erroresMsg);
-					paginationGrid.bindUserInput(this, null, erroresMsg);
+				if (isQueryEvent(this.actionElement.getAttribute(DomainService.EVENT_ATTR))){
+					bindUserInput(myForm, erroresMsg);
+					bindUserInput(paginationGrid, erroresMsg);
 				}else{
-					myForm.bindPrimaryKeys(this, erroresMsg);
+					bindPrimaryKeys(myForm, erroresMsg);
 				}
 				
 				if (!erroresMsg.isEmpty()) {
@@ -154,7 +193,6 @@ public class ActionPagination extends AbstractPcmAction {
 					detailGridElement.getNamedValues().clear();
 					IEntityLogic entidadDetail = detailGridElement.getEntityDef();
 					IEntityLogic entidadPadre = myForm.searchEntityByNamespace(paginationGrid.getMasterNamespace());
-					paginationGrid.setMasterEvent(this.event);
 					String idMasterId = entidadPadre.getFieldKey().getPkFieldSet().iterator().next().getName();
 					String parameterNameOfMasterID = paginationGrid.getMasterNamespace().concat(".").concat(idMasterId);
 					paginationGrid.setMasterFormId(parameterNameOfMasterID);
@@ -275,7 +313,7 @@ public class ActionPagination extends AbstractPcmAction {
 				res.setSuccess(Boolean.FALSE);
 			} catch (final StrategyException stratExc) {
 				boolean defaultStrategy = stratExc.getMessage().indexOf("_STRATEGY_") != -1;
-				final MessageException errorMsg = new MessageException(stratExc.getMessage(), !defaultStrategy/*si es default strategy no es app rule***/, MessageException.ERROR);
+				final MessageException errorMsg = new MessageException(stratExc.getMessage(), !defaultStrategy, MessageException.ERROR);
 				final Collection<Object> params = stratExc.getParams();
 				if (params != null) {
 					final Iterator<Object> iteParams = params.iterator();

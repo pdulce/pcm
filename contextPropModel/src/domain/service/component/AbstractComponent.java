@@ -17,9 +17,7 @@ import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.ParameterBindingException;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.component.definitions.IFieldView;
@@ -34,7 +32,6 @@ import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.dto.FieldValue;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.dto.SerializedValues;
-import domain.service.event.IAction;
 import domain.service.event.IEvent;
 
 
@@ -86,12 +83,6 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 	public abstract IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException;
 
 	@Override
-	public abstract void bindPrimaryKeys(IAction accion, List<MessageException> msgs) throws ParameterBindingException;
-
-	@Override
-	public abstract void bindUserInput(IAction accion, List<FieldViewSet> fs, List<MessageException> msgs) throws ParameterBindingException;
-
-	@Override
 	public abstract String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 
 	protected abstract void initFieldViewSets(Element element_, Data data, final IDataAccess dataAccess)
@@ -106,18 +97,6 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 	@Override
 	public FieldViewSetCollection getFieldViewSetCollection() {
 		return this.fieldViewSetCollection == null ? null : this.fieldViewSetCollection.iterator().next();
-	}
-
-	protected final void bind(final IAction accion, final boolean onlyPK, final List<MessageException> messageExceptions)
-			throws ParameterBindingException {
-		// this.event = accion.getEvent();
-		final List<MessageException> messagesSubcomp = new ArrayList<MessageException>();
-		if (onlyPK) {
-			this.bindPrimaryKeys(accion, messagesSubcomp);
-		} else {
-			this.bindUserInput(accion, this.getFieldViewSets(), messagesSubcomp);
-		}
-		messageExceptions.addAll(messagesSubcomp);
 	}
 
 	@Override

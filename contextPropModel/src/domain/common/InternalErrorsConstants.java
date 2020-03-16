@@ -69,7 +69,7 @@ public final class InternalErrorsConstants {
 
 	public static final String CRITERIA_BBDD_ERROR = "AnsiSQLAbstractDAOImpl: ERROR caused by one or more FieldViewCollection like criteria, and another like prototype of resultset";
 
-	public static final String GETTING_USERINFO_EXCEPTION = "AbstractPcmAction: ERROR getting some info of user input";
+	public static final String GETTING_USERINFO_EXCEPTION = "AbstractAction: ERROR getting some info of user input";
 
 	public static final String COMPOSE_CONTAINER_EXCEPTION = "ActionForm: Fatal error composing container";
 

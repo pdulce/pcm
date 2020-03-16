@@ -97,11 +97,12 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		DomainService domainService = null;
 		try {
 			domainService = contextApp.getDomainService(data_.getService());
-			dataAccess = contextApp.getDataAccess(domainService, data_.getEvent());
+			Collection<String> conditions = domainService.extractStrategiesElementByAction(data_.getEvent()); ;
+			Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(data_.getEvent());
+			dataAccess = contextApp.getDataAccess(domainService, conditions, preconditions);
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error creating DataAccess object", e);
 		}
-		final String event = data_.getEvent();
 		
 		SceneResult scene = new SceneResult();
 		//long mills1 = Calendar.getInstance().getTimeInMillis();
@@ -130,7 +131,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 					paramGeneric4Entity);
 			
-			Form formSubmitted = (Form) BodyContainer.getContainerOfView(data_, dataAccess, domainService, event).getForms().iterator().next();
+			Form formSubmitted = (Form) BodyContainer.getContainerOfView(data_, dataAccess, domainService).getForms().iterator().next();
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
 				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {

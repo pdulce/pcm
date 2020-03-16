@@ -18,9 +18,7 @@ import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.ParameterBindingException;
 import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.ContextProperties;
 import domain.service.component.definitions.FieldView;
@@ -43,7 +41,6 @@ import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.Event;
 import domain.service.event.IAction;
 import domain.service.event.IEvent;
 
@@ -140,11 +137,6 @@ public class PaginationGrid extends AbstractComponent {
 	
 	public String getMasterEntityNamespace() {
 		return this.masterEntityNamespace;
-	}
-	
-	public void setMasterEvent(String masterEv) {
-		String[] masterEv_ = masterEv.split(PCMConstants.REGEXP_POINT);
-		this.masterEvent = masterEv_[0].concat(".").concat(Event.getShowFormEventOf(masterEv_[1]));
 	}
 
 	public String getMasterNamespace() {
@@ -748,7 +740,7 @@ public class PaginationGrid extends AbstractComponent {
 		for (int i = 0; i < headerLabelsCount; i++) {
 			final GenericHTMLElement labelheader = this.headerLabels.get(i);					
 			String orderPressed = data.getParameter(ORDENACION.concat(labelheader.getName()));
-			if (orderPressed == null && getDefaultOrderFields().equals(labelheader.getName())){
+			if (orderPressed == null && getDefaultOrderFields()[0].equals(labelheader.getName())){
 				orderPressed = getRevertedDefaultOrderDirection();
 			}else if (orderPressed == null){
 				orderPressed = getDefaultOrderDirection();
@@ -761,58 +753,7 @@ public class PaginationGrid extends AbstractComponent {
 			sbXML.append(labelheader.toHTML(Translator.traduceDictionaryModelDefined(lang, labelheader.getTitle())));
 		}
 		return sbXML.toString();
-	}
-
-	@Override
-	public void bindPrimaryKeys(final IAction accion, final List<MessageException> msgs) throws ParameterBindingException {
-		// nothing
-	}
-
-	@Override
-	public void bindUserInput(final IAction accion, final List<FieldViewSet> fs__, final List<MessageException> msgs)
-			throws ParameterBindingException {
-		if (!accion.isPaginationEvent()) {
-			return;
-		}
-		String[] actualOrderFields = null;
-		String actualOrderDirection = null;
-		//debe entrar aqui si tenoas un criterio de bosqueda activo
-		if (accion.getDataBus().getParameter(ORDENACION) != null
-				&& !PCMConstants.EMPTY_.equals(accion.getDataBus().getParameter(ORDENACION))) {
-			actualOrderFields = new String[]{accion.getDataBus().getParameter(ORDENACION)};
-			actualOrderDirection = accion.getDataBus().getParameter(DIRECCION);
-		} else if (accion.getDataBus().getParameter(ORDENACION_ACTUAL) != null 
-				&& !PCMConstants.EMPTY_.equals(accion.getDataBus().getParameter(ORDENACION_ACTUAL))	){ 
-			actualOrderFields = new String[]{accion.getDataBus().getParameter(ORDENACION_ACTUAL)};
-			actualOrderDirection = accion.getDataBus().getParameter(DIRECCION_ACTUAL);
-		} else if (actualOrderFields == null){
-			actualOrderFields = this.getDefaultOrderFields();
-			actualOrderDirection = this.getDefaultOrderDirection();
-			if (actualOrderFields == null || PCMConstants.EMPTY_.equals(actualOrderFields)) {
-				throw new ParameterBindingException(InternalErrorsConstants.GRID_ORDERFIELD_ERROR);
-			}
-			if (actualOrderDirection == null || PCMConstants.EMPTY_.equals(actualOrderDirection)) {
-				throw new ParameterBindingException(InternalErrorsConstants.GRID_ORDERDIR_ERROR);
-			}
-		}
-		int incrementoDePagina = 0;
-		if (accion.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED) != null
-				&& !IViewComponent.UNDEFINED.equals(accion.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED))) {
-			incrementoDePagina = Integer.parseInt(accion.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED));
-		}
-		this.setIncrementPage(incrementoDePagina);
-		final int currentPage = (accion.getDataBus().getParameter(PaginationGrid.CURRENT_PAGE) != null ? Integer.parseInt(accion
-				.getDataBus().getParameter(PaginationGrid.CURRENT_PAGE)) : 0);
-		this.setCurrentPage(currentPage + incrementoDePagina);
-		final int totalPages = (accion.getDataBus().getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? Integer.parseInt(accion
-				.getDataBus().getParameter(PaginationGrid.TOTAL_PAGINAS)) : 0);
-		this.setTotalPages(totalPages);
-		final int totalRecords = (accion.getDataBus().getParameter(PaginationGrid.TOTAL_RECORDS) != null ? Integer.parseInt(accion
-				.getDataBus().getParameter(PaginationGrid.TOTAL_RECORDS)) : 0);
-		this.setTotalRecords(totalRecords);
-		this.setOrdenationFieldsSel(actualOrderFields);
-		this.setOrdenacionDirectionSel(actualOrderDirection);
-	}
+	}	
 
 	protected String getNameContextForSelection() {
 		if (this.nameContext == null || PCMConstants.EMPTY_.equals(this.nameContext)) {
@@ -885,8 +826,7 @@ public class PaginationGrid extends AbstractComponent {
 				try {
 					IFieldView column = this.searchFieldView(this.headerLabels.get(i).getName());
 					if (column == null) {
-						continue;// esta columna no esto en el formulario pero quiero sacarla en el
-									// grid!!
+						continue;
 					}
 					Serializable valueOfColumn = !this.getValueOfField(this.headerLabels.get(i).getName(), rowCounter).isNull() ? this
 							.getValueOfField(this.headerLabels.get(i).getName(), rowCounter).getValue() : PCMConstants.EMPTY_;
@@ -942,8 +882,6 @@ public class PaginationGrid extends AbstractComponent {
 							OptionsSelection options = column.getFieldAndEntityForThisOption();
 							IEntityLogic parentEntity = EntityLogicFactory.getFactoryInstance().getEntityDef(dict,
 									options.getEntityFromCharge());
-							
-							//extraemos el valor de la pk en el row
 							IFieldLogic pkOfEntity = parentEntity.getFieldKey().getPkFieldSet().iterator().next();
 							String columnNameOfPk = parentEntity.getName().concat(".").concat(pkOfEntity.getName());
 							FieldViewSet fieldViewSetOfThisFK = row.getFieldViewSet(columnNameOfPk, fkValueOfColumn);
@@ -969,7 +907,6 @@ public class PaginationGrid extends AbstractComponent {
 									}
 								}
 							}
-
 						} else if (column.getEntityField().getAbstractField().isBoolean()) {
 							final String valueOfColumn_ = valueOfColumn != null ? valueOfColumn.toString() : PCMConstants.EMPTY_;
 							valueOfColumn = Translator.traducePCMDefined(lang, valueOfColumn_);
@@ -981,8 +918,7 @@ public class PaginationGrid extends AbstractComponent {
 							XmlUtils.closeXmlNode(rowXML, "a");
 							valueOfColumn = PCMConstants.EMPTY_;
 						}
-						valueOfColumn = column.hasNOptionsToChoose() ? valueOfColumn : column.formatToString(valueOfColumn);
-						
+						valueOfColumn = column.hasNOptionsToChoose() ? valueOfColumn : column.formatToString(valueOfColumn);						
 						if (column.getEntityField().getAbstractField().getMaxLength() > 100){
 							valueOfColumn = valueOfColumn.toString().replaceAll("\r", "");
 							valueOfColumn = valueOfColumn.toString().replaceAll("\t", "");
@@ -993,8 +929,6 @@ public class PaginationGrid extends AbstractComponent {
 								valueOfColumn = valueOfColumn.toString().replaceFirst(toReplaceWith_Negr, "<B>".concat(toReplaceWith_Negr).concat("</B><HR>"));
 							}
 						}
-						
-						//tratamiento para contenido de un campo que viene ya formateado para ser mostrado en forma de lista en pantalla (para campos 1:N en BBDD)
 						if (valueOfColumn != null && valueOfColumn.toString().startsWith("&lt;P&gt;&lt;UL&gt;")){
 							XmlUtils.openXmlNode(rowXML, "UL");
 							
@@ -1027,20 +961,12 @@ public class PaginationGrid extends AbstractComponent {
 								XmlUtils.closeXmlNode(rowXML, "P");
 							}
 						}
-						
 						XmlUtils.closeXmlNode(rowXML, IViewComponent.TABLE_COLUMN);
-
-					}
-					
-					
-
-					
-				}
-				catch (Throwable excc) {
+					}					
+				}catch (Throwable excc) {
 					excc.printStackTrace();
 					return;
 				}
-
 			}// for each TD
 			XmlUtils.closeXmlNode(rowXML, IViewComponent.TABLE_ROW);
 			rows.append(rowXML);

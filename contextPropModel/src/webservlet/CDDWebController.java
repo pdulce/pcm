@@ -74,7 +74,7 @@ public class CDDWebController extends HttpServlet {
 	protected ApplicationDomain contextApp;	
 	protected NavigationAppManager navigationManager;
 	
-	protected Map<String, Collection<String>> sceneMap = new HashMap<String, Collection<String>>();
+	protected Map<String, Collection<String>> sceneMap_ = new HashMap<String, Collection<String>>();
 		
 	protected void setResponseMimeTypeAttrs(final HttpServletResponse response, int size, String extension) {
 		response.setContentType(MimeTypes.mimeTypes.get(extension) == null ? "application/".concat(extension) : MimeTypes.mimeTypes.get(extension));
@@ -107,7 +107,6 @@ public class CDDWebController extends HttpServlet {
 				return;
 			}
 			this.webconfig = globalCfg_;
-			
 			InputStream cddConfig = globalCfg_.getServletContext().getResourceAsStream(CONFIG_CDD_XML);
 			if (cddConfig == null){
 				throw new ServletException("navigationWebModel file not found, relative path: " + CONFIG_CDD_XML);
@@ -131,23 +130,12 @@ public class CDDWebController extends HttpServlet {
 				throw new PCMConfigurationException("downloadDir does not exist");
 			}
 			this.contextApp.invoke();
-			
 			this.navigationManager = new NavigationAppManager(
 					this.contextApp.getResourcesConfiguration().getNavigationApp(), globalCfg_.getServletContext());
-			
-						if (this.sceneMap != null && this.sceneMap.isEmpty()) {
-				final Iterator<String> servicesIte = this.contextApp.extractServiceNames().iterator();
-				this.sceneMap = new HashMap<String, Collection<String>>();
-				while (servicesIte.hasNext()) {
-					final String serviceName = servicesIte.next();
-					this.sceneMap.put(serviceName, this.contextApp.discoverAllEvents(serviceName));
-				}
-			}			
-		}
-		catch (final PCMConfigurationException excCfg) {
+						
+		} catch (final PCMConfigurationException excCfg) {
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, excCfg);
-		}
-		catch (final Throwable exc) {
+		} catch (final Throwable exc) {
 			CDDWebController.log.log(Level.SEVERE, "Init Error: ", exc);
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, exc);
 		}

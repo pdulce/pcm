@@ -1,10 +1,11 @@
 package domain.service.event;
 
 import java.util.Collection;
+import java.util.List;
 
-import domain.common.exceptions.BindPcmException;
 import domain.common.exceptions.MessageException;
-import domain.service.component.definitions.IFieldView;
+import domain.common.exceptions.ParameterBindingException;
+import domain.service.component.IViewComponent;
 import domain.service.conditions.IStrategyFactory;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.dto.Data;
@@ -101,6 +102,9 @@ public interface IAction {
 			Collection<MessageException> previousMessages);
 
 	public Data getDataBus();
+	
+	public void bind(final boolean onlyPK, IViewComponent component, final List<MessageException> messageExceptions)
+			throws ParameterBindingException;
 
 	public boolean isPaginationEvent();
 
@@ -110,12 +114,6 @@ public interface IAction {
 
 	public void setRegisteredEvents(Collection<String> registeredEvents_);
 
-	public String getEvent();
-
-	public void setEvent(String event);
-
-	public Collection<String> getRequestValues(IFieldView fieldView) throws BindPcmException;
-
 	public String getTarget();
 
 	public String getSubmitSuccess();
@@ -123,5 +121,9 @@ public interface IAction {
 	public String getSubmitError();
 
 	public void setStrategyFactory(IStrategyFactory fact);
+	
+	public boolean isPageEvent();
+	
+	public String getEvent();
 
 }

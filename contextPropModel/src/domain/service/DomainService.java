@@ -34,9 +34,8 @@ import domain.service.component.factory.IBodyContainer;
 import domain.service.conditions.DefaultStrategyLogin;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.dto.Data;
-import domain.service.event.AbstractPcmAction;
+import domain.service.event.AbstractAction;
 import domain.service.event.ActionPagination;
-import domain.service.event.Event;
 import domain.service.event.IAction;
 import domain.service.event.SceneResult;
 
@@ -100,7 +99,7 @@ public class DomainService {
 		this.isInitial = true;
 	}
 	
-	private final Collection<Element> discoverAllActions() {
+	public final Collection<Element> discoverAllActions() {
 		final Collection<Element> events = new ArrayList<Element>();
 		try {
 			final NodeList actionNodeSet = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
@@ -112,8 +111,6 @@ public class DomainService {
 		}
 		return events;
 	}
-	
-	
 	
 	
 	public final void readDomainService() throws SAXException, IOException,
@@ -274,7 +271,7 @@ public class DomainService {
 		String serviceRedirect = null;
 		String eventRedirect = null;
 		try {
-			IBodyContainer containerView = BodyContainer.getContainerOfView(data, dataAccess, this, event);
+			IBodyContainer containerView = BodyContainer.getContainerOfView(data, dataAccess, this);
 			if (dataAccess.getPreconditionStrategies().isEmpty()) {
 				dataAccess.getPreconditionStrategies().addAll(
 						this.extractStrategiesPreElementByAction(event));
@@ -302,16 +299,14 @@ public class DomainService {
 						
 						serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
 						eventRedirect = sceneRedirect.substring(serviceRedirect.length() + 1, sceneRedirect.length());
-						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(data, dataAccess, serviceRedirectDomain, eventRedirect);
+						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(data, dataAccess, serviceRedirectDomain);
 						
-						if (!(Event.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
-							Element elementAction = serviceRedirectDomain.extractActionElementByService(eventRedirect);
+						if (!(AbstractAction.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
+							Element elementActionRedirect = serviceRedirectDomain.extractActionElementByService(eventRedirect);
 							IAction actionObjectOfRedirect = null;
 							try {
-								Collection<String> regEvents = new ArrayList<String>();
-								actionObjectOfRedirect = AbstractPcmAction.getAction(containerViewRedirect,	elementAction, eventRedirect, data, regEvents);
-							}
-							catch (final PCMConfigurationException configExcep) {
+								actionObjectOfRedirect = AbstractAction.getAction(containerViewRedirect,	elementActionRedirect, data, discoverAllEvents());
+							} catch (final PCMConfigurationException configExcep) {
 								throw configExcep;
 							}							
 							sceneResult = serviceRedirectDomain.invokeServiceCore(_dataAccess, eventRedirect, data, false, actionObjectOfRedirect, 
@@ -324,10 +319,9 @@ public class DomainService {
 							while (iteratorGrids.hasNext()) {
 								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 								if (paginationGrid.getMasterNamespace() != null) {
-									final ActionPagination actionPagination = new ActionPagination(containerViewRedirect, data, elementAction, eventRedirect);
-									actionPagination.setEvent(serviceRedirect.concat(".").concat(eventRedirect)); 
-									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, false/*eventSubmitted*/, messageExceptions)
-											.getXhtml());
+									final ActionPagination actionPagination = new ActionPagination(containerViewRedirect, data, elementActionRedirect);
+									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, 
+											false/*eventSubmitted*/, messageExceptions).getXhtml());
 									break;
 								}
 							}
@@ -339,8 +333,7 @@ public class DomainService {
 			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(containerView, data, this.extractActionElementByService(event), event);
-					actionPagination.setEvent(this.getUseCaseName().concat(".").concat(event)); 
+					final ActionPagination actionPagination = new ActionPagination(containerView, data, this.extractActionElementByService(event));
 					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventSubmitted, messageExceptions)
 							.getXhtml());
 					break;

@@ -42,6 +42,7 @@ import domain.service.DomainService;
 import domain.service.component.BodyContainer;
 import domain.service.component.IViewComponent;
 import domain.service.component.XmlUtils;
+import domain.service.component.factory.IBodyContainer;
 import domain.service.dataccess.DataAccess;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.comparator.ComparatorLexicographic;
@@ -53,8 +54,7 @@ import domain.service.dataccess.factory.LogicDataCacheFactory;
 import domain.service.dataccess.persistence.DAOConnection;
 import domain.service.dataccess.persistence.datasource.IPCMDataSource;
 import domain.service.dataccess.persistence.datasource.PCMDataSourceFactory;
-import domain.service.event.AbstractPcmAction;
-import domain.service.event.Event;
+import domain.service.event.AbstractAction;
 import domain.service.event.IAction;
 import domain.service.event.IEvent;
 import domain.service.event.SceneResult;
@@ -289,7 +289,8 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	public IDataAccess getDataAccess(final DomainService domainService, final String event) 
+	public IDataAccess getDataAccess(final DomainService domainService, 
+			final Collection<String> conditions, final Collection<String> preconditions) 
 			throws PCMConfigurationException {
 		try {			
 			DAOConnection conn = this.resourcesConfiguration.getDataSourceFactoryImplObject().getConnection();
@@ -300,8 +301,7 @@ public class ApplicationDomain implements Serializable {
 			return new DataAccess(this.resourcesConfiguration.getEntitiesDictionary(), 
 					DAOImplementationFactory.getFactoryInstance()
 					.getDAOImpl(this.resourcesConfiguration.getDSourceImpl()), conn, 
-					domainService.extractStrategiesElementByAction(event), 
-					domainService.extractStrategiesPreElementByAction(event), 
+					conditions, preconditions,
 					this.resourcesConfiguration.getDataSourceFactoryImplObject(), 
 					this.resourcesConfiguration.isAuditOn());
 		} catch (final PCMConfigurationException sqlExc) {
@@ -342,10 +342,6 @@ public class ApplicationDomain implements Serializable {
 		return services;
 	}
 	
-	
-	public final Collection<String> discoverAllEvents(final String subcaseName) {
-		return getDomainService(subcaseName).discoverAllEvents();
-	}
 	
 	public String paintConfiguration(final Data data) {
 			
@@ -397,18 +393,25 @@ public class ApplicationDomain implements Serializable {
 				ApplicationDomain.log.log(Level.SEVERE, s.toString());
 				throw new PCMConfigurationException(s.toString());
 			}
-			if (Event.isQueryEvent(data.getEvent())) {
-				dataAccess_ = getDataAccess(domainService, IEvent.QUERY);
-			} else if (Event.isFormularyEntryEvent(data.getEvent()) && discoverAllEvents(data.getService()).
-					contains(Event.getInherentEvent(data.getEvent()))) {
-				dataAccess_ = getDataAccess(domainService, Event.getInherentEvent(data.getEvent()));					
+			Collection<String> conditions = null, preconditions = null;
+			if (AbstractAction.isQueryEvent(data.getEvent())) {
+				conditions = domainService.extractStrategiesElementByAction(event); 
+				preconditions = domainService.extractStrategiesPreElementByAction(event);
+				dataAccess_ = getDataAccess(domainService, conditions, preconditions);
+			} else if (AbstractAction.isFormularyEntryEvent(data.getEvent()) && domainService.discoverAllEvents().
+					contains(AbstractAction.getInherentEvent(data.getEvent()))) {
+				final String event4DataAccess = AbstractAction.getInherentEvent(data.getEvent());
+				conditions = domainService.extractStrategiesElementByAction(event4DataAccess);
+				preconditions = domainService.extractStrategiesPreElementByAction(event4DataAccess);
 			} else {
-				dataAccess_ = getDataAccess(domainService, data.getEvent());
+				conditions = domainService.extractStrategiesElementByAction(event);
+				preconditions = domainService.extractStrategiesPreElementByAction(event);
 			}
-			IAction	action = AbstractPcmAction.getAction(BodyContainer.getContainerOfView(data, dataAccess_, 
-					domainService,	data.getEvent()), domainService.extractActionElementByService(data.getEvent()), 
-					data.getEvent(), data, 
-					discoverAllEvents(data.getService()));
+			dataAccess_ = getDataAccess(domainService, conditions, preconditions);
+			IBodyContainer container = BodyContainer.getContainerOfView(data, dataAccess_, domainService);
+			IAction	action = AbstractAction.getAction(container,
+					domainService.extractActionElementByService(data.getEvent()), 
+					data, domainService.discoverAllEvents());
 			List<MessageException> messages = new ArrayList<MessageException>();
 			SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, data.getEvent(), data, 
 					eventSubmitted, action, messages);
@@ -426,8 +429,7 @@ public class ApplicationDomain implements Serializable {
 				domainService.setInitial();
 			}
 			domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, 
-					data.getEvent(), data, 
-					eventSubmitted, action, messages);
+					data.getEvent(), data, eventSubmitted, action, messages);
 			
 			final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
 			htmFormElement_.append(IViewComponent.FORM_ATTRS);

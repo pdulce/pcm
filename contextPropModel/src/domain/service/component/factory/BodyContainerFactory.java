@@ -30,17 +30,18 @@ public class BodyContainerFactory {
 	private final Map<String, IBodyContainer> viewcomponents;
 
 	public IBodyContainer getViewComponent(final IDataAccess dataAccess,
-			final Data data, final DomainService domainService, final String event) throws PCMConfigurationException,
+			final Data data, final DomainService domainService) throws PCMConfigurationException,
 			DatabaseException {
 		
 		String profile = (String) data.getAppProfile();
 		profile = profile == null ? "" : profile;
 		final String entityNameParamValue = data.getParameter(IBodyContainer.ENTITYPARAM) == null ? PCMConstants.EMPTY_ : data
 				.getParameter(IBodyContainer.ENTITYPARAM);
-		final String strName = new StringBuilder(PCMConstants.UNDERSCORE).append(domainService.getUseCaseName()).append(PCMConstants.UNDERSCORE).append(event)
+		final String strName = new StringBuilder(PCMConstants.UNDERSCORE).append(domainService.getUseCaseName()).
+				append(PCMConstants.UNDERSCORE).append(data.getEvent())
 				.append(PCMConstants.UNDERSCORE).append(entityNameParamValue).append(profile).toString();
 		if (this.viewcomponents.get(strName) == null) {
-			this.viewcomponents.put(strName, new BodyContainer(domainService, dataAccess, data, event));
+			this.viewcomponents.put(strName, new BodyContainer(domainService, dataAccess, data));
 		}
 		return this.viewcomponents.get(strName).copyOf();
 	}

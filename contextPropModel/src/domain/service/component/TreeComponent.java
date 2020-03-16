@@ -6,7 +6,6 @@ package domain.service.component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -17,14 +16,10 @@ import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.ParameterBindingException;
 import domain.service.DomainService;
-import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.dto.Data;
-import domain.service.event.IAction;
 
 
 /**
@@ -180,25 +175,6 @@ public class TreeComponent extends AbstractComponent {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * 
-	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#bindPrimaryKeys(
-	 * contextmodel.framework.comunication.actions.IAction) */
-	@Override
-	public void bindPrimaryKeys(final IAction accion, final List<MessageException> parqMensajes) throws ParameterBindingException {
-		// nothing
-	}
-
-	/* (non-Javadoc)
-	 * 
-	 * @see
-	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#bindUserInput(contextmodel
-	 * .framework.comunication.actions.IAction) */
-	@Override
-	public void bindUserInput(final IAction accion, final List<FieldViewSet> fs, final List<MessageException> parqMensajes)
-			throws ParameterBindingException {
-		// nothing
-	}
 
 	/* (non-Javadoc)
 	 * 

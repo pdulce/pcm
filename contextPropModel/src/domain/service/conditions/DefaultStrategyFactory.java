@@ -2,37 +2,26 @@ package domain.service.conditions;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import domain.common.InternalErrorsConstants;
 import domain.common.exceptions.StrategyException;
 
 
 public class DefaultStrategyFactory implements IStrategyFactory {
 
-	private static final int INIT_SIZE = 3, MAX_STRATEGIES = 100;
-
-	private static final String STRAT_CREATE = "DefaultStrategyCreate", STRAT_UPDATE = "DefaultStrategyUpdate",
+	private static final String STRAT_CREATE = "DefaultStrategyCreate", 
+			STRAT_UPDATE = "DefaultStrategyUpdate",
 			STRAT_DELETE = "DefaultStrategyDelete";
 
-	private static IStrategyFactory defaultStrategyFactory = new DefaultStrategyFactory();
-
-	private static Map<String, IStrategy> strategies = new HashMap<String, IStrategy>(INIT_SIZE);
-	static {
-		strategies.put(STRAT_CREATE, new DefaultStrategyCreate());
-		strategies.put(STRAT_UPDATE, new DefaultStrategyUpdate());
-		strategies.put(STRAT_DELETE, new DefaultStrategyDelete());
-	}
-
-	public static IStrategyFactory getFactoryInstance() {
-		return defaultStrategyFactory;
-	}
+	private Map<String, IStrategy> strategies;
 	
 	public IStrategy getDefaultForIntegrityDeletes(){
 		return new DefaultStrategyDelete();
 	}
 
-	private DefaultStrategyFactory() {
-		// nothing
+	public DefaultStrategyFactory() {
+		strategies = new HashMap<String, IStrategy>(10);
+		strategies.put(STRAT_CREATE, new DefaultStrategyCreate());
+		strategies.put(STRAT_UPDATE, new DefaultStrategyUpdate());
+		strategies.put(STRAT_DELETE, new DefaultStrategyDelete());
 	}
 
 	@Override
@@ -42,14 +31,7 @@ public class DefaultStrategyFactory implements IStrategyFactory {
 
 	@Override
 	public void addStrategy(final String name, final IStrategy strategy) throws StrategyException {
-		synchronized (strategies) {
-			if (strategies.size() < MAX_STRATEGIES) {
-				strategies.put(name, strategy);
-			} else {
-				throw new StrategyException(InternalErrorsConstants.ERROR_ADDING_STRATEGY.replaceFirst(InternalErrorsConstants.ARG_1,
-						String.valueOf(MAX_STRATEGIES)));
-			}
-		}
+		strategies.put(name, strategy);
 	}
 
 }

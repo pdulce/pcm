@@ -1,8 +1,11 @@
 package domain.service.event;
 
+import java.io.File;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,6 +20,7 @@ import org.w3c.dom.Element;
 
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
+import domain.common.exceptions.BindPcmException;
 import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.KeyNotFoundException;
 import domain.common.exceptions.MessageException;
@@ -25,20 +29,26 @@ import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
 import domain.common.utils.CommonUtils;
+import domain.service.DomainService;
 import domain.service.component.Form;
 import domain.service.component.IViewComponent;
+import domain.service.component.PaginationGrid;
 import domain.service.component.XmlUtils;
+import domain.service.component.definitions.ContextProperties;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.component.definitions.IFieldView;
 import domain.service.component.factory.IBodyContainer;
 import domain.service.conditions.DefaultStrategyLogin;
 import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.FieldCompositePK;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.AppCacheFactory;
+import domain.service.event.validators.IValidator;
+import domain.service.event.validators.RelationalAndCIFValidator;
 
 
 /**
@@ -53,7 +63,7 @@ import domain.service.dataccess.factory.AppCacheFactory;
  * @since 2014-03-31
  */
 
-public class ActionForm extends AbstractPcmAction {
+public class ActionForm extends AbstractAction {
 	
 	protected static Logger log = Logger.getLogger(ActionForm.class.getName());
 	static {
@@ -69,11 +79,13 @@ public class ActionForm extends AbstractPcmAction {
 		}
 	}
 	private final Map<String, String> audits;
+
+
 	
-	public ActionForm(final IBodyContainer container_, final Data data_, final Element actionElement_, 
-			final String event_, final Collection<String> actionSet) {
+	
+	public ActionForm(final IBodyContainer container_, final Data data_, 
+			final Element actionElement_, final Collection<String> actionSet) {
 		this.data = data_;
-		this.setEvent(event_);
 		this.container = container_;
 		this.registeredEvents = actionSet;
 		this.audits = AppCacheFactory.getFactoryInstance().getAppCache();
@@ -82,12 +94,14 @@ public class ActionForm extends AbstractPcmAction {
 
 	@Override
 	public boolean isTransactional() {
-		return this.getEvent().equals(IEvent.UPDATE) || this.getEvent().equals(IEvent.DELETE) || this.getEvent().equals(IEvent.CREATE);
+		return this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.UPDATE) || 
+					this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.DELETE) || 
+						this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.CREATE);
 	}
 
 	@Override
 	public boolean isFormSubmitted() {
-		return this.getEvent().equals(IEvent.SUBMIT_FORM);
+		return this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.SUBMIT_FORM);
 	}
 
 	/*******************************************************************************************************************************************************************************
@@ -110,7 +124,8 @@ public class ActionForm extends AbstractPcmAction {
 		SceneResult result = new SceneResult();
 		final Collection<MessageException> erroresMsg = new ArrayList<MessageException>();
 		try {
-			result = executeEvent(dataAccess_, this.getEvent(), submittedEvent_, this.container, isAuditOn, prevMessages);
+			result = executeEvent(dataAccess_, this.actionElement.getAttribute(DomainService.EVENT_ATTR), submittedEvent_, 
+					this.container, isAuditOn, prevMessages);
 			Iterator<IViewComponent> iteForms = this.container.getForms().iterator();
 			while (iteForms.hasNext()) {
 				Form form_ = (Form) iteForms.next();
@@ -161,11 +176,56 @@ public class ActionForm extends AbstractPcmAction {
 				if (fieldView.isSeparator()) {
 					continue;
 				}
-				final Collection<String> vals = this.getRequestValues(fieldView);
+				final Collection<String> vals = this.getDataValues(fieldView);
 				fieldViewSet.setValues(fieldView.getQualifiedContextName(), vals);
 			}
 		} catch (final Throwable ezxx) {
 			ActionForm.log.log(Level.SEVERE, InternalErrorsConstants.SETTING_USERINFO_EXCEPTION, ezxx);
+		}
+	}
+	
+
+	public final Collection<String> getDataValues(final IFieldView fieldView) throws BindPcmException {
+		try {
+			final String reqParamN = fieldView.getQualifiedContextName();
+			final List<String> vals = new ArrayList<String>();
+			if (!fieldView.isUserDefined() && fieldView.getEntityField().getAbstractField().isBlob()) {
+				final File fSaved = (File) data.getAttribute(reqParamN);
+				if (fSaved != null) {
+					vals.add(fSaved.getAbsolutePath());
+				}
+			} else if (this.data.getParameter(reqParamN) != null
+					|| this.data.getAttribute(reqParamN) != null
+					|| ContextProperties.REQUEST_VALUE.equals(fieldView.getDefaultValueExpr())
+					|| !"".equals(fieldView.getDefaultFirstOfOptions())) {
+								
+				boolean eventSubmitted = AbstractAction.isTransactionalEvent(getEvent()) || 
+						this.data.getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? true : false;
+				
+				String[] valuesFromRequest = this.data.getParameterValues(reqParamN);
+				if (valuesFromRequest != null) {
+					for (final String value : valuesFromRequest) {
+						vals.add(value);
+					}
+				} else if (this.data.getAttribute(reqParamN) != null) {
+					vals.add(this.data.getAttribute(reqParamN).toString());
+				} else if (!eventSubmitted && fieldView.getDefaultFirstOfOptions() != null && !"".equals(fieldView.getDefaultFirstOfOptions())) {
+					vals.add(fieldView.getDefaultFirstOfOptions().toString());
+				}
+			} else if (this.data.getAttribute(reqParamN) != null
+					|| ContextProperties.SESSION_VALUE.equals(fieldView.getDefaultValueExpr())) {
+				vals.add(this.data.getAttribute(reqParamN).toString());
+			} else if (fieldView.isUserDefined() || fieldView.getFieldAndEntityForThisOption() == null) {
+				vals.add(fieldView.getDefaultValueExpr());
+			}
+			if (vals.size() == 1 && (vals.get(0) == null || "".equals(vals.get(0)))) {
+				vals.remove(vals.get(0));
+			}
+			return vals;
+		}
+		catch (final Throwable e) {
+			AbstractAction.log.log(Level.SEVERE, InternalErrorsConstants.GETTING_USERINFO_EXCEPTION, e);
+			throw new BindPcmException(InternalErrorsConstants.GETTING_USERINFO_EXCEPTION, e);
 		}
 	}
 	
@@ -176,7 +236,6 @@ public class ActionForm extends AbstractPcmAction {
 			}
 		}
 		return -1;
-		
 	}
 
 	private List<MessageException> bindingPhase(final String event_, final Form form_, 
@@ -187,8 +246,9 @@ public class ActionForm extends AbstractPcmAction {
 			return err;
 		}
 		final int positionOfFirstEntityForm = getFirstFSetOfEntity(form_.getFieldViewSets());
-		if (positionOfFirstEntityForm > -1 && (Event.isFormularyEntryEvent(this.event) || Event.isDetailEvent(this.event))) {
-			form_.bindPrimaryKeys(this, err);
+		if (positionOfFirstEntityForm > -1 && (isFormularyEntryEvent(this.actionElement.getAttribute(DomainService.EVENT_ATTR)) ||
+				isDetailEvent(getEvent()))) {
+			bindPrimaryKeys(form_, err);
 			if (!err.isEmpty() && !event_.equals(IEvent.SHOW_FORM_CREATE) && !event_.equals(IEvent.CREATE)) {
 				throw new KeyNotFoundException(InternalErrorsConstants.GETTING_PK_RECORD_EXCEPTION);
 			}
@@ -208,8 +268,9 @@ public class ActionForm extends AbstractPcmAction {
 						anyFieldWasFilled = fillPkValueWithForeignKey(fieldViewSet, form_.getFieldViewSetCollection().getFieldViewSets());
 					}
 					FieldViewSet fieldViewSetFromBBDD_ = dataAccess_.searchEntityByPk(fieldViewSet);
-					if (fieldViewSetFromBBDD_ == null && this.event.equals(IEvent.SHOW_FORM_CREATE) && anyFieldWasFilled) {
-						form_.bindUserInput(this, new ArrayList<MessageException>());
+					if (fieldViewSetFromBBDD_ == null && 
+							this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.SHOW_FORM_CREATE) && anyFieldWasFilled) {
+						bindUserInput(form_, new ArrayList<MessageException>());
 					} else if (fieldViewSetFromBBDD_ != null) {
 						Map<String, IFieldValue> newValues_ = fieldViewSetFromBBDD_.getNamedValues();
 						if (newValues_ == null) {
@@ -221,11 +282,11 @@ public class ActionForm extends AbstractPcmAction {
 			}
 		}// while
 		if (this.isTransactional() && submitted) {
-			form_.bindUserInput(this, err);
+			bindUserInput(form_, err);
 		}
 		return err;
 	}
-
+	
 	private boolean hasRelationshipWithAnotherEntity(IEntityLogic entidad, Collection<FieldViewSet> fieldviewsets) {
 		Iterator<FieldViewSet> iteFields = fieldviewsets.iterator();
 		while (iteFields.hasNext()) {
@@ -276,6 +337,190 @@ public class ActionForm extends AbstractPcmAction {
 		}
 		return wasFilledWithAnyValue;
 	}
+	
+	@Override
+	public void bindPrimaryKeys(final IViewComponent formComponent, final List<MessageException> parqMensajes) 
+			throws ParameterBindingException {
+		
+		Form form = (Form) formComponent;
+		form.setBindedPk(false);
+		String valueofPk = null;
+		boolean fieldViewSetWithEntityDef = false;
+		final Iterator<FieldViewSet> entitiesIte = form.getFieldViewSets().iterator();
+		while (entitiesIte.hasNext()) {
+			final FieldViewSet fieldViewSet = entitiesIte.next();
+			if (fieldViewSet.isUserDefined()) {
+				continue;
+			}			
+			String pkSel = fieldViewSet.getEntityDef().getFieldKey().getComposedName(fieldViewSet.getContextName());
+			if (isShowFormCreate(getEvent())) {// recarga por registro pattern
+				pkSel = pkSel.replaceFirst(PCMConstants.SEL_PREFFIX, PCMConstants.POINT).replaceFirst(PCMConstants.POINT_COMMA,
+						PCMConstants.EMPTY_);
+				final String val_ = this.getDataBus().getParameter(pkSel);
+				if (val_ == null || PCMConstants.EMPTY_.equals(val_)) {
+					continue;
+				}
+				final String newQualifiedName = new StringBuilder(fieldViewSet.getContextName()).append(FieldViewSet.FIELD_SEPARATOR)
+						.append(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName()).toString();
+				valueofPk = new StringBuilder(newQualifiedName).append(PCMConstants.EQUALS).append(val_).toString();
+			} else {
+				fieldViewSetWithEntityDef = true;
+				valueofPk = this.getDataBus().getParameter(pkSel);
+				String paramPKField = fieldViewSet.getContextName().concat(".").concat(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName());
+				if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {					
+					if (this.getDataBus().getParameter(paramPKField) != null){
+						valueofPk = paramPKField.concat("=").concat(this.getDataBus().getParameter(paramPKField));										
+					} else {
+						continue;
+					}
+				}else if (valueofPk != null && valueofPk.split("=").length < 2){
+					valueofPk = paramPKField.concat("=").concat(valueofPk);
+				}
+			}			
+			form.setEntityName(fieldViewSet.getEntityDef().getName());
+			final Map<String, Serializable> valoresCamposPK = FieldCompositePK.desempaquetarPK(valueofPk.toString(),
+					fieldViewSet.getContextName());
+			final Iterator<Map.Entry<String, Serializable>> ite = valoresCamposPK.entrySet().iterator();
+			while (ite.hasNext()) {
+				final Map.Entry<String, Serializable> entry = ite.next();
+				final String fieldValue = entry.getValue() != null ? entry.getValue().toString() : PCMConstants.EMPTY_;
+				final IFieldView fieldView = fieldViewSet.getFieldView(entry.getKey()/* qualifiedName */);
+				if (fieldView == null) {
+					final StringBuilder str = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL);
+					str.append(this.getEvent()).append(" key: ").append(entry.getKey());
+					throw new ParameterBindingException(str.toString());
+				}
+				if (fieldValue == null || PCMConstants.EMPTY_.equals(fieldValue.trim())) {
+					final MessageException parqMensaje = new MessageException(IAction.ERROR_BINDING_CODE);
+					parqMensaje.addParameter(new Parameter(IAction.FIELD_PARAM, fieldViewSet.getEntityDef().getFieldKey()
+							.getComposedName(fieldViewSet.getContextName())));
+					parqMensajes.add(parqMensaje);
+				} else {
+					fieldViewSet.setValue(fieldView.getQualifiedContextName(), fieldValue);
+					if (!form.isBindedPk()) {
+						form.setBindedPk(true);
+					}
+				}
+			}
+			break;
+		}
+		if (!form.isBindedPk() && fieldViewSetWithEntityDef) {
+			final MessageException parqMensaje = new MessageException(IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE);
+			parqMensaje.addParameter(new Parameter(PCMConstants.ENTIYY_PARAM, IAction.ERROR_NO_EXISTE_REGISTRO_MSG_CODE));
+			parqMensajes.add(parqMensaje);
+		}		
+	}
+	
+	@Override
+	public void bindUserInput(final IViewComponent formComponent, final List<MessageException> parqMensajes)
+			throws ParameterBindingException {
+		try {
+			Form form = (Form) formComponent;
+			final List<FieldViewSet> fieldViewSets = form.getFieldViewSets(); 
+			String submitWithUserInputs = null;
+			final boolean validacionObligatoria = isUniqueFormComposite(getEvent());
+			String minorRangeField = null, mayorRangeField = null;
+			final Iterator<FieldViewSet> fieldViewSetsIte = fieldViewSets.iterator();
+			form.setBindedPk(false);
+			while (fieldViewSetsIte.hasNext()) {
+				final FieldViewSet fieldViewSet = fieldViewSetsIte.next();
+				if (fieldViewSet == null) {
+					continue;
+				}
+				// limpiamos antiguos valores del filtro, formulario
+				fieldViewSet.resetFieldValuesMap();
+
+				final Iterator<IFieldView> fieldViewsIterador = fieldViewSet.getFieldViews().iterator();
+				while (fieldViewsIterador.hasNext()) {
+					final IFieldView fieldView = fieldViewsIterador.next();
+					if (fieldView.isSeparator()) {
+						continue;
+					}
+					
+					Collection<String> dataValues = getDataValues(fieldView);
+					if (dataValues.isEmpty()) {
+						final boolean required = validacionObligatoria
+								&& fieldView.isRequired()
+								&& (fieldView.isUserDefined() || (!fieldView.isUserDefined()
+										&& !fieldView.getEntityField().isAutoIncremental() && !fieldView.getEntityField().isSequence()));
+						if (required) {
+							final MessageException parqMensaje = new MessageException(IAction.ERROR_BINDING_CODE);
+							parqMensaje.addParameter(new Parameter(IAction.BINDING_CONCRETE_MSG, IValidator.DATA_NEEDED));
+							parqMensaje.addParameter(new Parameter(IViewComponent.ZERO, fieldView.getQualifiedContextName()));
+							parqMensajes.add(parqMensaje);
+						}
+						continue;
+					}
+					if (!fieldView.isUserDefined()){
+						if (submitWithUserInputs == null){
+							submitWithUserInputs = String.valueOf(fieldView.getEntityField().getMappingTo());	
+						}else{
+							submitWithUserInputs += ",".concat(String.valueOf(fieldView.getEntityField().getMappingTo()));
+						}						
+					}
+					
+					if (!fieldView.isUserDefined() && 
+							fieldView.getEntityField().getAbstractField().isTimestamp() && 
+								"SYSDATE()".equals(fieldView.getDefaultValueExpr())){
+						dataValues = new ArrayList<String>();
+						dataValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
+					}
+					if (fieldView.isCheckOrRadioOrCombo() || dataValues.size() > 1) {
+						fieldViewSet.resetValues(fieldView.getQualifiedContextName());
+						if (fieldView.isCheckOrRadioOrCombo()){
+							fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
+						}
+					}
+					if (!fieldView.isUserDefined()) {
+						if (fieldView.getEntityField().belongsPK()) {
+							form.setBindedPk(true);
+						}
+						final boolean fieldSinthacticValid = fieldView.isCheckOrRadioOrCombo() || 
+								fieldView.validateAndSaveValueInFieldview(getDataBus(), fieldViewSet,
+								validacionObligatoria, dataValues, this.getDataBus().getEntitiesDictionary(), parqMensajes);
+						if (fieldSinthacticValid) {
+
+							if (fieldView.isRankField()) {
+								final Serializable val = fieldViewSet.getValue(fieldView.getQualifiedContextName());								
+								if (val != null && !"".equals(val.toString())) {
+									if (fieldView.getRankField().isMinorInRange()) {
+										minorRangeField = fieldView.getQualifiedContextName();
+									} else {
+										mayorRangeField = fieldView.getQualifiedContextName();
+									}
+									if (minorRangeField != null && mayorRangeField != null) {
+										final Serializable minorVal = fieldViewSet.getValue(minorRangeField), mayorVal = fieldViewSet
+												.getValue(mayorRangeField);
+										final boolean semanthicIsCorrect = fieldView.getEntityField().getAbstractField().isDate() ? RelationalAndCIFValidator
+												.relationalDateValidation(minorVal, mayorVal) : RelationalAndCIFValidator
+												.relationalNumberValidation(minorVal, mayorVal);
+										if (!semanthicIsCorrect) {
+											final MessageException msg = new MessageException(IAction.ERROR_SEMANTHIC_CODE);
+											msg.addParameter(new Parameter(IAction.ERROR_SEMANTHIC_CODE, IValidator.DATA_RANGE_INVALID));
+											msg.addParameter(new Parameter(IViewComponent.ZERO, mayorRangeField));
+											msg.addParameter(new Parameter(IViewComponent.ONE, mayorVal.toString()));
+											msg.addParameter(new Parameter("2", minorRangeField));
+											msg.addParameter(new Parameter("3", minorVal.toString()));
+											parqMensajes.add(msg);
+										}
+										minorRangeField = null;
+										mayorRangeField = null;
+									}
+								}
+							}
+						}
+					}
+				}// for
+			}// while each fieldViewSet
+			
+			getDataBus().setAttribute("userCriteria", submitWithUserInputs);
+			
+		} catch (final Throwable excc2) {
+			ActionForm.log.log(Level.SEVERE, InternalErrorsConstants.BINDING_ERROR, excc2);
+			throw new ParameterBindingException(InternalErrorsConstants.BINDING_ERROR, excc2);
+		}
+	}
+
 
 	private SceneResult executeEvent(final IDataAccess dataAccess, 
 			final String event_, final boolean eventSubmitted_,
@@ -308,8 +553,7 @@ public class ActionForm extends AbstractPcmAction {
 							throw new ParameterBindingException("Errores en transaccion");
 						}
 						dataAccess.setAutocommit(false);
-						if (Event.isDeleteEvent(event_) ){
-							//ejecutar estrategia genorica de borrado protegiendo la integridad referencial	VS borrados en cascada											
+						if (isDeleteEvent(getEvent()) ){											
 							dataAccess.getPreconditionStrategies().add("cdd.strategies.DefaultStrategyDelete");
 						}
 					}
