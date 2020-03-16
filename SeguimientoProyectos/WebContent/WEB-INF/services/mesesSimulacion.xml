@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+	<service name="GestionMesesAnualidadPrevision" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="detail" submitError="GestionMesesAnualidadPrevision.detail"
+			submitSucces="GestionMesesAnualidadPrevision.detail">
+
+			<viewComponent>
+				<form columns="58" title="Mes de la anualidad de la simulacion">
+				
+					<userbuttons>
+						<button	link="Histogram3DStatsServlet"	id="histParam1" 
+							name="Histogram" >
+							<fieldViewSet nameSpace="histParam1">						
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="3"/>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="24" title="estimado según mes simulacion"></option>
+										<option code="49" title="facturado en mes"></option>
+										<option code="20" title="estimado TSA"></option>
+										<option code="21" title="estimado TSB"></option>		
+										<option code="22" title="estimado TSC"></option>
+										<option code="23" title="estimado TMA"></option>
+										<option code="45" title="facturado TSA"></option>
+										<option code="46" title="facturado TSB"></option>
+										<option code="47" title="facturado TSC"></option>
+										<option code="48" title="facturado TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+								<fieldView name="escalado" hidden="true" value="automatic"/>							
+							</fieldViewSet>
+						</button>
+						
+						<button link="PieChartStatsServlet" id="piechartParam2"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam2">
+								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="3"/>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="24" title="estimado según mes simulacion"></option>
+										<option code="49" title="facturado en mes"></option>
+										<option code="20" title="estimado TSA"></option>
+										<option code="21" title="estimado TSB"></option>		
+										<option code="22" title="estimado TSC"></option>
+										<option code="23" title="estimado TMA"></option>
+										<option code="45" title="facturado TSA"></option>
+										<option code="46" title="facturado TSB"></option>
+										<option code="47" title="facturado TSC"></option>
+										<option code="48" title="facturado TMA"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>						
+										
+					</userbuttons>					
+				
+					<fieldViewSet entitymodel="resultado_prevision_mes"
+						nameSpace="mesPrevisionForm">
+						
+						<fieldset legend="Simulacion de la mensualidad">
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" type="select" editable="false">
+								<optionValues entitymodel="resultado_prevision_anualidad"
+									descrMappingTo="3">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="50" editable="false"
+								labelStyle="font-size: 12px;color:#fgf;" />							
+							<fieldView mappingTo="4" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+						</fieldset>
+					
+						<fieldset legend="Horas previstas y saldos actuales">
+							<fieldView mappingTo="10" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="11" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="12" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="13" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="14" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="15" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="16" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="17" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="18" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="19" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+						</fieldset>
+												
+						<fieldset legend="Presupuesto previsto y saldos actuales">
+							<fieldView mappingTo="20" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="21" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="22" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="23" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="24" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="25" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="26" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="27" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="28" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="29" editable="false"
+								styleCss="font-weight: bold;color: #0404B4;" 
+								labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+						</fieldset>
+												
+						<fieldset legend="Ejecucion y facturado">
+							<fieldView mappingTo="40" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="41" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="42" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="43" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="44" editable="false"
+								styleCss="font-weight: bold;color: #61380B;" labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />							
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+														
+							<fieldView mappingTo="45" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="46" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="47" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="48" editable="false"
+								labelStyle="font-size: 11px;color:#fgf;" />
+							<fieldView mappingTo="49" editable="false"
+								styleCss="font-weight: bold;color: #61380B;" labelStyle="font-weight: bold;font-size: 12px;color:#fgf;" />
+						
+						</fieldset>
+						
+					</fieldViewSet>
+				</form>
+
+			</viewComponent>
+		</action>
+
+
+	</service>
+
+</service:service-group>
