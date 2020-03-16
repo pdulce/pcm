@@ -40,7 +40,6 @@ import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
-import domain.service.ResourcesConfig;
 import domain.service.component.BodyContainer;
 import domain.service.component.IViewComponent;
 import domain.service.component.XmlUtils;

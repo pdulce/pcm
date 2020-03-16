@@ -1,4 +1,4 @@
-package domain.service;
+package domain.application;
 
 import domain.common.PCMConstants;
 import domain.service.dataccess.persistence.datasource.IPCMDataSource;
