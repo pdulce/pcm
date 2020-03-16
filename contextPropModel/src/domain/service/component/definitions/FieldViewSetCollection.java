@@ -59,7 +59,7 @@ public class FieldViewSetCollection {
 		}
 	}
 
-	public static void updateFieldViews(final FieldViewSet criteriaFieldSet, final FieldViewSetCollection protoypeRows) {
+	public void updateFieldViews(final FieldViewSet criteriaFieldSet, final FieldViewSetCollection protoypeRows) {
 		if (protoypeRows != null) {
 			final List<FieldViewSet> fieldsActuales = protoypeRows.getFieldViewSets();
 			for (final FieldViewSet fieldSetPrototype : fieldsActuales) {
