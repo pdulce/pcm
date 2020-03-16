@@ -85,7 +85,7 @@ public class LauncherServlet extends CDDWebController {
 	}
 
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain context, 
+	protected String renderRequestFromNodePrv(final ApplicationDomain context, 
 			final Data data_) {
 		
 		
@@ -103,7 +103,7 @@ public class LauncherServlet extends CDDWebController {
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\""+PCMConstants.EVENT+"\" value=\"" + event + "\" />");
 		
 		if (data_.getParameter(ApplicationDomain.EXEC_PARAM) == null){
-			return new SceneResult();
+			return new SceneResult().getXhtml();
 		}else if (data_.getParameter(ApplicationDomain.EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
 			//actualizar todos los valores desde invertia.com/historicos
 			htmlOutput.append(new ValoresActuales().refrescarIndicesBursatiles(data_, dataAccess));						
@@ -115,7 +115,7 @@ public class LauncherServlet extends CDDWebController {
 		htmlOutput.append("</form>");
 		SceneResult scene = new SceneResult();
 		scene.appendXhtml(htmlOutput.toString());
-		return scene;
+		return scene.getXhtml();
 	}
 
 	
