@@ -1,7 +1,8 @@
-package cdd.domain.common.comparator;
+package cdd.domain.dataccess.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;
+
 
 /**
  * <h1>ComparatorInteger</h1> The ComparatorInteger class
@@ -13,16 +14,18 @@ import java.util.Comparator;
  * @since 2014-03-31
  */
 
-public class ComparatorInteger implements Comparator<Integer>, Serializable {
+public class ComparatorLexicographicStrings implements Comparator<String>, Serializable {
 
 	private static final long serialVersionUID = 235999829222211L;
 
 	@Override
-	public final int compare(final Integer entryMap1, final Integer entryMap2) {
+	public final int compare(final String entry1, final String entry2) {
 		int resultado = 0;
-		if (entryMap1.intValue() < entryMap2.intValue()) {
+		String s1 = entry1.toLowerCase();
+		String s2 = entry2.toLowerCase();
+		if (s1.compareTo(s2) < 0) {
 			resultado = -1;
-		} else if (entryMap1.intValue() > entryMap2.intValue()) {
+		} else if (s1.compareTo(s2) > 0) {
 			resultado = 1;
 		}
 		return resultado;

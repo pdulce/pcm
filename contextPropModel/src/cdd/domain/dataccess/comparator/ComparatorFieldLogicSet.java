@@ -1,7 +1,8 @@
-package cdd.domain.common.comparator;
+package cdd.domain.dataccess.comparator;
 
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.Map;
 
 import cdd.domain.dataccess.definitions.IFieldLogic;
 
@@ -16,12 +17,14 @@ import cdd.domain.dataccess.definitions.IFieldLogic;
  * @since 2014-03-31
  */
 
-public class ComparatorFieldLogic implements Comparator<IFieldLogic>, Serializable {
+public class ComparatorFieldLogicSet implements Comparator<Map.Entry<String, IFieldLogic>>, Serializable {
 
 	private static final long serialVersionUID = 235999829222211L;
 
 	@Override
-	public final int compare(final IFieldLogic obj1, final IFieldLogic obj2) {		
+	public final int compare(final Map.Entry<String, IFieldLogic> entryMap1, final Map.Entry<String, IFieldLogic> entryMap2) {
+		final IFieldLogic obj1 = entryMap1.getValue();
+		final IFieldLogic obj2 = entryMap2.getValue();
 		int resultado = 0;
 		if (obj1.getMappingTo() < obj2.getMappingTo()) {
 			resultado = -1;

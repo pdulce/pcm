@@ -10,12 +10,12 @@ import java.util.Map.Entry;
 
 import org.json.simple.JSONArray;
 
-import cdd.domain.common.comparator.ComparatorEntryWithDouble;
 import cdd.domain.common.exceptions.DatabaseException;
 import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.Translator;
 import cdd.domain.component.definitions.FieldViewSet;
 import cdd.domain.component.definitions.IFieldView;
+import cdd.domain.dataccess.comparator.ComparatorEntryWithDouble;
 import cdd.domain.dataccess.definitions.IFieldLogic;
 import cdd.domain.dataccess.dto.Data;
 import cdd.webapp.stats.IStats;

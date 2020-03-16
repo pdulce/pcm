@@ -9,9 +9,9 @@ import java.util.Map;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
-import cdd.domain.common.comparator.ComparatorDouble;
-import cdd.domain.common.comparator.ComparatorVariablesXY;
 import cdd.domain.common.utils.CommonUtils;
+import cdd.domain.dataccess.comparator.ComparatorDouble;
+import cdd.domain.dataccess.comparator.ComparatorVariablesXY;
 
 
 /**

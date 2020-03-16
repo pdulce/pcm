@@ -36,7 +36,6 @@ import org.xml.sax.SAXException;
 
 import cdd.domain.common.InternalErrorsConstants;
 import cdd.domain.common.PCMConstants;
-import cdd.domain.common.comparator.ComparatorLexicographic;
 import cdd.domain.common.exceptions.DatabaseException;
 import cdd.domain.common.exceptions.MessageException;
 import cdd.domain.common.exceptions.PCMConfigurationException;
@@ -45,6 +44,7 @@ import cdd.domain.component.IViewComponent;
 import cdd.domain.component.XmlUtils;
 import cdd.domain.dataccess.DataAccess;
 import cdd.domain.dataccess.IDataAccess;
+import cdd.domain.dataccess.comparator.ComparatorLexicographic;
 import cdd.domain.dataccess.dto.Data;
 import cdd.domain.dataccess.factory.AppCacheFactory;
 import cdd.domain.dataccess.factory.DAOImplementationFactory;

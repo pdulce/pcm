@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 import cdd.domain.common.PCMConstants;
-import cdd.domain.common.comparator.ComparatorFieldLogic;
 import cdd.domain.common.utils.CommonUtils;
 import cdd.domain.component.XmlUtils;
 import cdd.domain.component.element.ICtrl;
+import cdd.domain.dataccess.comparator.ComparatorFieldLogic;
 import cdd.domain.dataccess.definitions.EntityLogic;
 import cdd.domain.dataccess.definitions.FieldAbstract;
 import cdd.domain.dataccess.definitions.IEntityLogic;

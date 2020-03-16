@@ -1,4 +1,4 @@
-package cdd.domain.common.comparator;
+package cdd.domain.dataccess.comparator;
 
 import java.io.File;
 import java.io.Serializable;

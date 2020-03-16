@@ -1,8 +1,8 @@
-package cdd.domain.common.comparator;
+package cdd.domain.dataccess.comparator;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Comparator;
-
 
 /**
  * <h1>ComparatorInteger</h1> The ComparatorInteger class
@@ -14,15 +14,15 @@ import java.util.Comparator;
  * @since 2014-03-31
  */
 
-public class ComparatorLexicographicStrings implements Comparator<String>, Serializable {
+public class ComparatorLexicographicWithFiles implements Comparator<File>, Serializable {
 
-	private static final long serialVersionUID = 235999829222211L;
+	private static final long serialVersionUID = 237687686786781L;
 
 	@Override
-	public final int compare(final String entry1, final String entry2) {
+	public final int compare(final File entry1, final File entry2) {
 		int resultado = 0;
-		String s1 = entry1.toLowerCase();
-		String s2 = entry2.toLowerCase();
+		String s1 = entry1.getName().toLowerCase();
+		String s2 = entry2.getName().toLowerCase();
 		if (s1.compareTo(s2) < 0) {
 			resultado = -1;
 		} else if (s1.compareTo(s2) > 0) {
