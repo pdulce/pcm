@@ -7,7 +7,7 @@ https://github.com/pdulce/SeguimientoProyectos/WebContent/WEB-INF/**.xml
 	<entry key="auditActivated" value="false"></entry>
 	<entry key="template" value="/jsp/template.jsp"></entry>
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
-	<entry key="datasourceImpl" value="cdd.domain.entitymodel.persistence.SqliteDAOSQLImpl"></entry>
+	<entry key="datasourceImpl" value="cdd.domain.dataccess.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
 	value="file:///home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/entities.xml"></entry>
 	<entry key="navigationApp" 
