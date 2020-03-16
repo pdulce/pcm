@@ -6,8 +6,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
 	
-<service
-	name="GestionTarifasInternas" profile="ADMINISTRADOR, CONSULTOR_UTE">
+	<service
+		name="GestionTarifasInternas" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="GestionTarifasInternas.query"
 			submitSucces="GestionTarifasInternas.query">

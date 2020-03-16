@@ -6,7 +6,7 @@ xmlns:service="http://pcm.framework.org/service"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
 	
-<service name="GestionProyectos" profile="ADMINISTRADOR, CONSULTOR_UTE">
+	<service name="GestionProyectos" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="GestionProyectos.query"
 			submitSucces="GestionProyectos.query">
@@ -588,59 +588,6 @@ xmlns:service="http://pcm.framework.org/service"
 		</action>
 	
 	</service>
-	
-<service name="GestionAppsColaborador" profile="ADMINISTRADOR, CONSULTOR_UTE">
-		
-		<action event="delete" submitError="GestionAppsColaborador.delete"
-			submitSucces="GestionProyectos.update"
-			strategy="facturacionUte.strategies.concursos.StrategyBorrarUTsMesColabyApp">
 
-			<viewComponent>
-				<form columns="53" title="Desasignar app a colaborador">
-					<fieldViewSet entitymodel="appColaborador" nameSpace="appColaborador">
-						<fieldView mappingTo="1" hidden="true"/>
-						<fieldView mappingTo="3" type="select" editable="false">
-							<optionValues entitymodel="proyecto"
-								descrMappingTo="3, 2">
-							</optionValues>
-						</fieldView>
-						<fieldView separator="br" />
-						<fieldView separator="br" />		
-						<fieldView mappingTo="2" type="select" editable="false">
-							<optionValues entitymodel="colaborador"
-								descrMappingTo="3, 2">
-							</optionValues>
-						</fieldView>						
-					</fieldViewSet>
-				</form>
-			</viewComponent>
-		</action>
-
-		<action event="create" submitError="GestionAppsColaborador.create"
-			submitSucces="GestionProyectos.update"
-			strategyPre="facturacionUte.strategies.concursos.StrategySeleccionColabyApp"
-			strategy="facturacionUte.strategies.concursos.StrategyGrabarUTsMesColabyApp">
-
-			<viewComponent>
-				<form columns="53" title="Asignar app a colaborador">
-					<fieldViewSet entitymodel="appColaborador" nameSpace="appColaborador">
-						<fieldView mappingTo="3" type="select">
-							<optionValues entitymodel="proyecto"
-								descrMappingTo="3, 2">
-							</optionValues>
-						</fieldView>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="2" type="select">
-							<optionValues entitymodel="colaborador"
-								descrMappingTo="3, 2">
-							</optionValues>
-						</fieldView>					
-					</fieldViewSet>
-				</form>
-			</viewComponent>
-		</action>
-		
-	</service>
 	
 </service:service-group>

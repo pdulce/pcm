@@ -6,13 +6,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
 
-<service
+	<service
     name="GestionarImportacionesGEDEON" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
-	<action event="query" submitError="GestionarImportacionesGEDEON.query"
-		submitSucces="GestionarImportacionesGEDEON.query">
-
-		<viewComponent>
+		<action event="query" submitError="GestionarImportacionesGEDEON.query"
+			submitSucces="GestionarImportacionesGEDEON.query">
+	
+			<viewComponent>
 
 			<form columns="3" title="Importaciones desde GEDEON">
 
