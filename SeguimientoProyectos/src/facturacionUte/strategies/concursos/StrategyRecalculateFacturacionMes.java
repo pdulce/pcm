@@ -19,7 +19,7 @@ import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.Event;
+import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
 import facturacionUte.strategies.previsiones.StratBorrarAnualidadesPrevision;
 import facturacionUte.strategies.previsiones.StratCrearAnualidadesPrevision;
@@ -65,12 +65,12 @@ public class StrategyRecalculateFacturacionMes extends DefaultStrategyRequest {
 			if (!listaOfDatosImputacionMesAppColaborador.isEmpty()){				
 				datosImputacionMesAppColaboradorReq = listaOfDatosImputacionMesAppColaborador.get(0);
 			}
-			if (Event.isDeleteEvent(req_.getParameter(PCMConstants.EVENT))){
+			if (AbstractAction.isDeleteEvent(req_.getParameter(PCMConstants.EVENT))){
 				new_UTs_colaborador_sobreApp = 0.0;
 			}
 			Double old_UTs_colaborador_sobreApp = (Double) datosImputacionMesAppColaboradorReq.getValue(facturacionMesColaboradoryAppEntidad.searchField(ConstantesModelo.FACTURACIONMESPORCOLABORADORYAPP_5_UTS).getName());
 			Double diff = (new_UTs_colaborador_sobreApp - old_UTs_colaborador_sobreApp);//horas
-			if (diff == 0 || Event.isShowFormUpdateEvent(req_.getParameter(PCMConstants.EVENT))){
+			if (diff == 0 || AbstractAction.isShowFormUpdateEvent(req_.getParameter(PCMConstants.EVENT))){
 				return;
 			}
 			

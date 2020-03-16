@@ -12,7 +12,7 @@ import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.Event;
+import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyEncajarNuevoDpto extends DefaultStrategyRequest {
@@ -27,7 +27,7 @@ public class StrategyEncajarNuevoDpto extends DefaultStrategyRequest {
 	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		
-		if (Event.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
+		if (AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
 			return;
 		}
 		

@@ -4,6 +4,7 @@
 package facturacionUte.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -85,13 +86,12 @@ public class LauncherServlet extends CDDWebController {
 	}
 
 	@Override
-	protected String renderRequestFromNodePrv(final ApplicationDomain context, 
-			final Data data_) {
-		
+	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
 		
 		IDataAccess dataAccess = null;
 		try {
-			dataAccess = contextApp.getDataAccess(context.getDomainService(data_.getService()), data_.getEvent());
+			dataAccess = contextApp.getDataAccess(context.getDomainService(data_.getService()), 
+					new ArrayList<String>(), new ArrayList<String>());
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error creating DataAccess object", e);
 		}
@@ -105,13 +105,10 @@ public class LauncherServlet extends CDDWebController {
 		if (data_.getParameter(ApplicationDomain.EXEC_PARAM) == null){
 			return new SceneResult().getXhtml();
 		}else if (data_.getParameter(ApplicationDomain.EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
-			//actualizar todos los valores desde invertia.com/historicos
 			htmlOutput.append(new ValoresActuales().refrescarIndicesBursatiles(data_, dataAccess));						
 		}else if (data_.getParameter(ApplicationDomain.EXEC_PARAM).startsWith(EVENTO_MY_INFO_BOLSA_VALORES)) {
-			//pintar el valor oltimo de las empresas/sectores/ondices bursotiles de la lista
 			htmlOutput.append(new ValoresActuales().refreshMiCartera(data_, dataAccess));
 		}
-		
 		htmlOutput.append("</form>");
 		SceneResult scene = new SceneResult();
 		scene.appendXhtml(htmlOutput.toString());

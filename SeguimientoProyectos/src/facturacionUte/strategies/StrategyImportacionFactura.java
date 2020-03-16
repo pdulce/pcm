@@ -13,7 +13,7 @@ import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.Event;
+import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
 import facturacionUte.utils.ImportarFacturacionMes;
 
@@ -41,7 +41,7 @@ public class StrategyImportacionFactura extends StrategyLogin {
 			throws StrategyException, PCMConfigurationException {
 		try {
 						
-			if (!Event.isTransactionalEvent(data.getParameter(PCMConstants.EVENT))) {
+			if (!AbstractAction.isTransactionalEvent(data.getParameter(PCMConstants.EVENT))) {
 				return;
 			}
 			

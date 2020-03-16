@@ -16,7 +16,7 @@ import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.dto.Data;
 import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.Event;
+import domain.service.event.AbstractAction;
 import domain.service.event.IEvent;
 import facturacionUte.common.ConstantesModelo;
 import facturacionUte.utils.ImportarTareasGEDEON;
@@ -44,7 +44,7 @@ public class StrategyImportacion extends StrategyLogin {
 	public void doBussinessStrategy(final Data data, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 		try {
-			if (!Event.isTransactionalEvent(data.getParameter(PCMConstants.EVENT))) {
+			if (!AbstractAction.isTransactionalEvent(data.getParameter(PCMConstants.EVENT))) {
 				return;
 			}
 			initEntitiesFactories(data.getEntitiesDictionary());
