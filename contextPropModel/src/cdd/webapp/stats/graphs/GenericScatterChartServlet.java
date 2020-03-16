@@ -158,7 +158,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
+	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
 		
 		IDataAccess dataAccess = null;
 		DomainService domainService = null;
@@ -233,7 +233,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 				scene = new SceneResult();
 				scene.appendXhtml(sbXml.toString());
-				return scene;
+				return scene.getXhtml();
 			}
 			
 			
@@ -651,7 +651,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 			data_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());
 
-			return scene;
+			return scene.getXhtml();
 
 		}
 		catch (Throwable exc2) {
@@ -661,7 +661,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI><LI>" +  exc2.getMessage() + "</LI></UL>");
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 			scene.appendXhtml(sbXml.toString());
-			return scene;
+			return scene.getXhtml();
 		}
 	}
 	

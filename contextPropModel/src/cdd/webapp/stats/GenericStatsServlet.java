@@ -91,7 +91,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 	
 	@Override
-	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain contextApp, final Data data_) {
+	protected String renderRequestFromNodePrv(final ApplicationDomain contextApp, final Data data_) {
 		
 		IDataAccess dataAccess = null;
 		DomainService domainService = null;
@@ -298,7 +298,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				//+ " (rendered in " + segundosConsumidos + " seconds)";
 		data_.setAttribute(SUBTILE_ATTR, subtitle_);
 
-		return scene;
+		return scene.getXhtml();
 	}
 
 	protected List<String> obtenerPeriodosEjeX(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_)

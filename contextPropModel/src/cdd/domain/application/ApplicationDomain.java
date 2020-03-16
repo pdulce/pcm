@@ -475,7 +475,7 @@ public class ApplicationDomain implements Serializable {
 			innerContent_.append(bodyContentOfService);
 			
 			XmlUtils.closeXmlNode(innerContent_, IViewComponent.FORM_TYPE);
-			XmlUtils.closeXmlNode(innerContent_, IViewComponent.DIV_LAYER);
+			//XmlUtils.closeXmlNode(innerContent_, IViewComponent.DIV_LAYER);
 			
 			return innerContent_.toString();
 			

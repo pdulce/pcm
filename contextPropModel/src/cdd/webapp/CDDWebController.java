@@ -30,7 +30,6 @@ import cdd.common.exceptions.PCMConfigurationException;
 import cdd.domain.application.ApplicationDomain;
 import cdd.domain.application.ApplicationLayout;
 import cdd.domain.dataccess.dto.Data;
-import cdd.domain.service.event.SceneResult;
 
 
 /**
@@ -49,6 +48,7 @@ public class CDDWebController extends HttpServlet {
 
 	private static final String MULTIPART_DATA = "multipart/form-data";
 	private static final String CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
+	private static final String BODY = "#BODY#", APP_CONTEXT = "appContext", TITLE = "#TITLE#"; 
 
 	protected static final String[] coloresHistogramas = { "Maroon", "Red", "Orange", "Blue", "Navy", "Green", "Purple",
 		"Fuchsia",	"Lime", "Teal", "Aqua", "Olive", "Black", "Gray", "Silver"};
@@ -228,7 +228,7 @@ public class CDDWebController extends HttpServlet {
 			final int pageSize = Integer.valueOf(contextApp.getResourcesConfiguration().getPageSize()).intValue();
 			
 			data = new Data(profile, entitiesDictionary_, pageSize);
-			data.setAttribute(PCMConstants.APP_CONTEXT, this.servletPral);			
+			data.setAttribute(APP_CONTEXT, this.servletPral);			
 			data.setAttribute(PCMConstants.APPURI_, this.contextApp.getResourcesConfiguration().getUri());
 		} catch (PCMConfigurationException e1) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e1);
@@ -319,20 +319,18 @@ public class CDDWebController extends HttpServlet {
 		}
 
 		try {
+			String innerContent_ = "";
 			if (!isJsonResult()){
-				if (ApplicationDomain.EVENTO_CONFIGURATION.equals(data.getParameter(ApplicationDomain.EXEC_PARAM))) {					
-					data.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
-				}
+				data.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 				String escenarioTraducido = this.contextApp.getTitleOfAction(data.getService(), data.getEvent());
-				String innerContent_ = this.contextApp.paintLayout(data, eventSubmitted, escenarioTraducido);
-				
-				ApplicationLayout appLayout = new ApplicationLayout();
-				data.setAttribute(PCMConstants.TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
-				data.setAttribute(PCMConstants.BODY, innerContent_ == null ? "" : innerContent_.toString());				
-				appLayout.paintScreen(navigationManager.getAppNavigation(), data, startingApp);
+				innerContent_ = this.contextApp.paintLayout(data, eventSubmitted, escenarioTraducido);
+				new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), data, startingApp);
 			}else{
-				renderRequestFromNodePrv(this.contextApp, data);
-			}			
+				innerContent_ = renderRequestFromNodePrv(this.contextApp, data);
+			}
+			
+			data.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
+			data.setAttribute(BODY, innerContent_ == null ? "" : innerContent_.toString());
 			
 			transferDatabusToHttpRequest(data, httpRequest);
 			
@@ -348,8 +346,8 @@ public class CDDWebController extends HttpServlet {
 		return false;
 	}
 	
-	protected SceneResult renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
-		return null;
+	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
+		return "";
 	}
 	
 }
