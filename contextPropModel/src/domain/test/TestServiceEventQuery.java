@@ -50,12 +50,12 @@ public class TestServiceEventQuery extends TestCase {
 			System.out.println("");
 			
 			String profile = "ADMINISTRADOR";
-			Data data = new Data(profile, ctx.getResourcesConfiguration().getEntitiesDictionary(), 
-					ctx.getResourcesConfiguration().getUri(),
+			final Data data = new Data(profile, ctx.getResourcesConfiguration().getEntitiesDictionary(), 
+					"/prjManager",
 					Integer.valueOf(ctx.getResourcesConfiguration().getPageSize()).intValue());
 			data.setLanguage("es_");
 			data.setService("GestionResponsablesCentros");
-			data.setEvent("query");			
+			data.setEvent("query");
 			
 			String result = ctx.paintLayout(data, false /*eventSubmitted*/, "titleApp-prueba TEST");
 			System.out.println("");

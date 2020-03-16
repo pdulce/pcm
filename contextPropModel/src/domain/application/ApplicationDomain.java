@@ -346,7 +346,7 @@ public class ApplicationDomain implements Serializable {
 	public String paintConfiguration(final Data data) {
 			
 		StringBuilder htmlOutput = new StringBuilder("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\"");
-		htmlOutput.append(this.getResourcesConfiguration().getUri() + "\">");
+		htmlOutput.append(data.getAttribute("uri").toString() + "\">");
 		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"\" />");
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\"event\" value=\"\" />");
 		htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");

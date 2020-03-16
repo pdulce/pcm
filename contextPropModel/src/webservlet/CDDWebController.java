@@ -216,8 +216,6 @@ public class CDDWebController extends HttpServlet {
 			this.contextApp.getResourcesConfiguration().setServerName(httpRequest.getLocalName());
 			this.contextApp.getResourcesConfiguration().setServerPort(String.valueOf(httpRequest.getLocalPort()));
 			this.servletPral = this.servletPral == null ? httpRequest.getServletPath() : this.servletPral;
-			this.contextApp.getResourcesConfiguration().setUri("/".concat(this.webconfig.getServletContext().getServletContextName()).concat(
-					this.servletPral));
 			cleanTmpFiles(this.contextApp.getResourcesConfiguration().getUploadDir());
 		}
 		
@@ -226,9 +224,8 @@ public class CDDWebController extends HttpServlet {
 			String profile = ApplicationDomain.extractProfiles(navigationManager.getAppNavigation()).iterator().next();
 			final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
 			final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
-			final String uri = this.contextApp.getResourcesConfiguration().getUri();
-			data = new Data(profile, entitiesDictionary_, uri, pageSize);		
-			
+			final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(this.servletPral);
+			data = new Data(profile, entitiesDictionary_, baseUri, pageSize);
 		} catch (PCMConfigurationException e1) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e1);
 			return;

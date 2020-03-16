@@ -1,6 +1,3 @@
-/**
- * 
- */
 package domain.application;
 
 import java.io.Serializable;
@@ -26,24 +23,12 @@ import domain.service.component.TreeComponent;
 import domain.service.component.element.html.Span;
 import domain.service.dataccess.dto.Data;
 
-
-/**
- * <h1>Layout</h1> The Layout class exports some methods for sending the different components to the
- * response layer.
- * <p>
- * 
- * @author Pedro Dulce
- * @version 1.0
- * @since 2014-03-31
- */
-
 public class ApplicationLayout implements Serializable {
 	
-	private static final String LOGO_ELEMENT = "logo", MENU_ELEMENT = "menu", FOOT_ELEMENT = "foot", TREE_ELEMENT = "tree"; 
-				
+	private static final String LOGO_ELEMENT = "logo", MENU_ELEMENT = "menu", FOOT_ELEMENT = "foot", 
+			TREE_ELEMENT = "tree"; 
 	private static final long serialVersionUID = 786578583812182L;
 	protected static Logger log = Logger.getLogger(ApplicationLayout.class.getName());
-	
 	static {
 		if (log.getHandlers().length == 0) {
 			try {
@@ -51,8 +36,7 @@ public class ApplicationLayout implements Serializable {
 				log.addHandler(strdout);
 				log.setLevel(Level.INFO);
 				log.log(Level.INFO, "Logger activado");
-			}
-			catch (SecurityException e) {
+			} catch (SecurityException e) {
 				e.printStackTrace();
 			}
 		}
@@ -69,7 +53,6 @@ public class ApplicationLayout implements Serializable {
 			data.setAttribute(PCMConstants.MENU_ITEMS, this.paintMenuHeader(appNavigation, data));
 			data.setAttribute(PCMConstants.TREE, this.paintTree(appNavigation, data));								
 		}
-
 	}
 	
 	private String paintFoot(final Document appNavigation, final Data data) {
@@ -77,8 +60,7 @@ public class ApplicationLayout implements Serializable {
 		final StringBuilder sbXML = new StringBuilder();
 		try {
 			sbXML.append(new FootComponent((String) data.getAttribute(PCMConstants.APPURI_), extractFootElement(appNavigation)).toXHTML(data, null, true));
-		}
-		catch (final Throwable exc) {
+		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.FOOT_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.FOOT_CREATING_EXCEPTION));
@@ -93,8 +75,7 @@ public class ApplicationLayout implements Serializable {
 		try {
 			sbXML.append(new TreeComponent((String) data.getAttribute(PCMConstants.APPURI_), data.getLanguage(),
 					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractTreeElement(appNavigation)).toXHTML(data, null, true));
-		}
-		catch (final Throwable exc) {
+		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.LATERAL_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.LATERAL_CREATING_EXCEPTION));
@@ -108,8 +89,7 @@ public class ApplicationLayout implements Serializable {
 		final StringBuilder sbXML = new StringBuilder();
 		try {
 			sbXML.append(new LogoComponent(data.getLanguage(), extractLogoElement(appNavigation)).toXHTML(data, null/*dataAccess_*/, true));
-		}
-		catch (final Throwable exc) {
+		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.LOGO_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.LOGO_CREATING_EXCEPTION));
@@ -124,8 +104,7 @@ public class ApplicationLayout implements Serializable {
 		try {
 			sbXML.append(new MenuComponent((String) data.getAttribute(PCMConstants.APPURI_), data.getLanguage(),
 					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractMenuElement(appNavigation)).toXHTML(data, null, true));
-		}
-		catch (final Throwable exc) {
+		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.MENU_HEADER_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
 			values.add(Translator.traducePCMDefined(lang, InternalErrorsConstants.LOGO_CREATING_EXCEPTION));
@@ -150,8 +129,8 @@ public class ApplicationLayout implements Serializable {
 		return this.extractComponentElement(appNavigation, MENU_ELEMENT);
 	}
 
-	private Element extractComponentElement(final Document appNavigation, final String elemName_) throws PCMConfigurationException {
-		
+	private Element extractComponentElement(final Document appNavigation, final String elemName_) 
+			throws PCMConfigurationException {
 		final NodeList listaNodes = appNavigation.getDocumentElement().getElementsByTagName(elemName_);
 		if (listaNodes.getLength() > 0) {
 			return (Element) listaNodes.item(0);

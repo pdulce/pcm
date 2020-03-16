@@ -14,7 +14,7 @@ public class ResourcesConfig {
 	
 	private boolean auditOn;
 
-	private String uri, appTitle, entitiesDictionary, navigationApp, serviceDirectory, dataSourceAccess, dSourceImpl, datasourceFactoryImpl, dbPreffix, resourceName,
+	private String appTitle, entitiesDictionary, navigationApp, serviceDirectory, dataSourceAccess, dSourceImpl, datasourceFactoryImpl, dbPreffix, resourceName,
 			driverDDBB, urlConn, schemaDDBB, dbUser, dbPassword, styleSheet, templatePath, updloadDir, serverName, serverPort,
 			pageSize = "10", downloadDir, logAppFile, baseServerPath, baseAppPath;
 	
@@ -142,14 +142,6 @@ public class ResourcesConfig {
 
 	public final String[] getItemValues() {
 		return this.itemValues;
-	}
-
-	public String getUri() {
-		return this.uri;
-	}
-
-	public void setUri(final String uri_) {
-		this.uri = uri_;
 	}
 
 	public boolean isAuditOn() {
