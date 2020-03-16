@@ -16,7 +16,9 @@ import junit.framework.TestCase;
 public class TestServiceEventQuery extends TestCase {
 	
 	public TestServiceEventQuery() {
-			
+	}
+	
+	public void testOneCase() {		
 		InputStream stream = null;
 		try {
 			stream = new URL("file:////home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/cddconfig.xml").openStream();
