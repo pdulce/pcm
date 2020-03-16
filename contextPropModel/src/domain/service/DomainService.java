@@ -304,13 +304,14 @@ public class DomainService {
 						if (!(AbstractAction.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
 							Element elementActionRedirect = serviceRedirectDomain.extractActionElementByService(eventRedirect);
 							IAction actionObjectOfRedirect = null;
+							Collection<String> registeredEventsOfRedirect = serviceRedirectDomain.discoverAllEvents();
 							try {
-								actionObjectOfRedirect = AbstractAction.getAction(containerViewRedirect,	elementActionRedirect, data, discoverAllEvents());
+								actionObjectOfRedirect = AbstractAction.getAction(containerViewRedirect, elementActionRedirect, data, registeredEventsOfRedirect);
 							} catch (final PCMConfigurationException configExcep) {
 								throw configExcep;
 							}							
-							sceneResult = serviceRedirectDomain.invokeServiceCore(_dataAccess, eventRedirect, data, false, actionObjectOfRedirect, 
-									sceneResult.getMessages());
+							sceneResult = serviceRedirectDomain.invokeServiceCore(_dataAccess, eventRedirect, data, false, 
+									actionObjectOfRedirect, sceneResult.getMessages());
 									
 							serviceRedirectDomain.paintServiceCore(sceneResult, null, _dataAccess, eventRedirect, data, false, actionObjectOfRedirect, sceneResult.getMessages());						
 							data.setAttribute(IViewComponent.RETURN_SCENE, new StringBuilder(serviceRedirect).append(PCMConstants.POINT).append(eventRedirect).toString());
@@ -319,7 +320,7 @@ public class DomainService {
 							while (iteratorGrids.hasNext()) {
 								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 								if (paginationGrid.getMasterNamespace() != null) {
-									final ActionPagination actionPagination = new ActionPagination(containerViewRedirect, data, elementActionRedirect);
+									final ActionPagination actionPagination = new ActionPagination(containerViewRedirect, data, elementActionRedirect, registeredEventsOfRedirect);
 									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, 
 											false/*eventSubmitted*/, messageExceptions).getXhtml());
 									break;
@@ -333,7 +334,7 @@ public class DomainService {
 			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(containerView, data, this.extractActionElementByService(event));
+					final ActionPagination actionPagination = new ActionPagination(containerView, data, this.extractActionElementByService(event), discoverAllEvents());
 					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventSubmitted, messageExceptions)
 							.getXhtml());
 					break;

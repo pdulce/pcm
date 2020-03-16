@@ -29,15 +29,16 @@ import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Data;
 
-
 public class ActionPagination extends AbstractAction {
 
 	protected String filtra;
 
-	public ActionPagination(final IBodyContainer container_, final Data data_, final Element actionElement_) {
+	public ActionPagination(final IBodyContainer container_, final Data data_, final Element actionElement_, 
+			final Collection<String> actionSet) {
 		this.data = data_;
 		this.container = container_;
 		this.actionElement = actionElement_;
+		this.registeredEvents = actionSet;
 	}
 
 	@Override
@@ -148,8 +149,12 @@ public class ActionPagination extends AbstractAction {
 				int pageSize = data.getPageSize();
 				FieldViewSet detailGridElement = null;				
 				if (isQueryEvent(this.actionElement.getAttribute(DomainService.EVENT_ATTR))){
-					bindUserInput(myForm, erroresMsg);
+					
+					ActionForm actionForm = new ActionForm(this.container, data, this.actionElement, registeredEvents);
+					actionForm.bindUserInput(myForm, erroresMsg);
+					
 					bindUserInput(paginationGrid, erroresMsg);
+					
 				}else{
 					bindPrimaryKeys(myForm, erroresMsg);
 				}

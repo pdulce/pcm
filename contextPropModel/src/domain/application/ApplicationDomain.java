@@ -384,8 +384,6 @@ public class ApplicationDomain implements Serializable {
 			if (event == null){
 				data.setParameter(PCMConstants.EVENT, data.getService().concat(".").concat(data.getEvent()));
 			}						
-			Map<String, String> scene = new HashMap<String, String>();
-			scene.put(data.getService(), data.getEvent());
 			DomainService domainService = getDomainService(data.getService());
 			if (domainService.extractActionElementByService(data.getEvent()) == null) {
 				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,

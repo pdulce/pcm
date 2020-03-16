@@ -327,7 +327,7 @@ public abstract class AbstractAction implements IAction {
 		try {
 			IAction action = null;
 			if (isQueryEvent(actionElement_.getAttribute(DomainService.EVENT_ATTR))) {
-				action = new ActionPagination(containerView, dataWrapper, actionElement_);
+				action = new ActionPagination(containerView, dataWrapper, actionElement_, actionSet);
 			} else {
 				action = new ActionForm(containerView, dataWrapper, actionElement_, actionSet);
 				action.setStrategyFactory(new DefaultStrategyFactory());
