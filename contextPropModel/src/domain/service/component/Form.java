@@ -106,7 +106,7 @@ public class Form extends AbstractComponent {
 
 	public Form(final Element formElement_, final IDataAccess dataAccess_, final Data data_) throws PCMConfigurationException {
 		this.service = ((Element)formElement_.getParentNode().getParentNode().getParentNode()).getAttribute(DomainService.NAME_ATTR);
-		final String event_ = ((Element)formElement_.getParentNode().getParentNode()).getAttribute(DomainService.EVENT_ATTR);
+		final String event_ = data_.getEvent();
 		this.event = AbstractAction.isQueryEvent(event_) ? IEvent.QUERY : event_;
 		this.visibleControls = new HashMap<ICtrl, List<ICtrl>>();
 		this.hiddenControls = new ArrayList<ICtrl>();

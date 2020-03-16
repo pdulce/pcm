@@ -18,7 +18,6 @@ import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
-import domain.service.DomainService;
 import domain.service.component.IViewComponent;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
@@ -38,7 +37,7 @@ public abstract class AbstractAction implements IAction {
 	protected Collection<String> registeredEvents;
 	protected Data data;
 	protected IBodyContainer container;
-	
+	protected String realEvent;
 	
 	protected static final String TARGET_ATTR = "target", 
 			SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces", 
@@ -76,7 +75,7 @@ public abstract class AbstractAction implements IAction {
 			this.imageEvents.put(IEvent.RETURN_BACK, "up-icon.png");
 			this.imageEvents.put(IEvent.CANCEL, "cancel-icon.png");
 		}
-		return this.imageEvents.get(this.actionElement.getAttribute(DomainService.EVENT_ATTR));
+		return this.imageEvents.get(getEvent());
 	}
 	
 	public static boolean isVolverPressed(final String event){ 
@@ -98,8 +97,8 @@ public abstract class AbstractAction implements IAction {
 	}
 
 	public boolean isPageEvent() {
-		return this.actionElement.getAttribute(DomainService.EVENT_ATTR).endsWith(IEvent.QUERY_NEXT) || 
-				this.actionElement.getAttribute(DomainService.EVENT_ATTR).endsWith(IEvent.QUERY_PREVIOUS);
+		return this.getEvent().endsWith(IEvent.QUERY_NEXT) || 
+				this.getEvent().endsWith(IEvent.QUERY_PREVIOUS);
 	}
 
 	public static boolean isFormularyEntryEvent(final String event) {
@@ -125,10 +124,10 @@ public abstract class AbstractAction implements IAction {
 	}
 
 	public boolean isUserDataTransactional() {
-		return this.actionElement.getAttribute(DomainService.EVENT_ATTR).endsWith(IEvent.UPDATE) || 
-			this.actionElement.getAttribute(DomainService.EVENT_ATTR).endsWith(IEvent.CREATE) || 
-			this.actionElement.getAttribute(DomainService.EVENT_ATTR).endsWith(IEvent.DELETE) || 
-			this.actionElement.getAttribute(DomainService.EVENT_ATTR).endsWith(IEvent.SUBMIT_FORM);
+		return this.getEvent().endsWith(IEvent.UPDATE) || 
+			this.getEvent().endsWith(IEvent.CREATE) || 
+			this.getEvent().endsWith(IEvent.DELETE) || 
+			this.getEvent().endsWith(IEvent.SUBMIT_FORM);
 	}
 
 	public static boolean isUniqueFormComposite(final String event) {
@@ -256,7 +255,7 @@ public abstract class AbstractAction implements IAction {
 			}
 		}
 		if (strategiasAEjecutar.isEmpty()) {
-			if ((this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.UPDATE))) {
+			if ((this.getEvent().equals(IEvent.UPDATE))) {
 				strategiasAEjecutar.add(new DefaultStrategyUpdate());			
 			}
 		}
@@ -303,7 +302,7 @@ public abstract class AbstractAction implements IAction {
 		return this.actionElement.getAttribute(SUBMIT_ERROR_SCENE_ATTR);
 	}
 	public String getEvent() {
-		return this.actionElement.getAttribute(DomainService.EVENT_ATTR);
+		return this.realEvent;
 	}
 	
 	protected IStrategyFactory getStrategyFactory() {
@@ -326,7 +325,7 @@ public abstract class AbstractAction implements IAction {
 			final Data dataWrapper, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
-			if (isQueryEvent(actionElement_.getAttribute(DomainService.EVENT_ATTR))) {
+			if (isQueryEvent(dataWrapper.getEvent())) {
 				action = new ActionPagination(containerView, dataWrapper, actionElement_, actionSet);
 			} else {
 				action = new ActionForm(containerView, dataWrapper, actionElement_, actionSet);
@@ -349,7 +348,7 @@ public abstract class AbstractAction implements IAction {
 
 
 	@Override
-	public abstract SceneResult executeAction(final IDataAccess dataAccess, Data data, boolean eventSubmitted,
+	public abstract SceneResult executeAction(final IDataAccess dataAccess, Data data, String realEvent, boolean eventSubmitted,
 			Collection<MessageException> prevMessages);
 
 	@Override

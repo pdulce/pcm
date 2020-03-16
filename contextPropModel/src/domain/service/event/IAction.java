@@ -98,7 +98,7 @@ public interface IAction {
 			DELETE_STRATEGY_INNER_ERR = "DELETE_STRATEGY_INNER_ERR", INSERT_STRATEGY_NO_RECORDS_ERR = "INSERT_STRATEGY_NO_RECORDS_ERR",
 			CREATE_STRATEGY_ERR = "CREATE_STRATEGY_ERR", CREATE_STRATEGY_PK_EXISTS_ERR = "CREATE_STRATEGY_PK_EXISTS_ERR";
 
-	public SceneResult executeAction(final IDataAccess dataAccess, Data data, boolean eventSubmitted,
+	public SceneResult executeAction(final IDataAccess dataAccess, Data data, String realEvent, boolean eventSubmitted,
 			Collection<MessageException> previousMessages);
 
 	public Data getDataBus();

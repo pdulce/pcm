@@ -15,7 +15,6 @@ import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
-import domain.service.DomainService;
 import domain.service.component.Form;
 import domain.service.component.IViewComponent;
 import domain.service.component.PaginationGrid;
@@ -119,8 +118,8 @@ public class ActionPagination extends AbstractAction {
 	}
 	
 	@Override
-	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final boolean eventSubmitted_,
-			final Collection<MessageException> prevMessages) {
+	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final String realEvent, 
+			final boolean eventSubmitted_, final Collection<MessageException> prevMessages) {
 
 		boolean hayMasterSpace = false;
 		Collection<IViewComponent> paginationGrids = null;
@@ -134,7 +133,6 @@ public class ActionPagination extends AbstractAction {
 				if (paginationGrid == null) {
 					throw new PCMConfigurationException(InternalErrorsConstants.MUST_DEFINE_GRID);
 				}
-
 				Form myForm = null;
 				String idOfForm = paginationGrid.getMyFormIdentifier();
 				Iterator<IViewComponent> iteForms = this.container.getForms().iterator();
@@ -148,13 +146,10 @@ public class ActionPagination extends AbstractAction {
 
 				int pageSize = data.getPageSize();
 				FieldViewSet detailGridElement = null;				
-				if (isQueryEvent(this.actionElement.getAttribute(DomainService.EVENT_ATTR))){
-					
+				if (isQueryEvent(realEvent)){
 					ActionForm actionForm = new ActionForm(this.container, data, this.actionElement, registeredEvents);
 					actionForm.bindUserInput(myForm, erroresMsg);
-					
 					bindUserInput(paginationGrid, erroresMsg);
-					
 				}else{
 					bindPrimaryKeys(myForm, erroresMsg);
 				}
@@ -170,8 +165,7 @@ public class ActionPagination extends AbstractAction {
 				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
 					try {
 						executeStrategyPre(dataAccess_, myForm.getFieldViewSetCollection());// Pre-condiciones
-					}
-					catch (final StrategyException stratExc) {
+					} catch (final StrategyException stratExc) {
 						throw stratExc;
 					}
 				}

@@ -41,14 +41,14 @@ import domain.service.event.SceneResult;
 
 public class DomainService {
 	
+	private static final String EVENT_ATTR = "event";
 	public static final String WELLCOME_TXT = "WELLCOME_TXT", 
 		NAME_ATTR = "name",
 		STRATEGY_ATTR = "strategy", 
 		STRATEGY_PRECONDITION_ATTR = "strategyPre", 
 		VIEWCOMPONENT_ELEMENT = "viewComponent", 
 		SERVICE_ELEMENT = "service", 
-		ACTION_ELEMENT = "action",
-		EVENT_ATTR = "event";
+		ACTION_ELEMENT = "action";
 	
 	protected static Logger log = Logger.getLogger(DomainService.class.getName());
 	static {
@@ -99,7 +99,7 @@ public class DomainService {
 		this.isInitial = true;
 	}
 	
-	public final Collection<Element> discoverAllActions() {
+	private Collection<Element> discoverAllActions() {
 		final Collection<Element> events = new ArrayList<Element>();
 		try {
 			final NodeList actionNodeSet = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
@@ -253,10 +253,10 @@ public class DomainService {
 		return serviceSceneTitle;
 	}
 	
-	public SceneResult invokeServiceCore(final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
+	public SceneResult invokeServiceCore(final IDataAccess dataAccess, final String realEvent, final Data data, final boolean eventSubmitted,
 			IAction action, Collection<MessageException> messageExceptions) {
 		try {
-			return action.executeAction(dataAccess, data, eventSubmitted, messageExceptions);
+			return action.executeAction(dataAccess, data, realEvent, eventSubmitted, messageExceptions);
 		}catch(Throwable exc) {
 			DomainService.log.log(Level.SEVERE, InternalErrorsConstants.BODY_CREATING_EXCEPTION, exc);
 			return null;
@@ -267,7 +267,7 @@ public class DomainService {
 			final IDataAccess dataAccess, final String event, final Data data, final boolean eventSubmitted,
 			IAction action, Collection<MessageException> messageExceptions) {
 		boolean redirected = false;
-		IDataAccess _dataAccess = null;
+		//IDataAccess _dataAccess = null;
 		String serviceRedirect = null;
 		String eventRedirect = null;
 		try {
@@ -303,17 +303,12 @@ public class DomainService {
 						
 						if (!(AbstractAction.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
 							Element elementActionRedirect = serviceRedirectDomain.extractActionElementByService(eventRedirect);
-							IAction actionObjectOfRedirect = null;
 							Collection<String> registeredEventsOfRedirect = serviceRedirectDomain.discoverAllEvents();
-							try {
-								actionObjectOfRedirect = AbstractAction.getAction(containerViewRedirect, elementActionRedirect, data, registeredEventsOfRedirect);
-							} catch (final PCMConfigurationException configExcep) {
-								throw configExcep;
-							}							
-							sceneResult = serviceRedirectDomain.invokeServiceCore(_dataAccess, eventRedirect, data, false, 
+							IAction actionObjectOfRedirect = AbstractAction.getAction(containerViewRedirect, elementActionRedirect, data, registeredEventsOfRedirect);						
+							sceneResult = serviceRedirectDomain.invokeServiceCore(dataAccess, eventRedirect, data, false, 
 									actionObjectOfRedirect, sceneResult.getMessages());
 									
-							serviceRedirectDomain.paintServiceCore(sceneResult, null, _dataAccess, eventRedirect, data, false, actionObjectOfRedirect, sceneResult.getMessages());						
+							serviceRedirectDomain.paintServiceCore(sceneResult, null, dataAccess, eventRedirect, data, false, actionObjectOfRedirect, sceneResult.getMessages());						
 							data.setAttribute(IViewComponent.RETURN_SCENE, new StringBuilder(serviceRedirect).append(PCMConstants.POINT).append(eventRedirect).toString());
 							redirected = true;							
 							final Iterator<IViewComponent> iteratorGrids = containerViewRedirect.getGrids().iterator();
@@ -321,7 +316,7 @@ public class DomainService {
 								PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 								if (paginationGrid.getMasterNamespace() != null) {
 									final ActionPagination actionPagination = new ActionPagination(containerViewRedirect, data, elementActionRedirect, registeredEventsOfRedirect);
-									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, 
+									sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventRedirect, 
 											false/*eventSubmitted*/, messageExceptions).getXhtml());
 									break;
 								}
@@ -335,7 +330,7 @@ public class DomainService {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
 					final ActionPagination actionPagination = new ActionPagination(containerView, data, this.extractActionElementByService(event), discoverAllEvents());
-					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, eventSubmitted, messageExceptions)
+					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, data, data.getEvent(), eventSubmitted, messageExceptions)
 							.getXhtml());
 					break;
 				}

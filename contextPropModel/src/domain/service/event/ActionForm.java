@@ -29,7 +29,6 @@ import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
 import domain.common.utils.CommonUtils;
-import domain.service.DomainService;
 import domain.service.component.Form;
 import domain.service.component.IViewComponent;
 import domain.service.component.PaginationGrid;
@@ -51,18 +50,6 @@ import domain.service.event.validators.IValidator;
 import domain.service.event.validators.RelationalAndCIFValidator;
 
 
-/**
- * <h1>ActionForm</h1> The ActionForm class
- * is used for implement activities of general purpose which are common (to every formulary-based
- * action defined in the IT system) and are required to be executed in a specific order, when a
- * SubCase of Use is invoked.
- * <p>
- * 
- * @author Pedro Dulce
- * @version 1.0
- * @since 2014-03-31
- */
-
 public class ActionForm extends AbstractAction {
 	
 	protected static Logger log = Logger.getLogger(ActionForm.class.getName());
@@ -79,8 +66,6 @@ public class ActionForm extends AbstractAction {
 		}
 	}
 	private final Map<String, String> audits;
-
-
 	
 	
 	public ActionForm(final IBodyContainer container_, final Data data_, 
@@ -90,26 +75,20 @@ public class ActionForm extends AbstractAction {
 		this.registeredEvents = actionSet;
 		this.audits = AppCacheFactory.getFactoryInstance().getAppCache();
 		this.actionElement = actionElement_;
+		this.realEvent = data.getEvent(); 
 	}
 
 	@Override
 	public boolean isTransactional() {
-		return this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.UPDATE) || 
-					this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.DELETE) || 
-						this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.CREATE);
+		return this.getEvent().equals(IEvent.UPDATE) || 
+					this.getEvent().equals(IEvent.DELETE) || 
+						this.getEvent().equals(IEvent.CREATE);
 	}
 
 	@Override
 	public boolean isFormSubmitted() {
-		return this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.SUBMIT_FORM);
+		return this.getEvent().equals(IEvent.SUBMIT_FORM);
 	}
-
-	/*******************************************************************************************************************************************************************************
-	 * Este motodo marca una secuencia optima y uniforme de operaciones para todas las clases de
-	 * accion del aplicativo
-	 ******************************************************************************************************************************************************************************/
-
-	/** * LAS ACCIONES PUEDEN SER: EDIT, INSERT, UPDATE, DELETE *** */
 
 	@Override
 	public boolean isPaginationEvent() {
@@ -117,15 +96,14 @@ public class ActionForm extends AbstractAction {
 	}
 
 	@Override
-	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, 
+	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final String realEvent, 
 			final boolean submittedEvent_,	final Collection<MessageException> prevMessages) {
 		
 		final boolean isAuditOn = dataAccess_.isAuditOn();
 		SceneResult result = new SceneResult();
 		final Collection<MessageException> erroresMsg = new ArrayList<MessageException>();
 		try {
-			result = executeEvent(dataAccess_, this.actionElement.getAttribute(DomainService.EVENT_ATTR), submittedEvent_, 
-					this.container, isAuditOn, prevMessages);
+			result = executeEvent(dataAccess_, realEvent, submittedEvent_, this.container, isAuditOn, prevMessages);
 			Iterator<IViewComponent> iteForms = this.container.getForms().iterator();
 			while (iteForms.hasNext()) {
 				Form form_ = (Form) iteForms.next();
@@ -161,13 +139,6 @@ public class ActionForm extends AbstractAction {
 		return new ArrayList<FieldViewSet>();
 	}
 
-	/*******************************************************************************************************************************************************************************
-	 * Prevalecen los atributos de la data o de la sesion tanto como los definidos como tal. Si
-	 * un fieldview se define como persistible en sesion o data, ha de llevarse a
-	 * cabo aquo
-	 * 
-	 * @param fieldViewSet
-	 */
 	public void setUserFieldFromRequest(final FieldViewSet fieldViewSet) {
 		try {
 			final Iterator<IFieldView> iteFields = fieldViewSet.getFieldViews().iterator();
@@ -246,8 +217,8 @@ public class ActionForm extends AbstractAction {
 			return err;
 		}
 		final int positionOfFirstEntityForm = getFirstFSetOfEntity(form_.getFieldViewSets());
-		if (positionOfFirstEntityForm > -1 && (isFormularyEntryEvent(this.actionElement.getAttribute(DomainService.EVENT_ATTR)) ||
-				isDetailEvent(getEvent()))) {
+		if (positionOfFirstEntityForm > -1 && (isFormularyEntryEvent(event_) ||
+				isDetailEvent(event_))) {
 			bindPrimaryKeys(form_, err);
 			if (!err.isEmpty() && !event_.equals(IEvent.SHOW_FORM_CREATE) && !event_.equals(IEvent.CREATE)) {
 				throw new KeyNotFoundException(InternalErrorsConstants.GETTING_PK_RECORD_EXCEPTION);
@@ -269,7 +240,7 @@ public class ActionForm extends AbstractAction {
 					}
 					FieldViewSet fieldViewSetFromBBDD_ = dataAccess_.searchEntityByPk(fieldViewSet);
 					if (fieldViewSetFromBBDD_ == null && 
-							this.actionElement.getAttribute(DomainService.EVENT_ATTR).equals(IEvent.SHOW_FORM_CREATE) && anyFieldWasFilled) {
+							this.getEvent().equals(IEvent.SHOW_FORM_CREATE) && anyFieldWasFilled) {
 						bindUserInput(form_, new ArrayList<MessageException>());
 					} else if (fieldViewSetFromBBDD_ != null) {
 						Map<String, IFieldValue> newValues_ = fieldViewSetFromBBDD_.getNamedValues();
@@ -522,11 +493,10 @@ public class ActionForm extends AbstractAction {
 	}
 
 
-	private SceneResult executeEvent(final IDataAccess dataAccess, 
-			final String event_, final boolean eventSubmitted_,
-			final IBodyContainer container, final boolean isAuditOn, 
+	private SceneResult executeEvent(final IDataAccess dataAccess, final String realEvent,
+			final boolean eventSubmitted_,	final IBodyContainer container, final boolean isAuditOn, 
 			final Collection<MessageException> prevMessages) {
-
+		
 		final SceneResult res = new SceneResult();
 		List<MessageException> msgs = new ArrayList<MessageException>();
 
@@ -536,9 +506,9 @@ public class ActionForm extends AbstractAction {
 		Iterator<IViewComponent> iteFCollections = collForms.iterator();
 		while (iteFCollections.hasNext()) {
 			Form form_ = (Form) iteFCollections.next();
-			FieldViewSetCollection fCollectionIesimo = form_.getFieldViewSetCollection();
 			try {
-				msgs = this.bindingPhase(event_, form_, dataAccess, eventSubmitted_);
+				msgs = this.bindingPhase(realEvent, form_, dataAccess, eventSubmitted_);
+				FieldViewSetCollection fCollectionIesimo = form_.getFieldViewSetCollection();
 				if (eventSubmitted_) {
 					if (this.isTransactional()) {
 						final Iterator<FieldViewSet> iteratorfSet = fCollectionIesimo.getFieldViewSets().iterator();
@@ -554,7 +524,7 @@ public class ActionForm extends AbstractAction {
 						}
 						dataAccess.setAutocommit(false);
 						if (isDeleteEvent(getEvent()) ){											
-							dataAccess.getPreconditionStrategies().add("cdd.strategies.DefaultStrategyDelete");
+							dataAccess.getPreconditionStrategies().add("domain.service.conditions.DefaultStrategyDelete");
 						}
 					}
 					
@@ -570,7 +540,7 @@ public class ActionForm extends AbstractAction {
 					}
 					
 					if (this.isTransactional()) {	
-						this.doTransaction(event_, form_, dataAccess, isAuditOn);
+						this.doTransaction(form_, dataAccess, isAuditOn);
 						dataAccess.commit();
 						if (!dataAccess.getStrategies().isEmpty()) {//estrategias de POST
 							dataAccess.setAutocommit(false);
@@ -589,7 +559,7 @@ public class ActionForm extends AbstractAction {
 									|| !dataAccess.getEntitiesToUpdate().contains(fieldViewSet.getEntityDef().getName())) {
 								continue;
 							}
-							final MessageException msg = new MessageException(this.getSuccessMsgCode(event_), false, MessageException.INFO);
+							final MessageException msg = new MessageException(this.getSuccessMsgCode(realEvent), false, MessageException.INFO);
 							final StringBuilder name = new StringBuilder(fieldViewSet.getEntityDef().getName());
 							name.append(PCMConstants.POINT).append(fieldViewSet.getEntityDef().getName());
 							msg.addParameter(new Parameter(IViewComponent.ZERO, name.toString()));
@@ -598,7 +568,7 @@ public class ActionForm extends AbstractAction {
 						}
 					}
 				}
-				if (event_.equals(IEvent.UPDATE) &&  this.isTransactional()) {
+				if (realEvent.equals(IEvent.UPDATE) &&  this.isTransactional()) {
 					Iterator<FieldViewSet> iteFsets = fCollectionIesimo.getFieldViewSets().iterator();
 					while (iteFsets.hasNext()) {
 						FieldViewSet fSetBBDD = iteFsets.next();
@@ -673,9 +643,9 @@ public class ActionForm extends AbstractAction {
 		return PCMConstants.EMPTY_;
 	}
 
-	private void doTransaction(final String event_, final Form form_, 
-			final IDataAccess dataAccess, final boolean isAuditOn)
+	private void doTransaction(final Form form_, final IDataAccess dataAccess, final boolean isAuditOn)
 			throws TransactionException {
+		final String event_ = this.getEvent();
 		final List<FieldViewSet> fs = form_.getFieldViewSetCollection().getFieldViewSets();
 		if (event_.startsWith(IEvent.UPDATE)) {
 			if (isAuditOn && this.audits != null && this.audits.get(Data.USU_MOD) != null) {
