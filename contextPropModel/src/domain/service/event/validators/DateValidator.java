@@ -5,7 +5,7 @@ import java.text.ParseException;
 import domain.common.PCMConstants;
 import domain.common.exceptions.MessageException;
 import domain.common.utils.CommonUtils;
-import domain.component.IViewComponent;
+import domain.service.component.IViewComponent;
 import domain.service.event.IAction;
 import domain.service.event.Parameter;
 

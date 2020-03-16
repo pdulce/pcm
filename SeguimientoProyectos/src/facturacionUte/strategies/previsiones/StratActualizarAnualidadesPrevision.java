@@ -5,10 +5,10 @@ import java.util.Iterator;
 
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
-import domain.component.definitions.FieldViewSet;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.dto.Data;
+import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.dto.Data;
 import facturacionUte.common.ConstantesModelo;
 
 public class StratActualizarAnualidadesPrevision extends DefaultStrategyRequest {

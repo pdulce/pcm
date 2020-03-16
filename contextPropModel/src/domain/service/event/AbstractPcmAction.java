@@ -18,19 +18,19 @@ import domain.common.exceptions.BindPcmException;
 import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
-import domain.component.PaginationGrid;
-import domain.component.definitions.ContextProperties;
-import domain.component.definitions.FieldViewSet;
-import domain.component.definitions.FieldViewSetCollection;
-import domain.component.definitions.IFieldView;
-import domain.component.factory.IBodyContainer;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.dto.Data;
 import domain.service.DomainService;
+import domain.service.component.PaginationGrid;
+import domain.service.component.definitions.ContextProperties;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
+import domain.service.component.definitions.IFieldView;
+import domain.service.component.factory.IBodyContainer;
 import domain.service.conditions.DefaultStrategyFactory;
 import domain.service.conditions.DefaultStrategyUpdate;
 import domain.service.conditions.IStrategy;
 import domain.service.conditions.IStrategyFactory;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.dto.Data;
 
 
 /**

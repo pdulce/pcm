@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 
 import domain.common.InternalErrorsConstants;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.dataccess.dto.Data;
+import domain.service.dataccess.dto.Data;
 
 
 public class NavigationAppManager {

@@ -10,9 +10,9 @@ import org.json.simple.JSONObject;
 
 import domain.common.stats.CodigosISOProvinciasSpain;
 import domain.common.utils.CommonUtils;
-import domain.component.definitions.FieldViewSet;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
 import webservlet.stats.GenericStatsServlet;
 
 

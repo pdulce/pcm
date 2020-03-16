@@ -29,7 +29,7 @@ import domain.application.ApplicationLayout;
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.dataccess.dto.Data;
+import domain.service.dataccess.dto.Data;
 
 
 /**

@@ -10,8 +10,8 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import domain.common.utils.CommonUtils;
-import domain.dataccess.comparator.ComparatorDouble;
-import domain.dataccess.comparator.ComparatorVariablesXY;
+import domain.service.dataccess.comparator.ComparatorDouble;
+import domain.service.dataccess.comparator.ComparatorVariablesXY;
 
 
 /**

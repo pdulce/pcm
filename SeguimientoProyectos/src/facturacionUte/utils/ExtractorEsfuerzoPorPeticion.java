@@ -14,8 +14,8 @@ import java.util.Map;
 
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.utils.CommonUtils;
-import domain.dataccess.factory.EntityLogicFactory;
-import domain.dataccess.factory.IEntityLogicFactory;
+import domain.service.dataccess.factory.EntityLogicFactory;
+import domain.service.dataccess.factory.IEntityLogicFactory;
 
 
 public class ExtractorEsfuerzoPorPeticion extends GeneradorPresentaciones{

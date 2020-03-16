@@ -18,13 +18,13 @@ import org.w3c.dom.NodeList;
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.component.FootComponent;
-import domain.component.LogoComponent;
-import domain.component.MenuComponent;
-import domain.component.Translator;
-import domain.component.TreeComponent;
-import domain.component.element.html.Span;
-import domain.dataccess.dto.Data;
+import domain.service.component.FootComponent;
+import domain.service.component.LogoComponent;
+import domain.service.component.MenuComponent;
+import domain.service.component.Translator;
+import domain.service.component.TreeComponent;
+import domain.service.component.element.html.Span;
+import domain.service.dataccess.dto.Data;
 
 
 /**

@@ -13,12 +13,12 @@ import java.util.regex.Pattern;
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
-import domain.component.definitions.FieldViewSet;
-import domain.component.definitions.IFieldView;
-import domain.component.definitions.IRank;
-import domain.component.definitions.Rank;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.definitions.IFieldLogic;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.IFieldView;
+import domain.service.component.definitions.IRank;
+import domain.service.component.definitions.Rank;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.event.IAction;
 import webservlet.stats.GenericStatsServlet;
 

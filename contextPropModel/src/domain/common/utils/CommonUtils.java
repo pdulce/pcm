@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Locale;
 
 import domain.common.PCMConstants;
-import domain.component.IViewComponent;
-import domain.component.definitions.IFieldView;
-import domain.dataccess.definitions.IFieldLogic;
+import domain.service.component.IViewComponent;
+import domain.service.component.definitions.IFieldView;
+import domain.service.dataccess.definitions.IFieldLogic;
 
 
 /**

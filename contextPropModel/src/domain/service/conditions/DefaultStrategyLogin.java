@@ -6,8 +6,8 @@ import java.util.Map;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.StrategyException;
-import domain.dataccess.dto.Data;
-import domain.dataccess.factory.AppCacheFactory;
+import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.factory.AppCacheFactory;
 import domain.service.event.IAction;
 
 

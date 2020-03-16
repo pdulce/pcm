@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import domain.common.PCMConstants;
-import domain.component.IViewComponent;
-import domain.component.Translator;
-import domain.component.XmlUtils;
+import domain.service.component.IViewComponent;
+import domain.service.component.Translator;
+import domain.service.component.XmlUtils;
 import domain.service.event.IAction;
 import domain.service.event.Parameter;
 

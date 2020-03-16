@@ -12,12 +12,12 @@ import org.json.simple.JSONArray;
 
 import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
-import domain.component.Translator;
-import domain.component.definitions.FieldViewSet;
-import domain.component.definitions.IFieldView;
-import domain.dataccess.comparator.ComparatorEntryWithDouble;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
+import domain.service.component.Translator;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.IFieldView;
+import domain.service.dataccess.comparator.ComparatorEntryWithDouble;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
 import webservlet.stats.IStats;
 
 

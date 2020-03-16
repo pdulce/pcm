@@ -12,16 +12,16 @@ import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
-import domain.component.definitions.FieldView;
-import domain.component.definitions.FieldViewSet;
-import domain.component.definitions.IFieldView;
-import domain.component.definitions.IRank;
-import domain.component.definitions.Rank;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.definitions.IEntityLogic;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
-import domain.dataccess.factory.EntityLogicFactory;
+import domain.service.component.definitions.FieldView;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.IFieldView;
+import domain.service.component.definitions.IRank;
+import domain.service.component.definitions.Rank;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IEntityLogic;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyIdentificarDemanda extends StrategyLogin {

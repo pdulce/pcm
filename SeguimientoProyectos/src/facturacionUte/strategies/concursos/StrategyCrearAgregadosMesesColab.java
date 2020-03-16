@@ -13,12 +13,12 @@ import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
-import domain.component.definitions.FieldViewSet;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.definitions.IEntityLogic;
-import domain.dataccess.dto.Data;
-import domain.dataccess.factory.EntityLogicFactory;
+import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IEntityLogic;
+import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.Event;
 import facturacionUte.common.ConstantesModelo;
 

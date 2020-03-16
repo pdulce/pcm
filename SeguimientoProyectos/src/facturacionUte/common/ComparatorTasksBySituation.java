@@ -3,8 +3,8 @@ package facturacionUte.common;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import domain.component.definitions.FieldViewSet;
-import domain.dataccess.definitions.IEntityLogic;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.dataccess.definitions.IEntityLogic;
 import facturacionUte.utils.GeneradorPresentaciones;
 
 

@@ -23,21 +23,21 @@ import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
 import domain.common.utils.CommonUtils;
-import domain.component.Form;
-import domain.component.IViewComponent;
-import domain.component.XmlUtils;
-import domain.component.definitions.FieldViewSet;
-import domain.component.definitions.FieldViewSetCollection;
-import domain.component.definitions.IFieldView;
-import domain.component.factory.IBodyContainer;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.definitions.IEntityLogic;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
-import domain.dataccess.dto.IFieldValue;
-import domain.dataccess.factory.AppCacheFactory;
 import domain.service.DomainService;
+import domain.service.component.Form;
+import domain.service.component.IViewComponent;
+import domain.service.component.XmlUtils;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
+import domain.service.component.definitions.IFieldView;
+import domain.service.component.factory.IBodyContainer;
 import domain.service.conditions.DefaultStrategyLogin;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IEntityLogic;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.IFieldValue;
+import domain.service.dataccess.factory.AppCacheFactory;
 
 
 /**

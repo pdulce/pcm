@@ -14,10 +14,10 @@ import org.json.simple.JSONObject;
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
-import domain.component.Translator;
-import domain.component.definitions.FieldViewSet;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
+import domain.service.component.Translator;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
 import domain.service.event.IAction;
 import webservlet.stats.GenericStatsServlet;
 

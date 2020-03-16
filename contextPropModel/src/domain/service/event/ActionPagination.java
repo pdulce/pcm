@@ -13,19 +13,19 @@ import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.ParameterBindingException;
 import domain.common.exceptions.StrategyException;
-import domain.component.Form;
-import domain.component.IViewComponent;
-import domain.component.PaginationGrid;
-import domain.component.XmlUtils;
-import domain.component.definitions.FieldViewSet;
-import domain.component.definitions.FieldViewSetCollection;
-import domain.component.factory.IBodyContainer;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.definitions.FieldCompositePK;
-import domain.dataccess.definitions.IEntityLogic;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
 import domain.service.DomainService;
+import domain.service.component.Form;
+import domain.service.component.IViewComponent;
+import domain.service.component.PaginationGrid;
+import domain.service.component.XmlUtils;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
+import domain.service.component.factory.IBodyContainer;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.FieldCompositePK;
+import domain.service.dataccess.definitions.IEntityLogic;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
 
 
 /**

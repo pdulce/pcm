@@ -6,11 +6,11 @@ import java.util.Iterator;
 
 import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.StrategyException;
-import domain.component.definitions.FieldViewSet;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
-import domain.dataccess.persistence.SQLUtils;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.persistence.SQLUtils;
 import domain.service.event.IAction;
 
 

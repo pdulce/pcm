@@ -26,11 +26,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.utils.CommonUtils;
-import domain.component.definitions.FieldViewSet;
-import domain.dataccess.comparator.ComparatorInteger;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.factory.EntityLogicFactory;
-import domain.dataccess.factory.IEntityLogicFactory;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.dataccess.comparator.ComparatorInteger;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.factory.EntityLogicFactory;
+import domain.service.dataccess.factory.IEntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 public class GeneradorCronograma2PPT extends GeneradorPresentaciones{

@@ -2,7 +2,7 @@ package domain.service.event.validators;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.MessageException;
-import domain.component.IViewComponent;
+import domain.service.component.IViewComponent;
 import domain.service.event.IAction;
 import domain.service.event.Parameter;
 

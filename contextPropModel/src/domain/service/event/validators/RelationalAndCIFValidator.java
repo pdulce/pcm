@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import domain.common.utils.CommonUtils;
-import domain.component.IViewComponent;
+import domain.service.component.IViewComponent;
 
 
 /**

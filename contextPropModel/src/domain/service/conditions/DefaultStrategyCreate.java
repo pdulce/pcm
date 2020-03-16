@@ -7,11 +7,11 @@ import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
-import domain.component.definitions.FieldViewSet;
-import domain.component.definitions.FieldViewSetCollection;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
+import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
 import domain.service.event.IAction;
 
 

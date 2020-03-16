@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import domain.common.exceptions.BindPcmException;
 import domain.common.exceptions.MessageException;
-import domain.component.definitions.IFieldView;
-import domain.dataccess.IDataAccess;
-import domain.dataccess.dto.Data;
 import domain.service.DomainService;
+import domain.service.component.definitions.IFieldView;
 import domain.service.conditions.IStrategyFactory;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.dto.Data;
 
 
 /**

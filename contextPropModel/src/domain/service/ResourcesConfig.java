@@ -1,7 +1,7 @@
 package domain.service;
 
 import domain.common.PCMConstants;
-import domain.dataccess.persistence.datasource.IPCMDataSource;
+import domain.service.dataccess.persistence.datasource.IPCMDataSource;
 
 public class ResourcesConfig {
 

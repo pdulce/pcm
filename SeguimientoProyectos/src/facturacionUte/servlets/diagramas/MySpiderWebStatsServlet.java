@@ -1,7 +1,7 @@
 package facturacionUte.servlets.diagramas;
 
-import domain.dataccess.definitions.IFieldLogic;
-import domain.dataccess.dto.Data;
+import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.Data;
 import facturacionUte.common.UnitsForFields;
 import webservlet.stats.graphs.GenericSpiderChartServlet;
 
