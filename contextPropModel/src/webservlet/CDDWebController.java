@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 
 import domain.application.ApplicationDomain;
-import domain.application.ApplicationLayout;
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
