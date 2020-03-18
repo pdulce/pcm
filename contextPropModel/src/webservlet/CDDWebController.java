@@ -269,8 +269,7 @@ public class CDDWebController extends HttpServlet {
 			try {
 				os.flush();
 				httpResponse.flushBuffer();
-			}
-			catch (IOException ioExc) {
+			}catch (IOException ioExc) {
 				throw new ServletException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, ioExc);
 			}
 			return;
@@ -304,17 +303,18 @@ public class CDDWebController extends HttpServlet {
 
 		try {
 			String innerContent_ = "";
+			data.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 			if (!isJsonResult()){
-				data.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 				String escenarioTraducido = this.contextApp.getTitleOfAction(data.getService(), data.getEvent());
 				innerContent_ = this.contextApp.paintLayout(data, eventSubmitted, escenarioTraducido);
-				new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), data, startingApp);
 			}else{
 				innerContent_ = renderRequestFromNodePrv(this.contextApp, data);
 			}
 			
+			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), data, startingApp);
+			
 			data.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
-			data.setAttribute(BODY, innerContent_ == null ? "" : innerContent_.toString());
+			data.setAttribute(BODY, innerContent_ != null && !"".equals(innerContent_)? innerContent_.toString() : "");
 			
 			transferDatabusToHttpRequest(data, httpRequest);
 			

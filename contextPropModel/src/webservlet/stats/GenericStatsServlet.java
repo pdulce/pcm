@@ -404,8 +404,8 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest data, HttpServletResponse response) throws ServletException, IOException {
-		doGet(data, response);
+	protected void doGet(HttpServletRequest data, HttpServletResponse response) throws ServletException, IOException {
+		doPost(data, response);
 	}
 
 	@Override
