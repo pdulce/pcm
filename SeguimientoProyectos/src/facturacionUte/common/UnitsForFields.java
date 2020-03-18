@@ -4,7 +4,7 @@
 package facturacionUte.common;
 
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 /**
  * @author 99GU3997
@@ -12,7 +12,7 @@ import domain.service.dataccess.dto.Data;
 public class UnitsForFields {
 
 	public static String getUnitName(final IFieldLogic aggregateField, final IFieldLogic fieldForCategoriaDeAgrupacion,
-			final String aggregateFunction, final Data data_) {
+			final String aggregateFunction, final Datamap data_) {
 		String unidades = "";
 		if (aggregateField == null) {
 			unidades = "";

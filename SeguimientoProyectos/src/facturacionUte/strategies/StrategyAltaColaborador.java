@@ -12,7 +12,7 @@ import domain.service.component.definitions.IFieldView;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
@@ -21,7 +21,7 @@ public class StrategyAltaColaborador extends DefaultStrategyRequest {
 	public static final String ERR_COLABORADOR_NO_VALIDO = "ERR_COLABORADOR_NO_VALIDO";
 
 	@Override
-	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 
 		try {
@@ -65,7 +65,7 @@ public class StrategyAltaColaborador extends DefaultStrategyRequest {
 	}
 
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 

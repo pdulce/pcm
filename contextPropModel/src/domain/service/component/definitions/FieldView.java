@@ -21,6 +21,13 @@ import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
 import domain.service.component.IViewComponent;
 import domain.service.component.Translator;
+import domain.service.component.definitions.validator.ByteValidator;
+import domain.service.component.definitions.validator.DateValidator;
+import domain.service.component.definitions.validator.DoubleValidator;
+import domain.service.component.definitions.validator.IntegerValidator;
+import domain.service.component.definitions.validator.LongValidator;
+import domain.service.component.definitions.validator.RelationalAndCIFValidator;
+import domain.service.component.definitions.validator.StringValidator;
 import domain.service.component.element.ICtrl;
 import domain.service.dataccess.definitions.EntityLogic;
 import domain.service.dataccess.definitions.FieldCompositePK;
@@ -30,13 +37,6 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import domain.service.event.Parameter;
-import domain.service.event.validators.ByteValidator;
-import domain.service.event.validators.DateValidator;
-import domain.service.event.validators.DoubleValidator;
-import domain.service.event.validators.IntegerValidator;
-import domain.service.event.validators.LongValidator;
-import domain.service.event.validators.RelationalAndCIFValidator;
-import domain.service.event.validators.StringValidator;
 
 
 public class FieldView implements IFieldView, Serializable {

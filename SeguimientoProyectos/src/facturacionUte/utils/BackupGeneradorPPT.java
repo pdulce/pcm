@@ -2400,7 +2400,7 @@ public class BackupGeneradorPPT {
 	    		CTPie3DChart ctPieChart3D = plotArea.getPie3DChartArray(0);        
 	    		series = ctPieChart3D.getSerArray(0);
 	    	}
-	    	tx = series.getTx();// Category Axis Data
+	    	tx = series.getTx();// Category Axis Datamap
 	        cat = series.getCat();// Values
 	        val = series.getVal();
 	    }else if (typeOfChart.equals("bar")){
@@ -2412,7 +2412,7 @@ public class BackupGeneradorPPT {
 	    		CTBar3DChart ctBarChart3D = plotArea.getBar3DChartArray(0);        
 	    		series = ctBarChart3D.getSerArray(0);
 	    	}
-	    	tx = series.getTx();// Category Axis Data
+	    	tx = series.getTx();// Category Axis Datamap
 	        cat = series.getCat();// Values
 	        val = series.getVal();
 	    }else if (typeOfChart.equals("linechart")){
@@ -2424,7 +2424,7 @@ public class BackupGeneradorPPT {
 	    		CTLine3DChart ctLineChart3D = plotArea.getLine3DChartArray(0);        
 	    		series = ctLineChart3D.getSerArray(0);
 	    	}
-	    	tx = series.getTx();// Category Axis Data
+	    	tx = series.getTx();// Category Axis Datamap
 	        cat = series.getCat();// Values
 	        val = series.getVal();
 	    }
@@ -2481,7 +2481,7 @@ public class BackupGeneradorPPT {
         String axisDataRange = new CellRangeAddress(1, rowsE, 0, 0).formatAsString(sheet.getSheetName(), true);
         cat.getStrRef().setF(axisDataRange);
         
-        // updated the embedded workbook with the data
+        // updated the embedded workbook with the datamap
         OutputStream xlsOut = xlsPart.getPackagePart().getOutputStream();
         wb.write(xlsOut);
         xlsOut.close();
@@ -2515,7 +2515,7 @@ public class BackupGeneradorPPT {
     	}
     	tx_1 = serie1.getTx();
     	tx_2 = serie2.getTx();
-        cat_1 = serie1.getCat();// Category Axis's Data
+        cat_1 = serie1.getCat();// Category Axis's Datamap
         cat_2 = serie2.getCat();
         val_1 = serie1.getVal();// Values
         val_2 = serie2.getVal();
@@ -2600,7 +2600,7 @@ public class BackupGeneradorPPT {
         String axisDataRange2 = new CellRangeAddress(1, rowsE, 1, 1).formatAsString(sheet.getSheetName(), true);
         cat_2.getStrRef().setF(axisDataRange2);
         
-        // updated the embedded workbook with the data
+        // updated the embedded workbook with the datamap
         OutputStream xlsOut = xlsPart.getPackagePart().getOutputStream();
         wb.write(xlsOut);
         xlsOut.close();

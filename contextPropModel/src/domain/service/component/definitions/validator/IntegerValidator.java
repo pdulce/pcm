@@ -1,4 +1,4 @@
-package domain.service.event.validators;
+package domain.service.component.definitions.validator;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.MessageException;

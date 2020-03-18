@@ -18,7 +18,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
@@ -26,13 +26,13 @@ public class StrategyUpdateAgregadosMesesConcurso extends DefaultStrategyRequest
 
 
 	@Override
-	public void doBussinessStrategy(final Data req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		generarDatosResumenMes(req_, dataAccess, fieldViewSets);
 	}
 		
 		
-	private void generarDatosResumenMes(final Data req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	private void generarDatosResumenMes(final Datamap req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		
 		FieldViewSet datosConcursoRequest = null;
@@ -47,7 +47,7 @@ public class StrategyUpdateAgregadosMesesConcurso extends DefaultStrategyRequest
 			}
 		}
 		if (datosConcursoRequest == null) {
-			throw new PCMConfigurationException("Error objeto recibido de data es nulo", new Exception("null object"));
+			throw new PCMConfigurationException("Error objeto recibido de datamap es nulo", new Exception("null object"));
 		}
 		String lang = req_.getEntitiesDictionary();
 
@@ -153,7 +153,7 @@ public class StrategyUpdateAgregadosMesesConcurso extends DefaultStrategyRequest
 	}
 
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 

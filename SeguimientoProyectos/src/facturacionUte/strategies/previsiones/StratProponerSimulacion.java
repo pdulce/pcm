@@ -13,20 +13,20 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 public class StratProponerSimulacion extends DefaultStrategyRequest {
 	
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 
 	
 	@Override
-	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		
 		FieldViewSet datosColaboradorRequest = null;
@@ -35,7 +35,7 @@ public class StratProponerSimulacion extends DefaultStrategyRequest {
 			datosColaboradorRequest = iteFieldSets.next();
 		}
 		if (datosColaboradorRequest == null) {
-			throw new PCMConfigurationException("Error objeto recibido de data es nulo", new Exception("null object"));
+			throw new PCMConfigurationException("Error objeto recibido de datamap es nulo", new Exception("null object"));
 		}
 		String lang = req.getEntitiesDictionary();
 		

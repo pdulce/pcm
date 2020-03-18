@@ -8,13 +8,13 @@ import domain.common.exceptions.StrategyException;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import facturacionUte.common.ConstantesModelo;
 
 public class StratActualizarAnualidadesPrevision extends DefaultStrategyRequest {
 
 	@Override
-	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
 		if (iteFieldSets.hasNext()) {
@@ -27,7 +27,7 @@ public class StratActualizarAnualidadesPrevision extends DefaultStrategyRequest 
 	}
 
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 

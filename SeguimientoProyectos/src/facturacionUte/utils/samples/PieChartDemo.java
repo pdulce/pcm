@@ -53,9 +53,9 @@ import java.io.OutputStream;
  */
 public class PieChartDemo {
     private static void usage(){
-        System.out.println("Usage: PieChartDemo <pie-chart-template.pptx> <pie-chart-data.txt>");
+        System.out.println("Usage: PieChartDemo <pie-chart-template.pptx> <pie-chart-datamap.txt>");
         System.out.println("    pie-chart-template.pptx     template with a pie chart");
-        System.out.println("    pie-chart-data.txt          the model to set. First line is chart title, " +
+        System.out.println("    pie-chart-datamap.txt          the model to set. First line is chart title, " +
                 "then go pairs {axis-label value}");
     }
 
@@ -87,7 +87,7 @@ public class PieChartDemo {
 	
 	        if(chart == null) throw new IllegalStateException("chart not found in the template");
 	
-	        // embedded Excel workbook that holds the chart data
+	        // embedded Excel workbook that holds the chart datamap
 	        POIXMLDocumentPart xlsPart = chart.getRelations().get(0);
 	        XSSFWorkbook wb = new XSSFWorkbook();
 	        XSSFSheet sheet = wb.createSheet();
@@ -106,7 +106,7 @@ public class PieChartDemo {
 	        String titleRef = new CellReference(sheet.getSheetName(), 0, 1, true, true).formatAsString();
 	        tx.getStrRef().setF(titleRef);
 	
-	        // Category Axis Data
+	        // Category Axis Datamap
 	        CTAxDataSource cat = ser.getCat();
 	        CTStrData strData = cat.getStrRef().getStrCache();
 	
@@ -144,7 +144,7 @@ public class PieChartDemo {
 	        String axisDataRange = new CellRangeAddress(1, rownum-1, 0, 0).formatAsString(sheet.getSheetName(), true);
 	        cat.getStrRef().setF(axisDataRange);
 	
-	        // updated the embedded workbook with the data
+	        // updated the embedded workbook with the datamap
 	        OutputStream xlsOut = xlsPart.getPackagePart().getOutputStream();
 	        wb.write(xlsOut);
 	        xlsOut.close();

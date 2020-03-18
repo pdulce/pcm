@@ -24,7 +24,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
@@ -37,7 +37,7 @@ import facturacionUte.common.ConstantesModelo;
  *         Fecha	oltimo	Apert.	%Dif.	Mox.	Mon.	Volumen
 
  *         *********************
- *         Excel resource file: C:\jboss-4.0.2\server\default\data\excel
+ *         Excel resource file: C:\jboss-4.0.2\server\default\datamap\excel
  *         Usaremos la extension .xls, org.apache.poi.hssf.usermodel.*.
  *         Paara extensiones .xlsx se usa la libreroa org.apache.poi.xssf.usermodel.*;
  */
@@ -64,7 +64,7 @@ public class ImportarCotizacionesBolsa {
 
 	private IDataAccess dataAccess;
 
-	protected void initEntities(final Data data_) {
+	protected void initEntities(final Datamap data_) {
 		if (cotizacionesEntidad == null) {
 			try {
 				cotizacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
@@ -76,7 +76,7 @@ public class ImportarCotizacionesBolsa {
 		}
 	}
 
-	public ImportarCotizacionesBolsa(IDataAccess dataAccess_, Data req) {
+	public ImportarCotizacionesBolsa(IDataAccess dataAccess_, Datamap req) {
 		this.dataAccess = dataAccess_;
 		initEntities(req);
 	}

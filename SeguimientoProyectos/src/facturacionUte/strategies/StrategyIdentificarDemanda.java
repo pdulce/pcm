@@ -20,7 +20,7 @@ import domain.service.component.definitions.Rank;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
@@ -60,12 +60,12 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 		 * Si eso no es aso, este algoritmo de deteccion no funcionaro
 		 */
 		@Override
-		public void doBussinessStrategy(final Data data, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+		public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 				throws StrategyException, PCMConfigurationException {
 			try {
 				dataAccess.setAutocommit(false);
-				final String dict = data.getLanguage();
-				initEntitiesFactories(data.getEntitiesDictionary());
+				final String dict = datamap.getLanguage();
+				initEntitiesFactories(datamap.getEntitiesDictionary());
 				
 				if (fieldViewSets.isEmpty()) {
 					throw new StrategyException(ERR_STRATEGY_IDENTIFICAR_DEMANDA);

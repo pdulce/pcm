@@ -1,4 +1,4 @@
-package domain.service.event.validators;
+package domain.service.component.definitions.validator;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.MessageException;
@@ -7,7 +7,7 @@ import domain.service.event.IAction;
 import domain.service.event.Parameter;
 
 /**
- * <h1>ByteValidator</h1> The ByteValidator class is used for validating datamap of 'byte' type.
+ * <h1>LongValidator</h1> The LongValidator class is used for validating datamap of 'long' type.
  * <p>
  * 
  * @author Pedro Dulce
@@ -15,38 +15,44 @@ import domain.service.event.Parameter;
  * @since 2014-03-31
  */
 
-public class ByteValidator implements IValidator {
+public class LongValidator implements IValidator {
 
-	private ByteValidator() {
+	private LongValidator() {
+
 	}
 
 	public static boolean isValid(final String val_, final MessageException msg, final String nombreQ_, final boolean obligatorio,
-			final byte minValue, final byte maxValue) {
-		final String val = val_ == null ? PCMConstants.EMPTY_ : val_.trim();
+			final Double minValue, final Double maxValue) {
+		String val = val_ == null ? PCMConstants.EMPTY_ : val_.trim();
 		if (PCMConstants.EMPTY_.equals(val.trim()) && obligatorio) {
 			msg.addParameter(new Parameter(IAction.BINDING_CONCRETE_MSG, IValidator.DATA_NEEDED));
 			msg.addParameter(new Parameter(IViewComponent.ZERO, nombreQ_));
 			return false;
 		}
-		if (!PCMConstants.EMPTY_.equals(val.trim())) {
+		if (!PCMConstants.EMPTY_.equals(val)) {
+			val = val.replaceAll(PCMConstants.REGEXP_POINT, PCMConstants.EMPTY_);
 			try {
-				final Byte b = Byte.valueOf(val);
-				if (b.longValue() < minValue) {
+				final Double b = Double.valueOf(val);
+				if (minValue != null && b.compareTo(minValue) < 0) {
 					msg.addParameter(new Parameter(IAction.BINDING_CONCRETE_MSG, IValidator.DATA_NO_ALCANZA_MINVAL));
 					msg.addParameter(new Parameter(IViewComponent.ZERO, nombreQ_));
-					msg.addParameter(new Parameter(IViewComponent.ONE, String.valueOf(minValue)));
+					msg.addParameter(new Parameter(IViewComponent.ONE, String.valueOf(minValue == null ? 0 : minValue.longValue())));
 					return false;
-				} else if (b.longValue() > maxValue) {
+				} else if (maxValue != null && b.compareTo(maxValue) > 0) {
 					msg.addParameter(new Parameter(IAction.BINDING_CONCRETE_MSG, IValidator.DATA_SUPERA_MAXVAL));
 					msg.addParameter(new Parameter(IViewComponent.ZERO, nombreQ_));
-					msg.addParameter(new Parameter(IViewComponent.ONE, String.valueOf(maxValue)));
+					msg.addParameter(new Parameter(IViewComponent.ONE, String.valueOf(maxValue == null ? 0 : maxValue.longValue())));
 					return false;
 				}
 			}
 			catch (final NumberFormatException castExc) {
 				msg.addParameter(new Parameter(IAction.BINDING_CONCRETE_MSG, IValidator.DATA_NO_CORRECT_FORMAT));
 				msg.addParameter(new Parameter(IViewComponent.ZERO, nombreQ_));
-				msg.addParameter(new Parameter(IViewComponent.ONE, IValidator.BYTE_MSG));
+				final StringBuilder sb = new StringBuilder(IValidator.LONG_MSG).append(String.valueOf(minValue == null ? 0 : minValue
+						.longValue()));
+				sb.append(PCMConstants.CHAR_SIMPLE_SEPARATOR).append(String.valueOf(maxValue == null ? 0 : maxValue.longValue()))
+						.append(PCMConstants.CHAR_END_CORCH);
+				msg.addParameter(new Parameter(IViewComponent.ONE, sb.toString()));
 				return false;
 			}
 		}

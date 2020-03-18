@@ -1753,7 +1753,7 @@ public class GeneradorPresentaciones {
 			setNewText(slideVolumenAgregados_3,"#PERIODO#", periodo);
 			setNewText(slideVolumenAgregados_3, "Nombre del Ãorea/Servicio", nombreAREA_SERVICIO);
 			
-			/**** Completamos los data.csv de los diagramas de barras ****/			
+			/**** Completamos los datamap.csv de los diagramas de barras ****/			
 			
 			List<POIXMLDocumentPart> listaObj = new ArrayList<POIXMLDocumentPart>();
 			listaObj.addAll(slideVolumenAndEffortAggregados_1.getRelations());
@@ -2484,7 +2484,7 @@ public class GeneradorPresentaciones {
         CTChart ctChart = chart.getCTChart();
         CTPlotArea plotArea = ctChart.getPlotArea();        
         CTSerTx tx_1 = null, tx_2 = null, tx_3 = null;
-        CTAxDataSource category_1 = null, category_2 = null, category_3 = null;// Category Axis's Data
+        CTAxDataSource category_1 = null, category_2 = null, category_3 = null;// Category Axis's Datamap
         CTNumDataSource val_1 = null, val_2 = null, val_3 = null;
         
     	if (plotArea.getBar3DChartList() != null && !plotArea.getBar3DChartList().isEmpty()){
@@ -2502,8 +2502,8 @@ public class GeneradorPresentaciones {
            	tx_2 = biserie? serie2_.getTx():null;
            	tx_3 = triserie? serie3_.getTx():null;
            	category_1 = serie1_.getCat();
-        	category_2 = biserie? serie2_.getCat():null;// Category Axis's Data
-       		category_3 = triserie?serie2_.getCat():null;// Category Axis's Data
+        	category_2 = biserie? serie2_.getCat():null;// Category Axis's Datamap
+       		category_3 = triserie?serie2_.getCat():null;// Category Axis's Datamap
        		
        		val_1 = serie1_.getVal();
        		val_2 = biserie? serie2_.getVal():null;
@@ -2524,8 +2524,8 @@ public class GeneradorPresentaciones {
            	tx_2 = biserie? serie2_.getTx():null;
            	tx_3 = triserie? serie3_.getTx():null;
            	category_1 = serie1_.getCat();
-        	category_2 = biserie? serie2_.getCat():null;// Category Axis's Data
-       		category_3 = triserie?serie2_.getCat():null;// Category Axis's Data
+        	category_2 = biserie? serie2_.getCat():null;// Category Axis's Datamap
+       		category_3 = triserie?serie2_.getCat():null;// Category Axis's Datamap
        		val_1 = serie1_.getVal();
        		val_2 = biserie? serie2_.getVal():null;
        		val_3 = triserie? serie3_.getVal():null;
@@ -2694,7 +2694,7 @@ public class GeneradorPresentaciones {
         	category_3.getStrRef().setF(axisDataRange3);
         }
          
-        // updated the embedded workbook with the data
+        // updated the embedded workbook with the datamap
         OutputStream xlsOut = xlsPart.getPackagePart().getOutputStream();
         wb.write(xlsOut);
         xlsOut.close();

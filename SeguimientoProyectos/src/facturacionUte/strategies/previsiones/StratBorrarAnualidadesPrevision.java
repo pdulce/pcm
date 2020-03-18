@@ -11,14 +11,14 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
 public class StratBorrarAnualidadesPrevision extends DefaultStrategyRequest {
 
 	@Override
-	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 
 		Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
@@ -36,11 +36,11 @@ public class StratBorrarAnualidadesPrevision extends DefaultStrategyRequest {
 	}
 
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 
-	public void borrarAnualidadesPrevision(final FieldViewSet datosPrevision, final Data req, final IDataAccess dataAccess)
+	public void borrarAnualidadesPrevision(final FieldViewSet datosPrevision, final Datamap req, final IDataAccess dataAccess)
 			throws PCMConfigurationException {
 		try {
 

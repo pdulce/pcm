@@ -11,7 +11,7 @@ import domain.common.exceptions.StrategyException;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
@@ -37,15 +37,15 @@ public class StrategyImportacionFactura extends StrategyLogin {
 	}
 
 	@Override
-	public void doBussinessStrategy(final Data data, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 		try {
 						
-			if (!AbstractAction.isTransactionalEvent(data.getParameter(PCMConstants.EVENT))) {
+			if (!AbstractAction.isTransactionalEvent(datamap.getParameter(PCMConstants.EVENT))) {
 				return;
 			}
 			
-			initEntitiesFactories(data.getEntitiesDictionary());
+			initEntitiesFactories(datamap.getEntitiesDictionary());
 			if (fieldViewSets.isEmpty()) {
 				return;
 			}			
@@ -73,7 +73,7 @@ public class StrategyImportacionFactura extends StrategyLogin {
 			Integer anyo = anyoSeleccionado!=null? Integer.valueOf(anyoSeleccionado.toString().replaceAll(PCMConstants.REGEXP_POINT, "")):null;
 			
 			Long idContrato = Long.valueOf (objetoImportacionFra.getValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_2_ID_CONTRATO).getName()).toString());
-			TuplaMesEjercicioEntradas tuplaResultadoImport = new ImportarFacturacionMes(dataAccess, data).importar(data, filePath, objetoImportacionFra, idContrato, idMes, anyo);
+			TuplaMesEjercicioEntradas tuplaResultadoImport = new ImportarFacturacionMes(dataAccess, datamap).importar(datamap, filePath, objetoImportacionFra, idContrato, idMes, anyo);
 			objetoImportacionFra.setValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_3_MES).getName(), tuplaResultadoImport.getIdMes());
 			objetoImportacionFra.setValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_4_ANYO).getName(), tuplaResultadoImport.getEjercicio());
 			objetoImportacionFra.setValue(importacionEntidad.searchField(ConstantesModelo.IMPORT_FACT_6_NUM_ENTRADAS).getName(), tuplaResultadoImport.getEntradas());

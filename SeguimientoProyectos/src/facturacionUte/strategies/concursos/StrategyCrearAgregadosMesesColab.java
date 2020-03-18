@@ -17,7 +17,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
@@ -26,13 +26,13 @@ public class StrategyCrearAgregadosMesesColab extends DefaultStrategyRequest {
 
 
 	@Override
-	public void doBussinessStrategy(final Data req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		generarDatosResumenMes(req_, dataAccess, fieldViewSets);
 	}
 		
 		
-	private void generarDatosResumenMes(final Data req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	private void generarDatosResumenMes(final Datamap req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		
 		if (!AbstractAction.isTransactionalEvent(req_.getParameter(PCMConstants.EVENT))){
@@ -45,7 +45,7 @@ public class StrategyCrearAgregadosMesesColab extends DefaultStrategyRequest {
 			datosColaboradorRequest = iteFieldSets.next();
 		}
 		if (datosColaboradorRequest == null) {
-			throw new PCMConfigurationException("Error objeto recibido de data es nulo ", new Exception("null object"));
+			throw new PCMConfigurationException("Error objeto recibido de datamap es nulo ", new Exception("null object"));
 		}
 		String lang = req_.getEntitiesDictionary();
 		
@@ -187,7 +187,7 @@ public class StrategyCrearAgregadosMesesColab extends DefaultStrategyRequest {
 	}
 
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 

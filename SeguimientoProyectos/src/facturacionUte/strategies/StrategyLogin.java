@@ -11,7 +11,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyLogin;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import facturacionUte.common.ConstantesModelo;
@@ -38,7 +38,7 @@ public class StrategyLogin extends DefaultStrategyLogin {
 	}
 
 	@Override
-	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 		try {
 			/** RECUPERAMOS DATOS DE PANTALLA * */

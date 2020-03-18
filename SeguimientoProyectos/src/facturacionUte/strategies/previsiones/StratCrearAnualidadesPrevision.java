@@ -21,7 +21,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import facturacionUte.common.ConstantesModelo;
@@ -29,7 +29,7 @@ import facturacionUte.common.ConstantesModelo;
 public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 
 	@Override
-	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
 		if (iteFieldSets.hasNext()) {
@@ -41,11 +41,11 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 	}
 
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 
-	public void crearAnualidadesPrevision(final FieldViewSet datosPrevision_, final Data req, final IDataAccess dataAccess) throws PCMConfigurationException {
+	public void crearAnualidadesPrevision(final FieldViewSet datosPrevision_, final Datamap req, final IDataAccess dataAccess) throws PCMConfigurationException {
 		try {
 			final IEntityLogic facturacionMesColaboradorEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.FACTURACIONMESPORCOLABORADOR_ENTIDAD);
 			final IEntityLogic categoriaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(req.getEntitiesDictionary(), ConstantesModelo.CATEGORIA_PROFESIONAL_ENTIDAD);
@@ -577,7 +577,7 @@ public class StratCrearAnualidadesPrevision extends DefaultStrategyRequest {
 		} catch (TransactionException e3) {
 			throw new PCMConfigurationException("error in insert transaction", e3);
 		} catch (ParseException e) {
-			throw new PCMConfigurationException("error receiving data from data", e);
+			throw new PCMConfigurationException("error receiving datamap from datamap", e);
 		}
 	}
 

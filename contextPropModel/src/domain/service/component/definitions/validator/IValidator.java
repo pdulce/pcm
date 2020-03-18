@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain.service.event.validators;
+package domain.service.component.definitions.validator;
 
 /**
  * <h1>IValidator</h1> The IValidator interface is used for defining the validating methods for

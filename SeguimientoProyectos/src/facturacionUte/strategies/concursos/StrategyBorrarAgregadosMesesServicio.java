@@ -12,7 +12,7 @@ import domain.service.conditions.DefaultStrategyDelete;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
@@ -20,13 +20,13 @@ public class StrategyBorrarAgregadosMesesServicio extends DefaultStrategyRequest
 
 
 	@Override
-	public void doBussinessStrategy(final Data req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		generarDatosResumenMes(req_, dataAccess, fieldViewSets);
 	}
 		
 		
-	private void generarDatosResumenMes(final Data req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	private void generarDatosResumenMes(final Datamap req_, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		
 		FieldViewSet datosServicioRequest = null;
@@ -35,7 +35,7 @@ public class StrategyBorrarAgregadosMesesServicio extends DefaultStrategyRequest
 			datosServicioRequest = iteFieldSets.next();
 		}
 		if (datosServicioRequest == null) {
-			throw new PCMConfigurationException("Error: el objeto recibido de data es null", new Exception("null object"));
+			throw new PCMConfigurationException("Error: el objeto recibido de datamap es null", new Exception("null object"));
 		}
 		String lang = req_.getEntitiesDictionary();
 		
@@ -59,7 +59,7 @@ public class StrategyBorrarAgregadosMesesServicio extends DefaultStrategyRequest
 	}
 
 	@Override
-	protected void validParameters(Data req) throws StrategyException {
+	protected void validParameters(Datamap req) throws StrategyException {
 		// OK
 	}
 

@@ -27,7 +27,7 @@ import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
 
@@ -339,7 +339,7 @@ public class ValoresActuales {
 		    4.4. Si el abs(% de variacion de hoy) + 'varianza negativos' es mayor(esto por debajo) que el abs(mon_diferenciales-negativos),
 				entonces, y la tendencia (media total de todos los diferenciales) es positiva en el periodo, recomendar valor.					
 	****/
-	private boolean recomendarValor(final String grupoCandidato, final double valorActualCotizacion, final Data req, final IDataAccess dataAccess) throws DatabaseException{
+	private boolean recomendarValor(final String grupoCandidato, final double valorActualCotizacion, final Datamap req, final IDataAccess dataAccess) throws DatabaseException{
 		if (valorActualCotizacion >= 0){
 			return false;
 		}
@@ -431,7 +431,7 @@ public class ValoresActuales {
 		}
 	}
 	
-	public String refreshMiCartera(final Data reqWrapper_, final IDataAccess dataAccess){
+	public String refreshMiCartera(final Datamap reqWrapper_, final IDataAccess dataAccess){
 		
 		BufferedReader input = null;
 		
@@ -654,7 +654,7 @@ public class ValoresActuales {
 	}
 	
 	
-	public String refrescarIndicesBursatiles(final Data req, final IDataAccess dataAccess){
+	public String refrescarIndicesBursatiles(final Datamap req, final IDataAccess dataAccess){
 		long timeInit = Calendar.getInstance().getTimeInMillis();
 		if (cotizacionesEntidad == null) {
 			try {
@@ -714,7 +714,7 @@ public class ValoresActuales {
 								
 								if (inputLine != null && inputLine.contains("<tr>")){// primero viene el titulo, y luego cada fila de informacion
 									inputLine = input.readLine();
-									while ( inputLine != null && inputLine.indexOf("<tbody class=\"table-data\">") == -1){//buscamos el bloque de informacion tras la oltima columna de title <th
+									while ( inputLine != null && inputLine.indexOf("<tbody class=\"table-datamap\">") == -1){//buscamos el bloque de informacion tras la oltima columna de title <th
 										inputLine = input.readLine();										
 									}
 									//buscamos la primera fila de informacion

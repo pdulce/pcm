@@ -13,7 +13,7 @@ import domain.service.component.IViewComponent;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.AbstractAction;
 import domain.service.event.IEvent;
@@ -40,13 +40,13 @@ public class StrategyImportacionInvertiaDATA extends StrategyLogin {
 	}
 
 	@Override
-	public void doBussinessStrategy(final Data data, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 		try {
-			if (!AbstractAction.isTransactionalEvent(data.getParameter(PCMConstants.EVENT))) {
+			if (!AbstractAction.isTransactionalEvent(datamap.getParameter(PCMConstants.EVENT))) {
 				return;
 			}
-			initEntitiesFactories(data.getEntitiesDictionary());
+			initEntitiesFactories(datamap.getEntitiesDictionary());
 			if (fieldViewSets.isEmpty()) {
 				return;
 			}
@@ -82,7 +82,7 @@ public class StrategyImportacionInvertiaDATA extends StrategyLogin {
 			fSetConEseRochade.setValue(importacionEntidadInvertiaDATA.searchField(ConstantesModelo.INVERTIA_IMPORT_2_GRUPO).getName(), grupoDeInversion);
 			fSetConEseRochade = dataAccess.searchEntityByPk(fSetConEseRochade);
 
-			if (data.getParameter(PCMConstants.EVENT).endsWith(IEvent.CREATE)
+			if (datamap.getParameter(PCMConstants.EVENT).endsWith(IEvent.CREATE)
 					&& fSetConEseRochade != null
 					&& grupoDeInversion.equals(importacionFSet4Insert.getValue(importacionEntidadInvertiaDATA.searchField(
 							ConstantesModelo.INVERTIA_IMPORT_2_GRUPO).getName()))) {
@@ -95,7 +95,7 @@ public class StrategyImportacionInvertiaDATA extends StrategyLogin {
 			/** TOMAMOS LAS DECISIONES DE NEGOCIO QUE CORRESPONDA * */
 			long inicio = Calendar.getInstance().getTimeInMillis();
 			Integer numEntradas = Integer.valueOf("0");
-			ImportarCotizacionesBolsa importador = new ImportarCotizacionesBolsa(dataAccess, data);
+			ImportarCotizacionesBolsa importador = new ImportarCotizacionesBolsa(dataAccess, datamap);
 			try {
 				numEntradas = Integer.valueOf(importador.importar(filePath, importacionFSet4Insert));
 			}
@@ -106,7 +106,7 @@ public class StrategyImportacionInvertiaDATA extends StrategyLogin {
 			long segundosImportacion = (fin - inicio)/1000;
 			String timeImport_ = ". Tiempo de importacion: ".concat((segundosImportacion > 60)? Long.valueOf(segundosImportacion/60).intValue() + " minutos " + Long.valueOf(segundosImportacion%60).intValue() + " segundos.":segundosImportacion+ " segundos.");
 
-			data.setAttribute(IViewComponent.APP_MSG, timeImport_);
+			datamap.setAttribute(IViewComponent.APP_MSG, timeImport_);
 
 			importacionFSet4Insert.setValue(importacionEntidadInvertiaDATA.searchField(ConstantesModelo.INVERTIA_IMPORT_3_NUM_ENTRADAS).getName(),
 					numEntradas);					
@@ -118,7 +118,7 @@ public class StrategyImportacionInvertiaDATA extends StrategyLogin {
 			throw ecxx1;
 		}
 		catch (final Exception ecxx12) {
-			throw new PCMConfigurationException("Configuration error migrating records of Invertia.com data excel file", ecxx12);
+			throw new PCMConfigurationException("Configuration error migrating records of Invertia.com datamap excel file", ecxx12);
 		}
 	}
 }

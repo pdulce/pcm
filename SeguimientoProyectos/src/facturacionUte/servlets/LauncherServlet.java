@@ -14,7 +14,7 @@ import domain.application.ApplicationDomain;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.event.SceneResult;
 import facturacionUte.utils.bolsa.ValoresActuales;
 import webservlet.CDDWebController;
@@ -86,7 +86,7 @@ public class LauncherServlet extends CDDWebController {
 	}
 
 	@Override
-	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
+	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Datamap data_) {
 		
 		IDataAccess dataAccess = null;
 		try {
@@ -97,7 +97,7 @@ public class LauncherServlet extends CDDWebController {
 		}
 		final String event = data_.getEvent();
 		StringBuilder htmlOutput = new StringBuilder();
-		htmlOutput.append("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\""
+		htmlOutput.append("<form class=\"pcmForm\" enctype=\"multipart/form-datamap\" method=\"POST\" name=\"enviarDatos\" action=\""
 				+ UTIL_URI_SERVLET + "\">");
 		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"" + data_.getParameter(ApplicationDomain.EXEC_PARAM) + "\" />");
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\""+PCMConstants.EVENT+"\" value=\"" + event + "\" />");
