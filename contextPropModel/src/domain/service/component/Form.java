@@ -39,7 +39,7 @@ import domain.service.dataccess.comparator.ComparatorIdButtons;
 import domain.service.dataccess.definitions.EntityLogic;
 import domain.service.dataccess.definitions.FieldCompositePK;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.AbstractAction;
@@ -104,7 +104,7 @@ public class Form extends AbstractComponent {
 		return this.service.concat("_").concat(this.event).concat("_").concat(this.title);
 	}
 
-	public Form(final Element formElement_, final IDataAccess dataAccess_, final Data data_) throws PCMConfigurationException {
+	public Form(final Element formElement_, final IDataAccess dataAccess_, final Datamap data_) throws PCMConfigurationException {
 		this.service = ((Element)formElement_.getParentNode().getParentNode().getParentNode()).getAttribute(DomainService.NAME_ATTR);
 		final String event_ = data_.getEvent();
 		this.event = AbstractAction.isQueryEvent(event_) ? IEvent.QUERY : event_;
@@ -168,13 +168,13 @@ public class Form extends AbstractComponent {
 	}
 
 	private Collection<IFieldView> obtenerColeccionFieldViews(final List<Element> nodosFieldViews, final ICtrl fieldSetsCtrl,
-			final Data data, final IDataAccess dataAccess_, final String entityNameInMetamodel, final String nameSpace,
+			final Datamap datamap, final IDataAccess dataAccess_, final String entityNameInMetamodel, final String nameSpace,
 			final StringBuilder validationBlock, boolean isButtonParam) throws PCMConfigurationException {
-		final String appDictionary = data.getEntitiesDictionary();
+		final String appDictionary = datamap.getEntitiesDictionary();
 		Iterator<Map.Entry<String, IFieldLogic>> mapEntriesIte = null;
 		EntityLogic entityOfFieldViewSet = null;
 		if (ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)) {
-			this.entityName = data.getParameter(nameSpace);
+			this.entityName = datamap.getParameter(nameSpace);
 			entityOfFieldViewSet = EntityLogicFactory.getFactoryInstance().getEntityDef(appDictionary, this.entityName);
 			List<Map.Entry<String, IFieldLogic>> coleccionFieldLogics = new ArrayList<Map.Entry<String, IFieldLogic>>(entityOfFieldViewSet.getFieldSet().entrySet());			
 			Collections.sort(coleccionFieldLogics, new ComparatorFieldLogicSet());
@@ -205,7 +205,7 @@ public class Form extends AbstractComponent {
 					}else {
 						fieldView.setDivParent("pral");
 					}
-					completarLista(dataAccess_, fieldView, fieldSetsCtrl, validationBlock, coleccionFieldViews, data.getEvent(), isButtonParam);
+					completarLista(dataAccess_, fieldView, fieldSetsCtrl, validationBlock, coleccionFieldViews, datamap.getEvent(), isButtonParam);
 				}
 				break;
 			}else if (fieldViewDef != null){
@@ -217,7 +217,7 @@ public class Form extends AbstractComponent {
 			}
 			if (fieldViewDef != null){
 				fieldViewDef.setPosition(position++);
-				completarLista(dataAccess_, fieldViewDef, fieldSetsCtrl, validationBlock, coleccionFieldViews, data.getEvent(), isButtonParam);
+				completarLista(dataAccess_, fieldViewDef, fieldSetsCtrl, validationBlock, coleccionFieldViews, datamap.getEvent(), isButtonParam);
 			}
 		}// for each node of list
 		this.numberOfElements = coleccionFieldViews.size();
@@ -239,12 +239,12 @@ public class Form extends AbstractComponent {
 	}
 	
 	@Override
-	protected final void initFieldViewSets(final Element element, final Data data, IDataAccess dataAccess_)
+	protected final void initFieldViewSets(final Element element, final Datamap datamap, IDataAccess dataAccess_)
 			throws PCMConfigurationException {
 		try {
 			int order_int = 0;
 			Map<String, LinkButton> botonesProvisional = new HashMap<String, LinkButton>();
-			String lang = data.getEntitiesDictionary();
+			String lang = datamap.getEntitiesDictionary();
 			final NodeList nodosUserButtons = element.getElementsByTagName(USERBUTTONS_ELEMENT);
 			int nodosLength= nodosUserButtons.getLength();
 			for (int i = 0; i < nodosLength; i++) {
@@ -265,7 +265,7 @@ public class Form extends AbstractComponent {
 				for (int j = 0; j < nodosButtonLength; j++) {
 					final Element button = (Element) nodosButton.item(j);
 					final String name_ = button.getAttribute(DomainService.NAME_ATTR);
-					final String name = Translator.traducePCMDefined(data.getLanguage(), name_);
+					final String name = Translator.traducePCMDefined(datamap.getLanguage(), name_);
 					final String link = button.getAttribute(LINK_ATTR);
 					final String id = button.getAttribute(ID_ATTR);
 					final String onClickAttr = button.getAttribute(ONCLICK_ATTR);
@@ -327,7 +327,7 @@ public class Form extends AbstractComponent {
 					Element elementFSet = (Element) nodosFieldViews.item(k);
 					listaFieldViewSets.add(elementFSet);
 				}
-				coleccionFieldViews.addAll(obtenerColeccionFieldViews(listaFieldViewSets, fieldSetPrincipalCtrl, data, dataAccess_,
+				coleccionFieldViews.addAll(obtenerColeccionFieldViews(listaFieldViewSets, fieldSetPrincipalCtrl, datamap, dataAccess_,
 						entityNameInMetamodel, nameSpace, validationBlock,
 						/* isButtonParam */fieldViewSetNode.getParentNode().getNodeName().equals(BUTTON_ELEMENT)));
 				FieldViewSet fieldViewSet = ContextProperties.REQUEST_VALUE.equals(entityNameInMetamodel)? new FieldViewSet(lang, nameSpace, coleccionFieldViews):
@@ -648,10 +648,10 @@ public class Form extends AbstractComponent {
 
 	
 	@Override
-	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		try {
 			// long miliseconds1 = System.nanoTime();
-			final String lang = data.getLanguage();
+			final String lang = datamap.getLanguage();
 
 			recreateControls4FieldViewSets(getFieldViewSets(), this.visibleControls, this.hiddenControls);
 
@@ -666,24 +666,24 @@ public class Form extends AbstractComponent {
 				hiddens.append(control.getInnerHTML(lang, this.getFormattedValues(control.getQName())));
 			}
 			
-			if (!AbstractAction.isQueryEvent(this.event) && data.getParameter(PaginationGrid.CURRENT_PAGE) != null
-					&& !"".equals(data.getParameter(PaginationGrid.CURRENT_PAGE))) {
-				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_PAGINAS, data.getParameter(PaginationGrid.TOTAL_PAGINAS))
+			if (!AbstractAction.isQueryEvent(this.event) && datamap.getParameter(PaginationGrid.CURRENT_PAGE) != null
+					&& !"".equals(datamap.getParameter(PaginationGrid.CURRENT_PAGE))) {
+				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_PAGINAS, datamap.getParameter(PaginationGrid.TOTAL_PAGINAS))
 						.toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.CURRENT_PAGE, data.getParameter(PaginationGrid.CURRENT_PAGE))
+				hiddens.append(this.paintInputHidden(PaginationGrid.CURRENT_PAGE, datamap.getParameter(PaginationGrid.CURRENT_PAGE))
 					.toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_RECORDS, data.getParameter(PaginationGrid.TOTAL_RECORDS))
+				hiddens.append(this.paintInputHidden(PaginationGrid.TOTAL_RECORDS, datamap.getParameter(PaginationGrid.TOTAL_RECORDS))
 						.toHTML());
 			}
 				
-			if (data.getParameter(PaginationGrid.ORDENACION) != null && 
-					!PCMConstants.EMPTY_.equals(data.getParameter(PaginationGrid.ORDENACION)) ){
-				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, data.getParameter(PaginationGrid.DIRECCION)).toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, data.getParameter(PaginationGrid.ORDENACION)).toHTML());					
-			}else if (data.getParameter(PaginationGrid.ORDENACION_ACTUAL) != null && 
-					!PCMConstants.EMPTY_.equals(data.getParameter(PaginationGrid.ORDENACION_ACTUAL))){
-				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, data.getParameter(PaginationGrid.DIRECCION_ACTUAL)).toHTML());
-				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, data.getParameter(PaginationGrid.ORDENACION_ACTUAL)).toHTML());
+			if (datamap.getParameter(PaginationGrid.ORDENACION) != null && 
+					!PCMConstants.EMPTY_.equals(datamap.getParameter(PaginationGrid.ORDENACION)) ){
+				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, datamap.getParameter(PaginationGrid.DIRECCION)).toHTML());
+				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, datamap.getParameter(PaginationGrid.ORDENACION)).toHTML());					
+			}else if (datamap.getParameter(PaginationGrid.ORDENACION_ACTUAL) != null && 
+					!PCMConstants.EMPTY_.equals(datamap.getParameter(PaginationGrid.ORDENACION_ACTUAL))){
+				hiddens.append(this.paintInputHidden(PaginationGrid.DIRECCION_ACTUAL, datamap.getParameter(PaginationGrid.DIRECCION_ACTUAL)).toHTML());
+				hiddens.append(this.paintInputHidden(PaginationGrid.ORDENACION_ACTUAL, datamap.getParameter(PaginationGrid.ORDENACION_ACTUAL)).toHTML());
 			}
 		
 			newXmlToPaint = newXmlToPaint.replaceFirst(Form.HIDDEN_AREA, hiddens.toString());
@@ -859,7 +859,7 @@ public class Form extends AbstractComponent {
 
 			innerHTMLFieldsSetGlobal.append("<HR/>");
 			XmlUtils.openXmlNode(innerHTMLFieldsSetGlobal, IViewComponent.UL_LABEL_ID);
-			List<LinkButton> buttons = this.initButtonsWithRequest(data, submitted);
+			List<LinkButton> buttons = this.initButtonsWithRequest(datamap, submitted);
 			for (int j = 0; j < buttons.size(); j++) {
 				final LinkButton button = buttons.get(j);
 				String name = Translator.traducePCMDefined(lang, button.getId().replaceAll("\"", "").replaceFirst(" id=", ""));
@@ -885,7 +885,7 @@ public class Form extends AbstractComponent {
 		}
 	}
 
-	private final List<LinkButton> initButtonsWithRequest(final Data data_, boolean submitted) {
+	private final List<LinkButton> initButtonsWithRequest(final Datamap data_, boolean submitted) {
 		
 		List<LinkButton> buttons = new ArrayList<LinkButton>();
 		final String event_ = AbstractAction.isFormularyEntryEvent(this.event) ? 

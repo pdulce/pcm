@@ -9,14 +9,14 @@ import domain.common.exceptions.StrategyException;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.persistence.SQLUtils;
 import domain.service.event.IAction;
 
 
 public class DefaultStrategyUpdate implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final Data context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException {
 		if (fieldViewSets == null || fieldViewSets.isEmpty()) {
 			throw new StrategyException(IAction.UPDATE_STRATEGY_NO_RECORDS_ERR);
@@ -31,7 +31,7 @@ public class DefaultStrategyUpdate implements IStrategy {
 				continue;
 			}
 			final IFieldLogic fieldFecMod = fieldViewSet.getEntityDef().getFieldSet()
-					.get(dataAccess.getDaoRef().getAuditFieldset().getProperty(Data.FEC_MOD));
+					.get(dataAccess.getDaoRef().getAuditFieldset().getProperty(Datamap.FEC_MOD));
 			if (fieldFecMod != null) {
 				final Timestamp fecModOfActualRecord = SQLUtils.getTimestamp(fieldViewSet.getFieldvalue(fieldFecMod).getValue());
 				if (fecModOfActualRecord == null) {

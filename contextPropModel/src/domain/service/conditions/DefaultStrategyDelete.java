@@ -14,13 +14,13 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
 
 
 public class DefaultStrategyDelete implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final Data context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException {
 		if (fieldViewSets == null || fieldViewSets.isEmpty()) {
 			throw new StrategyException(IAction.DELETE_STRATEGY_NO_RECORDS_ERR);
@@ -35,7 +35,7 @@ public class DefaultStrategyDelete implements IStrategy {
 		}
 	}
 
-	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final Data wrapper)
+	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final Datamap wrapper)
 			throws StrategyException {
 		try {						
 			this.detectarHijos(dataAccess, fieldViewSet);

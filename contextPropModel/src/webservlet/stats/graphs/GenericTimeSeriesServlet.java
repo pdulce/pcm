@@ -14,7 +14,7 @@ import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram {
@@ -47,7 +47,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 	}
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		

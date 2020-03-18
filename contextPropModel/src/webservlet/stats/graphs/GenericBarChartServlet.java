@@ -15,7 +15,7 @@ import domain.common.utils.CommonUtils;
 import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
 import webservlet.stats.GenericStatsServlet;
 
@@ -54,7 +54,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Data data_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		

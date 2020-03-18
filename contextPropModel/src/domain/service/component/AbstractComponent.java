@@ -28,7 +28,7 @@ import domain.service.component.element.html.LinkButton;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.ILogicTypes;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.FieldValue;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.dto.SerializedValues;
@@ -83,9 +83,9 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 	public abstract IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException;
 
 	@Override
-	public abstract String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
+	public abstract String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 
-	protected abstract void initFieldViewSets(Element element_, Data data, final IDataAccess dataAccess)
+	protected abstract void initFieldViewSets(Element element_, Datamap datamap, final IDataAccess dataAccess)
 			throws PCMConfigurationException;
 
 	@Override

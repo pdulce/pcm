@@ -8,7 +8,7 @@ import domain.common.exceptions.ParameterBindingException;
 import domain.service.component.IViewComponent;
 import domain.service.conditions.IStrategyFactory;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 /**
@@ -98,10 +98,10 @@ public interface IAction {
 			DELETE_STRATEGY_INNER_ERR = "DELETE_STRATEGY_INNER_ERR", INSERT_STRATEGY_NO_RECORDS_ERR = "INSERT_STRATEGY_NO_RECORDS_ERR",
 			CREATE_STRATEGY_ERR = "CREATE_STRATEGY_ERR", CREATE_STRATEGY_PK_EXISTS_ERR = "CREATE_STRATEGY_PK_EXISTS_ERR";
 
-	public SceneResult executeAction(final IDataAccess dataAccess, Data data, String realEvent, boolean eventSubmitted,
+	public SceneResult executeAction(final IDataAccess dataAccess, Datamap datamap, String realEvent, boolean eventSubmitted,
 			Collection<MessageException> previousMessages);
 
-	public Data getDataBus();
+	public Datamap getDataBus();
 	
 	public void bind(final boolean onlyPK, IViewComponent component, final List<MessageException> messageExceptions)
 			throws ParameterBindingException;

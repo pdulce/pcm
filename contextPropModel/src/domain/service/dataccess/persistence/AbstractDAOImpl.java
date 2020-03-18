@@ -33,7 +33,7 @@ import domain.service.component.definitions.IRank;
 import domain.service.dataccess.comparator.ComparatorFieldViews;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.definitions.ILogicTypes;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 
 
@@ -183,7 +183,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 		}// for de campos
 		if (this.needFecBajaFilter(fieldViewSet, fecBajaActivated, auditSet)) {
 			sqlWhereOfEntity.append(!sqlWhereOfEntity.toString().equals(PCMConstants.EMPTY_) ? IDAOImpl.AND_ : PCMConstants.EMPTY_);
-			sqlWhereOfEntity.append(alias).append(PCMConstants.POINT).append(auditSet.getProperty(Data.FEC_BAJA))
+			sqlWhereOfEntity.append(alias).append(PCMConstants.POINT).append(auditSet.getProperty(Datamap.FEC_BAJA))
 					.append(IDAOImpl.IS_NULL_);
 		}
 		final Map<String, Integer> filterWithNArgs = new HashMap<String, Integer>();
@@ -278,7 +278,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 	}
 
 	protected boolean needFecBajaFilter(final FieldViewSet fieldViewSet, final boolean fecBajaActivated, final Properties auditSet) {
-		return fecBajaActivated && fieldViewSet.getEntityDef().getFieldSet().get(auditSet.getProperty(Data.FEC_BAJA)) != null;
+		return fecBajaActivated && fieldViewSet.getEntityDef().getFieldSet().get(auditSet.getProperty(Datamap.FEC_BAJA)) != null;
 	}
 
 	protected Timestamp getTimestamp(final ResultSet resultSet, final String alias) throws SQLException {

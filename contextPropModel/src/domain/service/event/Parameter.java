@@ -3,7 +3,7 @@ package domain.service.event;
 import java.io.Serializable;
 
 /**
- * <h1>Parameter</h1> The Parameter class is used for transporting data between the view layer and
+ * <h1>Parameter</h1> The Parameter class is used for transporting datamap between the view layer and
  * the server action layer.
  * <p>
  * 

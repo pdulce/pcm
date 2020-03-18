@@ -15,7 +15,7 @@ import domain.common.utils.CommonUtils;
 import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
 
 
@@ -35,7 +35,7 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 	}
 	/***El campo agregacion se coloca en el eje Z, los campos agregados son cada columna (eje X) ***/
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		

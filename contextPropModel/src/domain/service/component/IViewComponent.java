@@ -10,7 +10,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.dto.SerializedValues;
 import domain.service.event.IAction;
@@ -48,7 +48,7 @@ public interface IViewComponent {
 			BR_LABEL = "BR",
 			LI_LABEL_MENU = "LI id=\"active\"",
 			UL_TREE = "UL id=\"dhtmlgoodies_tree\" class=\"dhtmlgoodies_tree\"",
-			ENC_TYPE_FORM = "\" enctype=\"multipart/form-data\"",
+			ENC_TYPE_FORM = "\" enctype=\"multipart/form-datamap\"",
 			FORM_ATTRS = " class=\"pcmForm\" method=\"post\" action=\"",
 			ERROR_DIV = "<DIV align=\"center\" id=\"javascriptErrors\" style=\"display:none;\"></DIV>",
 			USER_DATA = "<STRONG>User Defined inputs</strong>",
@@ -136,7 +136,7 @@ public interface IViewComponent {
 
 	public IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException;
 
-	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
+	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 
 	public IFieldValue getValueOfField(String qualifiedName);
 

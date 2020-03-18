@@ -17,7 +17,7 @@ import domain.common.utils.CommonUtils;
 import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
 import webservlet.stats.GenericStatsServlet;
 
@@ -38,7 +38,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 	}
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
@@ -194,7 +194,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 	/**
 	 * ejemplo:
 	 * [{name: 'Brands',
-	 * data: [
+	 * datamap: [
 	 * { name: 'En curso', y: 56.33 }," + "{" + "name: 'Finalizadas'," + "y: 24.03,"
 	 * + "sliced: true," + "selected: true" + "}," + "{ name: 'Anuladas', y: 10.38 }," +
 	 * "{ name: 'En redaccion', y: 4.77 },"
@@ -203,7 +203,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 	 ***/
 
 	@SuppressWarnings("unchecked")
-	private String generarSeries(final Map<String, Number> subtotales, final double contabilizadas, final Data data_, final String itemGrafico) {
+	private String generarSeries(final Map<String, Number> subtotales, final double contabilizadas, final Datamap data_, final String itemGrafico) {
 
 		JSONArray seriesJSON = new JSONArray();
 
@@ -252,7 +252,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 			jsArray.add(tupla);
 		}
 
-		serie.put("data", jsArray);
+		serie.put("datamap", jsArray);
 		seriesJSON.add(serie);
 
 		return seriesJSON.toJSONString();

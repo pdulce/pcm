@@ -11,7 +11,7 @@ import domain.common.PCMConstants;
 
 
 /**
- * <h1>FieldValue</h1> The FieldValue class is responsible of maintain the value of data between
+ * <h1>FieldValue</h1> The FieldValue class is responsible of maintain the value of datamap between
  * the two layers identified in PCM architecture; the view layer and the model layer.
  * <p>
  * 

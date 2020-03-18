@@ -19,7 +19,7 @@ import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.component.definitions.FieldViewSetComparator;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.LogicDataCacheFactory;
 import domain.service.dataccess.persistence.DAOConnection;
 import domain.service.dataccess.persistence.IDAOImpl;
@@ -560,7 +560,7 @@ public class DataAccess implements IDataAccess {
 					entityName = fieldViewSet.getEntityDef().getName();
 				}
 				final boolean borradoLogico = fieldViewSet.getEntityDef().getFieldSet()
-						.get(this.getDaoRef().getAuditFieldset().getProperty(Data.FEC_BAJA)) != null;
+						.get(this.getDaoRef().getAuditFieldset().getProperty(Datamap.FEC_BAJA)) != null;
 				totalDeleted = borradoLogico ? this.getDaoRef().update(IDataAccess.ELIMINAR_ENTIDAD, fieldViewSet, this.conn) : this
 						.getDaoRef().delete(fieldViewSet, this.conn);
 				if (totalDeleted < 0) {
@@ -588,7 +588,7 @@ public class DataAccess implements IDataAccess {
 		int totalDeleted = 0;
 		try {
 			final boolean borradoLogico = this.getDaoRef().getAuditFieldset() != null && fieldViewSet.getEntityDef().getFieldSet()
-					.get(this.getDaoRef().getAuditFieldset().getProperty(Data.FEC_BAJA)) != null;
+					.get(this.getDaoRef().getAuditFieldset().getProperty(Datamap.FEC_BAJA)) != null;
 			totalDeleted = borradoLogico ? this.getDaoRef().update(IDataAccess.ELIMINAR_ENTIDAD, fieldViewSet, this.conn) : this
 					.getDaoRef().delete(fieldViewSet, this.conn);
 			if (totalDeleted < 0) {

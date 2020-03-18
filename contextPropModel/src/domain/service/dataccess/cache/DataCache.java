@@ -14,7 +14,7 @@ import domain.service.component.definitions.IFieldView;
 
 /**
  * <h1>DataCache</h1> The DataCache class maintains in memory the map with all of the collections of
- * entity data used intensively in some of views.
+ * entity datamap used intensively in some of views.
  * <p>
  * 
  * @author Pedro Dulce

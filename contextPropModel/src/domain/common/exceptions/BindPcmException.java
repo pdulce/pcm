@@ -2,7 +2,7 @@ package domain.common.exceptions;
 
 /**
  * <h1>BindPcmException</h1> The BindPcmException class
- * is used for capturing data-binding errors at a HTTP data.
+ * is used for capturing datamap-binding errors at a HTTP datamap.
  * <p>
  * 
  * @author Pedro Dulce

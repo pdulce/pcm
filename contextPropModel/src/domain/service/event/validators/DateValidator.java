@@ -11,7 +11,7 @@ import domain.service.event.Parameter;
 
 
 /**
- * <h1>DateValidator</h1> The DateValidator class is used for validating data of 'date' type.
+ * <h1>DateValidator</h1> The DateValidator class is used for validating datamap of 'date' type.
  * <p>
  * 
  * @author Pedro Dulce

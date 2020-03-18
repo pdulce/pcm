@@ -9,7 +9,7 @@ import java.util.Map;
 import domain.common.PCMConstants;
 
 
-public class Data {
+public class Datamap {
 	
 	public static final String USU_ALTA = "USU_A", USU_MOD = "USU_M",	USU_BAJA = "USU_B", 
 			FEC_ALTA = "FEC_A", FEC_MOD = "FEC_M", FEC_BAJA = "FEC_B", AUDITFIELDSET_ELEMENT = "auditFieldSet";
@@ -26,7 +26,7 @@ public class Data {
 	private int pageSize;
 	
 	
-	public Data(final String userProfile_, final String entitiesDictionary_, final String uri_, final int pageSize){		
+	public Datamap(final String userProfile_, final String entitiesDictionary_, final String uri_, final int pageSize){		
 		this.data = new HashMap<String, List<Object>>();
 		this.setPageSize(pageSize);
 		this.setAttribute(PCMConstants.APP_PROFILE, userProfile_);

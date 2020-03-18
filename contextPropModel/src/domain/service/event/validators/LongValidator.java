@@ -7,7 +7,7 @@ import domain.service.event.IAction;
 import domain.service.event.Parameter;
 
 /**
- * <h1>LongValidator</h1> The LongValidator class is used for validating data of 'long' type.
+ * <h1>LongValidator</h1> The LongValidator class is used for validating datamap of 'long' type.
  * <p>
  * 
  * @author Pedro Dulce

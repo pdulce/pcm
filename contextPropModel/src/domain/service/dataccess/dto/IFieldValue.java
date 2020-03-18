@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * <h1>IFieldValue</h1> The IFieldValue interface is used for defining the responsability of
- * maintain the value of data between the two layers identified in PCM architecture; the view layer
+ * maintain the value of datamap between the two layers identified in PCM architecture; the view layer
  * and the model layer.
  * <p>
  * 

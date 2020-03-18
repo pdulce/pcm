@@ -46,7 +46,7 @@ import domain.service.component.factory.IBodyContainer;
 import domain.service.dataccess.DataAccess;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.comparator.ComparatorLexicographic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.AppCacheFactory;
 import domain.service.dataccess.factory.DAOImplementationFactory;
 import domain.service.dataccess.factory.EntityLogicFactory;
@@ -147,8 +147,8 @@ public class ApplicationDomain implements Serializable {
 		return resourcesConfiguration;
 	}
 
-	public boolean isInitService(final Data data) {
-		final String event = data.getParameter(PCMConstants.EVENT);
+	public boolean isInitService(final Datamap datamap) {
+		final String event = datamap.getParameter(PCMConstants.EVENT);
 		return (event == null || event.startsWith(this.getInitService()) || event.indexOf(IEvent.TEST) != -1);
 	}
 	
@@ -343,10 +343,10 @@ public class ApplicationDomain implements Serializable {
 	}
 	
 	
-	public String paintConfiguration(final Data data) {
+	public String paintConfiguration(final Datamap datamap) {
 			
-		StringBuilder htmlOutput = new StringBuilder("<form class=\"pcmForm\" enctype=\"multipart/form-data\" method=\"POST\" name=\"enviarDatos\" action=\"");
-		htmlOutput.append(data.getAttribute("uri").toString() + "\">");
+		StringBuilder htmlOutput = new StringBuilder("<form class=\"pcmForm\" enctype=\"multipart/form-datamap\" method=\"POST\" name=\"enviarDatos\" action=\"");
+		htmlOutput.append(datamap.getAttribute("uri").toString() + "\">");
 		htmlOutput.append("<input type=\"hidden\" id=\"exec\" name=\"exec\" value=\"\" />");
 		htmlOutput.append("<input type=\"hidden\" id=\"event\" name=\"event\" value=\"\" />");
 		htmlOutput.append("<table width=\"85%\"><tr>").append("<td width=\"35%\">Nombre de elemento de configuracion</td>");
@@ -360,7 +360,7 @@ public class ApplicationDomain implements Serializable {
 			htmlOutput.append("\"><td><B>").append(itemName).append("</B></td><td><I>").append(itemValue).append("</I></td></tr>");
 		}
 		htmlOutput.append("</table>").append("<br/><br/>").append("<table width=\"85%\"><tr>").append("<td width=\"100%\">Roles</td></tr>");
-		Iterator<String> profilesIte = data.getAppProfileSet().iterator();
+		Iterator<String> profilesIte = datamap.getAppProfileSet().iterator();
 		int count = 0;
 		while (profilesIte.hasNext()) {
 			String profileName = profilesIte.next();
@@ -371,34 +371,34 @@ public class ApplicationDomain implements Serializable {
 		return htmlOutput.toString();
 	}
 	
-	public String paintLayout(final Data data, final boolean eventSubmitted, final String escenarioTraducido) 
+	public String paintLayout(final Datamap datamap, final boolean eventSubmitted, final String escenarioTraducido) 
 			throws Throwable {
 		
-		if (EVENTO_CONFIGURATION.equals(data.getParameter(EXEC_PARAM))) {	
-			return paintConfiguration(data);
+		if (EVENTO_CONFIGURATION.equals(datamap.getParameter(EXEC_PARAM))) {	
+			return paintConfiguration(datamap);
 		}
 		IDataAccess dataAccess_ = null;
 		try {
 			StringBuilder innerContent_ = new StringBuilder();
-			String event = data.getParameter(PCMConstants.EVENT);
+			String event = datamap.getParameter(PCMConstants.EVENT);
 			if (event == null){
-				data.setParameter(PCMConstants.EVENT, data.getService().concat(".").concat(data.getEvent()));
+				datamap.setParameter(PCMConstants.EVENT, datamap.getService().concat(".").concat(datamap.getEvent()));
 			}						
-			DomainService domainService = getDomainService(data.getService());
-			if (domainService.extractActionElementByService(data.getEvent()) == null) {
+			DomainService domainService = getDomainService(datamap.getService());
+			if (domainService.extractActionElementByService(datamap.getEvent()) == null) {
 				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,
-						data.getService().concat(".").concat(data.getEvent()));
+						datamap.getService().concat(".").concat(datamap.getEvent()));
 				ApplicationDomain.log.log(Level.SEVERE, s.toString());
 				throw new PCMConfigurationException(s.toString());
 			}
 			Collection<String> conditions = null, preconditions = null;
-			if (AbstractAction.isQueryEvent(data.getEvent())) {
+			if (AbstractAction.isQueryEvent(datamap.getEvent())) {
 				conditions = domainService.extractStrategiesElementByAction(event); 
 				preconditions = domainService.extractStrategiesPreElementByAction(event);
 				dataAccess_ = getDataAccess(domainService, conditions, preconditions);
-			} else if (AbstractAction.isFormularyEntryEvent(data.getEvent()) && domainService.discoverAllEvents().
-					contains(AbstractAction.getInherentEvent(data.getEvent()))) {
-				final String event4DataAccess = AbstractAction.getInherentEvent(data.getEvent());
+			} else if (AbstractAction.isFormularyEntryEvent(datamap.getEvent()) && domainService.discoverAllEvents().
+					contains(AbstractAction.getInherentEvent(datamap.getEvent()))) {
+				final String event4DataAccess = AbstractAction.getInherentEvent(datamap.getEvent());
 				conditions = domainService.extractStrategiesElementByAction(event4DataAccess);
 				preconditions = domainService.extractStrategiesPreElementByAction(event4DataAccess);
 			} else {
@@ -406,32 +406,32 @@ public class ApplicationDomain implements Serializable {
 				preconditions = domainService.extractStrategiesPreElementByAction(event);
 			}
 			dataAccess_ = getDataAccess(domainService, conditions, preconditions);
-			IBodyContainer container = BodyContainer.getContainerOfView(data, dataAccess_, domainService);
+			IBodyContainer container = BodyContainer.getContainerOfView(datamap, dataAccess_, domainService);
 			IAction	action = AbstractAction.getAction(container,
-					domainService.extractActionElementByService(data.getEvent()), 
-					data, domainService.discoverAllEvents());
+					domainService.extractActionElementByService(datamap.getEvent()), 
+					datamap, domainService.discoverAllEvents());
 			List<MessageException> messages = new ArrayList<MessageException>();
-			SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, data.getEvent(), data, 
+			SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, datamap.getEvent(), datamap, 
 					eventSubmitted, action, messages);
 			
 			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();			
 			DomainService domainRedirectingService = null;
 			if (eventSubmitted) {
-				final String serviceQName = new StringBuilder(data.getService()).append(PCMConstants.CHAR_POINT).append(data.getEvent()).toString();
+				final String serviceQName = new StringBuilder(datamap.getService()).append(PCMConstants.CHAR_POINT).append(datamap.getEvent()).toString();
 				if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {						
 					String serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
 					domainRedirectingService = getDomainService(serviceRedirect);
 				}
 			}
-			if (isInitService(data)) {
+			if (isInitService(datamap)) {
 				domainService.setInitial();
 			}
 			domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, 
-					data.getEvent(), data, eventSubmitted, action, messages);
+					datamap.getEvent(), datamap, eventSubmitted, action, messages);
 			
 			final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
 			htmFormElement_.append(IViewComponent.FORM_ATTRS);
-			htmFormElement_.append((String) data.getAttribute(PCMConstants.APPURI_));
+			htmFormElement_.append((String) datamap.getAttribute(PCMConstants.APPURI_));
 			htmFormElement_.append(IViewComponent.ENC_TYPE_FORM);
 			XmlUtils.openXmlNode(innerContent_, htmFormElement_.toString());
 			innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");			

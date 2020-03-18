@@ -21,7 +21,7 @@ import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.component.factory.BodyContainerFactory;
 import domain.service.component.factory.IBodyContainer;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.event.AbstractAction;
 
@@ -72,10 +72,10 @@ public class BodyContainer implements IBodyContainer {
 		this.getSubComponents().values();
 	}
 
-	public BodyContainer(final DomainService domainService, final IDataAccess dataAccess_, final Data data) 
+	public BodyContainer(final DomainService domainService, final IDataAccess dataAccess_, final Datamap datamap) 
 			throws PCMConfigurationException {
 		
-		final Collection<Element> viewElements_ = domainService.extractViewComponentElementsByAction(data.getEvent());
+		final Collection<Element> viewElements_ = domainService.extractViewComponentElementsByAction(datamap.getEvent());
 		if (viewElements_.isEmpty()) {
 			throw new PCMConfigurationException("Error: viewcomponent must be defined for this service");
 		}
@@ -88,12 +88,12 @@ public class BodyContainer implements IBodyContainer {
 			int numberOfForms = viewComponentElement.getElementsByTagName(FORM_ELEMENT).getLength();
 			for (int i = 0; i < numberOfForms; i++) {
 				final Element elementForm = (Element) viewComponentElement.getElementsByTagName(FORM_ELEMENT).item(i);
-				forms.add(posicion++, new Form(elementForm, dataAccess_, data));
+				forms.add(posicion++, new Form(elementForm, dataAccess_, datamap));
 			}
 			int numGrids = viewComponentElement.getElementsByTagName(GRID_ELEMENT).getLength();
 			for (int j = 0; j < numGrids; j++) {
 				final Element elementGrid = (Element) viewComponentElement.getElementsByTagName(GRID_ELEMENT).item(j);
-				grids.add(new PaginationGrid(domainService.getUseCaseName(), elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), data));
+				grids.add(new PaginationGrid(domainService.getUseCaseName(), elementGrid, ((Form) forms.get(posicion - 1)).getUniqueName(), datamap));
 			}
 		}
 		this.getSubComponents().put(IViewComponent.FORM_TYPE, forms);
@@ -211,13 +211,13 @@ public class BodyContainer implements IBodyContainer {
 	}
 
 	@Override
-	public String toXML(final Data data, final IDataAccess dataAccess_, boolean submitted, final List<MessageException> applicationMsgs) {
+	public String toXML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted, final List<MessageException> applicationMsgs) {
 		final StringBuilder sbXML = new StringBuilder();
 		try {	
 			if (applicationMsgs != null && !applicationMsgs.isEmpty()) {
 				final Iterator<MessageException> iteMsg = applicationMsgs.iterator();
 				while (iteMsg.hasNext()) {
-					sbXML.append(iteMsg.next().toXML(data.getLanguage()));
+					sbXML.append(iteMsg.next().toXML(datamap.getLanguage()));
 				}
 				sbXML.append("<BR/>");
 			}			
@@ -225,7 +225,7 @@ public class BodyContainer implements IBodyContainer {
 			if (getGrids().isEmpty()) {
 				subcomps.addAll(getForms());
 				for (final IViewComponent form : subcomps) {										
-					sbXML.append(form.toXHTML(data, dataAccess_, submitted));
+					sbXML.append(form.toXHTML(datamap, dataAccess_, submitted));
 				}
 			} else {
 				
@@ -238,19 +238,19 @@ public class BodyContainer implements IBodyContainer {
 						Form formOfContainer = (Form) iteForms.next();
 						if (formOfContainer.getUniqueName().equals(idOfForm) && !idFormsPainted.contains(idOfForm)) {
 							idFormsPainted.add(idOfForm);
-							sbXML.append(formOfContainer.toXHTML(data, dataAccess_, submitted));
+							sbXML.append(formOfContainer.toXHTML(datamap, dataAccess_, submitted));
 							break;
 						}
 					}
 					boolean isQueryEvent = false;
-					String eventLast = data.getParameter(PCMConstants.EVENT);
+					String eventLast = datamap.getParameter(PCMConstants.EVENT);
 					if (eventLast.split(PCMConstants.REGEXP_POINT).length > 1){
 						eventLast = eventLast.split(PCMConstants.REGEXP_POINT)[1];
 						isQueryEvent = AbstractAction.isQueryEvent(eventLast);
 					}
 					if (((PaginationGrid) paginationGrid).getMasterNamespace() == null
 							|| "".equals(((PaginationGrid) paginationGrid).getMasterNamespace()) && isQueryEvent) {//grid a pintar de un escenario Form&GRID de query event
-						sbXML.append(paginationGrid.toXHTML(data, dataAccess_, submitted));
+						sbXML.append(paginationGrid.toXHTML(datamap, dataAccess_, submitted));
 					}
 				}
 			}
@@ -261,13 +261,13 @@ public class BodyContainer implements IBodyContainer {
 	}
 	
 	
-	public static final IBodyContainer getContainerOfView(final Data data, final IDataAccess dataAccess_,
+	public static final IBodyContainer getContainerOfView(final Datamap datamap, final IDataAccess dataAccess_,
 			final DomainService domainService) throws PCMConfigurationException, DatabaseException {		
 		try {			
-			return BodyContainerFactory.getFactoryInstance().getViewComponent(dataAccess_, data, domainService);
+			return BodyContainerFactory.getFactoryInstance().getViewComponent(dataAccess_, datamap, domainService);
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error getting org.w3c.Element, CU: " + 
-						domainService.getUseCaseName() + " and EVENT: " + data.getEvent());
+						domainService.getUseCaseName() + " and EVENT: " + datamap.getEvent());
 		}
 	}
 	

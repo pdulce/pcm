@@ -36,7 +36,7 @@ import domain.service.dataccess.definitions.FieldLogicComparator;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldAbstract;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 
@@ -169,7 +169,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 
 		if (IDataAccess.ELIMINAR_ENTIDAD.equals(service)) {
 			final IFieldLogic fieldFecBaja = fieldViewSet.getEntityDef().getFieldSet()
-					.get(this.auditFieldSet.getProperty(Data.FEC_BAJA));
+					.get(this.auditFieldSet.getProperty(Datamap.FEC_BAJA));
 			if (fieldFecBaja != null) {
 				final Timestamp fecBajaOfActualRecord = SQLUtils.getTimestamp(fieldViewSet.getFieldvalue(fieldFecBaja).getValue());
 				if (fecBajaOfActualRecord == null) {

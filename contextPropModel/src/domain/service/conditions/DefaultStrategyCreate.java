@@ -11,13 +11,13 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
 
 
 public class DefaultStrategyCreate implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final Data context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException {
 		if (fieldViewSets == null || fieldViewSets.isEmpty()) {
 			throw new StrategyException(IAction.INSERT_STRATEGY_NO_RECORDS_ERR);
@@ -32,7 +32,7 @@ public class DefaultStrategyCreate implements IStrategy {
 		}
 	}
 
-	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final Data wrapper)
+	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final Datamap wrapper)
 			throws StrategyException {
 		try {
 			final FieldViewSet entidadInDataModel = dataAccess.searchEntityByPk(fieldViewSet);
@@ -41,7 +41,7 @@ public class DefaultStrategyCreate implements IStrategy {
 			}
 			if (dataAccess.getDaoRef().isAuditActivated()) {
 				// miro si ha sido dado de baja, en caso de que existan campos de auditoroa
-				final String fecBajaField = dataAccess.getDaoRef().getAuditFieldset().getProperty(Data.FEC_BAJA);
+				final String fecBajaField = dataAccess.getDaoRef().getAuditFieldset().getProperty(Datamap.FEC_BAJA);
 				if (fecBajaField == null || PCMConstants.EMPTY_.equals(fecBajaField)) {
 					dataAccess.deletePhysicalEntity(entidadInDataModel);
 				}

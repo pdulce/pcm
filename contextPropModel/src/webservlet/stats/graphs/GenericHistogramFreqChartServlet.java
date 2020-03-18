@@ -17,7 +17,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.comparator.ComparatorEntryWithDouble;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import webservlet.stats.IStats;
 
 
@@ -41,7 +41,7 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 

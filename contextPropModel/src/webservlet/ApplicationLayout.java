@@ -21,7 +21,7 @@ import domain.service.component.MenuComponent;
 import domain.service.component.Translator;
 import domain.service.component.TreeComponent;
 import domain.service.component.element.html.Span;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 public class ApplicationLayout implements Serializable {
 	
@@ -42,24 +42,24 @@ public class ApplicationLayout implements Serializable {
 		}
 	}
 
-	public void paintScreen(final Document appNavigation, final Data data, final boolean startingApp){
+	public void paintScreen(final Document appNavigation, final Datamap datamap, final boolean startingApp){
 		// drawing markup at screen
-		data.setAttribute(PCMConstants.LOGO, this.paintLogo(appNavigation, data));
-		data.setAttribute(PCMConstants.FOOT, this.paintFoot(appNavigation, data));
+		datamap.setAttribute(PCMConstants.LOGO, this.paintLogo(appNavigation, datamap));
+		datamap.setAttribute(PCMConstants.FOOT, this.paintFoot(appNavigation, datamap));
 		if (startingApp){
-			data.setAttribute(PCMConstants.MENU_ITEMS, PCMConstants.EMPTY_);
-			data.setAttribute(PCMConstants.TREE, PCMConstants.EMPTY_);
+			datamap.setAttribute(PCMConstants.MENU_ITEMS, PCMConstants.EMPTY_);
+			datamap.setAttribute(PCMConstants.TREE, PCMConstants.EMPTY_);
 		}else{
-			data.setAttribute(PCMConstants.MENU_ITEMS, this.paintMenuHeader(appNavigation, data));
-			data.setAttribute(PCMConstants.TREE, this.paintTree(appNavigation, data));								
+			datamap.setAttribute(PCMConstants.MENU_ITEMS, this.paintMenuHeader(appNavigation, datamap));
+			datamap.setAttribute(PCMConstants.TREE, this.paintTree(appNavigation, datamap));								
 		}
 	}
 	
-	private String paintFoot(final Document appNavigation, final Data data) {
-		final String lang = data.getLanguage();
+	private String paintFoot(final Document appNavigation, final Datamap datamap) {
+		final String lang = datamap.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new FootComponent((String) data.getAttribute(PCMConstants.APPURI_), extractFootElement(appNavigation)).toXHTML(data, null, true));
+			sbXML.append(new FootComponent((String) datamap.getAttribute(PCMConstants.APPURI_), extractFootElement(appNavigation)).toXHTML(datamap, null, true));
 		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.FOOT_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
@@ -69,12 +69,12 @@ public class ApplicationLayout implements Serializable {
 		return sbXML.toString();
 	}
 
-	private String paintTree(final Document appNavigation, final Data data) {
-		final String lang = data.getLanguage();
+	private String paintTree(final Document appNavigation, final Datamap datamap) {
+		final String lang = datamap.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new TreeComponent((String) data.getAttribute(PCMConstants.APPURI_), data.getLanguage(),
-					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractTreeElement(appNavigation)).toXHTML(data, null, true));
+			sbXML.append(new TreeComponent((String) datamap.getAttribute(PCMConstants.APPURI_), datamap.getLanguage(),
+					(String) datamap.getAttribute(PCMConstants.APP_PROFILE), extractTreeElement(appNavigation)).toXHTML(datamap, null, true));
 		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.LATERAL_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
@@ -84,11 +84,11 @@ public class ApplicationLayout implements Serializable {
 		return sbXML.toString();
 	}
 
-	private String paintLogo(final Document appNavigation, final Data data/*, final IDataAccess dataAccess_*/) {
-		final String lang = data.getLanguage();
+	private String paintLogo(final Document appNavigation, final Datamap datamap/*, final IDataAccess dataAccess_*/) {
+		final String lang = datamap.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new LogoComponent(data.getLanguage(), extractLogoElement(appNavigation)).toXHTML(data, null/*dataAccess_*/, true));
+			sbXML.append(new LogoComponent(datamap.getLanguage(), extractLogoElement(appNavigation)).toXHTML(datamap, null/*dataAccess_*/, true));
 		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.LOGO_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();
@@ -98,12 +98,12 @@ public class ApplicationLayout implements Serializable {
 		return sbXML.toString();
 	}
 
-	private String paintMenuHeader(final Document appNavigation, final Data data) {
-		final String lang = data.getLanguage();
+	private String paintMenuHeader(final Document appNavigation, final Datamap datamap) {
+		final String lang = datamap.getLanguage();
 		final StringBuilder sbXML = new StringBuilder();
 		try {
-			sbXML.append(new MenuComponent((String) data.getAttribute(PCMConstants.APPURI_), data.getLanguage(),
-					(String) data.getAttribute(PCMConstants.APP_PROFILE), extractMenuElement(appNavigation)).toXHTML(data, null, true));
+			sbXML.append(new MenuComponent((String) datamap.getAttribute(PCMConstants.APPURI_), datamap.getLanguage(),
+					(String) datamap.getAttribute(PCMConstants.APP_PROFILE), extractMenuElement(appNavigation)).toXHTML(datamap, null, true));
 		} catch (final Throwable exc) {
 			ApplicationLayout.log.log(Level.SEVERE, InternalErrorsConstants.MENU_HEADER_CREATING_EXCEPTION, exc);
 			final Collection<String> values = new ArrayList<String>();

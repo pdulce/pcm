@@ -43,7 +43,7 @@ import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.FieldCompositePK;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.AppCacheFactory;
 import domain.service.event.validators.IValidator;
@@ -68,14 +68,14 @@ public class ActionForm extends AbstractAction {
 	private final Map<String, String> audits;
 	
 	
-	public ActionForm(final IBodyContainer container_, final Data data_, 
+	public ActionForm(final IBodyContainer container_, final Datamap data_, 
 			final Element actionElement_, final Collection<String> actionSet) {
-		this.data = data_;
+		this.datamap = data_;
 		this.container = container_;
 		this.registeredEvents = actionSet;
 		this.audits = AppCacheFactory.getFactoryInstance().getAppCache();
 		this.actionElement = actionElement_;
-		this.realEvent = data.getEvent(); 
+		this.realEvent = datamap.getEvent(); 
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class ActionForm extends AbstractAction {
 	}
 
 	@Override
-	public SceneResult executeAction(final IDataAccess dataAccess_, final Data data, final String realEvent, 
+	public SceneResult executeAction(final IDataAccess dataAccess_, final Datamap datamap, final String realEvent, 
 			final boolean submittedEvent_,	final Collection<MessageException> prevMessages) {
 		
 		final boolean isAuditOn = dataAccess_.isAuditOn();
@@ -124,7 +124,7 @@ public class ActionForm extends AbstractAction {
 			XmlUtils.openXmlNode(sbXml, IViewComponent.HTML_);
 			final Iterator<MessageException> iteMsgs = erroresMsg.iterator();
 			while (iteMsgs.hasNext()) {
-				sbXml.append(iteMsgs.next().toXML(data.getEntitiesDictionary()));
+				sbXml.append(iteMsgs.next().toXML(datamap.getEntitiesDictionary()));
 			}
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 			result.setXhtml(sbXml.toString());
@@ -132,7 +132,7 @@ public class ActionForm extends AbstractAction {
 		return result;
 	}
 
-	public Collection<FieldViewSet> getFilterForProfile(final Data ctx) throws PCMConfigurationException {
+	public Collection<FieldViewSet> getFilterForProfile(final Datamap ctx) throws PCMConfigurationException {
 		if (ctx == null) {
 			throw new PCMConfigurationException(InternalErrorsConstants.GETTING_PROFILE_EXCEPTION);
 		}
@@ -161,31 +161,31 @@ public class ActionForm extends AbstractAction {
 			final String reqParamN = fieldView.getQualifiedContextName();
 			final List<String> vals = new ArrayList<String>();
 			if (!fieldView.isUserDefined() && fieldView.getEntityField().getAbstractField().isBlob()) {
-				final File fSaved = (File) data.getAttribute(reqParamN);
+				final File fSaved = (File) datamap.getAttribute(reqParamN);
 				if (fSaved != null) {
 					vals.add(fSaved.getAbsolutePath());
 				}
-			} else if (this.data.getParameter(reqParamN) != null
-					|| this.data.getAttribute(reqParamN) != null
+			} else if (this.datamap.getParameter(reqParamN) != null
+					|| this.datamap.getAttribute(reqParamN) != null
 					|| ContextProperties.REQUEST_VALUE.equals(fieldView.getDefaultValueExpr())
 					|| !"".equals(fieldView.getDefaultFirstOfOptions())) {
 								
 				boolean eventSubmitted = AbstractAction.isTransactionalEvent(getEvent()) || 
-						this.data.getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? true : false;
+						this.datamap.getParameter(PaginationGrid.TOTAL_PAGINAS) != null ? true : false;
 				
-				String[] valuesFromRequest = this.data.getParameterValues(reqParamN);
+				String[] valuesFromRequest = this.datamap.getParameterValues(reqParamN);
 				if (valuesFromRequest != null) {
 					for (final String value : valuesFromRequest) {
 						vals.add(value);
 					}
-				} else if (this.data.getAttribute(reqParamN) != null) {
-					vals.add(this.data.getAttribute(reqParamN).toString());
+				} else if (this.datamap.getAttribute(reqParamN) != null) {
+					vals.add(this.datamap.getAttribute(reqParamN).toString());
 				} else if (!eventSubmitted && fieldView.getDefaultFirstOfOptions() != null && !"".equals(fieldView.getDefaultFirstOfOptions())) {
 					vals.add(fieldView.getDefaultFirstOfOptions().toString());
 				}
-			} else if (this.data.getAttribute(reqParamN) != null
+			} else if (this.datamap.getAttribute(reqParamN) != null
 					|| ContextProperties.SESSION_VALUE.equals(fieldView.getDefaultValueExpr())) {
-				vals.add(this.data.getAttribute(reqParamN).toString());
+				vals.add(this.datamap.getAttribute(reqParamN).toString());
 			} else if (fieldView.isUserDefined() || fieldView.getFieldAndEntityForThisOption() == null) {
 				vals.add(fieldView.getDefaultValueExpr());
 			}
@@ -563,7 +563,7 @@ public class ActionForm extends AbstractAction {
 							final StringBuilder name = new StringBuilder(fieldViewSet.getEntityDef().getName());
 							name.append(PCMConstants.POINT).append(fieldViewSet.getEntityDef().getName());
 							msg.addParameter(new Parameter(IViewComponent.ZERO, name.toString()));
-							msg.addParameter(new Parameter(IViewComponent.ONE, this.data.getAttribute(IViewComponent.APP_MSG)==null? "": (String) this.data.getAttribute(IViewComponent.APP_MSG)));
+							msg.addParameter(new Parameter(IViewComponent.ONE, this.datamap.getAttribute(IViewComponent.APP_MSG)==null? "": (String) this.datamap.getAttribute(IViewComponent.APP_MSG)));
 							msgs.add(msg);
 						}
 					}
@@ -627,7 +627,7 @@ public class ActionForm extends AbstractAction {
 			}
 		}
 		msgs.addAll(prevMessages);
-		res.setXhtml(container.toXML(this.data, dataAccess, eventSubmitted_, msgs));
+		res.setXhtml(container.toXML(this.datamap, dataAccess, eventSubmitted_, msgs));
 		res.setMessages(msgs);
 		return res;
 	}
@@ -648,36 +648,36 @@ public class ActionForm extends AbstractAction {
 		final String event_ = this.getEvent();
 		final List<FieldViewSet> fs = form_.getFieldViewSetCollection().getFieldViewSets();
 		if (event_.startsWith(IEvent.UPDATE)) {
-			if (isAuditOn && this.audits != null && this.audits.get(Data.USU_MOD) != null) {
+			if (isAuditOn && this.audits != null && this.audits.get(Datamap.USU_MOD) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(Data.USU_MOD),
-							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(Data.FEC_MOD), CommonUtils.getSystemDate());
+					fieldViewSet.setValue(this.audits.get(Datamap.USU_MOD),
+							(String) this.datamap.getAttribute(DefaultStrategyLogin.USER_));
+					fieldViewSet.setValue(this.audits.get(Datamap.FEC_MOD), CommonUtils.getSystemDate());
 				}
 			}
 			dataAccess.modifyEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.DELETE)) {
-			if (isAuditOn && this.audits != null && this.audits.get(Data.USU_BAJA) != null) {
+			if (isAuditOn && this.audits != null && this.audits.get(Datamap.USU_BAJA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(Data.USU_BAJA),
-							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(Data.FEC_BAJA),
+					fieldViewSet.setValue(this.audits.get(Datamap.USU_BAJA),
+							(String) this.datamap.getAttribute(DefaultStrategyLogin.USER_));
+					fieldViewSet.setValue(this.audits.get(Datamap.FEC_BAJA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}
 			}
 			dataAccess.deleteEntities(form_.getFieldViewSetCollection());
 		} else if (event_.startsWith(IEvent.CREATE)) {
-			if (isAuditOn && this.audits != null && this.audits.get(Data.USU_ALTA) != null) {
+			if (isAuditOn && this.audits != null && this.audits.get(Datamap.USU_ALTA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();
 				while (iterador.hasNext()) {
 					final FieldViewSet fieldViewSet = iterador.next();
-					fieldViewSet.setValue(this.audits.get(Data.USU_ALTA),
-							(String) this.data.getAttribute(DefaultStrategyLogin.USER_));
-					fieldViewSet.setValue(this.audits.get(Data.FEC_ALTA),
+					fieldViewSet.setValue(this.audits.get(Datamap.USU_ALTA),
+							(String) this.datamap.getAttribute(DefaultStrategyLogin.USER_));
+					fieldViewSet.setValue(this.audits.get(Datamap.FEC_ALTA),
 							CommonUtils.convertDateToShortFormatted(CommonUtils.getSystemDate()));
 				}
 			}

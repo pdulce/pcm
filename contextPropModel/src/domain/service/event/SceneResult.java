@@ -6,7 +6,7 @@ import domain.common.exceptions.MessageException;
 
 
 /**
- * <h1>SceneResult</h1> The SceneResult class is used for transporting data-response between the
+ * <h1>SceneResult</h1> The SceneResult class is used for transporting datamap-response between the
  * server action layer and the view layer.
  * <p>
  * 

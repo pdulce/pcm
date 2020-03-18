@@ -19,7 +19,7 @@ import domain.service.component.element.html.IHtmlElement;
 import domain.service.component.element.html.LinkButton;
 import domain.service.component.element.html.Span;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 /**
@@ -92,9 +92,9 @@ public class FootComponent extends AbstractComponent {
 	 * 
 	 * @see
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#initFieldViewSets(org
-	 * .w3c.dom.Element, Data) */
+	 * .w3c.dom.Element, Datamap) */
 	@Override
-	protected void initFieldViewSets(final Element element_, final Data data, final IDataAccess dataAccess)
+	protected void initFieldViewSets(final Element element_, final Datamap datamap, final IDataAccess dataAccess)
 			throws PCMConfigurationException {
 		// NOTHING
 	}
@@ -121,7 +121,7 @@ public class FootComponent extends AbstractComponent {
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#toXML(javax.servlet
 	 * .http.HttpServletRequest) */
 	@Override
-	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		return this.xhtml;
 	}
 

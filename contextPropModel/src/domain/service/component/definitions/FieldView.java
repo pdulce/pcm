@@ -26,7 +26,7 @@ import domain.service.dataccess.definitions.EntityLogic;
 import domain.service.dataccess.definitions.FieldCompositePK;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.definitions.ILogicTypes;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import domain.service.event.Parameter;
@@ -849,7 +849,7 @@ public class FieldView implements IFieldView, Serializable {
 	}
 
 	@Override
-	public final boolean checkDataType(final Data dataInBus, final String val_, final boolean validacionObligatoria,
+	public final boolean checkDataType(final Datamap dataInBus, final String val_, final boolean validacionObligatoria,
 			final MessageException parqMensaje) {
 		try {
 			String name2Traduce = this.getQualifiedContextName().replaceAll("_HASTA", "");
@@ -942,7 +942,7 @@ public class FieldView implements IFieldView, Serializable {
 	 * http://xmlbeans.apache.org/docs/2.0.0/guide/conXMLBeansSupportBuiltInSchemaTypes.html
 	 */
 	@Override
-	public final boolean validateAndSaveValueInFieldview(final Data data_, final FieldViewSet fieldViewSet,
+	public final boolean validateAndSaveValueInFieldview(final Datamap data_, final FieldViewSet fieldViewSet,
 			final boolean validacionObligatoria_, final Collection<String> dataValues_, final String dict,
 			final Collection<MessageException> parqMensajes) {
 		try {

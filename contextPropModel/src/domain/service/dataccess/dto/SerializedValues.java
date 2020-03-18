@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * <h1>SerializedValues</h1> The SerializedValues class is responsible of maintain the value of
  * arrays
- * of data between the two layers identified in PCM architecture; the view layer and the model
+ * of datamap between the two layers identified in PCM architecture; the view layer and the model
  * layer.
  * <p>
  * 

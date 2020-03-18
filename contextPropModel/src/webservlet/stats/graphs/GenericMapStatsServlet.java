@@ -12,7 +12,7 @@ import domain.common.stats.CodigosISOProvinciasSpain;
 import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import webservlet.stats.GenericStatsServlet;
 
 
@@ -33,7 +33,7 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Data data_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 

@@ -7,7 +7,7 @@ import domain.service.event.IAction;
 import domain.service.event.Parameter;
 
 /**
- * <h1>ByteValidator</h1> The ByteValidator class is used for validating data of 'byte' type.
+ * <h1>ByteValidator</h1> The ByteValidator class is used for validating datamap of 'byte' type.
  * <p>
  * 
  * @author Pedro Dulce

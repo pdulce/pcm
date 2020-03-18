@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 
 import domain.common.InternalErrorsConstants;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 public class NavigationAppManager {
@@ -68,7 +68,7 @@ public class NavigationAppManager {
 	public final Map<String, String> extractAuditFieldSet() throws PCMConfigurationException {
 		Map<String, String> auditFieldSet = null;		
 		final NodeList listaNodes = this.getAppNavigation().getDocumentElement()
-				.getElementsByTagName(Data.AUDITFIELDSET_ELEMENT);
+				.getElementsByTagName(Datamap.AUDITFIELDSET_ELEMENT);
 		if (listaNodes.getLength() > 0) {
 			auditFieldSet = new HashMap<String, String>();
 			final Element auditFieldSetElem = (Element) listaNodes.item(0);
@@ -77,12 +77,12 @@ public class NavigationAppManager {
 				final StringBuilder excep = new StringBuilder(InternalErrorsConstants.AUDIT_FIELDS_NOT_FOUND);
 				throw new PCMConfigurationException(excep.toString());
 			}
-			auditFieldSet.put(Data.USU_ALTA, listaChildren.item(0).getFirstChild().getNodeValue());
-			auditFieldSet.put(Data.USU_MOD, listaChildren.item(1).getFirstChild().getNodeValue());
-			auditFieldSet.put(Data.USU_BAJA, listaChildren.item(2).getFirstChild().getNodeValue());
-			auditFieldSet.put(Data.FEC_ALTA, listaChildren.item(3).getFirstChild().getNodeValue());
-			auditFieldSet.put(Data.FEC_MOD, listaChildren.item(4).getFirstChild().getNodeValue());
-			auditFieldSet.put(Data.FEC_BAJA, listaChildren.item(5).getFirstChild().getNodeValue());
+			auditFieldSet.put(Datamap.USU_ALTA, listaChildren.item(0).getFirstChild().getNodeValue());
+			auditFieldSet.put(Datamap.USU_MOD, listaChildren.item(1).getFirstChild().getNodeValue());
+			auditFieldSet.put(Datamap.USU_BAJA, listaChildren.item(2).getFirstChild().getNodeValue());
+			auditFieldSet.put(Datamap.FEC_ALTA, listaChildren.item(3).getFirstChild().getNodeValue());
+			auditFieldSet.put(Datamap.FEC_MOD, listaChildren.item(4).getFirstChild().getNodeValue());
+			auditFieldSet.put(Datamap.FEC_BAJA, listaChildren.item(5).getFirstChild().getNodeValue());
 			return auditFieldSet;
 		}
 		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.APP_NOT_FOUND.replaceFirst(InternalErrorsConstants.ARG_1, "application"));

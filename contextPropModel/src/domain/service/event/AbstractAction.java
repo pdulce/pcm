@@ -27,7 +27,7 @@ import domain.service.conditions.DefaultStrategyUpdate;
 import domain.service.conditions.IStrategy;
 import domain.service.conditions.IStrategyFactory;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 public abstract class AbstractAction implements IAction {
 	
@@ -35,7 +35,7 @@ public abstract class AbstractAction implements IAction {
 	protected Map<String, String> imageEvents;
 	protected Element actionElement;	
 	protected Collection<String> registeredEvents;
-	protected Data data;
+	protected Datamap datamap;
 	protected IBodyContainer container;
 	protected String realEvent;
 	
@@ -216,7 +216,7 @@ public abstract class AbstractAction implements IAction {
 				}
 				this.getStrategyFactory().addStrategy(strategyName, strategy);
 			}
-			strategy.doBussinessStrategy(this.data, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
+			strategy.doBussinessStrategy(this.datamap, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
 					: new ArrayList<FieldViewSet>());
 		}
 	}
@@ -263,7 +263,7 @@ public abstract class AbstractAction implements IAction {
 		while (iteStrategies.hasNext()) {
 			final IStrategy strategy = iteStrategies.next();
 			if (strategy != null) {
-				strategy.doBussinessStrategy(this.data, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
+				strategy.doBussinessStrategy(this.datamap, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
 						: new ArrayList<FieldViewSet>());
 			}
 		}
@@ -285,8 +285,8 @@ public abstract class AbstractAction implements IAction {
 	}
 
 	@Override
-	public Data getDataBus() {
-		return this.data;
+	public Datamap getDataBus() {
+		return this.datamap;
 	}
 
 	@Override
@@ -322,7 +322,7 @@ public abstract class AbstractAction implements IAction {
 	}
 
 	public static final IAction getAction(final IBodyContainer containerView, final Element actionElement_,
-			final Data dataWrapper, final Collection<String> actionSet) throws Throwable {
+			final Datamap dataWrapper, final Collection<String> actionSet) throws Throwable {
 		try {
 			IAction action = null;
 			if (isQueryEvent(dataWrapper.getEvent())) {
@@ -348,7 +348,7 @@ public abstract class AbstractAction implements IAction {
 
 
 	@Override
-	public abstract SceneResult executeAction(final IDataAccess dataAccess, Data data, String realEvent, boolean eventSubmitted,
+	public abstract SceneResult executeAction(final IDataAccess dataAccess, Datamap datamap, String realEvent, boolean eventSubmitted,
 			Collection<MessageException> prevMessages);
 
 	@Override

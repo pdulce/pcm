@@ -33,7 +33,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.EntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
@@ -65,7 +65,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Data data_,
+	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
@@ -127,7 +127,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 	}
 	
 	@Override
-	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Data data_, final FieldViewSet filtro_, final String aggregateFunction,
+	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet filtro_, final String aggregateFunction,
 			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo, final double coefCorrelacion, final String unidadesmedicion) {
 
 		IFieldValue camposAComparar = null;
@@ -158,7 +158,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
+	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Datamap data_) {
 		
 		IDataAccess dataAccess = null;
 		DomainService domainService = null;
@@ -473,7 +473,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 						excc.printStackTrace();
 					}
 				}
-				serie.put("data", jsArrayAsig);
+				serie.put("datamap", jsArrayAsig);
 				seriesJSON.add(serie);
 				claveIesima++;
 			}
@@ -548,7 +548,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			serieRegressionLine.put("color", coloresHistogramas[0]);
 			serieRegressionLine.put("name", "Regression Line");
 			serieRegressionLine.put("enableMouseTracking", false);
-			serieRegressionLine.put("data", jsArrayRegressionLine);
+			serieRegressionLine.put("datamap", jsArrayRegressionLine);
 
 			seriesJSON.add(serieRegressionLine);
 

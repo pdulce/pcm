@@ -28,7 +28,7 @@ import domain.application.ApplicationDomain;
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 /**
@@ -45,7 +45,7 @@ public class CDDWebController extends HttpServlet {
 
 	private static final long serialVersionUID = 4491685640714600097L;
 
-	private static final String MULTIPART_DATA = "multipart/form-data";
+	private static final String MULTIPART_DATA = "multipart/form-datamap";
 	private static final String CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
 	private static final String BODY = "#BODY#", TITLE = "#TITLE#"; 
 
@@ -87,7 +87,7 @@ public class CDDWebController extends HttpServlet {
 		response.setCharacterEncoding("ISO-8859-1");
 	}
 	
-	protected Map<String, String> getSceneQName(final Data data, final String event) {
+	protected Map<String, String> getSceneQName(final Datamap datamap, final String event) {
 		final Map<String, String> escenario = new HashMap<String, String>();		
 		if (event.indexOf(PCMConstants.CHAR_POINT) != -1) {
 			final String serviceRec = event.substring(0, event.indexOf(PCMConstants.CHAR_POINT));
@@ -157,12 +157,12 @@ public class CDDWebController extends HttpServlet {
 		this.doPost(data, response);
 	}
 	
-	private void transferHttpRequestToDatabus(final HttpServletRequest httpRequest, final MultipartRequest multiPartReq, final Data data){
+	private void transferHttpRequestToDatabus(final HttpServletRequest httpRequest, final MultipartRequest multiPartReq, final Datamap datamap){
 		@SuppressWarnings("rawtypes")
 		Enumeration enumerationAttrs = httpRequest.getAttributeNames();
 		while (enumerationAttrs.hasMoreElements()){
 			String key = (String) enumerationAttrs.nextElement();
-			data.setAttribute(key, httpRequest.getAttribute(key));
+			datamap.setAttribute(key, httpRequest.getAttribute(key));
 		}
 		@SuppressWarnings("rawtypes")
 		Enumeration enumerationParams = multiPartReq == null ? httpRequest.getParameterNames() : multiPartReq.getParameterNames();
@@ -170,26 +170,26 @@ public class CDDWebController extends HttpServlet {
 			String key = (String) enumerationParams.nextElement();
 			String[] arrvalues = multiPartReq == null ? httpRequest.getParameterValues(key) : multiPartReq.getParameterValues(key);
 			if (arrvalues == null){
-				data.setParameter(key, "");
+				datamap.setParameter(key, "");
 				continue;
 			}
 			for (final String val:arrvalues){
-				data.setParameter(key, val);
+				datamap.setParameter(key, val);
 			}
 		}
 		
 	}
 	
-	private void transferDatabusToHttpRequest(final Data data, final HttpServletRequest httpRequest){		
-		Iterator<String> enumerationAttrs = data.getAttributeNames().iterator();
+	private void transferDatabusToHttpRequest(final Datamap datamap, final HttpServletRequest httpRequest){		
+		Iterator<String> enumerationAttrs = datamap.getAttributeNames().iterator();
 		while (enumerationAttrs.hasNext()){
 			String key = (String) enumerationAttrs.next();
-			httpRequest.setAttribute(key, data.getAttribute(key));
+			httpRequest.setAttribute(key, datamap.getAttribute(key));
 		}		
-		Iterator<String> enumerationParams = data.getParameterNames().iterator();
+		Iterator<String> enumerationParams = datamap.getParameterNames().iterator();
 		while (enumerationParams.hasNext()){
 			String key = (String) enumerationParams.next();
-			httpRequest.setAttribute(key, data.getParameter(key));
+			httpRequest.setAttribute(key, datamap.getParameter(key));
 		}		
 	}
 
@@ -206,13 +206,13 @@ public class CDDWebController extends HttpServlet {
 			cleanTmpFiles(this.contextApp.getResourcesConfiguration().getUploadDir());
 		}
 		
-		Data data = null;
+		Datamap datamap = null;
 		try {
 			String profile = ApplicationDomain.extractProfiles(navigationManager.getAppNavigation()).iterator().next();
 			final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
 			final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
 			final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(this.servletPral);
-			data = new Data(profile, entitiesDictionary_, baseUri, pageSize);
+			datamap = new Datamap(profile, entitiesDictionary_, baseUri, pageSize);
 		} catch (PCMConfigurationException e1) {
 			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e1);
 			return;
@@ -231,29 +231,29 @@ public class CDDWebController extends HttpServlet {
 				return;
 			}
 		}
-		transferHttpRequestToDatabus(httpRequest, multiPartReq, data);
+		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);
 		
 		final String initService = this.contextApp.getInitService();
 		final String initEvent = this.contextApp.getInitEvent();
 		String service = "";
 		boolean eventSubmitted = false, startingApp = false;
-		String event = data.getParameter(PCMConstants.EVENT);
+		String event = datamap.getParameter(PCMConstants.EVENT);
 		if (event == null){
 			startingApp = true;
 			service = initService;
 			event = initEvent;			
 		}else{
 			eventSubmitted = true;
-			Map<String,String> scene = this.getSceneQName(data, event);
+			Map<String,String> scene = this.getSceneQName(datamap, event);
 			service = scene.keySet().iterator().next();
 			event = scene.values().iterator().next();
 		}		
-		data.setService(service);
-		data.setEvent(event);
+		datamap.setService(service);
+		datamap.setEvent(event);
 		
 		setResponseContentType(httpResponse);
-		if (data.getParameter(PCMConstants.FILE_INTERNAL_URI_PARAM) != null) {
-			String fileName = data.getParameter(PCMConstants.FILE_INTERNAL_URI_PARAM);
+		if (datamap.getParameter(PCMConstants.FILE_INTERNAL_URI_PARAM) != null) {
+			String fileName = datamap.getParameter(PCMConstants.FILE_INTERNAL_URI_PARAM);
 			String finalPart = fileName.substring(fileName.length() - 5, fileName.length());
 			String[] extensionParts = finalPart.split(PCMConstants.REGEXP_POINT);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -272,8 +272,8 @@ public class CDDWebController extends HttpServlet {
 				throw new ServletException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, ioExc);
 			}
 			return;
-		} else if (data.getParameter(PCMConstants.FILE_UPLOADED_PARAM) != null) {
-			String fileName = data.getParameter(PCMConstants.FILE_UPLOADED_PARAM);
+		} else if (datamap.getParameter(PCMConstants.FILE_UPLOADED_PARAM) != null) {
+			String fileName = datamap.getParameter(PCMConstants.FILE_UPLOADED_PARAM);
 			String extension_ = "";
 			int indexOfPoint = fileName.lastIndexOf(PCMConstants.POINT);
 			if (indexOfPoint > -1) {
@@ -302,20 +302,20 @@ public class CDDWebController extends HttpServlet {
 
 		try {
 			String innerContent_ = "";
-			data.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
+			datamap.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 			if (!isJsonResult()){
-				String escenarioTraducido = this.contextApp.getTitleOfAction(data.getService(), data.getEvent());
-				innerContent_ = this.contextApp.paintLayout(data, eventSubmitted, escenarioTraducido);
+				String escenarioTraducido = this.contextApp.getTitleOfAction(datamap.getService(), datamap.getEvent());
+				innerContent_ = this.contextApp.paintLayout(datamap, eventSubmitted, escenarioTraducido);
 			}else{
-				innerContent_ = renderRequestFromNodePrv(this.contextApp, data);
+				innerContent_ = renderRequestFromNodePrv(this.contextApp, datamap);
 			}
 			
-			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), data, startingApp);
+			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), datamap, startingApp);
 			
-			data.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
-			data.setAttribute(BODY, innerContent_ != null && !"".equals(innerContent_)? innerContent_.toString() : "");
+			datamap.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
+			datamap.setAttribute(BODY, innerContent_ != null && !"".equals(innerContent_)? innerContent_.toString() : "");
 			
-			transferDatabusToHttpRequest(data, httpRequest);
+			transferDatabusToHttpRequest(datamap, httpRequest);
 			
 			this.webconfig.getServletContext().getRequestDispatcher(this.contextApp.getResourcesConfiguration().
 					getTemplatePath()).forward(httpRequest, httpResponse);
@@ -329,7 +329,7 @@ public class CDDWebController extends HttpServlet {
 		return false;
 	}
 	
-	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Data data_) {
+	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Datamap data_) {
 		return "";
 	}
 	

@@ -6,12 +6,12 @@ import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 public abstract class DefaultStrategyRequest implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final Data req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
 		try {
 			this.validParameters(req);
@@ -20,6 +20,6 @@ public abstract class DefaultStrategyRequest implements IStrategy {
 		}
 	}
 
-	protected abstract void validParameters(Data req) throws StrategyException;
+	protected abstract void validParameters(Datamap req) throws StrategyException;
 
 }

@@ -9,7 +9,7 @@ import java.util.Iterator;
 import domain.application.ApplicationDomain;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import org.junit.Assert;
 import junit.framework.TestCase;
 
@@ -50,14 +50,14 @@ public class TestServiceEventQuery extends TestCase {
 			System.out.println("");
 			
 			String profile = "ADMINISTRADOR";
-			final Data data = new Data(profile, ctx.getResourcesConfiguration().getEntitiesDictionary(), 
+			final Datamap datamap = new Datamap(profile, ctx.getResourcesConfiguration().getEntitiesDictionary(), 
 					"/prjManager",
 					Integer.valueOf(ctx.getResourcesConfiguration().getPageSize()).intValue());
-			data.setLanguage("es_");
-			data.setService("GestionResponsablesCentros");
-			data.setEvent("query");
+			datamap.setLanguage("es_");
+			datamap.setService("GestionResponsablesCentros");
+			datamap.setEvent("query");
 			
-			String result = ctx.paintLayout(data, false /*eventSubmitted*/, "titleApp-prueba TEST");
+			String result = ctx.paintLayout(datamap, false /*eventSubmitted*/, "titleApp-prueba TEST");
 			System.out.println("");
 			System.out.println("**** RESULTADO EN HTML ****");
 			System.out.println(result);

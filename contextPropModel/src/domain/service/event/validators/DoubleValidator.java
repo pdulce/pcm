@@ -8,7 +8,7 @@ import domain.service.event.IAction;
 import domain.service.event.Parameter;
 
 /**
- * <h1>DoubleValidator</h1> The DoubleValidator class is used for validating data of 'double' type.
+ * <h1>DoubleValidator</h1> The DoubleValidator class is used for validating datamap of 'double' type.
  * <p>
  * 
  * @author Pedro Dulce

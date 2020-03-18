@@ -9,7 +9,7 @@ import domain.common.exceptions.PCMConfigurationException;
 import domain.service.component.IViewComponent;
 import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 
 
@@ -19,7 +19,7 @@ public interface IBodyContainer {
 
 	public void setFieldViewSetCriteria(List<FieldViewSetCollection> f);
 
-	public String toXML(Data data, final IDataAccess dataAccess_, boolean submitted, List<MessageException> errorMsg);
+	public String toXML(Datamap datamap, final IDataAccess dataAccess_, boolean submitted, List<MessageException> errorMsg);
 
 	public List<IViewComponent> getForms();
 

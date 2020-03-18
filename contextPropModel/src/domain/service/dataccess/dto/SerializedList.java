@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * <h1>SerializedList</h1> The SerializedList class is responsible of maintain the value of arrays
- * of data between the two layers identified in PCM architecture; the view layer and the model
+ * of datamap between the two layers identified in PCM architecture; the view layer and the model
  * layer.
  * <p>
  * 

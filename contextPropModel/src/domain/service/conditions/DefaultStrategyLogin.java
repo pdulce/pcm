@@ -6,7 +6,7 @@ import java.util.Map;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.StrategyException;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.AppCacheFactory;
 import domain.service.event.IAction;
 
@@ -16,7 +16,7 @@ public class DefaultStrategyLogin extends DefaultStrategyRequest {
 	public static final String USER_ = "user", PASSWD_ = "password", NAME = "name", COMPLETED_NAME = "nombreCompleto";
 
 	@Override
-	protected void validParameters(final Data req) throws StrategyException {
+	protected void validParameters(final Datamap req) throws StrategyException {
 		final Map<String, String> securityProps = AppCacheFactory.getFactoryInstance().getAppCache();
 		// guardo las credenciales en sesion en el caso de que no vengan ya en sesion
 		if (req.getAttribute(USER_) != null && req.getParameter(USER_) == null) {

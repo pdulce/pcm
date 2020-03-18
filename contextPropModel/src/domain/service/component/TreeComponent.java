@@ -19,7 +19,7 @@ import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 /**
@@ -199,9 +199,9 @@ public class TreeComponent extends AbstractComponent {
 	 * 
 	 * @see
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#initFieldViewSets(org
-	 * .w3c.dom.Element, Data) */
+	 * .w3c.dom.Element, Datamap) */
 	@Override
-	protected void initFieldViewSets(final Element element_, final Data data, final IDataAccess dataAccess)
+	protected void initFieldViewSets(final Element element_, final Datamap datamap, final IDataAccess dataAccess)
 			throws PCMConfigurationException {
 		//
 	}
@@ -228,16 +228,16 @@ public class TreeComponent extends AbstractComponent {
 	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#toXML(javax.servlet
 	 * .http.HttpServletRequest) */
 	@Override
-	public String toXHTML(final Data data, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
+	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		try {
-			if (data.getParameter(paramfID) != null) {
-				data.setAttribute(paramfID, data.getParameter(paramfID));
+			if (datamap.getParameter(paramfID) != null) {
+				datamap.setAttribute(paramfID, datamap.getParameter(paramfID));
 			}
-			if (data.getParameter(paramfIDGrantPa) != null) {
-				data.setAttribute(paramfIDGrantPa, data.getParameter(paramfIDGrantPa));
+			if (datamap.getParameter(paramfIDGrantPa) != null) {
+				datamap.setAttribute(paramfIDGrantPa, datamap.getParameter(paramfIDGrantPa));
 			}
-			if (data.getParameter(paramfIDGrantPa2) != null) {
-				data.setAttribute(paramfIDGrantPa2, data.getParameter(paramfIDGrantPa2));
+			if (datamap.getParameter(paramfIDGrantPa2) != null) {
+				datamap.setAttribute(paramfIDGrantPa2, datamap.getParameter(paramfIDGrantPa2));
 			}
 			return this.xhtml;
 		}

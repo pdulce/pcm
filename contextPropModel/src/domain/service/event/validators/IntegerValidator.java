@@ -7,7 +7,7 @@ import domain.service.event.IAction;
 import domain.service.event.Parameter;
 
 /**
- * <h1>IntegerValidator</h1> The IntegerValidator class is used for validating data of 'int' type.
+ * <h1>IntegerValidator</h1> The IntegerValidator class is used for validating datamap of 'int' type.
  * <p>
  * 
  * @author Pedro Dulce

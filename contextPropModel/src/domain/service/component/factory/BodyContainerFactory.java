@@ -9,7 +9,7 @@ import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
 import domain.service.component.BodyContainer;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 
 
 public class BodyContainerFactory {
@@ -30,18 +30,18 @@ public class BodyContainerFactory {
 	private final Map<String, IBodyContainer> viewcomponents;
 
 	public IBodyContainer getViewComponent(final IDataAccess dataAccess,
-			final Data data, final DomainService domainService) throws PCMConfigurationException,
+			final Datamap datamap, final DomainService domainService) throws PCMConfigurationException,
 			DatabaseException {
 		
-		String profile = (String) data.getAppProfile();
+		String profile = (String) datamap.getAppProfile();
 		profile = profile == null ? "" : profile;
-		final String entityNameParamValue = data.getParameter(IBodyContainer.ENTITYPARAM) == null ? PCMConstants.EMPTY_ : data
+		final String entityNameParamValue = datamap.getParameter(IBodyContainer.ENTITYPARAM) == null ? PCMConstants.EMPTY_ : datamap
 				.getParameter(IBodyContainer.ENTITYPARAM);
 		final String strName = new StringBuilder(PCMConstants.UNDERSCORE).append(domainService.getUseCaseName()).
-				append(PCMConstants.UNDERSCORE).append(data.getEvent())
+				append(PCMConstants.UNDERSCORE).append(datamap.getEvent())
 				.append(PCMConstants.UNDERSCORE).append(entityNameParamValue).append(profile).toString();
 		if (this.viewcomponents.get(strName) == null) {
-			this.viewcomponents.put(strName, new BodyContainer(domainService, dataAccess, data));
+			this.viewcomponents.put(strName, new BodyContainer(domainService, dataAccess, datamap));
 		}
 		return this.viewcomponents.get(strName).copyOf();
 	}

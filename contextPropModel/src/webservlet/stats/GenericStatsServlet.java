@@ -43,7 +43,7 @@ import domain.service.dataccess.definitions.EntityLogic;
 import domain.service.dataccess.definitions.FieldLogic;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Data;
+import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
@@ -62,7 +62,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	
 	protected abstract String getParamsPrefix();
 		
-	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Data data_,
+	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction);
 	
@@ -91,7 +91,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 	
 	@Override
-	protected String renderRequestFromNodePrv(final ApplicationDomain contextApp, final Data data_) {
+	protected String renderRequestFromNodePrv(final ApplicationDomain contextApp, final Datamap data_) {
 		
 		IDataAccess dataAccess = null;
 		DomainService domainService = null;
@@ -312,7 +312,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return new ArrayList<String>();
 	}
 	
-	private String getUnits(final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String aggregateFunction, final Data data_){
+	private String getUnits(final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String aggregateFunction, final Datamap data_){
 		String units = "";
 		String nombreConceptoRecuento = " ", lang = data_.getLanguage();
 		if (agregados == null){
@@ -339,7 +339,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return units.toLowerCase();
 	}
 	
-	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Data data_, final FieldViewSet filtro_, final String aggregateFunction,
+	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet filtro_, final String aggregateFunction,
 			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo_, final double coefCorrelacion, final String units ) {
 		
 		//para el nombre, tomo el completo si hay uno, sino, tomo la primera parte del primer agregado, por ej. horas, facturado, etc
@@ -423,7 +423,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return false;
 	}
 
-	protected final String htmlForHistograms(final Data data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
+	protected final String htmlForHistograms(final Datamap data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
 		data_.setAttribute("container", "container");
 		data_.setAttribute("width-container", String.valueOf(getWidth()));
 		data_.setAttribute("height-container", String.valueOf(getHeight(field4Agrupacion, filtro_)));
@@ -508,13 +508,13 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 
 	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray jsArrayEjeAbcisas,
-			final Data data_) {
+			final Datamap data_) {
 		return regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, true, data_);
 	}
 
 	@SuppressWarnings("unchecked")
 	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
-			boolean stack_Z, final Data data_) {
+			boolean stack_Z, final Datamap data_) {
 
 		JSONArray seriesJSON = new JSONArray();
 
@@ -524,7 +524,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			JSONObject serie = new JSONObject();
 			serie.put("color", coloresHistogramas[0]);
 			serie.put("name", "No hay datos. Revise los criterios de la consulta");
-			serie.put("data", jsArray.get(0));
+			serie.put("datamap", jsArray.get(0));
 			serie.put("stack", "0");
 			seriesJSON.add(serie);
 			return seriesJSON.toJSONString();
@@ -585,7 +585,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				clave = clave.split(":")[1];
 			}
 			serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
-			serie.put("data", jsArray.get(0));
+			serie.put("datamap", jsArray.get(0));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}
@@ -606,7 +606,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 	****/
 	
-	protected final String pintarCriterios(FieldViewSet filtro_, final Data data_) {
+	protected final String pintarCriterios(FieldViewSet filtro_, final Datamap data_) {
 		StringBuilder strBuffer = new StringBuilder();
 		// recorremos cada field, si tiene value, pintamos en el stringbuffer su valor, y aso...
 		Iterator<IFieldView> iteFieldViews = filtro_.getFieldViews().iterator();
@@ -736,7 +736,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 
 	protected abstract String getUnitName(final IFieldLogic aggregateField, final IFieldLogic fieldForCategoriaDeAgrupacion,
-			final String aggregateFunction, final Data data_);
+			final String aggregateFunction, final Datamap data_);
 	
 
 }
