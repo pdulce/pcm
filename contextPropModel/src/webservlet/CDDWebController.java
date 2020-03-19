@@ -177,7 +177,9 @@ public class CDDWebController extends HttpServlet {
 				datamap.setParameter(key, val);
 			}
 		}
-		
+		if (httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE) != null) {
+			datamap.setAttribute(PCMConstants.APP_PROFILE, datamap.getAttribute(PCMConstants.APP_PROFILE));
+		}
 	}
 	
 	private void transferDatabusToHttpRequest(final Datamap datamap, final HttpServletRequest httpRequest){		
@@ -190,7 +192,10 @@ public class CDDWebController extends HttpServlet {
 		while (enumerationParams.hasNext()){
 			String key = (String) enumerationParams.next();
 			httpRequest.setAttribute(key, datamap.getParameter(key));
-		}		
+		}
+		if (datamap.getAttribute(PCMConstants.APP_PROFILE) != null) {
+			httpRequest.getSession().setAttribute(PCMConstants.APP_PROFILE, datamap.getAttribute(PCMConstants.APP_PROFILE));
+		}
 	}
 
 	@Override
