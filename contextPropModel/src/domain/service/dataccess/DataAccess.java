@@ -80,8 +80,16 @@ public class DataAccess implements IDataAccess {
 		this.dataConnectionsFactory = olDataAccess.getDataConnectionsFactory();
 		try {
 			this.conn = this.dataConnectionsFactory.getConnection();
+		} catch (PCMConfigurationException e) {
+			this.conn = null;
 		}
-		catch (PCMConfigurationException e) {
+	}
+	
+	public void freeConnection() {
+		try {
+			this.dataConnectionsFactory.freeConnection(this.conn);
+			this.conn = null;
+		} catch (PCMConfigurationException e) {
 			this.conn = null;
 		}
 	}
