@@ -20,9 +20,9 @@ public class ComparatorFieldViewSet implements Comparator<FieldViewSet>, Seriali
 		}else if (entry2.getValue(pk.getName()) == null){
 			return 1;
 		}
-		
-		final Long value1 = Long.valueOf(entry1.getValue(pk.getName()).toString());
-		final Long value2 = Long.valueOf(entry2.getValue(pk.getName()).toString());
+		//eliminamos posibles . en el numero
+		final Long value1 = Double.valueOf(entry1.getValue(pk.getName()).toString()).longValue();
+		final Long value2 = Double.valueOf(entry2.getValue(pk.getName()).toString()).longValue();
 		
 		int resultado = 0;
 		if (value1  < value2) {
