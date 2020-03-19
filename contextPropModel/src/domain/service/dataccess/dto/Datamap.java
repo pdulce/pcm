@@ -128,6 +128,7 @@ public class Datamap {
 		List<Object> dataValues = null;
 		if (this.data.containsKey(param)){
 			dataValues = this.data.get(param);
+			dataValues.clear();
 		}else{
 			dataValues = new ArrayList<Object>();
 			this.data.put(param, dataValues);

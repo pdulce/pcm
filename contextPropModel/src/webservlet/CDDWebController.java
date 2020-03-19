@@ -177,8 +177,8 @@ public class CDDWebController extends HttpServlet {
 				datamap.setParameter(key, val);
 			}
 		}
-		if (httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE) != null) {
-			datamap.setAttribute(PCMConstants.APP_PROFILE, datamap.getAttribute(PCMConstants.APP_PROFILE));
+		if ( (String) httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE) != null) {
+			datamap.setAttribute(PCMConstants.APP_PROFILE, (String) httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE));
 		}
 	}
 	
@@ -228,7 +228,7 @@ public class CDDWebController extends HttpServlet {
 		final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
 		final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
 		final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(this.servletPral);
-		Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
+		final Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
 		
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);
 		
