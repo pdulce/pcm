@@ -161,7 +161,8 @@ public class ActionForm extends AbstractAction {
 			final String reqParamN = fieldView.getQualifiedContextName();
 			final List<String> vals = new ArrayList<String>();
 			if (!fieldView.isUserDefined() && fieldView.getEntityField().getAbstractField().isBlob()) {
-				if (this.datamap.getAttribute(reqParamN) != null && !"".equals(this.datamap.getAttribute(reqParamN))) {
+				if (this.datamap.getAttribute(reqParamN) != null && 
+						!"".equals(this.datamap.getAttribute(reqParamN).toString())) {
 					final File fSaved = (File) this.datamap.getAttribute(reqParamN);
 					if (fSaved != null) {
 						vals.add(fSaved.getAbsolutePath());
