@@ -41,20 +41,11 @@ public class StrategyLogin extends DefaultStrategyLogin {
 	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 		try {
-			/** RECUPERAMOS DATOS DE PANTALLA * */
 			String userReq = req.getParameter(MY_USER_PARAM);
 			String passReq = req.getParameter(MY_PASSWD_PARAM);
 
 			initEntitiesFactories(req.getEntitiesDictionary());
 
-			/** RECUPERAMOS DATOS DE BBDD * */
-
-			/** TOMAMOS LAS DECISIONES DE NEGOCIO QUE CORRESPONDA * */
-
-			// guardo las credenciales en sesion en el caso de que no vengan ya en sesion
-			if (req.getAttribute(DefaultStrategyLogin.USER_) != null && userReq.equals("")) {
-				return;
-			}
 			if (req.getAttribute(DefaultStrategyLogin.USER_) == null && (userReq == null || userReq.equals("") || passReq == null || passReq.equals("")) ) {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
 				messageArguments.add(userReq != null ? "'".concat(userReq).concat("'") : "''");
