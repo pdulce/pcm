@@ -111,6 +111,8 @@ public interface IDataAccess {
 
 	public boolean isConnectionActive();
 	
+	public void freeConnection();
+	
 	public boolean isAuditOn();
 
 	public void rollback() throws SQLException;
