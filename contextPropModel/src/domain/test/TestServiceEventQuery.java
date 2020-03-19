@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import domain.application.ApplicationDomain;
+import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
 import domain.service.dataccess.dto.Datamap;
@@ -49,10 +50,11 @@ public class TestServiceEventQuery extends TestCase {
 			System.out.println("**** FIN ARBOL DE APLICACION ****");
 			System.out.println("");
 			
-			String profile = "ADMINISTRADOR";
-			final Datamap datamap = new Datamap(profile, ctx.getResourcesConfiguration().getEntitiesDictionary(), 
+			String profile = "ANALISIS_TEAM";
+			final Datamap datamap = new Datamap(ctx.getResourcesConfiguration().getEntitiesDictionary(), 
 					"/prjManager",
 					Integer.valueOf(ctx.getResourcesConfiguration().getPageSize()).intValue());
+			datamap.setAttribute(PCMConstants.APP_PROFILE, profile);
 			datamap.setLanguage("es_");
 			datamap.setService("GestionResponsablesCentros");
 			datamap.setEvent("query");

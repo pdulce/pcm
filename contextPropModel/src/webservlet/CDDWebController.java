@@ -204,19 +204,7 @@ public class CDDWebController extends HttpServlet {
 			this.contextApp.getResourcesConfiguration().setServerPort(String.valueOf(httpRequest.getLocalPort()));
 			this.servletPral = this.servletPral == null ? httpRequest.getServletPath() : this.servletPral;
 			cleanTmpFiles(this.contextApp.getResourcesConfiguration().getUploadDir());
-		}
-		
-		Datamap datamap = null;
-		try {
-			String profile = ApplicationDomain.extractProfiles(navigationManager.getAppNavigation()).iterator().next();
-			final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
-			final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
-			final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(this.servletPral);
-			datamap = new Datamap(profile, entitiesDictionary_, baseUri, pageSize);
-		} catch (PCMConfigurationException e1) {
-			CDDWebController.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, e1);
-			return;
-		}		
+		}	
 		
 		MultipartRequest multiPartReq = null;
 		final String contentType = httpRequest.getContentType() == null ? PCMConstants.EMPTY_ : httpRequest.getContentType();
@@ -231,6 +219,12 @@ public class CDDWebController extends HttpServlet {
 				return;
 			}
 		}
+		
+		final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
+		final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
+		final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(this.servletPral);
+		Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
+		
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);
 		
 		final String initService = this.contextApp.getInitService();
@@ -302,7 +296,6 @@ public class CDDWebController extends HttpServlet {
 
 		try {
 			String innerContent_ = "";
-			datamap.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 			if (!isJsonResult()){
 				String escenarioTraducido = this.contextApp.getTitleOfAction(datamap.getService(), datamap.getEvent());
 				innerContent_ = this.contextApp.paintLayout(datamap, eventSubmitted, escenarioTraducido);
@@ -311,7 +304,7 @@ public class CDDWebController extends HttpServlet {
 			}
 			
 			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), datamap, startingApp);
-			
+			datamap.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 			datamap.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
 			datamap.setAttribute(BODY, innerContent_ != null && !"".equals(innerContent_)? innerContent_.toString() : "");
 			

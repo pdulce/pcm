@@ -21,16 +21,13 @@ public class Datamap {
 	private String service;
 	private String event;
 	private String language;
-	private String userProfile;
 	private String entitiesDictionary;
 	private int pageSize;
 	
 	
-	public Datamap(final String userProfile_, final String entitiesDictionary_, final String uri_, final int pageSize){		
+	public Datamap(final String entitiesDictionary_, final String uri_, final int pageSize){		
 		this.data = new HashMap<String, List<Object>>();
 		this.setPageSize(pageSize);
-		this.setAttribute(PCMConstants.APP_PROFILE, userProfile_);
-		this.userProfile = userProfile_;
 		this.setAttribute(PCMConstants.LANGUAGE, PCMConstants.DEFAULT_LANG);
 		this.language = PCMConstants.DEFAULT_LANG;
 		this.entitiesDictionary = entitiesDictionary_;
@@ -70,8 +67,12 @@ public class Datamap {
 	public int getPageSize(){
 		return this.pageSize;
 	}
+	
 	public String getAppProfile() {
-		return this.userProfile;
+		if (this.getAttribute(PCMConstants.APP_PROFILE) == null) {
+			return "non-profile";
+		}
+		return (String) this.getAttribute(PCMConstants.APP_PROFILE);
 	}
 	
 	public Collection<String> getAttributeNames(){
@@ -114,10 +115,6 @@ public class Datamap {
 	
 	public void setEntitiesDictionary(String ent_){
 		this.entitiesDictionary = ent_;		
-	}
-	
-	public void setAppProfile(String appProfile_) {
-		this.userProfile = appProfile_;
 	}
 	
 	public Object getAttribute(final String attr){

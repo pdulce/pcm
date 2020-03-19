@@ -10,8 +10,6 @@
 			description="Usuario administrador" />
 		<profile name="CONSULTOR_UTE"
 			description="Usuario consultor" />
-		<profile name="CONSULTOR_UTE"
-			description="Usuario invitado, con acceso a ver colaboradores" />
 		<profile name="ANALISIS_TEAM" description="Analista del equipo del CDINSS" />
 	</profiles>
 
@@ -21,7 +19,7 @@
 
 	<tree profile="ADMINISTRADOR" name="tree">
 
-		<FOLDER profile="ADMINISTRADOR" name="Config.">
+		<!-- FOLDER profile="ADMINISTRADOR" name="Config.">
 			<LEAF link="exec=Configuration" name="Configuraciones" />
 			<LEAF link="event=GestionEntidades.query#entityName=rol" name="Roles" />
 			<LEAF link="event=GestionUsuarios.query" name="Usuarios" />
@@ -44,15 +42,22 @@
 			<LEAF link="event=GestionEmpresasUTE.query" name="Empresas" />
 			<LEAF link="event=GestionEntidades.query#entityName=categoria_profesional" name="Tarifas por perfil" />
 			<LEAF link="event=GestionEntidades.query#entityName=responsabilidad" name="Atribuciones" />
-		</FOLDER>
+		</FOLDER>-->
 
-		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE"
+		<FOLDER profile="ANALISIS_TEAM"
 			name="Seguimiento">
 			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
-			<LEAF link="event=InformePeticionesSG.query" name="Demanda SGD" />
+			<!-- LEAF link="event=InformePeticionesSG.query" name="Demanda SGD" />
+			 -->
+			 <FOLDER profile="ANALISIS_TEAM" name="WAS Config">
+			 </FOLDER>
+			 <FOLDER profile="ANALISIS_TEAM" name="BBDD Conexiones">
+			 </FOLDER>
+			 <FOLDER profile="ANALISIS_TEAM" name="DIMENSIONS Conexiones">
+			 </FOLDER>
 		</FOLDER>
 		
-		<FOLDER profile="ADMINISTRADOR"
+		<!-- <FOLDER profile="ADMINISTRADOR"
 				name="Importaciones GEDEON">
 			<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
 		</FOLDER>
@@ -63,7 +68,7 @@
 		</FOLDER>
 		<FOLDER profile="ADMINISTRADOR"	name="Bolsa Cartera Valores">
 			<LEAF link="LauncherUtility?exec=myInfoBolsa" name="Valores actuales en Mi Cartera" />
-		</FOLDER>
+		</FOLDER>-->
 
 	</tree>
 	
