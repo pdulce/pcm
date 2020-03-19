@@ -19,7 +19,7 @@
 
 	<tree profile="ADMINISTRADOR" name="tree">
 
-		<!-- FOLDER profile="ADMINISTRADOR" name="Config.">
+		<FOLDER profile="ADMINISTRADOR" name="Config.">
 			<LEAF link="exec=Configuration" name="Configuraciones" />
 			<LEAF link="event=GestionEntidades.query#entityName=rol" name="Roles" />
 			<LEAF link="event=GestionUsuarios.query" name="Usuarios" />
@@ -42,9 +42,9 @@
 			<LEAF link="event=GestionEmpresasUTE.query" name="Empresas" />
 			<LEAF link="event=GestionEntidades.query#entityName=categoria_profesional" name="Tarifas por perfil" />
 			<LEAF link="event=GestionEntidades.query#entityName=responsabilidad" name="Atribuciones" />
-		</FOLDER>-->
+		</FOLDER>
 
-		<FOLDER profile="ANALISIS_TEAM"
+		<FOLDER profile="ANALISIS_TEAM, ADMINISTRADOR"
 			name="Seguimiento">
 			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
 			<!-- LEAF link="event=InformePeticionesSG.query" name="Demanda SGD" />
@@ -57,7 +57,7 @@
 			 </FOLDER>
 		</FOLDER>
 		
-		<!-- <FOLDER profile="ADMINISTRADOR"
+		<FOLDER profile="ADMINISTRADOR"
 				name="Importaciones GEDEON">
 			<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
 		</FOLDER>
@@ -68,7 +68,7 @@
 		</FOLDER>
 		<FOLDER profile="ADMINISTRADOR"	name="Bolsa Cartera Valores">
 			<LEAF link="LauncherUtility?exec=myInfoBolsa" name="Valores actuales en Mi Cartera" />
-		</FOLDER>-->
+		</FOLDER>
 
 	</tree>
 	
