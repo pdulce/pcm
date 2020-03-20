@@ -253,11 +253,13 @@
 								<option code="FMAR" title="FMAR - NAT "></option>
 								<option code="FOM2" title="FOM2"></option>
 								<option code="FRMA" title="FRMA"></option>
+								<option code="GFOA" title="GFOA"></option>
 								<option code="ISMW" title="ISMW"></option>
 								<option code="MOVI" title="MOVI"></option>
 								<option code="SANI" title="SANI"></option>
 								<option code="SBOT" title="SBOT"></option>
 								<option code="WISM-WBOF" title="WISM-WBOF"></option>
+								<option code="WSRT" title="WSRT"></option>
 								<option code="INCM" title="INCM"></option>
 								<option code="SIEB" title="SIEB"></option>
 								<option code="PRES" title="PRES"></option>
