@@ -1,4 +1,4 @@
-package domain.test;
+package facturacionUte.test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,9 +11,9 @@ import domain.service.dataccess.dto.Datamap;
 import org.junit.Assert;
 import junit.framework.TestCase;
 
-public class TestServiceEventQuery extends TestCase {
+public class TestServicios extends TestCase {
 	
-	public TestServiceEventQuery() {
+	public TestServicios() {
 	}
 	
 	public void testOneCase() {		
@@ -23,47 +23,29 @@ public class TestServiceEventQuery extends TestCase {
 			//stream = new URL("file:///C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\cddconfig.xml").openStream();
 			ApplicationDomain ctx = new ApplicationDomain(stream);
 			ctx.invoke();
-			//System.out.println("Title: " + ctx.getResourcesConfiguration().getAppTitle());
-			//System.out.println("NavigationApp file: " + ctx.getResourcesConfiguration().getNavigationApp());
 			
-			/***
-			System.out.println("");
-			System.out.println("**** INICIO ARBOL DE APLICACION ****");
-			System.out.println("");
-			
-			Iterator<DomainService> iteDomainServiceUseCase = ctx.getDomainServices().values().iterator();
-			while (iteDomainServiceUseCase.hasNext()){
-				DomainService domainServiceUseCase = iteDomainServiceUseCase.next();
-				//System.out.println("Service UUID: " + domainServiceUseCase.getUUID_());
-				//System.out.println("----> UseCase: " + domainServiceUseCase.getUseCaseName());
-				Iterator<String> iteActionSet = domainServiceUseCase.discoverAllEvents().iterator();
-				while (iteActionSet.hasNext()){
-					String action = iteActionSet.next();
-					//System.out.println(" ----------------> Action: " + action);
-				}
-			}
-			System.out.println("");
-			System.out.println("**** FIN ARBOL DE APLICACION ****");
-			System.out.println("");
-			**/
-			
-			String profile = "ANALISIS_TEAM";
+			String profile = "ADMINISTRADOR";
 			Datamap datamap = new Datamap(ctx.getResourcesConfiguration().getEntitiesDictionary(), 
 					"/prjManager",
 					Integer.valueOf(ctx.getResourcesConfiguration().getPageSize()).intValue());
 			datamap.setAttribute(PCMConstants.APP_PROFILE, profile);
 			datamap.setLanguage("es_");
-			datamap.setService("GestionResponsablesCentros");
-			datamap.setEvent("query");
+			datamap.setService("GestionServicios");
+			datamap.setEvent("create");
 			
-			boolean eventSubmitted = false;
-			String result = ctx.paintLayout(datamap, eventSubmitted, "ResponsablesCentros-TEST QUERY");
+			/********** DATOS DE NEGOCIO *********/
+			datamap.setParameter("event", "GestionServicios.showFormCreate");
+			datamap.setParameter("servicio.nombre22",	"DATAWHAREHOUSE UNIT SERVICE");
+			datamap.setParameter("servicio.unidad_org",	"4");//CDISM
+			
+			boolean eventSubmitted = true;
+			String result = ctx.paintLayout(datamap, eventSubmitted, "Servicios-TEST CREATE");
 			System.out.println("");
 			System.out.println("**** RESULTADO EN HTML ****");
 			System.out.println(result);
 			System.out.println("");
-			
-			Assert.assertTrue(result.length() > 500);
+			String secuenciaMsgError = "[Error de entrada de datos]";
+			Assert.assertFalse(result.contains(secuenciaMsgError));
 			
 		} catch (MalformedURLException e1){
 			e1.printStackTrace();
@@ -73,8 +55,6 @@ public class TestServiceEventQuery extends TestCase {
 			return;
 		} catch (PCMConfigurationException e5) {			
 			e5.printStackTrace();
-		} catch (Throwable e6) {
-			e6.printStackTrace();
 		} finally{
 			if (stream != null){
 				try {

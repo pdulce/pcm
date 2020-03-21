@@ -222,11 +222,7 @@ public class TreeComponent extends AbstractComponent {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * 
-	 * @see
-	 * contextmodel.framework.context.viewmodel.components.AbstractComponent#toXML(javax.servlet
-	 * .http.HttpServletRequest) */
+
 	@Override
 	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		try {

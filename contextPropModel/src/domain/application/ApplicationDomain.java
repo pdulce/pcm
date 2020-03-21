@@ -24,7 +24,6 @@ import java.util.logging.StreamHandler;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.ServletException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -38,6 +37,7 @@ import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.MessageException;
 import domain.common.exceptions.PCMConfigurationException;
+import domain.common.exceptions.PcmException;
 import domain.service.DomainService;
 import domain.service.component.BodyContainer;
 import domain.service.component.IViewComponent;
@@ -372,7 +372,7 @@ public class ApplicationDomain implements Serializable {
 	}
 	
 	public String paintLayout(final Datamap datamap, final boolean eventSubmitted, final String escenarioTraducido) 
-			throws Throwable {
+			throws PcmException {
 		
 		if (EVENTO_CONFIGURATION.equals(datamap.getParameter(EXEC_PARAM))) {	
 			return paintConfiguration(datamap);
@@ -441,7 +441,7 @@ public class ApplicationDomain implements Serializable {
 			return innerContent_.toString();
 			
 		} catch (final Throwable e2) {
-			throw new ServletException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, e2);		
+			throw new PcmException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, e2);		
 		} finally {
 			try {
 				if (dataAccess_ != null && dataAccess_.getConn() != null){
@@ -449,7 +449,7 @@ public class ApplicationDomain implements Serializable {
 				}
 			} catch (final Throwable excSQL) {
 				ApplicationDomain.log.log(Level.SEVERE, "Error", excSQL);
-				throw new ServletException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, excSQL);
+				throw new PcmException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, excSQL);
 			}
 		}
 	}
