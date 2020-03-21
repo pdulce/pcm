@@ -86,6 +86,7 @@ public class TestServicios extends TestCase {
 			
 			/*** TESTING OF EVENT UPDATE **/
 			datamap.removeParameter("servicioSel.id");
+			datamap.removeParameter("servicio.nombre");//borro el previo porque los parámetros se tratan como String[] y quedaría el previo
 			datamap.setEvent(IEvent.UPDATE);
 			datamap.setParameter("servicio.id",	maxValue);
 			datamap.setParameter("servicio.nombre",	"KKKK UNIT SERVICE (update45)");
