@@ -141,8 +141,20 @@ public class Datamap {
 	}
 	
 	public void removeAttribute(final String attr){
+		if (this.attributeNames == null || this.attributeNames.isEmpty()) {
+			return;
+		}
 		this.attributeNames.remove(attr);
 		this.data.remove(attr);
+	}
+	
+	public void removeParameter(final String param){
+		if (this.parameterNames == null || this.parameterNames.isEmpty()) {
+			return;
+		}
+			
+		this.parameterNames.remove(param);
+		this.data.remove(param);
 	}
 	
 	public String getParameter(final String param){

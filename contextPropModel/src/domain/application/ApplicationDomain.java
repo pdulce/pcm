@@ -365,7 +365,7 @@ public class ApplicationDomain implements Serializable {
 		return htmlOutput.toString();
 	}
 	
-	public String paintLayout(final Datamap datamap, final boolean eventSubmitted, final String escenarioTraducido) 
+	public String launch(final Datamap datamap, final boolean eventSubmitted, final String escenarioTraducido) 
 			throws PcmException {
 		
 		if (EVENTO_CONFIGURATION.equals(datamap.getParameter(EXEC_PARAM))) {	

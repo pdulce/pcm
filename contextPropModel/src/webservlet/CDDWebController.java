@@ -303,7 +303,7 @@ public class CDDWebController extends HttpServlet {
 			String innerContent_ = "";
 			if (!isJsonResult()){
 				String escenarioTraducido = this.contextApp.getTitleOfAction(datamap.getService(), datamap.getEvent());
-				innerContent_ = this.contextApp.paintLayout(datamap, eventSubmitted, escenarioTraducido);
+				innerContent_ = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
 			}else{
 				innerContent_ = renderRequestFromNodePrv(this.contextApp, datamap);
 			}
