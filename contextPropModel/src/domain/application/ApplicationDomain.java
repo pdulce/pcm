@@ -4,7 +4,6 @@
 package domain.application;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -25,14 +24,10 @@ import java.util.logging.StreamHandler;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.MessageException;
@@ -121,13 +116,12 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	private final void readDomainServices() throws FileNotFoundException, SAXException, IOException,
-		ParserConfigurationException {
+	private final void readDomainServices() throws PCMConfigurationException{
 		
 		this.domainServices = new HashMap<String, DomainService>();
 		File[] pFiles = new File(this.resourcesConfiguration.getServiceDirectory()).listFiles();		
 		if (pFiles == null) {
-			throw new RuntimeException("Error instantiating DomainServiceContainer: service directory " + 
+			throw new PCMConfigurationException("Error instantiating DomainServiceContainer: service directory " + 
 		this.resourcesConfiguration.getServiceDirectory() + " is empty");
 		}
 		for (File pFile : pFiles) {
@@ -198,7 +192,7 @@ public class ApplicationDomain implements Serializable {
 	
 	
 	
-	public void invoke() throws Throwable{
+	public void invoke() throws PCMConfigurationException{
 		
 		InputStream dictionaryStream = null;
 		try{
