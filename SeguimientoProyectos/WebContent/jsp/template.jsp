@@ -72,15 +72,10 @@
 </head>
 
 <body
-	onLoad="javascript:initTree(<%=request.getParameter("fID") == null ? (String) request
-					.getSession().getAttribute("fID") : request
-					.getParameter("fID")%>, <%=request.getParameter("gPfID") == null ? (String) request
-					.getSession().getAttribute("gPfID") : request
-					.getParameter("gPfID")%>, <%=request.getParameter("gP2fID") == null ? (String) request
-					.getSession().getAttribute("gP2fID") : request
-					.getParameter("gP2fID")%>);
-					document.getElementById('principal').style.display='block';
-					document.getElementById('loadingdiv').style.display='none';">
+	onLoad="javascript:initTree(<%=(String) request.getSession().getAttribute("fID")%>, <%=(String) request.getSession().getAttribute("gPfID")%>,  
+	<%=(String) request.getSession().getAttribute("gP2fID")%>);
+	document.getElementById('principal').style.display='block';
+			document.getElementById('loadingdiv').style.display='none';">
 
 	<%
 		if (request.getAttribute("json_countryMap") != null) {
@@ -405,7 +400,7 @@
 			                }
 			            },
 			            title: {
-			                text: null
+			                text: ''
 			            }
 			        },
 			        yAxis: {
