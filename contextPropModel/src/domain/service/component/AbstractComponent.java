@@ -172,9 +172,13 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 					if (keyMemorized.startsWith(namespace) && values != null && !values.isEmpty()) {
 						List<String> stringVals = new ArrayList<String>();
 						for (Object val: values) {
-							stringVals.add(val.toString());
+							if (!"".equals(val.toString())){
+								stringVals.add(val.toString());
+							}
 						}
-						fSet.setValues(keyMemorized, stringVals);
+						if (!stringVals.isEmpty()) {
+							fSet.setValues(keyMemorized, stringVals);
+						}
 					}
 				}
 			}
