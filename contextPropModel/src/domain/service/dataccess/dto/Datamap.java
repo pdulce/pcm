@@ -35,6 +35,10 @@ public class Datamap {
 		this.setAttribute(PCMConstants.APPURI_, uri_);
 	}
 	
+	public  Map<String, List<Object>> getAllDataMap(){
+		return this.data;
+	}
+	
 	public Collection<String> getAppProfileSet() {
 		return this.appProfileSet;
 	}

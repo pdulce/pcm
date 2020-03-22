@@ -177,8 +177,17 @@ public class CDDWebController extends HttpServlet {
 				datamap.setParameter(key, val);
 			}
 		}
-		if ( (String) httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE) != null) {
+		if (httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE) != null) {
 			datamap.setAttribute(PCMConstants.APP_PROFILE, (String) httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE));
+			if (datamap.getParameter("fID") != null && !"".equals(datamap.getParameter("fID"))) {
+				datamap.setAttribute("fID", datamap.getParameter("fID"));
+				datamap.setAttribute("gPfID", datamap.getParameter("gPfID"));
+				datamap.setAttribute("gP2fID", datamap.getParameter("gP2fID"));
+			}else {
+				datamap.setAttribute("fID",httpRequest.getSession().getAttribute("fID"));
+				datamap.setAttribute("gPfID",httpRequest.getSession().getAttribute("gPfID"));
+				datamap.setAttribute("gP2fID", httpRequest.getSession().getAttribute("gP2fID"));
+			}
 		}
 	}
 	
@@ -195,6 +204,9 @@ public class CDDWebController extends HttpServlet {
 		}
 		if (datamap.getAttribute(PCMConstants.APP_PROFILE) != null) {
 			httpRequest.getSession().setAttribute(PCMConstants.APP_PROFILE, datamap.getAttribute(PCMConstants.APP_PROFILE));
+			httpRequest.getSession().setAttribute("fID", datamap.getAttribute("fID"));
+			httpRequest.getSession().setAttribute("gPfID", datamap.getAttribute("gPfID"));
+			httpRequest.getSession().setAttribute("gP2fID", datamap.getAttribute("gP2fID"));
 		}
 	}
 

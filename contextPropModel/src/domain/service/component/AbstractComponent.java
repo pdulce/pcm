@@ -157,6 +157,31 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_REFRESH_ERROR, exc);
 		}
 	}
+	
+	@Override
+	public final void refreshValues(final String namespace, final Map<String, List<Object>> valuesMemo) {
+		try {
+			final Iterator<FieldViewSet> iteFs = this.getFieldViewSets().iterator();
+			while (iteFs.hasNext()) {
+				final FieldViewSet fSet = iteFs.next();
+				final Iterator<Map.Entry<String, List<Object>>> keysIteMemorized = valuesMemo.entrySet().iterator();
+				while (keysIteMemorized.hasNext()) {
+					final Map.Entry<String, List<Object>> entry = keysIteMemorized.next();
+					final String keyMemorized = entry.getKey();
+					final List<Object> values = entry.getValue();
+					if (keyMemorized.startsWith(namespace) && values != null && !values.isEmpty()) {
+						List<String> stringVals = new ArrayList<String>();
+						for (Object val: values) {
+							stringVals.add(val.toString());
+						}
+						fSet.setValues(keyMemorized, stringVals);
+					}
+				}
+			}
+		} catch (final Throwable exc) {
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_REFRESH_ERROR, exc);
+		}
+	}
 
 	@Override
 	public final SerializedValues getSerializedValues() {

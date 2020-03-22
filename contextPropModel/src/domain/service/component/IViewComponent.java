@@ -2,6 +2,7 @@ package domain.service.component;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
@@ -140,7 +141,9 @@ public interface IViewComponent {
 
 	public IFieldValue getValueOfField(String qualifiedName);
 
-	public void refreshValues(HashMap<String, IFieldValue> values);
+	public void refreshValues(final HashMap<String, IFieldValue> valuesMemo);
+	
+	public void refreshValues(final String namespace, Map<String, List<Object>> values);
 
 	public SerializedValues getSerializedValues();
 
