@@ -665,7 +665,9 @@ public final class CommonUtils {
 		if (isVocal(lastCar)){
 			primeraPalabraEnPlural = primeraPalabra.concat("s");
 		} else {
-			if (lastCar == 'n' || lastCar == 'l'){
+			if (lastCar == 's'){
+				return primeraPalabra;
+			}else if (lastCar == 'n' || lastCar == 'l'){
 				primeraPalabraEnPlural = primeraPalabra.concat("es");
 			}else if (lastCar != '.' && lastCar != 's'){
 				primeraPalabraEnPlural = primeraPalabra.concat("as");

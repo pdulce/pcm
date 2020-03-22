@@ -104,10 +104,10 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			throw new RuntimeException("Error creating DataAccess object", e);
 		}
 		
-		SceneResult scene = new SceneResult();
 		//long mills1 = Calendar.getInstance().getTimeInMillis();
-		final StringBuilder sbXml = new StringBuilder();
+		SceneResult scene = new SceneResult();
 		try {
+			final StringBuilder sbXml = new StringBuilder();
 			this._dataAccess = dataAccess;
 			String idPressed = data_.getParameter("idPressed");
 			String nameSpaceOfButtonFieldSet = idPressed;
@@ -288,8 +288,8 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			
 			scene.appendXhtml(htmlForHistograms(data_, fieldsForAgrupacionesPor != null ? fieldsForAgrupacionesPor[0] : null, userFilter));
 
-		}
-		catch (Throwable exc0) {
+		} catch (Throwable exc0) {
+			final StringBuilder sbXml = new StringBuilder();
 			sbXml.append("<BR/><BR/><font>" + exc0.getMessage()
 					+ "</font><UL align=\"center\" id=\"pcmUl\"><LI><a title=\"Volver\" href=\"#\" ");
 			sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI></UL>");
