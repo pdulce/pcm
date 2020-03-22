@@ -37,6 +37,7 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.event.AbstractAction;
 import domain.service.event.ActionPagination;
 import domain.service.event.IAction;
+import domain.service.event.IEvent;
 import domain.service.event.SceneResult;
 
 public class DomainService {
@@ -160,25 +161,27 @@ public class DomainService {
 		return this.events;
 	}
 	
-	public final Element extractActionElementByService(final String actionName)
+	public final Element extractActionElementByService(final String event_)
 			throws PCMConfigurationException {
+		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		final NodeList listaNodes = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
 		for (int i = 0; i < listaNodes.getLength(); i++) {
 			final Element node = (Element) listaNodes.item(i);
 			if (node.getAttributes() != null && node.hasAttribute(DomainService.EVENT_ATTR)
-					&& actionName.toLowerCase().endsWith(node.getAttribute(DomainService.EVENT_ATTR).toLowerCase()) ) {
+					&& event.toLowerCase().endsWith(node.getAttribute(DomainService.EVENT_ATTR).toLowerCase()) ) {
 				return node;
 			}
 		}
-		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).append(actionName).append(
+		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).append(event).append(
 				PCMConstants.STRING_SPACE);
 		excep.append(InternalErrorsConstants.SERVICE_LITERAL).append(this.docOfServiceFileDescr).append(
 				InternalErrorsConstants.NOT_FOUND_LITERAL);
 		throw new PCMConfigurationException(excep.toString());
 	}
 	
-	public final Collection<Element> extractViewComponentElementsByEvent(final String event)
+	public final Collection<Element> extractViewComponentElementsByEvent(final String event_)
 			throws PCMConfigurationException {
+		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		Collection<Element> arrViewComponents = new ArrayList<Element>();
 		final NodeList _listaNodes = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
 		for (int i = 0; i < _listaNodes.getLength(); i++) {
@@ -199,8 +202,9 @@ public class DomainService {
 		return arrViewComponents;
 	}
 	
-	public final Collection<Element> extractViewComponentElementsByAction(final String event) 
+	public final Collection<Element> extractViewComponentElementsByAction(final String event_) 
 			throws PCMConfigurationException {
+		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		final Element actionParentNode = this.extractActionElementByService(event);
 		Collection<Element> arrViewComponents = new ArrayList<Element>();
 		final NodeList listaNodes_ = actionParentNode.getElementsByTagName(VIEWCOMPONENT_ELEMENT);
@@ -215,8 +219,9 @@ public class DomainService {
 		return arrViewComponents;
 	}
 	
-	public final Collection<String> extractStrategiesPreElementByAction(final String event) 
+	public final Collection<String> extractStrategiesPreElementByAction(final String event_) 
 			throws PCMConfigurationException {
+		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		Element actionParentNode = this.extractActionElementByService(event);
 		final Collection<String> strategs = new ArrayList<String>();
 		if (actionParentNode.hasAttribute(STRATEGY_PRECONDITION_ATTR)) {
@@ -225,8 +230,9 @@ public class DomainService {
 		return strategs;
 	}
 	
-	public final Collection<String> extractStrategiesElementByAction(final String event) 
+	public final Collection<String> extractStrategiesElementByAction(final String event_) 
 			throws PCMConfigurationException {
+		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		Element actionParentNode = this.extractActionElementByService(event);
 		final Collection<String> strategs = new ArrayList<String>();
 		if (actionParentNode.hasAttribute(STRATEGY_ATTR)) {
@@ -235,8 +241,9 @@ public class DomainService {
 		return strategs;
 	}
 	
-	public String getTitleOfAction(final String event){		
+	public String getTitleOfAction(final String event_){
 		String serviceSceneTitle = "";
+		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		try {
 			Element actionElementNode = extractActionElementByService(event);
 			NodeList nodes = actionElementNode.getElementsByTagName("form");

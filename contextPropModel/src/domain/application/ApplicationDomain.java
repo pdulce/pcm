@@ -379,25 +379,15 @@ public class ApplicationDomain implements Serializable {
 				datamap.setParameter(PCMConstants.EVENT, datamap.getService().concat(".").concat(datamap.getEvent()));
 			}						
 			DomainService domainService = getDomainService(datamap.getService());
-			if (domainService.extractActionElementByService(datamap.getEvent()) == null) {
-				final String s = InternalErrorsConstants.SERVICE_NOT_FOUND_EXCEPTION.replaceFirst(InternalErrorsConstants.ARG_1,
-						datamap.getService().concat(".").concat(datamap.getEvent()));
-				ApplicationDomain.log.log(Level.SEVERE, s.toString());
-				throw new PCMConfigurationException(s.toString());
-			}
 			Collection<String> conditions = null, preconditions = null;
-			if (AbstractAction.isQueryEvent(datamap.getEvent())) {
-				conditions = domainService.extractStrategiesElementByAction(event); 
-				preconditions = domainService.extractStrategiesPreElementByAction(event);
-				dataAccess_ = getDataAccess(domainService, conditions, preconditions);
-			} else if (AbstractAction.isFormularyEntryEvent(datamap.getEvent()) && domainService.discoverAllEvents().
+			if (AbstractAction.isFormularyEntryEvent(datamap.getEvent()) && domainService.discoverAllEvents().
 					contains(AbstractAction.getInherentEvent(datamap.getEvent()))) {
 				final String event4DataAccess = AbstractAction.getInherentEvent(datamap.getEvent());
 				conditions = domainService.extractStrategiesElementByAction(event4DataAccess);
 				preconditions = domainService.extractStrategiesPreElementByAction(event4DataAccess);
 			} else {
-				conditions = domainService.extractStrategiesElementByAction(event);
-				preconditions = domainService.extractStrategiesPreElementByAction(event);
+				conditions = domainService.extractStrategiesElementByAction(datamap.getEvent());
+				preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
 			}
 			dataAccess_ = getDataAccess(domainService, conditions, preconditions);
 			IBodyContainer container = BodyContainer.getContainerOfView(datamap, dataAccess_, domainService);
