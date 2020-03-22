@@ -135,7 +135,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				formSubmitted = (Form) listOfForms.iterator().next();
 			}
 			
-			formSubmitted.refreshValues(nameSpaceOfButtonFieldSet, data_.getAllDataMap());
+			formSubmitted.refreshValues(paramGeneric4Entity, data_.getAllDataMap());
 			FieldViewSet userFilter = null;
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
