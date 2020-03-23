@@ -107,7 +107,6 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		//long mills1 = Calendar.getInstance().getTimeInMillis();
 		SceneResult scene = new SceneResult();
 		try {
-			final StringBuilder sbXml = new StringBuilder();
 			this._dataAccess = dataAccess;
 			String idPressed = data_.getParameter("idPressed");
 			String nameSpaceOfButtonFieldSet = idPressed;
