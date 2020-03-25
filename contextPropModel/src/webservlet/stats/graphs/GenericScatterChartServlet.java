@@ -240,9 +240,10 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			
 			String titulo_EJE_X = Translator.traduceDictionaryModelDefined(lang,
 					entidadGrafico.getName().concat(".").concat(fieldForCategoryX.getName()));
+			titulo_EJE_X = CommonUtils.quitarTildes(titulo_EJE_X);
 			String titulo_EJE_Y = Translator.traduceDictionaryModelDefined(lang,
 					entidadGrafico.getName().concat(".").concat(fieldForCategoryY.getName()));
-			
+			titulo_EJE_Y = CommonUtils.quitarTildes(titulo_EJE_Y);
 			Collection<Serializable> differentValues_ = new ArrayList<Serializable>();
 			
 						
@@ -485,14 +486,6 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			// Para ello, hallamos el lomite inferior y el lomite superior de referencia para
 			// localizar los datos atopicos, y descartarlos.
 
-			// StatsUtils varStatsForAtipicos = new StatsUtils();
-			// varStatsForAtipicos.setDatos_variable_Y(datos_EJE_Y_coll_sin_Atipicos);
-			// double Q1 = varStatsForAtipicos.obtenerQuartil_Q1_Variable_Y();
-			// double Q3 = varStatsForAtipicos.obtenerQuartil_Q3_Variable_Y();
-			// double rango_intercuartil = Q3 - Q1;
-			// Number valorMax_Eje_Y = Double.valueOf(rango_intercuartil * 10000.5 + Q3);
-			// Number valorMin_Eje_Y = Double.valueOf(Q1 - rango_intercuartil * 10000.5);
-			
 			data_.setAttribute(TITULO_EJE_X, titulo_EJE_X);
 			data_.setAttribute(TITULO_EJE_Y, titulo_EJE_Y);
 			data_.setAttribute(TOOLTIP_EJE_X, titulo_EJE_X);

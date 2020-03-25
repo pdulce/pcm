@@ -1,4 +1,4 @@
-package domain.common;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class LineCounter {
 
@@ -39,7 +40,8 @@ public class LineCounter {
 		}		
 		System.out.println("Ficheros procesados = " + LineCounter.javas);
 		System.out.println("Lineas totales = " + LineCounter.lines);
-		
+		//Random  rand = new Random(System.currentTimeMillis());
+		//rand.nextLong()
 		System.out.println("Ficheros de mas de 1000 lineas = " + LineCounter.pathFilesML.size());
 		System.out.println("Media de lineas por fichero = " + ((double) LineCounter.lines / (double) LineCounter.javas));		
 		System.out.println("Ficheros de mas de 500 lineas = " + LineCounter.pathFilesQL.size());		

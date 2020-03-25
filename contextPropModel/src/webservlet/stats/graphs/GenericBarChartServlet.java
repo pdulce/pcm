@@ -272,7 +272,8 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 			String ejeX_totalizado = valorEjeX + columnaTotalizada;
 			newArrayEjeAbcisas.add(ejeX_totalizado);
 		}		
-		data_.setAttribute(CATEGORIES, newArrayEjeAbcisas.toJSONString());
+		String categories_UTF8 = CommonUtils.quitarTildes(newArrayEjeAbcisas.toJSONString());
+		data_.setAttribute(CATEGORIES, categories_UTF8);
 		
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));

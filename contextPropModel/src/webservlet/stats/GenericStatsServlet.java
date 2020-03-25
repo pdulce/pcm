@@ -120,7 +120,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 					paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
 					paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
 					if (paramGeneric4Entity == null){
-						throw new Exception("Error de diseoo: debe coincidir el atributo id del 'button' con el del atributo nameSpace del 'fieldViewSet'");
+						throw new Exception("Error de design: debe coincidir el atributo id del 'button' con el del atributo nameSpace del 'fieldViewSet'");
 					}
 				}
 			}
@@ -401,7 +401,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			subTitle = subTitle.replaceAll("#", units);
 		}
 		String criteria = pintarCriterios(filtro_, data_);
-		String crit = criteria.equals("")?"Sin filtro de búsqueda": "Filtro de búsqueda--> " + criteria;
+		String crit = criteria.equals("")?"Sin filtro de consulta": "Filtro de consulta--> " + criteria;
 		data_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
 	}
 

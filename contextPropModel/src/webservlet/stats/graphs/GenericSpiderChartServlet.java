@@ -129,7 +129,9 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 
 		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
 
-		data_.setAttribute(CATEGORIES, jsArrayEjeAbcisas.toJSONString());
+		String categories_UTF8 = CommonUtils.quitarTildes(jsArrayEjeAbcisas.toJSONString());
+
+		data_.setAttribute(CATEGORIES, categories_UTF8);
 
 		return total_.doubleValue();
 	}
