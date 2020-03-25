@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class LineCounter {
 
@@ -26,7 +25,8 @@ public class LineCounter {
 	public static void main(final String[] args) {
 
 		final String[] rootPaths = new String[]{
-				"/home/pedro/git/pcm/contextPropModel/src"
+				"/home/pedro/git/pcm/contextPropModel/src/domain/",
+				"/home/pedro/git/pcm/contextPropModel/src/webservlet/"
 				/*, "/home/pedro/git/pcm/SeguimientoProyectos/WebContent"*/};
 		
 		List<File> listaFiles = new ArrayList<File>();
@@ -36,8 +36,8 @@ public class LineCounter {
 				throw new RuntimeException("Error processing files in directory, cause it does not exist: " + rootPaths[i]);
 			}
 			LineCounter.listarDirectorio(file, listaFiles);
-			LineCounter.readFiles(listaFiles);
-		}		
+		}
+		LineCounter.processFiles(listaFiles);
 		System.out.println("Ficheros procesados = " + LineCounter.javas);
 		System.out.println("Lineas totales = " + LineCounter.lines);
 		//Random  rand = new Random(System.currentTimeMillis());
@@ -75,7 +75,7 @@ public class LineCounter {
 		return esCandidato;
 	}
 	
-	public static void readFiles(final List<File> pFiles) {
+	public static void processFiles(final List<File> pFiles) {
 		for (final File f : pFiles) {
 			if (f.isDirectory()){
 				continue;
@@ -103,8 +103,10 @@ public class LineCounter {
 			}
 			if (fileLines > 1000) {
 				LineCounter.pathFilesML.add(file.getName() + " (" + fileLines + ")");
+				System.out.println("Ficheros de mas de 1000: " + file.getName());
 			} else if (fileLines > 500) {
 				LineCounter.pathFilesQL.add(file.getName() + " (" + fileLines + ")");
+				System.out.println("Ficheros de mas de 500: " + file.getName());
 			}
 			LineCounter.javas++;
 		}
