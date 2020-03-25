@@ -38,7 +38,7 @@ public class TestServicios extends TestCase {
 		return maxValue;
 	}
 	
-	public void testAllEvents() {		
+	public void testGestionAreasISM() {		
 		InputStream stream = null;
 		final String serviceName = "GestionServicios";
 		try {
@@ -127,6 +127,81 @@ public class TestServicios extends TestCase {
 			datamap.removeParameter("servicio.unidadOrg");
 			result = applicationService.launch(datamap, eventSubmitted, "Servicios-TEST QUERY");
 			Assert.assertFalse(result.contains("<TD style=\"text-align: left\">" + datamap.getParameter("servicio.nombre") + "</TD>"));
+			
+		} catch (MalformedURLException e1){
+			e1.printStackTrace();
+			return;
+		} catch (IOException e2) {
+			e2.printStackTrace();
+			return;
+		} catch (PCMConfigurationException e5) {			
+			e5.printStackTrace();
+		} catch (PcmException e4) {			
+			e4.printStackTrace();
+		} finally{
+			if (stream != null){
+				try {
+					stream.close();
+				} catch (IOException eio) {					
+					eio.printStackTrace();
+				}
+			}
+		}
+	}	
+	
+	public void testGedeonesISMConsultas() {		
+		InputStream stream = null;
+		final String serviceName = "ConsultaPeticionesGEDEON";
+		try {
+			stream = new URL("file:////home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/cddconfig.xml").openStream();
+			//stream = new URL("file:///C:\\workspaceEclipse\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\cddconfig.xml").openStream();
+			ApplicationDomain applicationService = new ApplicationDomain(stream);
+			applicationService.invoke();
+			
+			String profile = "ANALISIS_TEAM";
+			Datamap datamap = new Datamap(applicationService.getResourcesConfiguration().getEntitiesDictionary(), 
+					"/prjManager",
+					Integer.valueOf(applicationService.getResourcesConfiguration().getPageSize()).intValue());
+			datamap.setAttribute(PCMConstants.APP_PROFILE, profile);
+			datamap.setLanguage("es_");
+			datamap.setService(serviceName);//for all the event-asserts
+			
+			/********** DATOS DE NEGOCIO for all next asserts *********/
+			datamap.setParameter("incidenciasProyecto.Titulo",	"*PRES*");
+			datamap.setParameter("incidenciasProyecto.entorno", "2");//1:Java Prosa
+			boolean eventPressed = true;
+			
+			/*** TESTING OF EVENT QUERY WITH FILTER **/
+			datamap.setEvent(IEvent.QUERY);
+			String result = applicationService.launch(datamap, eventPressed, "GEDEONES-TEST FILTER QUERY");
+			Assert.assertTrue(result.contains("total:<B>967</B>&nbsp;registros"));
+						
+			/*** TESTING OF EVENT QUERYNEXT ... **/
+			datamap.setEvent(IEvent.QUERY_NEXT);
+			datamap.setParameter("currentPag",	"8");
+			datamap.setParameter("totalPag",	"39");
+			datamap.setParameter("totalRecords", "967");//CDISM
+			result = applicationService.launch(datamap, eventPressed, "GEDEONES-TEST NEXT PAGE 8");
+			Assert.assertTrue(result.contains("Resultados del  &nbsp;<B>176&nbsp;</B>al &nbsp;<B>200</B>"));
+			
+			/*** TESTING OF EVENT QUERY **/
+			//limpio datos: solo dejo los de criteria iniciales
+			datamap.removeParameter("currentPag");
+			datamap.removeParameter("totalPag");
+			datamap.removeParameter("totalRecords");
+			datamap.setEvent(IEvent.QUERY);
+			result = applicationService.launch(datamap, eventPressed, "Servicios-TEST QUERY");
+			Assert.assertTrue(result.contains("Resultados del  &nbsp;<B>1&nbsp;</B>al &nbsp;<B>25</B>"));
+			
+			/*** TESTING OF EVENT BARCHART por 'tipo y situación' agregado: peticiones **/
+			datamap.setParameter("incidenciasProyecto.Proyecto_ID", "FAMA");
+			datamap.setParameter("idPressed", "barchart1");
+			datamap.setParameter("barchart1.entidadGrafico", "incidenciasProyecto");
+			datamap.setParameter("barchart1.fieldForGroupBy", "26");//position in entity.xml
+			datamap.setParameter("barchart1.agregado", "28");//position in entity.xml
+			//datamap.setParameter("barchart1.fieldForGroupBy", "");
+			datamap.setParameter("barchart1.operation", "SUM");
+			
 			
 		} catch (MalformedURLException e1){
 			e1.printStackTrace();
