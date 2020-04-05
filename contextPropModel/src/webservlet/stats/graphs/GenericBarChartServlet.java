@@ -302,9 +302,6 @@ public class GenericBarChartServlet extends GenericStatsServlet {
 						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
 				unidades + " " : ""));
 		
-		
-		//data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
-				
 		data_.setAttribute(IS_BAR_INTERNAL_LABELED, "false");
 		
 		data_.setAttribute("minEjeRef", CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
