@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
+
 <script type="text/javascript">
-	
-	Highcharts.chart('container', {
-	    chart: {
+	   
+  	Highcharts.chart('container', {
+   		chart: {
 	        polar: true,
 	        type: 'line'
 	    },
