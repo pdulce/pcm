@@ -52,6 +52,8 @@ import webservlet.stats.graphs.AbstractGenericHistogram;
 public abstract class GenericStatsServlet extends CDDWebController implements IStats {
 	
 	private static final long serialVersionUID = 51879137981579L;
+	
+	private static final String CONTAINER = "container";
 
 	protected IDataAccess _dataAccess;
 	
@@ -404,8 +406,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		String criteria = pintarCriterios(filtro_, data_);
 		String crit = criteria.equals("")?"Sin filtro de consulta": "Filtro de consulta--> " + criteria;
 		data_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
-		data_.setAttribute(CONTAINER, CONTAINER);
-		data_.setAttribute("graph", getScreenRendername());
+		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}
 
 	@Override

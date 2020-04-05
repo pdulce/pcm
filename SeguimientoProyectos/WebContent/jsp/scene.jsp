@@ -12,7 +12,7 @@
 				style='min-width: <%=request.getAttribute("width-container")%>px; max-width: 1090px; height: <%=request.getAttribute("height-container")%>px; margin: 0 auto;'>
 			</div>
 		</figure> 
-		<jsp:include page="<%=request.getAttribute("graph")%>.jsp"></jsp:include>
+		<jsp:include page="${container}"></jsp:include>
 		<br> 
 	<%	if (request.getAttribute("is3D") != null) { %>
 		<div id="sliders">
@@ -33,14 +33,17 @@
  		if (request.getAttribute("addedInfo") != null) { %>
  			 <%=request.getAttribute("addedInfo")%> <%
  		}
- 	} else { %>
-		<div id="principal"><%=request.getAttribute("#BODY#")%></div> 
- <%	} %>
+ 	}%>
+ 	
+	<div id="principal"><%=request.getAttribute("#BODY#")%></div> 
 
-   <UL id="pcmUl">
-	<LI><a title="Volver" href="#"
-		onClick="javascript:window.history.back();"> <span>Volver</span>
-	</a></LI>
-	</UL>
+	   <UL id="pcmUl">
+		<LI><a title="Volver" href="#"
+			onClick="javascript:window.history.back();"> <span>Volver</span>
+		</a></LI>
+		</UL>
+		
 	<div id="principal">&nbsp;</div>
+	
+	
   

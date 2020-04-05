@@ -8,8 +8,6 @@ package webservlet.stats;
  */
 public interface IStats {
 
-	public static final String CONTAINER = "container";
-
 	public static final String CATEGORIES = "categories";
 
 	public static final String ABSCISAS = "abscisas";

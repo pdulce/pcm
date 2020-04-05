@@ -46,6 +46,8 @@ public class GenericScatterChartServlet extends GenericStatsServlet {
 	private static final long serialVersionUID = 158971895179444444L;
 
 	protected static final String CATEGORIA_EJE_X = "ejeX";
+	
+	private static final String CONTAINER = "container";
 
 	protected static final String JSON_REGRESSION_SERIES = "series";
 
@@ -154,8 +156,7 @@ public class GenericScatterChartServlet extends GenericStatsServlet {
 		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
-		data_.setAttribute(CONTAINER, CONTAINER);
-		data_.setAttribute("graph", getScreenRendername());
+		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}
 
 	@SuppressWarnings("unchecked")
