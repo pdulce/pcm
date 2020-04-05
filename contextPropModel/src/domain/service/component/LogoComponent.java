@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import org.w3c.dom.Element;
 
 import domain.common.InternalErrorsConstants;
+import domain.common.PCMConstants;
 import domain.common.exceptions.ClonePcmException;
 import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
@@ -29,7 +30,7 @@ public class LogoComponent extends AbstractComponent {
 
 	private static final String CONTENT_ATTR = "content", 
 			INIT = "Inicio", WIDTH = "width", HEIGHT = "height", 
-			ALT = "alt", URI_ATTR = "uri";
+			ALT = "alt";
 
 	private static Map<String, String> logosCached = new HashMap<String, String>();
 
@@ -48,7 +49,7 @@ public class LogoComponent extends AbstractComponent {
 				imgCtrl.setHeight(Integer.parseInt(logoElm.getAttribute(HEIGHT)));// 42
 				imgCtrl.setSrc(logoElm.getAttribute(CONTENT_ATTR));
 				final LinkButton aLinkButton = new LinkButton();
-				this.uri = logoElm.getAttribute(URI_ATTR);
+				this.uri = logoElm.getAttribute(PCMConstants.APPURI_);
 				aLinkButton.setRef(this.uri);
 				aLinkButton.setOnMouseOver(ICtrl.CLEAN_STATUS);
 				aLinkButton.setOnMouseOut(ICtrl.CLEAN_STATUS);

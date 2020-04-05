@@ -522,7 +522,6 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			JSONArray jsArray = new JSONArray();
 			jsArray.add("[0:0]");
 			JSONObject serie = new JSONObject();
-			//serie.put("color", coloresHistogramas[0]);
 			serie.put("name", "No hay datos. Revise los criterios de la consulta");
 			serie.put("data", jsArray.get(0));
 			serie.put("stack", "0");
@@ -579,6 +578,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}
+			serie.put("pointPlacement", "on");
 			claveIesima++;			
 			seriesJSON.add(serie);						
 		}//for claves

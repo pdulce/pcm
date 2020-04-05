@@ -591,15 +591,6 @@ public class Form extends AbstractComponent {
 				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
 			}
 			
-			if (ctrl.isSelection() && !ctrl.isSelectionMultiple()) {
-				if (!listaOpciones.contains(new Option("", "Seleccione"))) {
-					List<Option> newlistaOpciones_ = new ArrayList<Option>();
-					newlistaOpciones_.add(new Option("", "Seleccione"));
-					newlistaOpciones_.addAll(listaOpciones);
-					listaOpciones.clear();
-					listaOpciones.addAll(newlistaOpciones_);
-				}
-			}
 			if (ctrl.isSelection() && listaOpciones.size() < ICtrl.MAX_FOR_OPTIONS_IN_SELECT){
 				((SelectCtrl)ctrl).setSize(listaOpciones.size());
 			}

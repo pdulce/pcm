@@ -65,7 +65,7 @@ public class CDDWebController extends HttpServlet {
 		}
 	}
 	
-	protected String servletPral;
+	protected static String mainservlet;
 	protected ServletConfig webconfig;		
 	protected ApplicationDomain contextApp;	
 	protected NavigationAppManager navigationManager;
@@ -216,7 +216,9 @@ public class CDDWebController extends HttpServlet {
 		if (this.contextApp.getResourcesConfiguration().getServerName() == null) {
 			this.contextApp.getResourcesConfiguration().setServerName(httpRequest.getLocalName());
 			this.contextApp.getResourcesConfiguration().setServerPort(String.valueOf(httpRequest.getLocalPort()));
-			this.servletPral = this.servletPral == null ? httpRequest.getServletPath() : this.servletPral;
+			if (mainservlet == null) {
+				mainservlet = httpRequest.getServletPath();
+			}
 			cleanTmpFiles(this.contextApp.getResourcesConfiguration().getUploadDir());
 		}	
 		
@@ -236,7 +238,7 @@ public class CDDWebController extends HttpServlet {
 		
 		final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
 		final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
-		final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(this.servletPral);
+		final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(mainservlet);
 		final Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
 		
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);

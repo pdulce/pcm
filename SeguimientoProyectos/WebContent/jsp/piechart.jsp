@@ -4,21 +4,6 @@
 
 <script type="text/javascript">
 	   
-   Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, 
-   		function (color) {
-	        return {
-	            radialGradient: {
-	                cx: 0.5,
-	                cy: 0.3,
-	                r: 0.7
-	            },
-	            stops: [
-	                [0, color],
-	                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-	            ]
-	        };
-   	});
-   		
   Highcharts.chart('container', {
    chart: {
          plotBackgroundColor: null,
@@ -68,7 +53,7 @@
         width: 840,
         floating: true,
         align: 'left',
-        x: 90, // = marginLeft - default spacingLeft
+        x: 90,
         y: 2,
         itemWidth: 50,
         borderWidth: 1
