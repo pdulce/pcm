@@ -2,15 +2,6 @@
     pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
-			
-$(function () {
-    
-	Highcharts.setOptions({
-	    lang: {
-	        decimalPoint: ',',
-	        thousandsSep: '.'
-	    }
-	});
 	
 	Highcharts.chart('container', {
 	    chart: {     	
@@ -20,11 +11,9 @@ $(function () {
         title: {
             text: '<%=request.getAttribute("title")%>'
         },
-        
         subtitle: {
             text: '<%=request.getAttribute("subtitle")%>'
         },
-        
         xAxis: {
             categories: <%=request.getAttribute("abscisas")%>,
             labels: {
@@ -34,7 +23,6 @@ $(function () {
                 }
             }
         },
-        
         yAxis: {
             min:  <%=request.getAttribute("minEjeRef")%>,
             allowDecimals: true,
@@ -87,6 +75,5 @@ $(function () {
 	 
 	});						
 				 				   
-});
-	
+
 </script>

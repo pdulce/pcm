@@ -2,16 +2,12 @@
     pageEncoding="UTF-8"%>
 
 <script type="text/javascript">
-			
-$(function () {
     
-	Highcharts.setOptions({
-	    lang: {
-	        decimalPoint: ',',
-	        thousandsSep: '.'
-	    }
-	});
-	
+	function showValues() {
+	    $('#R0-value').html(chart.options.chart.options3d.alpha);
+	    $('#R1-value').html(chart.options.chart.options3d.beta);
+	}
+
 	Highcharts.chart('container', {
 	    chart: {      	
 	            type: 'column',
@@ -48,8 +44,7 @@ $(function () {
 	            title: {
 	                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
 	            }
-	        },
-	        				        
+	        },s       
 	        legend: {		            	
 	            width: 1080,
 	            floating: true,
@@ -61,8 +56,6 @@ $(function () {
 	            itemDistance: 85,
 	            borderWidth: 0
 	        },
-	        
-	        
 	        tooltip: {				        	
 	            headerFormat: '<b>{point.key}</b><br>',
 	            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
@@ -86,14 +79,7 @@ $(function () {
 	        },
 	        				      
 	        series: <%=request.getAttribute("json_histogram3d")%>
-	 
 	});
-	
-	function showValues() {
-        $('#R0-value').html(chart.options.chart.options3d.alpha);
-        $('#R1-value').html(chart.options.chart.options3d.beta);
-    }
-
     // Activate the sliders
     $('#R0').on('change', function () {
         chart.options.chart.options3d.alpha = this.value;
@@ -107,7 +93,5 @@ $(function () {
     });
 
     showValues();
-				 				   
-});
 	
 </script>
