@@ -58,5 +58,4 @@ public interface IStats {
 
 	public static final String TEXT_Y_AXIS = "titulo_EJE_Y";
 
-	public static final String CHART_TYPE = "typeOfChart";
 }

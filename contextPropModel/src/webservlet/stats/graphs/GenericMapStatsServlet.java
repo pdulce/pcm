@@ -22,8 +22,6 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 
 	private static final String JSON_OBJECT = "json_countryMap";
 
-	private static final String GRAPHIC_TYPE = "column";
-	
 	private static final String PREFIX_NAME_OF_PARAMS = "mapParam";
 	
 	@Override
@@ -90,8 +88,6 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 		promedioPorProvincia = sumarizadorPorRegion / (valoresAgregados.size() - (contabilizadasSSCC == 0 ? 0 : 1));
 	
 		/**********************/
-
-		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
 		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
 		data_.setAttribute(DARK_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
 

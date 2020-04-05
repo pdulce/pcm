@@ -26,8 +26,6 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
-	protected static final String GRAPHIC_TYPE = "pie";
-
 	private static final String JSON_OBJECT = "json_pieChart";
 	
 	private static final String PREFIX_NAME_OF_PARAMS = "piechartParam";
@@ -185,7 +183,6 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
 				unidades + " " : ""));
 		
-		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
 		data_.setAttribute(JSON_OBJECT, generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, itemGrafico.substring(3)));
 
 		return total_.doubleValue();
@@ -236,7 +233,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 				colourOrderIesimo = (++colourOrderIesimo) % coloresHistogramas.length;
 			}
 			colourOrders.add(i, colourOrderIesimo);
-			tupla.put("color", coloresHistogramas[colourOrders.get(i)]);
+			//tupla.put("color", coloresHistogramas[colourOrders.get(i)]);
 			
 			tupla.put("name",
 					Translator.traduceDictionaryModelDefined(data_.getLanguage(), clavePie) + " (" + subtotales.get(clave) + ")");
@@ -252,7 +249,7 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 			jsArray.add(tupla);
 		}
 
-		serie.put("datamap", jsArray);
+		serie.put("data", jsArray);
 		seriesJSON.add(serie);
 
 		return seriesJSON.toJSONString();

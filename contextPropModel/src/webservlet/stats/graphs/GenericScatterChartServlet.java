@@ -154,6 +154,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
+		data_.setAttribute(CONTAINER, CONTAINER);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -448,7 +449,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 					colourOrderIesimo = (++colourOrderIesimo) % coloresHistogramas.length;
 				}
 				colourOrders.add(claveIesima, colourOrderIesimo);
-				serie.put("color", coloresHistogramas[colourOrders.get(claveIesima)]);
+				//serie.put("color", coloresHistogramas[colourOrders.get(claveIesima)]);
 				
 				
 				List<Map<Double, Double>> puntosConEsteValordeAgrupacion = mapaEntry.getValue();
@@ -474,7 +475,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 						excc.printStackTrace();
 					}
 				}
-				serie.put("datamap", jsArrayAsig);
+				serie.put("data", jsArrayAsig);
 				seriesJSON.add(serie);
 				claveIesima++;
 			}
@@ -538,10 +539,10 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			serieRegressionLine.put("states", states);
 
 			serieRegressionLine.put("type", "line");
-			serieRegressionLine.put("color", coloresHistogramas[0]);
+			//serieRegressionLine.put("color", coloresHistogramas[0]);
 			serieRegressionLine.put("name", "Regression Line");
 			serieRegressionLine.put("enableMouseTracking", false);
-			serieRegressionLine.put("datamap", jsArrayRegressionLine);
+			serieRegressionLine.put("data", jsArrayRegressionLine);
 
 			seriesJSON.add(serieRegressionLine);
 
@@ -582,8 +583,6 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 
 			long mills2 = Calendar.getInstance().getTimeInMillis();
 			long segundosConsumidos = (mills2 - mills1) / 1000;
-
-			data_.setAttribute(CONTAINER, CONTAINER);
 
 			//String plural = CommonUtils.isVocal(units.substring(units.length() - 1).charAt(0)) ? "s" : "/es";
 			//String nombreConceptoRecuento = (units.indexOf(" ") != -1)?units.replaceFirst(" ", plural + " "):units.concat(plural);

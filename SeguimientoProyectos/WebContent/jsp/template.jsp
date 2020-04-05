@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html;charset=ISO-8859-15"
+<%@ page language="java" contentType="text/html;charset=ISO-8859-1"
 	pageEncoding="ISO-8859-15"%>
 
 <!DOCTYPE html>
@@ -26,8 +26,7 @@
 <script type="text/javascript" src="js/external/jquery.cookies.2.2.0.js"></script>
 <script type="text/javascript" src="js/external/slide.js"></script>
 <script type="text/javascript" src="js/folder-tree-static.js"></script>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/external/jquery-3.3.1.min.js"></script>
 <script type="text/javascript"
 	src="js/external/jquery-collapsible-fieldset.js"></script>
 
@@ -44,18 +43,24 @@
 <script src="js/highcharts/highcharts-more.js"></script>
 <script src="js/highcharts/highcharts-3d.js"></script>
 <script src="js/highcharts/modules/exporting.js"></script>
+<script src="js/highcharts/modules/export-data.js"></script>
+<script src="js/highcharts/modules/accessibility.js"></script>
 <%
 	}
 	if (request.getAttribute("json_scatterSeries") != null) {
 %>
 <script src="js/highcharts/highcharts.js"></script>
 <script src="js/highcharts/modules/exporting.js"></script>
+<script src="js/highcharts/modules/export-data.js"></script>
+<script src="js/highcharts/modules/accessibility.js"></script>
 <%
 	}
 	if (request.getAttribute("json_countryMap") != null) {
 %>
 <script src="js/highcharts/highmaps.js"></script>
 <script src="js/highcharts/modules/exporting.js"></script>
+<script src="js/highcharts/modules/export-data.js"></script>
+<script src="js/highcharts/modules/accessibility.js"></script>
 <script src="js/highcharts/countries/es-all.js"></script>
 <%
 	}
@@ -64,6 +69,8 @@
 %>
 <script src="js/highcharts/highmaps.js"></script>
 <script src="js/highcharts/modules/exporting.js"></script>
+<script src="js/highcharts/modules/export-data.js"></script>
+<script src="js/highcharts/modules/accessibility.js"></script>
 <script src="js/highcharts/countries/europe.js"></script>
 <%
 	}
@@ -83,8 +90,8 @@
 
 	<script type="text/javascript">
 		$(function () {		    
-			$('#<%=request.getAttribute("container")%>').highcharts('Map', {
-			
+			//var chart = new Highcharts.Chart({
+			$('#container').highcharts('Map', {
 			        title : {
 			            text : '<%=request.getAttribute("title")%>'
 			        },
@@ -156,9 +163,9 @@
 	%>
 
 	<script type="text/javascript">
-		$(function () {		    
-			$('#<%=request.getAttribute("container")%>').highcharts('Map', {
-			
+		$(function () {		
+			//var chart = new Highcharts.Chart({
+			$('#container').highcharts('Map', {			
 			        title : {
 			            text : ''
 			        },
@@ -230,8 +237,9 @@
 	%>
 
 	<script type="text/javascript">
+	
 			$(function () {
-				$('#<%=request.getAttribute("container")%>').highcharts({
+				Highcharts.chart('container', {
 			        chart: {
 			            type: 'scatter',
 			            zoomType: 'xy'
@@ -318,47 +326,48 @@
 	    });
     
 	 	$(function () {
-		    $('#<%=request.getAttribute("container")%>').highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: true,
-            type: '<%=request.getAttribute("typeOfChart")%>'
-        },
-        title: {
-            text: '<%=request.getAttribute("title")%>'
-        },
-        subtitle: {
-            text: '<%=request.getAttribute("subtitle")%>'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.2f} %</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}: {point.percentage:.2f} %</b>',
-                    distance: -80,
-                    filter: {
-                    	property: 'percentage',
-                    	operator: '>',
-                    	value: '4'},
-                    style: {
-                        color: 'black',
-                        fontSize: '14px',                        
-                        fontStyle: 'normal'                                      
-                    },
-                    connectorColor: 'silver'
-                }
-            }
-        },
-        series: <%=request.getAttribute("json_pieChart")%>,        
-  		 legend: {
-	  		 	enabled: true,
-	           	title: {
+	 		
+	 		Highcharts.chart('container', {
+			    chart: {
+	            plotBackgroundColor: null,
+	            plotBorderWidth: null,
+	            plotShadow: true,
+	            type: 'pie'
+	        },
+	        title: {
+	            text: '<%=request.getAttribute("title")%>'
+	        },
+	        subtitle: {
+	            text: '<%=request.getAttribute("subtitle")%>'
+	        },
+	        tooltip: {
+	            pointFormat: '{series.name}: <b>{point.percentage:.2f} %</b>'
+	        },
+	        plotOptions: {
+	            pie: {
+	                allowPointSelect: true,
+	                cursor: 'pointer',
+	                dataLabels: {
+	                    enabled: true,
+	                    format: '<b>{point.name}: {point.percentage:.2f} %</b>',
+	                    distance: -80,
+	                    filter: {
+	                    	property: 'percentage',
+	                    	operator: '>',
+	                    	value: '4'},
+	                    style: {
+	                        color: 'black',
+	                        fontSize: '14px',                        
+	                        fontStyle: 'normal'                                      
+	                    },
+	                    connectorColor: 'silver'
+	                }
+	            }
+	        },
+	        series: <%=request.getAttribute("json_pieChart")%>,        
+	  		 legend: {
+		  		 	enabled: true,
+		           	title: {
 	                   text: '<%=request.getAttribute("units")%> <%=request.getAttribute("entidadGrafico")%>',
 	                   style: {
 	                   color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
@@ -380,88 +389,38 @@
 		} else if (request.getAttribute("barChart") != null) {
 	%>
 	<script type="text/javascript">
-			$(function () {
-			    $('#<%=request.getAttribute("container")%>').highcharts({
-			        chart: {
-			            type: 'bar'
-			        },
+			
+			Highcharts.chart('container', {
+			    chart: {
+			        type: 'bar'
+			    },
+			    title: {
+			        text: '<%=request.getAttribute("title")%>'
+			    },
+			    subtitle: {
+		            text: '<%=request.getAttribute("subtitle")%>'
+		        },
+			    xAxis: {
+			        categories: <%=request.getAttribute("categories")%>
+			    },
+			    yAxis: {
+			        min: 0,
 			        title: {
-			            text: '<%=request.getAttribute("title")%>'
-			        },
-			        subtitle: {
-			            text: '<%=request.getAttribute("subtitle")%>'
-			        },
-			        xAxis: {
-			            categories: <%=request.getAttribute("categories")%>,			            
-			            labels: {
-			                style: {
-			                    color: '#6E6E6E',
-			                    fontSize:'small'
-			                }
-			            },
-			            title: {
-			                text: ''
-			            }
-			        },
-			        yAxis: {
-			        	min: <%=request.getAttribute("minEjeRef")%>,
-			            title: {
-			                text: '<b><%=request.getAttribute("titulo_EJE_X")%></b>',
-			                align: 'high'
-			            },
-			            labels: {
-			                overflow: 'justify'
-			            },
-			            stackLabels: {
-			                enabled: true,
-			                style: {
-			                    fontWeight: 'bold',
-			                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-			                }
-			            }
-			        },
-			        tooltip: {
-			        	pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-			            shared: true,
-			            valueSuffix: ' <%=request.getAttribute("units")%>'
-			        },
-			        
-		            legend: {		            	
-			            width: 1300,
-			            floating: true,
-			            align: 'center',
-			            x: 10, // = marginLeft - default spacingLeft
-			            y: 17,
-			            itemWidth: 85,
-			            itemStyle: {'color': 'black', 'font-weight': 'normal', 'font-size': '10px'},
-			            itemDistance: 55,
-			            borderWidth: 0
-			        },
-			        
-			        plotOptions: {
-			            bar: {
-			            	dataLabels: {
-			                    enabled: true,
-			                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-			                    style: {
-			                    	fontWeight: 'bold',
-			                        textShadow: '0 0 5px black'
-			                    }
-			                },
-			                borderWidth: 4,
-			                edgeWidth: 4
-			            },
-			            series: {
-			                stacking: 'normal'
-			            }
-			        },
-			        
-			        credits: {
-			            enabled: false
-			        },
-			        series: <%=request.getAttribute("barChart")%>
-			    });
+			            text: '<%=request.getAttribute("titulo_EJE_X")%>'
+			        }
+			    },
+			    legend: {
+			        reversed: true
+			    },
+			    plotOptions: {
+			        series: {
+			            stacking: 'normal'
+			        }
+			    },
+				  series: <%=request.getAttribute("barChart")%>
+			    
 			});
+			
 	</script>
 
 	<%
@@ -470,8 +429,10 @@
 
 	<script type="text/javascript">
 	 	$(function () {
-		    $('#<%=request.getAttribute("container")%>').highcharts({
+	 		
+	 		Highcharts.chart('container', {
 		        chart: {
+		        	type: 'column',
 		            zoomType: 'xy'
 		        },
 		        title: {
@@ -571,9 +532,8 @@
 				    }
 				});
 				
-				var chart = new Highcharts.Chart({
-			        	chart: {
-			            	renderTo: '<%=request.getAttribute("container")%>',       	
+				Highcharts.chart('container', {
+				    chart: {      	
 				            type: 'column',
 				            margin: 75,
 				            options3d: {
@@ -687,80 +647,78 @@
 				    }
 				});
 				
-				$('#<%=request.getAttribute("container")%>').highcharts({
-				
-			        	chart: {
-			            	renderTo: '<%=request.getAttribute("container")%>',       	
-				            type: 'line',
-				            margin: 75				           
-				        },
-				        title: {
-				            text: '<%=request.getAttribute("title")%>'
-				        },
-				        
-				        subtitle: {
-				            text: '<%=request.getAttribute("subtitle")%>'
-				        },
-				        
-				        xAxis: {
-				            categories: <%=request.getAttribute("abscisas")%>,
-				            labels: {
-				                style: {
-				                    color: '#6E6E6E',
-				                    fontSize:'xx-small'
-				                }
-				            }
-				        },
-				        
-				        yAxis: {
-				            min:  <%=request.getAttribute("minEjeRef")%>,
-				            allowDecimals: true,
-				            title: {
-				                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
-				            }
-				        },
-				        
-				        legend: {		            	
-				            width: 1080,
-				            floating: true,
-				            align: 'center',
-				            x: 95, // = marginLeft - default spacingLeft
-				            y: 9,
-				            itemWidth: 220,
-				            itemStyle: {'color': 'black', 'font-weight': 'normal', 'font-size': '12px'},
-				            itemDistance: 85,
-				            borderWidth: 0
-				        },
-				        
-				        tooltip: {				        	
-				            headerFormat: '<b>{point.key}</b><br>',
-				            pointFormat: '<span style="font-size: xx-small; color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
-				        },
-				        				       
-				        plotOptions: {
-				        	line: {
-				                dataLabels: {
-				                    enabled: true
-				                },
-				                enableMouseTracking: false
-				            },
-				        	series: {
-				                borderWidth: 2,
-				                dataLabels: {
-				                    enabled: true,
-				                    style: {'color': '#e6e6ff', 'font-weight': 'lighter', 'font-size': 'xx-small'},
-				                    format: '{point.y:<%=request.getAttribute("decimals")%>}'
-				                }
-				            },
-				            column: {
-				                depth: 25,
-				                stacking: true,
-				                grouping: false,
-				                groupZPadding: 10
-				            }
-				        },
-				        				      
-				        series: <%=request.getAttribute("json_timeSeries")%>
+				Highcharts.chart('container', {
+				    chart: {     	
+			            type: 'line',
+			            margin: 75				           
+			        },
+			        title: {
+			            text: '<%=request.getAttribute("title")%>'
+			        },
+			        
+			        subtitle: {
+			            text: '<%=request.getAttribute("subtitle")%>'
+			        },
+			        
+			        xAxis: {
+			            categories: <%=request.getAttribute("abscisas")%>,
+			            labels: {
+			                style: {
+			                    color: '#6E6E6E',
+			                    fontSize:'xx-small'
+			                }
+			            }
+			        },
+			        
+			        yAxis: {
+			            min:  <%=request.getAttribute("minEjeRef")%>,
+			            allowDecimals: true,
+			            title: {
+			                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
+			            }
+			        },
+			        
+			        legend: {		            	
+			            width: 1080,
+			            floating: true,
+			            align: 'center',
+			            x: 95, // = marginLeft - default spacingLeft
+			            y: 9,
+			            itemWidth: 220,
+			            itemStyle: {'color': 'black', 'font-weight': 'normal', 'font-size': '12px'},
+			            itemDistance: 85,
+			            borderWidth: 0
+			        },
+			        
+			        tooltip: {				        	
+			            headerFormat: '<b>{point.key}</b><br>',
+			            pointFormat: '<span style="font-size: xx-small; color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
+			        },
+			        				       
+			        plotOptions: {
+			        	line: {
+			                dataLabels: {
+			                    enabled: true
+			                },
+			                enableMouseTracking: false
+			            },
+			        	series: {
+			                borderWidth: 2,
+			                dataLabels: {
+			                    enabled: true,
+			                    style: {'color': '#e6e6ff', 'font-weight': 'lighter', 'font-size': 'xx-small'},
+			                    format: '{point.y:<%=request.getAttribute("decimals")%>}'
+			                }
+			            },
+			            column: {
+			                depth: 25,
+			                stacking: true,
+			                grouping: false,
+			                groupZPadding: 10
+			            }
+			        },
+			        				      
+			        series: <%=request.getAttribute("json_timeSeries")%>
 				 
 				});						
 							 				   
@@ -773,13 +731,18 @@
 	%>
 
 	<script type='text/javascript'>//<![CDATA[ 
-			$(function () {
-	
-				$('#<%=request.getAttribute("container")%>').highcharts({
-	
-					chart: {
+				$(function () {
+					Highcharts.setOptions({
+					    lang: {
+					        decimalPoint: ',',
+					        thousandsSep: '.'
+					    }
+					});
+					
+					Highcharts.chart('container', {
+					    chart: {
 	        			polar: true,
-	        			type : '<%=request.getAttribute("typeOfChart")%>'
+	        			type : 'line'
 	    			},
 	
 			        title: {
@@ -845,80 +808,65 @@
 			<td class="pcmTDLeft" valign="top"><%=request.getAttribute("#LOGO#")%><%=request.getAttribute("#TREE#")%></td>
 			<td class="pcmTDRight">
 				<div id="loadingdiv">
-					<%
-						if (request.getAttribute("container") != null) {
-					%>
-					<p align="center">
-						<font class="verysmall">Image loaded</font>
-					</p>
-					<%
-						} else {
-					%>
+					
 					<p align="center">
 						<font class="small">Loading...please wait</font>
 					</p>
-					<%
-						}
-					%>
-				</div> <%
- 	if (request.getAttribute("container") != null) {
- %>
-				<div id="<%=request.getAttribute("container")%>"
-					style='min-width: <%=request.getAttribute("width-container")%>px; max-width: 1090px; height: <%=request.getAttribute("height-container")%>px; margin: 0 auto;'></div>
-				<br> <!-- layer container --> <%
- 	if (request.getAttribute("is3D") != null) {
- %>
-				<div id="sliders">
-					<table>
-						<tr>
-							<td><font class="small">angulo de giro transversal</font>
-							</td>
-							<td><input id="R0" type="range" min="0" max="45" value="15" />
-								<span id="R0-value" class="value"></span>
-							</td>
-						</tr>
-						<tr>
-							<td><font class="small">angulo de giro longitudinal</font>
-							</td>
-							<td><input id="R1" type="range" min="0" max="45" value="15" />
-								<span id="R1-value" class="value"></span>
-							</td>
-						</tr>
-					</table>
-				</div> <%
- 	}
- 		if (request.getAttribute("addedInfo") != null) {
- %> <%=request.getAttribute("addedInfo")%>
+					
+				</div> 
+				<%if (request.getAttribute("container") != null) { %>
+					<div id="container"	style='min-width: <%=request.getAttribute("width-container")%>px; max-width: 1090px; height: <%=request.getAttribute("height-container")%>px; margin: 0 auto;'></div>
+					<br> <!-- layer container --> <%
+ 					if (request.getAttribute("is3D") != null) { %>
+						<div id="sliders">
+							<table>
+								<tr>
+									<td><font class="small">angulo de giro transversal</font>
+									</td>
+									<td><input id="R0" type="range" min="0" max="45" value="15" />
+										<span id="R0-value" class="value"></span>
+									</td>
+								</tr>
+								<tr>
+									<td><font class="small">angulo de giro longitudinal</font>
+									</td>
+									<td><input id="R1" type="range" min="0" max="45" value="15" />
+										<span id="R1-value" class="value"></span>
+									</td>
+								</tr>
+							</table>
+						</div> 
+				<%}
+		 		if (request.getAttribute("addedInfo") != null) { %> 
+		 			<%=request.getAttribute("addedInfo")%>
 				<%
-					}
+				}
 				%>
 				<UL id="pcmUl">
-					<LI><a title="Volver" href="#"
-						onClick="javascript:window.history.back();"> <span>Volver</span>
+					<LI><a title="Volver" href="#" onClick="javascript:window.history.back();"> <span>Volver</span>
 					</a></LI>
 				</UL>
 				<div id="principal">&nbsp;</div> <%
- 	} else {
- %>
-				<div id="principal"><%=request.getAttribute("#BODY#")%></div> <!-- layer de escenario de pcm -->
-				<%
-					}
-				%>
-			</td>
-		</tr>
-
-		<tr>
-			<td class="small"><%=request.getAttribute("#FOOT#")%></td>
-			<td class="small">&nbsp;</td>
-		</tr>
-
-	</table>
+		 	} else { %>
+					<div id="principal"><%=request.getAttribute("#BODY#")%></div> <!-- layer de escenario de pcm -->
+					<%
+						}
+					%>
+				</td>
+			</tr>
+		
+			<tr>
+				<td class="small"><%=request.getAttribute("#FOOT#")%></td>
+				<td class="small">&nbsp;</td>
+			</tr>
+		
+		</table>
 
 	<script type="text/javascript">
 		$("fieldset.collapsible").collapsible('<%=request.getAttribute("userCriteria")%>');
 		initInputHighlightScript();	
 	</script>
-
+	
 
 </body>
 

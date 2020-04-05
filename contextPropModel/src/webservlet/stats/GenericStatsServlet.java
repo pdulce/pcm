@@ -3,7 +3,6 @@
  */
 package webservlet.stats;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -15,10 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -283,7 +278,6 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
 			data_.setAttribute(DECIMALES, decimals);
-			data_.setAttribute(CONTAINER, CONTAINER);
 			
 			scene.appendXhtml(htmlForHistograms(data_, fieldsForAgrupacionesPor != null ? fieldsForAgrupacionesPor[0] : null, userFilter));
 
@@ -403,11 +397,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		String criteria = pintarCriterios(filtro_, data_);
 		String crit = criteria.equals("")?"Sin filtro de consulta": "Filtro de consulta--> " + criteria;
 		data_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest data, HttpServletResponse response) throws ServletException, IOException {
-		doPost(data, response);
+		data_.setAttribute(CONTAINER, CONTAINER);
 	}
 
 	@Override
@@ -426,7 +416,6 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 	}
 
 	protected final String htmlForHistograms(final Datamap data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		data_.setAttribute("container", "container");
 		data_.setAttribute("width-container", String.valueOf(getWidth()));
 		data_.setAttribute("height-container", String.valueOf(getHeight(field4Agrupacion, filtro_)));
 		if (is3D()) {
@@ -524,9 +513,9 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			JSONArray jsArray = new JSONArray();
 			jsArray.add("[0:0]");
 			JSONObject serie = new JSONObject();
-			serie.put("color", coloresHistogramas[0]);
+			//serie.put("color", coloresHistogramas[0]);
 			serie.put("name", "No hay datos. Revise los criterios de la consulta");
-			serie.put("datamap", jsArray.get(0));
+			serie.put("data", jsArray.get(0));
 			serie.put("stack", "0");
 			seriesJSON.add(serie);
 			return seriesJSON.toJSONString();
@@ -581,13 +570,13 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				colourOrderIesimo = (++colourOrderIesimo) % coloresHistogramas.length;
 			}
 			colourOrders.add(claveIesima, colourOrderIesimo);
-			serie.put("color", coloresHistogramas[colourOrders.get(claveIesima)]);
+			//serie.put("color", coloresHistogramas[colourOrders.get(claveIesima)]);
 			
 			if (clave.indexOf(":") != -1) {
 				clave = clave.split(":")[1];
 			}
 			serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
-			serie.put("datamap", jsArray.get(0));
+			serie.put("data", jsArray.get(0));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}

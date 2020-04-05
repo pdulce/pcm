@@ -26,8 +26,6 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 
 	private static final String JSON_OBJECT = "barChart";
 
-	private static final String GRAPHIC_TYPE = "column";
-
 	private static final String IS_BAR_INTERNAL_LABELED = "enabledInternalNumber";
 	
 	private static final String PREFIX_NAME_OF_BARCHART_PARAMS = "barchartParam";
@@ -305,7 +303,7 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 				unidades + " " : ""));
 		
 		
-		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
+		//data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
 				
 		data_.setAttribute(IS_BAR_INTERNAL_LABELED, "false");
 		

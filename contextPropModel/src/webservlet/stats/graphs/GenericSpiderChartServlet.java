@@ -25,8 +25,6 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 
 	protected static final String JSON_OBJECT = "json_spiderweb";
 
-	protected static final String GRAPHIC_TYPE = "line";
-
 	private static final String PREFIX_NAME_OF_PARAMS = "spiderchartParam";
 	
 	@Override
@@ -125,8 +123,6 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
 				unidades + " " : ""));
 		
-		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
-
 		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
 
 		String categories_UTF8 = CommonUtils.quitarTildes(jsArrayEjeAbcisas.toJSONString());

@@ -23,8 +23,6 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 
 	protected static final String JSON_OBJECT = "json_timeSeries";
 
-	private static final String GRAPHIC_TYPE = "line";
-	
 	private static final String PREFIX_NAME_OF_TIMESERIES_PARAMS = "timeSeries";
 	
 	private static final String SECOND_AGRUPATE= "fieldVerticalForGroupBy";
@@ -34,12 +32,6 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 	private boolean isLogarithmicScale(final String scaleParamValue){
 		return LOGARITHMIC_SCALE.equals(scaleParamValue);
 	}
-
-	/***
-	private boolean isAritmethicScale(final String scaleParamValue){
-		return ARITMETHIC_SCALE.equals(scaleParamValue);
-	}
-	***/
 	
 	@Override
 	protected String getParamsPrefix (){
@@ -62,9 +54,7 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
-		//String plural = CommonUtils.isVocal(entidadTraslated.substring(entidadTraslated.length() - 1).charAt(0)) ? "s" : "/es";
-		//entidadTraslated = (entidadTraslated.indexOf(" ") != -1)?entidadTraslated.replaceFirst(" ", plural + " "):entidadTraslated.concat(plural);
-
+	
 		IFieldLogic fieldForAgrupacion = fieldsForCategoriaDeAgrupacion[0];
 		String field4X_AxisParam = data_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
 		String field4Y_AxisParam = data_.getParameter(filtro_.getNameSpace().concat(".").concat(SECOND_AGRUPATE));
@@ -212,8 +202,6 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 
 		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, data_));
-		
-		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
 		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toJSONString());
 		data_.setAttribute("minEjeRef", minimal);
 		

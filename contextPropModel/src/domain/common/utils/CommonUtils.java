@@ -682,11 +682,11 @@ public final class CommonUtils {
 	}
 	
 	public static List<Double> getValueListInJsonSerie(final String serieJson){
-		//inicio de lista de valores: "datamap":[
+		//inicio de lista de valores: "data":[
 		//fin de lista de valores ],"name"
 		List<Double> valoresListaArr = new ArrayList<Double>();
 		String aux = serieJson;
-		String[] splitter = aux.split("\"datamap\":");
+		String[] splitter = aux.split("\"data\":");
 		if (splitter.length > 1){
 			String valoresConNames = splitter[1].substring(1);
 			String[] splitter2 = valoresConNames.split(",\"name\"");

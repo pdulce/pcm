@@ -25,8 +25,6 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 
 	protected static final String JSON_OBJECT = "json_histogram3d";
 
-	private static final String GRAPHIC_TYPE = "column";
-	
 	private static final String PREFIX_NAME_OF_HISTOGRAM_PARAMS = "histParam";
 		
 	@Override
@@ -268,11 +266,6 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 			
 			}//por cada registro: OJO: si hay un agregado, entonces el valor del agregado es el valor en el eje y y eje Z=0, si hay dos agregados, entonces el valor de la segunda se monta sobre el eje Y y ejez Z=1
 			
-			/*** EN DEFINITIVA, el algoritmo ha de ser aso:
-			 * a) Identificar el campo que se monta sobre eje X: la agrupacion (solo tomamos la primer agrupacion)
-			 * b) Habro tantos stacks (valores o dimensiones en eje Z) como agregados			
-			 ***/
-			
 			String itemGrafico = entidadTraslated;
 			unidades = unidades.equals("")? getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, data_): unidades;
 			double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(totalizacionColumnas.length));
@@ -305,20 +298,9 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 		JSONArray jsArrayEjeAbcisas = new JSONArray();	
 		String serieJson = regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, data_);
 		data_.setAttribute(JSON_OBJECT, serieJson);
-		data_.setAttribute(CHART_TYPE, GRAPHIC_TYPE);
-		
-		//List<Double> valoresInListaOcurrencias = CommonUtils.getValueListInJsonSerie(serieJson);
 		JSONArray newArrayEjeAbcisas = new JSONArray();
-		//for (int ejeX=0;ejeX<jsArrayEjeAbcisas.size();ejeX++){
-			// String ejeX_literal = jsArrayEjeAbcisas.get(ejeX).toString();
-			// String columnaTotalizada = " ".concat("[").concat(
-			// CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(valoresInListaOcurrencias.get(ejeX)))).concat("]");				
-			// String ejeX_totalizado = ejeX_literal + columnaTotalizada;
-			// newArrayEjeAbcisas.add(ejeX_totalizado);
-		//}
 		data_.setAttribute("abscisas", newArrayEjeAbcisas.isEmpty() ? jsArrayEjeAbcisas.toString(): newArrayEjeAbcisas.toJSONString());
 		data_.setAttribute("minEjeRef", minimal);
-		
 		data_.setAttribute("profundidad" , agregados==null? 15 : 10 + 5*(agregados.length));
 		
 		return total_.doubleValue();
