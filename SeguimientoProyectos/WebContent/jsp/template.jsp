@@ -39,12 +39,12 @@
 			|| request.getAttribute("json_dualHistogram") != null
 			|| request.getAttribute("json_timeSeries") != null) {
 %>
-<script src="js/highcharts/highcharts.js"></script>
-<script src="js/highcharts/highcharts-more.js"></script>
-<script src="js/highcharts/highcharts-3d.js"></script>
-<script src="js/highcharts/modules/exporting.js"></script>
-<script src="js/highcharts/modules/export-data.js"></script>
-<script src="js/highcharts/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<!-- <script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script> -->
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <%
 	}
 	if (request.getAttribute("json_scatterSeries") != null) {
@@ -57,21 +57,17 @@
 	}
 	if (request.getAttribute("json_countryMap") != null) {
 %>
-<script src="js/highcharts/highmaps.js"></script>
-<script src="js/highcharts/modules/exporting.js"></script>
-<script src="js/highcharts/modules/export-data.js"></script>
-<script src="js/highcharts/modules/accessibility.js"></script>
-<script src="js/highcharts/countries/es-all.js"></script>
+<script src="https://code.highcharts.com/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
 <%
 	}
 
 	if (request.getAttribute("json_europeMap") != null) {
 %>
-<script src="js/highcharts/highmaps.js"></script>
-<script src="js/highcharts/modules/exporting.js"></script>
-<script src="js/highcharts/modules/export-data.js"></script>
-<script src="js/highcharts/modules/accessibility.js"></script>
-<script src="js/highcharts/countries/europe.js"></script>
+<script src="https://code.highcharts.com/highmaps.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/mapdata/custom/europe.js"></script>
 <%
 	}
 %>
@@ -802,9 +798,7 @@
 	%>
 
 	<table>
-		<!-- style="border: 5px bevel; elevation: 2;"> -->
 		<tr>
-			<!--style="border: 4px bevel; elevation: -2;"> -->
 			<td class="pcmTDLeft" valign="top"><%=request.getAttribute("#LOGO#")%><%=request.getAttribute("#TREE#")%></td>
 			<td class="pcmTDRight">
 				<div id="loadingdiv">
@@ -815,7 +809,11 @@
 					
 				</div> 
 				<%if (request.getAttribute("container") != null) { %>
-					<div id="container"	style='min-width: <%=request.getAttribute("width-container")%>px; max-width: 1090px; height: <%=request.getAttribute("height-container")%>px; margin: 0 auto;'></div>
+				
+				<figure class="highcharts-figure">
+					<div id="container"	style='min-width: <%=request.getAttribute("width-container")%>px; max-width: 1090px; height: <%=request.getAttribute("height-container")%>px; margin: 0 auto;'>
+					</div>
+				</figure>
 					<br> <!-- layer container --> <%
  					if (request.getAttribute("is3D") != null) { %>
 						<div id="sliders">
