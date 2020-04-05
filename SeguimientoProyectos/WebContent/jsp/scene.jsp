@@ -8,32 +8,30 @@
 	</div> 
 	<%	if (request.getAttribute("container") != null) { %>
 		<figure class="highcharts-figure">
-			<div id="container"
-				style='min-width: <%=request.getAttribute("width-container")%>px; max-width: 1090px; height: <%=request.getAttribute("height-container")%>px; margin: 0 auto;'>
-			</div>
+			<div id="container"></div>
 		</figure> 
-		<jsp:include page="${container}"></jsp:include>
+		
 		<br> 
-	<%	if (request.getAttribute("is3D") != null) { %>
-		<div id="sliders">
-			<table>
-				<tr>
-					<td><font class="small">transversal round angle</font></td>
-					<td><input id="R0" type="range" min="0" max="45" value="15" />
-						<span id="R0-value" class="value"></span></td>
-				</tr>
-				<tr>
-					<td><font class="small">longitudinal round angle</font></td>
-					<td><input id="R1" type="range" min="0" max="45" value="15" />
-						<span id="R1-value" class="value"></span></td>
-				</tr>
-			</table>
-		</div> 
-	<% 	} 
- 		if (request.getAttribute("addedInfo") != null) { %>
- 			 <%=request.getAttribute("addedInfo")%> <%
- 		}
- 	}%>
+			<%	if (request.getAttribute("is3D") != null) { %>
+				<div id="sliders">
+					<table>
+						<tr>
+							<td><font class="small">transversal round angle</font></td>
+							<td><input id="R0" type="range" min="0" max="45" value="15" />
+								<span id="R0-value" class="value"></span></td>
+						</tr>
+						<tr>
+							<td><font class="small">longitudinal round angle</font></td>
+							<td><input id="R1" type="range" min="0" max="45" value="15" />
+								<span id="R1-value" class="value"></span></td>
+						</tr>
+					</table>
+				</div> 
+			<% 	}
+		 		if (request.getAttribute("addedInfo") != null) { %>
+		 			 <%=request.getAttribute("addedInfo")%> <%
+		 		}
+	 	}%>
  	
 	<div id="principal"><%=request.getAttribute("#BODY#")%></div> 
 
@@ -44,6 +42,10 @@
 		</UL>
 		
 	<div id="principal">&nbsp;</div>
+	
+	<%if (request.getAttribute("container") != null) { %>
+		<jsp:include page="${container}"></jsp:include>
+	<%} %>
 	
 	
   
