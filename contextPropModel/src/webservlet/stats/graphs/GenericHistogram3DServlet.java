@@ -19,11 +19,11 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
 
 
-public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram {
+public class GenericHistogram3DServlet extends AbstractGenericHistogram {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
-	protected static final String JSON_OBJECT = "json_histogram3d";
+	protected static final String JSON_OBJECT = "series";
 
 	private static final String PREFIX_NAME_OF_HISTOGRAM_PARAMS = "histParam";
 		
@@ -315,6 +315,12 @@ public abstract class GenericHistogram3DServlet extends AbstractGenericHistogram
 	@Override
 	protected boolean is3D() {
 		return true;
+	}
+	
+	@Override
+	public String getScreenRendername() {
+		
+		return "histogram3d";
 	}
 
 }

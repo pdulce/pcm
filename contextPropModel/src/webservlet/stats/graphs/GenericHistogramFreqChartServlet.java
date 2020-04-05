@@ -21,11 +21,11 @@ import domain.service.dataccess.dto.Datamap;
 import webservlet.stats.IStats;
 
 
-public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {
+public class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {
 
 	private static final long serialVersionUID = 158971895222444444L;
 
-	protected static final String JSON_OBJECT = "json_dualHistogram";
+	protected static final String JSON_OBJECT = "series";
 
 	protected static final String FREQ_ABSOLUTE = "frecAbsoluta";
 
@@ -223,6 +223,12 @@ public abstract class GenericHistogramFreqChartServlet extends AbstractGenericHi
 	@Override
 	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
 		return 700;
+	}
+	
+	@Override
+	public String getScreenRendername() {
+		
+		return "dualHistogram";
 	}
 
 }

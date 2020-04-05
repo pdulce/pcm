@@ -30,7 +30,7 @@
 			            stacking: 'normal'
 			        }
 			    },
-				  series: <%=request.getAttribute("barChart")%>
+				  series: <%=request.getAttribute("series")%>
 			    
 			});
 			

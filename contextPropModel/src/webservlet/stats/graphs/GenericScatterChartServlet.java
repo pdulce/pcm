@@ -41,13 +41,13 @@ import domain.service.event.SceneResult;
 import webservlet.stats.GenericStatsServlet;
 
 
-public abstract class GenericScatterChartServlet extends GenericStatsServlet {
+public class GenericScatterChartServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
 	protected static final String CATEGORIA_EJE_X = "ejeX";
 
-	protected static final String JSON_REGRESSION_SERIES = "json_scatterSeries";
+	protected static final String JSON_REGRESSION_SERIES = "series";
 
 	protected static final String CATEGORIA_EJE_Y = "ejeY";
 	
@@ -155,6 +155,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
 		data_.setAttribute(CONTAINER, CONTAINER);
+		data_.setAttribute("graph", getScreenRendername());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -647,6 +648,12 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 	@Override
 	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
 		return 700;
+	}
+	
+	@Override
+	public String getScreenRendername() {
+		
+		return "scatter";
 	}
 
 }

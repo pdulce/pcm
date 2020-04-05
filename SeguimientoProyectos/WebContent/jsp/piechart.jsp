@@ -56,7 +56,7 @@
             }
         }
     },
-    series: <%=request.getAttribute("json_pieChart")%>,        
+    series: <%=request.getAttribute("series")%>,        
  	legend: {
 	 	enabled: true,
         	title: {

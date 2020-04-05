@@ -20,11 +20,11 @@ import domain.service.event.IAction;
 import webservlet.stats.GenericStatsServlet;
 
 
-public abstract class GenericBarChartServlet extends GenericStatsServlet {
+public class GenericBarChartServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
-	private static final String JSON_OBJECT = "barChart";
+	private static final String JSON_OBJECT = "series";
 
 	private static final String IS_BAR_INTERNAL_LABELED = "enabledInternalNumber";
 	
@@ -339,5 +339,13 @@ public abstract class GenericBarChartServlet extends GenericStatsServlet {
 		}
 		return height;
 	}
+
+	@Override
+	public String getScreenRendername() {
+		
+		return "barchart";
+	}
+
+	
 
 }

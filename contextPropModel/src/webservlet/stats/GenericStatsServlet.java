@@ -65,6 +65,13 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return true;
 	}
 	
+	protected String getUnitName(IFieldLogic aggregateField, IFieldLogic fieldForCategoriaDeAgrupacion,
+			String aggregateFunction, Datamap data_) {
+		return "units";
+	}
+	
+	public abstract String getScreenRendername();
+	
 	public Integer obtenerAnteriorLibre(List<Integer> posicionesOcupadas, int posicionActual){
 		int posicionMasAnterior = posicionActual;
 		boolean huecoLibre = false;
@@ -398,6 +405,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		String crit = criteria.equals("")?"Sin filtro de consulta": "Filtro de consulta--> " + criteria;
 		data_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
 		data_.setAttribute(CONTAINER, CONTAINER);
+		data_.setAttribute("graph", getScreenRendername());
 	}
 
 	@Override
@@ -715,9 +723,6 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		}
 		return null;
 	}
-
-	protected abstract String getUnitName(final IFieldLogic aggregateField, final IFieldLogic fieldForCategoriaDeAgrupacion,
-			final String aggregateFunction, final Datamap data_);
 	
 
 }

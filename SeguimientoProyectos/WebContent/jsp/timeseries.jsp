@@ -71,7 +71,7 @@
             }
         },
         				      
-        series: <%=request.getAttribute("json_timeSeries")%>
+        series: <%=request.getAttribute("series")%>
 	 
 	});						
 				 				   

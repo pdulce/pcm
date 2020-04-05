@@ -43,7 +43,7 @@
 		        },
 		        
 	        series : [{
-	            data : <%=request.getAttribute("json_countryMap")%>,
+	            data : <%=request.getAttribute("series")%>,
 	            mapData: Highcharts.maps['countries/es/es-all'],
 	            joinBy: 'hc-key',
 	            name: '<%=request.getAttribute("entidadGrafico")%>',

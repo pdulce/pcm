@@ -19,11 +19,11 @@ import domain.service.event.IAction;
 import webservlet.stats.GenericStatsServlet;
 
 
-public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
+public class GenericSpiderChartServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158970004444L;
 
-	protected static final String JSON_OBJECT = "json_spiderweb";
+	protected static final String JSON_OBJECT = "series";
 
 	private static final String PREFIX_NAME_OF_PARAMS = "spiderchartParam";
 	
@@ -155,6 +155,12 @@ public abstract class GenericSpiderChartServlet extends GenericStatsServlet {
 		} else {
 			return 860;
 		}
+	}
+	
+	@Override
+	public String getScreenRendername() {
+		
+		return "spiderweb";
 	}
 
 }

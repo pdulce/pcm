@@ -42,7 +42,7 @@
 		        },
 		        
 	        series : [{
-	            data : <%=request.getAttribute("json_europeMap")%>,
+	            data : <%=request.getAttribute("series")%>,
 	            mapData: Highcharts.maps['custom/europe'],
 	            joinBy: 'hc-key',
 	            name: '<%=request.getAttribute("entidad")%>',

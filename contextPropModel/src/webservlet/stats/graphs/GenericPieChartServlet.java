@@ -22,11 +22,11 @@ import domain.service.event.IAction;
 import webservlet.stats.GenericStatsServlet;
 
 
-public abstract class GenericPieChartServlet extends GenericStatsServlet {
+public class GenericPieChartServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
-	private static final String JSON_OBJECT = "json_pieChart";
+	private static final String JSON_OBJECT = "series";
 	
 	private static final String PREFIX_NAME_OF_PARAMS = "piechartParam";
 	
@@ -267,6 +267,12 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 		} else {
 			return 700;
 		}
+	}
+	
+	@Override
+	public String getScreenRendername() {
+		
+		return "piechart";
 	}
 
 }

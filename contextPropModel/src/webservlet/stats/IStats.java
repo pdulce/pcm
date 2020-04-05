@@ -57,5 +57,7 @@ public interface IStats {
 	public static final String TEXT_X_AXIS = "titulo_EJE_X";
 
 	public static final String TEXT_Y_AXIS = "titulo_EJE_Y";
+	
+	public String getScreenRendername();
 
 }

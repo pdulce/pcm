@@ -37,7 +37,7 @@
 	        verticalAlign: 'middle',
 	        layout: 'vertical'
 	    },
-		series : <%=request.getAttribute("json_spiderweb")%>,
+		series : <%=request.getAttribute("series")%>,
 		responsive: {
 	        rules: [{
 	            condition: {

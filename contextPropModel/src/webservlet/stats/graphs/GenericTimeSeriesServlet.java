@@ -17,11 +17,11 @@ import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 
 
-public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram {
+public class GenericTimeSeriesServlet extends AbstractGenericHistogram {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
-	protected static final String JSON_OBJECT = "json_timeSeries";
+	protected static final String JSON_OBJECT = "series";
 
 	private static final String PREFIX_NAME_OF_TIMESERIES_PARAMS = "timeSeries";
 	
@@ -216,6 +216,12 @@ public abstract class GenericTimeSeriesServlet extends AbstractGenericHistogram 
 	@Override
 	protected boolean is3D() {
 		return false;
+	}
+	
+	@Override
+	public String getScreenRendername() {
+		
+		return "timeseries";
 	}
 
 }

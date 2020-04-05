@@ -63,7 +63,7 @@
 	                }
 	            }
 	        },
-	        series:  <%=request.getAttribute("json_scatterSeries")%>
+	        series:  <%=request.getAttribute("series")%>
 	    });
 				
 </script>

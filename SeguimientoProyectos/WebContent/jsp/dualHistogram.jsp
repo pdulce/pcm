@@ -15,7 +15,7 @@
 	            text: '<%=request.getAttribute("subtitle")%>'
 	        },
 	        xAxis: [{
-	            categories: <%=request.getAttribute("json_dualHistogram")%>,
+	            categories: <%=request.getAttribute("series")%>,
 	            labels: {
 	                style: {
 	                    color: '#6E6E6E',

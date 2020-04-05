@@ -44,7 +44,7 @@
 	            title: {
 	                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
 	            }
-	        },s       
+	        },    
 	        legend: {		            	
 	            width: 1080,
 	            floating: true,
@@ -78,7 +78,7 @@
 	            }
 	        },
 	        				      
-	        series: <%=request.getAttribute("json_histogram3d")%>
+	        series: <%=request.getAttribute("series")%>
 	});
     // Activate the sliders
     $('#R0').on('change', function () {

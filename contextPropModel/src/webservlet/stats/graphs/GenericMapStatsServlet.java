@@ -16,11 +16,11 @@ import domain.service.dataccess.dto.Datamap;
 import webservlet.stats.GenericStatsServlet;
 
 
-public abstract class GenericMapStatsServlet extends GenericStatsServlet {
+public class GenericMapStatsServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 1589713223323L;
 
-	private static final String JSON_OBJECT = "json_countryMap";
+	private static final String JSON_OBJECT = "series";
 
 	private static final String PREFIX_NAME_OF_PARAMS = "mapParam";
 	
@@ -123,5 +123,11 @@ public abstract class GenericMapStatsServlet extends GenericStatsServlet {
 		}
 		return seriesJSON.toJSONString();
 	}
-
+	
+	@Override
+	public String getScreenRendername() {
+		
+		return "spainmap";
+	}
+	
 }
