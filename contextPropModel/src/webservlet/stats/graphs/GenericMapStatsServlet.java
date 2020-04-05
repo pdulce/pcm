@@ -8,7 +8,7 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import domain.common.stats.CodigosISOProvinciasSpain;
+import domain.stats.CodigosISOProvinciasSpain;
 import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;

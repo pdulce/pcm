@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain.common.stats;
+package domain.stats;
 
 import java.util.HashMap;
 import java.util.Map;

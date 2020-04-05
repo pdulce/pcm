@@ -1,4 +1,4 @@
-package domain.common.stats;
+package domain.stats;
 
 import java.util.ArrayList;
 import java.util.Calendar;

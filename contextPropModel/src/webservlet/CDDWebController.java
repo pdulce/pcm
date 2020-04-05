@@ -48,9 +48,6 @@ public class CDDWebController extends HttpServlet {
 	private static final String MULTIPART_DATA = "multipart/form-datamap";
 	private static final String CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
 	private static final String BODY = "#BODY#", TITLE = "#TITLE#"; 
-
-	protected static final String[] coloresHistogramas = { "Maroon", "Red", "Orange", "Blue", "Navy", "Green", "Purple",
-		"Fuchsia",	"Lime", "Teal", "Aqua", "Olive", "Black", "Gray", "Silver"};
 	
 	protected static Logger log = Logger.getLogger(CDDWebController.class.getName());
 	

@@ -525,7 +525,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		listaClaves.addAll(ocurrencias.keySet());
 		Collections.sort(listaClaves);
 		int claveIesima = 0;
-		List<Integer> colourOrders = new ArrayList<Integer>(listaClaves.size());
+		
 		for (String clave : listaClaves) {
 			Map<String, Number> numOcurrenciasDeClaveIesima = ocurrencias.get(clave);
 			List<Number> listaOcurrencias = new ArrayList<Number>();
@@ -561,17 +561,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 			JSONArray jsArray = new JSONArray();
 			jsArray.add(listaOcurrencias);			
 			JSONObject serie = new JSONObject();
-			
-			byte[] bytesOf = clave.getBytes();
-			int lengthOf = bytesOf.length;
-			int colourOrderIesimo = clave.getBytes()[lengthOf-(lengthOf/2)];
-			colourOrderIesimo = colourOrderIesimo % coloresHistogramas.length;
-			while (colourOrders.contains(colourOrderIesimo) && claveIesima < coloresHistogramas.length){
-				colourOrderIesimo = (++colourOrderIesimo) % coloresHistogramas.length;
-			}
-			colourOrders.add(claveIesima, colourOrderIesimo);
-			//serie.put("color", coloresHistogramas[colourOrders.get(claveIesima)]);
-			
+						
 			if (clave.indexOf(":") != -1) {
 				clave = clave.split(":")[1];
 			}

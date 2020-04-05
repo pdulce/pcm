@@ -21,7 +21,7 @@ import domain.application.ApplicationDomain;
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
-import domain.common.stats.StatsUtils;
+import domain.stats.StatsUtils;
 import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
 import domain.service.component.BodyContainer;
@@ -430,8 +430,6 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 			// revisar aqui los acumulados de cada valor de clasificacion
 			JSONArray seriesJSON = new JSONArray();
 			List<Double> datos_EJE_X_coll_con_Atipicos = new ArrayList<Double>(), datos_EJE_Y_coll_con_Atipicos = new ArrayList<Double>();
-			int claveIesima = 0;
-			List<Integer> colourOrders = new ArrayList<Integer>();
 			Iterator<Map.Entry<String, List<Map<Double, Double>>>> iteEntriesOfMapaPuntos = mapaDePuntos.entrySet().iterator();
 			while (iteEntriesOfMapaPuntos.hasNext()) {
 				JSONObject serie = new JSONObject();
@@ -440,18 +438,7 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				String claveValordeAgrupacion = mapaEntry.getKey();
 
 				serie.put("name", Translator.traduceDictionaryModelDefined(lang, claveValordeAgrupacion));
-				
-				byte[] bytesOf = claveValordeAgrupacion.getBytes();
-				int lengthOf = bytesOf.length;
-				int colourOrderIesimo = claveValordeAgrupacion.getBytes()[lengthOf-(lengthOf/2)];
-				colourOrderIesimo = colourOrderIesimo % coloresHistogramas.length;
-				while (colourOrders.contains(colourOrderIesimo) && claveIesima < coloresHistogramas.length){
-					colourOrderIesimo = (++colourOrderIesimo) % coloresHistogramas.length;
-				}
-				colourOrders.add(claveIesima, colourOrderIesimo);
-				//serie.put("color", coloresHistogramas[colourOrders.get(claveIesima)]);
-				
-				
+								
 				List<Map<Double, Double>> puntosConEsteValordeAgrupacion = mapaEntry.getValue();
 				for (Map<Double, Double> punto: puntosConEsteValordeAgrupacion) {
 					try {						
@@ -477,7 +464,6 @@ public abstract class GenericScatterChartServlet extends GenericStatsServlet {
 				}
 				serie.put("data", jsArrayAsig);
 				seriesJSON.add(serie);
-				claveIesima++;
 			}
 
 			// Procedemos a eliminar los datos atopicos, que siempre vamos a buscarlos en la lista

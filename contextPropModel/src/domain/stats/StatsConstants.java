@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain.common.stats;
+package domain.stats;
 
 /**
  * @author 99GU3997

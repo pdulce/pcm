@@ -211,7 +211,6 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 		claves.addAll(subtotales.keySet());
 		Collections.sort(claves);
 		int i = 0;
-		List<Integer> colourOrders = new ArrayList<Integer>(claves.size());
 		for (final String clave: claves) {
 			JSONObject tupla = new JSONObject();
 			
@@ -225,15 +224,6 @@ public abstract class GenericPieChartServlet extends GenericStatsServlet {
 			} else {
 				clavePie = "<b>" + clave + "</b>";
 			}
-			byte[] bytesOf = clave.getBytes();
-			int lengthOf = bytesOf.length;
-			int colourOrderIesimo = clave.getBytes()[lengthOf-(lengthOf/2)];
-			colourOrderIesimo= colourOrderIesimo % coloresHistogramas.length;
-			while (colourOrders.contains(colourOrderIesimo) && i < coloresHistogramas.length){
-				colourOrderIesimo = (++colourOrderIesimo) % coloresHistogramas.length;
-			}
-			colourOrders.add(i, colourOrderIesimo);
-			//tupla.put("color", coloresHistogramas[colourOrders.get(i)]);
 			
 			tupla.put("name",
 					Translator.traduceDictionaryModelDefined(data_.getLanguage(), clavePie) + " (" + subtotales.get(clave) + ")");
