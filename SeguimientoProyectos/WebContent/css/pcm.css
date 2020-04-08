@@ -479,4 +479,10 @@ ol, dl, dt, dd {
     background: #f1f7ff;
 }
 
-	
+#sliders td input[type=range] {
+    display: inline;
+}
+#sliders td {
+    padding-right: 1em;
+    white-space: nowrap;
+}
