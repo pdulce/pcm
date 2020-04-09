@@ -47,13 +47,13 @@ TD {
 }
 
 .trImpaired{
-    background: #7a7858;
+    background: #1d2f37;/*30515f*/
     color: white;
     border: 0;
 }
 
 .trPaired{
-    background: #515040;
+    background: #2b4753;
     color: white;
     border: 0;
 }
