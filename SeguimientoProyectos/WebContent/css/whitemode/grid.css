@@ -1,0 +1,59 @@
+/*.blueC{
+	font-weight: bold;
+	color: black;
+	blackground: white;
+}
+*/
+
+.pcmTDLeft {
+	font: normal 92% "Lucida Grande", Helvetica, Verdana, Arial;
+	color: black;
+	background-color: black;
+	text-align: left;
+	border: 1.1px solid #C9DCA6;
+	width: 8%;
+	border-top: none;	
+	border: 0;
+}
+	
+.pcmTDRight {
+	font: normal 92% "Helvetica Neue", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	color: black;
+	background-color: black;
+	text-align: left;
+	border: 1.1px solid #C9DCA6;
+	width: 92%;
+	border-top: none;
+	border: 0;
+}
+
+.pcmTable {
+	display: table;
+	border: 0;
+	font-size: 94.5%;
+	width: 95.9%;
+	background-color: black;
+}
+
+TH {
+    background-color: #a1d0ee;
+    color: #19185e;
+    font-size: 95.5%;
+    border: 0;
+}
+
+TD {
+    border: 0;
+}
+
+.trImpaired{
+    background: #7a7858;
+    color: black;
+    border: 0;
+}
+
+.trPaired{
+    background: #515040;
+    color: black;
+    border: 0;
+}

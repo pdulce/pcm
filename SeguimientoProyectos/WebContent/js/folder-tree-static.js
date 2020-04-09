@@ -36,9 +36,9 @@ Owner of DHTMLgoodies.com
 	var idOfFolderTrees = ['dhtmlgoodies_tree'];
 	
 	var imageFolder = 'img/';	// Path to images
-	var folderImage = 'dhtmlgoodies_folder.gif';
-	var plusImage = 'dhtmlgoodies_plus.gif';
-	var minusImage = 'dhtmlgoodies_minus.gif';
+	var folderImage = 'dhtmlgoodies_folder.jpeg';
+	var plusImage = 'dhtmlgoodies_plus.jpeg';
+	var minusImage = 'dhtmlgoodies_minus.jpeg';
 	var initExpandedNodes = '';	// Cookie - initially expanded nodes;
 	var useAjaxToLoadNodesDynamically = true;
 	var ajaxRequestFile = 'writeNodes.php';
@@ -242,7 +242,7 @@ Owner of DHTMLgoodies.com
 		var img = source.getElementsByTagName('IMG');
 		img[0].style.visibility='visible';
 		var li = document.createElement('LI');
-		li.className='dhtmlgoodies_sheet.gif';
+		li.className='dhtmlgoodies_sheet.jpeg';
 		var a = document.createElement('A');
 		a.href = '#';
 		a.innerHTML = nameOfNewNode;

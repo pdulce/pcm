@@ -1,0 +1,30 @@
+
+.dhtmlgoodies_tree{
+	margin:3px;
+	blackground: white;
+	padding:0px;
+}
+
+.dhtmlgoodies_tree ul{	/* Sub menu groups */
+	margin-left:20px;	/* Left spacing */
+	padding-left:0px;
+	blackground: white;
+	display:none;	/* Initially hide sub nodes */
+}
+
+.dhtmlgoodies_tree li{	/* Nodes */
+	list-style-type:none;
+	background: transparent;
+	vertical-align:middle;
+	
+}
+
+.dhtmlgoodies_tree li a{	/* Node links */
+	/*color:#677ABA;*/
+	text-decoration:none;
+	font-family:verdana;
+	color: black;
+	blackground: white;
+	font-size:0.90em;
+	padding-left:2px;
+}
