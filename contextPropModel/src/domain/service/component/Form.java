@@ -772,6 +772,7 @@ public class Form extends AbstractComponent {
 				int salto = 2;
 				if (this.userButtons.size() > 0 && !userButtonsPainted) {
 					StringBuilder buttonsStrBuilder = new StringBuilder();
+					buttonsStrBuilder.append("<BR>");
 					XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.FIELDSET + " id=\"diagramas\"");
 					buttonsStrBuilder.append("<LEGEND><span>Diagramas</span></LEGEND>");
 					buttonsStrBuilder.append("<DIV>"+ NEW_ROW);
@@ -907,12 +908,7 @@ public class Form extends AbstractComponent {
 			StringBuilder javascrReturn = new StringBuilder();
 			final String backEvent = AbstractAction.isDeleteEvent(this.event) ? IEvent.CANCEL : IEvent.RETURN_BACK;			
 			javascrReturn.append("document.getElementById('" + "miPadre" + "').value='");
-			if (AbstractAction.isFormularyEntryEvent(this.event) && 
-					(AbstractAction.isCreateEvent(this.event) || AbstractAction.isDeleteEvent(this.event)) ){
-				javascrReturn.append(IEvent.CANCEL);
-			}else{
-				javascrReturn.append(IEvent.VOLVER);
-			}
+			javascrReturn.append(IEvent.VOLVER);
 			javascrReturn.append("';");
 			if (IEvent.CANCEL.equals(data_.getEvent())){
 				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ "padre.anterior" + "';");

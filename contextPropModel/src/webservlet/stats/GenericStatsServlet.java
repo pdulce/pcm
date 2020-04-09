@@ -292,9 +292,9 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();
-			sbXml.append("<BR/><BR/><font>" + exc0.getMessage()
-					+ "</font><UL align=\"center\" id=\"pcmUl\"><LI><a title=\"Volver\" href=\"#\" ");
-			sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI></UL>");
+			sbXml.append("<BR/><BR/><font>" + exc0.getMessage()+ "</font>");
+			sbXml.append("<UL align=\"center\" id=\"pcmUl\">");
+			sbXml.append("<LI><a onClick=\"window.history.back();\"><span>Volver</span></a></LI></UL>");
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 			scene.appendXhtml(sbXml.toString());
 		}

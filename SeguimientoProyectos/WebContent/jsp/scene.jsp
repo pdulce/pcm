@@ -41,11 +41,4 @@
  	
 	<div id="principal"><%=request.getAttribute("#BODY#")%></div> 
 
-	<UL id="pcmUl">
-	  <LI><a title="Volver" href="#"
-		     onClick="javascript:window.history.back();"> <span>Volver</span>
-	      </a>
-	  </LI>
-	</UL>
-		
 	<!-- div id="principal">&nbsp;</div> -->

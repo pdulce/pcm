@@ -36,7 +36,7 @@ public class InputCtrl extends AbstractCtrl {
 			this.hidden.setId(this.getQName());
 			return;
 		}
-
+		
 		int size = InputCtrl.DEFAULT_SIZE, length = InputCtrl.DEFAULT_LENGTH;
 		if (this.fieldView.getUserDefSize() == 0) {
 			if (this.fieldView.getEntityField() != null) {
@@ -83,6 +83,7 @@ public class InputCtrl extends AbstractCtrl {
 		this.input.setType(this.fieldView.isHidden() ? ICtrl.HIDDEN_TYPE : this.fieldView.getType());
 		this.input.setName(this.getQName());
 		this.input.setId(this.getQName());
+		this.input.setClassId(ICtrl.TEXT_CLASS_ID);
 		this.input.setSize(size);
 		this.input.setMaxlength(length);
 		this.input.setDisabled(this.fieldView.isDisabled());

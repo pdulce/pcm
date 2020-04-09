@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<link rel="stylesheet" type="text/css" href="css/pcm.css"></link>
-<link rel="stylesheet" type="text/css" href="css/jquery-collapsible-fieldset.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/body.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/form.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/button.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/grid.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/highcharts.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/navigationtree.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/jquery-collapsible-fieldset.css"></link>
+
 <script type="text/javascript" src="js/pcm.js"></script>
 <script type="text/javascript" src="js/PCMGeneral.js"></script>
 <script type="text/javascript" src="js/PCMensajes.js"></script>

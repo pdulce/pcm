@@ -60,7 +60,7 @@ public interface IViewComponent {
 			END_LEGEND_ = "</STRONG>",
 			UL_WITH_CLASS_AND_LABEL_ID = "UL align=\"center\" id=\"pcmUl\"",
 			BOLD_LABEL = "B",
-			TABLE_DEF = " CELLSPACING=\"5\" CELLPADDING=\"2\"",
+			TABLE_DEF = " CELLSPACING=\"0\" CELLPADDING=\"1\"",
 			LEGEND = "LEGEND",
 			FIELDSET = "FIELDSET class=\"collapsible\"",
 			TH_LABEL = "TH",

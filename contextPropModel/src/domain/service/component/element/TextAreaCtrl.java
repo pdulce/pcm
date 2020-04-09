@@ -14,6 +14,7 @@ public class TextAreaCtrl extends AbstractCtrl {
 		this.input_ = new TextArea();
 		this.input_.setName(this.fieldView.getQualifiedContextName());
 		this.input_.setId(this.fieldView.getQualifiedContextName());
+		this.input_.setClassId(ICtrl.TEXT_CLASS_ID);
 		final boolean disabled = !this.fieldView.isEditable() && !this.fieldView.isHidden()
 				&& (this.fieldView.isUserDefined() || !this.fieldView.getEntityField().getAbstractField().isBlob());
 		this.input_.setDisabled(this.fieldView.isDisabled() || !this.fieldView.isEditable() ? true : disabled);

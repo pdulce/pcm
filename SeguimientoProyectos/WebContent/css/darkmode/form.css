@@ -1,0 +1,101 @@
+
+form.pcmForm {
+	width: 100%;
+	border: none;
+	color: white;
+	background-color: black;
+    font-family:verdana;
+	margin: 0;
+	padding: 0;
+}
+	
+form.pcmForm legend { 
+	padding-left: 0; 
+	background-color: black;
+	font-size: 95%;
+    font-family:verdana;
+	color: white;
+	/*color: #00005F;*/
+}
+	
+form.pcmForm fieldset {
+	border: none;
+	color: white;
+	background-color: black;
+	border-top: 0.1em solid #FCFFF7;
+	font-size: 85%;
+    font-family:verdana;
+	margin: 2px;
+	padding: 0;
+}
+	
+form.pcmForm fieldset fieldset { 	
+	background-color: black;
+	padding: 0px 0px 0px;
+	font-size: 1em;
+    font-family:verdana;
+}
+
+.redAst{
+	color: #d3cf06;
+	background: black;
+}
+
+
+.textInput{ 
+  background-color:#48403e;
+  background:#48403e;
+  margin: 0;
+  padding: 1px;
+  font-size: 85%;
+  font-family:verdana;
+  color: orange;
+  border:1px solid #000;
+}
+
+
+.optionStyle{
+  font-size: 90%;
+  font-family:verdana;
+  color: white;
+  background: black;
+}
+
+.imgCalendar{
+  position: relative;
+  vertical-align: bottom;	
+  height: 17px;
+  width: 19px;
+}
+
+
+label.order{
+	font-size: 1em;
+    font-family:verdana;
+    font-size: 90%;
+	color: white;
+	background: black;
+}
+
+label.infoCls{
+  background: black;
+  color: #91e0de;
+  font-size: 92%;
+  font-family:verdana;
+}
+
+label.warningCls{
+  background: black;
+  color: #d3cf06;
+  font-size: 90%;
+  font-family:verdana;
+}
+
+label.errorCls{
+  background: black;
+  color: red;
+  font-size: 90%;
+  font-family:verdana;
+}
+
+

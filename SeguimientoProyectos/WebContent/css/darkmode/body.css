@@ -1,0 +1,86 @@
+
+.inputHighlighted{  
+  background-color: black;
+  color: white;
+  border:1px solid #000;
+} 
+
+
+.small {
+	font: normal 85% "Lucida Grande", Helvetica, Verdana, Arial;
+	color: white;
+	background-color: black;
+	top: 0;
+	height: 1px;
+	overflow: auto;
+}
+
+	
+.imgSize {
+	width: 20px;
+}
+ 
+/**********************************
+
+Redefine aspecto de los elementos estandard de HTML
+***********************************/
+
+ 
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Headers
+------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	background-color: black;
+}
+	
+body {
+	padding: 0 2px;
+	color: white;
+	background-color: black;
+	margin: 0;
+	padding: 0;
+}
+
+blockquote {
+	margin: 0;
+	padding: 0;
+	background-color: black;
+}
+
+	
+p {
+ font-family:verdana;
+ background-color: black;
+ padding: 5px 2px 4px;
+ margin: 5px 0;
+ font-size: 1em;
+ color: white;
+}
+
+
+table.cmxtable tr {
+	border: none;
+	background-color: black;
+	border-top: 1.0px solid #C9DCA6;
+	}
+
+table.cmxtable tr2 {
+	background-color: black;
+	border: none;
+	border-top: 1px solid #C9DCA6;	
+}
+
+img, iframe { 
+	border: none; 
+	background: black;
+}
+
+
+
