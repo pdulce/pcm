@@ -42,7 +42,7 @@ public interface IViewComponent {
 			TABLE_ALIGN_LEFT = "TABLE align=\"left\"",
 			TABLE_ALIGN_RIGHT = "TABLE align=\"right\"",
 			LI_LABEL = "LI",
-			LI_TREE = "LI class=\"dhtmlgoodies_sheet.gif\"",
+			LI_TREE = "LI class=\"dhtmlgoodies_sheet.jpeg\"",
 			UL_LABEL = "UL",
 			UL_LABEL_ID = "UL id=\"pcmUl\"",
 			UL_LABEL_MENU = "UL id=\"navlist\"",

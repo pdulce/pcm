@@ -37,6 +37,7 @@ Owner of DHTMLgoodies.com
 	
 	var imageFolder = 'img/';	// Path to images
 	var folderImage = 'dhtmlgoodies_folder.jpeg';
+	var sheetImage = 'dhtmlgoodies_sheet.jpeg';
 	var plusImage = 'dhtmlgoodies_plus.jpeg';
 	var minusImage = 'dhtmlgoodies_minus.jpeg';
 	var initExpandedNodes = '';	// Cookie - initially expanded nodes;
@@ -242,7 +243,7 @@ Owner of DHTMLgoodies.com
 		var img = source.getElementsByTagName('IMG');
 		img[0].style.visibility='visible';
 		var li = document.createElement('LI');
-		li.className='dhtmlgoodies_sheet.jpeg';
+		li.className=sheetImage;
 		var a = document.createElement('A');
 		a.href = '#';
 		a.innerHTML = nameOfNewNode;
@@ -283,14 +284,6 @@ Owner of DHTMLgoodies.com
 	function deleteNodeOnServer(nodeId)
 	{
 		self.status = 'Ready to delete node' + nodeId;
-		// Use an ajax method here to save this new node. example below:
-		/*
-		ajaxObjectArray[ajaxObjectArray.length] = new sack();
-		var ajaxIndex = ajaxObjectArray.length-1;
-		ajaxObjectArray[ajaxIndex].requestFile = ajaxRequestFile + '?deleteNodeId=' + nodeId					
-		ajaxObjectArray[ajaxIndex].onCompletion = function() { self.status = 'Node has been deleted successfully'; };	// Specify function that will be executed after file has been found					
-		ajaxObjectArray[ajaxIndex].runAJAX();		// Execute AJAX function
-		*/				
 		
 	}
 	
