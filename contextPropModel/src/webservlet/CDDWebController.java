@@ -6,10 +6,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -170,9 +172,11 @@ public class CDDWebController extends HttpServlet {
 				datamap.setParameter(key, "");
 				continue;
 			}
+			List<String> vals_ = new ArrayList<String>();
 			for (final String val:arrvalues){
-				datamap.setParameter(key, val);
+				vals_.add(val);
 			}
+			datamap.setParameters(key, vals_);
 		}
 		if (httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE) != null) {
 			datamap.setAttribute(PCMConstants.APP_PROFILE, (String) httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE));
@@ -242,7 +246,7 @@ public class CDDWebController extends HttpServlet {
 		final Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
 		
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);
-		
+		datamap.getParameterValues("");
 		final String initService = this.contextApp.getInitService();
 		final String initEvent = this.contextApp.getInitEvent();
 		String service = "";

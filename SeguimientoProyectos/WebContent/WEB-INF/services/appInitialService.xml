@@ -9,10 +9,10 @@ xmlns:service="http://pcm.framework.org/service"
 <!-- LOGON SERVICE -->
 	<service name="Authentication" profile="ADMINISTRADOR">
 
-		<action event="submitForm" submitError="Autenticacion.submitForm"
+		<action event="submitForm" submitError="Authentication.submitForm"
 			transactional="false" strategyPre="facturacionUte.strategies.StrategyLogin">
 			<viewComponent>
-				<form align="center" columns="1" title="Autenticacion">
+				<form align="center" columns="1" title="Authentication">
 					<fieldViewSet nameSpace="entryForm">
 						
 						<fieldView name="user" type="text" required="true"

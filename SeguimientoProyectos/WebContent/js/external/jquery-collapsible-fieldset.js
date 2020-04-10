@@ -73,23 +73,19 @@
 						}
 					}
 				}
-				if (textoDiagrama.lastIndexOf("Diagramas") > -1 
-						|| (textoDiagrama.lastIndexOf("Criterios por Fechas") > -1 && !consignedCritFechas)
-							|| (textoDiagrama.lastIndexOf("Por Aplicativo") > -1 && !consignedCritAplicativo)
-								|| (textoDiagrama.lastIndexOf("Por Situacion") > -1 && !consignedCritSituacion)
-								|| (textoDiagrama.lastIndexOf("Por Detalle") > -1 && !consignedCritDetalles)
-								|| (textoDiagrama.lastIndexOf("Por Localizacion") > -1 && !consignedCritLocaliz)
-					){			 	
-				 	isCollapsed = true;
-				}else{
-					isCollapsed = false;
-				}
+				//alert('consignado criterio');
+			}
+			
+			if (textoDiagrama.lastIndexOf("Diagramas") > -1 
+					|| (textoDiagrama.lastIndexOf("Criterios por Fechas") > -1 && !consignedCritFechas)
+						//|| (textoDiagrama.lastIndexOf("Por Aplicativo") > -1 && !consignedCritAplicativo)
+							|| (textoDiagrama.lastIndexOf("Por Situacion") > -1 && !consignedCritSituacion)
+							|| (textoDiagrama.lastIndexOf("Por Detalle") > -1 && !consignedCritDetalles)
+							|| (textoDiagrama.lastIndexOf("Por Localizacion") > -1 && !consignedCritLocaliz)
+				){			 	
+			 	isCollapsed = true;
 			}else{
-				if (textoDiagrama.lastIndexOf("Aplicativo") == -1){			 	
-				 	isCollapsed = true;
-				}else{
-					isCollapsed = false;
-				}
+				isCollapsed = false;
 			}
 			
 			// Perform initial collapse.

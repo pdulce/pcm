@@ -61,7 +61,9 @@ public class Datamap {
 
 	public void setEvent(String event_) {
 		this.event = event_;
-		this.setParameter(PCMConstants.EVENT, getService().concat(".").concat(event_));
+		List<String> val_List = new ArrayList<String>();
+		val_List.add(getService().concat(".").concat(event_));
+		this.setParameters(PCMConstants.EVENT, val_List);
 	}
 		
 	public void setPageSize(final int page_size){
@@ -168,18 +170,24 @@ public class Datamap {
 		return (String)(this.data.get(param).get(0));
 	}
 	
-	public void setParameter(final String param, final String value){
+	public void setParameter(final String param, String value){
+		List<String> values = new ArrayList<String>();
+		values.add(value);
+		setParameters(param, values);
+	}
+	
+	public void setParameters(final String param, final List<String> values){
 		List<Object> dataValues = null;
 		if (this.data.containsKey(param)){
 			dataValues = this.data.get(param);
 		}else{
 			dataValues = new ArrayList<Object>();
-			dataValues.add(value);
+			dataValues.addAll(values);
 		}
 		this.data.put(param, dataValues);
 		
 		if (param.equals(PCMConstants.APP_DICTIONARY)){
-			setEntitiesDictionary(value);	
+			setEntitiesDictionary(values.get(0));	
 		}
 		this.parameterNames.add(param);
 	}

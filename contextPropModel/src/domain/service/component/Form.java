@@ -772,7 +772,7 @@ public class Form extends AbstractComponent {
 				int salto = 2;
 				if (this.userButtons.size() > 0 && !userButtonsPainted) {
 					StringBuilder buttonsStrBuilder = new StringBuilder();
-					buttonsStrBuilder.append("<BR>");
+					//buttonsStrBuilder.append("<BR>");
 					XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.FIELDSET + " id=\"diagramas\"");
 					buttonsStrBuilder.append("<LEGEND><span>Diagramas</span></LEGEND>");
 					buttonsStrBuilder.append("<DIV>"+ NEW_ROW);

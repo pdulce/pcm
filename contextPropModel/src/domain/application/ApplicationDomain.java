@@ -376,7 +376,9 @@ public class ApplicationDomain implements Serializable {
 			StringBuilder innerContent_ = new StringBuilder();
 			String event = datamap.getParameter(PCMConstants.EVENT);
 			if (event == null){
-				datamap.setParameter(PCMConstants.EVENT, datamap.getService().concat(".").concat(datamap.getEvent()));
+				List<String> valueList = new ArrayList<String>();
+				valueList.add(datamap.getService().concat(".").concat(datamap.getEvent()));
+				datamap.setParameters(PCMConstants.EVENT, valueList);
 			}						
 			DomainService domainService = getDomainService(datamap.getService());
 			Collection<String> conditions = null, preconditions = null;

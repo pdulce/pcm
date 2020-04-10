@@ -242,7 +242,7 @@
 						
 					<fieldset legend="Por aplicativo">
 						
-						<fieldView mappingTo="26" type="checkbox" size="7">
+						<fieldView mappingTo="26" type="checkbox" size="16">
 							<optionValues selectionMultiple="true">
 								<option code="AYFL" title="AYFLO"></option>
 								<option code="FAMA" title="FAMA"></option>						
@@ -281,26 +281,21 @@
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 												
-						<fieldView mappingTo="13" type="checkbox">
+						<fieldView mappingTo="13" type="checkbox" size="8">
 							<optionValues selectionMultiple="true" entitymodel="incidenciasProyecto"
 								descrMappingTo="13" codeField="13">
 							</optionValues>
 						</fieldView>
-
-						
-						<fieldView separator="br" />
 						<fieldView separator="br" />
 					</fieldset>
 					
 					<fieldset legend="Por Situacion">	
 					
-						<fieldView mappingTo="7" type="checkbox" size="6">
+						<fieldView mappingTo="7" type="checkbox" size="5">
 							<optionValues selectionMultiple="true" entitymodel="incidenciasProyecto"
 								descrMappingTo="7" codeField="7">
 							</optionValues>
 						</fieldView>
-						
-						<fieldView separator="br" />
 						<fieldView separator="br" />
 					</fieldset>
 						
@@ -315,7 +310,6 @@
 									descrMappingTo="16" codeField="16">
 								</optionValues>
 							</fieldView>
-													
 							<fieldView separator="br" />
 					</fieldset>
 					
@@ -339,8 +333,6 @@
 											
 						<fieldView mappingTo="20" editable="true" />
 						<fieldView mappingTo="21" editable="true" />
-						
-						<fieldView separator="br" />
 						
 					</fieldset>
 					
