@@ -255,8 +255,8 @@ public class ActionPagination extends AbstractAction {
 				}else{
 					filtroForQuery.getFieldViewSets().addAll(myForm.getFieldViewSetCollection().getFieldViewSets());
 				}
-				boolean noCriteriaOrder =paginationGrid.getOrdenationFieldSel().length == 0 || (paginationGrid.getOrdenationFieldSel().length == 1
-						|| paginationGrid.getOrdenationFieldSel()[0] == null);
+				boolean noCriteriaOrder = paginationGrid.getOrdenationFieldSel().length == 0 || 
+						(paginationGrid.getOrdenationFieldSel().length == 1	&& paginationGrid.getOrdenationFieldSel()[0] == null);
 				List<FieldViewSetCollection> coleccion = dataAccess_.searchRowsWithPagination(filtroForQuery,
 						paginationGrid.getFieldViewSetCollection(), pageSize, paginationGrid.getCurrentPage(),
 						noCriteriaOrder ? paginationGrid.getDefaultOrderFields() : paginationGrid.getOrdenationFieldSel(), 
