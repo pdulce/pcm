@@ -26,7 +26,7 @@
             categories: <%=request.getAttribute("abscisas")%>,
             labels: {
                 style: {
-                    color: '#6E6E6E',
+                    color: 'red',/*'#6E6E6E',*/
                     fontSize:'small'
                 }
             }
@@ -46,7 +46,7 @@
             x: 95, // = marginLeft - default spacingLeft
             y: 9,
             itemWidth: 220,
-            itemStyle: {'color': 'black', 'font-weight': 'normal', 'font-size': '12px'},
+            itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
             itemDistance: 85,
             borderWidth: 0
         },

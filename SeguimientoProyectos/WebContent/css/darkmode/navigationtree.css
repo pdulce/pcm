@@ -22,7 +22,7 @@
 .dhtmlgoodies_tree li a{	/* Node links */
 	/*color:#677ABA;*/
 	text-decoration:none;
-	font-family:verdana;
+	font-family: Verdana, sans-serif;
 	color: white;
 	background: black;
 	font-size:0.90em;

@@ -1,9 +1,9 @@
 .collapsible, .collapsible.collapsed {
-    
+	color: white;    
 }
 
 .collapsible.expanded {
-	
+	color: white;	
 }
 
 .collapsible legend {

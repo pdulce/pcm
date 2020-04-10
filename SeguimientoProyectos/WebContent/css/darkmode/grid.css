@@ -6,7 +6,7 @@
 */
 
 .pcmTDLeft {
-	font: normal 92% "Lucida Grande", Helvetica, Verdana, Arial;
+	font: normal 92% Verdana, sans-serif;
 	color: white;
 	background-color: black;
 	text-align: left;
@@ -17,7 +17,7 @@
 }
 	
 .pcmTDRight {
-	font: normal 92% "Helvetica Neue", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+	font: normal 92% Verdana, sans-serif;
 	color: white;
 	background-color: black;
 	text-align: left;

@@ -8,7 +8,7 @@ ul#pcmUl {
 	float: left;
 	background: black;
 	font-size: 1em;
-    font-family:verdana;
+    font-family: Verdana, sans-serif;
     color: blue;
 }   
 
@@ -17,10 +17,9 @@ ul#pcmUl li {
 	padding: 1px 2px 2px 1px;     
 	position: relative;
 	background: url('../../img/blue.PNG');
-	float: left;     
 	display: inline; 
 	margin: 0 9px; 
-    font-family:verdana;
+    font-family: Verdana, sans-serif;
 } 
 
 ul#pcmUl li span {    
@@ -30,7 +29,7 @@ ul#pcmUl li span {
 	background: url('../../img/blue.PNG');
 	float: center; 
 	font-size: 1em;
-    font-family:verdana;
+    font-family: Verdana, sans-serif;
     color: blue;
 }
 
@@ -40,7 +39,7 @@ ul#pcmUl li a {
 	position: relative;
 	background: url('../../img/blue.PNG');
 	float: center; 
-    font-family:verdana;
+    font-family: Verdana, sans-serif;
     cursor: pointer;
     text-decoration: none;
 }

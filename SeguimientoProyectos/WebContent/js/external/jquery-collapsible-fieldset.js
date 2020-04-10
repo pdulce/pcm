@@ -27,10 +27,14 @@
 			var textoDiagrama = $legend.text();
 			var consignedCritFechas = false;
 			var consignedCritLocaliz = false;
+			var consignedCritAplicativo = false;
+			var consignedCritSituacion = false;
 			var consignedCritDetalles = false;
 			var conjuntoCritFechas = ["18","19","22","23","37","20","21"];
 			var conjuntoCritLocaliz = ["17","9","12","41"];
-			var conjuntoCritDetalles = ["26","13","7","1","35","2","3","16"];
+			var conjuntoCritAplicativo = ["26","13"];
+			var conjuntoCritSituacion = ["7"];
+			var conjuntoCritDetalles = ["1","35","2","3","16"];
 			var criteriaFilled = settings.valuesFilled;
 			
 			//troceamos con split, y recorremos cada elemento, si esto en una lista, activamos su flag correspondiente
@@ -50,6 +54,18 @@
 							consignedCritLocaliz = consignedCritLocaliz || true;
 						}
 					}
+					for (var j=0;j<conjuntoCritAplicativo.length;j++){
+						if (conjuntoCritAplicativo[j].length==elemento.length && conjuntoCritAplicativo[j].indexOf(elemento) > -1){
+							//alert(elemento + " included in legendFieldset CritAplicativo");
+							consignedCritAplicativo = consignedCritAplicativo || true;
+						}
+					}
+					for (var j=0;j<conjuntoCritSituacion.length;j++){
+						if (conjuntoCritSituacion[j].length==elemento.length && conjuntoCritSituacion[j].indexOf(elemento) > -1){
+							//alert(elemento + " included in legendFieldset CritSituacion");
+							consignedCritSituacion = consignedCritSituacion || true;
+						}
+					}
 					for (var j=0;j<conjuntoCritDetalles.length;j++){
 						if (conjuntoCritDetalles[j].length==elemento.length && conjuntoCritDetalles[j].indexOf(elemento) > -1){
 							//alert(elemento + " included in legendFieldset CritDetalles");
@@ -59,18 +75,17 @@
 				}
 				if (textoDiagrama.lastIndexOf("Diagramas") > -1 
 						|| (textoDiagrama.lastIndexOf("Criterios por Fechas") > -1 && !consignedCritFechas)
-							|| (textoDiagrama.lastIndexOf("Criterios por Detalle Peticion") > -1 && !consignedCritDetalles)
-								|| (textoDiagrama.lastIndexOf("Criterios por Localizacion") > -1 && !consignedCritLocaliz)
+							|| (textoDiagrama.lastIndexOf("Por Aplicativo") > -1 && !consignedCritAplicativo)
+								|| (textoDiagrama.lastIndexOf("Por Situacion") > -1 && !consignedCritSituacion)
+								|| (textoDiagrama.lastIndexOf("Por Detalle") > -1 && !consignedCritDetalles)
+								|| (textoDiagrama.lastIndexOf("Por Localizacion") > -1 && !consignedCritLocaliz)
 					){			 	
 				 	isCollapsed = true;
 				}else{
 					isCollapsed = false;
 				}
 			}else{
-				if (textoDiagrama.lastIndexOf("Diagramas") > -1 
-						|| ( textoDiagrama.lastIndexOf("Criterios por Fechas") > -1)
-							|| (textoDiagrama.lastIndexOf("Criterios por Localizacion") > -1)
-					){			 	
+				if (textoDiagrama.lastIndexOf("Aplicativo") == -1){			 	
 				 	isCollapsed = true;
 				}else{
 					isCollapsed = false;
