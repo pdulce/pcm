@@ -256,7 +256,7 @@ public class ActionPagination extends AbstractAction {
 					filtroForQuery.getFieldViewSets().addAll(myForm.getFieldViewSetCollection().getFieldViewSets());
 				}
 				boolean noCriteriaOrder = paginationGrid.getOrdenationFieldSel().length == 0 || 
-						(paginationGrid.getOrdenationFieldSel().length == 1	&& paginationGrid.getOrdenationFieldSel()[0] == null);
+						(paginationGrid.getOrdenationFieldSel().length == 1	&& paginationGrid.getOrdenationFieldSel()[0].contentEquals("null"));
 				List<FieldViewSetCollection> coleccion = dataAccess_.searchRowsWithPagination(filtroForQuery,
 						paginationGrid.getFieldViewSetCollection(), pageSize, paginationGrid.getCurrentPage(),
 						noCriteriaOrder ? paginationGrid.getDefaultOrderFields() : paginationGrid.getOrdenationFieldSel(), 
@@ -324,6 +324,7 @@ public class ActionPagination extends AbstractAction {
 				erroresMsg.add(errorMsg);
 				res.setSuccess(Boolean.FALSE);
 			} catch (final Throwable parqExc) {
+				parqExc.printStackTrace();
 				final MessageException errorMsg = new MessageException(IAction.ERROR_BUSCANDO_REGISTROS_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, parqExc.getMessage()));
 				erroresMsg.add(errorMsg);

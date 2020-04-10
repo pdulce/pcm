@@ -89,7 +89,7 @@ public class GenericHTMLElement extends AbstractHtmlCtrl {
 			cad.append("&nbsp;<img ");
 			cad.append("onMouseOut=\"javascript:document.body.style.cursor='default';\" ");
 			cad.append("onMouseOver=\"javascript:document.body.style.cursor='pointer';\" ");
-			cad.append("alt=\"ordenar\" title=\"ordenar\" src=\"" + icon + "\" height=\"10\" width=\"10\">");//&nbsp;..&nbsp;
+			cad.append("alt=\"ordenar\" title=\"ordenar\" src=\"" + icon + "\" height=\"15\" width=\"15\">");//&nbsp;..&nbsp;
 		}
 		cad.append(AbstractHtmlCtrl.END_ELEMENT_FIRST_PART);
 		cad.append(this.getLabel());

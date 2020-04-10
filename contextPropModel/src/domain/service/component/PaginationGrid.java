@@ -857,7 +857,7 @@ public class PaginationGrid extends AbstractComponent {
 									&& !"".equals(valueOfColumn)) {
 								Double valorNumerico = CommonUtils.numberFormatter.parse(valueOfColumn);
 								String newStyle = column.getStyleCss().replaceFirst("color: NRPB;",
-										"color: " + (valorNumerico.compareTo(Double.valueOf(0)) > 0 ? "black" : "#DF0101") + ";");
+										"color: " + (valorNumerico.compareTo(Double.valueOf(0)) > 0 ? "white" : "#DF0101") + ";");
 								columna.append(newStyle);
 							} else {
 								columna.append(column.getStyleCss());
