@@ -13,7 +13,6 @@ import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import domain.service.highcharts.utils.CodigosISOEurpeanCountries;
 import domain.service.highcharts.utils.CodigosISOProvinciasSpain;
 
 
@@ -32,7 +31,7 @@ public class MapSpain extends GenericHighchartModel {
 		List<String> coleccionRegiones = new ArrayList<String>();
 		coleccionRegiones.addAll(CodigosISOProvinciasSpain.provinciasCodes.keySet());
 		String nombreRegion = coleccionRegiones.get(index);
-		return CodigosISOEurpeanCountries.isoEuropeanCodes.get(nombreRegion);
+		return CodigosISOProvinciasSpain.provinciasCodes.get(nombreRegion);
 	}
 	
 	@Override
