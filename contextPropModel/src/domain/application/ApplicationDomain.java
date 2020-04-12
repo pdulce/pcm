@@ -374,11 +374,16 @@ public class ApplicationDomain implements Serializable {
 	}
 	
 	private String getHighchartRequest(final Datamap datamap) {
+		if (datamap.getParameter("idPressed") == null || "".equals(datamap.getParameter("idPressed"))) {
+			return null;
+		}
 		Iterator<String> paramNamesIte = datamap.getParameterNames().iterator();
 		while (paramNamesIte.hasNext()) {
 			String paramName = paramNamesIte.next();
-			if (paramName.contains(IEvent.SHOW_HIGHCHARTS)) {
-				return paramName;
+			if (paramName.contains(".".concat(IEvent.SHOW_HIGHCHARTS))) {
+				if (datamap.getParameter(paramName) != null) {
+					return paramName;
+				}
 			}
 		}
 		return null;
