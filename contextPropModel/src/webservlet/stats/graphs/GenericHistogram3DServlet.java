@@ -17,9 +17,11 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
+import webservlet.stats.GenericStatsServlet;
+import webservlet.stats.graphs.util.HistogramUtils;
 
 
-public class GenericHistogram3DServlet extends AbstractGenericHistogram {
+public class GenericHistogram3DServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
@@ -38,7 +40,7 @@ public class GenericHistogram3DServlet extends AbstractGenericHistogram {
 			final String aggregateFunction) {
 		
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion==null || fieldsCategoriaDeAgrupacion[0]==null ? null:  fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
-		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
+		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
 		}
@@ -69,7 +71,7 @@ public class GenericHistogram3DServlet extends AbstractGenericHistogram {
 			}
 			List<String> periodos = new ArrayList<String>();
 			try {
-				periodos = obtenerPeriodosEjeXConEscalado(this._dataAccess, agrupacionInterna, filtro_, escalado);
+				periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, agrupacionInterna, filtro_, escalado);
 				if (periodos.size() == 0){
 					data_.setAttribute(CHART_TITLE, "No hay datos: revise si la fecha final del rango especificado es posterior a la inicial");
 					return 0;
@@ -88,11 +90,11 @@ public class GenericHistogram3DServlet extends AbstractGenericHistogram {
 					String inicioPeriodoDeAgrupacion = periodos.get(period_i);
 					String finPeriodoDeAgrupacion = "";
 					if ((period_i+1)== periodos.size()){
-						finPeriodoDeAgrupacion = nextForPeriod(inicioPeriodoDeAgrupacion);
+						finPeriodoDeAgrupacion = HistogramUtils.nextForPeriod(inicioPeriodoDeAgrupacion);
 					}else{
 						finPeriodoDeAgrupacion = periodos.get(period_i+1);
 					}
-					FieldViewSet filtroPorRangoFecha = getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
+					FieldViewSet filtroPorRangoFecha = HistogramUtils.getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
 							agrupacionInterna.getMappingTo());
 					if (clavePeticion != null) {
 						filtroPorRangoFecha.setValue(agrupacionInterna.getName(),
@@ -151,7 +153,7 @@ public class GenericHistogram3DServlet extends AbstractGenericHistogram {
 				final String plural = CommonUtils.pluralDe(itemGrafico.toLowerCase());
 								
 				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + " (" + total_formatted + "), promedio en periodo: " + 
-														media_formatted + " " + traducirEscala(escalado) + ". ");				
+														media_formatted + " " + HistogramUtils.traducirEscala(escalado) + ". ");				
 				registrosJSON.put((clavePeticion == null) ? itemGrafico : clavePeticion, subtotalPorCategoriaDeEjeX);
 			}
 

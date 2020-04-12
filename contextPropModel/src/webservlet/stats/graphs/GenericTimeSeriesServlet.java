@@ -15,9 +15,11 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
+import webservlet.stats.GenericStatsServlet;
+import webservlet.stats.graphs.util.HistogramUtils;
 
 
-public class GenericTimeSeriesServlet extends AbstractGenericHistogram {
+public class GenericTimeSeriesServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158971895179444444L;
 
@@ -43,7 +45,7 @@ public class GenericTimeSeriesServlet extends AbstractGenericHistogram {
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
-		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
+		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
 		}
@@ -65,7 +67,7 @@ public class GenericTimeSeriesServlet extends AbstractGenericHistogram {
 			
 			List<String> periodos = new ArrayList<String>();
 			try {
-				periodos = obtenerPeriodosEjeXConEscalado(this._dataAccess, fieldForAgrupacion, filtro_, escalado);
+				periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, fieldForAgrupacion, filtro_, escalado);
 			}
 			catch (DatabaseException e) {
 				e.printStackTrace();
@@ -78,11 +80,11 @@ public class GenericTimeSeriesServlet extends AbstractGenericHistogram {
 				String inicioPeriodoDeAgrupacion = periodos.get(i);
 				String finPeriodoDeAgrupacion = "";
 				if ((i+1)== periodos.size()){
-					finPeriodoDeAgrupacion = nextForPeriod(inicioPeriodoDeAgrupacion);
+					finPeriodoDeAgrupacion = HistogramUtils.nextForPeriod(inicioPeriodoDeAgrupacion);
 				}else{
 					finPeriodoDeAgrupacion = periodos.get(i+1);
 				}
-				FieldViewSet filtroPorRangoFecha = getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
+				FieldViewSet filtroPorRangoFecha = HistogramUtils.getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
 						fieldForAgrupacion.getMappingTo());				
 				try {		
 					IFieldLogic[] fieldsForGroupBy = new IFieldLogic[2];
@@ -132,7 +134,8 @@ public class GenericTimeSeriesServlet extends AbstractGenericHistogram {
 				data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else if (registrosJSON.size() == 1){
 				// el promedio por mes es:
-				data_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(valores))) + " de media " + traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
+				data_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(valores))) + " de media " + 
+						HistogramUtils.traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
 			}
 
 		} else {

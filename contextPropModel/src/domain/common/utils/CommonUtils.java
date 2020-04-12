@@ -8,17 +8,22 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 import domain.common.PCMConstants;
 import domain.service.component.IViewComponent;
+import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
+import domain.service.component.definitions.IRank;
 import domain.service.dataccess.definitions.IFieldLogic;
+import domain.service.dataccess.dto.IFieldValue;
 
 
 /**
@@ -53,6 +58,99 @@ public final class CommonUtils {
 		}//while
 		
 		return diferencia;
+	}
+	
+	public static final boolean filtroConCriteriosDeFechas(FieldViewSet filtro_) {
+		// recorremos cada field para ver si tiene value
+		Iterator<IFieldView> iteFieldViews = filtro_.getFieldViews().iterator();
+		while (iteFieldViews.hasNext()) {
+			IFieldView fView = iteFieldViews.next();
+			if (!fView.getEntityField().getAbstractField().isDate()) {
+				continue;
+			}
+			IFieldValue fValues = filtro_.getFieldvalue(fView.getQualifiedContextName());
+			if (fValues.isNull() || fValues.isEmpty()) {
+				continue;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	
+	public static final Calendar getClientFilterFromInitialDate(final FieldViewSet filter, final IFieldLogic orderField_) {
+		Calendar retornoCandidate_ = null;
+		Date retornoCandidate = null;
+		Iterator<IFieldView> iteFViews = filter.getFieldViews().iterator();
+		while (iteFViews.hasNext()) {
+			IFieldView fView = iteFViews.next();
+			if (fView.isRankField() && fView.getEntityField() != null && fView.getEntityField().getAbstractField().isDate()
+					&& fView.getQualifiedContextName().endsWith(IRank.DESDE_SUFFIX)
+					&& filter.getValue(fView.getQualifiedContextName()) != null) {
+				
+				Serializable fechaObject = filter.getValue(fView.getQualifiedContextName());
+				Date dateGot = null;
+				if (fechaObject instanceof java.lang.String){
+					try {
+						dateGot = CommonUtils.myDateFormatter.parse((String) fechaObject);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}else{
+					dateGot = (Date) fechaObject;
+				}
+				
+				retornoCandidate = retornoCandidate == null	|| retornoCandidate.after( dateGot ) ? dateGot : retornoCandidate;
+			}
+		}
+		if (retornoCandidate != null) {
+			retornoCandidate_ = Calendar.getInstance();
+			retornoCandidate_.setTime(retornoCandidate);
+		}/*else{
+			retornoCandidate_ = Calendar.getInstance();
+			Calendar initialDate = Calendar.getInstance();
+			// elegimos el aoo 1972 para intenar coger todas las posibles altas
+			initialDate.set(Calendar.YEAR, 1972);			
+			retornoCandidate_.setTime(initialDate.getTime());				
+		}*/
+		
+		return retornoCandidate_;
+	}
+
+	
+	public static final Calendar getClientFilterUntilEndDate(final FieldViewSet filter, final IFieldLogic orderField_) {
+		Calendar retornoCandidate_ = null;
+		Date retornoCandidate = null;
+		Iterator<IFieldView> iteFViews = filter.getFieldViews().iterator();
+		while (iteFViews.hasNext()) {
+			IFieldView fView = iteFViews.next();
+			if (fView.isRankField() && fView.getEntityField() != null && fView.getEntityField().getAbstractField().isDate()
+					&& fView.getQualifiedContextName().endsWith(IRank.HASTA_SUFFIX)
+					&& filter.getValue(fView.getQualifiedContextName()) != null) {
+				
+				Serializable fechaObject = filter.getValue(fView.getQualifiedContextName());
+				Date dateGot = null;
+				if (fechaObject instanceof java.lang.String){
+					try {
+						dateGot = CommonUtils.myDateFormatter.parse((String) fechaObject);
+					} catch (ParseException e) {						
+						e.printStackTrace();
+					}
+				}else{
+					dateGot = (Date) fechaObject;
+				}
+				
+				retornoCandidate = retornoCandidate == null	|| retornoCandidate.before( dateGot ) ? dateGot : retornoCandidate;
+						
+			}
+		}
+		if (retornoCandidate != null) {
+			retornoCandidate_ = Calendar.getInstance();
+			retornoCandidate_.setTime(retornoCandidate);
+		}else{
+			retornoCandidate_ = Calendar.getInstance();
+		}
+		return retornoCandidate_;
 	}
 	
 	public static final String dameNumeroRomano(final int i){

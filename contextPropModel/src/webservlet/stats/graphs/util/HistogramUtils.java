@@ -1,7 +1,7 @@
 /**
  * 
  */
-package webservlet.stats.graphs;
+package webservlet.stats.graphs.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,17 +20,13 @@ import domain.service.component.definitions.Rank;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.event.IAction;
-import webservlet.stats.GenericStatsServlet;
-
 
 /**
  * @author 99GU3997
  */
-public abstract class AbstractGenericHistogram extends GenericStatsServlet {
+public class HistogramUtils {
 	
-	private static final long serialVersionUID = 53198718957859317L;
-	
-	protected static final String ESCALADO_PARAM = "escalado";
+	public static final String ESCALADO_PARAM = "escalado";
 	
 	private static final String PATTERN_WEEKS = "[1-6][a-z]{2} [a-z]{3}'[0-9]{2}";
 	private static final String PATTERN_QUARTER = "Q[1-4]'[0-9]{2}";
@@ -39,7 +35,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 	public static final String PATTERN_DAYS = "[0-9]{2}/[0-9]{2}/[0-9]{4}";
 	private static final String PATTERN_YEARS = "[0-9]{4}";
 	
-	protected final String nextForPeriod(final String inicioPeriodoRango_) {
+	public static final String nextForPeriod(final String inicioPeriodoRango_) {
 		
 		boolean periodosSemestres = false, periodosTrimestres = false, periodosMeses = false, periodosSemanas = false, periodosDays =false, periodosAnyos = false;		
 		periodosSemestres = Pattern.matches(PATTERN_SEMESTER, inicioPeriodoRango_);
@@ -126,7 +122,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 	 * @param fecha4Periodmapping
 	 * @return
 	 */
-	protected final FieldViewSet getRangofechasFiltro(final String inicioPeriodoRango_, final String finPeriodoRango_, final FieldViewSet filtro, int fecha4Periodmapping/*, boolean isLastRange*/) {
+	public static final FieldViewSet getRangofechasFiltro(final String inicioPeriodoRango_, final String finPeriodoRango_, final FieldViewSet filtro, int fecha4Periodmapping/*, boolean isLastRange*/) {
 		
 		boolean periodosSemestres = false, periodosTrimestres = false, periodosMeses = false, periodosSemanas = false, periodosDays =false, periodosAnyos = false;		
 		periodosSemestres = Pattern.matches(PATTERN_SEMESTER, inicioPeriodoRango_);
@@ -259,7 +255,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		return filtroPorTareaApp;
 	}
 	
-	private final List<String> obtenerPeriodosPorAnyo(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_)
+	private static final List<String> obtenerPeriodosPorAnyo(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_)
 			throws DatabaseException {
 		List<String> inicio_fin_Periodo = new ArrayList<String>();
 		if (orderField_.getAbstractField().isInteger() && orderField_.getAbstractField().getMaxLength() == 4) {
@@ -287,11 +283,6 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		return inicio_fin_Periodo;
 	}
 	
-	@Override
-	protected List<String> obtenerPeriodosEjeX(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_)
-			throws DatabaseException {
-		return obtenerPeriodosEjeXConEscalado( dataAccess, orderField_,  filtro_, /*escalado*/ "automatic");
-	}
 	
 	/*** Values for this select
 	 *automatic
@@ -303,17 +294,16 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 	 *anualy
 	**/
 	
-	@Override
-	protected List<String> obtenerPeriodosEjeXConEscalado(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_, final String escalado)
+	public static List<String> obtenerPeriodosEjeXConEscalado(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_, final String escalado)
 			throws DatabaseException {
-		if (!orderField_.getAbstractField().isDate() && !filtroConCriteriosDeFechas(filtro_)) {
+		if (!orderField_.getAbstractField().isDate() && !CommonUtils.filtroConCriteriosDeFechas(filtro_)) {
 			return obtenerPeriodosPorAnyo(dataAccess, orderField_, filtro_);
 		}
 		String orderField = filtro_.getContextName().concat(PCMConstants.POINT).concat(orderField_.getName());
 		Calendar fechaCalAux = null;
 		String inicioPeriodoTotal = "", finPeriodoTotal = "";
-		Calendar fechaCalMasReciente = getClientFilterUntilEndDate(filtro_, orderField_);
-		Calendar fechaCalMasAntigua = getClientFilterFromInitialDate(filtro_, orderField_);
+		Calendar fechaCalMasReciente = CommonUtils.getClientFilterUntilEndDate(filtro_, orderField_);
+		Calendar fechaCalMasAntigua = CommonUtils.getClientFilterFromInitialDate(filtro_, orderField_);
 		if (fechaCalMasAntigua == null){
 			Map<Integer, FieldViewSet> petFirstAndLast = dataAccess.searchFirstAndLast(filtro_, new String[]{orderField}, IAction.ORDEN_ASCENDENTE);
 			fechaCalMasAntigua = Calendar.getInstance();
@@ -406,7 +396,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		
 	}
 	
-	private final String obtenerClaveDePeriodo(final String escala, final Calendar fecha){
+	private static final String obtenerClaveDePeriodo(final String escala, final Calendar fecha){
 		
 		if (escala.equals("anualy")){
 		
@@ -440,7 +430,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		
 	}
 	
-	private final String getOrdinalFromNumber(int num){
+	private static final String getOrdinalFromNumber(int num){
 		switch(num){			
 			case 1:
 				return "1st";
@@ -459,7 +449,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		}
 	}
 	
-	private final int getCardinalFromOrdinal(String num_){
+	private static final int getCardinalFromOrdinal(String num_){
 		String num = num_.replaceFirst("st", "");
 		num = num.replaceFirst("nd", "");
 		num = num.replaceFirst("rd", "");
@@ -467,7 +457,7 @@ public abstract class AbstractGenericHistogram extends GenericStatsServlet {
 		return Integer.parseInt(num);
 	}
 	
-	protected final String traducirEscala(String escala){
+	public static final String traducirEscala(String escala){
 		if (escala.equals("anualy")){
 			
 			return "por aoo";

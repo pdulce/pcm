@@ -194,13 +194,18 @@ public class TestServicios extends TestCase {
 			Assert.assertTrue(result.contains("Resultados del  &nbsp;<B>1&nbsp;</B>al &nbsp;<B>25</B>"));
 			
 			/*** TESTING OF EVENT BARCHART por 'tipo y situación' agregado: peticiones **/
+			datamap.removeParameter("currentPag");
+			datamap.removeParameter("totalPag");
+			datamap.removeParameter("totalRecords");
 			datamap.setParameter("incidenciasProyecto.Proyecto_ID", "FAMA");
-			datamap.setParameter("idPressed", "barchart1");
+			datamap.setParameter("idPressed", "histog1");
 			datamap.setParameter("barchart1.entidadGrafico", "incidenciasProyecto");
 			datamap.setParameter("barchart1.fieldForGroupBy", "26");//position in entity.xml
 			datamap.setParameter("barchart1.agregado", "28");//position in entity.xml
-			//datamap.setParameter("barchart1.fieldForGroupBy", "");
 			datamap.setParameter("barchart1.operation", "SUM");
+			/**
+			document.forms[0].action= 'Histogram3DStatsServlet';*/
+			//document.getElementById('idPressed').value='histog1'
 			
 			
 		} catch (MalformedURLException e1){

@@ -18,10 +18,12 @@ import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.comparator.ComparatorEntryWithDouble;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
+import webservlet.stats.GenericStatsServlet;
 import webservlet.stats.IStats;
+import webservlet.stats.graphs.util.HistogramUtils;
 
 
-public class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {
+public class GenericHistogramFreqChartServlet extends GenericStatsServlet {
 
 	private static final long serialVersionUID = 158971895222444444L;
 
@@ -45,7 +47,7 @@ public class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
-		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ESCALADO_PARAM));
+		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
 		}
@@ -68,7 +70,7 @@ public class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {
 					: getUserFilterWithDateType(filtro_);
 			List<String> periodos = new ArrayList<String>();
 			try {
-				periodos = obtenerPeriodosEjeXConEscalado(this._dataAccess, fieldForAgrupacion, filtro_, escalado);
+				periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, fieldForAgrupacion, filtro_, escalado);
 				if (periodos.size() == 0){
 					data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 					return 0;
@@ -84,11 +86,11 @@ public class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {
 				String inicioPeriodoDeAgrupacion = periodos.get(i);
 				String finPeriodoDeAgrupacion = "";
 				if ((i+1)== periodos.size()){
-					finPeriodoDeAgrupacion = nextForPeriod(inicioPeriodoDeAgrupacion);
+					finPeriodoDeAgrupacion = HistogramUtils.nextForPeriod(inicioPeriodoDeAgrupacion);
 				}else{
 					finPeriodoDeAgrupacion = periodos.get(i+1);
 				}
-				FieldViewSet filtroPorRangoFecha = getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
+				FieldViewSet filtroPorRangoFecha = HistogramUtils.getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
 						fieldForAgrupacion.getMappingTo());
 
 				double subTotal = 0.0;
@@ -145,7 +147,8 @@ public class GenericHistogramFreqChartServlet extends AbstractGenericHistogram {
 			}// for
 			
 			// el promedio por periodo es:
-			data_.setAttribute(CHART_TITLE, entidadTraslated + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada/ Double.valueOf(valores))) + " de media " + traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada)) + " en todo el periodo": ""));
+			data_.setAttribute(CHART_TITLE, entidadTraslated + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada/ Double.valueOf(valores))) + " de media " + 
+					HistogramUtils.traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada)) + " en todo el periodo": ""));
 
 
 		} else { // el eje X es un campo que existe, por tanto, hacemos

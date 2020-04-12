@@ -3,13 +3,9 @@
  */
 package webservlet.stats;
 
-import java.io.Serializable;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +40,7 @@ import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import domain.service.event.SceneResult;
 import webservlet.CDDWebController;
-import webservlet.stats.graphs.AbstractGenericHistogram;
+import webservlet.stats.graphs.util.HistogramUtils;
 
 /**
  * @author 99GU3997
@@ -306,16 +302,6 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 
 		return scene.getXhtml();
 	}
-
-	protected List<String> obtenerPeriodosEjeX(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_)
-			throws DatabaseException {
-		return obtenerPeriodosEjeXConEscalado( dataAccess, orderField_,  filtro_, /*escalado*/ "automatic");
-	}
-	
-	protected List<String> obtenerPeriodosEjeXConEscalado(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_, final String escalado)
-			throws DatabaseException {
-		return new ArrayList<String>();
-	}
 	
 	private String getUnits(final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String aggregateFunction, final Datamap data_){
 		String units = "";
@@ -433,79 +419,8 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return "";
 	}
 
-	protected final Calendar getClientFilterFromInitialDate(final FieldViewSet filter, final IFieldLogic orderField_) {
-		Calendar retornoCandidate_ = null;
-		Date retornoCandidate = null;
-		Iterator<IFieldView> iteFViews = filter.getFieldViews().iterator();
-		while (iteFViews.hasNext()) {
-			IFieldView fView = iteFViews.next();
-			if (fView.isRankField() && fView.getEntityField() != null && fView.getEntityField().getAbstractField().isDate()
-					&& fView.getQualifiedContextName().endsWith(IRank.DESDE_SUFFIX)
-					&& filter.getValue(fView.getQualifiedContextName()) != null) {
-				
-				Serializable fechaObject = filter.getValue(fView.getQualifiedContextName());
-				Date dateGot = null;
-				if (fechaObject instanceof java.lang.String){
-					try {
-						dateGot = CommonUtils.myDateFormatter.parse((String) fechaObject);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-				}else{
-					dateGot = (Date) fechaObject;
-				}
-				
-				retornoCandidate = retornoCandidate == null	|| retornoCandidate.after( dateGot ) ? dateGot : retornoCandidate;
-			}
-		}
-		if (retornoCandidate != null) {
-			retornoCandidate_ = Calendar.getInstance();
-			retornoCandidate_.setTime(retornoCandidate);
-		}/*else{
-			retornoCandidate_ = Calendar.getInstance();
-			Calendar initialDate = Calendar.getInstance();
-			// elegimos el aoo 1972 para intenar coger todas las posibles altas
-			initialDate.set(Calendar.YEAR, 1972);			
-			retornoCandidate_.setTime(initialDate.getTime());				
-		}*/
-		
-		return retornoCandidate_;
-	}
-
-	protected final Calendar getClientFilterUntilEndDate(final FieldViewSet filter, final IFieldLogic orderField_) {
-		Calendar retornoCandidate_ = null;
-		Date retornoCandidate = null;
-		Iterator<IFieldView> iteFViews = filter.getFieldViews().iterator();
-		while (iteFViews.hasNext()) {
-			IFieldView fView = iteFViews.next();
-			if (fView.isRankField() && fView.getEntityField() != null && fView.getEntityField().getAbstractField().isDate()
-					&& fView.getQualifiedContextName().endsWith(IRank.HASTA_SUFFIX)
-					&& filter.getValue(fView.getQualifiedContextName()) != null) {
-				
-				Serializable fechaObject = filter.getValue(fView.getQualifiedContextName());
-				Date dateGot = null;
-				if (fechaObject instanceof java.lang.String){
-					try {
-						dateGot = CommonUtils.myDateFormatter.parse((String) fechaObject);
-					} catch (ParseException e) {						
-						e.printStackTrace();
-					}
-				}else{
-					dateGot = (Date) fechaObject;
-				}
-				
-				retornoCandidate = retornoCandidate == null	|| retornoCandidate.before( dateGot ) ? dateGot : retornoCandidate;
-						
-			}
-		}
-		if (retornoCandidate != null) {
-			retornoCandidate_ = Calendar.getInstance();
-			retornoCandidate_.setTime(retornoCandidate);
-		}else{
-			retornoCandidate_ = Calendar.getInstance();
-		}
-		return retornoCandidate_;
-	}
+	
+	
 
 	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray jsArrayEjeAbcisas,
 			final Datamap data_) {
@@ -554,7 +469,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 				} else {
 					claveForEjeX += Translator.traduceDictionaryModelDefined(data_.getLanguage(), claveNMPosicion);
 				}
-				if (Pattern.matches(AbstractGenericHistogram.PATTERN_DAYS, claveForEjeX)){
+				if (Pattern.matches(HistogramUtils.PATTERN_DAYS, claveForEjeX)){
 					//elimino el anyo
 					claveForEjeX = claveForEjeX.substring(0, claveForEjeX.length() - 5);
 					claveForEjeX = Integer.parseInt(claveForEjeX.substring(0,2)) + "" + (CommonUtils.translateMonthToSpanish(Integer.parseInt(claveForEjeX.substring(3,claveForEjeX.length())))).substring(0,3);
@@ -695,23 +610,7 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return strBuffer.toString();
 	}
 
-	protected final boolean filtroConCriteriosDeFechas(FieldViewSet filtro_) {
-		// recorremos cada field para ver si tiene value
-		Iterator<IFieldView> iteFieldViews = filtro_.getFieldViews().iterator();
-		while (iteFieldViews.hasNext()) {
-			IFieldView fView = iteFieldViews.next();
-			if (!fView.getEntityField().getAbstractField().isDate()) {
-				continue;
-			}
-			IFieldValue fValues = filtro_.getFieldvalue(fView.getQualifiedContextName());
-			if (fValues.isNull() || fValues.isEmpty()) {
-				continue;
-			}
-			return true;
-		}
-		return false;
-	}
-
+	
 	protected final IFieldLogic getUserFilterWithDateType(FieldViewSet filtro_) {
 		// recorremos cada field para ver si tiene value
 		Iterator<IFieldView> iteFieldViews = filtro_.getFieldViews().iterator();
