@@ -19,7 +19,6 @@ import org.json.simple.JSONObject;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
-import domain.stats.StatsUtils;
 import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
 import domain.service.component.BodyContainer;
@@ -36,6 +35,7 @@ import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import domain.service.event.SceneResult;
+import domain.service.highcharts.utils.StatsUtils;
 
 
 public class Scatter extends GenericHighchartModel {
@@ -50,13 +50,6 @@ public class Scatter extends GenericHighchartModel {
 	private static final String TITULO_EJE_Y = "titulo_EJE_Y";
 	private static final String TOOLTIP_EJE_X = "tooltip_X";
 	private static final String TOOLTIP_EJE_Y = "tooltip_Y";
-	
-	private static final String PREFIX_NAME_OF_PARAMS = "scatterParam";
-	
-	@Override
-	protected String getParamsPrefix (){
-		return PREFIX_NAME_OF_PARAMS;
-	}
 
 
 	@Override
@@ -163,12 +156,8 @@ public class Scatter extends GenericHighchartModel {
 		try {
 			this._dataAccess = dataAccess;
 			String idPressed = data_.getParameter("idPressed");
-			String nameSpaceOfButtonFieldSet = getParamsPrefix();
+			String nameSpaceOfButtonFieldSet = idPressed;
 			String paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-			if (data_.getParameter(paramGeneric4Entity) == null){
-				nameSpaceOfButtonFieldSet = nameSpaceOfButtonFieldSet.concat(idPressed);
-				paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-			}
 			paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
 			
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
@@ -313,7 +302,7 @@ public class Scatter extends GenericHighchartModel {
 			//[[6.44,6.4,'01/01/2016','BBVA'],....[6.44,6.4,'01/01/2016','IBEX35']]
 			//Llamamos a un motodo merge que genera una lista merged a partir de dos sublistas diferenciadas por el campo Agrupador
 			if (attrDiferenciador != null){
-				String default4EjeX = data_.getParameter(getParamsPrefix().concat(".").concat("defaultEjeX"));
+				String default4EjeX = idPressed.concat(".").concat("defaultEjeX");
 				tuplas = mergeByAttr(tuplas, /*posicion del elemento agrupador, GRUPO*/3, default4EjeX);
 			}
 			

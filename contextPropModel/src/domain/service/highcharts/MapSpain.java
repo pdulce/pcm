@@ -8,30 +8,31 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import domain.stats.CodigosISOProvinciasSpain;
 import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
+import domain.service.highcharts.utils.CodigosISOProvinciasSpain;
 
 
-public class Mapchart extends GenericHighchartModel {
-
-	private static final String PREFIX_NAME_OF_PARAMS = "mapParam";
+public class MapSpain extends GenericHighchartModel {
 	
-	@Override
-	protected String getParamsPrefix (){
-		return PREFIX_NAME_OF_PARAMS;
+	private int getNumberCodeProvSpain(final String code) {
+		int total_ = 0;
+		byte[] b_ = code.getBytes();
+		for (int i=0;i<b_.length;i++) {
+			total_+= b_[i];
+		}
+		return total_%52 + 1;
 	}
-
-
+	
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
 		double sumarizadorPorRegion = 0.0, contabilizadasSSCC = 0.0;
-
+       
 		Number total = Double.valueOf(0.0);
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: valoresAgregados) {
@@ -45,8 +46,8 @@ public class Mapchart extends GenericHighchartModel {
 				Integer identificadorRegional = null;
 				if (fieldsForCategoriaDeAgrupacion[0].getAbstractField().isString()){
 					String codeMayor2Digitos = (String) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());
-					if (codeMayor2Digitos.length() > 2){
-						identificadorRegional = Integer.valueOf(codeMayor2Digitos.substring(0,2));
+					if (codeMayor2Digitos.length() > 2){//pasamos a numerico cualquier valor que no lo sea. Por ej. 'AYFL'--> '12'
+						identificadorRegional = getNumberCodeProvSpain(codeMayor2Digitos);
 					}
 				}else{
 					identificadorRegional = (Integer) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());
@@ -92,9 +93,12 @@ public class Mapchart extends GenericHighchartModel {
 		if (contabilizadasSSCC > 0) {
 			subtitle = subtitle.concat("<h4>, SSCC: <b>" + unidadesSSCC_formated + "#</b>; total: <b>" + unidadesTotales_formated
 					+ "#</b></h4>");
+		}else {
+			subtitle = subtitle.concat("<h4>, total: <b>" + unidadesTotales_formated + "#</b></h4>");
 		}
 		data_.setAttribute(TITLE_ATTR, title);
 		data_.setAttribute(SUBTILE_ATTR, subtitle);
+		data_.setAttribute("mapa", "https://code.highcharts.com/mapdata/countries/es/es-all.js");
 
 		return total.doubleValue();
 
@@ -102,7 +106,7 @@ public class Mapchart extends GenericHighchartModel {
 
 	@Override
 	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		return 700;
+		return 1000;
 	}
 
 	@SuppressWarnings("unchecked")

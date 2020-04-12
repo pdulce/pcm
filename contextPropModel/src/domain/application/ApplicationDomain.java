@@ -56,6 +56,9 @@ import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.Dualhistogram;
 import domain.service.highcharts.Histogram3D;
+import domain.service.highcharts.MapEurope;
+import domain.service.highcharts.MapSpain;
+import domain.service.highcharts.MapWorld;
 import domain.service.highcharts.Pie;
 import domain.service.highcharts.Scatter;
 import domain.service.highcharts.Spiderweb;
@@ -380,7 +383,7 @@ public class ApplicationDomain implements Serializable {
 		Iterator<String> paramNamesIte = datamap.getParameterNames().iterator();
 		while (paramNamesIte.hasNext()) {
 			String paramName = paramNamesIte.next();
-			if (paramName.contains(".".concat(IEvent.SHOW_HIGHCHARTS))) {
+			if (paramName.equals(datamap.getParameter("idPressed").concat(".").concat(IEvent.SHOW_HIGHCHARTS))) {
 				if (datamap.getParameter(paramName) != null) {
 					return paramName;
 				}
@@ -398,7 +401,13 @@ public class ApplicationDomain implements Serializable {
 			//instanciamos la clase del gráfico que coesponda
 			final String highchartStats = datamap.getParameter(highchartsParam);
 			GenericHighchartModel genericHCModel = null;
-			if (highchartStats.equals("barchart")){
+			if (highchartStats.equals("mapspain")){
+				genericHCModel = new MapSpain();
+			}else if (highchartStats.equals("mapeurope")){
+				genericHCModel = new MapEurope();
+			}else if (highchartStats.equals("mapworld")){
+				genericHCModel = new MapWorld();
+			}else if (highchartStats.equals("barchart")){
 				genericHCModel = new BarChart();
 			}else if (highchartStats.equals("histogram3D")) {
 				genericHCModel = new Histogram3D();

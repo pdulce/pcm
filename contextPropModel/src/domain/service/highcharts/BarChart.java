@@ -22,13 +22,6 @@ public class BarChart extends GenericHighchartModel {
 
 	private static final String IS_BAR_INTERNAL_LABELED = "enabledInternalNumber";
 	
-	private static final String PREFIX_NAME_OF_BARCHART_PARAMS = "barchartParam";
-	
-	@Override
-	protected String getParamsPrefix (){
-		return PREFIX_NAME_OF_BARCHART_PARAMS;
-	}
-	
 	/** convierte una lista:  List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados
 	 * 
 	 * [{pcm.context.viewmodel.definitions.FieldViewSet@b7c4a0={horas_ejecutadas_total_en_ejercicio=1207.37, horas_total_en_ejercicio=6798.0}}, 

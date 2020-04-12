@@ -21,13 +21,7 @@ import domain.service.highcharts.utils.HistogramUtils;
 
 
 public class Histogram3D extends GenericHighchartModel {
-
-	private static final String PREFIX_NAME_OF_HISTOGRAM_PARAMS = "histParam";
 		
-	@Override
-	protected String getParamsPrefix (){
-		return PREFIX_NAME_OF_HISTOGRAM_PARAMS;
-	}
 	/***El campo agregacion se coloca en el eje Z, los campos agregados son cada columna (eje X) ***/
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,

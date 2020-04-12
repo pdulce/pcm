@@ -1,22 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
    
-   <script type="text/javascript">
+ <script type="text/javascript">
 	 
-	   Highcharts.mapChart('container', {
-		    chart: {
-		        map: 'countries/es/es-all'
-		    },
-	
-		   title : {
-			   text : '<%=request.getAttribute("title")%>'
-		   },
-				
-		   subtitle : {
-			   text : '<%=request.getAttribute("subtitle")%>'
-		   },
-		        			        
-           legend: {
+   $(function () {
+	    
+	    $('#stateCode').on('change', function () {
+	        data[99].value = Number(this.value);
+	        chart = Highcharts.charts[0];
+	        chart.series[0].setData(data, true);
+	        chart.redraw();
+	    });
+	   
+	    // Initiate the chart
+	    $('#container').highcharts('Map', {
+
+	    	title : {
+				text : '<%=request.getAttribute("title")%>'
+			},
+					
+			subtitle : {
+				text : '<%=request.getAttribute("subtitle")%>'
+			},
+	        
+	        legend: {
             	title: {
                     text: '<%=request.getAttribute("units")%> <%=request.getAttribute("entidadGrafico")%>',
                     style: {
@@ -31,7 +38,7 @@
 	            itemWidth: 50,
 	            borderWidth: 1
 	        },
-	            
+
 	        mapNavigation: {
 	            enabled: true,
 	            buttonOptions: {
@@ -42,10 +49,12 @@
 	        colorAxis: {
 	            min: 0
 	        },
-	        
-	        series: [{
+
+	        series : [{
 	        	data : <%=request.getAttribute("series")%>,
-	        	name: '<%=request.getAttribute("entidadGrafico")%>',
+	            mapData: Highcharts.maps['custom/world'],
+	            joinBy: 'hc-key',
+	            name: '<%=request.getAttribute("entidadGrafico")%>',
 	            states: {
 	                hover: {
 	                    color: '#BADA55'
@@ -55,17 +64,9 @@
 	                enabled: true,
 	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("decimals")%>}'
 	            }
-	        }, {
-	            name: 'Separators',
-	            type: 'mapline',
-	            data: Highcharts.geojson(Highcharts.maps['countries/es/es-all'], 'mapline'),
-	            color: 'silver',
-	            nullColor: 'silver',
-	            showInLegend: false,
-	            enableMouseTracking: false
 	        }]
-	       
 	    });
+	});
  
- 	</script>
- 	
+</script>
+ 	 	

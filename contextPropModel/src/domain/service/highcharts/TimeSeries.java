@@ -20,8 +20,6 @@ import domain.service.highcharts.utils.HistogramUtils;
 
 public class TimeSeries extends GenericHighchartModel {
 
-	private static final String PREFIX_NAME_OF_TIMESERIES_PARAMS = "timeSeries";
-	
 	private static final String SECOND_AGRUPATE= "fieldVerticalForGroupBy";
 	
 	private static final String LOGARITHMIC_SCALE = "LOG";//, ARITMETHIC_SCALE = "ARIT";
@@ -30,10 +28,6 @@ public class TimeSeries extends GenericHighchartModel {
 		return LOGARITHMIC_SCALE.equals(scaleParamValue);
 	}
 	
-	@Override
-	protected String getParamsPrefix (){
-		return PREFIX_NAME_OF_TIMESERIES_PARAMS;
-	}
 
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,

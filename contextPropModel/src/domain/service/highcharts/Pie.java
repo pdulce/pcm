@@ -23,13 +23,6 @@ import domain.service.event.IAction;
 
 public class Pie extends GenericHighchartModel {
 
-	private static final String PREFIX_NAME_OF_PARAMS = "piechartParam";
-	
-	@Override
-	protected String getParamsPrefix (){
-		return PREFIX_NAME_OF_PARAMS;
-	}
-
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,

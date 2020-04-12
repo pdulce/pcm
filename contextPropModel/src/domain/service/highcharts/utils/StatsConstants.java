@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain.stats;
+package domain.service.highcharts.utils;
 
 /**
  * @author 99GU3997

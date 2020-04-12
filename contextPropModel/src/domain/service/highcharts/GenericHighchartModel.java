@@ -48,8 +48,6 @@ public abstract class GenericHighchartModel implements IStats {
 
 	protected IDataAccess _dataAccess;
 	
-	protected abstract String getParamsPrefix();
-		
 	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction);
@@ -97,19 +95,6 @@ public abstract class GenericHighchartModel implements IStats {
 			String idPressed = data_.getParameter("idPressed");
 			String nameSpaceOfButtonFieldSet = idPressed;
 			String paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-			if (data_.getParameter(paramGeneric4Entity) == null){
-				nameSpaceOfButtonFieldSet = getParamsPrefix().concat(idPressed);
-				paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-				paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
-				if (paramGeneric4Entity == null){
-					nameSpaceOfButtonFieldSet = getParamsPrefix();
-					paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-					paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
-					if (paramGeneric4Entity == null){
-						throw new Exception("Error de design: debe coincidir el atributo id del 'button' con el del atributo nameSpace del 'fieldViewSet'");
-					}
-				}
-			}
 			paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
 			
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),

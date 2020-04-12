@@ -1,7 +1,7 @@
 /**
  * 
  */
-package domain.stats;
+package domain.service.highcharts.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

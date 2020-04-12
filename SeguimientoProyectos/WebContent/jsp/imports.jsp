@@ -26,20 +26,23 @@
 <script type="text/javascript" src="js/folder-tree-static.js"></script>
 <script type="text/javascript" src="js/external/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/external/jquery-collapsible-fieldset.js"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="https://code.highcharts.com/highcharts-3d.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-<%	if (request.getAttribute("spainmap") != null) {	%>
-		<script src="https://code.highcharts.com/mapdata/countries/es/es-all.js"></script>
-		<script src="https://code.highcharts.com/highmaps.js"></script>
-		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<%	if (request.getAttribute("mapa") != null) {	%>
+		
+	<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+	<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+	<script src="<%=request.getAttribute("mapa")%>"></script>
 <%
-	}
+	}else {
 %>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<%  }%>
 
 <!-- script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
 <script src="https://code.highcharts.com/mapdata/custom/europe.js"></script>

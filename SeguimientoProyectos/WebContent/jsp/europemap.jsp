@@ -5,7 +5,7 @@
 	 
 	   Highcharts.mapChart('container', {
 		    chart: {
-		        map: 'countries/es/es-all'
+		        map: 'custom/europe'
 		    },
 	
 		   title : {
@@ -46,25 +46,17 @@
 	        series: [{
 	        	data : <%=request.getAttribute("series")%>,
 	        	name: '<%=request.getAttribute("entidadGrafico")%>',
-	            states: {
-	                hover: {
-	                    color: '#BADA55'
-	                }
-	            },
-	            dataLabels: {
-	                enabled: true,
-	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("decimals")%>}'
-	            }
-	        }, {
-	            name: 'Separators',
-	            type: 'mapline',
-	            data: Highcharts.geojson(Highcharts.maps['countries/es/es-all'], 'mapline'),
-	            color: 'silver',
-	            nullColor: 'silver',
-	            showInLegend: false,
-	            enableMouseTracking: false
-	        }]
-	       
+	        	 states: {
+	                 hover: {
+	                     color: '#BADA55'
+	                 }
+	             },
+	             dataLabels: {
+	                 enabled: true,
+	                 format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("decimals")%>}'
+	             }
+	         }]
+	            
 	    });
  
  	</script>

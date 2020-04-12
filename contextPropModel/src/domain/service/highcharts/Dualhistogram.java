@@ -27,14 +27,6 @@ public class Dualhistogram extends GenericHighchartModel {
 
 	protected static final String FREQ_ACUMULATED = "frecAcum";
 	
-	private static final String PREFIX_NAME_OF_HISTOGRAM_PARAMS = "histDualParam";
-	
-	@Override
-	protected String getParamsPrefix (){
-		return PREFIX_NAME_OF_HISTOGRAM_PARAMS;
-	}
-
-
 	@SuppressWarnings("unchecked")
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
