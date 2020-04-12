@@ -206,9 +206,10 @@
 				
 					<userbuttons>
 
-						<button link="BarChartStatsServlet" id="barchart1"
+						<button link="prjManager" id="barchart1"
 							name="Barchart">
 							<fieldViewSet nameSpace="barchart1">
+								<fieldView name="highchart" hidden="true" value="barchart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorColaborador"/>
 								<fieldView name="filteredByField" hidden="true" value="4=colaborador.1;2=filtroStats.anyo;3=filtroStats.mes"/>
 								<fieldView name="orderBy" hidden="true" value="2"/>							
@@ -239,6 +240,7 @@
 						<button	link="Histogram3DStatsServlet" id="histParam" 
 							name="Histogram" >
 							<fieldViewSet nameSpace="histParam">
+								<fieldView name="highchart" hidden="true" value="dualhistogram"/>
 								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorColaborador"/>
 								<fieldView name="filteredByField" hidden="true" value="4=colaborador.1;2=filtroStats.anyo;3=filtroStats.mes"/>
 								<fieldView name="orderBy" hidden="true" value="2"/>							
@@ -266,9 +268,10 @@
 							</fieldViewSet>
 						</button>
 						
-						<button link="PieChartStatsServlet" id="piechartParam"
+						<button link="prjManager" id="piechartParam"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechartParam">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorColaborador"/>
 								<fieldView name="filteredByField" hidden="true" value="4=colaborador.1;2=filtroStats.anyo;3=filtroStats.mes"/>
 								<fieldView name="orderBy" hidden="true" value="2"/>							

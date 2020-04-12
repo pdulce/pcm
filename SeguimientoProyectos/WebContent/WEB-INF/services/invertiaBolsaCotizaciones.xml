@@ -19,6 +19,7 @@
 						link="Histogram3DStatsServlet"
 						id="hist1" name="Histogram" onClick="if (document.getElementById('histParam.agregado').selectedIndex ==2){ document.getElementById('histParam.operation').value='SUM';}else{document.getElementById('histParam.operation').value='AVG';}">
 						<fieldViewSet nameSpace="hist1">
+							<fieldView name="highchart" hidden="true" value="histogram3D"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
 									<option code="-1" title="tiempo" selected="true"></option><!-- 30 -->
@@ -54,6 +55,7 @@
 						link="TimeSeriesServlet"
 						id="timeSeries1" name="TimeSeries" onClick="if (document.getElementById('timeSeries.agregado').selectedIndex ==2){ document.getElementById('timeSeries.operation').value='SUM';}else{document.getElementById('timeSeries.operation').value='AVG';}">
 						<fieldViewSet nameSpace="timeSeries1">
+							<fieldView name="highchart" hidden="true" value="timeseries"/>
 							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="4" title="cotizac. med." selected="true"></option>
@@ -87,9 +89,10 @@
 					</button>
 					
 					
-					<button link="BarChartStatsServlet" id="barchart12"
+					<button link="prjManager" id="barchart12"
 						name="Barchart" onClick="if (document.getElementById('barchartParam.agregado').selectedIndex ==2){ document.getElementById('barchartParam.operation').value='SUM';}else{document.getElementById('barchartParam.operation').value='AVG';}">
 						<fieldViewSet nameSpace="barchart12">
+							<fieldView name="highchart" hidden="true" value="barchart"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
 									<option code="2" title="grupo" selected="true"></option>
@@ -108,9 +111,10 @@
 						</fieldViewSet>
 					</button>
 										
-					<button link="HistogramDualAxisServlet" id="histDualParam"
+					<button link="prjManager" id="histDualParam"
 						name="Frequency">						
 						<fieldViewSet nameSpace="histDualParam">
+							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
 							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="4" title="cotizac. med." selected="true"></option>									
@@ -134,9 +138,10 @@
 						</fieldViewSet>
 					</button>
 										
-					<button link="ScatterStatsServlet" id="scatterParam"
+					<button link="prjManager" id="scatterParam"
 						name="Correlation">
 						<fieldViewSet nameSpace="scatterParam">
+							<fieldView name="highchart" hidden="true" value="scatter"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>
 							<fieldView name="ejeX" type="select">
 								<optionValues>

@@ -18,8 +18,7 @@
 				
 				<userbuttons>
 				
-					<button
-						link="prjManager" id="histog1" name="Histogram" >
+					<button	link="prjManager" id="histog1" name="Histogram" >
 						<fieldViewSet nameSpace="histog1">
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
 							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>

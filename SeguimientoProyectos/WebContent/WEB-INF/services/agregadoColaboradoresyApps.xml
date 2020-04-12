@@ -15,9 +15,10 @@ xmlns:service="http://pcm.framework.org/service"
 				<form columns="53" title="Imputado por aplicacion">
 					
 					<userbuttons>
-						<button link="PieChartStatsServlet" id="piechart"
+						<button	link="prjManager" id="piechart"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechart">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorColaboradoryApp"/>
 								<fieldView name="filteredByField" hidden="true" value="6=facturacionMesPorApp.1"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							

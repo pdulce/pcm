@@ -173,6 +173,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<button	link="Histogram3DStatsServlet" id="histParam1" 
 							name="Histogram" >
 							<fieldViewSet nameSpace="histParam1">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
 								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							
@@ -200,9 +201,10 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
-						<button link="PieChartStatsServlet" id="piechartParam2"
+						<button link="prjManager" id="piechartParam2"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechartParam2">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
 								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							
@@ -233,10 +235,11 @@ xmlns:service="http://pcm.framework.org/service"
 						<button	link="Histogram3DStatsServlet" id="histParam3" 
 								name="Histogram" >
 							<fieldViewSet nameSpace="histParam3">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
-							<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
-							<fieldView name="orderBy" hidden="true" value="3"/>							
-							<fieldView name="fieldForGroupBy" type="select" editable="false">
+								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select" editable="false">
 								<optionValues>
 									<option code="3" title="anualidad" selected="true"></option>					
 								</optionValues>
@@ -257,6 +260,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<button	link="Histogram3DStatsServlet" id="histParam4" 
 								name="Histogram" >
 							<fieldViewSet nameSpace="histParam4">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
 								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							
@@ -282,9 +286,10 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 															
-						<button link="PieChartStatsServlet" id="piechartParam5"
+						<button link="prjManager" id="piechartParam5"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechartParam5">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
 								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							
@@ -306,9 +311,10 @@ xmlns:service="http://pcm.framework.org/service"
 						</fieldViewSet>
 					</button>
 					
-						<button link="PieChartStatsServlet" id="piechartParam6"
+						<button link="prjManager" id="piechartParam6"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechartParam6">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_anualidad"/>
 								<fieldView name="filteredByField" hidden="true" value="2=datos_prevision_contrato.1"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							

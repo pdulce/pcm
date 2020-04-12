@@ -110,9 +110,10 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 
-						<button link="BarChartStatsServlet" id="barchartParam1"
+						<button link="prjManager" id="barchartParam1"
 							name="Barchart">
 							<fieldViewSet nameSpace="barchartParam1">
+								<fieldView name="highchart" hidden="true" value="barchart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorServicio"/>
 								<fieldView name="filteredByField" hidden="true" value="5=servicio.1;2=filtroStats.anyo;3=filtroStats.mes"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							
@@ -137,6 +138,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<button	link="Histogram3DStatsServlet" id="histParam2" 
 							name="Histogram" >
 							<fieldViewSet nameSpace="histParam2">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorServicio"/>
 								<fieldView name="filteredByField" hidden="true" value="5=servicio.1;2=filtroStats.anyo;3=filtroStats.mes"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							
@@ -158,9 +160,10 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
-						<button link="PieChartStatsServlet" id="piechartParam3"
+						<button link="prjManager" id="piechartParam3"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechartParam3">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorServicio"/>
 								<fieldView name="filteredByField" hidden="true" value="5=servicio.1;2=filtroStats.anyo;3=filtroStats.mes"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>							

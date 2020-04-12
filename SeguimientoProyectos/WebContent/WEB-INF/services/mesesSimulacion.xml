@@ -17,7 +17,8 @@ xmlns:service="http://pcm.framework.org/service"
 					<userbuttons>
 						<button	link="Histogram3DStatsServlet"	id="histParam1" 
 							name="Histogram" >
-							<fieldViewSet nameSpace="histParam1">						
+							<fieldViewSet nameSpace="histParam1">	
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>					
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>								
 								<fieldView name="fieldForGroupBy" hidden="true" value="3"/>
@@ -40,9 +41,10 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
-						<button link="PieChartStatsServlet" id="piechartParam2"
+						<button link="prjManager" id="piechartParam2"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechartParam2">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resultado_prevision_mes"/>
 								<fieldView name="orderBy" hidden="true" value="3"/>								
 								<fieldView name="fieldForGroupBy" hidden="true" value="3"/>
