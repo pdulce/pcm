@@ -315,19 +315,20 @@ public class CDDWebController extends HttpServlet {
 		}
 
 		try {
-			String innerContent_ = "";
-			if (!isJsonResult()){
+			String bodyContent = "";
+			if (externalLaunch()){
+				bodyContent = renderRequest(datamap);
+			}else {
 				String escenarioTraducido = this.contextApp.getTitleOfAction(datamap.getService(), datamap.getEvent());
-				innerContent_ = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
-			}else{
-				innerContent_ = renderRequestFromNodePrv(this.contextApp, datamap);
+				bodyContent = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
 			}
 			
 			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), datamap, startingApp);
 			datamap.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 			datamap.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
-			datamap.setAttribute(BODY, innerContent_ != null && !"".equals(innerContent_)? innerContent_.toString() : "");
+			datamap.setAttribute(BODY, bodyContent != null && !"".equals(bodyContent)? bodyContent.toString() : "");
 			
+			/** DATAMAP TO HTTPREQUEST **/
 			transferDatabusToHttpRequest(datamap, httpRequest);
 			
 			this.webconfig.getServletContext().getRequestDispatcher(this.contextApp.getResourcesConfiguration().
@@ -338,12 +339,13 @@ public class CDDWebController extends HttpServlet {
 		}
 	}
 	
-	protected boolean isJsonResult(){
+	protected String renderRequest(final Datamap data_) {
+		return "";
+	}
+	
+	protected boolean externalLaunch() {
 		return false;
 	}
 	
-	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Datamap data_) {
-		return "";
-	}
 	
 }

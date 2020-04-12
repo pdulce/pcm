@@ -1,7 +1,7 @@
 /**
  * 
  */
-package webservlet.stats;
+package domain.service.highcharts;
 
 /**
  * @author 99GU3997

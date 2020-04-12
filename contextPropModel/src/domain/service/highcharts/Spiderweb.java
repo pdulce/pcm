@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,12 +16,9 @@ import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
-import webservlet.stats.GenericStatsServlet;
 
 
-public class GenericSpiderChartServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 158970004444L;
+public class Spiderweb extends GenericHighchartModel {
 
 	protected static final String JSON_OBJECT = "series";
 

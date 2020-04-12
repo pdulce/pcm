@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,13 +17,10 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
-import webservlet.stats.GenericStatsServlet;
-import webservlet.stats.graphs.util.HistogramUtils;
+import domain.service.highcharts.utils.HistogramUtils;
 
 
-public class GenericHistogram3DServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 158971895179444444L;
+public class Histogram3D extends GenericHighchartModel {
 
 	protected static final String JSON_OBJECT = "series";
 

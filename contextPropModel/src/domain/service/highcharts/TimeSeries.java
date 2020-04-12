@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,13 +15,10 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import webservlet.stats.GenericStatsServlet;
-import webservlet.stats.graphs.util.HistogramUtils;
+import domain.service.highcharts.utils.HistogramUtils;
 
 
-public class GenericTimeSeriesServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 158971895179444444L;
+public class TimeSeries extends GenericHighchartModel {
 
 	protected static final String JSON_OBJECT = "series";
 

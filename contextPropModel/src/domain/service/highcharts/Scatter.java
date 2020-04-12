@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -17,10 +17,8 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import domain.application.ApplicationDomain;
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.PCMConfigurationException;
 import domain.stats.StatsUtils;
 import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
@@ -38,12 +36,9 @@ import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import domain.service.event.SceneResult;
-import webservlet.stats.GenericStatsServlet;
 
 
-public class GenericScatterChartServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 158971895179444444L;
+public class Scatter extends GenericHighchartModel {
 
 	protected static final String CATEGORIA_EJE_X = "ejeX";
 	
@@ -161,18 +156,8 @@ public class GenericScatterChartServlet extends GenericStatsServlet {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Datamap data_) {
+	public String generateStatGraphModel(final IDataAccess dataAccess, DomainService domainService, final Datamap data_) {
 		
-		IDataAccess dataAccess = null;
-		DomainService domainService = null;
-		try {
-			domainService = contextApp.getDomainService(data_.getService());
-			Collection<String> conditions = domainService.extractStrategiesElementByAction(data_.getEvent()); ;
-			Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(data_.getEvent());
-			dataAccess = contextApp.getDataAccess(domainService, conditions, preconditions);
-		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error creating DataAccess object", e);
-		}
 		SceneResult scene = new SceneResult();
 		long mills1 = Calendar.getInstance().getTimeInMillis();
 		FieldViewSet filtro_ = null;

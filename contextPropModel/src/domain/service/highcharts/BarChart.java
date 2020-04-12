@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,13 +16,9 @@ import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import domain.service.event.IAction;
-import webservlet.stats.GenericStatsServlet;
 
 
-public class GenericBarChartServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 158971895179444444L;
+public class BarChart extends GenericHighchartModel {
 
 	private static final String JSON_OBJECT = "series";
 
@@ -309,33 +305,6 @@ public class GenericBarChartServlet extends GenericStatsServlet {
 		return total_.doubleValue();
 	}
 	
-
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro) {
-		List<FieldViewSet> collec = new ArrayList<FieldViewSet>();
-		int numberOfcategories = 3;
-		try {
-			collec = this._dataAccess.selectWithDistinct(filtro, field4Agrupacion.getMappingTo(), IAction.ORDEN_ASCENDENTE);
-			numberOfcategories = collec.size();
-		}
-		catch (DatabaseException e) {			
-			e.printStackTrace();
-			return -1;
-		}
-		int height = 500;
-		if (numberOfcategories > 3 && numberOfcategories <= 10) {
-			height = 530;
-		} else if (numberOfcategories > 10 && numberOfcategories <= 15) {
-			height = 560;
-		} else if (numberOfcategories > 15 && numberOfcategories <= 20) {
-			height = 590;
-		} else if (numberOfcategories > 20 && numberOfcategories <= 30) {
-			height = 620;
-		} else if (numberOfcategories > 30) {
-			height = 650;
-		}
-		return height;
-	}
 
 	@Override
 	public String getScreenRendername() {

@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,14 +18,10 @@ import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.comparator.ComparatorEntryWithDouble;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import webservlet.stats.GenericStatsServlet;
-import webservlet.stats.IStats;
-import webservlet.stats.graphs.util.HistogramUtils;
+import domain.service.highcharts.utils.HistogramUtils;
 
 
-public class GenericHistogramFreqChartServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 158971895222444444L;
+public class Dualhistogram extends GenericHighchartModel {
 
 	protected static final String JSON_OBJECT = "series";
 

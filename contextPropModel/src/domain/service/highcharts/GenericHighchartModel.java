@@ -1,7 +1,7 @@
 /**
  * 
  */
-package webservlet.stats;
+package domain.service.highcharts;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,10 +14,8 @@ import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import domain.application.ApplicationDomain;
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.PCMConfigurationException;
 import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
 import domain.service.component.BodyContainer;
@@ -39,16 +37,13 @@ import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
 import domain.service.event.SceneResult;
-import webservlet.CDDWebController;
-import webservlet.stats.graphs.util.HistogramUtils;
+import domain.service.highcharts.utils.HistogramUtils;
 
 /**
  * @author 99GU3997
  */
-public abstract class GenericStatsServlet extends CDDWebController implements IStats {
-	
-	private static final long serialVersionUID = 51879137981579L;
-	
+public abstract class GenericHighchartModel implements IStats {
+		
 	private static final String CONTAINER = "container";
 
 	protected IDataAccess _dataAccess;
@@ -90,20 +85,8 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return posicionMasPosterior;			
 	}
 	
-	@Override
-	protected String renderRequestFromNodePrv(final ApplicationDomain contextApp, final Datamap data_) {
-		
-		IDataAccess dataAccess = null;
-		DomainService domainService = null;
-		try {
-			domainService = contextApp.getDomainService(data_.getService());
-			Collection<String> conditions = domainService.extractStrategiesElementByAction(data_.getEvent()); ;
-			Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(data_.getEvent());
-			dataAccess = contextApp.getDataAccess(domainService, conditions, preconditions);
-		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error creating DataAccess object", e);
-		}
-		
+	public String generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap data_) {
+
 		//long mills1 = Calendar.getInstance().getTimeInMillis();
 		SceneResult scene = new SceneResult();
 		try {
@@ -395,15 +378,33 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}
 
-	@Override
-	public String getServletInfo() {
-		return "Short description";
+	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro) {
+		List<FieldViewSet> collec = new ArrayList<FieldViewSet>();
+		int numberOfcategories = 3;
+		try {
+			collec = this._dataAccess.selectWithDistinct(filtro, field4Agrupacion.getMappingTo(), IAction.ORDEN_ASCENDENTE);
+			numberOfcategories = collec.size();
+		}
+		catch (DatabaseException e) {			
+			e.printStackTrace();
+			return -1;
+		}
+		int height = 500;
+		if (numberOfcategories > 3 && numberOfcategories <= 10) {
+			height = 530;
+		} else if (numberOfcategories > 10 && numberOfcategories <= 15) {
+			height = 560;
+		} else if (numberOfcategories > 15 && numberOfcategories <= 20) {
+			height = 590;
+		} else if (numberOfcategories > 20 && numberOfcategories <= 30) {
+			height = 620;
+		} else if (numberOfcategories > 30) {
+			height = 650;
+		}
+		return height;
 	}
-
-	protected abstract int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro); 
-
 	protected int getWidth() {
-		return 1300;
+		return 980;
 	}
 
 	protected boolean is3D() {
@@ -500,16 +501,6 @@ public abstract class GenericStatsServlet extends CDDWebController implements IS
 		return seriesJSON.toJSONString();
 	}
 	
-	/***
-	private final List<Number> dividir(List<Number> ocurrencias){
-		List<Number> listaOcurrencias2 = new ArrayList<Number>();
-		int sizeOfL = ocurrencias.size();
-		for (int i = 0; i < sizeOfL; i++) {
-			listaOcurrencias2.add(ocurrencias.get(i).doubleValue()*1.02);
-		}
-		return listaOcurrencias2;
-	}
-	****/
 	
 	protected final String pintarCriterios(FieldViewSet filtro_, final Datamap data_) {
 		StringBuilder strBuffer = new StringBuilder();

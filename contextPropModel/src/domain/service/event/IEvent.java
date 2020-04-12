@@ -11,7 +11,9 @@ package domain.service.event;
  */
 
 public interface IEvent {
-
+	
+	public final static String SHOW_HIGHCHARTS = "highchart";
+	
 	public final static String DETAIL = "detail";
 
 	public final static String RETURN_BACK = "returnBack";

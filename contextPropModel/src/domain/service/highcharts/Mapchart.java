@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,12 +13,9 @@ import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import webservlet.stats.GenericStatsServlet;
 
 
-public class GenericMapStatsServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 1589713223323L;
+public class Mapchart extends GenericHighchartModel {
 
 	private static final String JSON_OBJECT = "series";
 

@@ -1,109 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>sg</display-name>
 	<servlet>
 		<servlet-name>PrincipalServlet</servlet-name>
 		<servlet-class>webservlet.CDDWebController</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>LauncherServlet</servlet-name>
 		<servlet-class>facturacionUte.servlets.LauncherServlet</servlet-class>
 	</servlet>
-	
-	<!-- servlets que renderizan diagramas de los datos de FacTUTE-->
-	<servlet>
-		<servlet-name>Histogram3DStatsServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MyHistogram3DStatsServlet</servlet-class>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>TimeSeriesServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MyTimeSeriesServlet</servlet-class>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>HistogramDualAxisServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MyHistogramDualBarChartStatsServlet</servlet-class>
-	</servlet>
-		<servlet>
-		<servlet-name>SpiderWebStatsServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MySpiderWebStatsServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>ScatterStatsServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MyScatterChartStatsServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>PieChartStatsServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MyPieChartStatsServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>BarChartStatsServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MyBarChartStatsServlet</servlet-class>
-	</servlet>
-		<servlet>
-		<servlet-name>MyMapStatsServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.diagramas.MyMapStatsServlet</servlet-class>
-	</servlet>
-	
+
+
 	<!-- mappings servlets -->
-	
 	<servlet-mapping>
 		<servlet-name>PrincipalServlet</servlet-name>
 		<url-pattern>/prjManager</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>LauncherServlet</servlet-name>
 		<url-pattern>/LauncherUtility</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>TimeSeriesServlet</servlet-name>
-		<url-pattern>/TimeSeriesServlet</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>Histogram3DStatsServlet</servlet-name>
-		<url-pattern>/Histogram3DStatsServlet</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>HistogramDualAxisServlet</servlet-name>
-		<url-pattern>/HistogramDualAxisServlet</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>MyMapStatsServlet</servlet-name>
-		<url-pattern>/MapStatsServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ScatterStatsServlet</servlet-name>
-		<url-pattern>/ScatterStatsServlet</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>PieChartStatsServlet</servlet-name>
-		<url-pattern>/PieChartStatsServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>SpiderWebStatsServlet</servlet-name>
-		<url-pattern>/SpiderWebStatsServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>BarChartStatsServlet</servlet-name>
-		<url-pattern>/BarChartStatsServlet</url-pattern>
-	</servlet-mapping>
-		
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-	</welcome-file-list>	
-		
-	
+	</welcome-file-list>
+
+
 </web-app>

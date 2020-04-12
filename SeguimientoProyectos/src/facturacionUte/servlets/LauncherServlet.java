@@ -84,13 +84,18 @@ public class LauncherServlet extends CDDWebController {
 	protected void doGet(final HttpServletRequest data, final HttpServletResponse response) throws ServletException, IOException {
 		super.doGet(data, response);
 	}
+	
+	@Override
+	protected boolean externalLaunch() {
+		return true;
+	}
 
 	@Override
-	protected String renderRequestFromNodePrv(final ApplicationDomain context, final Datamap data_) {
+	protected String renderRequest(final Datamap data_) {
 		
 		IDataAccess dataAccess = null;
 		try {
-			dataAccess = contextApp.getDataAccess(context.getDomainService(data_.getService()), 
+			dataAccess = contextApp.getDataAccess(contextApp.getDomainService(data_.getService()), 
 					new ArrayList<String>(), new ArrayList<String>());
 		} catch (PCMConfigurationException e) {
 			throw new RuntimeException("Error creating DataAccess object", e);

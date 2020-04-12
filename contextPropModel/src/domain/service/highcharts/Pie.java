@@ -1,4 +1,4 @@
-package webservlet.stats.graphs;
+package domain.service.highcharts;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,12 +19,9 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IAction;
-import webservlet.stats.GenericStatsServlet;
 
 
-public class GenericPieChartServlet extends GenericStatsServlet {
-
-	private static final long serialVersionUID = 158971895179444444L;
+public class Pie extends GenericHighchartModel {
 
 	private static final String JSON_OBJECT = "series";
 	

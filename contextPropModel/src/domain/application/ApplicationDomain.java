@@ -53,6 +53,13 @@ import domain.service.event.AbstractAction;
 import domain.service.event.IAction;
 import domain.service.event.IEvent;
 import domain.service.event.SceneResult;
+import domain.service.highcharts.BarChart;
+import domain.service.highcharts.Dualhistogram;
+import domain.service.highcharts.Histogram3D;
+import domain.service.highcharts.Pie;
+import domain.service.highcharts.Scatter;
+import domain.service.highcharts.Spiderweb;
+import domain.service.highcharts.GenericHighchartModel;
 
 public class ApplicationDomain implements Serializable {
 
@@ -365,12 +372,50 @@ public class ApplicationDomain implements Serializable {
 		return htmlOutput.toString();
 	}
 	
+	private String getHighchartRequest(final Datamap datamap) {
+		Iterator<String> paramNamesIte = datamap.getParameterNames().iterator();
+		while (paramNamesIte.hasNext()) {
+			String paramName = paramNamesIte.next();
+			if (paramName.contains(IEvent.SHOW_HIGHCHARTS)) {
+				return paramName;
+			}
+		}
+		return null;
+	}
+	
 	public String launch(final Datamap datamap, final boolean eventSubmitted, final String escenarioTraducido) 
 			throws PcmException {
-		
+		String highchartsParam = "";
 		if (EVENTO_CONFIGURATION.equals(datamap.getParameter(EXEC_PARAM))) {	
 			return paintConfiguration(datamap);
+		}else if ((highchartsParam = getHighchartRequest(datamap)) != null) {	
+			//instanciamos la clase del gráfico que coesponda
+			final String highchartStats = datamap.getParameter(highchartsParam);
+			GenericHighchartModel genericHCModel = null;
+			if (highchartStats.equals("barchart")){
+				genericHCModel = new BarChart();
+			}else if (highchartStats.equals("histogram3D")) {
+				genericHCModel = new Histogram3D();
+			}else if (highchartStats.equals("piechart")) {
+				genericHCModel = new Pie();
+			}else if (highchartStats.equals("spiderweb")) {
+				genericHCModel = new Spiderweb();
+			}else if (highchartStats.equals("dualhistogram")) {
+				genericHCModel = new Dualhistogram();
+			}else if (highchartStats.equals("scatter")) {
+				genericHCModel = new Scatter();
+			}
+			try {
+				DomainService domainService = getDomainService(datamap.getService());
+				Collection<String> conditions = domainService.extractStrategiesElementByAction(datamap.getEvent()); ;
+				Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
+				IDataAccess dataAccess = getDataAccess(domainService, conditions, preconditions);
+				return genericHCModel.generateStatGraphModel(dataAccess, domainService, datamap);
+			} catch (PCMConfigurationException e) {
+				throw new RuntimeException("Error creating DataAccess object", e);
+			}
 		}
+		
 		IDataAccess dataAccess_ = null;
 		try {
 			StringBuilder innerContent_ = new StringBuilder();
