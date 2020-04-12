@@ -16,6 +16,9 @@ import domain.service.highcharts.utils.CodigosISOEurpeanCountries;
 public class MapEurope extends MapSpain {
 	
 	protected String getAleatoryNameForRegion(final String code) {
+		if (CodigosISOEurpeanCountries.isoEuropeanCodes.get(code) != null) {
+			return CodigosISOEurpeanCountries.isoEuropeanCodes.get(code);
+		}
 		int total_ = 0;
 		byte[] b_ = code.getBytes();
 		for (int i=0;i<b_.length;i++) {

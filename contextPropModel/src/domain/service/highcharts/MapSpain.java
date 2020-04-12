@@ -1,5 +1,6 @@
 package domain.service.highcharts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,18 +13,26 @@ import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
+import domain.service.highcharts.utils.CodigosISOEurpeanCountries;
 import domain.service.highcharts.utils.CodigosISOProvinciasSpain;
 
 
 public class MapSpain extends GenericHighchartModel {
 	
-	private int getNumberCodeProvSpain(final String code) {
+	private String getAleatoryNameForRegion(final String code) {
+		if (CodigosISOProvinciasSpain.provinciasCodes.get(code) != null) {
+			return CodigosISOProvinciasSpain.provinciasCodes.get(code);
+		}
 		int total_ = 0;
 		byte[] b_ = code.getBytes();
 		for (int i=0;i<b_.length;i++) {
 			total_+= b_[i];
 		}
-		return total_%52 + 1;
+		int index = total_%CodigosISOProvinciasSpain.provinciasCodes.size();
+		List<String> coleccionRegiones = new ArrayList<String>();
+		coleccionRegiones.addAll(CodigosISOProvinciasSpain.provinciasCodes.keySet());
+		String nombreRegion = coleccionRegiones.get(index);
+		return CodigosISOEurpeanCountries.isoEuropeanCodes.get(nombreRegion);
 	}
 	
 	@Override
@@ -43,27 +52,14 @@ public class MapSpain extends GenericHighchartModel {
 				if (!categoriaFieldSet.getEntityDef().getName().equals(fieldsForCategoriaDeAgrupacion[0].getEntityDef().getName())) {
 					continue;
 				}
-				Integer identificadorRegional = null;
-				if (fieldsForCategoriaDeAgrupacion[0].getAbstractField().isString()){
-					String codeMayor2Digitos = (String) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());
-					if (codeMayor2Digitos.length() > 2){//pasamos a numerico cualquier valor que no lo sea. Por ej. 'AYFL'--> '12'
-						identificadorRegional = getNumberCodeProvSpain(codeMayor2Digitos);
-					}
-				}else{
-					identificadorRegional = (Integer) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());
-				}
-				String regionCodeISO = CodigosISOProvinciasSpain.provinciasCodes.get(identificadorRegional);
+				String identificadorRegional = categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName()).toString();
+				String regionCodeISO = getAleatoryNameForRegion(identificadorRegional);
 				double subTotalPorRegion = registroTotalizado.values().iterator().next().values().iterator().next().doubleValue();
-				if (identificadorRegional == null){
-					return -99999;
-				}
-				if (identificadorRegional.intValue() == CodigosISOProvinciasSpain.SSCC) {
+				if (identificadorRegional.equals(CodigosISOProvinciasSpain.SSCC)) {
 					contabilizadasSSCC = Double.valueOf(subTotalPorRegion).doubleValue();
 					continue;
 				}
-
 				sumarizadorPorRegion += subTotalPorRegion;
-
 				agregadosPorRegion.put(regionCodeISO, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorRegion)));
 				break;
 			}
