@@ -22,8 +22,6 @@ import domain.service.highcharts.utils.HistogramUtils;
 
 public class Histogram3D extends GenericHighchartModel {
 
-	protected static final String JSON_OBJECT = "series";
-
 	private static final String PREFIX_NAME_OF_HISTOGRAM_PARAMS = "histParam";
 		
 	@Override

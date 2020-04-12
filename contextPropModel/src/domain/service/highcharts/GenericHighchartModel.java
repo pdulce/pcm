@@ -60,6 +60,9 @@ public abstract class GenericHighchartModel implements IStats {
 	
 	protected String getUnitName(IFieldLogic aggregateField, IFieldLogic fieldForCategoriaDeAgrupacion,
 			String aggregateFunction, Datamap data_) {
+		if (aggregateField != null) {
+			return aggregateField.getName();
+		}
 		return "units";
 	}
 	

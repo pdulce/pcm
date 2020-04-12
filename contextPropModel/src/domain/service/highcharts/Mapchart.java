@@ -17,8 +17,6 @@ import domain.service.dataccess.dto.Datamap;
 
 public class Mapchart extends GenericHighchartModel {
 
-	private static final String JSON_OBJECT = "series";
-
 	private static final String PREFIX_NAME_OF_PARAMS = "mapParam";
 	
 	@Override

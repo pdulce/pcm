@@ -7,7 +7,9 @@ package domain.service.highcharts;
  * @author 99GU3997
  */
 public interface IStats {
-
+	
+	public static final String JSON_OBJECT = "series";
+	
 	public static final String CATEGORIES = "categories";
 
 	public static final String ABSCISAS = "abscisas";

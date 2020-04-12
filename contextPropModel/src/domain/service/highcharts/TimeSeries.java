@@ -20,8 +20,6 @@ import domain.service.highcharts.utils.HistogramUtils;
 
 public class TimeSeries extends GenericHighchartModel {
 
-	protected static final String JSON_OBJECT = "series";
-
 	private static final String PREFIX_NAME_OF_TIMESERIES_PARAMS = "timeSeries";
 	
 	private static final String SECOND_AGRUPATE= "fieldVerticalForGroupBy";

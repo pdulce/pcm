@@ -23,8 +23,6 @@ import domain.service.highcharts.utils.HistogramUtils;
 
 public class Dualhistogram extends GenericHighchartModel {
 
-	protected static final String JSON_OBJECT = "series";
-
 	protected static final String FREQ_ABSOLUTE = "frecAbsoluta";
 
 	protected static final String FREQ_ACUMULATED = "frecAcum";

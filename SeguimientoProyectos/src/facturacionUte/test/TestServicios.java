@@ -13,6 +13,8 @@ import domain.common.exceptions.PcmException;
 import domain.service.DomainService;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.event.IEvent;
+import domain.service.highcharts.IStats;
+import facturacionUte.common.ConstantesModelo;
 
 import org.junit.Assert;
 import junit.framework.TestCase;
@@ -198,15 +200,19 @@ public class TestServicios extends TestCase {
 			datamap.removeParameter("currentPag");
 			datamap.removeParameter("totalPag");
 			datamap.removeParameter("totalRecords");
-			datamap.setParameter("incidenciasProyecto.Proyecto_ID", "FAMA");
+			datamap.setParameter("incidenciasProyecto.entorno", "1");//1:Java Prosa
 			datamap.setParameter("idPressed", "barchart1");
-			datamap.setParameter("barchart1.entidadGrafico", "incidenciasProyecto");
-			datamap.setParameter("barchart1.fieldForGroupBy", "26");//position in entity.xml
-			datamap.setParameter("barchart1.agregado", "28");//position in entity.xml
+			datamap.setParameter("barchart1.entidadGrafico", ConstantesModelo.INCIDENCIASPROYECTO_ENTIDAD);
+			datamap.setParameter("barchart1.orderBy", String.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA));
+			datamap.setParameter("barchart1.fieldForGroupBy", String.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_26_PROYECTO_ID));
+			datamap.setParameter("barchart1.agregado", String.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES));
 			datamap.setParameter("barchart1.operation", "SUM");
 			datamap.setParameter("barchart1".concat(".").concat(IEvent.SHOW_HIGHCHARTS), "barchart");
-			result = applicationService.launch(datamap, eventPressed, "Escenario barchart");
-			Assert.assertTrue(result.contains("series: [{\"stack\":\"0\",\"data\":["));
+			applicationService.launch(datamap, eventPressed, "Escenario barchart");
+			String resultJSONModel = (String) datamap.getAttribute(IStats.JSON_OBJECT);
+			//{"data":[359.05,0.0,34882.53,2620.5,0.0,0.0,1314.61,2171.17,32.0,41.67,132.3],"pointPlacement":"on","name":"UTs. estimds."}]
+			Assert.assertTrue(resultJSONModel.contains("{\"data\":["));
+			Assert.assertTrue(resultJSONModel.contains("],\"pointPlacement\":\"on\",\"name\":\"UTs. estimds.\"}]"));
 			
 		} catch (MalformedURLException e1){
 			e1.printStackTrace();

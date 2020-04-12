@@ -20,8 +20,6 @@ import domain.service.event.IAction;
 
 public class Spiderweb extends GenericHighchartModel {
 
-	protected static final String JSON_OBJECT = "series";
-
 	private static final String PREFIX_NAME_OF_PARAMS = "spiderchartParam";
 	
 	@Override

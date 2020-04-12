@@ -44,8 +44,6 @@ public class Scatter extends GenericHighchartModel {
 	
 	private static final String CONTAINER = "container";
 
-	protected static final String JSON_REGRESSION_SERIES = "series";
-
 	protected static final String CATEGORIA_EJE_Y = "ejeY";
 	
 	private static final String TITULO_EJE_X = "titulo_EJE_X";
@@ -552,7 +550,7 @@ public class Scatter extends GenericHighchartModel {
 					+ CommonUtils.numberFormatter.formatBigData(paramBeta_Correlacion < 0.001?paramBeta_Correlacion*10000.0:(paramBeta_Correlacion < 0.01?paramBeta_Correlacion*1000.0:paramBeta_Correlacion))
 					+ "*(" + titulo_EJE_X + (paramBeta_Correlacion < 0.001?"/10000":(paramBeta_Correlacion < 0.01?"/1000":"")) + ") </I>";
 
-			data_.setAttribute(JSON_REGRESSION_SERIES, seriesJSON.toJSONString());
+			data_.setAttribute(JSON_OBJECT, seriesJSON.toJSONString());
 
 			long mills2 = Calendar.getInstance().getTimeInMillis();
 			long segundosConsumidos = (mills2 - mills1) / 1000;
