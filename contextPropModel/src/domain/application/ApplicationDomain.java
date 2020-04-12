@@ -59,6 +59,7 @@ import domain.service.highcharts.Histogram3D;
 import domain.service.highcharts.Pie;
 import domain.service.highcharts.Scatter;
 import domain.service.highcharts.Spiderweb;
+import domain.service.highcharts.TimeSeries;
 import domain.service.highcharts.GenericHighchartModel;
 
 public class ApplicationDomain implements Serializable {
@@ -404,6 +405,8 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Dualhistogram();
 			}else if (highchartStats.equals("scatter")) {
 				genericHCModel = new Scatter();
+			}else if (highchartsParam.equals("timeseries")) {
+				genericHCModel = new TimeSeries();
 			}
 			try {
 				DomainService domainService = getDomainService(datamap.getService());
