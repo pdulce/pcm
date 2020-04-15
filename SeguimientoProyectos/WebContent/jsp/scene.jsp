@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-	<div id="loadingdiv">
-		<p align="center">
-			<font class="small">Loading...please wait</font>
-		</p>
-	</div> 
+	
 	
  	
     <%if (request.getAttribute("container") != null) { %>
@@ -38,7 +34,11 @@
 		<jsp:include page="${container}"></jsp:include>
 		
 	 <%} else { %>
-	
+		<div id="loadingdiv">
+			<p align="center">
+				<font class="small">Loading...please wait</font>
+			</p>
+		</div> 
 	 	<div id="principal"><%=request.getAttribute("#BODY#")%></div> 
 	 	
   <% } %>
