@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/darkmode/form.css"></link>
 <link rel="stylesheet" type="text/css" href="css/darkmode/button.css"></link>
 <link rel="stylesheet" type="text/css" href="css/darkmode/grid.css"></link>
-<link rel="stylesheet" type="text/css" href="css/darkmode/highcharts.css"></link>
+<link rel="stylesheet" type="text/css" href="css/darkmode/highchart.css"></link>
 <link rel="stylesheet" type="text/css" href="css/darkmode/navigationtree.css"></link>
 <link rel="stylesheet" type="text/css" href="css/darkmode/jquery-collapsible-fieldset.css"></link>
 

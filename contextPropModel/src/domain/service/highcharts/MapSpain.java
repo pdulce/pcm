@@ -40,8 +40,6 @@ public class MapSpain extends GenericHighchartModel {
 			final String aggregateFunction) {
 
 		double sumarizadorTotal = 0.0, contabilizadasSSCC = 0.0;
-       
-		Number total = Double.valueOf(0.0);
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
@@ -68,38 +66,14 @@ public class MapSpain extends GenericHighchartModel {
 				break;
 			}
 		}
-		total = sumarizadorTotal + contabilizadasSSCC;
-
-		String unidadesEnProvincias_formated = "", unidadesSSCC_formated = "", unidadesTotales_formated = "";
-		double promedioPorProvincia = 0.0;
+		
 		/**********************/
 		
 		data_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
-		unidadesEnProvincias_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
-				.format(sumarizadorTotal) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorTotal).intValue());
-		unidadesSSCC_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
-				.format(contabilizadasSSCC) : CommonUtils.numberFormatter.format(Double.valueOf(contabilizadasSSCC).intValue());
-		unidadesTotales_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
-				.format(total.doubleValue()) : CommonUtils.numberFormatter.format(Double.valueOf(total.doubleValue()).intValue());
-		promedioPorProvincia = sumarizadorTotal / (valoresAgregados.size() - (contabilizadasSSCC == 0 ? 0 : 1));
-	
-		/**********************/
-		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
-		data_.setAttribute(DARK_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
-
-		String title = "Distribucion Provincial de #";
-		String subtitle = "<h4>Provincias: <b>" + unidadesEnProvincias_formated + "#</b> [<b>"
-				+ CommonUtils.numberFormatter.format(promedioPorProvincia) + "#/provincia</b>]</h4>";
-		if (contabilizadasSSCC > 0) {
-			subtitle = subtitle.concat("<h4>, SSCC: <b>" + unidadesSSCC_formated + "#</b>; total: <b>" + unidadesTotales_formated
-					+ "#</b></h4>");
-		}else {
-			subtitle = subtitle.concat("<h4>, total: <b>" + unidadesTotales_formated + "#</b></h4>");
-		}
-		data_.setAttribute(TITLE_ATTR, title);
-		data_.setAttribute(SUBTILE_ATTR, subtitle);
-		data_.setAttribute("mapa", "https://code.highcharts.com/mapdata/countries/es/es-all.js");
-
+				
+		Number total = setMapAttributes(valoresAgregados, data_, filtro_, fieldsForAgregadoPor, fieldsForCategoriaDeAgrupacion, 
+				aggregateFunction, sumarizadorTotal, contabilizadasSSCC);
+		
 		return total.doubleValue();
 
 	}
@@ -116,6 +90,40 @@ public class MapSpain extends GenericHighchartModel {
 			seriesJSON.add(serie);
 		}
 		return seriesJSON.toJSONString();
+	}
+	
+	protected Number setMapAttributes(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
+			final String aggregateFunction, final double sumarizadorTotal, final double contabilizadasSSCC) {
+
+		Double total = sumarizadorTotal + contabilizadasSSCC;
+		String unidadesEnProvincias_formated = "", unidadesSSCC_formated = "", unidadesTotales_formated = "";
+		double promedioPorProvincia = 0.0;
+		unidadesEnProvincias_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
+				.format(sumarizadorTotal) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorTotal).intValue());
+		unidadesSSCC_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
+				.format(contabilizadasSSCC) : CommonUtils.numberFormatter.format(Double.valueOf(contabilizadasSSCC).intValue());
+		unidadesTotales_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
+				.format(total.doubleValue()) : CommonUtils.numberFormatter.format(Double.valueOf(total.doubleValue()).intValue());
+		promedioPorProvincia = sumarizadorTotal / (valoresAgregados.size() - (contabilizadasSSCC == 0 ? 0 : 1));
+		
+		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
+		data_.setAttribute(DARK_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
+
+		String title = "Distribucion Provincial de #";
+		String subtitle = "<h4>Provincias: <b>" + unidadesEnProvincias_formated + "#</b> [<b>"
+				+ CommonUtils.numberFormatter.format(promedioPorProvincia) + "#/provincia</b>]</h4>";
+		if (contabilizadasSSCC > 0) {
+			subtitle = subtitle.concat("<h4>, SSCC: <b>" + unidadesSSCC_formated + "#</b>; total: <b>" + unidadesTotales_formated
+					+ "#</b></h4>");
+		}else {
+			subtitle = subtitle.concat("<h4>, total: <b>" + unidadesTotales_formated + "#</b></h4>");
+		}
+		data_.setAttribute(TITLE_ATTR, title);
+		data_.setAttribute(SUBTILE_ATTR, subtitle);
+		data_.setAttribute("mapa", "https://code.highcharts.com/mapdata/countries/es/es-all.js");
+		
+		return total;
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class MapEurope extends MapSpain {
 
 		double sumarizadorTotal = 0.0;
        
-		Number total = Double.valueOf(0.0);
+		
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
@@ -62,24 +62,38 @@ public class MapEurope extends MapSpain {
 				break;
 			}
 		}
+		
+		data_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
+		
+		Number total = setMapAttributes(valoresAgregados, data_, filtro_, fieldsForAgregadoPor, 
+				fieldsForCategoriaDeAgrupacion, aggregateFunction, sumarizadorTotal, 0);
+		
+		return total.doubleValue();
+
+	}
+	
+	@Override
+	protected Number setMapAttributes(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
+			final String aggregateFunction, final double sumarizadorTotal, final double contabilizadasExtra) {
+		
+		Number total = Double.valueOf(0.0);
 		total = sumarizadorTotal;
 
 		String unidadesEnRegion_formated = "", unidadesTotales_formated = "";
 		double promedioPorRegion = 0.0;
-		/**********************/
 		
-		data_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
+		
 		unidadesEnRegion_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
 				.format(sumarizadorTotal) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorTotal).intValue());
 		unidadesTotales_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
 				.format(total.doubleValue()) : CommonUtils.numberFormatter.format(Double.valueOf(total.doubleValue()).intValue());
 		promedioPorRegion = sumarizadorTotal / valoresAgregados.size();
 	
-		/**********************/
 		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
 		data_.setAttribute(DARK_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
 
-		String title = "Distribucion por Paises en Europa de #";
+		String title = "Distribucion por Paises en Europa #";
 		String subtitle = "<h4>Paises: <b>" + unidadesEnRegion_formated + "#</b> [<b>"
 				+ CommonUtils.numberFormatter.format(promedioPorRegion) + "#/pais</b>]</h4>";
 		subtitle = subtitle.concat("<h4>, total: <b>" + unidadesTotales_formated + "#</b></h4>");
@@ -87,9 +101,10 @@ public class MapEurope extends MapSpain {
 		data_.setAttribute(TITLE_ATTR, title);
 		data_.setAttribute(SUBTILE_ATTR, subtitle);
 		data_.setAttribute("mapa", "https://code.highcharts.com/mapdata/custom/europe.js");
-
-		return total.doubleValue();
-
+		
+		return total;
+		
+		
 	}
 
 	
