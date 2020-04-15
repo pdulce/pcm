@@ -209,10 +209,6 @@ public class Dualhistogram extends GenericHighchartModel {
 		return frecuenciaAcumulada;
 	}
 
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		return 700;
-	}
 	
 	@Override
 	public String getScreenRendername() {

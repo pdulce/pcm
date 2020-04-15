@@ -266,7 +266,7 @@ public class BarChart extends GenericHighchartModel {
 		String unidades = getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
 		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(newArrayEjeAbcisas.size()));
 		if (sinAgregado){
-			itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
+			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
 			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){

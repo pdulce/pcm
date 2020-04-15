@@ -18,7 +18,6 @@ import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import domain.service.event.IAction;
 
 
 public class Pie extends GenericHighchartModel {
@@ -149,7 +148,7 @@ public class Pie extends GenericHighchartModel {
 		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
 		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(valoresCategMayoresQueCero));
 		if (sinAgregado){
-			itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
+			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
 			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){
@@ -233,29 +232,6 @@ public class Pie extends GenericHighchartModel {
 		return seriesJSON.toJSONString();
 	}
 
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		List<FieldViewSet> collec = new ArrayList<FieldViewSet>();
-		int numberOfcategories = 12;
-		try {
-			collec = this._dataAccess.selectWithDistinct(new FieldViewSet(field4Agrupacion.getEntityDef()),
-					field4Agrupacion.getMappingTo(), IAction.ORDEN_ASCENDENTE);
-			numberOfcategories = collec.size();
-		}
-		catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (numberOfcategories < 20) {
-			return 600;
-		} else if (numberOfcategories < 20 && numberOfcategories < 30) {
-			return 630;
-		} else if (numberOfcategories < 30 && numberOfcategories < 50) {
-			return 650;
-		} else {
-			return 700;
-		}
-	}
 	
 	@Override
 	public String getScreenRendername() {

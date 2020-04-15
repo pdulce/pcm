@@ -746,7 +746,7 @@ public final class CommonUtils {
 		return texto.toString();
 	}
 	
-	public static String pluralDe(final String palabra){
+	/*public static String pluralDe(final String palabra){
 		if (palabra == null || "".equals(palabra.trim())){
 			return "";
 		}
@@ -778,6 +778,8 @@ public final class CommonUtils {
 		
 		return cadena;
 	}
+	*/
+	
 	
 	public static List<Double> getValueListInJsonSerie(final String serieJson){
 		//inicio de lista de valores: "data":[

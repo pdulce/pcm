@@ -4,6 +4,7 @@
 package domain.service.highcharts.utils;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -13,789 +14,219 @@ public class CodigosISOWorldCountries {
 
 	public static final Map<String, String> isoWorldCodes = new HashMap<String, String>();
 	static {
-		isoWorldCodes.put("dz", "dz");
-		isoWorldCodes.put("ao", "ao");
-		isoWorldCodes.put("eg", "eg");
-		isoWorldCodes.put("bd", "bd");
-		isoWorldCodes.put("ne", "ne");
-		isoWorldCodes.put("qa", "qa");
-		isoWorldCodes.put("na", "na");
-		isoWorldCodes.put("bg", "bg");
-		
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("gh", "gh");
-		isoWorldCodes.put("pk", "pk");
-		isoWorldCodes.put("pa", "pa");
-		isoWorldCodes.put("jo", "jo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-		isoWorldCodes.put("bo", "bo");
-
-	}
-	
-	/****
-	 *
-       
-            "hc-key": "eh",
-            "value": 13
-        },
-        {
-            "hc-key": "ly",
-            "value": 14
-        },
-        {
-            "hc-key": "my",
-            "value": 15
-        },
-        {
-            "hc-key": "pr",
-            "value": 16
-        },
-        {
-            "hc-key": "kp",
-            "value": 17
-        },
-        {
-            "hc-key": "tz",
-            "value": 18
-        },
-        {
-            "hc-key": "pt",
-            "value": 19
-        },
-        {
-            "hc-key": "kh",
-            "value": 20
-        },
-        {
-            "hc-key": "py",
-            "value": 21
-        },
-        {
-            "hc-key": "sa",
-            "value": 22
-        },
-        {
-            "hc-key": "me",
-            "value": 23
-        },
-        {
-            "hc-key": "si",
-            "value": 24
-        },
-        {
-            "hc-key": "bf",
-            "value": 25
-        },
-        {
-            "hc-key": "ch",
-            "value": 26
-        },
-        {
-            "hc-key": "mr",
-            "value": 27
-        },
-        {
-            "hc-key": "hr",
-            "value": 28
-        },
-        {
-            "hc-key": "cl",
-            "value": 29
-        },
-        {
-            "hc-key": "cn",
-            "value": 30
-        },
-        {
-            "hc-key": "kn",
-            "value": 31
-        },
-        {
-            "hc-key": "jm",
-            "value": 32
-        },
-        {
-            "hc-key": "dj",
-            "value": 33
-        },
-        {
-            "hc-key": "gn",
-            "value": 34
-        },
-        {
-            "hc-key": "fi",
-            "value": 35
-        },
-        {
-            "hc-key": "uy",
-            "value": 36
-        },
-        {
-            "hc-key": "va",
-            "value": 37
-        },
-        {
-            "hc-key": "np",
-            "value": 38
-        },
-        {
-            "hc-key": "ma",
-            "value": 39
-        },
-        {
-            "hc-key": "ye",
-            "value": 40
-        },
-        {
-            "hc-key": "ph",
-            "value": 41
-        },
-        {
-            "hc-key": "za",
-            "value": 42
-        },
-        {
-            "hc-key": "ni",
-            "value": 43
-        },
-        {
-            "hc-key": "cyn",
-            "value": 44
-        },
-        {
-            "hc-key": "vi",
-            "value": 45
-        },
-        {
-            "hc-key": "sy",
-            "value": 46
-        },
-        {
-            "hc-key": "li",
-            "value": 47
-        },
-        {
-            "hc-key": "mt",
-            "value": 48
-        },
-        {
-            "hc-key": "kz",
-            "value": 49
-        },
-        {
-            "hc-key": "mn",
-            "value": 50
-        },
-        {
-            "hc-key": "sr",
-            "value": 51
-        },
-        {
-            "hc-key": "ie",
-            "value": 52
-        },
-        {
-            "hc-key": "dm",
-            "value": 53
-        },
-        {
-            "hc-key": "bj",
-            "value": 54
-        },
-        {
-            "hc-key": "ng",
-            "value": 55
-        },
-        {
-            "hc-key": "be",
-            "value": 56
-        },
-        {
-            "hc-key": "tg",
-            "value": 57
-        },
-        {
-            "hc-key": "de",
-            "value": 58
-        },
-        {
-            "hc-key": "lk",
-            "value": 59
-        },
-        {
-            "hc-key": "gb",
-            "value": 60
-        },
-        {
-            "hc-key": "gy",
-            "value": 61
-        },
-        {
-            "hc-key": "cr",
-            "value": 62
-        },
-        {
-            "hc-key": "cm",
-            "value": 63
-        },
-        {
-            "hc-key": "kas",
-            "value": 64
-        },
-        {
-            "hc-key": "km",
-            "value": 65
-        },
-        {
-            "hc-key": "ug",
-            "value": 66
-        },
-        {
-            "hc-key": "tm",
-            "value": 67
-        },
-        {
-            "hc-key": "tt",
-            "value": 68
-        },
-        {
-            "hc-key": "nl",
-            "value": 69
-        },
-        {
-            "hc-key": "td",
-            "value": 70
-        },
-        {
-            "hc-key": "ge",
-            "value": 71
-        },
-        {
-            "hc-key": "ro",
-            "value": 72
-        },
-        {
-            "hc-key": "scr",
-            "value": 73
-        },
-        {
-            "hc-key": "lv",
-            "value": 74
-        },
-        {
-            "hc-key": "bz",
-            "value": 75
-        },
-        {
-            "hc-key": "mm",
-            "value": 76
-        },
-        {
-            "hc-key": "af",
-            "value": 77
-        },
-        {
-            "hc-key": "bi",
-            "value": 78
-        },
-        {
-            "hc-key": "by",
-            "value": 79
-        },
-        {
-            "hc-key": "gd",
-            "value": 80
-        },
-        {
-            "hc-key": "lr",
-            "value": 81
-        },
-        {
-            "hc-key": "gr",
-            "value": 82
-        },
-        {
-            "hc-key": "ls",
-            "value": 83
-        },
-        {
-            "hc-key": "gl",
-            "value": 84
-        },
-        {
-            "hc-key": "ad",
-            "value": 85
-        },
-        {
-            "hc-key": "mz",
-            "value": 86
-        },
-        {
-            "hc-key": "tj",
-            "value": 87
-        },
-        {
-            "hc-key": "th",
-            "value": 88
-        },
-        {
-            "hc-key": "ht",
-            "value": 89
-        },
-        {
-            "hc-key": "mx",
-            "value": 90
-        },
-        {
-            "hc-key": "zw",
-            "value": 91
-        },
-        {
-            "hc-key": "lc",
-            "value": 92
-        },
-        {
-            "hc-key": "in",
-            "value": 93
-        },
-        {
-            "hc-key": "vc",
-            "value": 94
-        },
-        {
-            "hc-key": "bt",
-            "value": 95
-        },
-        {
-            "hc-key": "vn",
-            "value": 96
-        },
-        {
-            "hc-key": "no",
-            "value": 97
-        },
-        {
-            "hc-key": "cz",
-            "value": 98
-        },
-        {
-            "hc-key": "ag",
-            "value": 99
-        },
-        {
-            "hc-key": "fj",
-            "value": 100
-        },
-        {
-            "hc-key": "hn",
-            "value": 101
-        },
-        {
-            "hc-key": "mu",
-            "value": 102
-        },
-        {
-            "hc-key": "do",
-            "value": 103
-        },
-        {
-            "hc-key": "lu",
-            "value": 104
-        },
-        {
-            "hc-key": "il",
-            "value": 105
-        },
-        {
-            "hc-key": "sm",
-            "value": 106
-        },
-        {
-            "hc-key": "pe",
-            "value": 107
-        },
-        {
-            "hc-key": "id",
-            "value": 108
-        },
-        {
-            "hc-key": "vu",
-            "value": 109
-        },
-        {
-            "hc-key": "mk",
-            "value": 110
-        },
-        {
-            "hc-key": "cd",
-            "value": 111
-        },
-        {
-            "hc-key": "cg",
-            "value": 112
-        },
-        {
-            "hc-key": "is",
-            "value": 113
-        },
-        {
-            "hc-key": "et",
-            "value": 114
-        },
-        {
-            "hc-key": "um",
-            "value": 115
-        },
-        {
-            "hc-key": "co",
-            "value": 116
-        },
-        {
-            "hc-key": "ser",
-            "value": 117
-        },
-        {
-            "hc-key": "bw",
-            "value": 118
-        },
-        {
-            "hc-key": "md",
-            "value": 119
-        },
-        {
-            "hc-key": "mg",
-            "value": 120
-        },
-        {
-            "hc-key": "ec",
-            "value": 121
-        },
-        {
-            "hc-key": "sn",
-            "value": 122
-        },
-        {
-            "hc-key": "tl",
-            "value": 123
-        },
-        {
-            "hc-key": "fr",
-            "value": 124
-        },
-        {
-            "hc-key": "lt",
-            "value": 125
-        },
-        {
-            "hc-key": "rw",
-            "value": 126
-        },
-        {
-            "hc-key": "zm",
-            "value": 127
-        },
-        {
-            "hc-key": "gm",
-            "value": 128
-        },
-        {
-            "hc-key": "fo",
-            "value": 129
-        },
-        {
-            "hc-key": "gt",
-            "value": 130
-        },
-        {
-            "hc-key": "dk",
-            "value": 131
-        },
-        {
-            "hc-key": "ua",
-            "value": 132
-        },
-        {
-            "hc-key": "au",
-            "value": 133
-        },
-        {
-            "hc-key": "at",
-            "value": 134
-        },
-        {
-            "hc-key": "ve",
-            "value": 135
-        },
-        {
-            "hc-key": "pw",
-            "value": 136
-        },
-        {
-            "hc-key": "ke",
-            "value": 137
-        },
-        {
-            "hc-key": "la",
-            "value": 138
-        },
-        {
-            "hc-key": "bjn",
-            "value": 139
-        },
-        {
-            "hc-key": "tr",
-            "value": 140
-        },
-        {
-            "hc-key": "jp",
-            "value": 141
-        },
-        {
-            "hc-key": "al",
-            "value": 142
-        },
-        {
-            "hc-key": "om",
-            "value": 143
-        },
-        {
-            "hc-key": "it",
-            "value": 144
-        },
-        {
-            "hc-key": "bn",
-            "value": 145
-        },
-        {
-            "hc-key": "tn",
-            "value": 146
-        },
-        {
-            "hc-key": "hu",
-            "value": 147
-        },
-        {
-            "hc-key": "ru",
-            "value": 148
-        },
-        {
-            "hc-key": "lb",
-            "value": 149
-        },
-        {
-            "hc-key": "bb",
-            "value": 150
-        },
-        {
-            "hc-key": "br",
-            "value": 151
-        },
-        {
-            "hc-key": "ci",
-            "value": 152
-        },
-        {
-            "hc-key": "rs",
-            "value": 153
-        },
-        {
-            "hc-key": "gq",
-            "value": 154
-        },
-        {
-            "hc-key": "us",
-            "value": 155
-        },
-        {
-            "hc-key": "se",
-            "value": 156
-        },
-        {
-            "hc-key": "az",
-            "value": 157
-        },
-        {
-            "hc-key": "gw",
-            "value": 158
-        },
-        {
-            "hc-key": "sz",
-            "value": 159
-        },
-        {
-            "hc-key": "ca",
-            "value": 160
-        },
-        {
-            "hc-key": "kv",
-            "value": 161
-        },
-        {
-            "hc-key": "kr",
-            "value": 162
-        },
-        {
-            "hc-key": "mw",
-            "value": 163
-        },
-        {
-            "hc-key": "sk",
-            "value": 164
-        },
-        {
-            "hc-key": "cy",
-            "value": 165
-        },
-        {
-            "hc-key": "ba",
-            "value": 166
-        },
-        {
-            "hc-key": "pga",
-            "value": 167
-        },
-        {
-            "hc-key": "sg",
-            "value": 168
-        },
-        {
-            "hc-key": "tw",
-            "value": 169
-        },
-        {
-            "hc-key": "so",
-            "value": 170
-        },
-        {
-            "hc-key": "sol",
-            "value": 171
-        },
-        {
-            "hc-key": "uz",
-            "value": 172
-        },
-        {
-            "hc-key": "cf",
-            "value": 173
-        },
-        {
-            "hc-key": "pl",
-            "value": 174
-        },
-        {
-            "hc-key": "kw",
-            "value": 175
-        },
-        {
-            "hc-key": "er",
-            "value": 176
-        },
-        {
-            "hc-key": "ga",
-            "value": 177
-        },
-        {
-            "hc-key": "ee",
-            "value": 178
-        },
-        {
-            "hc-key": "es",
-            "value": 179
-        },
-        {
-            "hc-key": "iq",
-            "value": 180
-        },
-        {
-            "hc-key": "sv",
-            "value": 181
-        },
-        {
-            "hc-key": "ml",
-            "value": 182
-        },
-        {
-            "hc-key": "st",
-            "value": 183
-        },
-        {
-            "hc-key": "ir",
-            "value": 184
-        },
-        {
-            "hc-key": "sl",
-            "value": 185
-        },
-        {
-            "hc-key": "cnm",
-            "value": 186
-        },
-        {
-            "hc-key": "bs",
-            "value": 187
-        },
-        {
-            "hc-key": "sb",
-            "value": 188
-        },
-        {
-            "hc-key": "nz",
-            "value": 189
-        },
-        {
-            "hc-key": "mc",
-            "value": 190
-        },
-        {
-            "hc-key": "ss",
-            "value": 191
-        },
-        {
-            "hc-key": "kg",
-            "value": 192
-        },
-        {
-            "hc-key": "ae",
-            "value": 193
-        },
-        {
-            "hc-key": "ar",
-            "value": 194
-        },
-        {
-            "hc-key": "sd",
-            "value": 195
-        },
-        {
-            "hc-key": "bh",
-            "value": 196
-        },
-        {
-            "hc-key": "am",
-            "value": 197
-        },
-        {
-            "hc-key": "pg",
-            "value": 198
-        },
-        {
-            "hc-key": "cu",
-            "value": 199
+		isoWorldCodes.put("dz", "");
+		isoWorldCodes.put("ao", "");
+		isoWorldCodes.put("eg", "");
+		isoWorldCodes.put("bd", "");
+		isoWorldCodes.put("ne", "");
+		isoWorldCodes.put("qa", "");
+		isoWorldCodes.put("na", "");
+		isoWorldCodes.put("bg", "");
+		isoWorldCodes.put("bo", "");
+		isoWorldCodes.put("gh", "");
+		isoWorldCodes.put("pk", "");
+		isoWorldCodes.put("pa", "");
+		isoWorldCodes.put("jo", "");
+		isoWorldCodes.put("eh", "");
+		isoWorldCodes.put("ly", "");
+		isoWorldCodes.put("my", "");
+		isoWorldCodes.put("pr", "");
+		isoWorldCodes.put("kp", "");
+		isoWorldCodes.put("tz", "");
+		isoWorldCodes.put("pt", "");
+		isoWorldCodes.put("kh", "");
+		isoWorldCodes.put("py", "");
+		isoWorldCodes.put("sa", "");
+		isoWorldCodes.put("me", "");
+		isoWorldCodes.put("si", "");
+		isoWorldCodes.put("bf", "");
+		isoWorldCodes.put("kh", "");
+		isoWorldCodes.put("py", "");
+		isoWorldCodes.put("sa", "");
+		isoWorldCodes.put("me", "");
+		isoWorldCodes.put("si", "");
+		isoWorldCodes.put("bf", "");
+		isoWorldCodes.put("ch", "");//26
+        isoWorldCodes.put("mr", "");//27
+        isoWorldCodes.put("hr", "");//28
+        isoWorldCodes.put("cl", "");//29
+        isoWorldCodes.put("cn", "");//30
+        isoWorldCodes.put("kn", "");//31
+        isoWorldCodes.put("jm", "");//32
+        isoWorldCodes.put("dj", "");//33
+        isoWorldCodes.put("gn", "");//34
+        isoWorldCodes.put("fi", "");//35
+        isoWorldCodes.put("uy", "");//36
+        isoWorldCodes.put("va", "");//37
+        isoWorldCodes.put("np", "");//38
+        isoWorldCodes.put("ma", "");//39
+        isoWorldCodes.put("ye", "");//40
+        isoWorldCodes.put("ph", "");//41
+        isoWorldCodes.put("za", "");//42
+        isoWorldCodes.put("ni", "");//43
+        isoWorldCodes.put("cyn", "");//44
+        isoWorldCodes.put("vi", "");//45
+        isoWorldCodes.put("sy", "");//46
+        isoWorldCodes.put("li", "");//47
+        isoWorldCodes.put("mt", "");//48
+        isoWorldCodes.put("kz", "");//49
+        isoWorldCodes.put("mn", "");//50
+        isoWorldCodes.put("sr", "");//51
+        isoWorldCodes.put("ie", "");//52
+        isoWorldCodes.put("dm", "");//53
+        isoWorldCodes.put("bj", "");//54
+        isoWorldCodes.put("ng", "");//55
+        isoWorldCodes.put("be", "");//56
+        isoWorldCodes.put("tg", "");//57
+        isoWorldCodes.put("de", "");//58
+        isoWorldCodes.put("lk", "");//59
+        isoWorldCodes.put("gb", "");//60
+        isoWorldCodes.put("gy", "");//61
+        isoWorldCodes.put("cr", "");//62
+        isoWorldCodes.put("cm", "");//63
+        isoWorldCodes.put("kas", "");//64
+        isoWorldCodes.put("km", "");//65
+        isoWorldCodes.put("ug", "");//66
+        isoWorldCodes.put("tm", "");//67
+        isoWorldCodes.put("tt", "");//68
+        isoWorldCodes.put("nl", "");//69
+        isoWorldCodes.put("td", "");//70
+        isoWorldCodes.put("ge", "");//71
+        isoWorldCodes.put("ro", "");//72
+        isoWorldCodes.put("scr", "");//73
+        isoWorldCodes.put("lv", "");//74
+        isoWorldCodes.put("bz", "");//75
+        isoWorldCodes.put("mm", "");//76
+        isoWorldCodes.put("af", "");//77
+        isoWorldCodes.put("bi", "");//78
+        isoWorldCodes.put("by", "");//79
+        isoWorldCodes.put("gd", "");//80
+        isoWorldCodes.put("lr", "");//81
+        isoWorldCodes.put("gr", "");//82
+        isoWorldCodes.put("ls", "");//83
+        isoWorldCodes.put("gl", "");//84
+        isoWorldCodes.put("ad", "");//85
+        isoWorldCodes.put("mz", "");//86
+        isoWorldCodes.put("tj", "");//87
+        isoWorldCodes.put("th", "");//88
+        isoWorldCodes.put("ht", "");//89
+        isoWorldCodes.put("mx", "");//90
+        isoWorldCodes.put("zw", "");//91
+        isoWorldCodes.put("lc", "");//92
+        isoWorldCodes.put("in", "");//93
+        isoWorldCodes.put("vc", "");//94
+        isoWorldCodes.put("bt", "");//95
+        isoWorldCodes.put("vn", "");//96
+        isoWorldCodes.put("no", "");//97
+        isoWorldCodes.put("cz", "");//98
+        isoWorldCodes.put("ag", "");//99
+        isoWorldCodes.put("fj", "");//100
+        isoWorldCodes.put("hn", "");//101
+        isoWorldCodes.put("mu", "");//102
+        isoWorldCodes.put("do", "");//103
+        isoWorldCodes.put("lu", "");//104
+        isoWorldCodes.put("il", "");//105
+        isoWorldCodes.put("sm", "");//106
+        isoWorldCodes.put("pe", "");//107
+        isoWorldCodes.put("id", "");//108
+        isoWorldCodes.put("vu", "");//109
+        isoWorldCodes.put("mk", "");//110
+        isoWorldCodes.put("cd", "");//111
+        isoWorldCodes.put("cg", "");//112
+        isoWorldCodes.put("is", "");//113
+        isoWorldCodes.put("et", "");//114
+        isoWorldCodes.put("um", "");//115
+        isoWorldCodes.put("co", "");//116
+        isoWorldCodes.put("ser", "");//117
+        isoWorldCodes.put("bw", "");//118
+        isoWorldCodes.put("md", "");//119
+        isoWorldCodes.put("mg", "");//120
+        isoWorldCodes.put("ec", "");//121
+        isoWorldCodes.put("sn", "");//122
+        isoWorldCodes.put("tl", "");//123
+        isoWorldCodes.put("fr", "");//124
+        isoWorldCodes.put("lt", "");//125
+        isoWorldCodes.put("rw", "");//126
+        isoWorldCodes.put("zm", "");//127
+        isoWorldCodes.put("gm", "");//128
+        isoWorldCodes.put("fo", "");//129
+        isoWorldCodes.put("gt", "");//130
+        isoWorldCodes.put("dk", "");//131
+        isoWorldCodes.put("ua", "");//132
+        isoWorldCodes.put("au", "");//133
+        isoWorldCodes.put("at", "");//134
+        isoWorldCodes.put("ve", "");//135
+        isoWorldCodes.put("pw", "");//136
+        isoWorldCodes.put("ke", "");//137
+        isoWorldCodes.put("la", "");//138
+        isoWorldCodes.put("bjn", "");//139
+        isoWorldCodes.put("tr", "");//140
+        isoWorldCodes.put("jp", "");//141
+        isoWorldCodes.put("al", "");//142
+        isoWorldCodes.put("om", "");//143
+        isoWorldCodes.put("it", "");//144
+        isoWorldCodes.put("bn", "");//145
+        isoWorldCodes.put("tn", "");//146
+        isoWorldCodes.put("hu", "");//147
+        isoWorldCodes.put("ru", "");//148
+        isoWorldCodes.put("lb", "");//149
+        isoWorldCodes.put("bb", "");//150
+        isoWorldCodes.put("br", "");//151
+        isoWorldCodes.put("ci", "");//152
+        isoWorldCodes.put("rs", "");//153
+        isoWorldCodes.put("gq", "");//154
+        isoWorldCodes.put("us", "");//155
+        isoWorldCodes.put("se", "");//156
+        isoWorldCodes.put("az", "");//157
+        isoWorldCodes.put("gw", "");//158
+        isoWorldCodes.put("sz", "");//159
+        isoWorldCodes.put("ca", "");//160
+        isoWorldCodes.put("kv", "");//161
+        isoWorldCodes.put("kr", "");//162
+        isoWorldCodes.put("mw", "");//163
+        isoWorldCodes.put("sk", "");//164
+        isoWorldCodes.put("cy", "");//165
+        isoWorldCodes.put("ba", "");//166
+        isoWorldCodes.put("pga", "");//167
+        isoWorldCodes.put("sg", "");//168
+        isoWorldCodes.put("tw", "");//169
+        isoWorldCodes.put("so", "");//170
+        isoWorldCodes.put("sol", "");//171
+        isoWorldCodes.put("uz", "");//172
+        isoWorldCodes.put("cf", "");//173
+        isoWorldCodes.put("pl", "");//174
+        isoWorldCodes.put("kw", "");//175
+        isoWorldCodes.put("er", "");//176
+        isoWorldCodes.put("ga", "");//177
+        isoWorldCodes.put("ee", "");//178
+        isoWorldCodes.put("es", "");//179
+        isoWorldCodes.put("iq", "");//180
+        isoWorldCodes.put("sv", "");//181
+        isoWorldCodes.put("ml", "");//182
+        isoWorldCodes.put("st", "");//183
+        isoWorldCodes.put("ir", "");//184
+        isoWorldCodes.put("sl", "");//185
+        isoWorldCodes.put("cnm", "");//186
+        isoWorldCodes.put("bs", "");//187
+        isoWorldCodes.put("sb", "");//188
+        isoWorldCodes.put("nz", "");//189
+        isoWorldCodes.put("mc", "");//190
+        isoWorldCodes.put("ss", "");//191
+        isoWorldCodes.put("kg", "");//192
+        isoWorldCodes.put("ae", "");//193
+        isoWorldCodes.put("ar", "");//194
+        isoWorldCodes.put("sd", "");//195
+        isoWorldCodes.put("bh", "");//196
+        isoWorldCodes.put("am", "");//197
+        isoWorldCodes.put("pg", "");//198
+        isoWorldCodes.put("cu", "");//199
+        
+        Iterator<String> iteKeys = isoWorldCodes.keySet().iterator();
+        while (iteKeys.hasNext()) {
+        	String key = iteKeys.next();
+        	isoWorldCodes.put(key,  key);
         }
-	 * 
-	 * 
-	 */
-	 
+		
+     }
 
 }

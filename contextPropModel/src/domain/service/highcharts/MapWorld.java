@@ -3,8 +3,6 @@ package domain.service.highcharts;
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.service.component.definitions.FieldViewSet;
-import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.highcharts.utils.CodigosISOWorldCountries;
 
 public class MapWorld extends MapEurope {
@@ -25,11 +23,7 @@ public class MapWorld extends MapEurope {
 		String nombrePais = coleccionPaises.get(index);
 		return CodigosISOWorldCountries.isoWorldCodes.get(nombrePais);
 	}
-	
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		return 1400;
-	}
+
 	
 	@Override
 	public String getScreenRendername() {

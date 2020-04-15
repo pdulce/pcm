@@ -43,8 +43,4 @@
 	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <%  }%>
-
-<!-- script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
-<script src="https://code.highcharts.com/mapdata/custom/europe.js"></script>
- -->
     

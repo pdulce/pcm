@@ -894,9 +894,11 @@ public class Form extends AbstractComponent {
 			javascriptF.append(IViewComponent.INIT_IF_SENTENCE).append(IViewComponent.VALIDATE_FUNC);
 			javascriptF.append(event_).append(PCMConstants.END_FUNC).append(PCMConstants.END_PARENTHESIS);
 		}
-		buttons.add(this.paintSubmitButtonWithReturn(
+		if (!AbstractAction.isDetailEvent(this.event)){
+			buttons.add(this.paintSubmitButtonWithReturn(
 				event_.indexOf(PCMConstants.POINT) == -1 ? event_ : event_.substring(event_.indexOf(PCMConstants.POINT) + 1),
 				javascriptF.toString()));
+		}
 		
 		if (AbstractAction.isQueryEvent(this.event) || IEvent.SUBMIT_FORM.equals(this.event)) {
 			buttons.add(this.paintSubmitButtonWithoutReturn(PCMConstants.CLEAN_EVENT, IViewComponent.CLEAN_FUNC));

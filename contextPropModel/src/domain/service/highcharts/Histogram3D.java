@@ -139,7 +139,7 @@ public class Histogram3D extends GenericHighchartModel {
 				boolean agregadosDecimal = agregados!=null && agregados[0] !=null && agregados[0].getAbstractField().isDecimal();
 				final String total_formatted = agregadosDecimal? CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue())) : String.valueOf(total_.intValue());
 				final String media_formatted = CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(periodos.size())));
-				final String plural = CommonUtils.pluralDe(itemGrafico.toLowerCase());
+				final String plural = itemGrafico.toLowerCase();
 								
 				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + " (" + total_formatted + "), promedio en periodo: " + 
 														media_formatted + " " + HistogramUtils.traducirEscala(escalado) + ". ");				
@@ -261,7 +261,7 @@ public class Histogram3D extends GenericHighchartModel {
 			unidades = unidades.equals("")? getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, data_): unidades;
 			double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(totalizacionColumnas.length));
 			if (sinAgregado){
-				itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
+				itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 			} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
 				itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 			} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){
@@ -297,11 +297,6 @@ public class Histogram3D extends GenericHighchartModel {
 		return total_.doubleValue();
 	}
 	
-
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		return 700;
-	}
 
 	@Override
 	protected boolean is3D() {

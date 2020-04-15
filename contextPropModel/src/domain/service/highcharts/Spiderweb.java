@@ -1,6 +1,5 @@
 package domain.service.highcharts;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -8,14 +7,12 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 
-import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
 import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import domain.service.event.IAction;
 
 
 public class Spiderweb extends GenericHighchartModel {
@@ -89,7 +86,7 @@ public class Spiderweb extends GenericHighchartModel {
 		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
 		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(valoresCategMayoresQueCero));
 		if (sinAgregado){
-			itemGrafico = "de " + CommonUtils.pluralDe(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
+			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
 			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){
@@ -120,30 +117,6 @@ public class Spiderweb extends GenericHighchartModel {
 		return total_.doubleValue();
 	}
 
-
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		List<FieldViewSet> collec = new ArrayList<FieldViewSet>();
-		int numberOfcategories = 12;
-		try {
-			collec = this._dataAccess.selectWithDistinct(new FieldViewSet(field4Agrupacion.getEntityDef()),
-					field4Agrupacion.getMappingTo(), IAction.ORDEN_ASCENDENTE);
-			numberOfcategories = collec.size();
-		}
-		catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (numberOfcategories < 25) {
-			return 650;
-		} else if (numberOfcategories < 26 && numberOfcategories < 37) {
-			return 750;
-		} else if (numberOfcategories < 38 && numberOfcategories < 50) {
-			return 840;
-		} else {
-			return 860;
-		}
-	}
 	
 	@Override
 	public String getScreenRendername() {

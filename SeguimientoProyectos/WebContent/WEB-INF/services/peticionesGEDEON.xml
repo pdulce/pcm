@@ -235,8 +235,8 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="mapaSpain" name="Mapa Europe">
-						<fieldViewSet nameSpace="mapaSpain">
+					<button link="prjManager" id="mapaEurope" name="Mapa Europe">
+						<fieldViewSet nameSpace="mapaEurope">
 							<fieldView name="highchart" hidden="true" value="mapeurope"/>
 							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
@@ -266,8 +266,8 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="mapaSpain" name="Mapa World">
-						<fieldViewSet nameSpace="mapaSpain">
+					<button link="prjManager" id="mapaWorld" name="Mapa World">
+						<fieldViewSet nameSpace="mapaWorld">
 							<fieldView name="highchart" hidden="true" value="mapworld"/>
 							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>

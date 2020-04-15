@@ -36,7 +36,7 @@ public class MapEurope extends MapSpain {
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
-		double sumarizadorPorRegion = 0.0;
+		double sumarizadorTotal = 0.0;
        
 		Number total = Double.valueOf(0.0);
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
@@ -52,14 +52,17 @@ public class MapEurope extends MapSpain {
 				String valor = (String) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());
 				String regionCodeISO = getAleatoryNameForRegion(valor);
 				double subTotalPorRegion = registroTotalizado.values().iterator().next().values().iterator().next().doubleValue();
-
-				sumarizadorPorRegion += subTotalPorRegion;
-
-				agregadosPorRegion.put(regionCodeISO, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorRegion)));
+				sumarizadorTotal += subTotalPorRegion;
+				Number nuevoValor = 0.0;
+				if (agregadosPorRegion.get(regionCodeISO) != null) {
+					nuevoValor = agregadosPorRegion.get(regionCodeISO);
+				}
+				nuevoValor = nuevoValor.doubleValue() + Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorRegion));
+				agregadosPorRegion.put(regionCodeISO, nuevoValor);
 				break;
 			}
 		}
-		total = sumarizadorPorRegion;
+		total = sumarizadorTotal;
 
 		String unidadesEnRegion_formated = "", unidadesTotales_formated = "";
 		double promedioPorRegion = 0.0;
@@ -67,10 +70,10 @@ public class MapEurope extends MapSpain {
 		
 		data_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
 		unidadesEnRegion_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
-				.format(sumarizadorPorRegion) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorPorRegion).intValue());
+				.format(sumarizadorTotal) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorTotal).intValue());
 		unidadesTotales_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
 				.format(total.doubleValue()) : CommonUtils.numberFormatter.format(Double.valueOf(total.doubleValue()).intValue());
-		promedioPorRegion = sumarizadorPorRegion / valoresAgregados.size();
+		promedioPorRegion = sumarizadorTotal / valoresAgregados.size();
 	
 		/**********************/
 		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
@@ -84,15 +87,9 @@ public class MapEurope extends MapSpain {
 		data_.setAttribute(TITLE_ATTR, title);
 		data_.setAttribute(SUBTILE_ATTR, subtitle);
 		data_.setAttribute("mapa", "https://code.highcharts.com/mapdata/custom/europe.js");
-		//http://code.highcharts.com/mapdata/custom/world.js
 
 		return total.doubleValue();
 
-	}
-
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		return 1200;
 	}
 
 	

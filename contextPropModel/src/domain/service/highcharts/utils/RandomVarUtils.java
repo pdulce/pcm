@@ -180,7 +180,7 @@ public class RandomVarUtils {
 				+ CommonUtils.roundWith2Decimals(probabilityDeAlMenosNExitos * 100) + " %");
 
 		double combinaciones = RandomVarUtils.variacionesDeNelementosTomadosDeMenM(6, 49);
-		System.out.println("combinaciones posibles de 6 nomeros tomados de 6 en 6: " + combinaciones);
+		System.out.println("combinaciones posibles de 6 num. tomados de 6 en 6: " + combinaciones);
 		double probaLoteria = 1 / combinaciones;
 		// k=6, m=49, todas las posibles combinaciones de 49 nomeros tomados de 1 en 1, solo una de
 		// esas combinaciones es la ganadora,

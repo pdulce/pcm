@@ -39,7 +39,7 @@ public class MapSpain extends GenericHighchartModel {
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
-		double sumarizadorPorRegion = 0.0, contabilizadasSSCC = 0.0;
+		double sumarizadorTotal = 0.0, contabilizadasSSCC = 0.0;
        
 		Number total = Double.valueOf(0.0);
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
@@ -58,12 +58,17 @@ public class MapSpain extends GenericHighchartModel {
 					contabilizadasSSCC = Double.valueOf(subTotalPorRegion).doubleValue();
 					continue;
 				}
-				sumarizadorPorRegion += subTotalPorRegion;
-				agregadosPorRegion.put(regionCodeISO, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorRegion)));
+				sumarizadorTotal += subTotalPorRegion;
+				Number nuevoValor = 0.0;
+				if (agregadosPorRegion.get(regionCodeISO) != null) {
+					nuevoValor = agregadosPorRegion.get(regionCodeISO);
+				}
+				nuevoValor = nuevoValor.doubleValue() + Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorRegion));
+				agregadosPorRegion.put(regionCodeISO, nuevoValor);
 				break;
 			}
 		}
-		total = sumarizadorPorRegion + contabilizadasSSCC;
+		total = sumarizadorTotal + contabilizadasSSCC;
 
 		String unidadesEnProvincias_formated = "", unidadesSSCC_formated = "", unidadesTotales_formated = "";
 		double promedioPorProvincia = 0.0;
@@ -71,12 +76,12 @@ public class MapSpain extends GenericHighchartModel {
 		
 		data_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
 		unidadesEnProvincias_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
-				.format(sumarizadorPorRegion) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorPorRegion).intValue());
+				.format(sumarizadorTotal) : CommonUtils.numberFormatter.format(Double.valueOf(sumarizadorTotal).intValue());
 		unidadesSSCC_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
 				.format(contabilizadasSSCC) : CommonUtils.numberFormatter.format(Double.valueOf(contabilizadasSSCC).intValue());
 		unidadesTotales_formated = fieldsForAgregadoPor != null && fieldsForAgregadoPor[0].getAbstractField().isDecimal() ? CommonUtils.numberFormatter
 				.format(total.doubleValue()) : CommonUtils.numberFormatter.format(Double.valueOf(total.doubleValue()).intValue());
-		promedioPorProvincia = sumarizadorPorRegion / (valoresAgregados.size() - (contabilizadasSSCC == 0 ? 0 : 1));
+		promedioPorProvincia = sumarizadorTotal / (valoresAgregados.size() - (contabilizadasSSCC == 0 ? 0 : 1));
 	
 		/**********************/
 		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
@@ -97,11 +102,6 @@ public class MapSpain extends GenericHighchartModel {
 
 		return total.doubleValue();
 
-	}
-
-	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		return 1000;
 	}
 
 	@SuppressWarnings("unchecked")

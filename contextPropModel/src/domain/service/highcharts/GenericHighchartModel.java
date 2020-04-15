@@ -312,17 +312,15 @@ public abstract class GenericHighchartModel implements IStats {
 		
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
-		entidadTraslated = CommonUtils.pluralDe(entidadTraslated);
-
+	
 		String newNombreCategoriaOPeriodo = nombreCategoriaOPeriodo_;
 		if (groupByField != null && groupByField.length > 1){
 			newNombreCategoriaOPeriodo = units;
 		}
-		data_.setAttribute(TEXT_Y_AXIS, "nomero de " + 
-		(!"".equals(units) ? CommonUtils.pluralDe(units) : 
+		data_.setAttribute(TEXT_Y_AXIS, "num. " + (!"".equals(units) ? units : 
 			(entidadTraslated + (newNombreCategoriaOPeriodo.equals(entidadTraslated) ? "" : " por " + newNombreCategoriaOPeriodo))));
-		data_.setAttribute(TEXT_X_AXIS, ("".equals(units) ? entidadTraslated : CommonUtils.pluralDe(units)));
-		data_.setAttribute(UNITS_ATTR, CommonUtils.pluralDe(units));
+		data_.setAttribute(TEXT_X_AXIS, ("".equals(units) ? entidadTraslated : units));
+		data_.setAttribute(UNITS_ATTR, units);
 
 		String title = "", subTitle = "";
 		if (data_.getAttribute(TITLE_ATTR) != null) {
@@ -366,42 +364,13 @@ public abstract class GenericHighchartModel implements IStats {
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}
 
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro) {
-		List<FieldViewSet> collec = new ArrayList<FieldViewSet>();
-		int numberOfcategories = 3;
-		try {
-			collec = this._dataAccess.selectWithDistinct(filtro, field4Agrupacion.getMappingTo(), IAction.ORDEN_ASCENDENTE);
-			numberOfcategories = collec.size();
-		}
-		catch (DatabaseException e) {			
-			e.printStackTrace();
-			return -1;
-		}
-		int height = 500;
-		if (numberOfcategories > 3 && numberOfcategories <= 10) {
-			height = 530;
-		} else if (numberOfcategories > 10 && numberOfcategories <= 15) {
-			height = 560;
-		} else if (numberOfcategories > 15 && numberOfcategories <= 20) {
-			height = 590;
-		} else if (numberOfcategories > 20 && numberOfcategories <= 30) {
-			height = 620;
-		} else if (numberOfcategories > 30) {
-			height = 650;
-		}
-		return height;
-	}
-	protected int getWidth() {
-		return 980;
-	}
-
 	protected boolean is3D() {
 		return false;
 	}
 
 	protected final String htmlForHistograms(final Datamap data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		data_.setAttribute("width-container", String.valueOf(getWidth()));
-		data_.setAttribute("height-container", String.valueOf(getHeight(field4Agrupacion, filtro_)));
+		data_.setAttribute("width-container", 800);
+		data_.setAttribute("height-container", 800);
 		if (is3D()) {
 			data_.setAttribute("is3D", "3D");
 		}
@@ -452,11 +421,10 @@ public abstract class GenericHighchartModel implements IStats {
 			for (int i = 0; i < sizeOfListaKeys; i++) {
 				String claveNMPosicion = listaClavesInternas.get(i);
 				String claveForEjeX = "";
-				if (claveNMPosicion.indexOf(":") != -1) {
-					String claveNM = claveNMPosicion.split(":")[1];					
-					claveForEjeX += Translator.traduceDictionaryModelDefined(data_.getLanguage(), claveNM);
+				if (claveNMPosicion.indexOf(":") != -1) {			
+					claveForEjeX += claveNMPosicion.split(":")[1];
 				} else {
-					claveForEjeX += Translator.traduceDictionaryModelDefined(data_.getLanguage(), claveNMPosicion);
+					claveForEjeX += claveNMPosicion;
 				}
 				if (Pattern.matches(HistogramUtils.PATTERN_DAYS, claveForEjeX)){
 					//elimino el anyo
@@ -477,7 +445,7 @@ public abstract class GenericHighchartModel implements IStats {
 			if (clave.indexOf(":") != -1) {
 				clave = clave.split(":")[1];
 			}
-			serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
+			serie.put("name", clave);
 			serie.put("data", jsArray.get(0));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));

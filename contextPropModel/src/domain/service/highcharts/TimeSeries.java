@@ -201,11 +201,6 @@ public class TimeSeries extends GenericHighchartModel {
 	}
 
 	@Override
-	protected int getHeight(final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		return 700;
-	}
-
-	@Override
 	protected boolean is3D() {
 		return false;
 	}
