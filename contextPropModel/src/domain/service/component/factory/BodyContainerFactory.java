@@ -33,7 +33,7 @@ public class BodyContainerFactory {
 			final Datamap datamap, final DomainService domainService) throws PCMConfigurationException,
 			DatabaseException {
 		
-		String profile = (String) datamap.getAppProfile();
+		String profile = datamap.getAppProfile();
 		profile = profile == null ? "" : profile;
 		final String entityNameParamValue = datamap.getParameter(IBodyContainer.ENTITYPARAM) == null ? PCMConstants.EMPTY_ : datamap
 				.getParameter(IBodyContainer.ENTITYPARAM);

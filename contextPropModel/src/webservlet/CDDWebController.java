@@ -195,12 +195,12 @@ public class CDDWebController extends HttpServlet {
 	private void transferDatabusToHttpRequest(final Datamap datamap, final HttpServletRequest httpRequest){		
 		Iterator<String> enumerationAttrs = datamap.getAttributeNames().iterator();
 		while (enumerationAttrs.hasNext()){
-			String key = (String) enumerationAttrs.next();
+			String key = enumerationAttrs.next();
 			httpRequest.setAttribute(key, datamap.getAttribute(key));
 		}		
 		Iterator<String> enumerationParams = datamap.getParameterNames().iterator();
 		while (enumerationParams.hasNext()){
-			String key = (String) enumerationParams.next();
+			String key = enumerationParams.next();
 			httpRequest.setAttribute(key, datamap.getParameter(key));
 		}
 		if (datamap.getAttribute(PCMConstants.APP_PROFILE) != null) {

@@ -6,7 +6,7 @@
 	<property name="apache.home" value="${env.CATALINA_HOME}"/>
 	<property name="jenkins.workspace" value="${env.JENKINS_WORKSPACE_PATH}"/>
 	<property name="base.work.path" value="prjmanager"/>
-	<property name="url.deploy" value="http://localhost:8083"/>
+	<property name="url.deploy" value="http://localhost:8082"/>
 	
 	<!--for Windows station-->
 	<!--<property name="apache.home" value="C:\\apache-tomcat-7.0.85"/>
@@ -45,8 +45,8 @@
 	        </src>
         	<classpath refid="compile.classpath"/>
        </javac>
-       <copy todir="${app.work.path}/build/classes/pcm/messagesPCM">
-       	  <fileset dir="${pcm.work.path}/src/pcm/messagesPCM"/>
+       <copy todir="${app.work.path}/build/classes/domain/common/messages">
+       	  <fileset dir="${pcm.work.path}/src/domain/common/messages"/>
        </copy>
        <copy todir="${app.work.path}/build/classes/messagesApp">
     	  <fileset dir="${app.work.path}/src/messagesApp"/>
