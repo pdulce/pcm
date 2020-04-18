@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>	
-<!--configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">
-https://github.com/pdulce/SeguimientoProyectos/WebContent/WEB-INF/**.xml
--->
-<configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">
+<!--configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">-->
+<configuration serverPath="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0">
 	<entry key="appTitle" value="Seguimiento de Proyectos Lote GISS"></entry>
 	<entry key="auditActivated" value="false"></entry>
 	<entry key="template" value="/jsp/template.jsp"></entry>
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
 	<entry key="datasourceImpl" value="domain.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
-	value="file:///home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/entities.xml"></entry>
+	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//entities.xml"></entry>
 	<entry key="navigationApp" 
-	value="file:///home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/navigationWebModel.xml"></entry>			
+	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//navigationWebModel.xml"></entry>			
 	<entry key="serviceDirectory" 
-	value="/home/pedro/git/pcm/SeguimientoProyectos/WebContent/WEB-INF/services"></entry>
+	value="C:\\Users\\ESDU\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\services"></entry>
 	<entry key="driver-class" value="org.sqlite.JDBC"></entry>
 	<entry key="url-connection" value="jdbc:sqlite:"></entry>
 	<entry key="dbPort" value="-1"></entry><!-- SQLite no requiere puerto -->
 	<entry key="esquemaDDBB" value="#serverPath#/data/sqlite/factUTEDBLite.db"></entry>
 	<entry key="dbUserName" value=""></entry><!-- without login -->
 	<entry key="dbPassword" value=""></entry><!-- without password -->		
-	<entry key="pageSize" value="25"></entry>		
+	<entry key="pageSize" value="25"></entry>
 	<entry key="logAppFile"
 		value="#serverPath#/logs/logSeguimientoUTE.xml"></entry>
 	<entry key="downloadDir"
-		value="#serverPath#/downloads/"></entry>
+		value="#serverPath#/temp/downloads/"></entry>
 	<entry key="uploadDir"
-		value="#serverPath#/uploads/"></entry>
+		value="#serverPath#/temp/uploads/"></entry>
 </configuration>
