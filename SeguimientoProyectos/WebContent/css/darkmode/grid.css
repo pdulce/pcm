@@ -6,7 +6,7 @@
 */
 
 .pcmTDLeft {
-	font: normal 92% Verdana, sans-serif;
+	font: normal 0.8em Verdana, sans-serif;
 	color: white;
 	background-color: black;
 	text-align: left;
@@ -17,7 +17,7 @@
 }
 	
 .pcmTDRight {
-	font: normal 92% Verdana, sans-serif;
+	font: normal 0.8em Verdana, sans-serif;
 	color: white;
 	background-color: black;
 	text-align: left;
@@ -30,7 +30,7 @@
 .pcmTable {
 	display: table;
 	border: 0;
-	font-size: 94.5%;
+	font-size: 0.8em;
 	width: 95.9%;
 	background-color: black;
 }
@@ -38,7 +38,7 @@
 TH {
     background-color: #a1d0ee;
     color: #19185e;
-    font-size: 95.5%;
+    font-size: 0.8em;
     border: 0;
 }
 
