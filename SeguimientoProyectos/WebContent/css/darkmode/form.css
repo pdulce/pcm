@@ -18,7 +18,7 @@ form.pcmForm legend {
 	color: white;
 }
 	
-form.pcmForm fieldset {
+form.pcmForm fieldset fieldset { 	
 	border: none;
 	color: white;
 	background-color: black;
@@ -28,12 +28,21 @@ form.pcmForm fieldset {
 	margin: 2px;
 	padding: 0;
 }
-	
-form.pcmForm fieldset fieldset { 	
-	background-color: black;
-	padding: 0px 0px 0px;
-	font-size: 0.9em;
-    font-family: Verdana, sans-serif;
+
+input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+}
+input[type=checkbox]:after {
+  content: " ";
+  background-color: orange;
+  display: inline-block;
+  visibility: visible;
+}
+input[type=checkbox]:checked:after {
+  content: "\2714";
+  /* this is a checkmark symbol */
 }
 
 .redAst{
