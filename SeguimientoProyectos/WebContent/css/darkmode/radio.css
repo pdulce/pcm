@@ -28,19 +28,19 @@
   left: 0;
   height: 14px;
   width: 14px;
-  background-color: #eee;
+  background-color: rgb(253, 244, 223);
   border-radius: 50%;
 }
 
 /* On mouse-over, add a grey background color */
 .radiogroupcontainer:hover input ~ .checkmarkradio {
-  background-color: #ccc;
+  background-color: rgb(255, 128, 0);
 }
 
 /* When the radio button is checked, add a blue background */
 .radiogroupcontainer input:checked ~ .checkmarkradio {
-  background-color: #2196F3;
-}
+  background-color: rgb(0, 255, 0);
+  }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmarkradio:after {
