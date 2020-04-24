@@ -91,9 +91,9 @@ public class RadioButton extends GenericInput {
 		//ends input
 		
 		cad.append(input);
-		cad.append("<span ").append(this.getClassId()).append("</span>").
+		cad.append("<span").append(this.getClassId()).append("></span>");
 		
-		append("</label>");
+		cad.append("</label>");
 		
 		return cad.toString();
 		

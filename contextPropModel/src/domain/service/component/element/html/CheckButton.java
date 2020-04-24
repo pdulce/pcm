@@ -83,7 +83,7 @@ public class CheckButton extends GenericInput {
 		
 		cad.append(input);
 		
-		cad.append("<span ").append(this.getClassId()).append("></span>").
+		cad.append("<span").append(this.getClassId()).append("></span>").
 		
 		append("</label>");
 		return cad.toString();
