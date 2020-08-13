@@ -46,7 +46,7 @@ import facturacionUte.common.ConstantesModelo;
 
 /**
  * @author 99GU3997
- *         Esta clase, con cualquier número de columnas, leerá una Excel y cargaro al menos los
+ *         Esta clase JAVA, con cualquier número de columnas, leerá una Excel y cargaro al menos los
  *         siguientes campos en una tabla SQLite:
  *         ****************************
  *         Observaciones
