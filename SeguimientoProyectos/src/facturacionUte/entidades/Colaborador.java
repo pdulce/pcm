@@ -1,5 +1,8 @@
 package facturacionUte.entidades;
 
+/**
+ * anyadimos comment**/
+
 public class Colaborador {
 
 	public static final String TABLE_COLABORADORES = "colaborador";
