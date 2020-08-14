@@ -46,7 +46,7 @@ import facturacionUte.common.ConstantesModelo;
 
 /**
  * @author 99GU3997
- *         Esta clase JAVA, con cualquier número de columnas, leerá una Excel y cargaro al menos los
+ *         Esta clase, con cualquier número de columnas, leerá una Excel y cargaro al menos los
  *         siguientes campos en una tabla SQLite:
  *         ****************************
  *         Observaciones
@@ -160,7 +160,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		alias.put("COMM", COMMON_alias);
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestión", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Pets. relacionadas", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO));
@@ -175,7 +175,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_10_AREA_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área destino", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_16_PRIORIDAD));
@@ -202,7 +202,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas reales", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Versión análisis", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_32_VERSION_ANALYSIS));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Pets. relacionadas", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha estado actual", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas iniciales",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_42_HORAS_ESTIMADAS_INICIALES));		
