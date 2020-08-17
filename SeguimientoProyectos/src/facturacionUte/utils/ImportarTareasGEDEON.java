@@ -160,7 +160,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		alias.put("COMM", COMMON_alias);
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestión", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Pets. relacionadas", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO));
@@ -785,6 +785,19 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			strPeticiones.append(idPetRelacionada); 
 			strPeticiones.append(servicioDestinoPet);
 			strPeticiones.append("</LI>");
+			
+			//linkamos del trabajo a la entrega:
+			final String typeOfParent = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
+			if (petRelacionada!=null && typeOfParent.toString().toUpperCase().indexOf("ENTREGA") == -1){	
+				String idEntrega = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());
+				petRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName(), idEntrega);
+				petRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_34_CON_ENTREGA).getName(), 1);
+				try {
+					this.dataAccess.modifyEntity(petRelacionada);
+				} catch (TransactionException eModif) {
+					eModif.printStackTrace();
+				}
+			}
 		}//for each peticion in lista
 		
 		strPeticiones.append("</UL></P>");
@@ -829,13 +842,27 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				}
 			}
 		}else{
-			String[] splitter = pets.split(",");
+			CharSequence sq = ",";
+			String[] splitter = pets.split("; ");
 			int length_ = splitter.length;
 			for (int i=0;i<length_;i++){
-				if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
-					String[] splitter2 = splitter[i].split(PCMConstants.REGEXP_POINT);
-					Long num = Long.valueOf(splitter2[0].trim());
-					arr.add(num);
+				if (splitter[i].length() > 0 && splitter[i].contains(sq)){
+					String[] splitterCSV = splitter[i].split(",");
+					for (int k=0;k<splitterCSV.length;k++) {
+						try {
+							Long num = Long.valueOf(splitterCSV[k]);
+							arr.add(num);
+						}catch (Throwable excx) {
+							excx.printStackTrace();
+						}
+					}//for
+				}else if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
+					try {
+						Long num = Long.valueOf(splitter[i]);
+						arr.add(num);
+					}catch (Throwable excx) {
+						excx.printStackTrace();
+					}
 				}
 			}
 		}
