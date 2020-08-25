@@ -160,7 +160,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		alias.put("COMM", COMMON_alias);
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestión", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas|Pets. relacionadas", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO));
@@ -568,7 +568,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 									.getName());
 							Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF)
 									.getName());
-							if (tStampFecEstadoModifReg != null && tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD)){//ha sido modificado, lo incluyo en la lista de IDs modificados
+							if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
 								IDs_changed.add(idPeticion);
 							}
 							int ok = this.dataAccess.modifyEntity(registro);
@@ -842,11 +842,11 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				}
 			}
 		}else{
-			CharSequence sq = ",";
-			String[] splitter = pets.split("; ");
+			//CharSequence sq = ",";
+			String[] splitter = pets.split(",");
 			int length_ = splitter.length;
 			for (int i=0;i<length_;i++){
-				if (splitter[i].length() > 0 && splitter[i].contains(sq)){
+				/*if (splitter[i].length() > 0 && splitter[i].contains(sq)){
 					String[] splitterCSV = splitter[i].split(",");
 					for (int k=0;k<splitterCSV.length;k++) {
 						try {
@@ -856,7 +856,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							excx.printStackTrace();
 						}
 					}//for
-				}else if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
+				}else*/ if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
 					try {
 						Long num = Long.valueOf(splitter[i]);
 						arr.add(num);
