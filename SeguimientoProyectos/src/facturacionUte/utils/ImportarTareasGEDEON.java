@@ -175,7 +175,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("햞ea origen", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_10_AREA_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("햞ea destino", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("햞ea destino|햞ea desarrollo", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_16_PRIORIDAD));
