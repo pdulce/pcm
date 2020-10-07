@@ -343,6 +343,7 @@
 						<fieldView mappingTo="26" type="checkbox" size="16">
 							<optionValues selectionMultiple="true">
 								<option code="AYFL" title="AYFLO"></option>
+								<option code="BISM" title="BISM"></option>
 								<option code="FAMA" title="FAMA"></option>						
 								<option code="FAM2" title="FAM2"></option>
 								<option code="FOMA" title="FOMA Pros@"></option>
@@ -352,6 +353,7 @@
 								<option code="GFOA" title="GFOA"></option>
 								<option code="ISMW" title="ISMW"></option>
 								<option code="MOVI" title="MOVI"></option>
+								<option code="OBIS" title="OBIS"></option>
 								<option code="SANI" title="SANI"></option>
 								<option code="SBOT" title="SBOT"></option>
 								<option code="WISM-WBOF" title="WISM-WBOF"></option>
