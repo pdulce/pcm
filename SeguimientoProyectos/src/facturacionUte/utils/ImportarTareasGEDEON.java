@@ -107,11 +107,13 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 		alias.put("FAM2", new ArrayList<String>());
 		alias.put("FOM2", new ArrayList<String>());
+		alias.put("GFOA", new ArrayList<String>());
 		alias.put("SBOT", new ArrayList<String>());
 		alias.put("SANI", new ArrayList<String>());
 		alias.put("FRMA", new ArrayList<String>());
 		alias.put("FOMA", new ArrayList<String>());
-		
+		alias.put("BISM", new ArrayList<String>());
+		alias.put("OBIS", new ArrayList<String>());
 		alias.put("MOVI", new ArrayList<String>());
 		alias.put("ISMW", new ArrayList<String>());
 		alias.put("BIRT", new ArrayList<String>());	
