@@ -735,50 +735,22 @@ public final class CommonUtils {
 		for (int i=1;i<=cadena.length();i++){
 			String c = cadena.substring(i-1, i);
 			if (CommonUtils.isVocal(c.charAt(0))){
-				c = c.replaceAll("o", "a");
-				c = c.replaceAll("o", "e");
-				c = c.replaceAll("o", "i");
-				c = c.replaceAll("o", "o");
-				c = c.replaceAll("o", "u");
+				c = c.replaceAll("á", "a");
+				c = c.replaceAll("é", "e");
+				c = c.replaceAll("í", "i");
+				c = c.replaceAll("ó", "o");
+				c = c.replaceAll("ú", "u");
+				c = c.replaceAll("Á", "A");
+				c = c.replaceAll("É", "E");
+				c = c.replaceAll("Í", "I");
+				c = c.replaceAll("Ó", "O");
+				c = c.replaceAll("Ú", "U");
 			}
 			texto.append(c);
 		}
 		return texto.toString();
 	}
 	
-	/*public static String pluralDe(final String palabra){
-		if (palabra == null || "".equals(palabra.trim())){
-			return "";
-		}
-		String primeraPalabraEnPlural = "";
-		String cadena = palabra;
-		String[] splitter = cadena.split(" ");//solo hacemos el plural de la primera palabra si es compuesta
-		String primeraPalabraOriginal = cleanWhitespaces(splitter[0]);
-		if (primeraPalabraOriginal.equals("") && splitter.length > 1){
-			primeraPalabraOriginal = cleanWhitespaces(splitter[1]);
-		}
-		String primeraPalabra = cleanWhitespaces(quitarTildes(primeraPalabraOriginal));
-		char lastCar = primeraPalabra.charAt(primeraPalabra.length() - 1);
-		
-		if (isVocal(lastCar)){
-			primeraPalabraEnPlural = primeraPalabra.concat("s");
-		} else {
-			if (lastCar == 's'){
-				return primeraPalabra;
-			}else if (lastCar == 'n' || lastCar == 'l'){
-				primeraPalabraEnPlural = primeraPalabra.concat("es");
-			}else if (lastCar != '.' && lastCar != 's'){
-				primeraPalabraEnPlural = primeraPalabra.concat("as");
-			} else{
-				primeraPalabraEnPlural = primeraPalabra;
-			}
-		}
-					
-		cadena = cadena.replaceFirst(primeraPalabraOriginal, primeraPalabraEnPlural);
-		
-		return cadena;
-	}
-	*/
 	
 	
 	public static List<Double> getValueListInJsonSerie(final String serieJson){

@@ -78,6 +78,9 @@ public abstract class AbstractExcelReader {
 
 					final Cell cell = rowIEsima.getCell(nColum);
 					Serializable valueCell = null;
+					if (cell == null) {
+						continue;
+					}
 
 					if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 						valueCell = cell.getNumericCellValue();
