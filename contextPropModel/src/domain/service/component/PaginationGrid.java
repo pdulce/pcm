@@ -421,11 +421,13 @@ public class PaginationGrid extends AbstractComponent {
 					this.setDefaultOrderFields(orderFields);
 				}
 			}
+			
 			if (element.hasAttribute(ORDER_DIRECTION)) {
 				this.setDefaultOrderDirection(element.getAttribute(PaginationGrid.ORDER_DIRECTION));
 			} else {
 				this.setDefaultOrderDirection(IAction.ORDEN_DESCENDENTE);
-			}
+			}	
+			
 			if (element.hasAttribute(FILTER_RESULTS)) {
 				String fieldToFilter = element.getAttribute(PaginationGrid.FILTER_RESULTS);
 				String[] splitter = fieldToFilter.split(PCMConstants.REGEXP_POINT);
@@ -676,45 +678,45 @@ public class PaginationGrid extends AbstractComponent {
 	
 		final StringBuilder orderFieldSet = new StringBuilder();
 		
-		String orderFieldDirectionPressed_ = datamap.getParameter(ORDENACION);//aqui se almacena quo columna fue pulsada
-		String[] orderFieldsDirectionPressed = orderFieldDirectionPressed_ == null ? getDefaultOrderFields() : new String[]{orderFieldDirectionPressed_};
-		
 		GenericInput inputOrderField = new GenericInput();
 		inputOrderField.setType("hidden");
 		inputOrderField.setName(PaginationGrid.ORDENACION);
 		inputOrderField.setId(PaginationGrid.ORDENACION);
-		inputOrderField.setDefaultVal(serialize(orderFieldsDirectionPressed));
+		inputOrderField.setDefaultVal(serialize(this.getDefaultOrderFields()));
 		
 		Collection<String> valuesFields = new ArrayList<String>();
-		valuesFields.add(orderFieldDirectionPressed_);
+		valuesFields.add(this.getOrdenationFieldSel()[0]);
 		orderFieldSet.append(inputOrderField.toHTML(Translator.traducePCMDefined(lang, PaginationGrid.ORDENACION), valuesFields) );
 		
-		String orderPressed_ = datamap.getParameter(DIRECCION);//by default
-		orderPressed_ = orderPressed_==null?getDefaultOrderDirection(): orderPressed_;//by default
+		boolean isColumnOrderWasPressed = datamap.getParameter(ORDENACION) != null && !"1".equals(datamap.getParameter(PAGE_CLICKED));
+		String orderPressed_Dominant = this.getOrdenacionDirectionSel();
 		Iterator<IFieldView> iteradorCamposOrdenacion = this.getAllFieldViewDefs().iterator();
 		while (iteradorCamposOrdenacion.hasNext()){
 			IFieldView orderField = iteradorCamposOrdenacion.next();			
 			String nameOfOrderField = orderField.getQualifiedContextName();
 			String nameOfColumnOrder = ORDENACION.concat(nameOfOrderField);
-			String revertirOrden = getDefaultOrderDirection();
-			revertirOrden =	datamap.getParameter(nameOfColumnOrder);//recojo el que tuviera ese fieldorder marcado, asi guardamos la historia anterior			
-			if (nameOfOrderField.equals(orderFieldDirectionPressed_)){			
-				if (IViewComponent.ASC_MINOR_VALUE.equals(orderPressed_)){
-					orderPressed_= IViewComponent.DESC_MINOR_VALUE;					
-				}else{
-					orderPressed_= IViewComponent.ASC_MINOR_VALUE;					
-				}
-				revertirOrden = orderPressed_;
+			String orderPressed_ = this.getDefaultOrderDirection();
+			
+			if (!isColumnOrderWasPressed & nameOfOrderField.equals(this.getOrdenationFieldSel()[0]) ){
+				orderPressed_ = datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField))==null ? orderPressed_:datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField));
+				orderPressed_ = orderPressed_ == null ? this.getDefaultOrderDirection(): orderPressed_;
+			
+			}else if (isColumnOrderWasPressed && datamap.getParameter(PaginationGrid.ORDENACION).contentEquals(nameOfOrderField) ) {
+				String invertOrderPressed_ = datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField))==null ? orderPressed_:datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField));
+				//invert order when column was pressed
+				invertOrderPressed_ =	IViewComponent.ASC_MINOR_VALUE.equals(invertOrderPressed_) ? IViewComponent.DESC_MINOR_VALUE: IViewComponent.ASC_MINOR_VALUE;				
+				orderPressed_ = invertOrderPressed_;
+				//orderPressed_Dominant = orderPressed_;
+			
 			}
-			revertirOrden = revertirOrden==null?getDefaultOrderDirection(): revertirOrden;//by default
 			
 			GenericInput inputColumOrder = new GenericInput();
 			inputColumOrder.setType("hidden");
 			inputColumOrder.setName(nameOfColumnOrder);
 			inputColumOrder.setId(nameOfColumnOrder);
-			inputColumOrder.setDefaultVal(revertirOrden);
+			inputColumOrder.setDefaultVal(orderPressed_);
 			Collection<String> values = new ArrayList<String>();
-			values.add(revertirOrden);
+			values.add(orderPressed_);
 			orderFieldSet.append(inputColumOrder.toHTML(Translator.traducePCMDefined(lang, nameOfOrderField), values) );
 		}
 				
@@ -722,9 +724,9 @@ public class PaginationGrid extends AbstractComponent {
 		inputOrderDir.setType("hidden");
 		inputOrderDir.setName(DIRECCION);
 		inputOrderDir.setId(DIRECCION);
-		inputOrderDir.setDefaultVal(orderPressed_);
+		inputOrderDir.setDefaultVal(orderPressed_Dominant);
 		Collection<String> valuesOrderDir = new ArrayList<String>();
-		valuesOrderDir.add(orderPressed_);						
+		valuesOrderDir.add(orderPressed_Dominant);						
 		orderFieldSet.append(inputOrderDir.toHTML(Translator.traducePCMDefined(lang, DIRECCION), valuesOrderDir) );
 		
 		return orderFieldSet;
@@ -737,16 +739,24 @@ public class PaginationGrid extends AbstractComponent {
 		int headerLabelsCount = this.headerLabels.size();
 		final String img_asc_src = new StringBuilder(PaginationGrid.IMAGE_ICON_DIR).append(PaginationGrid.UP_ARROW).toString();
 		final String img_desc_src = new StringBuilder(PaginationGrid.IMAGE_ICON_DIR).append(PaginationGrid.DOWN_ARROW).toString();
+		boolean isColumnOrderWasPressed = datamap.getParameter(ORDENACION) != null && !"1".equals(datamap.getParameter(PAGE_CLICKED));
+
 		for (int i = 0; i < headerLabelsCount; i++) {
-			final GenericHTMLElement labelheader = this.headerLabels.get(i);					
-			String orderPressed = datamap.getParameter(ORDENACION.concat(labelheader.getName()));
-			if (orderPressed == null && getDefaultOrderFields()[0].equals(labelheader.getName())){
-				orderPressed = getRevertedDefaultOrderDirection();
-			}else if (orderPressed == null){
-				orderPressed = getDefaultOrderDirection();
+			final GenericHTMLElement labelheader = this.headerLabels.get(i);
+			String nameOfOrderField = labelheader.getName();			
+			String orderPressed_ = 	datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField))==null ? getDefaultOrderDirection():datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField));
+			if (!isColumnOrderWasPressed & nameOfOrderField.equals(this.getOrdenationFieldSel()[0]) ){
+				orderPressed_ = datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField))==null ? orderPressed_:datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField));
+				orderPressed_ = orderPressed_ == null ? this.getDefaultOrderDirection(): orderPressed_;
+			}else if (isColumnOrderWasPressed && datamap.getParameter(PaginationGrid.ORDENACION).contentEquals(nameOfOrderField) ) {
+				String invertOrderPressed_ = datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField))==null ? orderPressed_:datamap.getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField));
+				//invert order when column was pressed
+				invertOrderPressed_ =	IViewComponent.ASC_MINOR_VALUE.equals(invertOrderPressed_) ? IViewComponent.DESC_MINOR_VALUE: IViewComponent.ASC_MINOR_VALUE;				
+				orderPressed_ = invertOrderPressed_;
 			}
+			
 			String img2Draw = img_asc_src;
-			if (IViewComponent.DESC_MINOR_VALUE.equals(orderPressed)){
+			if (IViewComponent.DESC_MINOR_VALUE.equals(orderPressed_)){
 				img2Draw = img_desc_src;
 			}
 			labelheader.setImg(img2Draw);

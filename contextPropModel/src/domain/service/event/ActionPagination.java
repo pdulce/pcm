@@ -21,6 +21,7 @@ import domain.service.component.PaginationGrid;
 import domain.service.component.XmlUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
+import domain.service.component.definitions.IFieldView;
 import domain.service.component.factory.IBodyContainer;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.FieldCompositePK;
@@ -98,6 +99,26 @@ public class ActionPagination extends AbstractAction {
 				throw new ParameterBindingException(InternalErrorsConstants.GRID_ORDERDIR_ERROR);
 			}
 		}
+		
+		boolean isColumnOrderWasPressed = datamap.getParameter(PaginationGrid.ORDENACION) != null && !"1".equals(datamap.getParameter(PaginationGrid.PAGE_CLICKED));
+		if (isColumnOrderWasPressed) {
+			Iterator<FieldViewSet> itFsets = pagGrid.getFieldViewSets().iterator();
+			FieldViewSet fSet = itFsets.next();
+			Iterator<IFieldView> iteradorCamposOrdenacion = fSet.getFieldViews().iterator();
+			while (iteradorCamposOrdenacion.hasNext()){
+				IFieldView orderField = iteradorCamposOrdenacion.next();			
+				String nameOfOrderField = orderField.getQualifiedContextName();
+				if (this.getDataBus().getParameter(PaginationGrid.ORDENACION).contentEquals(nameOfOrderField) ) {
+					String invertOrderPressed_ = this.getDataBus().getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField))==null ? actualOrderDirection:this.getDataBus().getParameter(PaginationGrid.ORDENACION.concat(nameOfOrderField));
+					//invert order when column was pressed
+					invertOrderPressed_ =	IViewComponent.ASC_MINOR_VALUE.equals(invertOrderPressed_) ? IViewComponent.DESC_MINOR_VALUE: IViewComponent.ASC_MINOR_VALUE;				
+					actualOrderDirection = invertOrderPressed_;
+					break;
+					
+				}
+			}
+		}
+		
 		int incrementoDePagina = 0;
 		if (this.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED) != null
 				&& !IViewComponent.UNDEFINED.equals(this.getDataBus().getParameter(PaginationGrid.PAGE_CLICKED))) {
@@ -172,19 +193,7 @@ public class ActionPagination extends AbstractAction {
 				if (paginationGrid.getDefaultOrderFields() == null || paginationGrid.getDefaultOrderFields().length==0){
 					throw new PCMConfigurationException(InternalErrorsConstants.MUST_DEFINE_ORDER_FIELD);
 				}
-				
-				String nameSpace = paginationGrid.getDefaultOrderFields()[0].split(PCMConstants.REGEXP_POINT)[0];
-				String paramOrdenacion = this.getDataBus().getParameter(PaginationGrid.ORDENACION);
-				String nameSpaceActual = paramOrdenacion==null?"":paramOrdenacion.split(PCMConstants.REGEXP_POINT)[0];
-				String[] camposOrdenacionActual = paramOrdenacion==null?null:paramOrdenacion.split(PCMConstants.COMMA);
-				String dirOrdenacionActual = this.getDataBus().getParameter(PaginationGrid.DIRECCION);
-				if (camposOrdenacionActual != null && camposOrdenacionActual.length > 0 && nameSpace.equals(nameSpaceActual)){
-					paginationGrid.setOrdenationFieldsSel(camposOrdenacionActual);
-					if (dirOrdenacionActual != null && !"".equals(dirOrdenacionActual)){
-						paginationGrid.setOrdenacionDirectionSel(dirOrdenacionActual);
-					}
-				}
-
+							
 				if (paginationGrid.getMasterNamespace() != null && 
 						!paginationGrid.getFieldViewSetCollection().getFieldViewSets().isEmpty() && myForm != null) {					
 					pageSize = 100;
