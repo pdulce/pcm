@@ -1475,10 +1475,10 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				final int formulaLimiteMin = ((offset_ - 1) * tamPaginacion), formulaLimiteMax = ((offset_) * tamPaginacion);
 				if (hasCounterSQLEmbbeded() && hasDuplicatedCriteriaInEmbbededCounterSQL() && offset_ != -1) {
 					pstmt_.setInt((nArgs_ * 2) + 1, isUpperLimitBefore() ? formulaLimiteMax : formulaLimiteMin);
-					pstmt_.setInt((nArgs_ * 2) + 2, isUpperLimitBefore() ? formulaLimiteMin : formulaLimiteMax);
+					pstmt_.setInt((nArgs_ * 2) + 2, tamPaginacion);
 				} else {
 					pstmt_.setInt((contadorArgumentos + 1), isUpperLimitBefore() ? formulaLimiteMax : formulaLimiteMin);
-					pstmt_.setInt((contadorArgumentos + 2), isUpperLimitBefore() ? formulaLimiteMin : formulaLimiteMax);
+					pstmt_.setInt((contadorArgumentos + 2), tamPaginacion);
 				}
 			}
 

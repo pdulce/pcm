@@ -21,6 +21,7 @@ public class LineCounter {
 	public static List<String> pathFilesML = new ArrayList<String>();
 
 	public static List<String> pathFilesQL = new ArrayList<String>();
+	
 
 	public static void main(final String[] args) {
 
