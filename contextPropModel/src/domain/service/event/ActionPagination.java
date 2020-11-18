@@ -100,7 +100,8 @@ public class ActionPagination extends AbstractAction {
 			}
 		}
 		
-		boolean isColumnOrderWasPressed = datamap.getParameter(PaginationGrid.ORDENACION) != null && !"1".equals(datamap.getParameter(PaginationGrid.PAGE_CLICKED));
+		boolean isColumnOrderWasPressed = datamap.getParameter(PaginationGrid.ORDENACION) != null && 
+				("0".contentEquals(datamap.getParameter(PaginationGrid.PAGE_CLICKED)) || null == datamap.getParameter(PaginationGrid.PAGE_CLICKED));
 		if (isColumnOrderWasPressed) {
 			Iterator<FieldViewSet> itFsets = pagGrid.getFieldViewSets().iterator();
 			FieldViewSet fSet = itFsets.next();

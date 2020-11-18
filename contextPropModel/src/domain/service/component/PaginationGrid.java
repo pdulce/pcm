@@ -688,8 +688,8 @@ public class PaginationGrid extends AbstractComponent {
 		valuesFields.add(this.getOrdenationFieldSel()[0]);
 		orderFieldSet.append(inputOrderField.toHTML(Translator.traducePCMDefined(lang, PaginationGrid.ORDENACION), valuesFields) );
 		
-		boolean isColumnOrderWasPressed = datamap.getParameter(ORDENACION) != null && !"1".equals(datamap.getParameter(PAGE_CLICKED));
-		String orderPressed_Dominant = this.getOrdenacionDirectionSel();
+		boolean isColumnOrderWasPressed = datamap.getParameter(PaginationGrid.ORDENACION) != null && 
+				("0".contentEquals(datamap.getParameter(PaginationGrid.PAGE_CLICKED)) || null == datamap.getParameter(PaginationGrid.PAGE_CLICKED));		String orderPressed_Dominant = this.getOrdenacionDirectionSel();
 		Iterator<IFieldView> iteradorCamposOrdenacion = this.getAllFieldViewDefs().iterator();
 		while (iteradorCamposOrdenacion.hasNext()){
 			IFieldView orderField = iteradorCamposOrdenacion.next();			
