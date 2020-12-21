@@ -357,8 +357,9 @@ CREATE TABLE `servicio` (
   `unidadOrg` int(11) NOT NULL,
   `subdireccion` int(11) NULL
 );
+
 CREATE TABLE `incidenciasProyecto` (
-  `id` varchar(15) primary key,
+  `id` int(10) primary key,
   `Titulo` varchar(500),
   `Descripcion` varchar(100),
   `Observaciones` varchar(1000),
@@ -392,12 +393,14 @@ CREATE TABLE `incidenciasProyecto` (
   `version_analysis` varchar(20) DEFAULT NULL,
   `servicio_atiende_pet` varchar(20) DEFAULT 'SDG',
   `con_entrega` int(1) NOT NULL DEFAULT 0,
-  `id_entrega_asociada`varchar(15) DEFAULT NULL,
-  `pets_relacionadas`varchar(250) DEFAULT NULL,
-  `fecha_estado_modif`TIMESTAMP DEFAULT NULL,
-  `tipo_fecha`int(2),
+  `id_entrega_asociada` int(10) DEFAULT NULL,
+  `pets_relacionadas` varchar(250) DEFAULT NULL,
+  `fecha_estado_modif` TIMESTAMP DEFAULT NULL,
+  `tipo_fecha` int(2),
   `fecha_informe` TIMESTAMP DEFAULT NULL
- , `estado_informe` varchar(100) DEFAULT NULL, id_area int(11) DEFAULT NULL, `entorno` int(11) DEFAULT NULL, `Horas_estimadas_iniciales` double DEFAULT NULL);
+ , `estado_informe` varchar(100) DEFAULT NULL, id_area int(11) DEFAULT NULL, 
+ `entorno` int(11) DEFAULT NULL, `Horas_estimadas_iniciales` double DEFAULT NULL);
+
 CREATE TABLE `sabana` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `Titulo` varchar(500),
