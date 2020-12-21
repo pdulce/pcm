@@ -1,9 +1,11 @@
+
 CREATE TABLE `categoria_profesional` (
   `ID_CATEGORIA` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `TIPO_CATEGORIA` varchar(8) NOT NULL,
   `DESCRIPCION` varchar(50) NOT NULL,
   `IMPORTE_HORA` double NOT NULL
 );
+CREATE TABLE sqlite_sequence(name,seq);
 CREATE TABLE `concurso` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `codigo` varchar(100) NOT NULL,
@@ -357,6 +359,37 @@ CREATE TABLE `servicio` (
   `unidadOrg` int(11) NOT NULL,
   `subdireccion` int(11) NULL
 );
+CREATE TABLE `sabana` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `Titulo` varchar(500),
+  `Fecha_Necesidad` TIMESTAMP DEFAULT NULL,
+  `Entrada_en_CDISM` TIMESTAMP DEFAULT NULL,
+  `Estado_Peticion` varchar(25) DEFAULT NULL,
+  `Prevision_Fin_Estado` TIMESTAMP DEFAULT NULL,
+  `Fecha_Prev_Implantacion` TIMESTAMP DEFAULT NULL,
+  `Fecha_Real_Implantacion` TIMESTAMP DEFAULT NULL,
+  `Observaciones` varchar(500) DEFAULT NULL,
+  `Aplicacion` int(11) NOT NULL,
+  `Origen` varchar(50) DEFAULT NULL,
+  `ID_Origen` varchar(50) DEFAULT NULL,
+  `Fecha_Prev_Ini_Analisis` TIMESTAMP DEFAULT NULL,
+  `Fecha_Real_Ini_Analisis` TIMESTAMP DEFAULT NULL,
+  `Fecha_Prev_Fin_Analisis` TIMESTAMP DEFAULT NULL,
+  `Fecha_Real_Fin_Analisis` TIMESTAMP DEFAULT NULL,
+  `Prev_Ini_Pruebas_CD` TIMESTAMP DEFAULT NULL,
+  `Real_Ini_Pruebas_CD` TIMESTAMP DEFAULT NULL,
+  `Peticion_AES` varchar(15) DEFAULT NULL,
+  `Prev_Fin_Pruebas_CD` TIMESTAMP DEFAULT NULL,
+  `Real_Fin_Pruebas_CD` TIMESTAMP DEFAULT NULL,
+  `Peticion_DG` varchar(15) DEFAULT NULL,
+  `Fecha_Prev_Fin_DG` TIMESTAMP DEFAULT NULL,
+  `Fecha_Real_Fin_DG` TIMESTAMP DEFAULT NULL,
+  `UTS_Estimadas` double DEFAULT NULL,
+  `Peticion_Entrega` varchar(15) DEFAULT NULL,
+  `Fec_Entrega` TIMESTAMP DEFAULT NULL,
+  `Estado_peticion_Entrega` varchar(25) DEFAULT NULL,
+  `Subdireccion` int(11) NOT NULL
+ );
 
 CREATE TABLE `incidenciasProyecto` (
   `id` int(10) primary key,
@@ -399,39 +432,12 @@ CREATE TABLE `incidenciasProyecto` (
   `tipo_fecha` int(2),
   `fecha_informe` TIMESTAMP DEFAULT NULL
  , `estado_informe` varchar(100) DEFAULT NULL, id_area int(11) DEFAULT NULL, 
- `entorno` int(11) DEFAULT NULL, `Horas_estimadas_iniciales` double DEFAULT NULL);
-
-CREATE TABLE `sabana` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `Titulo` varchar(500),
-  `Fecha_Necesidad` TIMESTAMP DEFAULT NULL,
-  `Entrada_en_CDISM` TIMESTAMP DEFAULT NULL,
-  `Estado_Peticion` varchar(25) DEFAULT NULL,
-  `Prevision_Fin_Estado` TIMESTAMP DEFAULT NULL,
-  `Fecha_Prev_Implantacion` TIMESTAMP DEFAULT NULL,
-  `Fecha_Real_Implantacion` TIMESTAMP DEFAULT NULL,
-  `Observaciones` varchar(500) DEFAULT NULL,
-  `Aplicacion` int(11) NOT NULL,
-  `Origen` varchar(50) DEFAULT NULL,
-  `ID_Origen` varchar(50) DEFAULT NULL,
-  `Fecha_Prev_Ini_Analisis` TIMESTAMP DEFAULT NULL,
-  `Fecha_Real_Ini_Analisis` TIMESTAMP DEFAULT NULL,
-  `Fecha_Prev_Fin_Analisis` TIMESTAMP DEFAULT NULL,
-  `Fecha_Real_Fin_Analisis` TIMESTAMP DEFAULT NULL,
-  `Prev_Ini_Pruebas_CD` TIMESTAMP DEFAULT NULL,
-  `Real_Ini_Pruebas_CD` TIMESTAMP DEFAULT NULL,
-  `Peticion_AES` varchar(15) DEFAULT NULL,
-  `Prev_Fin_Pruebas_CD` TIMESTAMP DEFAULT NULL,
-  `Real_Fin_Pruebas_CD` TIMESTAMP DEFAULT NULL,
-  `Peticion_DG` varchar(15) DEFAULT NULL,
-  `Fecha_Prev_Fin_DG` TIMESTAMP DEFAULT NULL,
-  `Fecha_Real_Fin_DG` TIMESTAMP DEFAULT NULL,
-  `UTS_Estimadas` double DEFAULT NULL,
-  `Peticion_Entrega` varchar(15) DEFAULT NULL,
-  `Fec_Entrega` TIMESTAMP DEFAULT NULL,
-  `Estado_peticion_Entrega` varchar(25) DEFAULT NULL,
-  `Subdireccion` int(11) NOT NULL
- );
+ `entorno` int(11) DEFAULT NULL,
+  `Horas_estimadas_iniciales` double DEFAULT NULL);
+  
+  
+CREATE INDEX index_search_gedeones_1 on incidenciasProyecto (id);
+CREATE INDEX index_search_gedeones_2 on incidenciasProyecto (fecha_estado_modif);
 CREATE INDEX index_cotizaciones ON invertia_data (GRUPO);
 CREATE INDEX index_cotizaciones2 ON invertia_data (GRUPO, FECHA);
 CREATE INDEX index_prev_anual ON resultado_prevision_anualidad(id_prevision_contrato);
@@ -441,9 +447,4 @@ CREATE INDEX index_FraServ ON facturacionMesPorServicio (id_servicio);
 CREATE INDEX index_FraDpto ON facturacionMesPorDpto (id_dpto);
 CREATE INDEX index_FraApp ON facturacionMesPorApp (id_app);
 CREATE INDEX index_FraColab ON facturacionMesPorColaborador (id_colaborador);
-CREATE TABLE `porcentaje_facturacion` (
-  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
-  `id_empresa` int(11) NOT NULL,
-  `id_concurso` int(11) NOT NULL,
-  `porcentaje` double DEFAULT NULL
-);
+  
