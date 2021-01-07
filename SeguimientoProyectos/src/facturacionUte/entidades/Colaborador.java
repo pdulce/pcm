@@ -1,7 +1,7 @@
 package facturacionUte.entidades;
 
 /**
- * anyadimos comment**/
+ * Clase Bean que representa a un colaborador **/
 
 public class Colaborador {
 
