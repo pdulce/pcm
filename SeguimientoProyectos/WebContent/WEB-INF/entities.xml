@@ -58,7 +58,7 @@
   
   <entity>
     <entityname>incidenciasProyecto</entityname>
-    <field mappingTo="1" name="id" type="long" length="10" belongsPK="true" required="true"/>
+    <field mappingTo="1" name="id" type="string" length="10" belongsPK="true" required="true"/>
     <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
     <field mappingTo="3" name="Descripcion" type="string" length="1000" required="false"/>
     <field mappingTo="4" name="Observaciones" type="string" length="1000" required="false"/>
@@ -94,7 +94,7 @@
     <field mappingTo="32" name="version_analysis" type="string" length="20" required="false"/>
     <field mappingTo="33" name="servicio_atiende_pet" type="string" length="20" required="false"/>
     <field mappingTo="34" name="con_entrega" type="boolean" length="1" required="false"/>
-    <field mappingTo="35" name="id_entrega_asociada" type="long" length="10" required="false"/>
+    <field mappingTo="35" name="id_entrega_asociada" type="string" length="10" required="false"/>
     <field mappingTo="36" name="pets_relacionadas" type="string" length="250" required="false"/>
     <field mappingTo="37" name="fecha_estado_modif" type="timestamp" length="19" required="false"/>
     <field mappingTo="38" name="tipo_fecha" type="integer" length="2" required="false"/>
@@ -103,6 +103,7 @@
     <field mappingTo="41" name="entorno" type="long" length="11" required="false" 
        fkParentEntities="tipoAplicacion" fkParentFields="1"/>
     <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
+    <field mappingTo="43" name="duration" type="double" length="10" required="false"/>
   </entity>
 	
   <entity>

@@ -194,10 +194,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha prevista fin|Fecha prevista de fin",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN));
+		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha real inicio|Fecha real de inicio",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha real fin|fecha real de fin",
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha real fin|Fecha fin de desarrollo",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN));
+		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación sugerida", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas actuales",
@@ -207,7 +209,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha estado actual", Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas iniciales",
 				Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_42_HORAS_ESTIMADAS_INICIALES));		
-
 	}
 
 	private IDataAccess dataAccess;
@@ -497,9 +498,25 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}						
 					}
 					
+					Date fechaInicioReal = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
+					Date fechaFinReal = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
+					Calendar calFin = Calendar.getInstance();
+					if (fechaFinReal != null) {
+						calFin.setTime(fechaFinReal);
+						Calendar calIni = Calendar.getInstance();
+						calIni.setTime(fechaInicioReal);
+						
+						long millsDuration = calFin.getTimeInMillis() - calIni.getTimeInMillis();								
+						Double dias = new Double(millsDuration/(1000*60*60*24));
+						//System.out.println("dias: " + dias);//lo paso a días
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION).getName(), dias);
+					}
+					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
 						if (situacion.toString().indexOf("Petición finalizada") != -1){						
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Petición de trabajo finalizado");
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Petición de trabajo finalizado");							
 						} else if (situacion.toString().indexOf("Trabajo finalizado") != -1){														
 							if (/*esSoporte*/tipoPeticion.toString().toUpperCase().indexOf("SOPORTE") != -1){
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Soporte finalizado");
@@ -511,7 +528,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							if (UTs_realizadas!=null && UTs_realizadas.compareTo(0.00) == 0){
 								Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), UTs_estimadas);
-							}							
+							}	
+							
 						} else if (situacion.toString().indexOf("En redacción") != -1){							
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo en redacción");
 						} else if (situacion.toString().indexOf("No conforme") != -1){		

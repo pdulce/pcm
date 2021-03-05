@@ -84,6 +84,7 @@ public abstract class ConstantesModelo {
 	public static final int INCIDENCIASPROYECTO_40_ESTADO_INFORME = 40;
 	public static final int INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG = 41;
 	public static final int INCIDENCIASPROYECTO_42_HORAS_ESTIMADAS_INICIALES = 42;
+	public static final int INCIDENCIASPROYECTO_43_DURACION = 43;
 	public static final String INCIDENCIASPROYECTO_ENTIDAD = "incidenciasProyecto";
 	
 	public static final int SABANA_1_ID = 1;

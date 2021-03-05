@@ -38,7 +38,7 @@
 								<optionValues>
 									<option code="-1" title="peticiones"></option>								
 									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
+									<option code="43" title="jornadas duración" selected="true"></option>
 								</optionValues>
 							</fieldView>
 							<!-- fieldView separator="br" /> -->
