@@ -434,8 +434,13 @@ CREATE TABLE `incidenciasProyecto` (
  , `estado_informe` varchar(100) DEFAULT NULL, id_area int(11) DEFAULT NULL, 
  `entorno` int(11) DEFAULT NULL,
   `Horas_estimadas_iniciales` double DEFAULT NULL,
-  `duration` double DEFAULT NULL
-  );
+  `duration` double DEFAULT NULL,
+  `duration_ana` double DEFAULT NULL,
+  `duration_pruebasAna` double DEFAULT NULL,
+  `gap_tramAna_iniAna` double DEFAULT NULL,  
+  `gap_finAna_iniDesa` double DEFAULT NULL,
+  `gap_finDesa_iniPrue` double DEFAULT NULL
+  );  
   
   
 CREATE INDEX index_search_gedeones_1 on incidenciasProyecto (id);

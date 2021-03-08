@@ -38,7 +38,12 @@
 								<optionValues>
 									<option code="-1" title="peticiones"></option>								
 									<option code="28" title="UTs estimadas"></option>
-									<option code="43" title="jornadas duración" selected="true"></option>
+									<option code="43" title="duración desarrollo" selected="true"></option>
+									<option code="44" title="duración análisis"></option>
+									<option code="45" title="duración pruebas"></option>
+									<option code="46" title="gap trámite vs inicio análisis"></option>
+									<option code="47" title="gap fin análisis vs inicio desarrollo"></option>
+									<option code="48" title="gap fin desa vs inicio pruebas"></option>									
 								</optionValues>
 							</fieldView>
 							<!-- fieldView separator="br" /> -->

@@ -297,6 +297,17 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     	}
     	return contador;
     }
+    
+    private Double diasDuracion(Date fechaInicio, Date fechaFin) {    	
+		if (fechaFin != null && fechaInicio!= null) {
+			Calendar calFin = Calendar.getInstance();
+			calFin.setTime(fechaFin);
+			Calendar calIni = Calendar.getInstance();
+			calIni.setTime(fechaInicio);						
+			return new Double((calFin.getTimeInMillis() - calIni.getTimeInMillis())/(1000*60*60*24));
+		}
+		return 0.0;
+    }
 	
 	public Map<Integer, String> importar(final String path, final FieldViewSet importacionFSet) throws Exception {
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
@@ -501,17 +512,41 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					Date fechaInicioReal = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
 							ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
 					Date fechaFinReal = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
-					Calendar calFin = Calendar.getInstance();
-					if (fechaFinReal != null) {
-						calFin.setTime(fechaFinReal);
-						Calendar calIni = Calendar.getInstance();
-						calIni.setTime(fechaInicioReal);
-						
-						long millsDuration = calFin.getTimeInMillis() - calIni.getTimeInMillis();								
-						Double dias = new Double(millsDuration/(1000*60*60*24));
-						//System.out.println("dias: " + dias);//lo paso a días
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION).getName(), dias);
+									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());					
+					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
+					
+					if (servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT)) {
+						//calculamos duración análisis
+						registro.setValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_ANALYSIS).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
+						//calculamos duración pruebas						
+						if (title != null && title.toLowerCase().indexOf("PRUE") != -1) {
+							registro.setValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_PRUEBAS_ANALYSIS).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
+						}
+						//gap entre que se tramita a AT un análisis hasta que éste es atendido por un analista					
+						Date fechaTramite = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+						registro.setValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_TRAMANALYSIS_INIANALYSIS).getName(), diasDuracion(fechaTramite, fechaInicioReal));
+
+						//INCIDENCIASPROYECTO_47_GAP_FINANA_INIDESA: buscar su petición a OO asociada a esta: válido en SANI y poco más
+
+					}
+					String idEntrega = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
+					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) 
+							&& idEntrega != null && "".compareTo(idEntrega)!=0) {
+						FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
+						miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
+						miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
+						if (miEntrega != null){
+							Date fecTramiteEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+							//INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE: tomar de su petición de entrega asociada el momento en que pasa a Instalada (fech_instalada?)
+							registro.setValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fecTramiteEntrega, fechaFinReal));
+						}
 					}
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
