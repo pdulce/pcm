@@ -308,6 +308,33 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		}
 		return 0.0;
     }
+    
+    private String destinoPeticion(FieldViewSet registro) throws DatabaseException{
+    	String servicioAtiendePeticion = ""; 
+		final String centroDestino = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());								
+		if (centroDestino != null) {
+			if (centroDestino.startsWith("FACTDG")){
+				servicioAtiendePeticion = ORIGEN_FROM_AT_TO_DESARR_GESTINADO;
+			}else if (centroDestino.startsWith("Centro de Desarrollo del ISM")){
+				final long idUnidadOrigen = (Long) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_9_UNIDAD_ORIGEN).getName());
+				FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
+				fsetUnidadOrigen.setValue(subdireccionEntidad.searchField(ConstantesModelo.SUBDIRECCION_1_ID).getName(), idUnidadOrigen);
+				fsetUnidadOrigen = dataAccess.searchEntityByPk(fsetUnidadOrigen);
+				if (fsetUnidadOrigen == null){
+					servicioAtiendePeticion = ORIGEN_FROM_SG_TO_CDISM;
+				}else{
+					final String nombreUnidadOrigen = (String) fsetUnidadOrigen.getValue(subdireccionEntidad.searchField(ConstantesModelo.SUBDIRECCION_3_NOMBRE).getName());
+					if (nombreUnidadOrigen.startsWith("Centro de Desarrollo")){//viene de la Subdirecc.
+						servicioAtiendePeticion = ORIGEN_FROM_SG_TO_CDISM;
+					}else{
+						//peticion interna de soporte del CD a AT
+						servicioAtiendePeticion = ORIGEN_FROM_CDISM_TO_AT;
+					}
+				}
+			}
+		}
+		return servicioAtiendePeticion;
+    }
 	
 	public Map<Integer, String> importar(final String path, final FieldViewSet importacionFSet) throws Exception {
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
@@ -374,29 +401,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					}
 				}
 				
-				final String centroDestino = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
-				
-				String servicioAtiendePeticion = ""; 
-				if (centroDestino != null) {
-					if (centroDestino.startsWith("FACTDG")){
-						servicioAtiendePeticion = ORIGEN_FROM_AT_TO_DESARR_GESTINADO;
-					}else if (centroDestino.startsWith("Centro de Desarrollo del ISM")){
-						final long idUnidadOrigen = (Long) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_9_UNIDAD_ORIGEN).getName());
-						FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
-						fsetUnidadOrigen.setValue(subdireccionEntidad.searchField(ConstantesModelo.SUBDIRECCION_1_ID).getName(), idUnidadOrigen);
-						fsetUnidadOrigen = dataAccess.searchEntityByPk(fsetUnidadOrigen);
-						if (fsetUnidadOrigen == null){
-							servicioAtiendePeticion = ORIGEN_FROM_SG_TO_CDISM;
-						}else{
-							final String nombreUnidadOrigen = (String) fsetUnidadOrigen.getValue(subdireccionEntidad.searchField(ConstantesModelo.SUBDIRECCION_3_NOMBRE).getName());
-							if (nombreUnidadOrigen.startsWith("Centro de Desarrollo")){//viene de la Subdirecc.
-								servicioAtiendePeticion = ORIGEN_FROM_SG_TO_CDISM;
-							}else{
-								//peticion interna de soporte del CD a AT
-								servicioAtiendePeticion = ORIGEN_FROM_CDISM_TO_AT;
-							}
-						}
-					}
+				String servicioAtiendePeticion = destinoPeticion(registro);
+				if (!servicioAtiendePeticion.contentEquals("")) {
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_33_SERVICIO_ATIENDE_PETICION).getName(), 
 							servicioAtiendePeticion);
 				}else {
@@ -511,9 +517,42 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					
 					Date fechaInicioReal = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
 							ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
-					Date fechaFinReal = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());					
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
+						Date fechaFinReal = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());	
+					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)) {									
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
+						String idEntrega = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
+						if (idEntrega != null && "".compareTo(idEntrega)!=0) {
+							FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
+							miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
+							miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
+							if (miEntrega != null){
+								Date fecTramiteEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+								registro.setValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fecTramiteEntrega, fechaFinReal));
+							}
+						}
+						String idPetRelacionada = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
+						if (idPetRelacionada != null && "".compareTo(idPetRelacionada)!=0) {
+							Date fecTramiteADG = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+							FieldViewSet peticionRelacionada = new FieldViewSet(incidenciasProyectoEntidad);
+							peticionRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPetRelacionada);						
+							peticionRelacionada = this.dataAccess.searchEntityByPk(peticionRelacionada);
+							if (peticionRelacionada != null){
+								boolean esOO = destinoPeticion(peticionRelacionada).equals(ORIGEN_FROM_CDISM_TO_AT);
+								if (esOO) {
+									Date fecFinRealAnalysis = (Date) peticionRelacionada.getValue(incidenciasProyectoEntidad.searchField(
+											ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
+									registro.setValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINANA_INIDESA).getName(), diasDuracion(fecTramiteADG, fecFinRealAnalysis));
+								}
+							}							
+						}
+					}
 					
 					if (servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT)) {
 						//calculamos duración análisis
@@ -530,23 +569,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						registro.setValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_TRAMANALYSIS_INIANALYSIS).getName(), diasDuracion(fechaTramite, fechaInicioReal));
 
-						//INCIDENCIASPROYECTO_47_GAP_FINANA_INIDESA: buscar su petición a OO asociada a esta: válido en SANI y poco más
-
-					}
-					String idEntrega = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
-					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) 
-							&& idEntrega != null && "".compareTo(idEntrega)!=0) {
-						FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
-						miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
-						miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
-						if (miEntrega != null){
-							Date fecTramiteEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
-							//INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE: tomar de su petición de entrega asociada el momento en que pasa a Instalada (fech_instalada?)
-							registro.setValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fecTramiteEntrega, fechaFinReal));
-						}
 					}
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
