@@ -511,7 +511,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							}else if (UTs_realizadas !=null && UTs_realizadas.compareTo(Double.valueOf(0)) > 0){
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), UTs_realizadas );
 							}
-						}						
+						}
 					}
 					
 					Date fechaAlta = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
@@ -526,33 +526,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
 									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());					
 					//duración real, tiempo dedicado a la tarea en sí misma, sea de análisis o de desarrollo
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_TAREA).getName(), diasDuracion(fechaRealInicio, fechaRealFin));
-					
-					//calculamos duración pruebas						
-					if (servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT) && title != null && title.toLowerCase().indexOf("PRUE") != -1) {
-						registro.setValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_PRUEBAS_ANALYSIS).getName(), diasDuracion(fechaRealInicio, fechaRealFin));
-					}
-					
-					/***Gaps **/
-					
-					
-					//gap entre que se tramita a AT un análisis hasta que éste es atendido por un analista
-					if (servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT)) {
-						Date fechaTramite = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
-						registro.setValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_TRAMANALYSIS_INIANALYSIS).getName(), diasDuracion(fechaTramite, fechaRealInicio));
-					}
-					//gap: ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE --> de momento, me olvido
-					
-					
-					//gap: lapso que transcurre desde que se finaliza por DG, hasta que se hacen en CD las pruebas de validación, y se pasa por el circuito de entrega por PRPI con/sin control de 
-					// calidad previo
-					registro.setValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_PRODUCC).getName(), diasDuracion(fechaRealFin, fechaFinalizacion));
-					
-										
+					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_DESARROLLO).getName(), diasDuracion(fechaRealInicio, fechaRealFin));
+																				
 					if (peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
 						String idEntrega = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
@@ -564,11 +539,13 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								Date fecTramiteEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
 										ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
 								registro.setValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fechaRealFin, fecTramiteEntrega) + 2);//añadimos 2 días para la instalación entrega en CD
+									ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fechaRealFin, fecTramiteEntrega) + 2);//añadimos 2 días para la instalación entrega en CD
 							}
 						}
 					}
 					
+					registro.setValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_FINDESA_PRODUCC).getName(), diasDuracion(fechaRealFin, fechaFinalizacion));
 					
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
