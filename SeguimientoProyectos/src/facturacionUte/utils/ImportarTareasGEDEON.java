@@ -408,16 +408,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				}else {
 					continue;//es petición hija
 				}
-				
-				if (peticionEnBBDD != null) {
-					String idPeticionEntregaBBDD = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
-						ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
-					if (idPeticionEntregaBBDD != null) {
-						registro.setValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName(), idPeticionEntregaBBDD);
-					}
-				}
-				
+								
 				String situacion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
 						ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
 				
@@ -562,8 +553,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_PRODUCC).getName(), diasDuracion(fechaRealFin, fechaFinalizacion));
 					
 										
-					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
-						String idEntrega = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
+					if (peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
+						String idEntrega = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
 						if (idEntrega != null && "".compareTo(idEntrega)!=0) {
 							FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
@@ -573,7 +564,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								Date fecTramiteEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
 										ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
 								registro.setValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fecTramiteEntrega, fechaRealFin) + 2);//añadimos 2 días para la instalación entrega en CD
+									ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fechaRealFin, fecTramiteEntrega) + 2);//añadimos 2 días para la instalación entrega en CD
 							}
 						}
 					}
@@ -750,11 +741,15 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				List<Long> entregasPrevias = peticionesEntregaPrevias == null || "".equals(peticionesEntregaPrevias) ? new ArrayList<Long>() : obtenerCodigos(peticionesEntregaPrevias);
 				String literalEntregasPrevias = idGEDEONPeticionEntrega;
 				
-				if(entregasPrevias.size() > 0){
-					literalEntregasPrevias = literalEntregasPrevias.concat(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
-				}				
+				//if(!entregasPrevias.contains(new Long(idGEDEONPeticionEntrega))){
+				literalEntregasPrevias = literalEntregasPrevias.concat(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+				//}
+				
 				for (int ent_=0;ent_<entregasPrevias.size();ent_++){				
 					final String id_Entrega = String.valueOf(entregasPrevias.get(ent_));
+					/*if (new Long(id_Entrega) == new Long(idGEDEONPeticionEntrega)) {
+						continue;
+					}*/
 					literalEntregasPrevias = literalEntregasPrevias.concat(id_Entrega);
 					
 					FieldViewSet entregaPeticion = new FieldViewSet(incidenciasProyectoEntidad);
