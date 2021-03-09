@@ -515,12 +515,46 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}						
 					}
 					
-					Date fechaInicioReal = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+					Date fechaAlta = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName());
+					Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());					
+					//duración total de la petición: desde su alta hasta su aprobación por estar implantada en Producción
+					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), diasDuracion(fechaAlta, fechaFinalizacion));
+					
+					Date fechaRealInicio = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
 							ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
-						Date fechaFinReal = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());	
-					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)) {									
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
+					Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());					
+					//duración real, tiempo dedicado a la tarea en sí misma, sea de análisis o de desarrollo
+					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_TAREA).getName(), diasDuracion(fechaRealInicio, fechaRealFin));
+					
+					//calculamos duración pruebas						
+					if (servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT) && title != null && title.toLowerCase().indexOf("PRUE") != -1) {
+						registro.setValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_PRUEBAS_ANALYSIS).getName(), diasDuracion(fechaRealInicio, fechaRealFin));
+					}
+					
+					/***Gaps **/
+					
+					
+					//gap entre que se tramita a AT un análisis hasta que éste es atendido por un analista
+					if (servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT)) {
+						Date fechaTramite = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+						registro.setValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_TRAMANALYSIS_INIANALYSIS).getName(), diasDuracion(fechaTramite, fechaRealInicio));
+					}
+					//gap: ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE --> de momento, me olvido
+					
+					
+					//gap: lapso que transcurre desde que se finaliza por DG, hasta que se hacen en CD las pruebas de validación, y se pasa por el circuito de entrega por PRPI con/sin control de 
+					// calidad previo
+					registro.setValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_PRODUCC).getName(), diasDuracion(fechaRealFin, fechaFinalizacion));
+					
+										
+					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)) {
 						String idEntrega = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
 						if (idEntrega != null && "".compareTo(idEntrega)!=0) {
@@ -531,45 +565,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								Date fecTramiteEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
 										ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
 								registro.setValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fecTramiteEntrega, fechaFinReal));
+									ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fecTramiteEntrega, fechaRealFin) + 2);//añadimos 2 días para la instalación entrega en CD
 							}
-						}
-						String idPetRelacionada = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
-						if (idPetRelacionada != null && "".compareTo(idPetRelacionada)!=0) {
-							Date fecTramiteADG = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
-							FieldViewSet peticionRelacionada = new FieldViewSet(incidenciasProyectoEntidad);
-							peticionRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPetRelacionada);						
-							peticionRelacionada = this.dataAccess.searchEntityByPk(peticionRelacionada);
-							if (peticionRelacionada != null){
-								boolean esOO = destinoPeticion(peticionRelacionada).equals(ORIGEN_FROM_CDISM_TO_AT);
-								if (esOO) {
-									Date fecFinRealAnalysis = (Date) peticionRelacionada.getValue(incidenciasProyectoEntidad.searchField(
-											ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
-									registro.setValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINANA_INIDESA).getName(), diasDuracion(fecTramiteADG, fecFinRealAnalysis));
-								}
-							}							
 						}
 					}
 					
-					if (servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT)) {
-						//calculamos duración análisis
-						registro.setValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_ANALYSIS).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
-						//calculamos duración pruebas						
-						if (title != null && title.toLowerCase().indexOf("PRUE") != -1) {
-							registro.setValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_PRUEBAS_ANALYSIS).getName(), diasDuracion(fechaInicioReal, fechaFinReal));
-						}
-						//gap entre que se tramita a AT un análisis hasta que éste es atendido por un analista					
-						Date fechaTramite = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
-						registro.setValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_TRAMANALYSIS_INIANALYSIS).getName(), diasDuracion(fechaTramite, fechaInicioReal));
-
-					}
+					
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
 						if (situacion.toString().indexOf("Petición finalizada") != -1){						
