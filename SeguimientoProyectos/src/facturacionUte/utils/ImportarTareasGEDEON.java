@@ -594,7 +594,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. estimar");
 							}
 						}
-					}else {	
+					}else if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") != -1 &&
+							tipoPeticion.toString().toUpperCase().indexOf("PARCIAL")== -1){	// no contabilizamos las parciales
 						if (situacion.toString().indexOf("Petición finalizada") != -1){
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),  "Petición de Entrega finalizada");
 						}else if (situacion.toString().indexOf("Anulada") != -1){
