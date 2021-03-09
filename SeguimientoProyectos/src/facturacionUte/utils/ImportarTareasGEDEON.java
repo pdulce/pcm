@@ -528,18 +528,28 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					//duración real, tiempo dedicado a la tarea en sí misma, sea de análisis o de desarrollo
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_DESARROLLO).getName(), diasDuracion(fechaRealInicio, fechaRealFin));
 																				
-					if (peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
+					if (fechaRealFin != null && peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
 						String idEntrega = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
+								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());						
 						if (idEntrega != null && "".compareTo(idEntrega)!=0) {
+							idEntrega = idEntrega.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
 							FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
 							miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
 							miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
 							if (miEntrega != null){
-								Date fecTramiteEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
-								registro.setValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_FINDESA_INIPRUE).getName(), diasDuracion(fechaRealFin, fecTramiteEntrega) + 2);//añadimos 2 días para la instalación entrega en CD
+								String tipoPeticionEntrega = (String) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
+								if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") != -1 && 
+										tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
+									Date fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
+									Double gap = diasDuracion(fechaRealFin, fecFinPreparacionEntrega) + 2;
+									if (gap < 0) {
+										throw new Exception("Imposible: " + gap + " es negativo!!");
+									}
+									registro.setValue(incidenciasProyectoEntidad.searchField(										
+											ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_FINDESA_INIPRUE).getName(), gap);//añadimos 2 días para la instalación entrega en CD
+								}
 							}
 						}
 					}
