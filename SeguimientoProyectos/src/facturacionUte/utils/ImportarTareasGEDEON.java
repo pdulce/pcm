@@ -386,18 +386,18 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			for (final FieldViewSet registro : filas) {
 				
 				String idPeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());					
-				FieldViewSet peticionPadre = new FieldViewSet(incidenciasProyectoEntidad);
-				peticionPadre.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticion);
-				peticionPadre = dataAccess.searchEntityByPk(peticionPadre);
-				if (peticionPadre != null){
+				FieldViewSet peticionEnBBDD = new FieldViewSet(incidenciasProyectoEntidad);
+				peticionEnBBDD.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticion);
+				peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
+				if (peticionEnBBDD != null){
 					/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
-					String centroDestinoPadre = (String) peticionPadre.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
+					String centroDestinoPadre = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
 					String idsHijas = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
 					List<Long> idsHijas_ = obtenerCodigos(idsHijas);
 					if ( CDISM.equals(centroDestinoPadre)){
-						numImportadas += linkarPeticionesDeSGD_a_CDISM(peticionPadre, idsHijas_);
+						numImportadas += linkarPeticionesDeSGD_a_CDISM(peticionEnBBDD, idsHijas_);
 					}else if ( CONTRATO_7201_17G_L2.equals(centroDestinoPadre)){
-						numImportadas += linkarPeticionesDeCDISM_A_DG(peticionPadre, idsHijas_);
+						numImportadas += linkarPeticionesDeCDISM_A_DG(peticionEnBBDD, idsHijas_);
 					}
 				}
 				
@@ -409,6 +409,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					continue;//es petición hija
 				}
 				
+				if (peticionEnBBDD != null) {
+					String idPeticionEntregaBBDD = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
+						ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
+					if (idPeticionEntregaBBDD != null) {
+						registro.setValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName(), idPeticionEntregaBBDD);
+					}
+				}
 				
 				String situacion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
 						ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
@@ -554,7 +562,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_PRODUCC).getName(), diasDuracion(fechaRealFin, fechaFinalizacion));
 					
 										
-					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)) {
+					if (servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
 						String idEntrega = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
 						if (idEntrega != null && "".compareTo(idEntrega)!=0) {
