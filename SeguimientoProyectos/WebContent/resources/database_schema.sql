@@ -46,7 +46,7 @@ CREATE TABLE `incidenciasProyecto` (
   `duracion_desarrollo` double DEFAULT NULL,
   `gap_tram_iniRealDesa` double DEFAULT NULL,  
   `gap_finDesa_iniPrue` double DEFAULT NULL,
-  `gap_finDesa_Producc` double DEFAULT NULL      
+  `gap_iniPrue_Producc` double DEFAULT NULL      
   );  
   
 

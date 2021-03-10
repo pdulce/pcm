@@ -532,7 +532,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					
 					if (situacion.toString().indexOf("Petición finalizada") != -1 && servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){	
 						
-						Integer entorno = (Integer) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName());
+						Long entorno = (Long) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName());
 						
 						Double daysFinDesaIniPruebas = 0.0;
 						Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
@@ -589,7 +589,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_DESARROLLO).getName(), daysDesarrollo);
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_FINDESA_INIPRUE).getName(), daysFinDesaIniPruebas);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINDESA_PRODUCC).getName(), daysDesdeFinDesaHastaImplantacion);					
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_INIPRUEBAS_PRODUCC).getName(), daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas);					
 					}
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							

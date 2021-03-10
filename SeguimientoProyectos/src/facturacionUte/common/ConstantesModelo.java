@@ -88,7 +88,7 @@ public abstract class ConstantesModelo {
 	public static final int INCIDENCIASPROYECTO_44_DURACION_DESARROLLO = 44;
 	public static final int INCIDENCIASPROYECTO_45_GAP_TRAMITE_INIREALDESA = 45;
 	public static final int INCIDENCIASPROYECTO_46_GAP_FINDESA_INIPRUE = 46;
-	public static final int INCIDENCIASPROYECTO_47_GAP_FINDESA_PRODUCC = 47;
+	public static final int INCIDENCIASPROYECTO_47_GAP_INIPRUEBAS_PRODUCC = 47;
 	public static final String INCIDENCIASPROYECTO_ENTIDAD = "incidenciasProyecto";
 	
 	public static final int SABANA_1_ID = 1;
