@@ -86,6 +86,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String CDISM = "Centro de Desarrollo del ISM", CONTRATO_7201_17G_L2 = "7201 17G L2 ISM ATH Análisis Orientado a Objecto";
+	private static final int ENTORNO_HOST=2;
 	
 	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS",ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO",
 	ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
@@ -349,7 +350,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		List<String> rochadeSuspect = new ArrayList<String>();
 		File f= new File("C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\data\\sqlite\\" + new File(path).getName().split("\\.")[0] + ".log");
 		FileOutputStream out = new FileOutputStream(f);
-		int numPeticionesEstudio = 0;
+		int numPeticionesEstudioProsa = 0, numPeticionesEstudioHOST=0;
 		try {
 			// leer de un path
 			InputStream in = null;
@@ -465,7 +466,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						rochadeCode);
 				List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
 				if (apps.isEmpty()){
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"NATURAL"
+					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"
 				}else{
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(),
 							apps.get(0).getValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_TIPOAPP).getName()));		
@@ -530,6 +531,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					}
 					
 					if (situacion.toString().indexOf("Petición finalizada") != -1 && servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){	
+						
+						Integer entorno = (Integer) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName());
+						
 						Double daysFinDesaIniPruebas = 0.0;
 						Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());										
@@ -576,7 +580,11 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						out.write(("daysFinDesaIniPruebas: " + daysFinDesaIniPruebas + "\n").getBytes());
 						out.write(("daysDesdeFinDesaHastaImplantacion: " + daysDesdeFinDesaHastaImplantacion + "\n").getBytes());
 						out.write(("******fin peticion******\n").getBytes());					
-						numPeticionesEstudio++;		
+						if (entorno.intValue() == ENTORNO_HOST) {
+							numPeticionesEstudioHOST++;		
+						}else {
+							numPeticionesEstudioProsa++;
+						}
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), daysDuracionTotal);					
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_DESARROLLO).getName(), daysDesarrollo);
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
@@ -689,7 +697,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			//if (numImportadas%50 != 0){
 				this.dataAccess.commit();
 			//}
-			out.write(("\n\n**** TOTAL PETICIONES ESTUDIO: "+ numPeticionesEstudio + "  *******\n\n").getBytes());
+			out.write(("\n\n**** TOTAL PETICIONES PROSA ESTUDIO: "+ numPeticionesEstudioProsa + "  *******\n\n").getBytes());
+			out.write(("\n\n**** TOTAL PETICIONES HOST ESTUDIO: "+ numPeticionesEstudioHOST + "  *******\n\n").getBytes());
 			out.flush();
 			out.close();
 		}catch (Throwable excc) {
@@ -943,17 +952,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			String[] splitter = pets.split(",");
 			int length_ = splitter.length;
 			for (int i=0;i<length_;i++){
-				/*if (splitter[i].length() > 0 && splitter[i].contains(sq)){
-					String[] splitterCSV = splitter[i].split(",");
-					for (int k=0;k<splitterCSV.length;k++) {
-						try {
-							Long num = Long.valueOf(splitterCSV[k]);
-							arr.add(num);
-						}catch (Throwable excx) {
-							excx.printStackTrace();
-						}
-					}//for
-				}else*/ if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
+				 if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
 					try {
 						Long num = Long.valueOf(splitter[i]);
 						arr.add(num);
