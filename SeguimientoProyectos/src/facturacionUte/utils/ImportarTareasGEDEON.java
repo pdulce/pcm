@@ -299,7 +299,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     	return contador;
     }
     
-    private Double diasDuracion(Date fechaInicio, Date fechaFin) {    	
+    public static Double diasDuracion(Date fechaInicio, Date fechaFin) {    	
 		if (fechaFin != null && fechaInicio!= null) {
 			if (fechaFin.compareTo(fechaInicio) < 0) {
 				return 0.0;
@@ -307,8 +307,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			Calendar calFin = Calendar.getInstance();
 			calFin.setTime(fechaFin);
 			Calendar calIni = Calendar.getInstance();
-			calIni.setTime(fechaInicio);						
-			return new Double((calFin.getTimeInMillis() - calIni.getTimeInMillis())/(1000*60*60*24));
+			calIni.setTime(fechaInicio);		
+			Double mills = new Double(calFin.getTimeInMillis() - calIni.getTimeInMillis());
+			
+			return CommonUtils.roundWith2Decimals(mills/(1000.0*60.0*60.0*24.0));
 		}
 		return 0.0;
     }
@@ -345,8 +347,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		int numImportadas = 0;
 		List<String> IDs_changed = new ArrayList<String>();
 		List<String> rochadeSuspect = new ArrayList<String>();
-		File f= new File("C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\data\\sqlite\\salidaEstudio.txt");
+		File f= new File("C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\data\\sqlite\\" + new File(path).getName().split("\\.")[0] + ".log");
 		FileOutputStream out = new FileOutputStream(f);
+		int numPeticionesEstudio = 0;
 		try {
 			// leer de un path
 			InputStream in = null;
@@ -354,6 +357,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			try {
 				ficheroTareasImport = new File(path);
 				if (!ficheroTareasImport.exists()) {
+					out.flush();
+					out.close();
 					throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
 				}
 				in = new FileInputStream(ficheroTareasImport);
@@ -366,6 +371,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				XSSFWorkbook wb = new XSSFWorkbook(in);
 				final XSSFSheet sheet = wb.getSheetAt(0);
 				if (sheet == null) {
+					out.flush();
+					out.close();
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
 				filas = leerFilas(sheet, null, incidenciasProyectoEntidad);
@@ -375,6 +382,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					HSSFWorkbook wb2 = new HSSFWorkbook(in);
 					final HSSFSheet sheet = wb2.getSheetAt(0);
 					if (sheet == null) {
+						out.flush();
+						out.close();
 						throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 					}
 					filas = leerFilas(null, sheet, incidenciasProyectoEntidad);
@@ -520,7 +529,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}
 					}
 					
-					if (situacion.toString().indexOf("Petición finalizada") != -1){	
+					if (situacion.toString().indexOf("Petición finalizada") != -1 && servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){	
 						Double daysFinDesaIniPruebas = 0.0;
 						Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());										
@@ -567,7 +576,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						out.write(("daysFinDesaIniPruebas: " + daysFinDesaIniPruebas + "\n").getBytes());
 						out.write(("daysDesdeFinDesaHastaImplantacion: " + daysDesdeFinDesaHastaImplantacion + "\n").getBytes());
 						out.write(("******fin peticion******\n").getBytes());					
-											
+						numPeticionesEstudio++;		
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), daysDuracionTotal);					
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_DESARROLLO).getName(), daysDesarrollo);
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
@@ -680,7 +689,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			//if (numImportadas%50 != 0){
 				this.dataAccess.commit();
 			//}
-				
+			out.write(("\n\n**** TOTAL PETICIONES ESTUDIO: "+ numPeticionesEstudio + "  *******\n\n").getBytes());
 			out.flush();
 			out.close();
 		}catch (Throwable excc) {
@@ -1045,6 +1054,16 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	}
 
 	
+    public static void main2(String[] args){
+    	 Date fechaInicio = Calendar.getInstance().getTime();
+    	 Calendar fin = Calendar.getInstance();
+    	 fin.add(Calendar.DAY_OF_MONTH, 2);
+    	 fin.add(Calendar.HOUR_OF_DAY, -2);
+    	 Date fechaFin = fin.getTime();
+    	 Double dias = ImportarTareasGEDEON.diasDuracion(fechaInicio, fechaFin);
+    	 System.out.println("Dias duración: " +  dias);
+    }
+    
 	public static void main(String[] args){
 		try{
 			if (args.length < 3){
