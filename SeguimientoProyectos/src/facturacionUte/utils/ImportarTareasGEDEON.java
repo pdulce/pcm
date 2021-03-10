@@ -5,6 +5,7 @@ package facturacionUte.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -300,6 +301,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     
     private Double diasDuracion(Date fechaInicio, Date fechaFin) {    	
 		if (fechaFin != null && fechaInicio!= null) {
+			if (fechaFin.compareTo(fechaInicio) < 0) {
+				return 0.0;
+			}
 			Calendar calFin = Calendar.getInstance();
 			calFin.setTime(fechaFin);
 			Calendar calIni = Calendar.getInstance();
@@ -341,6 +345,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		int numImportadas = 0;
 		List<String> IDs_changed = new ArrayList<String>();
 		List<String> rochadeSuspect = new ArrayList<String>();
+		File f= new File("C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\data\\sqlite\\salidaEstudio.txt");
+		FileOutputStream out = new FileOutputStream(f);
 		try {
 			// leer de un path
 			InputStream in = null;
@@ -514,49 +520,60 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}
 					}
 					
-					Date fechaAlta = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName());
-					Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());					
-					//duración total de la petición: desde su alta hasta su aprobación por estar implantada en Producción
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), diasDuracion(fechaAlta, fechaFinalizacion));
-					
-					Date fechaRealInicio = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
-					Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());					
-					//duración real, tiempo dedicado a la tarea en sí misma, sea de análisis o de desarrollo
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_DESARROLLO).getName(), diasDuracion(fechaRealInicio, fechaRealFin));
-																				
-					if (fechaRealFin != null && peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
-						String idEntrega = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());						
-						if (idEntrega != null && "".compareTo(idEntrega)!=0) {
-							idEntrega = idEntrega.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
-							FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
-							miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
-							miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
-							if (miEntrega != null){
-								String tipoPeticionEntrega = (String) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
-								if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") != -1 && 
-										tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
-									Date fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
-									Double gap = diasDuracion(fechaRealFin, fecFinPreparacionEntrega) + 2;
-									if (gap < 0) {
-										throw new Exception("Imposible: " + gap + " es negativo!!");
+					if (situacion.toString().indexOf("Petición finalizada") != -1){	
+						Double daysFinDesaIniPruebas = 0.0;
+						Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());										
+						if (fechaRealFin != null && peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
+							String idEntrega = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());						
+							if (idEntrega != null && "".compareTo(idEntrega)!=0) {
+								idEntrega = idEntrega.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
+								FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
+								miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
+								miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
+								if (miEntrega != null){
+									String tipoPeticionEntrega = (String) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+											ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
+									if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") != -1 && 
+											tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
+										Date fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+											ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
+										daysFinDesaIniPruebas = diasDuracion(fechaRealFin, fecFinPreparacionEntrega) + 2;//añadimos 2 días para la instalación entrega en CD
+										if (daysFinDesaIniPruebas < 0) {
+											throw new Exception("Imposible: " + fecFinPreparacionEntrega + " es anterior a " + fechaRealFin);
+										}
 									}
-									registro.setValue(incidenciasProyectoEntidad.searchField(										
-											ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_FINDESA_INIPRUE).getName(), gap);//añadimos 2 días para la instalación entrega en CD
 								}
 							}
 						}
+						
+						Date fechaTramite = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+						Date fechaRealInicio = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());					
+						Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());					
+						
+						Double daysDuracionTotal = diasDuracion(fechaTramite, fechaFinalizacion);
+						Double daysDesfaseTramiteHastaInicioReal = diasDuracion(fechaTramite, fechaRealInicio);
+						Double daysDesarrollo = diasDuracion(fechaRealInicio, fechaRealFin);
+						Double daysDesdeFinDesaHastaImplantacion = diasDuracion(fechaRealFin, fechaFinalizacion);
+						
+						out.write(("******idPeticion: " + idPeticion + "******\n").getBytes());
+						out.write(("daysDuracionTotal: " + daysDuracionTotal + "\n").getBytes());
+						out.write(("daysDesfaseTramiteHastaInicioReal: " + daysDesfaseTramiteHastaInicioReal + "\n").getBytes());
+						out.write(("daysDesarrollo: " + daysDesarrollo + "\n").getBytes());
+						out.write(("daysFinDesaIniPruebas: " + daysFinDesaIniPruebas + "\n").getBytes());
+						out.write(("daysDesdeFinDesaHastaImplantacion: " + daysDesdeFinDesaHastaImplantacion + "\n").getBytes());
+						out.write(("******fin peticion******\n").getBytes());					
+											
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), daysDuracionTotal);					
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_DESARROLLO).getName(), daysDesarrollo);
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_FINDESA_INIPRUE).getName(), daysFinDesaIniPruebas);
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINDESA_PRODUCC).getName(), daysDesdeFinDesaHastaImplantacion);					
 					}
-					
-					registro.setValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_FINDESA_PRODUCC).getName(), diasDuracion(fechaRealFin, fechaFinalizacion));
-					
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
 						if (situacion.toString().indexOf("Petición finalizada") != -1){						
@@ -664,6 +681,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				this.dataAccess.commit();
 			//}
 				
+			out.flush();
+			out.close();
 		}catch (Throwable excc) {
 			excc.printStackTrace();
 			throw new Exception(ERR_IMPORTANDO_FICHERO_EXCEL);

@@ -105,8 +105,9 @@
     <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
     <field mappingTo="43" name="duracion_total" type="double" length="10" required="false"/>
     <field mappingTo="44" name="duracion_desarrollo" type="double" length="10" required="false"/>
-    <field mappingTo="45" name="gap_finDesa_iniPrue" type="double" length="10" required="false"/>
-    <field mappingTo="46" name="gap_finDesa_Producc" type="double" length="10" required="false"/>    
+    <field mappingTo="45" name="gap_tram_iniRealDesa" type="double" length="10" required="false"/>
+    <field mappingTo="46" name="gap_finDesa_iniPrue" type="double" length="10" required="false"/>
+    <field mappingTo="47" name="gap_finDesa_Producc" type="double" length="10" required="false"/>    
   </entity>
 	
   <entity>
