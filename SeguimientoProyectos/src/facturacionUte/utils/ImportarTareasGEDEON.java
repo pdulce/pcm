@@ -552,7 +552,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 											tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
 										Date fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
 											ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
-										daysFinDesaIniPruebas = diasDuracion(fechaRealFin, fecFinPreparacionEntrega) + 2;//añadimos 2 días para la instalación entrega en CD
+										daysFinDesaIniPruebas = diasDuracion(fechaRealFin, fecFinPreparacionEntrega);
 										if (daysFinDesaIniPruebas < 0) {
 											throw new Exception("Imposible: " + fecFinPreparacionEntrega + " es anterior a " + fechaRealFin);
 										}
