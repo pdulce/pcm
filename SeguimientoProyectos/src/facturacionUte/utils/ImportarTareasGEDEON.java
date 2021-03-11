@@ -520,7 +520,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						
 						Long entorno = (Long) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName());
 						
-						Double daysFinDesaIniPruebas = 0.0, duracionAcumuladaAnalysis = 0.0;
+						Double daysFinDesaIniPruebas = 0.0, duracionAcumuladaAnalysis = -1.0;
 						Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
 								ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());										
 						if (fechaRealFin != null && peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
@@ -548,16 +548,19 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							// ahora estudiamos su posible trazabilidad con una petición de análisis de Host o de Pros@ para grabar la duración de su análisis
 							String petsRelacionadas = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
 									ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
-							if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {								
+							if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
 								List<Long> peticionesAnalisis = obtenerCodigos(petsRelacionadas);
 								for (int i=0;i<peticionesAnalisis.size();i++) {
 									Long petAnalysis = peticionesAnalisis.get(i);
 									FieldViewSet peticionBBDDAnalysis = new FieldViewSet(incidenciasProyectoEntidad);
 									peticionBBDDAnalysis.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), petAnalysis);									
 									peticionBBDDAnalysis = this.dataAccess.searchEntityByPk(peticionBBDDAnalysis);
-									if (peticionBBDDAnalysis != null) {
+									if (peticionBBDDAnalysis != null) {										
 										String areaDestino = (String) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());
 										if (areaDestino.startsWith("7201 17G L2 ISM ATH Análisis")) {
+											if (duracionAcumuladaAnalysis==-1.0) {
+												duracionAcumuladaAnalysis = 0.0;
+											}
 											Date fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
 											Date fechaFinAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
 											duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinAnalysis).doubleValue();
@@ -583,7 +586,11 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						
 						out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + idPeticion + "  ******\n").getBytes());
 						out.write(("Jornadas Duración total: " + CommonUtils.roundDouble(daysDuracionTotal,1) + "\n").getBytes());
-						out.write(("Jornadas Análisis: " + CommonUtils.roundDouble(duracionAcumuladaAnalysis,1) + "\n").getBytes());
+						if (duracionAcumuladaAnalysis > -1.0) {
+							out.write(("Jornadas Análisis: " + CommonUtils.roundDouble(duracionAcumuladaAnalysis,1) + "\n").getBytes());
+						}else {
+							out.write(("Jornadas Análisis: No hay datos \n").getBytes());
+						}
 						out.write(("Jornadas Desarrollo: " + CommonUtils.roundDouble(daysDesarrollo,1) + "\n").getBytes());
 						out.write(("Jornadas Pruebas: ?? ".getBytes()));
 						out.write(("Jornadas Desfase desde Trámite Hasta Inicio Real Implementación: " + CommonUtils.roundDouble(daysDesfaseTramiteHastaInicioReal,1) + "\n").getBytes());
@@ -596,7 +603,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							numPeticionesEstudioProsa++;
 						}
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), daysDuracionTotal);
-						if (duracionAcumuladaAnalysis > 0.0) {
+						if (duracionAcumuladaAnalysis > -1.0) {
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_ANALYSIS).getName(), new Double(duracionAcumuladaAnalysis));
 						}
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_DESARROLLO).getName(), daysDesarrollo);
