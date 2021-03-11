@@ -39,10 +39,11 @@
 									<option code="-1" title="peticiones"></option>								
 									<option code="28" title="UTs estimadas"></option>
 									<option code="43" title="duración total" selected="true"></option>
-									<option code="44" title="duracion desarrollo"></option>
-									<option code="45" title="gap tramitada vs inicio real"></option>
-									<option code="46" title="gap fin desa vs inicio pruebas"></option>
-									<option code="47" title="gap ini Pruebas vs Producción"></option>									
+									<option code="44" title="duracion análisis"></option>
+									<option code="45" title="duracion desarrollo"></option>
+									<option code="46" title="gap tramitada vs inicio real"></option>
+									<option code="47" title="gap fin desa vs inicio pruebas"></option>
+									<option code="48" title="gap ini Pruebas vs Producción"></option>									
 								</optionValues>
 							</fieldView>
 							<!-- fieldView separator="br" /> -->
@@ -485,6 +486,8 @@
 				     
 					<fieldView mappingTo="35" editable="false" styleCss="font-weight: normal;color: aqua;"/><!-- ID entrega -->
 					<fieldView mappingTo="36" editable="false" styleCss="font-weight: normal;color: aqua;"/><!--  Peticiones relacionadas -->
+					
+					<fieldView mappingTo="44" editable="false" styleCss="font-weight: normal;color: aqua;"/><!--  Duracion análisis -->
 					
 				</fieldViewSet>
 			</grid>
