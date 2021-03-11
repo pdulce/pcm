@@ -300,21 +300,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     	return contador;
     }
     
-    public static Double diasDuracion(Date fechaInicio, Date fechaFin) {    	
-		if (fechaFin != null && fechaInicio!= null) {
-			if (fechaFin.compareTo(fechaInicio) < 0) {
-				return 0.0;
-			}
-			Calendar calFin = Calendar.getInstance();
-			calFin.setTime(fechaFin);
-			Calendar calIni = Calendar.getInstance();
-			calIni.setTime(fechaInicio);		
-			Double mills = new Double(calFin.getTimeInMillis() - calIni.getTimeInMillis());
-			
-			return CommonUtils.roundWith2Decimals(mills/(1000.0*60.0*60.0*24.0));
-		}
-		return 0.0;
-    }
+    
     
     private String destinoPeticion(FieldViewSet registro) throws DatabaseException{
     	String servicioAtiendePeticion = ""; 
@@ -552,7 +538,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 											tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
 										Date fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
 											ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
-										daysFinDesaIniPruebas = diasDuracion(fechaRealFin, fecFinPreparacionEntrega);
+										daysFinDesaIniPruebas = CommonUtils.jornadasDuracion(fechaRealFin, fecFinPreparacionEntrega);
 										if (daysFinDesaIniPruebas < 0) {
 											throw new Exception("Imposible: " + fecFinPreparacionEntrega + " es anterior a " + fechaRealFin);
 										}
@@ -568,10 +554,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
 										ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());					
 						
-						Double daysDuracionTotal = diasDuracion(fechaTramite, fechaFinalizacion);
-						Double daysDesfaseTramiteHastaInicioReal = diasDuracion(fechaTramite, fechaRealInicio);
-						Double daysDesarrollo = diasDuracion(fechaRealInicio, fechaRealFin);
-						Double daysDesdeFinDesaHastaImplantacion = diasDuracion(fechaRealFin, fechaFinalizacion);
+						Double daysDuracionTotal = CommonUtils.jornadasDuracion(fechaTramite, fechaFinalizacion);
+						Double daysDesfaseTramiteHastaInicioReal = CommonUtils.jornadasDuracion(fechaTramite, fechaRealInicio);
+						Double daysDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
+						Double daysDesdeFinDesaHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFin, fechaFinalizacion);
 						
 						out.write(("******idPeticion: " + idPeticion + "******\n").getBytes());
 						out.write(("daysDuracionTotal: " + daysDuracionTotal + "\n").getBytes());
@@ -1053,17 +1039,16 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	}
 
 	
-    public static void main2(String[] args){
-    	 Date fechaInicio = Calendar.getInstance().getTime();
+    public static void main(String[] args){
+    	 Calendar fechaInicio = Calendar.getInstance();
     	 Calendar fin = Calendar.getInstance();
-    	 fin.add(Calendar.DAY_OF_MONTH, 2);
-    	 fin.add(Calendar.HOUR_OF_DAY, -2);
-    	 Date fechaFin = fin.getTime();
-    	 Double dias = ImportarTareasGEDEON.diasDuracion(fechaInicio, fechaFin);
+    	 fin.add(Calendar.DAY_OF_MONTH, 17);
+
+    	 Double dias = CommonUtils.jornadasDuracion(fechaInicio.getTime(), fin.getTime());
     	 System.out.println("Dias duración: " +  dias);
     }
     
-	public static void main(String[] args){
+	public static void main2(String[] args){
 		try{
 			if (args.length < 3){
 				System.out.println("Debe indicar los argumentos necesarios, con un minimo tres argumentos; path ficheros Excel a escanear, database name file, y path de BBDD.");

@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import domain.common.PCMConstants;
 import domain.service.component.IViewComponent;
@@ -38,6 +40,44 @@ import domain.service.dataccess.dto.IFieldValue;
 
 public final class CommonUtils {
 
+	// festivos CAM
+	public static Map<Integer, Festivo> /*dia, mes*/ festivosCAM_muniMadrid = new HashMap<Integer, Festivo>();
+	static{		
+		//cargamos los de Semana Santa desde 2017
+		int i = 1;
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(1,1,-1));//1 de enero, Año Nuevo.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(6,1,-1));//6 de enero, Epifanía del Señor.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(19,3,-1));//19 de marzo, San José.
+
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(13,4,2017));//13 de abril, Jueves Santo
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(14,4,2017));//14 de abril, Viernes Santo
+
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(29,3,2018));//29 de marzo, Jueves Santo
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(30,3,2018));//30 de marzo, Viernes Santo
+
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(18,4,2019));//18 de abril, Jueves Santo
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(19,4,2019));//19 de abril, Viernes Santo
+
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(9,4,2020));//9 de abril, Jueves Santo
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(10,4,2020));//10 de abril, Viernes Santo
+
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(1,4,2021));//1 de abril, Jueves Santo
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(2,4,2021));//2 de abril, Viernes Santo
+				
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(1,5,-1));//1 de mayo, Fiesta del Trabajo.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(2,5,-1));//2 de mayo, Fiesta de la Comunidad de Madrid.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(3,5,2021));//3 de mayo, traspasada del 2 de mayo Fiesta de la Comunidad de Madrid.
+		
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(15,5,-1));//15 de mayo, traslado de la Fiesta de San Isidro.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(12,10,-1));//12 de octubre (martes), Fiesta Nacional de España.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(1,11,-1));//1 de noviembre (lunes), Día de Todos los Santos.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(6,12,-1));//6 de diciembre (lunes), Día de la Constitución Española.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(8,12,-1));//8 de diciembre (miércoles), Inmaculada Concepción.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(24,12,-1));//24 de diciembre: no laborable en GISS
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(25,12,-1));//25 de diciembre (sábado), Natividad del Señor.
+		festivosCAM_muniMadrid.put(new Integer(i++),new Festivo(31,12,-1));//31 de diciembre: no laborable en GISS		
+	}
+	
 	public static final String LANGUAGE_SPANISH = "es_";
 
 	public static final ThreadSafeSimpleDateFormat myDateFormatter = ThreadSafeSimpleDateFormat.getUniqueInstance();
@@ -106,14 +146,7 @@ public final class CommonUtils {
 		if (retornoCandidate != null) {
 			retornoCandidate_ = Calendar.getInstance();
 			retornoCandidate_.setTime(retornoCandidate);
-		}/*else{
-			retornoCandidate_ = Calendar.getInstance();
-			Calendar initialDate = Calendar.getInstance();
-			// elegimos el aoo 1972 para intenar coger todas las posibles altas
-			initialDate.set(Calendar.YEAR, 1972);			
-			retornoCandidate_.setTime(initialDate.getTime());				
-		}*/
-		
+		}		
 		return retornoCandidate_;
 	}
 
@@ -266,6 +299,73 @@ public final class CommonUtils {
 				|| character == 'o' || character == 'o' || character == 'o' || character == 'o' || character == 'o' || character == 'o'
 				|| character == 'o' || character == 'o');
 	}
+	
+	public static Double diasNaturalesDuracion(Date fechaInicio, Date fechaFin) {    	
+		if (fechaFin != null && fechaInicio!= null) {
+			if (fechaFin.compareTo(fechaInicio) < 0) {
+				return 0.0;
+			}
+			Calendar calFin = Calendar.getInstance();
+			calFin.setTime(fechaFin);
+			calFin.set(Calendar.MILLISECOND, 0);
+			calFin.set(Calendar.SECOND, 0);
+			calFin.set(Calendar.MINUTE, 0);
+			Calendar calIni = Calendar.getInstance();
+			calIni.setTime(fechaInicio);
+			calIni.set(Calendar.MILLISECOND, 0);
+			calIni.set(Calendar.SECOND, 0);
+			calIni.set(Calendar.MINUTE, 0);
+			return CommonUtils.roundDouble((new Double(calFin.getTimeInMillis() - calIni.getTimeInMillis()))/(1000.0*60.0*60.0*24.0), 1);
+		}
+		return 0.0;
+    }
+    
+    public static Double jornadasDuracion(Date fechaInicio, Date fechaFin) {
+    	
+    	Double diasLaborables = 0.0;
+    	
+		if (fechaFin != null && fechaInicio!= null) {
+			if (fechaFin.compareTo(fechaInicio) < 0) {
+				return 0.0;
+			}
+			diasLaborables = diasNaturalesDuracion(fechaInicio, fechaFin);
+			Calendar fechaTope = Calendar.getInstance();
+			fechaTope.setTime(fechaFin);
+			//algoritmo con bucle escalonado per day que mira si un día está en fin de semana o es festivo de municipioMadrid/CAM/España
+			Calendar calAux = Calendar.getInstance();
+			calAux.setTime(fechaInicio);
+			while (calAux.compareTo(fechaTope) <= 0) {
+				if (esFestivo(calAux)) {
+					diasLaborables = diasLaborables - 1.0;
+				}
+				calAux.add(Calendar.DAY_OF_MONTH, 1);
+			}
+		}
+		return diasLaborables;
+    }
+    
+    public static boolean esFestivo(Calendar calAux) {
+    	if (calAux.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+    			|| calAux.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+    		return true;
+    	}
+    	int day = calAux.get(Calendar.DAY_OF_MONTH);
+    	int month = calAux.get(Calendar.MONTH)+1;
+    	int year = calAux.get(Calendar.YEAR);
+    	Iterator<Map.Entry<Integer, Festivo>> ite = festivosCAM_muniMadrid.entrySet().iterator();    	
+    	while (ite.hasNext()) {
+    		Map.Entry<Integer, Festivo> entry = ite.next();
+    		Festivo festivoRegistrado = entry.getValue();    		
+    		if (festivoRegistrado.getDay() == day && festivoRegistrado.getMonth() == month) {
+    			if (festivoRegistrado.getYear() == -1) {
+    				return true;
+    			}else if (festivoRegistrado.getYear() == year) {
+    				return true;
+    			}    			
+    		}
+    	}
+    	return false;
+    }
 
 	public static double roundDouble(double numero, int decimales) {
 		return Math.round(numero * Math.pow(10, decimales)) / Math.pow(10, decimales);
