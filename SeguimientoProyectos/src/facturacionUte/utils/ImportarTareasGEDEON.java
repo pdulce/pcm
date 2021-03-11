@@ -559,13 +559,13 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						Double daysDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
 						Double daysDesdeFinDesaHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFin, fechaFinalizacion);
 						
-						out.write(("******idPeticion: " + idPeticion + "******\n").getBytes());
-						out.write(("daysDuracionTotal: " + daysDuracionTotal + "\n").getBytes());
-						out.write(("daysDesfaseTramiteHastaInicioReal: " + daysDesfaseTramiteHastaInicioReal + "\n").getBytes());
-						out.write(("daysDesarrollo: " + daysDesarrollo + "\n").getBytes());
-						out.write(("daysFinDesaIniPruebas: " + daysFinDesaIniPruebas + "\n").getBytes());
-						out.write(("daysDesdeFinDesaHastaImplantacion: " + daysDesdeFinDesaHastaImplantacion + "\n").getBytes());
-						out.write(("******fin peticion******\n").getBytes());					
+						out.write(("****** idPeticion: " + idPeticion + "  ******\n").getBytes());
+						out.write(("daysDuracionTotal: " + CommonUtils.roundDouble(daysDuracionTotal,1) + "\n").getBytes());
+						out.write(("daysDesfaseTramiteHastaInicioReal: " + CommonUtils.roundDouble(daysDesfaseTramiteHastaInicioReal,1) + "\n").getBytes());
+						out.write(("daysDesarrollo: " + CommonUtils.roundDouble(daysDesarrollo,1) + "\n").getBytes());
+						out.write(("daysFinDesaIniPruebas: " + CommonUtils.roundDouble(daysFinDesaIniPruebas,1) + "\n").getBytes());
+						out.write(("daysDesdeFinDesaHastaImplantacion: " + CommonUtils.roundDouble(daysDesdeFinDesaHastaImplantacion,1) + "\n").getBytes());
+						out.write(("******  fin peticion ******\n\n").getBytes());					
 						if (entorno.intValue() == ENTORNO_HOST) {
 							numPeticionesEstudioHOST++;		
 						}else {
@@ -1039,7 +1039,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	}
 
 	
-    public static void main(String[] args){
+    public static void main2(String[] args){
     	 Calendar fechaInicio = Calendar.getInstance();
     	 Calendar fin = Calendar.getInstance();
     	 fin.add(Calendar.DAY_OF_MONTH, 17);
@@ -1048,7 +1048,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     	 System.out.println("Dias duración: " +  dias);
     }
     
-	public static void main2(String[] args){
+	public static void main(String[] args){
 		try{
 			if (args.length < 3){
 				System.out.println("Debe indicar los argumentos necesarios, con un minimo tres argumentos; path ficheros Excel a escanear, database name file, y path de BBDD.");
