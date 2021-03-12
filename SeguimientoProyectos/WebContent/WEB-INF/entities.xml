@@ -106,9 +106,10 @@
     <field mappingTo="43" name="duracion_total" type="double" length="10" required="false"/>
     <field mappingTo="44" name="duracion_analysis" type="double" length="10" required="false"/>
     <field mappingTo="45" name="duracion_desarrollo" type="double" length="10" required="false"/>
-    <field mappingTo="46" name="gap_tram_iniRealDesa" type="double" length="10" required="false"/>
-    <field mappingTo="47" name="gap_finDesa_iniPrue" type="double" length="10" required="false"/>
-    <field mappingTo="48" name="gap_iniPrue_Producc" type="double" length="10" required="false"/>    
+    <field mappingTo="46" name="duracion_pruebas" type="double" length="10" required="false"/>
+    <field mappingTo="47" name="gap_tram_iniRealDesa" type="double" length="10" required="false"/>
+    <field mappingTo="48" name="gap_finDesa_iniPrue" type="double" length="10" required="false"/>
+    <field mappingTo="49" name="gap_finPrue_Producc" type="double" length="10" required="false"/>    
   </entity>
 	
   <entity>

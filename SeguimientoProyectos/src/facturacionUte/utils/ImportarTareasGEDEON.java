@@ -379,7 +379,16 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
 			}
-
+			
+			List<String> appsNuevosDesarrollos = new ArrayList<String>();
+			appsNuevosDesarrollos.add("FOM2 - FOMA2");
+			appsNuevosDesarrollos.add("SBOT - SUBVEN_BOTIQ");
+			appsNuevosDesarrollos.add("FAM2 - FAM2_BOTIQU");
+			appsNuevosDesarrollos.add("TISM - Tu ISM");
+			appsNuevosDesarrollos.add("BISM - ISM en tu Bolsillo");
+			appsNuevosDesarrollos.add("OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.");
+			appsNuevosDesarrollos.add("GFOA - GEFORA");
+			
 			Collections.sort(filas, new ComparatorFieldViewSet());
 			//de esta forma, siempre las entregas apareceron despuos de los trabajos que incluyen
 			
@@ -516,7 +525,19 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}
 					}
 					
-					if (situacion.toString().indexOf("Petición finalizada") != -1 && servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){	
+					if (situacion.toString().indexOf("Petición finalizada") != -1 && 
+							tipoPeticion.toString().indexOf("Entrega") ==-1 && tipoPeticion.toString().indexOf("Soporte") ==-1 &&  tipoPeticion.toString().indexOf("Documento") ==-1 &&
+									!appsNuevosDesarrollos.contains(nombreAplicacionDePeticion) &&
+							servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
+						
+						Date fecFinPreparacionEntrega = Calendar.getInstance().getTime();
+						
+						Date fechaTramite = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+						Date fechaRealInicio = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());					
+						Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());	
 						
 						Long entorno = (Long) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName());
 						
@@ -536,7 +557,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 											ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
 									if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") != -1 && 
 											tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
-										Date fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+										fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
 											ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
 										daysFinDesaIniPruebas = CommonUtils.jornadasDuracion(fechaRealFin, fecFinPreparacionEntrega);
 										if (daysFinDesaIniPruebas < 0) {
@@ -563,26 +584,57 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 											}
 											Date fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
 											Date fechaFinAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
-											duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinAnalysis).doubleValue();
+											if (fechaFinAnalysis.compareTo(fechaTramite) > 0) {
+												duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue();
+											}else {
+												duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinAnalysis).doubleValue();
+											}
+											
 										}
 									}
 									
 								}								
+							}//end of si tiene peticiones relacionadas
+							
+							if (horasEstimadas == 0.0 && horasEstimadas==0.0) {
+								throw new Exception("Imposible: Debemos tener un valor de esfuerzo de todas las peticiones que forman parte del estudio");
+							}
+							
+							if (duracionAcumuladaAnalysis < 0.0 && false) {
+								// aplicamos el MLR para darle un valor en base a horasReales y a tipo peticion: 3 tipos[1:incidencia, 2:PE, 3: Mejora]
+								int tipoP = 1;
+								if (tipoPeticion.toString().indexOf("Incidencia") !=-1) {
+									tipoP = 2;
+								}else if (tipoPeticion.toString().indexOf("Mejora") !=-1) {
+									tipoP = 3;
+								}
+								double coef_0 = 2.3, coef_1=0.4, coef_2 = 1.15;
+								double horasAnalysis = coef_0 + coef_1*(horasEstimadas==0.0?horasReales:horasEstimadas) + coef_2*tipoP;
+								
+								duracionAcumuladaAnalysis = horasAnalysis/8.0;
 							}
 							
 						}
 						
-						Date fechaTramite = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
-						Date fechaRealInicio = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());					
-						Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());					
-						
 						Double daysDuracionTotal = CommonUtils.jornadasDuracion(fechaTramite, fechaFinalizacion);
 						Double daysDesfaseTramiteHastaInicioReal = CommonUtils.jornadasDuracion(fechaTramite, fechaRealInicio);
 						Double daysDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
-						Double daysDesdeFinDesaHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFin, fechaFinalizacion);
+						
+						/*** Datos inventados para el cálculo de la duración de las pruebas ************************************/
+						
+						Calendar fechaRealInicioPruebas = Calendar.getInstance();
+						fechaRealInicioPruebas.setTime(fecFinPreparacionEntrega);
+						fechaRealInicioPruebas.add(Calendar.DAY_OF_MONTH, 2);
+						Calendar fechaRealFinPruebas = Calendar.getInstance();
+						fechaRealFinPruebas.setTime(fecFinPreparacionEntrega);
+						fechaRealFinPruebas.add(Calendar.DAY_OF_MONTH, 2 + (new Double(daysDesarrollo*0.75).intValue()));
+						
+						/*******************************************************************************************************/
+						
+						Double daysPruebas = CommonUtils.jornadasDuracion(fechaRealInicioPruebas.getTime(), fechaRealFinPruebas.getTime());
+						Double daysDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFinPruebas.getTime(), fechaFinalizacion);
+						Double sumatorioDedicacionesMasDesfases = (duracionAcumuladaAnalysis>-1.0?duracionAcumuladaAnalysis:0.0) + daysDesfaseTramiteHastaInicioReal + 
+								daysDesarrollo + daysFinDesaIniPruebas + daysPruebas + daysDesdeFinPruebasHastaImplantacion;
 						
 						out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + idPeticion + "  ******\n").getBytes());
 						out.write(("Jornadas Duración total: " + CommonUtils.roundDouble(daysDuracionTotal,1) + "\n").getBytes());
@@ -591,12 +643,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}else {
 							out.write(("Jornadas Análisis: No hay datos \n").getBytes());
 						}
-						out.write(("Jornadas Desarrollo: " + CommonUtils.roundDouble(daysDesarrollo,1) + "\n").getBytes());
-						out.write(("Jornadas Pruebas: ?? ".getBytes()));
 						out.write(("Jornadas Desfase desde Trámite Hasta Inicio Real Implementación: " + CommonUtils.roundDouble(daysDesfaseTramiteHastaInicioReal,1) + "\n").getBytes());
+						out.write(("Jornadas Desarrollo: " + CommonUtils.roundDouble(daysDesarrollo,1) + "\n").getBytes());
 						out.write(("Jornadas Desfase desde Fin Desarrollo hasta Inicio Pruebas CD: " + CommonUtils.roundDouble(daysFinDesaIniPruebas,1) + "\n").getBytes());
-						out.write(("Jornadas Desfase desde Fin Desarrollo hasta Implantación Producción: " + CommonUtils.roundDouble(daysDesdeFinDesaHastaImplantacion,1) + "\n").getBytes());
-						out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());					
+						out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(daysPruebas,1) + "\n").getBytes());
+						out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantación Producción: " + CommonUtils.roundDouble(daysDesdeFinPruebasHastaImplantacion,1) + "\n").getBytes());
+						out.write(("Sumatorio dedicaciones+desfases = " + CommonUtils.roundDouble(sumatorioDedicacionesMasDesfases,1) + "\n").getBytes());
+						out.write(((CommonUtils.roundDouble(sumatorioDedicacionesMasDesfases,1)==CommonUtils.roundDouble(daysDuracionTotal,1)?"Comprobación Satisfactoria": "ERROR: Datos calculados de forma errónea")+ "\n").getBytes());
+						out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());
 						if (entorno.intValue() == ENTORNO_HOST) {
 							numPeticionesEstudioHOST++;
 						}else {
@@ -607,9 +661,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_ANALYSIS).getName(), new Double(duracionAcumuladaAnalysis));
 						}
 						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_DESARROLLO).getName(), daysDesarrollo);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_46_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_FINDESA_INIPRUE).getName(), daysFinDesaIniPruebas);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_INIPRUEBAS_PRODUCC).getName(), daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas);					
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_46_DURACION_PRUEBAS_CD).getName(), daysPruebas);
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), daysFinDesaIniPruebas);
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_49_GAP_FINPRUEBAS_PRODUCC).getName(), daysDesdeFinPruebasHastaImplantacion);					
 					}
 					
 					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
