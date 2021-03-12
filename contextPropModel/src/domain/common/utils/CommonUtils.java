@@ -99,6 +99,13 @@ public final class CommonUtils {
 		
 		return diferencia;
 	}
+
+	/** para horas de análisis **/
+	public static double aplicarMLR(double uts, int tipoP, int entorno) {
+		//double coef_0 = 2.3, coef_1=0.4, coef_2 = 1.15, coef_3 = 0.5;
+		double coef_0 = 0.026317274149138484, coef_1=0.5537713743403643, coef_2 = 0.02565484760010635, coef_3 = 0.02222437943453308;
+		return coef_0 + coef_1*uts + coef_2*tipoP + coef_3*entorno;								
+	}
 	
 	public static final boolean filtroConCriteriosDeFechas(FieldViewSet filtro_) {
 		// recorremos cada field para ver si tiene value
@@ -309,13 +316,19 @@ public final class CommonUtils {
 			calFin.setTime(fechaFin);
 			calFin.set(Calendar.MILLISECOND, 0);
 			calFin.set(Calendar.SECOND, 0);
-			calFin.set(Calendar.MINUTE, 0);
 			Calendar calIni = Calendar.getInstance();
 			calIni.setTime(fechaInicio);
 			calIni.set(Calendar.MILLISECOND, 0);
 			calIni.set(Calendar.SECOND, 0);
-			calIni.set(Calendar.MINUTE, 0);
-			return CommonUtils.roundDouble((new Double(calFin.getTimeInMillis() - calIni.getTimeInMillis()))/(1000.0*60.0*60.0*24.0), 1);
+			double resta = calFin.getTimeInMillis() - calIni.getTimeInMillis();
+			double segundos = resta/1000.0;
+			double minutos = segundos/60.0;
+			double horas = minutos/60.0;
+			double dias = horas/24.0; 
+			if (dias < 0.01) {
+				dias = 0.01;
+			}
+			return CommonUtils.roundDouble(dias, 2);
 		}
 		return 0.0;
     }
@@ -328,7 +341,7 @@ public final class CommonUtils {
 			if (fechaFin.compareTo(fechaInicio) < 0) {
 				return 0.0;
 			}
-			diasLaborables = diasNaturalesDuracion(fechaInicio, fechaFin);
+			diasLaborables = diasNaturalesDuracion(fechaInicio, fechaFin);			
 			Calendar fechaTope = Calendar.getInstance();
 			fechaTope.setTime(fechaFin);
 			//algoritmo con bucle escalonado per day que mira si un día está en fin de semana o es festivo de municipioMadrid/CAM/España
@@ -877,7 +890,7 @@ public final class CommonUtils {
 	}
 	
 	public static void main (String[] args){
-		String longFormatted = CommonUtils.convertDateToLiteral(Calendar.getInstance().getTime());
+		/*String longFormatted = CommonUtils.convertDateToLiteral(Calendar.getInstance().getTime());
 		System.out.println("longFormatted from now: " + longFormatted);
 		
 		Calendar fechaFinPrevistaTrabajo = Calendar.getInstance();
@@ -887,7 +900,16 @@ public final class CommonUtils {
 		Date hoy = hoyCal.getTime();
 		boolean b = hoy.after(fechaFinPrevistaTrabajo.getTime());
 		
-		System.out.println("resultado: " + b);
+		System.out.println("resultado: " + b);*/
+		Calendar ini = Calendar.getInstance();
+		Calendar fin = Calendar.getInstance();
+		ini.set(Calendar.MINUTE, -46);
+		
+		double jornadas = CommonUtils.jornadasDuracion(ini.getTime(), fin.getTime());
+		System.out.println("jornadas: " + jornadas);
+		
+		double predicted = CommonUtils.aplicarMLR(10.35, 1, 0);
+		System.out.println("predicted: " + predicted);
 		
 	}
 
