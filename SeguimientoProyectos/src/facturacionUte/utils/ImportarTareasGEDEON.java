@@ -396,14 +396,22 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			
 			int analysisEstimados = 0;
 			
+			List<String> aplicacionesEstudio = new ArrayList<String>();
 			List<String> appsNuevosDesarrollos = new ArrayList<String>();
-			appsNuevosDesarrollos.add("FOM2 - FOMA2");
+			/*appsNuevosDesarrollos.add("FOM2 - FOMA2");
 			appsNuevosDesarrollos.add("SBOT - SUBVEN_BOTIQ");
 			appsNuevosDesarrollos.add("FAM2 - FAM2_BOTIQU");
 			appsNuevosDesarrollos.add("TISM - Tu ISM");
 			appsNuevosDesarrollos.add("BISM - ISM en tu Bolsillo");
 			appsNuevosDesarrollos.add("OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.");
 			appsNuevosDesarrollos.add("GFOA - GEFORA");
+			appsNuevosDesarrollos.add("AFLO - AYFLO");
+			appsNuevosDesarrollos.add("FARM - FARMAR");
+			appsNuevosDesarrollos.add("PRSP - PRESTACIONES MAR PROSA");
+			appsNuevosDesarrollos.add("WSPX - WS_PERMEX");
+			appsNuevosDesarrollos.add("WSAO - Servicio Web intercambio avisos OBIS");
+			appsNuevosDesarrollos.add("IMAG - IMAGENES");*/
+			//appsNuevosDesarrollos.add("");
 			
 			Collections.sort(filas, new ComparatorFieldViewSet());
 			//de esta forma, siempre las entregas apareceron despuos de los trabajos que incluyen
@@ -546,6 +554,15 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							tipoPeticion.toString().indexOf("Entrega") ==-1 && tipoPeticion.toString().indexOf("Soporte") ==-1 &&  tipoPeticion.toString().indexOf("Documento") ==-1 &&
 									!appsNuevosDesarrollos.contains(nombreAplicacionDePeticion) &&
 							servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
+						
+						if (!aplicacionesEstudio.contains(nombreAplicacionDePeticion)) {
+							aplicacionesEstudio.add(nombreAplicacionDePeticion);
+						}
+						
+						int tipoP = 0;
+						if (tipoPeticion.toString().indexOf("Peque") !=-1 || tipoPeticion.toString().indexOf("Mejora") !=-1) {
+							tipoP = 1;
+						}
 
 						Date fecFinPreparacionEntrega = Calendar.getInstance().getTime();
 						
@@ -626,11 +643,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								registro.setValue(incidenciasProyectoEntidad.searchField(
 										ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), horasReales);								
 							}
-							
-							int tipoP = 0;
-							if (tipoPeticion.toString().indexOf("Peque") !=-1 || tipoPeticion.toString().indexOf("Mejora") !=-1) {
-								tipoP = 1;
-							}
+														
 							if (duracionAcumuladaAnalysis < 0.0) {
 								double uts = (horasEstimadas==0.0?horasReales:horasEstimadas);
 								double horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno.intValue());								
@@ -647,24 +660,41 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}
 						
 						Double daysDesfaseTramiteHastaInicioReal = CommonUtils.jornadasDuracion(fechaTramite, fechaRealInicio);
+						Double daysDesdeFinDesaHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFin, fechaFinalizacion);
+						Double daysPruebas = 0.0;
 						
 						/*************** Datos inventados para el cálculo de la duración de las pruebas ************************/
+						//este tiempo se divide entre pruebasCD y gestión instalación
+						if (entorno == 0/*HOST*/) {
+							daysPruebas = (daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas)*0.65;
+						}else {//Pros@
+							daysPruebas = (daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas)*0.45;
+						}
+						if (daysPruebas< 0.0) {
+							throw new Exception("daysPruebas negativo o fechaEntrega es nula: " + daysPruebas);
+						}
+						if (fecFinPreparacionEntrega == null) {
+							Calendar calfecFinPreparacionEntrega = Calendar.getInstance();							
+							calfecFinPreparacionEntrega.setTime(fechaRealFin);
+							calfecFinPreparacionEntrega.add(Calendar.DAY_OF_MONTH, 1);
+							fecFinPreparacionEntrega = calfecFinPreparacionEntrega.getTime();
+						}
 						
 						Calendar fechaRealInicioPruebas = Calendar.getInstance();
 						fechaRealInicioPruebas.setTime(fecFinPreparacionEntrega);
 						fechaRealInicioPruebas.add(Calendar.DAY_OF_MONTH, 2);
 						Calendar fechaRealFinPruebas = Calendar.getInstance();
-						fechaRealFinPruebas.setTime(fecFinPreparacionEntrega);
-						fechaRealFinPruebas.add(Calendar.DAY_OF_MONTH, 2 + (new Double(daysDesarrollo*0.75).intValue()));
+						fechaRealFinPruebas.setTime(fechaRealInicioPruebas.getTime());
+						fechaRealFinPruebas.add(Calendar.DAY_OF_MONTH, daysPruebas.intValue());
 						
 						/*******************************************************************************************************/
 						
-						Double daysPruebas = CommonUtils.jornadasDuracion(fechaRealInicioPruebas.getTime(), fechaRealFinPruebas.getTime());
+						
 						Double daysDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFinPruebas.getTime(), fechaFinalizacion);
 						Double sumatorioDedicacionesMasDesfases = (duracionAcumuladaAnalysis>-1.0?duracionAcumuladaAnalysis:0.0) + daysDesfaseTramiteHastaInicioReal + 
 								daysDesarrollo + daysFinDesaIniPruebas + daysPruebas + daysDesdeFinPruebasHastaImplantacion;
 						
-						out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + idPeticion + "  ******\n").getBytes());
+						out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + idPeticion + " aplicación: " + nombreAplicacionDePeticion + " ******\n").getBytes());
 						out.write(("Jornadas Duración total: " + CommonUtils.roundDouble(sumatorioDedicacionesMasDesfases,1) + "\n").getBytes());
 						if (duracionAcumuladaAnalysis > -1.0) {
 							out.write(("Jornadas Análisis: " + CommonUtils.roundDouble(duracionAcumuladaAnalysis,1) + "\n").getBytes());
@@ -800,8 +830,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			//}
 			out.write(("\n**** TOTAL ANÁLISIS ESTIMADOS ESTUDIO: "+ analysisEstimados + "  *******\n").getBytes());
 			out.write(("\n**** TOTAL PETICIONES ESTUDIO: "+ (numPeticionesEstudioProsa+numPeticionesEstudioHOST) + "  *******\n").getBytes());
-			out.write(("\n**** TOTAL PETICIONES PROSA ESTUDIO: "+ numPeticionesEstudioProsa + "  *******\n").getBytes());
-			out.write(("\n**** TOTAL PETICIONES HOST ESTUDIO: "+ numPeticionesEstudioHOST + "  *******\n").getBytes());			
+			out.write(("\n**** TOTAL PETICIONES PROSA ESTUDIO: "+ (numPeticionesEstudioProsa) + "  *******\n").getBytes());
+			out.write(("\n**** TOTAL PETICIONES HOST ESTUDIO: "+ (numPeticionesEstudioHOST) + "  *******\n\n").getBytes());
+			out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
+			for (int k=0;k<aplicacionesEstudio.size();k++) {
+				out.write(("\n**** TOTAL PETICIONES HOST ESTUDIO: "+ aplicacionesEstudio.get(k) + "  *******\n").getBytes());
+			}
 			
 			out.flush();
 			out.close();
