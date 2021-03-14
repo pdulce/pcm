@@ -346,41 +346,46 @@
 						
 					<fieldset legend="Por aplicativo">
 						
-						<fieldView mappingTo="26" type="checkbox" size="16">
+						<fieldView mappingTo="27" type="checkbox" size="16">
 							<optionValues selectionMultiple="true">
-								<option code="AYFL" title="AYFLO"></option>
-								<option code="BISM" title="BISM"></option>
-								<option code="FAMA" title="FAMA"></option>						
-								<option code="FAM2" title="FAM2"></option>
-								<option code="FOMA" title="FOMA Pros@"></option>
-								<option code="FMAR" title="FMAR - NAT "></option>
-								<option code="FOM2" title="FOM2"></option>
-								<option code="FRMA" title="FRMA"></option>
-								<option code="GFOA" title="GFOA"></option>
-								<option code="ISMW" title="ISMW"></option>
-								<option code="MOVI" title="MOVI"></option>
-								<option code="OBIS" title="OBIS"></option>
-								<option code="SANI" title="SANI"></option>
-								<option code="SBOT" title="SBOT"></option>
-								<option code="WISM-WBOF" title="WISM-WBOF"></option>
-								<option code="WSRT" title="WSRT"></option>
-								<option code="INCM" title="INCM"></option>
-								<option code="SIEB" title="SIEB"></option>
-								<option code="PRES" title="PRES"></option>
-								<option code="PAGO" title="PAGO"></option>
-								<option code="APRO" title="APRO"></option>
-								<option code="CTMA" title="CTMA"></option>
-								<option code="TASA" title="TASA"></option>
-								<option code="INVE" title="INVE"></option>
-								<option code="ANTE" title="ANTE"></option>
-								<option code="MGEN" title="MGEN"></option>
-								<option code="MIND" title="MIND"></option>
-								<option code="MEJP" title="MEJP"></option>
-								<option code="EXTR" title="EXTR"></option>
-								<option code="ESTA" title="ESTA"></option>
-								<option code="INBU" title="INBU"></option>
-								<option code="WSCR" title="WSCR"></option>
-								<option code="GENERICAS" title="No catalogadas"></option>
+								<option code="FOM2 - FOMA2" title="INVE"></option>
+								<option code="INVE - INVENTARIO" title="INVE"></option>
+								<option code="PAGO - PAGODA" title="INVE"></option>
+								<option code="FMAR - FORMAR" title=""></option>
+								<option code="SANI - SANIMA_PROSA" title=""></option>
+								<option code="PRES - PRESMAR" title=""></option>
+								<option code="SBOT - SUBVEN_BOTIQ" title=""></option>
+								<option code="AYFL - AYUDAS_FLOTA" title=""></option>
+								<option code="FOMA - FORMAR_PROSA" title=""></option>
+								<option code="FRMA - FRMA" title=""></option>
+								<option code="TASA - TSE111" title=""></option>
+								<option code="FAMA - FARMAR_PROSA" title=""></option>
+								<option code="ISMW - WS_EXT_ISM" title=""></option>
+								<option code="FAM2 - FAM2_BOTIQU" title=""></option>
+								<option code="WISM - WS_CDISM" title=""></option>
+								<option code="APRO - ANTEPROYECTO" title=""></option>
+								<option code="MGEN - AP_GENERICA" title=""></option>
+								<option code="AFLO - AYFLO" title=""></option>
+								<option code="FARM - FARMAR" title=""></option>
+								<option code="INBU - SEGUMAR" title=""></option>
+								<option code="MOVI - MOVIL_ISM" title=""></option>
+								<option code="WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria" title=""></option>
+								<option code="PRSP - PRESTACIONES MAR PROSA" title=""></option>
+								<option code="GFOA - GEFORA" title=""></option>
+								<option code="CMAR - CONTAMAR2" title=""></option>
+								<option code="TISM - Tu ISM" title=""></option>
+								<option code="BISM - ISM en tu Bolsillo" title=""></option>
+								<option code="OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web." title=""></option>
+								<option code="CONT - CONTAMAR" title=""></option>
+								<option code="MIND - ESTAD_IND" title=""></option>
+								<option code="INCM - INCA_ISM" title=""></option>
+								<option code="SIEB - SIEBEL" title=""></option>
+								<option code="WSCR - WS_CADUC_FSE" title=""></option>
+								<option code="WSPX - WS_PERMEX" title=""></option>
+								<option code="WBOF - WS_INSPBOT2" title=""></option>
+								<option code="WSAO - Servicio Web intercambio avisos OBIS" title=""></option>
+								<option code="IMAG - IMAGENES" title=""></option>
+								<option code="MEJP - MEJOPENS" title=""></option>
 							</optionValues>						
 						</fieldView>
 						

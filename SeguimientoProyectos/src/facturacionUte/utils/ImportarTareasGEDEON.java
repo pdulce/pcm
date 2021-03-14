@@ -329,6 +329,44 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		return servicioAtiendePeticion;
     }
 	
+    private double getTotalUtsEntrega(FieldViewSet miEntrega) throws Throwable{
+    	double numUtsEntrega = 0;
+		String peticiones = (String) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+				ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
+		if (peticiones != null && !"".contentEquals(peticiones)) {				
+			List<Long> codigosPeticiones = obtenerCodigos(peticiones);
+			for (int i=0;i<codigosPeticiones.size();i++) {
+				Long codPeticionDG = codigosPeticiones.get(i);
+				FieldViewSet peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
+				peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), codPeticionDG);									
+				peticionDG = this.dataAccess.searchEntityByPk(peticionDG);
+				if (peticionDG != null) {
+					 Double utsEstimadas = (Double) peticionDG.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
+					 if (utsEstimadas == 0) {
+						 Double utsReales = (Double) peticionDG.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
+						 numUtsEntrega += utsReales;
+					 }else {
+						 numUtsEntrega += utsEstimadas;
+					 }
+				}
+			}
+		}    	
+    	return numUtsEntrega;
+    }
+    
+    private int getNumPeticionesEntrega(FieldViewSet miEntrega) throws Throwable{
+    	int numpeticionesEntrega = 0;
+    	String peticiones = (String) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+				ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
+		if (peticiones != null && !"".contentEquals(peticiones)) {				
+			List<Long> codigosPeticiones = obtenerCodigos(peticiones);
+			return (codigosPeticiones == null ? 0 : codigosPeticiones.size());			
+		}
+    	return numpeticionesEntrega;
+    }
+    
 	public Map<Integer, String> importar(final String path, final FieldViewSet importacionFSet) throws Exception {
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
 		int numImportadas = 0;
@@ -398,6 +436,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			
 			List<String> aplicacionesEstudio = new ArrayList<String>();
 			List<String> appsNuevosDesarrollos = new ArrayList<String>();
+			/*sacar: FOM2 - FOMA2
+			SBOT - SUBVEN_BOTIQ
+			FAM2 - FAM2_BOTIQU*/
 			/*appsNuevosDesarrollos.add("FOM2 - FOMA2");
 			appsNuevosDesarrollos.add("SBOT - SUBVEN_BOTIQ");
 			appsNuevosDesarrollos.add("FAM2 - FAM2_BOTIQU");
@@ -558,7 +599,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						if (!aplicacionesEstudio.contains(nombreAplicacionDePeticion)) {
 							aplicacionesEstudio.add(nombreAplicacionDePeticion);
 						}
-						
 						int tipoP = 0;
 						if (tipoPeticion.toString().indexOf("Peque") !=-1 || tipoPeticion.toString().indexOf("Mejora") !=-1) {
 							tipoP = 1;
@@ -576,6 +616,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
 						
 						Double daysDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
+						Double utsPeticionesEntrega = 0.0, uts = (horasEstimadas==0.0?horasReales:horasEstimadas);
 
 						Double daysFinDesaIniPruebas = 0.0, duracionAcumuladaAnalysis = -1.0;
 						if (fechaRealFin != null && peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
@@ -597,6 +638,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 										if (daysFinDesaIniPruebas < 0) {
 											throw new Exception("Imposible: " + fecFinPreparacionEntrega + " es anterior a " + fechaRealFin);
 										}
+										utsPeticionesEntrega = getTotalUtsEntrega(miEntrega);
 									}
 								}
 							}
@@ -644,8 +686,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 										ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), horasReales);								
 							}
 														
-							if (duracionAcumuladaAnalysis < 0.0) {
-								double uts = (horasEstimadas==0.0?horasReales:horasEstimadas);
+							if (duracionAcumuladaAnalysis < 0.0) {								
 								double horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno.intValue());								
 								duracionAcumuladaAnalysis = horasAnalysis/8.0;
 								out.write(("****** ANALYSIS ESTIMADO CON MLR SOBRE DATOS REALES ******\n").getBytes());
@@ -665,13 +706,15 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						
 						/*************** Datos inventados para el cálculo de la duración de las pruebas ************************/
 						//este tiempo se divide entre pruebasCD y gestión instalación
+						double peso = uts/(utsPeticionesEntrega==0?uts:utsPeticionesEntrega);
 						if (entorno == 0/*HOST*/) {
-							daysPruebas = (daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas)*0.65;
+							daysPruebas = ((daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas)*0.65)*peso;
 						}else {//Pros@
-							daysPruebas = (daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas)*0.45;
+							daysPruebas = ((daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas)*0.45)*peso;
 						}
 						if (daysPruebas< 0.0) {
-							throw new Exception("daysPruebas negativo o fechaEntrega es nula: " + daysPruebas);
+							//throw new Exception("daysPruebas negativo o fechaEntrega es nula: " + daysPruebas);
+							out.write(("daysPruebas negativo es nula: " + daysPruebas + " petición: " + idPeticion + "\n").getBytes());
 						}
 						if (fecFinPreparacionEntrega == null) {
 							Calendar calfecFinPreparacionEntrega = Calendar.getInstance();							
