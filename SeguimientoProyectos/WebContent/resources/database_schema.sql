@@ -53,14 +53,15 @@ CREATE TABLE `incidenciasProyecto` (
   
 CREATE TABLE `agregadosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `tituloEstudio` varchar(250) NOT NULL,
   `entorno` varchar(50) NOT NULL,
   `aplicaciones` varchar(500) DEFAULT NULL,
   `fecha_inicio_estudio` date NOT NULL,
   `fecha_fin_estudio` date NOT NULL,
   `num_peticiones` int(6),
   `num_meses` int(4),
-  `ciclo_vida` double DEFAULT NULL,
   `total_uts` double DEFAULT NULL,
+  `ciclo_vida` double DEFAULT NULL,  
   `duracion_analysis` double DEFAULT NULL,
   `duracion_desarrollo` double DEFAULT NULL,
   `duracion_pruebas` double DEFAULT NULL,
@@ -69,6 +70,24 @@ CREATE TABLE `agregadosPeticiones` (
   `gap_finPrue_Producc` double DEFAULT NULL,
   `total_dedicaciones` double DEFAULT NULL,
   `total_gaps` double DEFAULT NULL,
+  `ciclo_vida_permonth` double DEFAULT NULL,  
+  `duracion_analysis_permonth` double DEFAULT NULL,
+  `duracion_desarrollo_permonth` double DEFAULT NULL,
+  `duracion_pruebas_permonth` double DEFAULT NULL,
+  `gap_tram_iniRealDesa_permonth` double DEFAULT NULL,
+  `gap_finDesa_iniPrue_permonth` double DEFAULT NULL,
+  `gap_finPrue_Producc_permonth` double DEFAULT NULL,
+  `total_dedicaciones_permonth` double DEFAULT NULL,
+  `total_gaps_permonth` double DEFAULT NULL,
+  `ciclo_vida_perpet` double DEFAULT NULL,  
+  `duracion_analysis_perpet` double DEFAULT NULL,
+  `duracion_desarrollo_perpet` double DEFAULT NULL,
+  `duracion_pruebas_perpet` double DEFAULT NULL,
+  `gap_tram_iniRealDesa_perpet` double DEFAULT NULL,
+  `gap_finDesa_iniPrue_perpet` double DEFAULT NULL,
+  `gap_finPrue_Producc_perpet` double DEFAULT NULL,
+  `total_dedicaciones_perpet` double DEFAULT NULL,
+  `total_gaps_perpet` double DEFAULT NULL,  
   `porc_duracion_analysis` double DEFAULT NULL,
   `porc_duracion_desarrollo` double DEFAULT NULL,
   `porc_pruebas` double DEFAULT NULL,
@@ -76,8 +95,7 @@ CREATE TABLE `agregadosPeticiones` (
   `porc_gap_finDesa_iniPrue` double DEFAULT NULL,
   `porc_gap_finPrue_Producc` double DEFAULT NULL,
   `porc_total_dedicaciones` double DEFAULT NULL,        
-  `porc_total_gaps` double DEFAULT NULL,
-  `tituloEstudio` varchar(250) NOT NULL
+  `porc_total_gaps` double DEFAULT NULL  
 );  
 
 

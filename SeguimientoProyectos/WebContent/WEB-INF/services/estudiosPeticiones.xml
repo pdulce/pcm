@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+	
+	<service name="EstudioPeticiones" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="EstudioPeticiones.query"
+			submitSucces="EstudioPeticiones.query">
+
+			<viewComponent>
+
+				<form columns="2" title="Consultar estudios de Ciclo de Vida de Peticiones por períodos">
+				
+					<userbuttons>
+				
+						<button	link="prjManager" id="histog1" name="Histogram" >
+							<fieldViewSet nameSpace="histog1">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
+								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
+								<fieldView name="orderBy" hidden="true" value="1"/>
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues>
+										<option code="-1" title="periodos" selected="true"></option>
+										<option code="3" title="Servicio"></option>
+										<option code="2" title="Entorno"></option>
+									</optionValues>
+								</fieldView>
+								<!-- fieldView separator="br" /> -->
+								<fieldView name="agregado" type="radio">
+									<optionValues>
+										<option code="6" title="Núm.Peticiones"></option>
+										<option code="8" title="Ciclo Vida" selected="true"></option>
+										<option code="9" title="Uts Total" selected="true"></option>
+									</optionValues>
+								</fieldView>
+								<!-- fieldView separator="br" /> -->
+								<fieldView name="escalado" type="select">
+									<optionValues>
+										<option code="dayly" title="Diario"></option>
+										<option code="weekly" title="Semanal"></option>
+										<option code="monthly" title="Mensual" selected="true"></option>
+										<option code="3monthly" title="Trimestral"></option>
+										<option code="6monthly" title="Semestral"></option>
+										<option code="anualy" title="Anual"></option>
+										<option code="automatic" title="Automatico"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>							
+							</fieldViewSet>
+						</button>
+					</userbuttons>
+					
+							
+					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
+					
+						<fieldset legend="Filtrar por Tecnología y Servicio">					
+							<fieldView mappingTo="2" type="checkbox" size="10">
+								<optionValues selectionMultiple="true">
+									<option code="Host" title="Host"></option>
+									<option code="Pros@" title="Pros@"></option>
+								</optionValues>
+							</fieldView>
+							
+							<fieldView mappingTo="26" type="select" size="10">
+								<optionValues selectionMultiple="true">
+									<option code="Estudio Peticiones en periodo para Servicio Nuevos Desarrollos Pros@" title="Nuevos Desarrollos Pros@"></option>
+									<option code="Estudio Peticiones en periodo para Servicio Mto. Pros@" title="Aplicaciones Mto. Pros@"></option>
+									<option code="Estudio Peticiones en periodo para Servicio Mto. HOST" title="Aplicaciones Mto. HOST"></option>
+								</optionValues>
+							</fieldView>
+							
+							<fieldView separator="br" />
+							
+						</fieldset>
+						
+						<fieldset legend="Filtrar por Fechas del estudio">
+							<fieldView mappingTo="4" editable="true" />
+							<fieldView mappingTo="5" editable="true" />
+						</fieldset>
+																	
+					</fieldViewSet>
+				</form>
+				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.4,agregadosPeticiones.3"
+					eventsRegistered="detail">
+					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="2" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="2" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="3" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="4" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="5" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="6" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="7" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="8" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="28" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="29" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="30" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="31" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="32" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="33" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="34" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="35" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="36" styleCss="font-weight: bold;color: orange;"/>
+					</fieldViewSet>
+				</grid>
+				
+			</viewComponent>
+
+		</action>
+		
+		<action event="detail" submitError="EstudioPeticiones.detail"
+		submitSucces="EstudioPeticiones.detail">
+
+		<viewComponent>
+			<form columns="4" title="Detalle del Estudio">
+				<fieldViewSet entitymodel="agregadosPeticiones"
+					nameSpace="agregadosPeticiones">
+					<fieldView mappingTo="1" editable="false" />
+					<fieldView mappingTo="2" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="3" editable="true" />
+					<fieldView mappingTo="4" editable="true" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="5" editable="false" />
+					<fieldView mappingTo="6" editable="false" />
+					<fieldView mappingTo="7" editable="false" />
+					<fieldView mappingTo="8" editable="false" />
+					<fieldView mappingTo="9" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />					
+					<fieldView mappingTo="10" editable="false" />
+					<fieldView mappingTo="11" editable="false" />
+					<fieldView mappingTo="12" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="13" editable="false" />
+					<fieldView mappingTo="14" editable="false" />
+					<fieldView mappingTo="15" editable="false" />
+					<fieldView mappingTo="16" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="17" editable="false" />
+					<fieldView mappingTo="18" editable="false" />
+					<fieldView mappingTo="19" editable="false" />
+					<fieldView mappingTo="20" editable="false" />
+					<fieldView mappingTo="21" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="22" editable="false" />
+					<fieldView mappingTo="23" editable="false" />
+					<fieldView mappingTo="24" editable="false" />
+					<fieldView mappingTo="25" editable="false" />		
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="26" editable="false" />
+					<fieldView mappingTo="27" editable="false" />
+					<fieldView mappingTo="28" editable="false" />
+					<fieldView mappingTo="29" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="30" editable="false" />
+					<fieldView mappingTo="31" editable="false" />
+					<fieldView mappingTo="32" editable="false" />
+					<fieldView mappingTo="33" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="34" editable="false" />
+					<fieldView mappingTo="35" editable="false" />
+					<fieldView mappingTo="36" editable="false" />
+					<fieldView mappingTo="37" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="38" editable="false" />
+					<fieldView mappingTo="39" editable="false" />
+					<fieldView mappingTo="40" editable="false" />
+					<fieldView mappingTo="41" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="42" editable="false" />
+					<fieldView mappingTo="43" editable="false" />
+					<fieldView mappingTo="44" editable="false" />
+				</fieldViewSet>
+			</form>
+		</viewComponent>
+	</action>
+		
+		
+	
+	</service>
+	
+</service:service-group>	

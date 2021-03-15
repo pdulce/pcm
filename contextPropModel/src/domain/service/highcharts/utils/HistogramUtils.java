@@ -26,6 +26,7 @@ public class HistogramUtils {
 	public static final String ESCALADO_PARAM = "escalado";
 	
 	private static final String PATTERN_WEEKS = "[1-6][a-z]{2} [a-z]{3}'[0-9]{2}";
+	//private static final String PATTERN_BIMONTHLY = "Q[1-4]'[0-9]{2}";
 	private static final String PATTERN_QUARTER = "Q[1-4]'[0-9]{2}";
 	private static final String PATTERN_SEMESTER = "[1-2][a-z]{2} half'[0-9]{2}";
 	private static final String PATTERN_MONTHS = "[a-z]{3}'[0-9]{2}";
@@ -334,7 +335,12 @@ public class HistogramUtils {
 			escala = "3monthly";
 			fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);
 			fechaCalAux.set(Calendar.MONTH, fechaCalMasAntigua.get(Calendar.MONTH) + 3);
-		
+
+		}else if (escalado.equals("2monthly") || (escalado.equals("automatic") && differenceInDays > (30*12*2) && differenceInDays <= (30*12*4)/*entre 2 y 4 aoos*/)){
+			escala = "2monthly";
+			fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);
+			fechaCalAux.set(Calendar.MONTH, fechaCalMasAntigua.get(Calendar.MONTH) + 2);
+
 		}else if (escalado.equals("monthly") || (escalado.equals("automatic") && differenceInDays > (30*6) && differenceInDays <= (30*12*3)/*entre 6 meses y 3 aoos*/)){
 			escala = "monthly";
 			fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);

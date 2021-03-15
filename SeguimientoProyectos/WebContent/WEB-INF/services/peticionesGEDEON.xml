@@ -378,6 +378,8 @@
 							</optionValues>						
 						</fieldView>
 						
+						<fieldView separator="br" />
+						
 						<fieldView mappingTo="27" type="checkbox" size="10">
 							<optionValues selectionMultiple="true">
 								

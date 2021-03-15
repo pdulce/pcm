@@ -47,7 +47,7 @@
 		<FOLDER profile="ANALISIS_TEAM, ADMINISTRADOR"
 			name="Seguimiento">
 			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
-			<LEAF link="event=GestionEntidades.query#entityName=agregadosPeticiones" name="Estudios Peticiones" />
+			<LEAF link="event=EstudioPeticiones.query" name="Estudios Peticiones" />
 			 <!-- FOLDER profile="ANALISIS_TEAM" name="WAS Config">
 			 </FOLDER>
 			 <FOLDER profile="ANALISIS_TEAM" name="BBDD Conexiones">
