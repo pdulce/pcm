@@ -1,15 +1,14 @@
 package facturacionUte.strategies;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
-import domain.common.exceptions.DatabaseException;
+import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
-import domain.common.utils.ThreadSafeSimpleDateFormat;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.component.definitions.IRank;
@@ -20,6 +19,7 @@ import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
+import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
 import facturacionUte.utils.ImportarTareasGEDEON;
 
@@ -52,6 +52,20 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			throws StrategyException, PCMConfigurationException {
 		
 		try {
+			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
+				return;
+			}
+			
+			//accedemos al objeto grabado
+			FieldViewSet estudioFSet = null;
+			Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
+			if (iteFieldSets.hasNext()) {
+				estudioFSet = iteFieldSets.next();
+			}
+			if (estudioFSet == null) {
+				throw new PCMConfigurationException("Error: Objeto Estudio recibido del datamap es nulo ", new Exception("null object"));
+			}
+			
 			String fechaDesdeReq = req.getParameter(FECHA_INI_PARAM);
 			String fechaHastaReq = req.getParameter(FECHA_FIN_PARAM);
 
@@ -63,13 +77,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			Date fecFinEstudio = null;
 			try {
-				Date fecIniEstudio = ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaDesdeReq);
+				Date fecIniEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
+						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName());//ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaDesdeReq);
 				if(fechaHastaReq== null) {
 					fecFinEstudio = Calendar.getInstance().getTime();
 				}else{
-					fecFinEstudio = ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaHastaReq);
+					fecFinEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
+							ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName());
 				}
-								
+				
 				final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
 				
 				final IFieldLogic fieldDesde = GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION);
@@ -91,13 +107,20 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 				
 				ImportarTareasGEDEON importer = new ImportarTareasGEDEON(dataAccess, dictionaryOfEntities);
-				importer.aplicarEstudioPorPeticion(fecIniEstudio, fecFinEstudio, listadoPeticiones);
+				FieldViewSet recordFilled = importer.aplicarEstudioPorPeticion(estudioFSet, listadoPeticiones);
+				
+				//this.dataAccess.setAutocommit(false);
+				int ok = dataAccess.modifyEntity(recordFilled);
+				if (ok != 1) {
+					throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");
+				}
+				//this.dataAccess.commit();
 				
 				System.out.println("Estudio insertado");
 				//HAY QUE BORRAR EL ESTUDIO QUE GENERA ESTE ESCENARIO POR DEFECTO
 				
-			}catch(ParseException parseEx) {
-				parseEx.printStackTrace();
+			}catch(Throwable exA) {
+				exA.printStackTrace();
 			}
 
 		//}catch (final StrategyException ecxx) {

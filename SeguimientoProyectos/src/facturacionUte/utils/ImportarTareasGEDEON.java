@@ -424,8 +424,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 
 			return importarInterno(fecExportacion, filas);
 		}
-	
-		public void aplicarEstudioPorPeticion(final Date fecIniEstudio, final Date fecFinEstudio, final Collection<FieldViewSet> filas) {
+
+		public FieldViewSet aplicarEstudioPorPeticion(final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) {
 			//actualizada la BBDD con las gedeones filtradas y generados los totales para el registro
 			int analysisEstimados = 0;
 			int numPeticionesEstudioProsaMto = 0, numPeticionesEstudioProsaNewDesa =0, numPeticionesEstudioHOSTMto=0;
@@ -477,9 +477,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				out = new FileOutputStream(f);
 				modelo = new FileOutputStream(fModelo);
 				dataset= new FileOutputStream(datasetFile);
-				
-				this.dataAccess.setAutocommit(false);
-				
+								
 				for (final FieldViewSet registro : filas) {
 					
 					String idPeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());
@@ -703,11 +701,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							
 				/** VAMOS A LLENAR SIN NECESIDAD DE SACAR LAS GRÁFICAS, LOS AGREGADOS y % DEL ESTUDIO EN EL TIEMPO PARA PROSA Y HOST ***/
 				// Creamos tres registros en la tabla agregadosEstudio
+				final Date fecIniEstudio = (Date) registroMtoProsa.getValue(agregadosEstudioPeticionesEntidad.searchField(
+						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName());
+				final Date fecFinEstudio = (Date) registroMtoProsa.getValue(agregadosEstudioPeticionesEntidad.searchField(
+						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName());
 				int mesesEstudio = new Double(CommonUtils.diasNaturalesDuracion(fecIniEstudio, fecFinEstudio)/30.0).intValue();			
 				
 				String textoAplicacionesProsaMto = textoAplicacionesEstudio(aplicacionesProsaEstudioMto);
-				
-				FieldViewSet registroMtoProsa = new FieldViewSet(agregadosEstudioPeticionesEntidad);
+								
 				// title
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Mto. Pros@");
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Pros@");
@@ -767,13 +768,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto)/total_cicloVida_estudio_Prosa_Mto));
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
 						CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto)/total_cicloVida_estudio_Prosa_Mto));
-				
-				int ok = this.dataAccess.insertEntity(registroMtoProsa);
-				if (ok != 1) {
-					throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");
-				}
-				this.dataAccess.commit();
-				
+								
 			}catch (Throwable exc) {
 				exc.printStackTrace();
 			}finally {
@@ -790,6 +785,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}
 			
 			System.out.println("aplicado el estudio!! ");
+			return registroMtoProsa;
 		}
 			
 		public Map<Integer, String> importarInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
