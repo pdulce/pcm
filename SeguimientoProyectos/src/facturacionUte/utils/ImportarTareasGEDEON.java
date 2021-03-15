@@ -435,24 +435,25 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			int analysisEstimados = 0;
 			
 			List<String> aplicacionesEstudio = new ArrayList<String>();
-			List<String> appsNuevosDesarrollos = new ArrayList<String>();
-			/*sacar: FOM2 - FOMA2
-			SBOT - SUBVEN_BOTIQ
-			FAM2 - FAM2_BOTIQU*/
-			/*appsNuevosDesarrollos.add("FOM2 - FOMA2");
-			appsNuevosDesarrollos.add("SBOT - SUBVEN_BOTIQ");
-			appsNuevosDesarrollos.add("FAM2 - FAM2_BOTIQU");
-			appsNuevosDesarrollos.add("TISM - Tu ISM");
-			appsNuevosDesarrollos.add("BISM - ISM en tu Bolsillo");
-			appsNuevosDesarrollos.add("OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.");
-			appsNuevosDesarrollos.add("GFOA - GEFORA");
-			appsNuevosDesarrollos.add("AFLO - AYFLO");
-			appsNuevosDesarrollos.add("FARM - FARMAR");
-			appsNuevosDesarrollos.add("PRSP - PRESTACIONES MAR PROSA");
-			appsNuevosDesarrollos.add("WSPX - WS_PERMEX");
-			appsNuevosDesarrollos.add("WSAO - Servicio Web intercambio avisos OBIS");
-			appsNuevosDesarrollos.add("IMAG - IMAGENES");*/
-			//appsNuevosDesarrollos.add("");
+			aplicacionesEstudio.add("AYFL - AYUDAS_FLOTA");//compara con el campo 27
+			aplicacionesEstudio.add("FOMA - FORMAR_PROSA");
+			aplicacionesEstudio.add("FRMA - FRMA");
+			aplicacionesEstudio.add("FAMA - FARMAR_PROSA");
+			aplicacionesEstudio.add("SANI - SANIMA_PROSA");
+			
+			aplicacionesEstudio.add("INVE - INVENTARIO");
+			aplicacionesEstudio.add("PAGO - PAGODA");
+			aplicacionesEstudio.add("FMAR - FORMAR");
+			aplicacionesEstudio.add("TASA - TSE111");
+			aplicacionesEstudio.add("PRES - PRESMAR");
+			aplicacionesEstudio.add("AFLO - AYFLO");
+			aplicacionesEstudio.add("FARM - FARMAR");
+			aplicacionesEstudio.add("INBU - SEGUMAR");
+			aplicacionesEstudio.add("CMAR - CONTAMAR2");
+			aplicacionesEstudio.add("CONT - CONTAMAR");
+			aplicacionesEstudio.add("MIND - ESTAD_IND");
+			aplicacionesEstudio.add("INCM - INCA_ISM");
+			//TODO: mete las de HOST: vuelve a calcular los datos para Host en la Excel del estudio
 			
 			Collections.sort(filas, new ComparatorFieldViewSet());
 			//de esta forma, siempre las entregas apareceron despuos de los trabajos que incluyen
@@ -593,7 +594,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					Long entorno = (Long) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName());
 					if (entorno < 3 && situacion.toString().indexOf("Petición finalizada") != -1 && 
 							tipoPeticion.toString().indexOf("Entrega") ==-1 && tipoPeticion.toString().indexOf("Soporte") ==-1 &&  tipoPeticion.toString().indexOf("Documento") ==-1 &&
-									!appsNuevosDesarrollos.contains(nombreAplicacionDePeticion) &&
+									aplicacionesEstudio.contains(nombreAplicacionDePeticion) &&
 							servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
 						
 						if (!aplicacionesEstudio.contains(nombreAplicacionDePeticion)) {
@@ -661,16 +662,17 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 											Date fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
 											Date fechaFinAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
 											if (fechaFinAnalysis == null || fechaFinAnalysis.compareTo(fechaTramite) > 0) {
-												duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue();
+												duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue()*0.45;
 											}else {
-												duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinAnalysis).doubleValue();
+												duracionAcumuladaAnalysis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinAnalysis).doubleValue()*0.45;
 											}
+											// Se aplica un peso del 45% del tiempo total de inicio-fin de un análisis porque en base a otros estudios sabemos
+											// que en AT se dedica un 55% del tiempo a otras tareas de soporte y atención al usuario en las aplicaciones en Producción
 											if (duracionAcumuladaAnalysis == 0.0) {
 												duracionAcumuladaAnalysis = 0.1;
 											}
 										}
-									}
-									
+									}									
 								}								
 							}//end of si tiene peticiones relacionadas
 							
@@ -687,7 +689,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							}
 														
 							if (duracionAcumuladaAnalysis < 0.0) {								
-								double horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno.intValue());								
+								double horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno.intValue());
 								duracionAcumuladaAnalysis = horasAnalysis/8.0;
 								out.write(("****** ANALYSIS ESTIMADO CON MLR SOBRE DATOS REALES ******\n").getBytes());
 								analysisEstimados++;
@@ -706,7 +708,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						
 						/*************** Datos inventados para el cálculo de la duración de las pruebas ************************/
 						//este tiempo se divide entre pruebasCD y gestión instalación
-						double peso = uts/(utsPeticionesEntrega==0?uts:utsPeticionesEntrega);
+						double peso = 0.00;
+						if (utsPeticionesEntrega==0) {
+							peso = 1.00;			
+						}else {
+							peso = uts/utsPeticionesEntrega;
+						}
 						if (entorno == 0/*HOST*/) {
 							daysPruebas = ((daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas)*0.65)*peso;
 						}else {//Pros@
