@@ -2,19 +2,22 @@ package facturacionUte.strategies;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
 import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
-import domain.common.utils.CommonUtils;
 import domain.common.utils.ThreadSafeSimpleDateFormat;
 import domain.service.component.definitions.FieldViewSet;
-import domain.service.component.definitions.validator.IValidator;
+import domain.service.component.definitions.IFieldView;
+import domain.service.component.definitions.IRank;
+import domain.service.component.definitions.Rank;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
+import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import facturacionUte.common.ConstantesModelo;
@@ -35,7 +38,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				GenerarEstudioCicloVida.estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_ENTIDAD);
 				GenerarEstudioCicloVida.peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_ENTIDAD);
+						ConstantesModelo.INCIDENCIASPROYECTO_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -54,22 +57,44 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 
 			initEntitiesFactories(req.getEntitiesDictionary());
 
-			if (fechaDesdeReq == null ||  fechaHastaReq == null ) {
-				//final Collection<Object> messageArguments = new ArrayList<Object>();
-				//messageArguments.add(fechaDesdeReq);
-				//throw new StrategyException(IValidator.DATA_NEEDED, messageArguments);
+			if (fechaDesdeReq == null &&  fechaHastaReq == null ) {
 				return;
 			}
+			
+			Date fecFinEstudio = null;
 			try {
 				Date fecIniEstudio = ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaDesdeReq);
-				Date fecFinEstudio = ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaHastaReq);
+				if(fechaHastaReq== null) {
+					fecFinEstudio = Calendar.getInstance().getTime();
+				}else{
+					fecFinEstudio = ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaHastaReq);
+				}
+								
+				final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
 				
-				final FieldViewSet filterPeticiones = new FieldViewSet(GenerarEstudioCicloVida.peticionesEntidad);
-				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName(), fecIniEstudio);// "nombre"				
+				final IFieldLogic fieldDesde = GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION);
+				IFieldView fViewEntradaEnDG =  new FieldViewSet(GenerarEstudioCicloVida.peticionesEntidad).getFieldView(fieldDesde);
+				
+				final IFieldView fViewMinor = fViewEntradaEnDG.copyOf();
+				final Rank rankDesde = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
+				fViewMinor.setRankField(rankDesde);
+				
+				final Rank rankHasta = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
+				final IFieldView fViewMayor = fViewEntradaEnDG.copyOf();
+				fViewMayor.setRankField(rankHasta);
+				fieldViews4Filter.add(fViewMinor);
+				fieldViews4Filter.add(fViewMayor);
+				
+				FieldViewSet filterPeticiones = new FieldViewSet(this.dictionaryOfEntities, GenerarEstudioCicloVida.peticionesEntidad.getName(), fieldViews4Filter);
+				filterPeticiones.setValue(fViewMinor.getQualifiedContextName(), fecIniEstudio);
+				filterPeticiones.setValue(fViewMayor.getQualifiedContextName(), fecFinEstudio);
 				final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 				
 				ImportarTareasGEDEON importer = new ImportarTareasGEDEON(dataAccess, dictionaryOfEntities);
 				importer.aplicarEstudioPorPeticion(fecIniEstudio, fecFinEstudio, listadoPeticiones);
+				
+				System.out.println("Estudio insertado");
+				//HAY QUE BORRAR EL ESTUDIO QUE GENERA ESTE ESCENARIO POR DEFECTO
 				
 			}catch(ParseException parseEx) {
 				parseEx.printStackTrace();
