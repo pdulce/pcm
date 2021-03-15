@@ -1672,7 +1672,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					String estadoPetAsociada = (String) peticionRelacionada.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
 					if (!estadoPetAsociada.equals("Petición de trabajo finalizado") && !estadoPetAsociada.equals("Soporte finalizado") && !estadoPetAsociada.equals("Trabajo anulado")){
 						peticionRelacionada.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
-								estadoPetAsociada.concat(estadoPetAsociada.endsWith("(implantado)") ? "" : "(implantado)"));
+								estadoPetAsociada);
 					}
 				}					
 			}

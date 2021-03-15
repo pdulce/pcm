@@ -66,24 +66,16 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				throw new PCMConfigurationException("Error: Objeto Estudio recibido del datamap es nulo ", new Exception("null object"));
 			}
 			
-			String fechaDesdeReq = req.getParameter(FECHA_INI_PARAM);
-			String fechaHastaReq = req.getParameter(FECHA_FIN_PARAM);
-
 			initEntitiesFactories(req.getEntitiesDictionary());
-
-			if (fechaDesdeReq == null &&  fechaHastaReq == null ) {
-				return;
-			}
 			
 			Date fecFinEstudio = null;
 			try {
 				Date fecIniEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
 						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName());//ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaDesdeReq);
-				if(fechaHastaReq== null) {
+				fecFinEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
+						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName());
+				if(fecFinEstudio== null) {
 					fecFinEstudio = Calendar.getInstance().getTime();
-				}else{
-					fecFinEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
-							ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName());
 				}
 				
 				final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
@@ -104,6 +96,10 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				FieldViewSet filterPeticiones = new FieldViewSet(this.dictionaryOfEntities, GenerarEstudioCicloVida.peticionesEntidad.getName(), fieldViews4Filter);
 				filterPeticiones.setValue(fViewMinor.getQualifiedContextName(), fecIniEstudio);
 				filterPeticiones.setValue(fViewMayor.getQualifiedContextName(), fecFinEstudio);
+				
+				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Petición finalizada"); 
+				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), "FACTDG07");				
+				
 				final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 				
 				ImportarTareasGEDEON importer = new ImportarTareasGEDEON(dataAccess, dictionaryOfEntities);
