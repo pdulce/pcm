@@ -114,7 +114,7 @@
 	
 <entity>
     <entityname>agregadosPeticiones</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" required="true" autoinc="true"/>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="tituloEstudio" type="string" length="250" required="false"/>
     <field mappingTo="3" name="entorno" type="string" length="50" required="true"/>
 	<field mappingTo="4" name="aplicaciones" type="string" length="500" required="false"/>

@@ -371,7 +371,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     	StringBuffer strBuffer = new StringBuffer("Aplicaciones Estudio: ");
     	for (int j=0;j<aplicaciones.size();j++) {
     		String appEstudio =aplicaciones.get(j);
-    		strBuffer.append(appEstudio);
+    		strBuffer.append(appEstudio.split(" - ")[1]);
     		if (!((j+1) == (aplicaciones.size()))) {
     			strBuffer.append(", ");
     		}
@@ -963,13 +963,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			// Creamos tres registros en la tabla agregadosEstudio
 			Calendar fechaIniEstudio = Calendar.getInstance();
 			fechaIniEstudio.set(Calendar.YEAR, 2017);
-			fechaIniEstudio.set(Calendar.MONTH, 11);
+			fechaIniEstudio.set(Calendar.MONTH, 11);//dic
 			fechaIniEstudio.set(Calendar.DAY_OF_MONTH, 1);
 			Calendar fechaFinEstudio = Calendar.getInstance();
 			fechaFinEstudio.set(Calendar.YEAR, 2021);
-			fechaFinEstudio.set(Calendar.MONTH, 2);
-			fechaFinEstudio.set(Calendar.DAY_OF_MONTH, 28);
-			long mesesEstudio = Math.round(new Double ((fechaFinEstudio.getTimeInMillis() - fechaIniEstudio.getTimeInMillis())/(1000*60*60*24*30)));
+			fechaFinEstudio.set(Calendar.MONTH, 1);//febrero
+			fechaFinEstudio.set(Calendar.DAY_OF_MONTH, 28);			
+			int mesesEstudio = new Double(CommonUtils.diasNaturalesDuracion(fechaIniEstudio.getTime(), fechaFinEstudio.getTime())/30.0).intValue();
+			
 			
 			String textoAplicacionesProsaMto = textoAplicacionesEstudio(aplicacionesProsaEstudioMto);
 			
