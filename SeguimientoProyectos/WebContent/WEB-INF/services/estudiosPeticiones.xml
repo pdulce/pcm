@@ -137,8 +137,6 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView separator="br" />
 					</fieldset>
 					<fieldset legend="Agregados Estudio">
-						<fieldView separator="br" />
-						<fieldView separator="br" />					
 						<fieldView mappingTo="9" editable="false" />
 						<fieldView mappingTo="10" editable="false" />
 						<fieldView mappingTo="11" editable="false" />
@@ -190,9 +188,9 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView mappingTo="37" editable="false" />
 					</fieldset>
 					<fieldset legend="Porcentajes Por Petición">	
+						<fieldView mappingTo="37" editable="false" />
 						<fieldView mappingTo="38" editable="false" />
 						<fieldView mappingTo="39" editable="false" />
 						<fieldView mappingTo="40" editable="false" />
@@ -239,6 +237,7 @@ xmlns:service="http://pcm.framework.org/service"
 							
 					<fieldset legend="Introduzca fechas del estudio (desde-hasta)">
 						<fieldView mappingTo="5" editable="true" />
+						<fieldView mappingTo="6" editable="true" />
 					</fieldset>
 																		
 				</fieldViewSet>
