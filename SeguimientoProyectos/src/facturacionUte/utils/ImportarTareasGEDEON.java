@@ -379,29 +379,15 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     	return strBuffer.toString();
     }
     
-	public Map<Integer, String> importar(final String path, final FieldViewSet importacionFSet) throws Exception {
+	public Map<Integer, String> importarExcel2BBDD(final String path, final FieldViewSet importacionFSet) throws Throwable {
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
-		int numImportadas = 0;
-		List<String> IDs_changed = new ArrayList<String>();
-		List<String> rochadeSuspect = new ArrayList<String>();
-		File f= new File("C:\\\\Users\\\\pedro.dulce\\\\OneDrive - BABEL\\\\Documents\\\\ESTUDIO SERVICIO MTO.2017-2021\\\\resources\\peticionesEstudio.log");
-		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
-		File datasetFile = new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datasetMLR.csv");
-		FileOutputStream out = new FileOutputStream(f), modelo = new FileOutputStream(fModelo), dataset= new FileOutputStream(datasetFile);
-		int numPeticionesEstudioProsaMto = 0, numPeticionesEstudioProsaNewDesa =0, numPeticionesEstudioHOSTMto=0;
-		try {
+		
 			// leer de un path
 			InputStream in = null;
 			File ficheroTareasImport = null;
 			try {
 				ficheroTareasImport = new File(path);
-				if (!ficheroTareasImport.exists()) {
-					out.flush();
-					out.close();
-					modelo.flush();
-					modelo.close();
-					dataset.flush();
-					dataset.close();
+				if (!ficheroTareasImport.exists()) {					
 					throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
 				}
 				in = new FileInputStream(ficheroTareasImport);
@@ -414,12 +400,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				XSSFWorkbook wb = new XSSFWorkbook(in);
 				final XSSFSheet sheet = wb.getSheetAt(0);
 				if (sheet == null) {
-					out.flush();
-					out.close();
-					modelo.flush();
-					modelo.close();
-					dataset.flush();
-					dataset.close();
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
 				filas = leerFilas(sheet, null, incidenciasProyectoEntidad);
@@ -429,12 +409,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					HSSFWorkbook wb2 = new HSSFWorkbook(in);
 					final HSSFSheet sheet = wb2.getSheetAt(0);
 					if (sheet == null) {
-						out.flush();
-						out.close();
-						modelo.flush();
-						modelo.close();
-						dataset.flush();
-						dataset.close();
 						throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 					}
 					filas = leerFilas(null, sheet, incidenciasProyectoEntidad);
@@ -443,8 +417,26 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
 			}
+			Date fecExportacion = (Date) importacionFSet.getValue(importacionEntidad.searchField(
+					ConstantesModelo.IMPORTACIONESGEDEON_4_FECHAIMPORTACION).getName());
+
+			return importarInterno(fecExportacion, filas);
+		}
+	
+		public void aplicarEstudioPorPeticion(final Date fecIniEstudio, final Date fecFinEstudio) {
+			//actualizada la BBDD con las gedeones filtradas y generados los totales para el registro
+			System.out.println("aplicado el estudio!! ");
+		}
+			
+		public Map<Integer, String> importarInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
 			
 			int analysisEstimados = 0;
+			int numImportadas = 0;
+			int numPeticionesEstudioProsaMto = 0, numPeticionesEstudioProsaNewDesa =0, numPeticionesEstudioHOSTMto=0;
+			
+			List<String> IDs_changed = new ArrayList<String>();
+			List<String> rochadeSuspect = new ArrayList<String>();
+
 			
 			List<String> aplicacionesHostEstudioMto = new ArrayList<String>();
 			aplicacionesHostEstudioMto.add("APRO - ANTEPROYECTO");
@@ -483,724 +475,729 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			double total_pruebasCD_estudio_Prosa_Mto = 0.0, total_pruebasCD_estudio_Prosa_NuevosDesa = 0.0, total_pruebasCD_estudio_HOST_Mto = 0.0;
 			double total_gapPlanificacion_estudio_Prosa_Mto = 0.0, total_gapPlanificacion_estudio_Prosa_NuevosDesa = 0.0, total_gapPlanificacion_estudio_HOST_Mto = 0.0;
 			double total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto = 0.0, total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa = 0.0, total_gapFinDesaIniPruebasCD_estudio_HOST_Mto = 0.0;
-			double total_gapFinPruebasCDProducc_estudio_Prosa_Mto = 0.0, total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa = 0.0, total_gapFinPruebasCDProducc_estudio_HOST_Mto = 0.0;
-						
-			Collections.sort(filas, new ComparatorFieldViewSet());
-			//de esta forma, siempre las entregas apareceron despuos de los trabajos que incluyen
+			double total_gapFinPruebasCDProducc_estudio_Prosa_Mto = 0.0, total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa = 0.0, total_gapFinPruebasCDProducc_estudio_HOST_Mto = 0.0;						
 			
-			this.dataAccess.setAutocommit(false);
-			// grabamos cada fila en BBDD
-			for (final FieldViewSet registro : filas) {
-				
-				String idPeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());					
-				FieldViewSet peticionEnBBDD = new FieldViewSet(incidenciasProyectoEntidad);
-				peticionEnBBDD.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticion);
-				peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
-				if (peticionEnBBDD != null){
-					/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
-					String centroDestinoPadre = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
-					String idsHijas = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
-					List<Long> idsHijas_ = obtenerCodigos(idsHijas);
-					if ( CDISM.equals(centroDestinoPadre)){
-						numImportadas += linkarPeticionesDeSGD_a_CDISM(peticionEnBBDD, idsHijas_);
-					}else if ( CONTRATO_7201_17G_L2.equals(centroDestinoPadre)){
-						numImportadas += linkarPeticionesDeCDISM_A_DG(peticionEnBBDD, idsHijas_);
-					}
-				}
-				
-				String servicioAtiendePeticion = destinoPeticion(registro);
-				if (!servicioAtiendePeticion.contentEquals("")) {
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_33_SERVICIO_ATIENDE_PETICION).getName(), 
-							servicioAtiendePeticion);
-				}else {
-					continue;//es petición hija
-				}
-								
-				String situacion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
-						ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
-				
-				String nombreAplicacionDePeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
-						ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME).getName());
-
-				String title = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
-						ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName());
-				
-				if (situacion.equals("") && nombreAplicacionDePeticion.equals("") && title.equals("")){
-					break;
-				}
-				
-				if (title == null) {
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName(),
-							registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION)
-									.getName()));
-				}
-				String rochadeCode = "COMM";//la comon para recoger todo aquello que no conseguimos CATALOGAR
-				if (nombreAplicacionDePeticion != null && nombreAplicacionDePeticion.length() > 3){
-					rochadeCode = nombreAplicacionDePeticion.substring(0, 4).toUpperCase();
-				} else if ((nombreAplicacionDePeticion == null || nombreAplicacionDePeticion.length() < 4) &&
-						(title!=null && title.length() > 4)){
-					rochadeCode = title.substring(0, 4).toUpperCase();
-					if ("FORM".equals(rochadeCode)){
-						rochadeCode = "FOMA";
-					}
-					if (!rochadeSuspect.contains(rochadeCode)){
-						rochadeSuspect.add(rochadeCode);
-					}
-				}
-				rochadeCode = obtenerRochadeRegistradoEnBBDD(rochadeCode);
-				
-				registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_26_PROYECTO_ID).getName(),
-						rochadeCode);
-				//si este rochade no esto en la tabla proyectos, miramos si es entorno Natural para encajarlo
-				FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicacionEntidad);
-				existeProyectoDadoDeAlta.setValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_2_CODIGO).getName(),
-						rochadeCode);
-				List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
-				if (apps.isEmpty()){
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"
-				}else{
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(),
-							apps.get(0).getValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_TIPOAPP).getName()));		
-				}
+			File f= new File("C:\\\\Users\\\\pedro.dulce\\\\OneDrive - BABEL\\\\Documents\\\\ESTUDIO SERVICIO MTO.2017-2021\\\\resources\\peticionesEstudio.log");
+			File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
+			File datasetFile = new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datasetMLR.csv");
+			FileOutputStream out = new FileOutputStream(f), modelo = new FileOutputStream(fModelo), dataset= new FileOutputStream(datasetFile);
+			Map<Integer, String> mapEntradas = new HashMap<Integer, String>();
 			
-				Date fec_Alta = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-						ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName());
-				if (fec_Alta == null) {
-					registro.setValue(
-							incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName(),
-							registro.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO).getName()));
-				}
-
-				try {
+			try {
+			
+				Collections.sort(filas, new ComparatorFieldViewSet());
+				//de esta forma, siempre las entregas apareceron despuos de los trabajos que incluyen
+				
+				this.dataAccess.setAutocommit(false);
+				// grabamos cada fila en BBDD
+				for (final FieldViewSet registro : filas) {
 					
-					Serializable tipoPeticion = registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
-					if (tipoPeticion == null || tipoPeticion.equals("")) {
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName(),
-								"Mejora desarrollo");
-						tipoPeticion = "";
+					String idPeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());					
+					FieldViewSet peticionEnBBDD = new FieldViewSet(incidenciasProyectoEntidad);
+					peticionEnBBDD.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticion);
+					peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
+					if (peticionEnBBDD != null){
+						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
+						String centroDestinoPadre = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
+						String idsHijas = (String) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
+						List<Long> idsHijas_ = obtenerCodigos(idsHijas);
+						if ( CDISM.equals(centroDestinoPadre)){
+							numImportadas += linkarPeticionesDeSGD_a_CDISM(peticionEnBBDD, idsHijas_);
+						}else if ( CONTRATO_7201_17G_L2.equals(centroDestinoPadre)){
+							numImportadas += linkarPeticionesDeCDISM_A_DG(peticionEnBBDD, idsHijas_);
+						}
 					}
-					// el mes y aoo para poder explotarlo en Histogramas con selectGroupBy
-					Date fecAlta = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+					
+					String servicioAtiendePeticion = destinoPeticion(registro);
+					if (!servicioAtiendePeticion.contentEquals("")) {
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_33_SERVICIO_ATIENDE_PETICION).getName(), 
+								servicioAtiendePeticion);
+					}else {
+						continue;//es petición hija
+					}
+									
+					String situacion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
+					
+					String nombreAplicacionDePeticion = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME).getName());
+	
+					String title = (String) registro.getValue(incidenciasProyectoEntidad.searchField(
+							ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName());
+					
+					if (situacion.equals("") && nombreAplicacionDePeticion.equals("") && title.equals("")){
+						break;
+					}
+					
+					if (title == null) {
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName(),
+								registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION)
+										.getName()));
+					}
+					String rochadeCode = "COMM";//la comon para recoger todo aquello que no conseguimos CATALOGAR
+					if (nombreAplicacionDePeticion != null && nombreAplicacionDePeticion.length() > 3){
+						rochadeCode = nombreAplicacionDePeticion.substring(0, 4).toUpperCase();
+					} else if ((nombreAplicacionDePeticion == null || nombreAplicacionDePeticion.length() < 4) &&
+							(title!=null && title.length() > 4)){
+						rochadeCode = title.substring(0, 4).toUpperCase();
+						if ("FORM".equals(rochadeCode)){
+							rochadeCode = "FOMA";
+						}
+						if (!rochadeSuspect.contains(rochadeCode)){
+							rochadeSuspect.add(rochadeCode);
+						}
+					}
+					rochadeCode = obtenerRochadeRegistradoEnBBDD(rochadeCode);
+					
+					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_26_PROYECTO_ID).getName(),
+							rochadeCode);
+					//si este rochade no esto en la tabla proyectos, miramos si es entorno Natural para encajarlo
+					FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicacionEntidad);
+					existeProyectoDadoDeAlta.setValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_2_CODIGO).getName(),
+							rochadeCode);
+					List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
+					if (apps.isEmpty()){
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"
+					}else{
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_41_ENTORNO_TECNOLOG).getName(),
+								apps.get(0).getValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_TIPOAPP).getName()));		
+					}
+				
+					Date fec_Alta = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
 							ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName());
-					Calendar dateFec = Calendar.getInstance();
-					dateFec.setTime(fecAlta);
-					String year = String.valueOf(dateFec.get(Calendar.YEAR));
-					String month = String.valueOf(dateFec.get(Calendar.MONTH) + 1);
-					if (month.length() == 1) {
-						month = "0".concat(month);
+					if (fec_Alta == null) {
+						registro.setValue(
+								incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName(),
+								registro.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO).getName()));
 					}
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_30_ANYO_MES).getName(),
-							year + "-" + month);
-
-					Date fecExportacion = (Date) importacionFSet.getValue(importacionEntidad.searchField(
-							ConstantesModelo.IMPORTACIONESGEDEON_4_FECHAIMPORTACION).getName());
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_31_FECHA_EXPORT)
-							.getName(), fecExportacion);
-					Double horasEstimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
-					Double horasReales = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(
-							ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
-					if ( (tipoPeticion.toString().toLowerCase().indexOf("soporte")!= -1 || tipoPeticion.toString().toLowerCase().indexOf("estudio")!= -1) 
-							&& horasEstimadas != null && horasEstimadas.doubleValue() == 0 && horasReales.doubleValue()> 0) {
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES)
-								.getName(), horasReales);
-					}
-					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_34_CON_ENTREGA).getName(),	
-							false);
-					if (tipoPeticion.toString().indexOf("Pequeño evolutivo") != -1){						
-						Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
-						Double UTs_realizadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
-						if (UTs_estimadas != null && UTs_estimadas.compareTo(Double.valueOf(0)) == 0){
-							if (UTs_realizadas !=null && UTs_realizadas.compareTo(Double.valueOf(0)) == 0){
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), Double.valueOf(40.0) );
-							}else if (UTs_realizadas !=null && UTs_realizadas.compareTo(Double.valueOf(0)) > 0){
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), UTs_realizadas );
+					
+					
+					try {
+							
+						Serializable tipoPeticion = registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
+						if (tipoPeticion == null || tipoPeticion.equals("")) {
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName(),
+									"Mejora desarrollo");
+							tipoPeticion = "";
+						}
+						// el mes y aoo para poder explotarlo en Histogramas con selectGroupBy
+						Date fecAlta = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA).getName());
+						Calendar dateFec = Calendar.getInstance();
+						dateFec.setTime(fecAlta);
+						String year = String.valueOf(dateFec.get(Calendar.YEAR));
+						String month = String.valueOf(dateFec.get(Calendar.MONTH) + 1);
+						if (month.length() == 1) {
+							month = "0".concat(month);
+						}
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_30_ANYO_MES).getName(),
+								year + "-" + month);
+	
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_31_FECHA_EXPORT)
+								.getName(), fecExportacion);
+						Double horasEstimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
+						Double horasReales = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(
+								ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
+						if ( (tipoPeticion.toString().toLowerCase().indexOf("soporte")!= -1 || tipoPeticion.toString().toLowerCase().indexOf("estudio")!= -1) 
+								&& horasEstimadas != null && horasEstimadas.doubleValue() == 0 && horasReales.doubleValue()> 0) {
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES)
+									.getName(), horasReales);
+						}
+						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_34_CON_ENTREGA).getName(),	
+								false);
+						if (tipoPeticion.toString().indexOf("Pequeño evolutivo") != -1){						
+							Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
+							Double UTs_realizadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
+							if (UTs_estimadas != null && UTs_estimadas.compareTo(Double.valueOf(0)) == 0){
+								if (UTs_realizadas !=null && UTs_realizadas.compareTo(Double.valueOf(0)) == 0){
+									registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), Double.valueOf(40.0) );
+								}else if (UTs_realizadas !=null && UTs_realizadas.compareTo(Double.valueOf(0)) > 0){
+									registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), UTs_realizadas );
+								}
 							}
 						}
-					}
-					
-					/** INICIO DEL ESTUDIO **/
-					int entorno = 0;
-					if (situacion.toString().indexOf("Petición finalizada") != -1 && 
-							tipoPeticion.toString().indexOf("Entrega") ==-1 && tipoPeticion.toString().indexOf("Soporte") ==-1 &&  tipoPeticion.toString().indexOf("Documento") ==-1 &&
-									(aplicacionesProsaEstudioMto.contains(nombreAplicacionDePeticion) || 
-											aplicacionesProsaEstudioNewDesa.contains(nombreAplicacionDePeticion) || 
-												aplicacionesHostEstudioMto.contains(nombreAplicacionDePeticion)) &&
-							servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
 						
-						if (aplicacionesProsaEstudioMto.contains(nombreAplicacionDePeticion)) {
-							entorno = 1;
-						}
-						int tipoP = 0;
-						if (tipoPeticion.toString().indexOf("Peque") !=-1 || tipoPeticion.toString().indexOf("Mejora") !=-1) {
-							tipoP = 1;
-						}
-
-						Date fecFinPreparacionEntrega = Calendar.getInstance().getTime();
-						
-						Date fechaTramite = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
-						Date fechaRealInicio = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());					
-						Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());							
-						Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
-								ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
-						
-						Double daysDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
-						Double utsPeticionesEntrega = 0.0, uts = (horasEstimadas==0.0?horasReales:horasEstimadas);
-
-						Double daysFinDesaIniPruebas = 0.0, analisisPeticion = -1.0;
-						if (fechaRealFin != null && peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
-							String idEntrega = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());						
-							if (idEntrega != null && "".compareTo(idEntrega)!=0) {
-								idEntrega = idEntrega.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
-								FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
-								miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
-								miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
-								if (miEntrega != null){
-									String tipoPeticionEntrega = (String) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
-											ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
-									if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") != -1 && 
-											tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
-										fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
-											ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
-										daysFinDesaIniPruebas = CommonUtils.jornadasDuracion(fechaRealFin, fecFinPreparacionEntrega);
-										if (daysFinDesaIniPruebas < 0) {
-											throw new Exception("Imposible: " + fecFinPreparacionEntrega + " es anterior a " + fechaRealFin);
+						/** INICIO DEL ESTUDIO **/
+						int entorno = 0;
+						if (situacion.toString().indexOf("Petición finalizada") != -1 && 
+								tipoPeticion.toString().indexOf("Entrega") ==-1 && tipoPeticion.toString().indexOf("Soporte") ==-1 &&  tipoPeticion.toString().indexOf("Documento") ==-1 &&
+										(aplicacionesProsaEstudioMto.contains(nombreAplicacionDePeticion) || 
+												aplicacionesProsaEstudioNewDesa.contains(nombreAplicacionDePeticion) || 
+													aplicacionesHostEstudioMto.contains(nombreAplicacionDePeticion)) &&
+								servicioAtiendePeticion.contentEquals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
+							
+							if (aplicacionesProsaEstudioMto.contains(nombreAplicacionDePeticion)) {
+								entorno = 1;
+							}
+							int tipoP = 0;
+							if (tipoPeticion.toString().indexOf("Peque") !=-1 || tipoPeticion.toString().indexOf("Mejora") !=-1) {
+								tipoP = 1;
+							}
+	
+							Date fecFinPreparacionEntrega = Calendar.getInstance().getTime();
+							
+							Date fechaTramite = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName());
+							Date fechaRealInicio = (Date)registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());					
+							Date fechaFinalizacion = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+											ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName());							
+							Date fechaRealFin = (Date) registro.getValue(incidenciasProyectoEntidad.searchField(
+									ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
+							
+							Double daysDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
+							Double utsPeticionesEntrega = 0.0, uts = (horasEstimadas==0.0?horasReales:horasEstimadas);
+	
+							Double daysFinDesaIniPruebas = 0.0, analisisPeticion = -1.0;
+							if (fechaRealFin != null && peticionEnBBDD != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
+								String idEntrega = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());						
+								if (idEntrega != null && "".compareTo(idEntrega)!=0) {
+									idEntrega = idEntrega.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
+									FieldViewSet miEntrega = new FieldViewSet(incidenciasProyectoEntidad);
+									miEntrega.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idEntrega);						
+									miEntrega = this.dataAccess.searchEntityByPk(miEntrega);
+									if (miEntrega != null){
+										String tipoPeticionEntrega = (String) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+												ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
+										if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") != -1 && 
+												tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
+											fecFinPreparacionEntrega = (Date) miEntrega.getValue(incidenciasProyectoEntidad.searchField(
+												ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName());
+											daysFinDesaIniPruebas = CommonUtils.jornadasDuracion(fechaRealFin, fecFinPreparacionEntrega);
+											if (daysFinDesaIniPruebas < 0) {
+												throw new Exception("Imposible: " + fecFinPreparacionEntrega + " es anterior a " + fechaRealFin);
+											}
+											utsPeticionesEntrega = getTotalUtsEntrega(miEntrega);
 										}
-										utsPeticionesEntrega = getTotalUtsEntrega(miEntrega);
 									}
 								}
-							}
-							// ahora estudiamos su posible trazabilidad con una petición de análisis de Host o de Pros@ para grabar la duración de su análisis
-							String petsRelacionadas = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
-									ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
-							if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
-								List<Long> peticionesAnalisis = obtenerCodigos(petsRelacionadas);
-								for (int i=0;i<peticionesAnalisis.size();i++) {
-									Long petAnalysis = peticionesAnalisis.get(i);
-									FieldViewSet peticionBBDDAnalysis = new FieldViewSet(incidenciasProyectoEntidad);
-									peticionBBDDAnalysis.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), petAnalysis);									
-									peticionBBDDAnalysis = this.dataAccess.searchEntityByPk(peticionBBDDAnalysis);
-									if (peticionBBDDAnalysis != null) {										
-										String areaDestino = (String) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());
-										if (areaDestino.startsWith("7201 17G L2 ISM ATH Análisis")) {
-											if (analisisPeticion==-1.0) {
-												analisisPeticion = 0.0;
+								// ahora estudiamos su posible trazabilidad con una petición de análisis de Host o de Pros@ para grabar la duración de su análisis
+								String petsRelacionadas = (String) peticionEnBBDD.getValue(incidenciasProyectoEntidad.searchField(
+										ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
+								if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
+									List<Long> peticionesAnalisis = obtenerCodigos(petsRelacionadas);
+									for (int i=0;i<peticionesAnalisis.size();i++) {
+										Long petAnalysis = peticionesAnalisis.get(i);
+										FieldViewSet peticionBBDDAnalysis = new FieldViewSet(incidenciasProyectoEntidad);
+										peticionBBDDAnalysis.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), petAnalysis);									
+										peticionBBDDAnalysis = this.dataAccess.searchEntityByPk(peticionBBDDAnalysis);
+										if (peticionBBDDAnalysis != null) {										
+											String areaDestino = (String) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());
+											if (areaDestino.startsWith("7201 17G L2 ISM ATH Análisis")) {
+												if (analisisPeticion==-1.0) {
+													analisisPeticion = 0.0;
+												}
+												Date fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
+												Date fechaFinAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
+												if (fechaFinAnalysis == null || fechaFinAnalysis.compareTo(fechaTramite) > 0) {
+													analisisPeticion += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue()*0.45;
+												}else {
+													analisisPeticion += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinAnalysis).doubleValue()*0.45;
+												}
+												// Se aplica un peso del 45% del tiempo total de inicio-fin de un análisis porque en base a otros estudios sabemos
+												// que en AT se dedica un 55% del tiempo a otras tareas de soporte y atención al usuario en las aplicaciones en Producción
+												if (analisisPeticion == 0.0) {
+													analisisPeticion = 0.1;
+												}
 											}
-											Date fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
-											Date fechaFinAnalysis = (Date) peticionBBDDAnalysis.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
-											if (fechaFinAnalysis == null || fechaFinAnalysis.compareTo(fechaTramite) > 0) {
-												analisisPeticion += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue()*0.45;
-											}else {
-												analisisPeticion += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinAnalysis).doubleValue()*0.45;
-											}
-											// Se aplica un peso del 45% del tiempo total de inicio-fin de un análisis porque en base a otros estudios sabemos
-											// que en AT se dedica un 55% del tiempo a otras tareas de soporte y atención al usuario en las aplicaciones en Producción
-											if (analisisPeticion == 0.0) {
-												analisisPeticion = 0.1;
-											}
-										}
-									}									
-								}								
-							}//end of si tiene peticiones relacionadas
-							
-							if (horasEstimadas == 0.0 && horasReales==0.0) {
-								if (daysDesarrollo == 0.0) {
-									throw new Exception("Error: dayDuracion es null!");
+										}									
+									}								
+								}//end of si tiene peticiones relacionadas
+								
+								if (horasEstimadas == 0.0 && horasReales==0.0) {
+									if (daysDesarrollo == 0.0) {
+										throw new Exception("Error: dayDuracion es null!");
+									}
+									horasReales = CommonUtils.roundDouble(daysDesarrollo*8.0*(1.0/0.75),2);//ratio de 0.75 horas equivale a 1 ut
+									horasEstimadas = horasReales;
+									registro.setValue(incidenciasProyectoEntidad.searchField(
+											ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), horasEstimadas);
+									registro.setValue(incidenciasProyectoEntidad.searchField(
+											ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), horasReales);								
 								}
-								horasReales = CommonUtils.roundDouble(daysDesarrollo*8.0*(1.0/0.75),2);//ratio de 0.75 horas equivale a 1 ut
-								horasEstimadas = horasReales;
-								registro.setValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName(), horasEstimadas);
-								registro.setValue(incidenciasProyectoEntidad.searchField(
-										ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), horasReales);								
+															
+								if (analisisPeticion < 0.0) {								
+									double horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno);
+									analisisPeticion = horasAnalysis/8.0;
+									out.write(("****** ANALYSIS ESTIMADO CON MLR SOBRE DATOS REALES ******\n").getBytes());
+									analysisEstimados++;
+								}else {
+									// datos para el modelo
+									double esfuerzoUts = CommonUtils.roundDouble((horasEstimadas==0.0?horasReales:horasEstimadas),2);
+									double esfuerzoAnalisis = CommonUtils.roundDouble(analisisPeticion*8.0,2);
+									modelo.write(("data.push([" + esfuerzoUts + ", " + tipoP + ", " + (entorno-1) + ", " + esfuerzoAnalisis +"]);\n").getBytes());
+									dataset.write((idPeticion + ";" + esfuerzoUts + ";" + tipoP + ";" + (entorno-1) + ";" + esfuerzoAnalisis + "\n").getBytes());
+								}
 							}
-														
-							if (analisisPeticion < 0.0) {								
-								double horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno);
-								analisisPeticion = horasAnalysis/8.0;
-								out.write(("****** ANALYSIS ESTIMADO CON MLR SOBRE DATOS REALES ******\n").getBytes());
-								analysisEstimados++;
+							
+							Double daysDesfaseTramiteHastaInicioReal = CommonUtils.jornadasDuracion(fechaTramite, fechaRealInicio);
+							Double daysDesdeFinDesaHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFin, fechaFinalizacion);
+							Double daysPruebas = 0.0;
+							
+							/*************** Datos inventados para el cálculo de la duración de las pruebas ************************/
+							//este tiempo se divide entre pruebasCD y gestión instalación
+							double peso = 0.00;
+							if (utsPeticionesEntrega==0) {
+								peso = 1.00;			
 							}else {
-								// datos para el modelo
-								double esfuerzoUts = CommonUtils.roundDouble((horasEstimadas==0.0?horasReales:horasEstimadas),2);
-								double esfuerzoAnalisis = CommonUtils.roundDouble(analisisPeticion*8.0,2);
-								modelo.write(("data.push([" + esfuerzoUts + ", " + tipoP + ", " + (entorno-1) + ", " + esfuerzoAnalisis +"]);\n").getBytes());
-								dataset.write((idPeticion + ";" + esfuerzoUts + ";" + tipoP + ";" + (entorno-1) + ";" + esfuerzoAnalisis + "\n").getBytes());
+								peso = uts/utsPeticionesEntrega;
 							}
-						}
-						
-						Double daysDesfaseTramiteHastaInicioReal = CommonUtils.jornadasDuracion(fechaTramite, fechaRealInicio);
-						Double daysDesdeFinDesaHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFin, fechaFinalizacion);
-						Double daysPruebas = 0.0;
-						
-						/*************** Datos inventados para el cálculo de la duración de las pruebas ************************/
-						//este tiempo se divide entre pruebasCD y gestión instalación
-						double peso = 0.00;
-						if (utsPeticionesEntrega==0) {
-							peso = 1.00;			
-						}else {
-							peso = uts/utsPeticionesEntrega;
-						}
-						double diferencia = daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas;
-						diferencia = (diferencia<0.0? 2.0: diferencia);
-						if (entorno == 0/*HOST*/) {
-							daysPruebas = (diferencia*0.65)*peso;
-						}else {//Pros@
-							daysPruebas = (diferencia*0.45)*peso;
-						}
-						
-						if (fecFinPreparacionEntrega == null) {
-							Calendar calfecFinPreparacionEntrega = Calendar.getInstance();							
-							calfecFinPreparacionEntrega.setTime(fechaRealFin);
-							calfecFinPreparacionEntrega.add(Calendar.DAY_OF_MONTH, 1);
-							fecFinPreparacionEntrega = calfecFinPreparacionEntrega.getTime();
-						}
-						
-						Calendar fechaRealInicioPruebas = Calendar.getInstance();
-						fechaRealInicioPruebas.setTime(fecFinPreparacionEntrega);
-						fechaRealInicioPruebas.add(Calendar.DAY_OF_MONTH, 2);
-						Calendar fechaRealFinPruebas = Calendar.getInstance();
-						fechaRealFinPruebas.setTime(fechaRealInicioPruebas.getTime());
-						fechaRealFinPruebas.add(Calendar.DAY_OF_MONTH, daysPruebas.intValue());
-						
-						/*******************************************************************************************************/
-						
-						
-						Double daysDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFinPruebas.getTime(), fechaFinalizacion);
-						Double cicloVidaPeticion = (analisisPeticion>-1.0?analisisPeticion:0.0) + daysDesfaseTramiteHastaInicioReal + 
-								daysDesarrollo + daysFinDesaIniPruebas + daysPruebas + daysDesdeFinPruebasHastaImplantacion;
-						
-						out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + idPeticion + " aplicación: " + nombreAplicacionDePeticion + " ******\n").getBytes());
-						out.write(("Jornadas Duración total: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
-						out.write(("Jornadas Análisis: " + CommonUtils.roundDouble(analisisPeticion,1) + "\n").getBytes());
-						out.write(("Jornadas Desfase desde Trámite Hasta Inicio Real Implementación: " + CommonUtils.roundDouble(daysDesfaseTramiteHastaInicioReal,1) + "\n").getBytes());
-						out.write(("Jornadas Desarrollo: " + CommonUtils.roundDouble(daysDesarrollo,2) + "\n").getBytes());
-						out.write(("Jornadas Desfase desde Fin Desarrollo hasta Inicio Pruebas CD: " + CommonUtils.roundDouble(daysFinDesaIniPruebas,2) + "\n").getBytes());
-						out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(daysPruebas,2) + "\n").getBytes());
-						out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantación Producción: " + CommonUtils.roundDouble(daysDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
-						out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());
+							double diferencia = daysDesdeFinDesaHastaImplantacion - daysFinDesaIniPruebas;
+							diferencia = (diferencia<0.0? 2.0: diferencia);
+							if (entorno == 0/*HOST*/) {
+								daysPruebas = (diferencia*0.65)*peso;
+							}else {//Pros@
+								daysPruebas = (diferencia*0.45)*peso;
+							}
 							
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), cicloVidaPeticion);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_ANALYSIS).getName(), new Double(analisisPeticion));
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_DESARROLLO).getName(), daysDesarrollo);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_46_DURACION_PRUEBAS_CD).getName(), daysPruebas);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), daysFinDesaIniPruebas);
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_49_GAP_FINPRUEBAS_PRODUCC).getName(), daysDesdeFinPruebasHastaImplantacion);
-						
-						
-						if (aplicacionesProsaEstudioMto.contains(nombreAplicacionDePeticion)) {
-							numPeticionesEstudioProsaMto++;
-							total_uts_estudio_Prosa_Mto += uts;
-							total_cicloVida_estudio_Prosa_Mto += cicloVidaPeticion;
-							total_analisis_estudio_Prosa_Mto += analisisPeticion;
-							total_implement_estudio_Prosa_Mto += daysDesarrollo;
-							total_pruebasCD_estudio_Prosa_Mto += daysPruebas;
-							total_gapPlanificacion_estudio_Prosa_Mto += daysDesfaseTramiteHastaInicioReal;
-							total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto += daysFinDesaIniPruebas;
-							total_gapFinPruebasCDProducc_estudio_Prosa_Mto += daysDesdeFinPruebasHastaImplantacion;
-						}else if (aplicacionesProsaEstudioNewDesa.contains(nombreAplicacionDePeticion)){
-							numPeticionesEstudioProsaNewDesa++;
-							total_uts_estudio_Prosa_NuevosDesa += uts;
-							total_cicloVida_estudio_Prosa_NuevosDesa += cicloVidaPeticion;
-							total_analisis_estudio_Prosa_NuevosDesa += analisisPeticion;
-							total_implement_estudio_Prosa_NuevosDesa += daysDesarrollo;
-							total_pruebasCD_estudio_Prosa_NuevosDesa += daysPruebas;
-							total_gapPlanificacion_estudio_Prosa_NuevosDesa += daysDesfaseTramiteHastaInicioReal;
-							total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa += daysFinDesaIniPruebas;
-							total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa += daysDesdeFinPruebasHastaImplantacion;
-						}else if (aplicacionesHostEstudioMto.contains(nombreAplicacionDePeticion)) {
-							numPeticionesEstudioHOSTMto++;
-							total_uts_estudio_HOST_Mto += uts;
-							total_cicloVida_estudio_HOST_Mto += cicloVidaPeticion;
-							total_analisis_estudio_HOST_Mto += analisisPeticion;
-							total_implement_estudio_HOST_Mto += daysDesarrollo;
-							total_pruebasCD_estudio_HOST_Mto += daysPruebas;
-							total_gapPlanificacion_estudio_HOST_Mto += daysDesfaseTramiteHastaInicioReal;
-							total_gapFinDesaIniPruebasCD_estudio_HOST_Mto += daysFinDesaIniPruebas;
-							total_gapFinPruebasCDProducc_estudio_HOST_Mto += daysDesdeFinPruebasHastaImplantacion;
-						}						
+							if (fecFinPreparacionEntrega == null) {
+								Calendar calfecFinPreparacionEntrega = Calendar.getInstance();							
+								calfecFinPreparacionEntrega.setTime(fechaRealFin);
+								calfecFinPreparacionEntrega.add(Calendar.DAY_OF_MONTH, 1);
+								fecFinPreparacionEntrega = calfecFinPreparacionEntrega.getTime();
+							}
 							
+							Calendar fechaRealInicioPruebas = Calendar.getInstance();
+							fechaRealInicioPruebas.setTime(fecFinPreparacionEntrega);
+							fechaRealInicioPruebas.add(Calendar.DAY_OF_MONTH, 2);
+							Calendar fechaRealFinPruebas = Calendar.getInstance();
+							fechaRealFinPruebas.setTime(fechaRealInicioPruebas.getTime());
+							fechaRealFinPruebas.add(Calendar.DAY_OF_MONTH, daysPruebas.intValue());
+							
+							/*******************************************************************************************************/
+							
+							
+							Double daysDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFinPruebas.getTime(), fechaFinalizacion);
+							Double cicloVidaPeticion = (analisisPeticion>-1.0?analisisPeticion:0.0) + daysDesfaseTramiteHastaInicioReal + 
+									daysDesarrollo + daysFinDesaIniPruebas + daysPruebas + daysDesdeFinPruebasHastaImplantacion;
+							
+							out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + idPeticion + " aplicación: " + nombreAplicacionDePeticion + " ******\n").getBytes());
+							out.write(("Jornadas Duración total: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
+							out.write(("Jornadas Análisis: " + CommonUtils.roundDouble(analisisPeticion,1) + "\n").getBytes());
+							out.write(("Jornadas Desfase desde Trámite Hasta Inicio Real Implementación: " + CommonUtils.roundDouble(daysDesfaseTramiteHastaInicioReal,1) + "\n").getBytes());
+							out.write(("Jornadas Desarrollo: " + CommonUtils.roundDouble(daysDesarrollo,2) + "\n").getBytes());
+							out.write(("Jornadas Desfase desde Fin Desarrollo hasta Inicio Pruebas CD: " + CommonUtils.roundDouble(daysFinDesaIniPruebas,2) + "\n").getBytes());
+							out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(daysPruebas,2) + "\n").getBytes());
+							out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantación Producción: " + CommonUtils.roundDouble(daysDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
+							out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());
+								
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_43_DURACION_TOTAL).getName(), cicloVidaPeticion);
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_44_DURACION_ANALYSIS).getName(), new Double(analisisPeticion));
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_45_DURACION_DESARROLLO).getName(), daysDesarrollo);
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_46_DURACION_PRUEBAS_CD).getName(), daysPruebas);
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_47_GAP_TRAMITE_INIREALDESA).getName(), daysDesfaseTramiteHastaInicioReal);
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), daysFinDesaIniPruebas);
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_49_GAP_FINPRUEBAS_PRODUCC).getName(), daysDesdeFinPruebasHastaImplantacion);
+							
+							
+							if (aplicacionesProsaEstudioMto.contains(nombreAplicacionDePeticion)) {
+								numPeticionesEstudioProsaMto++;
+								total_uts_estudio_Prosa_Mto += uts;
+								total_cicloVida_estudio_Prosa_Mto += cicloVidaPeticion;
+								total_analisis_estudio_Prosa_Mto += analisisPeticion;
+								total_implement_estudio_Prosa_Mto += daysDesarrollo;
+								total_pruebasCD_estudio_Prosa_Mto += daysPruebas;
+								total_gapPlanificacion_estudio_Prosa_Mto += daysDesfaseTramiteHastaInicioReal;
+								total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto += daysFinDesaIniPruebas;
+								total_gapFinPruebasCDProducc_estudio_Prosa_Mto += daysDesdeFinPruebasHastaImplantacion;
+							}else if (aplicacionesProsaEstudioNewDesa.contains(nombreAplicacionDePeticion)){
+								numPeticionesEstudioProsaNewDesa++;
+								total_uts_estudio_Prosa_NuevosDesa += uts;
+								total_cicloVida_estudio_Prosa_NuevosDesa += cicloVidaPeticion;
+								total_analisis_estudio_Prosa_NuevosDesa += analisisPeticion;
+								total_implement_estudio_Prosa_NuevosDesa += daysDesarrollo;
+								total_pruebasCD_estudio_Prosa_NuevosDesa += daysPruebas;
+								total_gapPlanificacion_estudio_Prosa_NuevosDesa += daysDesfaseTramiteHastaInicioReal;
+								total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa += daysFinDesaIniPruebas;
+								total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa += daysDesdeFinPruebasHastaImplantacion;
+							}else if (aplicacionesHostEstudioMto.contains(nombreAplicacionDePeticion)) {
+								numPeticionesEstudioHOSTMto++;
+								total_uts_estudio_HOST_Mto += uts;
+								total_cicloVida_estudio_HOST_Mto += cicloVidaPeticion;
+								total_analisis_estudio_HOST_Mto += analisisPeticion;
+								total_implement_estudio_HOST_Mto += daysDesarrollo;
+								total_pruebasCD_estudio_HOST_Mto += daysPruebas;
+								total_gapPlanificacion_estudio_HOST_Mto += daysDesfaseTramiteHastaInicioReal;
+								total_gapFinDesaIniPruebasCD_estudio_HOST_Mto += daysFinDesaIniPruebas;
+								total_gapFinPruebasCDProducc_estudio_HOST_Mto += daysDesdeFinPruebasHastaImplantacion;
+							}						
+								
+							
+						}
+						/** FIN DEL ESTUDIO POR PETICIÓN **/
 						
-					}
-					/** FIN DEL ESTUDIO POR PETICIÓN **/
-					
-					if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
-						if (situacion.toString().indexOf("Petición finalizada") != -1){						
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Petición de trabajo finalizado");							
-						} else if (situacion.toString().indexOf("Trabajo finalizado") != -1){														
-							if (/*esSoporte*/tipoPeticion.toString().toUpperCase().indexOf("SOPORTE") != -1){
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Soporte finalizado");
-							}else{
+						if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
+							if (situacion.toString().indexOf("Petición finalizada") != -1){						
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Petición de trabajo finalizado");							
+							} else if (situacion.toString().indexOf("Trabajo finalizado") != -1){														
+								if (/*esSoporte*/tipoPeticion.toString().toUpperCase().indexOf("SOPORTE") != -1){
+									registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Soporte finalizado");
+								}else{
+									registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
+											!servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT) ? "Trabajo finalizado" : "Análisis finalizado");
+								}							
+								Double UTs_realizadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
+								if (UTs_realizadas!=null && UTs_realizadas.compareTo(0.00) == 0){
+									Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
+									registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), UTs_estimadas);
+								}	
+								
+							} else if (situacion.toString().indexOf("En redacción") != -1){							
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo en redacción");
+							} else if (situacion.toString().indexOf("No conforme") != -1){		
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo finalizado no conforme");
+							}else if (situacion.toString().indexOf("Anulada") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo anulado");
+							}else if (situacion.toString().indexOf("Estimada") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo estimado");
+							}else if (situacion.toString().indexOf("En curso") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo en curso");							
+							}else if (situacion.toString().indexOf("Lista para iniciar") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo listo para iniciar");
+							}else if (situacion.toString().indexOf("pte. de estimaci") != -1){
+								Double estimadasActuales = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
+								if (estimadasActuales != null && estimadasActuales.compareTo(Double.valueOf(0)) > 0){//en este caso, tuvo una estimacion previa, y por algon motivo, debe revisarse esta estimacion
+									registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. de re-estimación");
+								}else{
+									registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. estimar");
+								}
+							}
+						}else if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") != -1 &&
+								tipoPeticion.toString().toUpperCase().indexOf("PARCIAL")== -1){	// no contabilizamos las parciales
+							if (situacion.toString().indexOf("Petición finalizada") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),  "Petición de Entrega finalizada");
+							}else if (situacion.toString().indexOf("Anulada") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega anulada");
+							}else if (situacion.toString().indexOf("En redaccion") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega en redacción (en CD)");
+							}else if (situacion.toString().indexOf("Trabajo finalizado") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega pte. validar por CD");
+							}else if (situacion.toString().indexOf("Trabajo validado") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega validada por CD");		
+							}else if (situacion.toString().indexOf("No conforme") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega no conforme");						
+							}else if (situacion.toString().indexOf("Estimada") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega estimada");
+							}else if (situacion.toString().indexOf("En curso") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega en curso");
+							}else if (situacion.toString().indexOf("Lista para iniciar") != -1){
+								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega lista para iniciar");						
+							}else {
 								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
-										!servicioAtiendePeticion.equals(ORIGEN_FROM_CDISM_TO_AT) ? "Trabajo finalizado" : "Análisis finalizado");
-							}							
-							Double UTs_realizadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName());
-							if (UTs_realizadas!=null && UTs_realizadas.compareTo(0.00) == 0){
-								Double UTs_estimadas = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES).getName(), UTs_estimadas);
-							}	
-							
-						} else if (situacion.toString().indexOf("En redacción") != -1){							
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo en redacción");
-						} else if (situacion.toString().indexOf("No conforme") != -1){		
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo finalizado no conforme");
-						}else if (situacion.toString().indexOf("Anulada") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo anulado");
-						}else if (situacion.toString().indexOf("Estimada") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo estimado");
-						}else if (situacion.toString().indexOf("En curso") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo en curso");							
-						}else if (situacion.toString().indexOf("Lista para iniciar") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo listo para iniciar");
-						}else if (situacion.toString().indexOf("pte. de estimaci") != -1){
-							Double estimadasActuales = (Double) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
-							if (estimadasActuales != null && estimadasActuales.compareTo(Double.valueOf(0)) > 0){//en este caso, tuvo una estimacion previa, y por algon motivo, debe revisarse esta estimacion
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. de re-estimación");
+							  		  situacion.toString().replaceFirst("Trabajo", "Entrega").replaceFirst("trabajo", "Entrega").replaceAll("ado", "ada"));
+							}
+							linkarPeticionesAEntrega(registro);
+						}
+						formatearPetsRelacionadas(registro);
+						if (!filas.isEmpty() && rochadeCode != null) {					
+							idPeticion = String.valueOf(obtenerCodigo(idPeticion));
+							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticion);
+							FieldViewSet registroExistente = new FieldViewSet(incidenciasProyectoEntidad);
+							registroExistente.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID)
+									.getName(), idPeticion);
+							FieldViewSet duplicado = this.dataAccess.searchEntityByPk(registroExistente);
+							if (duplicado != null){
+								Timestamp tStampFecEstadoModifReg = (Timestamp) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF)
+										.getName());
+								Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF)
+										.getName());
+								if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
+									IDs_changed.add(idPeticion);
+								}
+								int ok = this.dataAccess.modifyEntity(registro);
+								if (ok != 1) {
+									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
+								}
 							}else{
-								registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Trabajo pte. estimar");
-							}
-						}
-					}else if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") != -1 &&
-							tipoPeticion.toString().toUpperCase().indexOf("PARCIAL")== -1){	// no contabilizamos las parciales
-						if (situacion.toString().indexOf("Petición finalizada") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),  "Petición de Entrega finalizada");
-						}else if (situacion.toString().indexOf("Anulada") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega anulada");
-						}else if (situacion.toString().indexOf("En redaccion") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega en redacción (en CD)");
-						}else if (situacion.toString().indexOf("Trabajo finalizado") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega pte. validar por CD");
-						}else if (situacion.toString().indexOf("Trabajo validado") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega validada por CD");		
-						}else if (situacion.toString().indexOf("No conforme") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega no conforme");						
-						}else if (situacion.toString().indexOf("Estimada") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega estimada");
-						}else if (situacion.toString().indexOf("En curso") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega en curso");
-						}else if (situacion.toString().indexOf("Lista para iniciar") != -1){
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	"Entrega lista para iniciar");						
-						}else {
-							registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(),	
-						  		  situacion.toString().replaceFirst("Trabajo", "Entrega").replaceFirst("trabajo", "Entrega").replaceAll("ado", "ada"));
-						}
-						linkarPeticionesAEntrega(registro);
-					}
-					formatearPetsRelacionadas(registro);
-					if (!filas.isEmpty() && rochadeCode != null) {					
-						idPeticion = String.valueOf(obtenerCodigo(idPeticion));
-						registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticion);
-						FieldViewSet registroExistente = new FieldViewSet(incidenciasProyectoEntidad);
-						registroExistente.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID)
-								.getName(), idPeticion);
-						FieldViewSet duplicado = this.dataAccess.searchEntityByPk(registroExistente);
-						if (duplicado != null){
-							Timestamp tStampFecEstadoModifReg = (Timestamp) registro.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF)
-									.getName());
-							Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_37_FEC_ESTADO_MODIF)
-									.getName());
-							if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
 								IDs_changed.add(idPeticion);
+								int ok = this.dataAccess.insertEntity(registro);
+								if (ok != 1) {
+									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
+								}
 							}
-							int ok = this.dataAccess.modifyEntity(registro);
-							if (ok != 1) {
-								throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
-							}
-						}else{
-							IDs_changed.add(idPeticion);
-							int ok = this.dataAccess.insertEntity(registro);
-							if (ok != 1) {
-								throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
+							numImportadas++;
+							if (numImportadas%50 == 0){
+								this.dataAccess.commit();
 							}
 						}
-						numImportadas++;
-						if (numImportadas%50 == 0){
-							this.dataAccess.commit();
-						}
-					}
-					
-				} catch (Throwable excc) {
-					excc.printStackTrace();
-					throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
-				}
-			}//for: fin recorrido de filas
-			
-			
-			//if (numImportadas%50 != 0){
-				this.dataAccess.commit();
-			//}
-			out.write(("\n**** TOTAL ANÁLISIS ESTIMADOS ESTUDIO: "+ analysisEstimados + "  *******\n").getBytes());
-			out.write(("\n**** TOTAL PETICIONES ESTUDIO: "+ (numPeticionesEstudioProsaMto+numPeticionesEstudioProsaNewDesa+numPeticionesEstudioHOSTMto) + "  *******\n").getBytes());
-			out.write(("\n**** TOTAL PETICIONES PROSA ESTUDIO APLICACIONES EN MTO.: "+ (numPeticionesEstudioProsaMto) + "  *******\n").getBytes());
-			out.write(("\n**** TOTAL PETICIONES PROSA ESTUDIO NUEVOS DESARROLLOS: "+ (numPeticionesEstudioProsaNewDesa) + "  *******\n").getBytes());
-			out.write(("\n**** TOTAL PETICIONES HOST ESTUDIO: "+ (numPeticionesEstudioHOSTMto) + "  *******\n\n").getBytes());
-			out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
-			for (int k=0;k<aplicacionesHostEstudioMto.size();k++) {
-				out.write(("\n**** APLICACION HOST: "+ aplicacionesHostEstudioMto.get(k) + "  *******").getBytes());
-			}
-			for (int k=0;k<aplicacionesProsaEstudioNewDesa.size();k++) {
-				out.write(("\n**** APLICACION Pros@ Nuevo Desarrollo: "+ aplicacionesProsaEstudioNewDesa.get(k) + "  *******").getBytes());
-			}
-			for (int k=0;k<aplicacionesProsaEstudioMto.size();k++) {
-				out.write(("\n**** APLICACION Pros@ Mto.: "+ aplicacionesProsaEstudioMto.get(k) + "  *******").getBytes());
-			}
 						
-			out.flush();
-			out.close();			
-			modelo.flush();
-			modelo.close();			
-			dataset.flush();
-			dataset.close();
-			
-			/** VAMOS A LLENAR SIN NECESIDAD DE SACAR LAS GRÁFICAS, LOS AGREGADOS y % DEL ESTUDIO EN EL TIEMPO PARA PROSA Y HOST ***/
-			// Creamos tres registros en la tabla agregadosEstudio
-			Calendar fechaIniEstudio = Calendar.getInstance();
-			fechaIniEstudio.set(Calendar.YEAR, 2017);
-			fechaIniEstudio.set(Calendar.MONTH, 11);//dic
-			fechaIniEstudio.set(Calendar.DAY_OF_MONTH, 1);
-			Calendar fechaFinEstudio = Calendar.getInstance();
-			fechaFinEstudio.set(Calendar.YEAR, 2021);
-			fechaFinEstudio.set(Calendar.MONTH, 1);//febrero
-			fechaFinEstudio.set(Calendar.DAY_OF_MONTH, 28);			
-			int mesesEstudio = new Double(CommonUtils.diasNaturalesDuracion(fechaIniEstudio.getTime(), fechaFinEstudio.getTime())/30.0).intValue();
-			
-			
-			String textoAplicacionesProsaMto = textoAplicacionesEstudio(aplicacionesProsaEstudioMto);
-			
-			FieldViewSet registroMtoProsa = new FieldViewSet(agregadosEstudioPeticionesEntidad);
-			// title
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Mto. Pros@");
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Pros@");
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicacionesProsaMto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fechaIniEstudio.getTime());
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fechaFinEstudio.getTime());
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudioProsaMto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio_Prosa_Mto);
-			
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_10_CICLOVIDA).getName(), total_cicloVida_estudio_Prosa_Mto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_11_DURACIONANALYS).getName(), total_analisis_estudio_Prosa_Mto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_12_DURACIONDESARR).getName(), total_implement_estudio_Prosa_Mto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_13_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio_Prosa_Mto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_14_GAPTRAMIINIDESA).getName(), total_gapPlanificacion_estudio_Prosa_Mto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_15_GAPFINDESAINIPRUEBASCD).getName(), total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_16_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc_estudio_Prosa_Mto);
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_17_TOTALDEDICACIONES).getName(), (total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_18_TOTALGAPS).getName(), (total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto));
-			
-			//bloque mensual
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_19_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_Mto/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_20_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_Mto/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_21_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_Mto/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_22_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_Mto/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_23_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_Mto/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_24_GAPFINDESAINIPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_25_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_Mto/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_26_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto)/mesesEstudio));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_27_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto)/mesesEstudio));
-			
-			//bloque por petición
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_28_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_29_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_30_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_31_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_32_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_33_GAPFINDESAINIPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_34_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_35_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_36_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			
-			//%s
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_37_PORC_DURACIONANALYS).getName(), 
-					CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_38_PORC_DURACIONDESARR).getName(), 
-					CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_39_PORC_DURACIONPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_40_PORC_GAPTRAMIINIDESA).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_41_PORC_GAPFINDESAINIPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_42_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_43_PORC_TOTALDEDICACIONES).getName(), 
-					CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto)/total_cicloVida_estudio_Prosa_Mto));
-			registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
-					CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto)/total_cicloVida_estudio_Prosa_Mto));
-			
-			int ok = this.dataAccess.insertEntity(registroMtoProsa);
-			if (ok != 1) {
-				throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");
-			}
-			
-			String textoAplicacionesProsaNewDesa = textoAplicacionesEstudio(aplicacionesProsaEstudioNewDesa);
-			FieldViewSet registroNewDesaProsa = new FieldViewSet(agregadosEstudioPeticionesEntidad);
-			// title
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Nuevos Desarrollos Pros@");
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Pros@");
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicacionesProsaNewDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fechaIniEstudio.getTime());
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fechaFinEstudio.getTime());
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudioProsaNewDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio_Prosa_NuevosDesa);
-			
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_10_CICLOVIDA).getName(), total_cicloVida_estudio_Prosa_NuevosDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_11_DURACIONANALYS).getName(), total_analisis_estudio_Prosa_NuevosDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_12_DURACIONDESARR).getName(), total_implement_estudio_Prosa_NuevosDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_13_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio_Prosa_NuevosDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_14_GAPTRAMIINIDESA).getName(), total_gapPlanificacion_estudio_Prosa_NuevosDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_15_GAPFINDESAINIPRUEBASCD).getName(), total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_16_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa);
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_17_TOTALDEDICACIONES).getName(), (total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_18_TOTALGAPS).getName(), (total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa));
-			
-			//bloque mensual
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_19_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_NuevosDesa/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_20_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_NuevosDesa/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_21_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_NuevosDesa/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_22_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_NuevosDesa/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_23_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_NuevosDesa/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_24_GAPFINDESAINIPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_25_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_26_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa)/mesesEstudio));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_27_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa)/mesesEstudio));
-			
-			//bloque por petición
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_28_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_29_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_30_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_31_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_32_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_33_GAPFINDESAINIPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_34_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_35_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa)/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_36_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa)/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			
-			//%s
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_37_PORC_DURACIONANALYS).getName(), 
-					CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_38_PORC_DURACIONDESARR).getName(), 
-					CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_39_PORC_DURACIONPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_40_PORC_GAPTRAMIINIDESA).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_41_PORC_GAPFINDESAINIPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_42_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_43_PORC_TOTALDEDICACIONES).getName(), 
-					CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa)/total_cicloVida_estudio_Prosa_NuevosDesa));
-			registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
-					CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa)/total_cicloVida_estudio_Prosa_NuevosDesa));
-			
-				
-			ok = this.dataAccess.insertEntity(registroNewDesaProsa);
-			if (ok != 1) {
-				throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Nuevos Desarrollos Pros@");
-			}
-			
-			String textoAplicacionesHost = textoAplicacionesEstudio(aplicacionesHostEstudioMto);
-			FieldViewSet registroHostMto = new FieldViewSet(agregadosEstudioPeticionesEntidad);
-			// title
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Mto. HOST");
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Host");
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicacionesHost);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fechaIniEstudio.getTime());
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fechaFinEstudio.getTime());
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudioHOSTMto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio_HOST_Mto);
-			
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_10_CICLOVIDA).getName(), total_cicloVida_estudio_HOST_Mto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_11_DURACIONANALYS).getName(), total_analisis_estudio_HOST_Mto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_12_DURACIONDESARR).getName(), total_implement_estudio_HOST_Mto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_13_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio_HOST_Mto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_14_GAPTRAMIINIDESA).getName(), total_gapPlanificacion_estudio_HOST_Mto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_15_GAPFINDESAINIPRUEBASCD).getName(), total_gapFinDesaIniPruebasCD_estudio_HOST_Mto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_16_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc_estudio_HOST_Mto);
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_17_TOTALDEDICACIONES).getName(), (total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_18_TOTALGAPS).getName(), (total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto));
-			
-			//bloque mensual
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_19_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_HOST_Mto/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_20_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_HOST_Mto/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_21_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_HOST_Mto/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_22_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_HOST_Mto/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_23_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_HOST_Mto/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_24_GAPFINDESAINIPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_HOST_Mto/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_25_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_HOST_Mto/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_26_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto)/mesesEstudio));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_27_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto)/mesesEstudio));
-			
-			//bloque por petición
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_28_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_29_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_30_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_31_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_32_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_33_GAPFINDESAINIPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_34_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_35_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_36_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
-			
-			//%s
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_37_PORC_DURACIONANALYS).getName(), 
-					CommonUtils.roundWith2Decimals(total_analisis_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_38_PORC_DURACIONDESARR).getName(), 
-					CommonUtils.roundWith2Decimals(total_implement_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_39_PORC_DURACIONPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_40_PORC_GAPTRAMIINIDESA).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_41_PORC_GAPFINDESAINIPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_42_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_43_PORC_TOTALDEDICACIONES).getName(), 
-					CommonUtils.roundWith2Decimals((total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto)/total_cicloVida_estudio_HOST_Mto));
-			registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
-					CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto)/total_cicloVida_estudio_HOST_Mto));
+					} catch (Throwable excc) {
+						excc.printStackTrace();
+						throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
+					}
+				}//for: fin recorrido de filas				
 					
-			ok = this.dataAccess.insertEntity(registroHostMto);
-			if (ok != 1) {
-				throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. HOST");
+				//if (numImportadas%50 != 0){
+					this.dataAccess.commit();
+				//}
+				out.write(("\n**** TOTAL ANÁLISIS ESTIMADOS ESTUDIO: "+ analysisEstimados + "  *******\n").getBytes());
+				out.write(("\n**** TOTAL PETICIONES ESTUDIO: "+ (numPeticionesEstudioProsaMto+numPeticionesEstudioProsaNewDesa+numPeticionesEstudioHOSTMto) + "  *******\n").getBytes());
+				out.write(("\n**** TOTAL PETICIONES PROSA ESTUDIO APLICACIONES EN MTO.: "+ (numPeticionesEstudioProsaMto) + "  *******\n").getBytes());
+				out.write(("\n**** TOTAL PETICIONES PROSA ESTUDIO NUEVOS DESARROLLOS: "+ (numPeticionesEstudioProsaNewDesa) + "  *******\n").getBytes());
+				out.write(("\n**** TOTAL PETICIONES HOST ESTUDIO: "+ (numPeticionesEstudioHOSTMto) + "  *******\n\n").getBytes());
+				out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
+				for (int k=0;k<aplicacionesHostEstudioMto.size();k++) {
+					out.write(("\n**** APLICACION HOST: "+ aplicacionesHostEstudioMto.get(k) + "  *******").getBytes());
+				}
+				for (int k=0;k<aplicacionesProsaEstudioNewDesa.size();k++) {
+					out.write(("\n**** APLICACION Pros@ Nuevo Desarrollo: "+ aplicacionesProsaEstudioNewDesa.get(k) + "  *******").getBytes());
+				}
+				for (int k=0;k<aplicacionesProsaEstudioMto.size();k++) {
+					out.write(("\n**** APLICACION Pros@ Mto.: "+ aplicacionesProsaEstudioMto.get(k) + "  *******").getBytes());
+				}
+							
+				/** VAMOS A LLENAR SIN NECESIDAD DE SACAR LAS GRÁFICAS, LOS AGREGADOS y % DEL ESTUDIO EN EL TIEMPO PARA PROSA Y HOST ***/
+				// Creamos tres registros en la tabla agregadosEstudio
+				Calendar fechaIniEstudio = Calendar.getInstance();
+				fechaIniEstudio.set(Calendar.YEAR, 2017);
+				fechaIniEstudio.set(Calendar.MONTH, 11);//dic
+				fechaIniEstudio.set(Calendar.DAY_OF_MONTH, 1);
+				Calendar fechaFinEstudio = Calendar.getInstance();
+				fechaFinEstudio.set(Calendar.YEAR, 2021);
+				fechaFinEstudio.set(Calendar.MONTH, 1);//febrero
+				fechaFinEstudio.set(Calendar.DAY_OF_MONTH, 28);			
+				int mesesEstudio = new Double(CommonUtils.diasNaturalesDuracion(fechaIniEstudio.getTime(), fechaFinEstudio.getTime())/30.0).intValue();			
+				
+				String textoAplicacionesProsaMto = textoAplicacionesEstudio(aplicacionesProsaEstudioMto);
+				
+				FieldViewSet registroMtoProsa = new FieldViewSet(agregadosEstudioPeticionesEntidad);
+				// title
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Mto. Pros@");
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Pros@");
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicacionesProsaMto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fechaIniEstudio.getTime());
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fechaFinEstudio.getTime());
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudioProsaMto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio_Prosa_Mto);
+				
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_10_CICLOVIDA).getName(), total_cicloVida_estudio_Prosa_Mto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_11_DURACIONANALYS).getName(), total_analisis_estudio_Prosa_Mto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_12_DURACIONDESARR).getName(), total_implement_estudio_Prosa_Mto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_13_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio_Prosa_Mto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_14_GAPTRAMIINIDESA).getName(), total_gapPlanificacion_estudio_Prosa_Mto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_15_GAPFINDESAINIPRUEBASCD).getName(), total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_16_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc_estudio_Prosa_Mto);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_17_TOTALDEDICACIONES).getName(), (total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_18_TOTALGAPS).getName(), (total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto));
+				
+				//bloque mensual
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_19_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_Mto/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_20_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_Mto/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_21_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_Mto/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_22_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_Mto/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_23_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_Mto/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_24_GAPFINDESAINIPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_25_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_Mto/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_26_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto)/mesesEstudio));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_27_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto)/mesesEstudio));
+				
+				//bloque por petición
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_28_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_29_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_30_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_31_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_32_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_33_GAPFINDESAINIPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_34_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_35_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_36_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				
+				//%s
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_37_PORC_DURACIONANALYS).getName(), 
+						CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_38_PORC_DURACIONDESARR).getName(), 
+						CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_39_PORC_DURACIONPRUEBASCD).getName(), 
+						CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_40_PORC_GAPTRAMIINIDESA).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_41_PORC_GAPFINDESAINIPRUEBASCD).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_42_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_Mto/total_cicloVida_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_43_PORC_TOTALDEDICACIONES).getName(), 
+						CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_Mto+total_implement_estudio_Prosa_Mto+total_pruebasCD_estudio_Prosa_Mto)/total_cicloVida_estudio_Prosa_Mto));
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
+						CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_Mto+total_gapFinDesaIniPruebasCD_estudio_Prosa_Mto+total_gapFinPruebasCDProducc_estudio_Prosa_Mto)/total_cicloVida_estudio_Prosa_Mto));
+				
+				int ok = this.dataAccess.insertEntity(registroMtoProsa);
+				if (ok != 1) {
+					throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");
+				}
+				
+				String textoAplicacionesProsaNewDesa = textoAplicacionesEstudio(aplicacionesProsaEstudioNewDesa);
+				FieldViewSet registroNewDesaProsa = new FieldViewSet(agregadosEstudioPeticionesEntidad);
+				// title
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Nuevos Desarrollos Pros@");
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Pros@");
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicacionesProsaNewDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fechaIniEstudio.getTime());
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fechaFinEstudio.getTime());
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudioProsaNewDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio_Prosa_NuevosDesa);
+				
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_10_CICLOVIDA).getName(), total_cicloVida_estudio_Prosa_NuevosDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_11_DURACIONANALYS).getName(), total_analisis_estudio_Prosa_NuevosDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_12_DURACIONDESARR).getName(), total_implement_estudio_Prosa_NuevosDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_13_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio_Prosa_NuevosDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_14_GAPTRAMIINIDESA).getName(), total_gapPlanificacion_estudio_Prosa_NuevosDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_15_GAPFINDESAINIPRUEBASCD).getName(), total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_16_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa);
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_17_TOTALDEDICACIONES).getName(), (total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_18_TOTALGAPS).getName(), (total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa));
+				
+				//bloque mensual
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_19_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_NuevosDesa/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_20_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_NuevosDesa/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_21_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_NuevosDesa/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_22_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_NuevosDesa/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_23_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_NuevosDesa/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_24_GAPFINDESAINIPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_25_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_26_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa)/mesesEstudio));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_27_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa)/mesesEstudio));
+				
+				//bloque por petición
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_28_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_29_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_30_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_31_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_32_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_33_GAPFINDESAINIPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_34_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_35_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa)/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_36_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa)/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				
+				//%s
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_37_PORC_DURACIONANALYS).getName(), 
+						CommonUtils.roundWith2Decimals(total_analisis_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_38_PORC_DURACIONDESARR).getName(), 
+						CommonUtils.roundWith2Decimals(total_implement_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_39_PORC_DURACIONPRUEBASCD).getName(), 
+						CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_40_PORC_GAPTRAMIINIDESA).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_41_PORC_GAPFINDESAINIPRUEBASCD).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_42_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa/total_cicloVida_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_43_PORC_TOTALDEDICACIONES).getName(), 
+						CommonUtils.roundWith2Decimals((total_analisis_estudio_Prosa_NuevosDesa+total_implement_estudio_Prosa_NuevosDesa+total_pruebasCD_estudio_Prosa_NuevosDesa)/total_cicloVida_estudio_Prosa_NuevosDesa));
+				registroNewDesaProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
+						CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_Prosa_NuevosDesa+total_gapFinDesaIniPruebasCD_estudio_Prosa_NuevosDesa+total_gapFinPruebasCDProducc_estudio_Prosa_NuevosDesa)/total_cicloVida_estudio_Prosa_NuevosDesa));
+				
+					
+				ok = this.dataAccess.insertEntity(registroNewDesaProsa);
+				if (ok != 1) {
+					throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Nuevos Desarrollos Pros@");
+				}
+				
+				String textoAplicacionesHost = textoAplicacionesEstudio(aplicacionesHostEstudioMto);
+				FieldViewSet registroHostMto = new FieldViewSet(agregadosEstudioPeticionesEntidad);
+				// title
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Mto. HOST");
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Host");
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicacionesHost);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fechaIniEstudio.getTime());
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fechaFinEstudio.getTime());
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudioHOSTMto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio_HOST_Mto);
+				
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_10_CICLOVIDA).getName(), total_cicloVida_estudio_HOST_Mto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_11_DURACIONANALYS).getName(), total_analisis_estudio_HOST_Mto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_12_DURACIONDESARR).getName(), total_implement_estudio_HOST_Mto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_13_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio_HOST_Mto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_14_GAPTRAMIINIDESA).getName(), total_gapPlanificacion_estudio_HOST_Mto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_15_GAPFINDESAINIPRUEBASCD).getName(), total_gapFinDesaIniPruebasCD_estudio_HOST_Mto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_16_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc_estudio_HOST_Mto);
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_17_TOTALDEDICACIONES).getName(), (total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_18_TOTALGAPS).getName(), (total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto));
+				
+				//bloque mensual
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_19_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_HOST_Mto/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_20_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_HOST_Mto/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_21_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_HOST_Mto/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_22_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_HOST_Mto/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_23_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_HOST_Mto/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_24_GAPFINDESAINIPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_HOST_Mto/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_25_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_HOST_Mto/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_26_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto)/mesesEstudio));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_27_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto)/mesesEstudio));
+				
+				//bloque por petición
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_28_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_29_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_30_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_31_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_32_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_33_GAPFINDESAINIPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_34_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_HOST_Mto/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_35_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_36_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto)/(mesesEstudio*numPeticionesEstudioProsaMto)));
+				
+				//%s
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_37_PORC_DURACIONANALYS).getName(), 
+						CommonUtils.roundWith2Decimals(total_analisis_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_38_PORC_DURACIONDESARR).getName(), 
+						CommonUtils.roundWith2Decimals(total_implement_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_39_PORC_DURACIONPRUEBASCD).getName(), 
+						CommonUtils.roundWith2Decimals(total_pruebasCD_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_40_PORC_GAPTRAMIINIDESA).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapPlanificacion_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_41_PORC_GAPFINDESAINIPRUEBASCD).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_42_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
+						CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc_estudio_HOST_Mto/total_cicloVida_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_43_PORC_TOTALDEDICACIONES).getName(), 
+						CommonUtils.roundWith2Decimals((total_analisis_estudio_HOST_Mto+total_implement_estudio_HOST_Mto+total_pruebasCD_estudio_HOST_Mto)/total_cicloVida_estudio_HOST_Mto));
+				registroHostMto.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
+						CommonUtils.roundWith2Decimals((total_gapPlanificacion_estudio_HOST_Mto+total_gapFinDesaIniPruebasCD_estudio_HOST_Mto+total_gapFinPruebasCDProducc_estudio_HOST_Mto)/total_cicloVida_estudio_HOST_Mto));
+						
+				ok = this.dataAccess.insertEntity(registroHostMto);
+				if (ok != 1) {
+					throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. HOST");
+				}
+				
+				this.dataAccess.commit();
+				
+				//FileOutputStream out = new FileOutputStream(f), modelo = new FileOutputStream(fModelo), dataset= new FileOutputStream(datasetFile);
+				
+				FieldViewSet fieldViewSet = new FieldViewSet(incidenciasProyectoEntidad);
+				for (final String rochadeSusp: rochadeSuspect) {			
+					fieldViewSet.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID)
+							.getName(), rochadeSusp);
+					List<FieldViewSet> rochadeFSets = this.dataAccess.searchByCriteria(fieldViewSet);
+					if (rochadeFSets != null && rochadeFSets.size() == 1){
+						//System.err.println(rochadeSusp);
+					}//if
+				}//for
+			
+				mapEntradas.put(Integer.valueOf(numImportadas), String.valueOf(filas.size()));
+				//metemos el resto de IDs que han cambiado
+				int i = numImportadas+1;
+				for (String idpeticion : IDs_changed){
+					mapEntradas.put(Integer.valueOf(i++), idpeticion);
+				}
+				
+			}catch (Throwable err) {
+				err.printStackTrace();
+			}finally {
+				out.flush();
+				out.close();			
+				modelo.flush();
+				modelo.close();			
+				dataset.flush();
+				dataset.close();
 			}
 			
-			this.dataAccess.commit();
-		
-			
-		}catch (Throwable excc) {
-			excc.printStackTrace();
-			throw new Exception(ERR_IMPORTANDO_FICHERO_EXCEL);
-		}
-		
-		FieldViewSet fieldViewSet = new FieldViewSet(incidenciasProyectoEntidad);
-		for (final String rochadeSusp: rochadeSuspect) {			
-			fieldViewSet.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID)
-					.getName(), rochadeSusp);
-			List<FieldViewSet> rochadeFSets = this.dataAccess.searchByCriteria(fieldViewSet);
-			if (rochadeFSets != null && rochadeFSets.size() == 1){
-				//System.err.println(rochadeSusp);
-			}//if
-		}//for
-		
-		Map<Integer, String> numEntradas = new HashMap<Integer, String>();
-		numEntradas.put(Integer.valueOf(numImportadas), String.valueOf(filas.size()));
-		//metemos el resto de IDs que han cambiado
-		int i = numImportadas+1;
-		for (String idpeticion : IDs_changed){
-			numEntradas.put(Integer.valueOf(i++), idpeticion);
-		}
-		return numEntradas;
+			return mapEntradas;
 	}
 	
 	
@@ -1594,7 +1591,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					continue;
 				}
 				System.out.println("Comenzando importacion del fichero " + fileScanned.getName() + " ...");
-				importadorGEDEONes.importar(fileScanned.getAbsolutePath(), importacionFSet /*, servicioAtencion*/);
+				importadorGEDEONes.importarExcel2BBDD(fileScanned.getAbsolutePath(), importacionFSet /*, servicioAtencion*/);
 				System.out.println("...Importacion realizada con exito del fichero " + fileScanned.getName() + ".");
 			}
 			

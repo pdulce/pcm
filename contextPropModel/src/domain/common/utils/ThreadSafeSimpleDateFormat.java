@@ -40,7 +40,7 @@ public class ThreadSafeSimpleDateFormat {
 
 	}
 
-	protected static final ThreadSafeSimpleDateFormat getUniqueInstance() {
+	public static final ThreadSafeSimpleDateFormat getUniqueInstance() {
 		return new ThreadSafeSimpleDateFormat();
 	}
 	
