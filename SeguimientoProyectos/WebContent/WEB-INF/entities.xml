@@ -112,6 +112,36 @@
     <field mappingTo="49" name="gap_finPrue_Producc" type="double" length="10" required="false"/>    
   </entity>
 	
+<entity>
+    <entityname>agregadosPeticiones</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" required="true" autoinc="true"/>
+    <field mappingTo="2" name="entorno" type="string" length="50" required="true"/>
+	<field mappingTo="3" name="aplicaciones" type="string" length="500" required="false"/>
+	<field mappingTo="4" name="fecha_inicio_estudio" type="date" length="10" required="false"/>
+	<field mappingTo="5" name="fecha_fin_estudio" type="date" length="10" required="false"/>
+	<field mappingTo="6" name="num_peticiones" type="int" length="6" required="false"/>
+	<field mappingTo="7" name="num_meses" type="int" length="4" required="false"/>	
+    <field mappingTo="8" name="ciclo_vida" type="double" length="10" required="false"/>
+	<field mappingTo="9" name="total_uts" type="double" length="10" required="false"/>
+    <field mappingTo="10" name="duracion_analysis" type="double" length="10" required="false"/>
+    <field mappingTo="11" name="duracion_desarrollo" type="double" length="10" required="false"/>
+    <field mappingTo="12" name="duracion_pruebas" type="double" length="10" required="false"/>
+    <field mappingTo="13" name="gap_tram_iniRealDesa" type="double" length="10" required="false"/>
+    <field mappingTo="14" name="gap_finDesa_iniPrue" type="double" length="10" required="false"/>
+    <field mappingTo="15" name="gap_finPrue_Producc" type="double" length="10" required="false"/>
+    <field mappingTo="16" name="total_dedicaciones" type="double" length="10" required="false"/>
+    <field mappingTo="17" name="total_gaps" type="double" length="10" required="false"/>
+    <field mappingTo="18" name="porc_duracion_analysis" type="double" length="6" required="false"/>
+    <field mappingTo="19" name="porc_duracion_desarrollo" type="double" length="6" required="false"/>
+    <field mappingTo="20" name="porc_pruebas" type="double" length="6" required="false"/>
+    <field mappingTo="21" name="porc_gap_tram_iniRealDesa" type="double" length="6" required="false"/>
+    <field mappingTo="22" name="porc_gap_finDesa_iniPrue" type="double" length="6" required="false"/>
+    <field mappingTo="23" name="porc_gap_finPrue_Producc" type="double" length="6" required="false"/>
+    <field mappingTo="24" name="porc_total_dedicaciones" type="double" length="6" required="false"/>
+    <field mappingTo="25" name="porc_total_gaps" type="double" length="6" required="false"/>  
+    <field mappingTo="26" name="tituloEstudio" type="string" length="250" required="false"/>      
+  </entity>	
+	
   <entity>
     <entityname>sabana</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>

@@ -51,6 +51,35 @@ CREATE TABLE `incidenciasProyecto` (
   `gap_finPrue_Producc` double DEFAULT NULL      
   );  
   
+CREATE TABLE `agregadosPeticiones` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `entorno` varchar(50) NOT NULL,
+  `aplicaciones` varchar(500) DEFAULT NULL,
+  `fecha_inicio_estudio` date NOT NULL,
+  `fecha_fin_estudio` date NOT NULL,
+  `num_peticiones` int(6),
+  `num_meses` int(4),
+  `ciclo_vida` double DEFAULT NULL,
+  `total_uts` double DEFAULT NULL,
+  `duracion_analysis` double DEFAULT NULL,
+  `duracion_desarrollo` double DEFAULT NULL,
+  `duracion_pruebas` double DEFAULT NULL,
+  `gap_tram_iniRealDesa` double DEFAULT NULL,
+  `gap_finDesa_iniPrue` double DEFAULT NULL,
+  `gap_finPrue_Producc` double DEFAULT NULL,
+  `total_dedicaciones` double DEFAULT NULL,
+  `total_gaps` double DEFAULT NULL,
+  `porc_duracion_analysis` double DEFAULT NULL,
+  `porc_duracion_desarrollo` double DEFAULT NULL,
+  `porc_pruebas` double DEFAULT NULL,
+  `porc_gap_tram_iniRealDesa` double DEFAULT NULL,
+  `porc_gap_finDesa_iniPrue` double DEFAULT NULL,
+  `porc_gap_finPrue_Producc` double DEFAULT NULL,
+  `porc_total_dedicaciones` double DEFAULT NULL,        
+  `porc_total_gaps` double DEFAULT NULL,
+  `tituloEstudio` varchar(250) NOT NULL
+);  
+
 
 CREATE TABLE `categoria_profesional` (
   `ID_CATEGORIA` INTEGER PRIMARY KEY   AUTOINCREMENT,

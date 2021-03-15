@@ -92,6 +92,35 @@ public abstract class ConstantesModelo {
 	public static final int INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE = 48;
 	public static final int INCIDENCIASPROYECTO_49_GAP_FINPRUEBAS_PRODUCC = 49;
 	public static final String INCIDENCIASPROYECTO_ENTIDAD = "incidenciasProyecto";
+		 
+	    
+    public static final int AGREG_INCIDENCIASPROYECTO_1_ID = 1;
+    public static final int AGREG_INCIDENCIASPROYECTO_2_ENTORNO = 2;
+    public static final int AGREG_INCIDENCIASPROYECTO_3_APLICACIONES = 3;
+    public static final int AGREG_INCIDENCIASPROYECTO_4_FECHA_INIESTUDIO = 4;
+    public static final int AGREG_INCIDENCIASPROYECTO_5_FECHA_FINESTUDIO = 5;	    
+    public static final int AGREG_INCIDENCIASPROYECTO_6_NUMPETICIONES = 6;
+    public static final int AGREG_INCIDENCIASPROYECTO_7_NUMMESES = 7;
+    public static final int AGREG_INCIDENCIASPROYECTO_8_CICLOVIDA = 8;
+    public static final int AGREG_INCIDENCIASPROYECTO_9_TOTALUTS = 9;
+    public static final int AGREG_INCIDENCIASPROYECTO_10_DURACIONANALYS = 10;
+    public static final int AGREG_INCIDENCIASPROYECTO_11_DURACIONDESARR = 11;
+    public static final int AGREG_INCIDENCIASPROYECTO_12_DURACIONPRUEBASCD = 12;
+    public static final int AGREG_INCIDENCIASPROYECTO_13_GAPTRAMIINIDESA = 13;
+    public static final int AGREG_INCIDENCIASPROYECTO_14_GAPFINDESAINIPRUEBASCD = 14;
+    public static final int AGREG_INCIDENCIASPROYECTO_15_GAPFINPRUEBASCDHASTAPRODUC = 15;
+    public static final int AGREG_INCIDENCIASPROYECTO_16_TOTALDEDICACIONES = 16;
+    public static final int AGREG_INCIDENCIASPROYECTO_17_TOTALGAPS = 17;
+    public static final int AGREG_INCIDENCIASPROYECTO_18_PORC_DURACIONANALYS = 18;
+    public static final int AGREG_INCIDENCIASPROYECTO_19_PORC_DURACIONDESARR = 19;
+    public static final int AGREG_INCIDENCIASPROYECTO_20_PORC_DURACIONPRUEBASCD = 20;
+    public static final int AGREG_INCIDENCIASPROYECTO_21_PORC_GAPTRAMIINIDESA = 21;
+    public static final int AGREG_INCIDENCIASPROYECTO_22_PORC_GAPFINDESAINIPRUEBASCD = 22;
+    public static final int AGREG_INCIDENCIASPROYECTO_23_PORC_GAPFINPRUEBASCDHASTAPRODUC = 23;
+    public static final int AGREG_INCIDENCIASPROYECTO_24_PORC_TOTALDEDICACIONES = 24;
+    public static final int AGREG_INCIDENCIASPROYECTO_25_PORC_TOTALGAP = 25;
+    public static final int AGREG_INCIDENCIASPROYECTO_26_TITULO_ESTUDIO = 26;
+	public static final String AGREG_INCIDENCIASPROYECTO_ENTIDAD = "agregadosPeticiones";
 	
 	public static final int SABANA_1_ID = 1;
 	public static final int SABANA_2_Titulo = 2;

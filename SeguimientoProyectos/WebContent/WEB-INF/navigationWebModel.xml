@@ -47,14 +47,13 @@
 		<FOLDER profile="ANALISIS_TEAM, ADMINISTRADOR"
 			name="Seguimiento">
 			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
-			<!-- LEAF link="event=InformePeticionesSG.query" name="Demanda SGD" />
-			 -->
-			 <FOLDER profile="ANALISIS_TEAM" name="WAS Config">
+			<LEAF link="event=GestionEntidades.query#entityName=agregadosPeticiones" name="Estudios Peticiones" />
+			 <!-- FOLDER profile="ANALISIS_TEAM" name="WAS Config">
 			 </FOLDER>
 			 <FOLDER profile="ANALISIS_TEAM" name="BBDD Conexiones">
 			 </FOLDER>
 			 <FOLDER profile="ANALISIS_TEAM" name="DIMENSIONS Conexiones">
-			 </FOLDER>
+			 </FOLDER> -->
 		</FOLDER>
 		
 		<FOLDER profile="ADMINISTRADOR"
@@ -62,13 +61,13 @@
 			<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
 		</FOLDER>
 					
-		<FOLDER profile="ADMINISTRADOR"	name="Cotizaciones Bolsa">
+		<!-- <FOLDER profile="ADMINISTRADOR"	name="Cotizaciones Bolsa">
 			<LEAF link="event=ConsultaPeticionesDatosInvertia.query" name="Consultas/estad." />
 			<LEAF link="LauncherUtility?exec=allInfoBolsa" name="Actualizar autom. Valores" />
 		</FOLDER>
 		<FOLDER profile="ADMINISTRADOR"	name="Bolsa Cartera Valores">
 			<LEAF link="LauncherUtility?exec=myInfoBolsa" name="Valores actuales en Mi Cartera" />
-		</FOLDER>
+		</FOLDER>-->
 
 	</tree>
 	

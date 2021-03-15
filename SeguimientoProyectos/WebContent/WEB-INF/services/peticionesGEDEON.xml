@@ -346,7 +346,7 @@
 						
 					<fieldset legend="Por aplicativo">
 						
-						<fieldView mappingTo="27" type="checkbox" size="12">
+						<fieldView mappingTo="27" type="checkbox" size="10">
 							<optionValues selectionMultiple="true">
 								<option code="FOM2 - FOMA2" title="FOM2(Pros@)"></option>
 								<option code="SBOT - SUBVEN_BOTIQ" title="SBOT(Pros@)"></option>
@@ -359,18 +359,6 @@
 								<option code="FAMA - FARMAR_PROSA" title="FAMA(Pros@)"></option>
 								<option code="FRMA - FRMA" title="FRMA(Pros@)"></option>
 								<option code="SANI - SANIMA_PROSA" title="SANI(Pros@)"></option>
-
-								<option code="TISM - Tu ISM" title="TISM(APP)"></option>
-								<option code="BISM - ISM en tu Bolsillo" title="BISM(APP)"></option>
-								
-								<option code="ISMW - WS_EXT_ISM" title="ISMW(WS)"></option>
-								<option code="MOVI - MOVIL_ISM" title="MOVI(WS)"></option>
-								<option code="WSAO - Servicio Web intercambio avisos OBIS" title="WSAO(WS)"></option>
-								<option code="WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria" title="WSRT(WS)"></option>
-								<option code="WISM - WS_CDISM" title="WISM(WS)"></option>
-								<option code="WSPX - WS_PERMEX" title="WSPX(WS)"></option>
-								<option code="WBOF - WS_INSPBOT2" title="WBOF(WS)"></option>
-								<option code="WSCR - WS_CADUC_FSE" title="WSCR(WS)"></option>
 								<!--  Host -->
 								<option code="APRO - ANTEPROYECTO" title="APRO(Host)"></option>
 								<option code="INVE - INVENTARIO" title="INVE(Host)"></option>
@@ -378,7 +366,6 @@
 								<option code="FMAR - FORMAR" title="FMAR(Host)"></option>
 								<option code="TASA - TSE111" title="TASA(Host)"></option>
 								<option code="PRES - PRESMAR" title="PRES(Host)"></option>
-								<option code="MGEN - AP_GENERICA" title="MGEN(Host)"></option>
 								<option code="AFLO - AYFLO" title="AFLO(Host)"></option>
 								<option code="FARM - FARMAR" title="FARM(Host)"></option>
 								<option code="INBU - SEGUMAR" title="INBU(Host)"></option>
@@ -387,7 +374,26 @@
 								<option code="MIND - ESTAD_IND" title="MIND(Host)"></option>
 								<option code="INCM - INCA_ISM" title="INCM(Host)"></option>
 								<option code="PRSP - PRESTACIONES MAR PROSA" title="PRSP(Host)"></option>
+																
+							</optionValues>						
+						</fieldView>
+						
+						<fieldView mappingTo="27" type="checkbox" size="10">
+							<optionValues selectionMultiple="true">
 								
+								<!--  otras tecnologías -->
+								<option code="TISM - Tu ISM" title="TISM(APP)"></option>
+								<option code="BISM - ISM en tu Bolsillo" title="BISM(APP)"></option>								
+								<option code="ISMW - WS_EXT_ISM" title="ISMW(WS)"></option>
+								<option code="MOVI - MOVIL_ISM" title="MOVI(WS)"></option>
+								<option code="WSAO - Servicio Web intercambio avisos OBIS" title="WSAO(WS)"></option>
+								<option code="WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria" title="WSRT(WS)"></option>
+								<option code="WISM - WS_CDISM" title="WISM(WS)"></option>
+								<option code="WSPX - WS_PERMEX" title="WSPX(WS)"></option>
+								<option code="WBOF - WS_INSPBOT2" title="WBOF(WS)"></option>
+								<option code="WSCR - WS_CADUC_FSE" title="WSCR(WS)"></option>
+
+								<option code="MGEN - AP_GENERICA" title="MGEN(Otras)"></option>
 								<option code="SIEB - SIEBEL" title="SIEB(Otras)"></option>
 								<option code="IMAG - IMAGENES" title="IMAG(Otras)"></option>
 								<option code="MEJP - MEJOPENS" title="MEJP(Otras)"></option>
