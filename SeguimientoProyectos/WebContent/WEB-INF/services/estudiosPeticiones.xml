@@ -211,7 +211,7 @@ xmlns:service="http://pcm.framework.org/service"
 		
 	
 	<action event="create" submitError="EstudioPeticiones.create"
-		submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.GenerarEstudioCicloVida">
+		submitSucces="EstudioPeticiones.query" strategy="facturacionUte.strategies.GenerarEstudioCicloVida">
 		<viewComponent>
 			<form columns="2" title="Generar Estudio Ciclo Vida Peticiones por períodos">
 				<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">					

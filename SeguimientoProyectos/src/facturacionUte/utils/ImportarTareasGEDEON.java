@@ -703,15 +703,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							
 				/** VAMOS A LLENAR SIN NECESIDAD DE SACAR LAS GRÁFICAS, LOS AGREGADOS y % DEL ESTUDIO EN EL TIEMPO PARA PROSA Y HOST ***/
 				// Creamos tres registros en la tabla agregadosEstudio
-				Calendar fechaIniEstudio = Calendar.getInstance();
-				fechaIniEstudio.set(Calendar.YEAR, 2017);
-				fechaIniEstudio.set(Calendar.MONTH, 11);//dic
-				fechaIniEstudio.set(Calendar.DAY_OF_MONTH, 1);
-				Calendar fechaFinEstudio = Calendar.getInstance();
-				fechaFinEstudio.set(Calendar.YEAR, 2021);
-				fechaFinEstudio.set(Calendar.MONTH, 1);//febrero
-				fechaFinEstudio.set(Calendar.DAY_OF_MONTH, 28);			
-				int mesesEstudio = new Double(CommonUtils.diasNaturalesDuracion(fechaIniEstudio.getTime(), fechaFinEstudio.getTime())/30.0).intValue();			
+				int mesesEstudio = new Double(CommonUtils.diasNaturalesDuracion(fecIniEstudio, fecFinEstudio)/30.0).intValue();			
 				
 				String textoAplicacionesProsaMto = textoAplicacionesEstudio(aplicacionesProsaEstudioMto);
 				
@@ -720,8 +712,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName(), "Estudio Peticiones en periodo para Servicio Mto. Pros@");
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), "Pros@");
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicacionesProsaMto);
-				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fechaIniEstudio.getTime());
-				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fechaFinEstudio.getTime());
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fecIniEstudio);
+				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fecFinEstudio);
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudioProsaMto);
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio_Prosa_Mto);

@@ -102,7 +102,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 
 		//}catch (final StrategyException ecxx) {
 			//throw ecxx;
-		}catch (final DatabaseException ecxx1) {
+		}catch (final Throwable ecxx1) {
 			throw new PCMConfigurationException("Configuration error: table IncidenciasProyectos is possible does not exist", ecxx1);
 		}
 	}
