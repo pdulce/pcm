@@ -226,7 +226,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 			final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
 			
 			/** 1. Buscar todas las peticiones en la BBDD Sqlite con destino en o7201 17G L2 ISM ATH Anolisis Orientado a Objectoo ***/
-			IFieldLogic fieldDesde = peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION);
+			IFieldLogic fieldDesde = peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
 			IFieldView fViewEntradaEnCD =  new FieldViewSet(peticionGEDEONEntidad).getFieldView(fieldDesde);
 			
 			final IFieldView fViewMinor = fViewEntradaEnCD.copyOf();
@@ -239,17 +239,17 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 			fieldViews4Filter.add(fViewMinor);
 			fieldViews4Filter.add(fViewMayor);
 						
-			IFieldView fieldID = new FieldView(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_26_PROYECTO_ID));
-			IFieldView fieldCentroDestino = new FieldView(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO));
-			IFieldView fieldAreaDestino = new FieldView(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO));
+			IFieldView fieldID = new FieldView(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID));
+			IFieldView fieldCentroDestino = new FieldView(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
+			IFieldView fieldAreaDestino = new FieldView(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
 			fieldViews4Filter.add(fieldID);
 			fieldViews4Filter.add(fieldCentroDestino);
 			fieldViews4Filter.add(fieldAreaDestino);
 			
 			FieldViewSet peticionGedeonFilterDestinoAOO = new FieldViewSet(dict, peticionGEDEONEntidad.getName(), fieldViews4Filter);
-			peticionGedeonFilterDestinoAOO.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_26_PROYECTO_ID).getName(), appRochade);
-			peticionGedeonFilterDestinoAOO.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), CDISM);
-			peticionGedeonFilterDestinoAOO.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName(), CDISM_OO);
+			peticionGedeonFilterDestinoAOO.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), appRochade);
+			peticionGedeonFilterDestinoAOO.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), CDISM);
+			peticionGedeonFilterDestinoAOO.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), CDISM_OO);
 			peticionGedeonFilterDestinoAOO.setValue(fViewMinor.getQualifiedContextName(), fechaInicioTramite);//>=
 			peticionGedeonFilterDestinoAOO.setValue(fViewMayor.getQualifiedContextName(), fechaFinTramite);//<=
 			
@@ -262,33 +262,33 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 				//Relleenar la info exclusiva de la peticion AES
 				//setPeticion_AES
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_2_Titulo).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName()));
 				
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_3_Fecha_Necesidad).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_19_FECHA_DE_NECESIDAD).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_19_FECHA_DE_NECESIDAD).getName()));
 
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName()));
 				
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_9_Observaciones).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_4_OBSERVACIONES).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_4_OBSERVACIONES).getName()));
 
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_11_Origen).getName(), "Canal no oficial");//Gedeon, Remedy, Infraestructuras, Mejora CD, Canal no oficial
 
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_13_Peticion_AES).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName()));
 				//setFecha_Prev_Ini_Analisis
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_14_Fecha_Prev_Ini_Analisis).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_22_DES_FECHA_PREVISTA_INICIO).getName()));
 				//setFecha_Real_Ini_Analisis
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_15_Fecha_Real_Ini_Analisis).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName()));
 				//setFecha_Prev_Fin_Analisis
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_16_Fecha_Prev_Fin_Analisis).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName()));
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName()));
 				//setFecha_Real_Fin_Analisis
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_17_Fecha_Real_Fin_Analisis).getName(), 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName()));				
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName()));				
 				//setAplicacion
 				sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_10_Aplicacion).getName(), idApp);
 				//setSubdireccion
@@ -297,7 +297,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 				/** 2ii.	Recuperar el campo-lista opets_relacionadaso del objeto peticion_AES **/
 				
 				String peticionesRelacionadas = (String) 
-						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
+						peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
 				List<Long> pets_relacionadas = obtenerCodigos(peticionesRelacionadas);
 				
 				if (pets_relacionadas == null || pets_relacionadas.isEmpty()){
@@ -306,7 +306,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
         	           Normalizado a los valores [Toma Requisitos, Anolisis, Desarrollo, Pruebas, Fin-Pte otras oreas, Pre-explotacion, Implantada]        	    	
         			   b) Aoadir el objeto sabana en la lista de demanda, y continuar hasta la siguiente peticion AES
         			 **/
-					String estadoPeticionAES = (String) peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
+					String estadoPeticionAES = (String) peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 					sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_5_Estado_Peticion).getName(), "AES: "+ (estadoPeticionAES));
 					listaDemandaResultado.add(sabanaEntry);
 					//continue;
@@ -322,53 +322,53 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					boolean origenEncontrado = false;
 					for (Long codigoPeticionRelacionada: pets_relacionadas){
 						FieldViewSet peticionRelacionada = new FieldViewSet(peticionGEDEONEntidad);
-						peticionRelacionada.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), codigoPeticionRelacionada);
+						peticionRelacionada.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), codigoPeticionRelacionada);
 						peticionRelacionada = dataAccess.searchEntityByPk(peticionRelacionada);
 						if (peticionRelacionada == null || 
-								peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName()) == null){
+								peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName()) == null){
 							System.out.println("OJO: La peticion con ident. " + codigoPeticionRelacionada + " no ha sido localizada.");
 							continue;
 						}
-						String centroDestinoPetRelac = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
-						String areaDestinoPetRelac = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());
+						String centroDestinoPetRelac = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());
+						String areaDestinoPetRelac = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
 						if (centroDestinoPetRelac.equals("Centro de Desarrollo del ISM")){
 							if (!origenEncontrado && areaDestinoPetRelac.equals("Desarrollo de Aplicaciones")){//Peticion ORIGEN
 								origenEncontrado = true;
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_11_Origen).getName(), "Gedeon");//Gedeon, Remedy, Infraestructuras, Mejora CD, Canal no oficial
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_12_ID_Origen).getName(), codigoPeticionRelacionada);
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_2_Titulo).getName(), 
-										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName()));
+										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName()));
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_3_Fecha_Necesidad).getName(), 
-										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_19_FECHA_DE_NECESIDAD).getName()));
+										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_19_FECHA_DE_NECESIDAD).getName()));
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName(), 
-										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName()));
+										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName()));
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_9_Observaciones).getName(), 
-										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_4_OBSERVACIONES).getName()));
+										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_4_OBSERVACIONES).getName()));
 							}	
 						} else if (areaDestinoPetRelac.equals(SERVICIO_DG) ){
-							final String estadoPet = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
+							final String estadoPet = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 							if (estadoPet.startsWith("Entrega") || estadoPet.startsWith("Peticion de Entrega")){//extraemos la informacion de esta entrega
 								
 								String trabajosAsocAEntrega = (String) 
-										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
+										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
 								List<Long> petsTrabajosAsocAEntrega = obtenerCodigos(trabajosAsocAEntrega);
 								
 								for (Long idPetTrabajoAsocAEntrega: petsTrabajosAsocAEntrega){
 									FieldViewSet petrabajoAsocAEntrega = new FieldViewSet(peticionGEDEONEntidad);
-									petrabajoAsocAEntrega.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPetTrabajoAsocAEntrega);
+									petrabajoAsocAEntrega.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), idPetTrabajoAsocAEntrega);
 									petrabajoAsocAEntrega = dataAccess.searchEntityByPk(petrabajoAsocAEntrega);									
 									listaPeticionesADG.add(petrabajoAsocAEntrega);
 								}
 								
 								//ademos, actualizamos los campos de fecha-entrega, pet-entrega, etc
-								String idPeticionEntrega = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName());
+								String idPeticionEntrega = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());
 								
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_26_Peticion_Entrega).getName(), idPeticionEntrega);
 								
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_27_Fec_Entrega).getName(), 
-										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName()));
+										peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName()));
 								
-								final String estadoEntrega = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
+								final String estadoEntrega = (String) peticionRelacionada.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 								sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_28_Estado_peticion_Entrega).getName(), "ENT: ".concat(estadoEntrega));
 								
 							}else{
@@ -381,11 +381,11 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					//2'') Si lista peticionesADG es vacoa
 					if (listaPeticionesADG.isEmpty()){
 						//a) Grabar el campo `Estado_Peticion` con el que tenga el campo Estado de la peticion_AES
-						final String estado = ((String) peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName())); 
+						final String estado = ((String) peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName())); 
 						sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_5_Estado_Peticion).getName(), "AES: "+ (estado));
 						if (sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName()) == null){
 							sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName(), 
-								peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName()));
+								peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName()));
 						}
 						//b) Aoadir el objeto sabana en la lista de demanda
 						rellenarEstadoYFechasPrevision(sabanaEntry);
@@ -393,25 +393,25 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					}else{
 						if (sabanaEntry.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName()) == null){
 							sabanaEntry.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_4_Entrada_en_CDISM).getName(), 
-								peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION).getName()));
+								peticion_AES.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName()));
 						}
 						
 						for (FieldViewSet peticion_ADG: listaPeticionesADG){
 							FieldViewSet sabanaEntryClon = sabanaEntry.copyOf();
 							
 							sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_22_Peticion_DG).getName(), 
-									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName()));
+									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName()));
 							sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_23_Fecha_Prev_Fin_DG).getName(), 
-									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName()));
+									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName()));
 							sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_24_Fecha_Real_Fin_DG).getName(), 
-									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName()));
+									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName()));
 							sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_25_UTS_Estimadas).getName(), 
-									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName()));
-							final String estado = ((String) peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName())); 
+									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName()));
+							final String estado = ((String) peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName())); 
 							sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_5_Estado_Peticion).getName(), "DG: "+ (estado));
 							
 							sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_18_Prev_Ini_Pruebas_CD).getName(), 
-									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO).getName()));
+									peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_20_FECHA_FIN_DE_DESARROLLO).getName()));
 							
 							Date fechaInicioPruebasCD = (Date) sabanaEntryClon.getValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_18_Prev_Ini_Pruebas_CD).getName());
 							if (fechaInicioPruebasCD != null){								
@@ -421,21 +421,21 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 								sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_20_Prev_Fin_Pruebas_CD).getName(), fechaFinPruebasCD.getTime()); 
 							}
 							
-							final boolean conEntrega = (Boolean) peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_34_CON_ENTREGA).getName());
+							final boolean conEntrega = (Boolean) peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName());
 							if (conEntrega){
 								Long idPeticionEntrega = (Long) 
-										peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
+										peticion_ADG.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_ASOCIADA).getName());
 								
 								sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_26_Peticion_Entrega).getName(), idPeticionEntrega);
 								
 								FieldViewSet peticionEntrega = new FieldViewSet(peticionGEDEONEntidad);
-								peticionEntrega.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticionEntrega);
+								peticionEntrega.setValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), idPeticionEntrega);
 								peticionEntrega = dataAccess.searchEntityByPk(peticionEntrega);
 								
 								sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_27_Fec_Entrega).getName(), 
-										peticionEntrega.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION).getName()));
+										peticionEntrega.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName()));
 								
-								final String estadoEntrega = (String) peticionEntrega.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
+								final String estadoEntrega = (String) peticionEntrega.getValue(peticionGEDEONEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 								sabanaEntryClon.setValue(sabanaEntidad.searchField(ConstantesModelo.SABANA_28_Estado_peticion_Entrega).getName(), "ENT: ".concat(estadoEntrega));
 								
 							}

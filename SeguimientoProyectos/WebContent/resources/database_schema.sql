@@ -1,5 +1,5 @@
 
-CREATE TABLE `incidenciasProyecto` (
+CREATE TABLE `peticiones` (
   `id` varchar(10) primary key,
   `Titulo` varchar(500),
   `Descripcion` varchar(100),
@@ -492,8 +492,8 @@ CREATE TABLE `sabana` (
  );
 
   
-CREATE INDEX index_search_gedeones_1 on incidenciasProyecto (id);
-CREATE INDEX index_search_gedeones_2 on incidenciasProyecto (fecha_estado_modif);
+CREATE INDEX index_search_gedeones_1 on peticiones (id);
+CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 CREATE INDEX index_cotizaciones ON invertia_data (GRUPO);
 CREATE INDEX index_cotizaciones2 ON invertia_data (GRUPO, FECHA);
 CREATE INDEX index_prev_anual ON resultado_prevision_anualidad(id_prevision_contrato);

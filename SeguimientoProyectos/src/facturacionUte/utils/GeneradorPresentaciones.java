@@ -130,34 +130,34 @@ public class GeneradorPresentaciones {
 	private static final String COD_ESTADO_NOTIF_DESEST = "DESEST";
 	
 	/** CONSTANTES DE MAPEO DE COLUMNAS_EXCEL CON EL MODELO ELEGIDO ***/
-	public static final Integer MODEL_MAPPING_ID = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_1_ID);
-	public static final Integer MODEL_MAPPING_COLUMN_TITULO = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO);
-	public static final Integer MODEL_MAPPING_COLUMN_DESCRIPCION = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_3_DESCRIPCION);
-	public static final Integer MODEL_MAPPING_COLUMN_OBSERVACIONES = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_4_OBSERVACIONES);
-	public static final Integer MODEL_MAPPING_COLUMN_ESFUERZO_AT = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_5_USUARIO_CREADOR);
-	public static final Integer MODEL_MAPPING_COLUMN_APP_DESC = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_6_SOLICITANTE);
-	public static final Integer MODEL_MAPPING_COLUMN_SITUACION = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO);
-	public static final Integer MODEL_MAPPING_COLUMN_DESC_TECH = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_8_ENTIDAD_ORIGEN);
-	public static final Integer MODEL_MAPPING_COLUMN_EPIGRAFE = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO);
-	public static final Integer MODEL_MAPPING_COLUMN_APARECE_EN_PPT = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_14_TIPO_INICIAL);
-	public static final Integer MODEL_MAPPING_COLUMN_ESFUERZO_GLOBAL = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_16_PRIORIDAD);
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_INI_ANALYSIS = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_17_FECHA_DE_ALTA);
-	public static final Integer MODEL_MAPPING_COLUMN_ENTRADA_EN_CDISM = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION);
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_NECESIDAD = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_19_FECHA_DE_NECESIDAD);	
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_ANALYSIS = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_20_FECHA_FIN_DE_DESARROLLO);
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_21_FECHA_DE_FINALIZACION);
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN);
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO);
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_PRUEBAS_CD = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN);
-	public static final Integer MODEL_MAPPING_COLUMN_APLICACION = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME);
-	public static final Integer MODEL_MAPPING_COLUMN_GRADO_AVANCE = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_29_HORAS_REALES);
-	public static final Integer MODEL_MAPPING_SUPERESTADO = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_30_ANYO_MES);
-	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_31_FECHA_EXPORT);
-	public static final Integer MODEL_MAPPING_COLUMN_GEDEON_AES = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA);
-	public static final Integer MODEL_MAPPING_COLUMN_GEDEON_DG = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS);	
-	public static final Integer MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_39_FECHA_INFORME);		
-	public static final Integer MODEL_MAPPING_COLUMN_AVANCE = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_40_ESTADO_INFORME);	
-	public static final Integer MODEL_MAPPING_COLUMN_AVANCE_DESAR = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_42_HORAS_ESTIMADAS_INICIALES);		
+	public static final Integer MODEL_MAPPING_ID = Integer.valueOf(ConstantesModelo.PETICIONES_1_ID);
+	public static final Integer MODEL_MAPPING_COLUMN_TITULO = Integer.valueOf(ConstantesModelo.PETICIONES_2_TITULO);
+	public static final Integer MODEL_MAPPING_COLUMN_DESCRIPCION = Integer.valueOf(ConstantesModelo.PETICIONES_3_DESCRIPCION);
+	public static final Integer MODEL_MAPPING_COLUMN_OBSERVACIONES = Integer.valueOf(ConstantesModelo.PETICIONES_4_OBSERVACIONES);
+	public static final Integer MODEL_MAPPING_COLUMN_ESFUERZO_AT = Integer.valueOf(ConstantesModelo.PETICIONES_5_USUARIO_CREADOR);
+	public static final Integer MODEL_MAPPING_COLUMN_APP_DESC = Integer.valueOf(ConstantesModelo.PETICIONES_6_SOLICITANTE);
+	public static final Integer MODEL_MAPPING_COLUMN_SITUACION = Integer.valueOf(ConstantesModelo.PETICIONES_7_ESTADO);
+	public static final Integer MODEL_MAPPING_COLUMN_DESC_TECH = Integer.valueOf(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN);
+	public static final Integer MODEL_MAPPING_COLUMN_EPIGRAFE = Integer.valueOf(ConstantesModelo.PETICIONES_13_TIPO);
+	public static final Integer MODEL_MAPPING_COLUMN_APARECE_EN_PPT = Integer.valueOf(ConstantesModelo.PETICIONES_14_TIPO_INICIAL);
+	public static final Integer MODEL_MAPPING_COLUMN_ESFUERZO_GLOBAL = Integer.valueOf(ConstantesModelo.PETICIONES_16_PRIORIDAD);
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_INI_ANALYSIS = Integer.valueOf(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
+	public static final Integer MODEL_MAPPING_COLUMN_ENTRADA_EN_CDISM = Integer.valueOf(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_NECESIDAD = Integer.valueOf(ConstantesModelo.PETICIONES_19_FECHA_DE_NECESIDAD);	
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_ANALYSIS = Integer.valueOf(ConstantesModelo.PETICIONES_20_FECHA_FIN_DE_DESARROLLO);
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION = Integer.valueOf(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION);
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS = Integer.valueOf(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN);
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD = Integer.valueOf(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO);
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_PRUEBAS_CD = Integer.valueOf(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN);
+	public static final Integer MODEL_MAPPING_COLUMN_APLICACION = Integer.valueOf(ConstantesModelo.PETICIONES_27_PROYECTO_NAME);
+	public static final Integer MODEL_MAPPING_COLUMN_GRADO_AVANCE = Integer.valueOf(ConstantesModelo.PETICIONES_29_HORAS_REALES);
+	public static final Integer MODEL_MAPPING_SUPERESTADO = Integer.valueOf(ConstantesModelo.PETICIONES_30_ANYO_MES);
+	public static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION = Integer.valueOf(ConstantesModelo.PETICIONES_31_FECHA_EXPORT);
+	public static final Integer MODEL_MAPPING_COLUMN_GEDEON_AES = Integer.valueOf(ConstantesModelo.PETICIONES_35_ID_ENTREGA_ASOCIADA);
+	public static final Integer MODEL_MAPPING_COLUMN_GEDEON_DG = Integer.valueOf(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);	
+	public static final Integer MODEL_MAPPING_COLUMN_PREVISION_FIN_ESTADO = Integer.valueOf(ConstantesModelo.PETICIONES_39_FECHA_INFORME);		
+	public static final Integer MODEL_MAPPING_COLUMN_AVANCE = Integer.valueOf(ConstantesModelo.PETICIONES_40_ESTADO_INFORME);	
+	public static final Integer MODEL_MAPPING_COLUMN_AVANCE_DESAR = Integer.valueOf(ConstantesModelo.PETICIONES_42_HORAS_ESTIMADAS_INICIALES);		
 	
 	/*** VARIABLES DE CLASE ***/	
 	public static final String[] appNames = new String[6];
@@ -523,16 +523,16 @@ public class GeneradorPresentaciones {
 	}
 	
 	private final double getUTsIntervaloInforme(final FieldViewSet peticionDG, final Date fechaDesde_date, final Date fechaHasta_date, boolean conTrazas){
-		Date fechaInicioDesarrollo = (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_24_DES_FECHA_REAL_INICIO).getName());
+		Date fechaInicioDesarrollo = (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
 		Date fechaFinDesarrollo = null;
-		Date fechaPrevistoFinDesarrollo = (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName());
-		final Date fechaRealFinDesarrollo = (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_25_DES_FECHA_REAL_FIN).getName());
+		Date fechaPrevistoFinDesarrollo = (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName());
+		final Date fechaRealFinDesarrollo = (Date) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
 		if (fechaRealFinDesarrollo != null){
 			fechaFinDesarrollo = fechaRealFinDesarrollo;
 		}else{
 			fechaFinDesarrollo = fechaPrevistoFinDesarrollo;
 		}
-		Double uts = CommonUtils.roundWith2Decimals((Double) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName()));
+		Double uts = CommonUtils.roundWith2Decimals((Double) peticionDG.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName()));
 		if (conTrazas){
 			System.out.println("UTs totales estimadas de la peticion: " + uts);
 		}
@@ -665,7 +665,7 @@ public class GeneradorPresentaciones {
 			throw new RuntimeException(e.getMessage());
 		}
 		if (peticionDG_fset != null){
-			Double UTs_estimadas_Pet_DG = (Double) peticionDG_fset.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES).getName());
+			Double UTs_estimadas_Pet_DG = (Double) peticionDG_fset.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 			UTs_estimadas_Pet_DG = UTs_estimadas_Pet_DG == null ? 0 : UTs_estimadas_Pet_DG;			
 			final double effortAT_DG = effortAT + getUTsIntervaloInforme(peticionDG_fset, fechaInicioPeriodo, fechaFinPeriodo, conTrazas);
 			return CommonUtils.roundWith2Decimals(effortAT_DG);
@@ -817,8 +817,8 @@ public class GeneradorPresentaciones {
 			areaSubdirecc = areaSubdirecc.replaceAll("Ãorea De ", "");
 			areaSubdirecc = areaSubdirecc.replaceAll("Ãorea ", "");
 			areaSubdirecc = areaSubdirecc.replaceAll("-", "/");
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen
+			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
+			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen
 			
 			String descTask = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
 			if (descTask == null || "".equals(descTask)){
@@ -900,7 +900,7 @@ public class GeneradorPresentaciones {
 					List<FieldViewSet> peticionesOO_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_AES);
 					for (int i=0;i<peticionesOO_.size();i++){
 						FieldViewSet peticionAsociada = peticionesOO_.get(i);
-						Date fechaFinAnalisisIesima = (Date) peticionAsociada.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName());
+						Date fechaFinAnalisisIesima = (Date) peticionAsociada.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName());
 						if ((fechaFinAnalisisIesima != null && fechaPrevisionFinEstado == null) || 
 								(fechaFinAnalisisIesima != null && fechaFinAnalisisIesima.after(fechaPrevisionFinEstado))){
 							fechaPrevisionFinEstado = fechaFinAnalisisIesima;				
@@ -916,7 +916,7 @@ public class GeneradorPresentaciones {
 					//Date fechaPrevisionFinDesarrollos = null;
 					for (int i=0;i<peticionesDG_.size();i++){
 						FieldViewSet peticionAsociada = peticionesDG_.get(i);//revisar si es esta columna
-						Date fechaFinDesarrolloIesima = (Date) peticionAsociada.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName());							
+						Date fechaFinDesarrolloIesima = (Date) peticionAsociada.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName());							
 						if ((fechaFinDesarrolloIesima != null && fechaPrevisionFinEstado == null) || 
 								(fechaFinDesarrolloIesima != null && fechaFinDesarrolloIesima.after(fechaPrevisionFinEstado))){
 							fechaPrevisionFinEstado = fechaFinDesarrolloIesima;							
@@ -1066,14 +1066,14 @@ public class GeneradorPresentaciones {
 				if (idPeticionTrabajo != null && !"".equals(idPeticionTrabajo)){
 					//buscamos la peticion en la BBDD
 					FieldViewSet peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
-					peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticionTrabajo);
+					peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), idPeticionTrabajo);
 					peticionDG = this.dataAccess.searchEntityByPk(peticionDG);
 					if (peticionDG == null){
 						// marcamos la peticion como "Pendiente Infraestructuras" 
 						peticionDG = new FieldViewSet(incidenciasProyectoEntidad);
-						peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_1_ID).getName(), idPeticionTrabajo);
+						peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), idPeticionTrabajo);
 						peticionDG.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName(), "Pendiente Infraestructuras");						
-						peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName(), "Desarrollo Gestionado");
+						peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), "Desarrollo Gestionado");
 						
 						String descripcionesTecnicas = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_DESC_TECH).getName());
 						String[] splitterDesc = descripcionesTecnicas.split(";");
@@ -1082,12 +1082,12 @@ public class GeneradorPresentaciones {
 							if (idGEDEON_con_descr.startsWith(idPeticionTrabajo)){
 								String[] descWithFechasFinestadoFinTarea = idGEDEON_con_descr.split(":")[1].split(PCMConstants.REGEXP_POINT);
 								if (descWithFechasFinestadoFinTarea.length > 0){
-									peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_2_TITULO).getName(), descWithFechasFinestadoFinTarea[0]);
+									peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName(), descWithFechasFinestadoFinTarea[0]);
 									if (descWithFechasFinestadoFinTarea.length > 1){
 										String fechasFinEstadoFinTarea = descWithFechasFinestadoFinTarea[1];//Prevision Fin Estado
 										String fechaFinEstado = fechasFinEstadoFinTarea.split("-->")[1];
 										Date dateFechaFinEstado = CommonUtils.myDateFormatter.parse(CommonUtils.cleanWhitespaces(fechaFinEstado));
-										peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName(), dateFechaFinEstado);										
+										peticionDG.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName(), dateFechaFinEstado);										
 									}
 								}
 								break;
@@ -1430,8 +1430,8 @@ public class GeneradorPresentaciones {
 			}
 			
 			if (nombreSG == null){
-				nombreSG = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName());
-				nombreAREA_SERVICIO = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());
+				nombreSG = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());
+				nombreAREA_SERVICIO = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
 			}
 						
 			String app = (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APLICACION).getName());
@@ -1957,9 +1957,9 @@ public class GeneradorPresentaciones {
 	  	        XSLFTextShape textShape = (XSLFTextShape)shape;
 	  	        String newText = textShape.getText();
 	  	        if (newText.indexOf("Nombre de la Subdireccion/Division") != -1){
-	  	        	newText = newText.replaceAll("Nombre de la Subdireccion/Division", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName()));	
+	  	        	newText = newText.replaceAll("Nombre de la Subdireccion/Division", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName()));	
 	  	        }else if (newText.indexOf("Nombre del Ãorea/Servicio") != -1){
-	  	        	newText = newText.replaceAll("Nombre del Ãorea/Servicio", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName()));
+	  	        	newText = newText.replaceAll("Nombre del Ãorea/Servicio", (String) fieldViewSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName()));
 	  	        	fontSize = newText.length() > 50 ? 20 : 24;
 	  	        }
 	  	      	newText = newText.replaceAll("CDISM dd/mm/aaaa", "CDISM " + CommonUtils.convertDateToShortFormatted(Calendar.getInstance().getTime()));
@@ -2113,10 +2113,10 @@ public class GeneradorPresentaciones {
 			
 			FieldViewSet peticion = peticionesSubtareas.get(tareaConsumida_);
 			
-			String areaDestino = peticion != null ? (String) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName()) : "";		
+			String areaDestino = peticion != null ? (String) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName()) : "";		
 			boolean esPeticionADG = areaDestino.startsWith("Desarrollo Gestionado");
-			final String estadoPetDesglosada = traducirEstadoPetDesglosada((String) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName()), esPeticionADG);
-			final Date fin_estado_Peticion = (Date) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_23_DES_FECHA_PREVISTA_FIN).getName());
+			final String estadoPetDesglosada = traducirEstadoPetDesglosada((String) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName()), esPeticionADG);
+			final Date fin_estado_Peticion = (Date) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName());
 			
 			if (fechaPrevIniAnalisis == null && peticion != null && !esPeticionADG){
 				fechaPrevIniAnalisis = (Date) peticion.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_INI_ANALYSIS).getName());
@@ -2268,7 +2268,7 @@ public class GeneradorPresentaciones {
       							newText4_14 = "";
       							newText4_15 = CommonUtils.convertDateToShortFormatted(fecPrevImplantacion_TaskGlobal);
       							
-								final String entrega_ID = (String) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_35_ID_ENTREGA_ASOCIADA).getName());
+								final String entrega_ID = (String) peticion.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_ASOCIADA).getName());
   								if (entrega_ID == null && fecRealFinTaskGlobal != null){
   									newText4_16 = CommonUtils.convertDateToShortFormatted(fecRealFinTaskGlobal);
   								}else{

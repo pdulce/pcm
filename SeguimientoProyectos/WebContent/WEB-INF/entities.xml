@@ -57,7 +57,7 @@
   </entity>
   
   <entity>
-    <entityname>incidenciasProyecto</entityname>
+    <entityname>peticiones</entityname>
     <field mappingTo="1" name="id" type="string" length="10" belongsPK="true" required="true"/>
     <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
     <field mappingTo="3" name="Descripcion" type="string" length="1000" required="false"/>
@@ -175,9 +175,9 @@
 	    	   fkParentEntities="proyecto" fkParentFields="1"/>
     <field mappingTo="11" name="Origen" type="string" length="50" required="false"/>
     <field mappingTo="12" name="ID_Origen" type="string" length="15" required="false"    	
-    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>
+    			fkParentEntities="peticiones" fkParentFields="1"/>
     <field mappingTo="13" name="Peticion_AES" type="string" length="15" required="false"
-    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>           
+    			fkParentEntities="peticiones" fkParentFields="1"/>           
     <field mappingTo="14" name="Fecha_Prev_Ini_Analisis" type="date" length="10" required="false"/>
     <field mappingTo="15" name="Fecha_Real_Ini_Analisis" type="date" length="10" required="false"/>    
     <field mappingTo="16" name="Fecha_Prev_Fin_Analisis" type="date" length="10" required="false"/>    
@@ -187,12 +187,12 @@
     <field mappingTo="20" name="Prev_Fin_Pruebas_CD" type="date" length="10" required="false"/>
     <field mappingTo="21" name="Real_Fin_Pruebas_CD" type="date" length="10" required="false"/>
     <field mappingTo="22" name="Peticion_DG" type="string" length="15" required="false"
-    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>
+    			fkParentEntities="peticiones" fkParentFields="1"/>
     <field mappingTo="23" name="Fecha_Prev_Fin_DG" type="date" length="10" required="false"/>
     <field mappingTo="24" name="Fecha_Real_Fin_DG" type="date" length="10" required="false"/>
     <field mappingTo="25" name="UTS_Estimadas" type="double" length="10" required="false"/>
     <field mappingTo="26" name="Peticion_Entrega" type="string" length="15" required="false"    	
-    			fkParentEntities="incidenciasProyecto" fkParentFields="1"/>
+    			fkParentEntities="peticiones" fkParentFields="1"/>
     <field mappingTo="27" name="Fec_Entrega" type="date" length="10" required="false"/>
     <field mappingTo="28" name="Estado_peticion_Entrega" type="string" length="25" required="false"/>
     <field mappingTo="29" name="Subdireccion" type="long" length="11" required="true" 

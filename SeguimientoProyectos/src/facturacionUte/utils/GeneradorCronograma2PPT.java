@@ -40,11 +40,11 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 	private static final int ROW_ENTREGA_N = 6, ROW_INICIAL = 9, COLUMNA_ENTREGA_FIRST = 16, COLUMNA_ENTREGA_LAST = 20;
 	
 	/** CONSTANTES DE MAPEO DE COLUMNAS_EXCEL CON EL MODELO ELEGIDO ***/
-	private static final Integer MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_4_OBSERVACIONES);	
-	private static final Integer MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_15_URGENTE);
-	private static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_INI_DESAR = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_22_DES_FECHA_PREVISTA_INICIO);
+	private static final Integer MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS = Integer.valueOf(ConstantesModelo.PETICIONES_4_OBSERVACIONES);	
+	private static final Integer MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE = Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE);
+	private static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_INI_DESAR = Integer.valueOf(ConstantesModelo.PETICIONES_22_DES_FECHA_PREVISTA_INICIO);
 	private static final Integer MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR = MODEL_MAPPING_COLUMN_FECHA_REAL_FIN_ANALYSIS;
-	private static final Integer MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD = Integer.valueOf(ConstantesModelo.INCIDENCIASPROYECTO_28_HORAS_ESTIMADAS_ACTUALES);
+	private static final Integer MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD = Integer.valueOf(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
 	
 	protected static Logger log = Logger.getLogger(GeneradorCronograma2PPT.class.getName());
 	
@@ -306,11 +306,11 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 			}
 			
 			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "");//vacio esta columna que en realidad se usa para las observaciones
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen								
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_26_PROYECTO_ID).getName(), proyectoID);
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME).getName(), aplicacionRochade);
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_6_SOLICITANTE).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicacion			
+			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
+			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen								
+			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), proyectoID);
+			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), aplicacionRochade);
+			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_6_SOLICITANTE).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicacion			
 			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_DESCRIPCION).getName(), esFilaModulo ? "Trabajos de desarrollo del " + title: title);			
 			
 			if (!esFilaModulo && orderOfDesglosadaStatus(estadoTarea) <= ANALYSIS_STATE){
@@ -359,7 +359,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 				if (orderOfDesglosadaStatus(estadoTarea) > ANALYSIS_STATE){
 					
 					dummyGEDEON = dummyGEDEON.concat("G");
-					fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName(), "Desarrollo Gestionado");
+					fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), "Desarrollo Gestionado");
 					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), dummyGEDEON);
 					
 					String originalGEDEON = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName());

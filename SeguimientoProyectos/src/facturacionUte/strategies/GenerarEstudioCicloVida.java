@@ -37,7 +37,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			this.dictionaryOfEntities = entitiesDictionary;
 			try {
 				GenerarEstudioCicloVida.estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_ENTIDAD);
+						ConstantesModelo.AGREG_PETICIONES_ENTIDAD);
 				GenerarEstudioCicloVida.peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.INCIDENCIASPROYECTO_ENTIDAD);
 
@@ -72,18 +72,18 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			Date fecFinEstudio = null;
 			try {
 				Date fecIniEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
-						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName());
+						ConstantesModelo.AGREG_PETICIONES_5_FECHA_INIESTUDIO).getName());
 				fecFinEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
-						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName());
+						ConstantesModelo.AGREG_PETICIONES_6_FECHA_FINESTUDIO).getName());
 				if(fecFinEstudio== null) {
 					fecFinEstudio = Calendar.getInstance().getTime();
 				}
 				int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);	
-				estudioFSet.setValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
+				estudioFSet.setValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
 				
 				final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
 				
-				final IFieldLogic fieldDesde = GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_18_FECHA_DE_TRAMITACION);
+				final IFieldLogic fieldDesde = GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
 				IFieldView fViewEntradaEnDG =  new FieldViewSet(GenerarEstudioCicloVida.peticionesEntidad).getFieldView(fieldDesde);
 				
 				final IFieldView fViewMinor = fViewEntradaEnDG.copyOf();
@@ -100,18 +100,18 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				filterPeticiones.setValue(fViewMinor.getQualifiedContextName(), fecIniEstudio);
 				filterPeticiones.setValue(fViewMayor.getQualifiedContextName(), fecFinEstudio);
 				
-				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
-				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), "FACTDG07");				
+				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
+				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), "FACTDG07");				
 				
 				Collection<String> valuesTipo = new ArrayList<String>();
 				valuesTipo.add("Mejora desarrollo");
 				valuesTipo.add("Incidencia desarrollo");
 				valuesTipo.add("Incidencia gestión");
 				valuesTipo.add("Pequeño evolutivo"); 
-				filterPeticiones.setValues(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName(), valuesTipo);
+				filterPeticiones.setValues(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(), valuesTipo);
 								
 				Collection<String> valuesPrjs =  new ArrayList<String>();				
-				String titleEstudio = (String) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName());
+				String titleEstudio = (String) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_2_TITULO_ESTUDIO).getName());
 				if (titleEstudio.indexOf("Mto. HOST") != -1) {
 					valuesPrjs.addAll(ImportarTareasGEDEON.aplicacionesHostEstudioMto);
 				}else if (titleEstudio.indexOf("Mto. Pros") != -1) {
@@ -119,7 +119,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				}else {
 					valuesPrjs.addAll(ImportarTareasGEDEON.aplicacionesProsaEstudioNewDesa);
 				}
-				filterPeticiones.setValues(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME).getName(), valuesPrjs);				
+				filterPeticiones.setValues(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), valuesPrjs);				
 				
 				final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 				

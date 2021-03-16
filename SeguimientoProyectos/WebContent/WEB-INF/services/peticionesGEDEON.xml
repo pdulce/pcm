@@ -21,7 +21,7 @@
 					<button	link="prjManager" id="histog1" name="Histogram" >
 						<fieldViewSet nameSpace="histog1">
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
@@ -67,7 +67,7 @@
 						name="Barchart">
 						<fieldViewSet nameSpace="barchart1">
 							<fieldView name="highchart" hidden="true" value="barchart"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues selectionMultiple="true">
@@ -99,7 +99,7 @@
 						name="Piechart">
 						<fieldViewSet nameSpace="piechart1">
 							<fieldView name="highchart" hidden="true" value="piechart"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues selectionMultiple="true">
@@ -126,7 +126,7 @@
 						name="Spiderwebchart">
 						<fieldViewSet nameSpace="spiderchart1">
 							<fieldView name="highchart" hidden="true" value="spiderweb"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>							
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
@@ -153,7 +153,7 @@
 						name="Frequency">						
 						<fieldViewSet nameSpace="histDual1">
 							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>							
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
@@ -192,9 +192,9 @@
 						name="Correlation">
 						<fieldViewSet nameSpace="scatter1">
 							<fieldView name="highchart" hidden="true" value="scatter"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="filteredByField" hidden="true" value="7=incidenciasProyecto.7"/>
+							<fieldView name="filteredByField" hidden="true" value="7=peticiones.7"/>
 							<fieldView name="filteredByFieldValues" hidden="true" value="%finalizad%, %Cerrada%"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="26"/><!-- ROCHADE -->		
 							<fieldView name="ejeX" type="radio" editable="false">
@@ -213,7 +213,7 @@
 					<button link="prjManager" id="mapaSpain" name="Mapa Spain">
 						<fieldViewSet nameSpace="mapaSpain">
 							<fieldView name="highchart" hidden="true" value="mapspain"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 							<optionValues selectionMultiple="true">
@@ -244,7 +244,7 @@
 					<button link="prjManager" id="mapaEurope" name="Mapa Europe">
 						<fieldViewSet nameSpace="mapaEurope">
 							<fieldView name="highchart" hidden="true" value="mapeurope"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 							<optionValues selectionMultiple="true">
@@ -275,7 +275,7 @@
 					<button link="prjManager" id="mapaWorld" name="Mapa World">
 						<fieldViewSet nameSpace="mapaWorld">
 							<fieldView name="highchart" hidden="true" value="mapworld"/>
-							<fieldView name="entidadGrafico" hidden="true" value="incidenciasProyecto"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" type="select">
 							<optionValues selectionMultiple="true">
@@ -305,8 +305,8 @@
 					
 				</userbuttons>
 			
-				<fieldViewSet entitymodel="incidenciasProyecto"
-					nameSpace="incidenciasProyecto">
+				<fieldViewSet entitymodel="peticiones"
+					nameSpace="peticiones">
 					
 					<fieldset legend="Por Localizacion">
 					
@@ -324,7 +324,7 @@
 						
 						<!-- segunda fila -->
 						<fieldView mappingTo="12" editable="true" type="checkbox" size="4">
-							<optionValues selectionMultiple="true" entitymodel="incidenciasProyecto"
+							<optionValues selectionMultiple="true" entitymodel="peticiones"
 								descrMappingTo="12" codeField="12">
 							</optionValues>
 						</fieldView>
@@ -406,7 +406,7 @@
 						<fieldView separator="br" />
 												
 						<fieldView mappingTo="13" type="checkbox" size="8">
-							<optionValues selectionMultiple="true" entitymodel="incidenciasProyecto"
+							<optionValues selectionMultiple="true" entitymodel="peticiones"
 								descrMappingTo="13" codeField="13">
 							</optionValues>
 						</fieldView>
@@ -416,7 +416,7 @@
 					<fieldset legend="Por Situacion">	
 					
 						<fieldView mappingTo="7" type="checkbox" size="6">
-							<optionValues selectionMultiple="true" entitymodel="incidenciasProyecto"
+							<optionValues selectionMultiple="true" entitymodel="peticiones"
 								descrMappingTo="7" codeField="7">
 							</optionValues>
 						</fieldView>
@@ -430,7 +430,7 @@
 							<fieldView mappingTo="2" editable="true" />
 							<fieldView mappingTo="3" editable="true" />
 							<fieldView mappingTo="16" type="checkbox">
-								<optionValues selectionMultiple="true" entitymodel="incidenciasProyecto"
+								<optionValues selectionMultiple="true" entitymodel="peticiones"
 									descrMappingTo="16" codeField="16">
 								</optionValues>
 							</fieldView>
@@ -463,10 +463,10 @@
 				</fieldViewSet>
 			</form>
 
-			<grid title="Listado de tareas GEDEON" orderDirection="desc" defaultOrderField="incidenciasProyecto.37"
+			<grid title="Listado de tareas GEDEON" orderDirection="desc" defaultOrderField="peticiones.37"
 				eventsRegistered="detail"><!-- detail -->
 
-				<fieldViewSet entitymodel="incidenciasProyecto"	nameSpace="incidenciasProyecto">
+				<fieldViewSet entitymodel="peticiones"	nameSpace="peticiones">
 					<fieldView mappingTo="17" hidden="true" />
 					<fieldView mappingTo="1" editable="false" styleCss="font-weight: bold;"/><!-- Peticion -->
 					<fieldView mappingTo="37" editable="false" />
@@ -518,8 +518,8 @@
 
 		<viewComponent>
 			<form columns="4" title="Detalle Tarea GEDEON">
-				<fieldViewSet entitymodel="incidenciasProyecto"
-					nameSpace="incidenciasProyecto">
+				<fieldViewSet entitymodel="peticiones"
+					nameSpace="peticiones">
 					<fieldView mappingTo="1" editable="false" />
 					<fieldView mappingTo="2" editable="true" />
 					<fieldView separator="br" />
