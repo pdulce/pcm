@@ -374,16 +374,7 @@
 								<option code="MIND - ESTAD_IND" title="MIND(Host)"></option>
 								<option code="INCM - INCA_ISM" title="INCM(Host)"></option>
 								<option code="PRSP - PRESTACIONES MAR PROSA" title="PRSP(Host)"></option>
-																
-							</optionValues>						
-						</fieldView>
-						
-						<fieldView separator="br" />
-						
-						<fieldView mappingTo="27" type="checkbox" size="10">
-							<optionValues selectionMultiple="true">
-								
-								<!--  otras tecnologías -->
+								<!-- otras tecnologias -->
 								<option code="TISM - Tu ISM" title="TISM(APP)"></option>
 								<option code="BISM - ISM en tu Bolsillo" title="BISM(APP)"></option>								
 								<option code="ISMW - WS_EXT_ISM" title="ISMW(WS)"></option>
@@ -399,8 +390,10 @@
 								<option code="SIEB - SIEBEL" title="SIEB(Otras)"></option>
 								<option code="IMAG - IMAGENES" title="IMAG(Otras)"></option>
 								<option code="MEJP - MEJOPENS" title="MEJP(Otras)"></option>
+																
 							</optionValues>						
 						</fieldView>
+						
 						
 						<fieldView separator="br" />
 						<fieldView separator="br" />
@@ -460,7 +453,7 @@
 						
 					</fieldset>
 					
-				</fieldViewSet>
+				</fieldViewSet> 
 			</form>
 
 			<grid title="Listado de tareas GEDEON" orderDirection="desc" defaultOrderField="peticiones.37"
