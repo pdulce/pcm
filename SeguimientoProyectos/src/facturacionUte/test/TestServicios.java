@@ -169,8 +169,8 @@ public class TestServicios extends TestCase {
 			datamap.setService(serviceName);//for all the event-asserts
 			
 			/********** DATOS DE NEGOCIO for all next asserts *********/
-			datamap.setParameter("incidenciasProyecto.Titulo",	"*PRES*");
-			datamap.setParameter("incidenciasProyecto.entorno", "2");//1:Java Prosa
+			datamap.setParameter("peticiones.Titulo",	"*PRES*");
+			datamap.setParameter("peticiones.entorno", "2");//1:Java Prosa
 			boolean eventPressed = true;
 			
 			/*** TESTING OF EVENT QUERY WITH FILTER **/
@@ -200,7 +200,7 @@ public class TestServicios extends TestCase {
 			datamap.removeParameter("currentPag");
 			datamap.removeParameter("totalPag");
 			datamap.removeParameter("totalRecords");
-			datamap.setParameter("incidenciasProyecto.entorno", "1");//1:Java Prosa
+			datamap.setParameter("peticiones.entorno", "1");//1:Java Prosa
 			datamap.setParameter("idPressed", "barchart1");
 			datamap.setParameter("barchart1.entidadGrafico", ConstantesModelo.PETICIONES_ENTIDAD);
 			datamap.setParameter("barchart1.orderBy", String.valueOf(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA));

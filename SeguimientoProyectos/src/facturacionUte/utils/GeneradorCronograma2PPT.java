@@ -125,7 +125,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					valueCell = (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) ? cell.getNumericCellValue() :  cell.getStringCellValue();	
 				}
 				
-				IFieldLogic fLogic = incidenciasProyectoEntidad.searchField(positionInFieldLogic);
+				IFieldLogic fLogic = peticionesEntidad.searchField(positionInFieldLogic);
 				if (fLogic.getAbstractField().isDate()) {
 					if (valueCell.equals("")){
 						valueCell = null;
@@ -142,13 +142,13 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 								valueCell = cell.getDateCellValue();
 							}catch (IllegalStateException ilegalDate){								
 								if (((String)valueCell).equals("Fecha Prev. Inicio An.")){
-									String moduloName = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
+									String moduloName = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
 									if (moduloName.indexOf("-") != -1){
 										String[] moduloNames = moduloName.split("-");
 										moduloName = moduloNames[0].trim();
 									}
 									final String newPreffix = (moduloName.startsWith("Subsistema") || moduloName.startsWith("Infraestructura") || moduloName.startsWith("Proceso")) ? "": "Modulo ";
-									fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName(), newPreffix.concat(moduloName));									
+									fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName(), newPreffix.concat(moduloName));									
 									esFilaModulo = true;
 								}else if (!esFilaModulo){
 									GeneradorCronograma2PPT.log.log(Level.SEVERE, "Error en columna " + nColum + " fila ..." + rowIEsima.getRowNum() + ": la fecha " + valueCell + " no es una fecha valida");
@@ -187,14 +187,14 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					}					
 				}
 				if (!esFilaModulo && positionInFieldLogic.intValue() == MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE){
-					final String yaIncluidoEnEntregable = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName());
+					final String yaIncluidoEnEntregable = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName());
 					if ( (valueCell != null && !valueCell.equals("")) && (yaIncluidoEnEntregable == null || "".equals(yaIncluidoEnEntregable)) ){
 						//lo grabamos en esta fila y salimos, ya no miramos mas columnas
-						fila.setValue(incidenciasProyectoEntidad.searchField(positionInFieldLogic).getName(), getNombreEntrega4Column(nColum, entregas));
+						fila.setValue(peticionesEntidad.searchField(positionInFieldLogic).getName(), getNombreEntrega4Column(nColum, entregas));
 						break;
 					}
 				}else{
-					fila.setValue(incidenciasProyectoEntidad.searchField(positionInFieldLogic).getName(), valueCell);
+					fila.setValue(peticionesEntidad.searchField(positionInFieldLogic).getName(), valueCell);
 				}
 				
 			}catch (IllegalStateException excc1) {
@@ -237,10 +237,10 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 	
 	private final void actualizarConNSubtareas(final FieldViewSet fila, final int columnaPosition, final int desdePosition, final int nSubtareas){
 		if (nSubtareas == 0){
-			fila.setValue(incidenciasProyectoEntidad.searchField(columnaPosition).getName(), "");
+			fila.setValue(peticionesEntidad.searchField(columnaPosition).getName(), "");
 			return;
 		}
-		String pet_attr = (String) fila.getValue(incidenciasProyectoEntidad.searchField(columnaPosition).getName());
+		String pet_attr = (String) fila.getValue(peticionesEntidad.searchField(columnaPosition).getName());
 		StringBuilder builder = new StringBuilder();
 		String[] gedeones = pet_attr.split(";");
 		if ((desdePosition+nSubtareas) > gedeones.length){
@@ -253,7 +253,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 				builder.append(";");
 			}
 		}
-		fila.setValue(incidenciasProyectoEntidad.searchField(columnaPosition).getName(), builder.toString());
+		fila.setValue(peticionesEntidad.searchField(columnaPosition).getName(), builder.toString());
 	}
 	
 	@Override
@@ -287,36 +287,36 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 			throw new RuntimeException("No se localiza el proyecto FOM2");
 		}
 		proyectoFSet = proyectos.get(0);
-		final Long proyectoID = (Long) proyectoFSet.getValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PROYECTO_1_ID).getName());
+		final Long proyectoID = (Long) proyectoFSet.getValue(peticionesEntidad.searchField(ConstantesModelo.PROYECTO_1_ID).getName());
 
 		List<FieldViewSet> modulos = new ArrayList<FieldViewSet>();
 		int nrow = ROW_INICIAL;
 		Row rowIEsima = sheetNewVersion!=null?sheetNewVersion.getRow(nrow++): sheetOldVersion.getRow(nrow++);
 		while (rowIEsima != null) {// while
 			
-			FieldViewSet fila = new FieldViewSet(incidenciasProyectoEntidad);
+			FieldViewSet fila = new FieldViewSet(peticionesEntidad);
 			List<Integer> posicionesColumnasList = new ArrayList<Integer>(MAPEOSCOLUMNASEXCEL2BBDDTABLE.keySet());
 			Collections.sort(posicionesColumnasList, new ComparatorInteger());
 			
 			boolean esFilaModulo = procesarColumnas(rowIEsima, posicionesColumnasList, fila, entregas);
-			String estadoTarea = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
-			String title = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
+			String estadoTarea = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
+			String title = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
 			if (estadoTarea == null || "".equals(estadoTarea)){
 				break;
 			}
 			
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "");//vacio esta columna que en realidad se usa para las observaciones
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen								
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), proyectoID);
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), aplicacionRochade);
-			fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_6_SOLICITANTE).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicacion			
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_DESCRIPCION).getName(), esFilaModulo ? "Trabajos de desarrollo del " + title: title);			
+			fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "");//vacio esta columna que en realidad se usa para las observaciones
+			fila.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), subdireccion);//guardamos la Unidad Origen
+			fila.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), areaSubdirecc);//guardamos el Area Origen								
+			fila.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), proyectoID);
+			fila.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), aplicacionRochade);
+			fila.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_6_SOLICITANTE).getName(), APP_SHORT_DESCRIPTION.get(aplicacionRochade));//metemos aqui la descr de la Aplicacion			
+			fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_DESCRIPCION).getName(), esFilaModulo ? "Trabajos de desarrollo del " + title: title);			
 			
 			if (!esFilaModulo && orderOfDesglosadaStatus(estadoTarea) <= ANALYSIS_STATE){
 				//comprobar que esta completada las fechas previstas de inicio y fin de analisis
-				Date fechaPrevIniAnalisis = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_INI_ANALYSIS).getName());
-				Date fechaPrevFinAnalisis = (Date) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_ANALYSIS).getName());
+				Date fechaPrevIniAnalisis = (Date) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_INI_ANALYSIS).getName());
+				Date fechaPrevFinAnalisis = (Date) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_ANALYSIS).getName());
 				if (fechaPrevIniAnalisis == null){
 					bufferMessages.append(aplicacionRochade + ": La fecha Prevision Inicio de Analisis de la tarea <'" + title + "'> no esta consignada{}");
 				}else if (fechaPrevFinAnalisis == null){
@@ -329,24 +329,24 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 			}
 			
 			//reemplazamos la explicacion del Epigrafe por su valor de orden
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName(), EPIGRAFES.get(nameEpigrafe));
+			fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_EPIGRAFE).getName(), EPIGRAFES.get(nameEpigrafe));
 			String esfuerzoModulo = "Medio";
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_ESFUERZO_GLOBAL).getName(), esfuerzoModulo);
+			fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_ESFUERZO_GLOBAL).getName(), esfuerzoModulo);
 			Calendar entradaEnCD = Calendar.getInstance();
 			entradaEnCD.set(Calendar.YEAR, 2016);//una primera de FOM2 de CDISM a AT
 			entradaEnCD.set(Calendar.MONTH, 5);
 			entradaEnCD.set(Calendar.DAY_OF_MONTH, 31);
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_ENTRADA_EN_CDISM).getName(), entradaEnCD.getTime());
+			fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_ENTRADA_EN_CDISM).getName(), entradaEnCD.getTime());
 			
 			if (esFilaModulo){
 				
-				fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_APARECE_EN_PPT).getName(), "Si");
+				fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_APARECE_EN_PPT).getName(), "Si");
 				if (estadoTarea.equals("Produccion") || estadoTarea.equals("PreExplotacion")){					
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_ACABADAS);				
+					fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_ACABADAS);				
 				}else {
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_EN_CURSO);
+					fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_SUPERESTADO).getName(), TAREAS_EN_CURSO);
 				}
-				fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName(), "");
+				fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName(), "");
 				modulos.add(fila);
 				
 			}else{
@@ -359,72 +359,72 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 				if (orderOfDesglosadaStatus(estadoTarea) > ANALYSIS_STATE){
 					
 					dummyGEDEON = dummyGEDEON.concat("G");
-					fila.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), "Desarrollo Gestionado");
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), dummyGEDEON);
+					fila.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName(), "Desarrollo Gestionado");
+					fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_ID).getName(), dummyGEDEON);
 					
-					String originalGEDEON = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName());
+					String originalGEDEON = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName());
 					if (originalGEDEON == null || "".equals(originalGEDEON)){
 						
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), 
-								fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR).getName()));						
-						final String situacion = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), 
+								fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR).getName()));						
+						final String situacion = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 						//"Pendiente"
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.0");
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.0));
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.0");
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.0));
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
 						//"Toma Requisitos", "Analisis", "Desarrollo", "Pendiente Infraestructuras", "Pruebas", "Validada", "Produccion", "Implantado"
 						if (situacion.indexOf("Requisitos") != -1){
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.10");
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.10");
 						}else if (situacion.indexOf("Analisis") != -1){
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.50");
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.50");
 						}else if (situacion.indexOf("Desarrollo") != -1){
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.5));
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.5));
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
 						}else if (situacion.indexOf("Pruebas") != -1){
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(1.0));
-							Double avanceTestingCD = (Double) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName());
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(1.0));
+							Double avanceTestingCD = (Double) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName());
 							if (avanceTestingCD == null){
-								fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.5));
+								fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.5));
 							}
 						}else if (situacion.indexOf("Validada") != -1 || situacion.indexOf("Produccion") != -1 
 								|| situacion.indexOf("Preexplotaci") != -1 || situacion.indexOf("Implantad") != -1){
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(1.0));
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(1.0));
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "1.0");
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(1.0));
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(1.0));
 						}
 
 					}else{
 						
 						List<FieldViewSet> peticionesDG_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_DG);
 						
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), dummyGEDEON);
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_ID).getName(), dummyGEDEON);
 						int actualSituacionOrder = 99;
 						double avanceDesarrolloActual = 0.0, avanceAnalysisActual = 0.0, avanceTestingCDActual = 0.0;
 						Date actualFecPrevFinDesa = null, actualFecPrevInicioDesa = null;
 						for (int petI=0;petI<peticionesDG_.size();petI++){
 							
 							FieldViewSet petDG =  peticionesDG_.get(petI);							
-							final Date fechaPrevIniDesa_ = (Date) petDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_INI_DESAR).getName());
+							final Date fechaPrevIniDesa_ = (Date) petDG.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_INI_DESAR).getName());
 							if (actualFecPrevInicioDesa == null){
 								actualFecPrevInicioDesa = fechaPrevIniDesa_;
 							}else if (actualFecPrevInicioDesa.after(fechaPrevIniDesa_)){
 								actualFecPrevInicioDesa = fechaPrevIniDesa_;
 							}							
-							final Date fechaPrevFinDesa_ = (Date) petDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR).getName());							
+							final Date fechaPrevFinDesa_ = (Date) petDG.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR).getName());							
 							if (actualFecPrevFinDesa == null){
 								actualFecPrevFinDesa = fechaPrevFinDesa_;
 							}else if (actualFecPrevFinDesa.before(fechaPrevFinDesa_)){
 								actualFecPrevFinDesa = fechaPrevFinDesa_;
 							}							
-							String situacion = (String) petDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
+							String situacion = (String) petDG.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 							if (situacion.indexOf("Trabajo anulado") != -1){
 								continue;
 							}
 							
-							Double avanceTestingCD = (Double) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName());
-							Double avanceDesarrollo = (Double) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName());
+							Double avanceTestingCD = (Double) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName());
+							Double avanceDesarrollo = (Double) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName());
 							situacion = traducirEstadoPetDesglosada(situacion, true/*es peticion a DG*/);
 							if (situacion.indexOf("finalizad")!= -1 || 
 										situacion.toLowerCase().indexOf("implantad") != -1 || 
@@ -434,7 +434,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 								if (situacion.indexOf("Validada") != -1 || situacion.toLowerCase().indexOf("implantad") != -1){
 									avanceTestingCDActual += 1.0;
 								}else if (situacion.indexOf("Pruebas")!= -1 && avanceTestingCD == null){
-									fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.5));
+									fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.5));
 									avanceTestingCDActual += 0.5;
 								}else if (avanceTestingCD != null){
 									avanceTestingCDActual += avanceTestingCD;
@@ -450,15 +450,15 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 							}
 						}//for de peticiones reales en BBDD
 						
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), avanceAnalysisActual/peticionesDG_.size());
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), avanceDesarrolloActual/peticionesDG_.size());
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), avanceTestingCDActual/peticionesDG_.size());
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), avanceAnalysisActual/peticionesDG_.size());
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), avanceDesarrolloActual/peticionesDG_.size());
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), avanceTestingCDActual/peticionesDG_.size());
 
 						if (actualFecPrevFinDesa != null){
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), actualFecPrevFinDesa);
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_INI_DESAR).getName(), actualFecPrevInicioDesa);
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR).getName(), actualFecPrevFinDesa);
-							fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName(), traducirEstadoPetDesglosada(ESTADOS_POSIBLES_TRABAJOS[actualSituacionOrder], true));
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), actualFecPrevFinDesa);
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_INI_DESAR).getName(), actualFecPrevInicioDesa);
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_DESAR).getName(), actualFecPrevFinDesa);
+							fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName(), traducirEstadoPetDesglosada(ESTADOS_POSIBLES_TRABAJOS[actualSituacionOrder], true));
 						}
 					}//else
 					
@@ -469,30 +469,30 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 						throw new RuntimeException("Error al grabar fila");
 					}
 
-					String peticiones_DG = (String) ultimoModuloGrabado.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName());
+					String peticiones_DG = (String) ultimoModuloGrabado.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName());
 					peticiones_DG = peticiones_DG == null || "".equals(peticiones_DG) ? dummyGEDEON : peticiones_DG.concat(";").concat(dummyGEDEON);
-					ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName(), peticiones_DG);
+					ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_DG).getName(), peticiones_DG);
 
 				}else{
 					
 					//creamos una peticion OO como dummyGEDEON, ni siquiera miramos si existe peticion AES, porque no esta en la Excel (no suele haberla)
 					dummyGEDEON = dummyGEDEON.concat("O");
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_ID).getName(), dummyGEDEON);
-					final String actualState = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName(), traducirEstadoPetDesglosada(actualState, false));
+					fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_ID).getName(), dummyGEDEON);
+					final String actualState = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
+					fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName(), traducirEstadoPetDesglosada(actualState, false));
 					
-					final String situacion = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
+					final String situacion = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_SITUACION).getName());
 					//"Pendiente"
-					final String actualAvanceAnalysis = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName());					
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.0));
-					fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
+					final String actualAvanceAnalysis = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName());					
+					fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName(), Double.valueOf(0.0));
+					fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName(), Double.valueOf(0.0));
 					//"Toma Requisitos", "Analisis"
 					if ((actualAvanceAnalysis == null || "".equals(actualAvanceAnalysis)) && situacion.indexOf("Requisitos") != -1){						
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.10");
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.10");
 					}else if ((actualAvanceAnalysis == null || "".equals(actualAvanceAnalysis)) && situacion.indexOf("Analisis") != -1){
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.50");
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.50");
 					}else if ((actualAvanceAnalysis == null || "".equals(actualAvanceAnalysis)) && situacion.indexOf("Pendiente") != -1){
-						fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.0");
+						fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName(), "0.0");
 					}
 					
 					//grabamos en BBDD esta peticion
@@ -503,23 +503,23 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					}
 					
 					//anyadimos a esta tarea modulo la actual tarea dummy en el saco de las peticiones OO
-					String peticiones_OO = (String) ultimoModuloGrabado.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_AES).getName());
+					String peticiones_OO = (String) ultimoModuloGrabado.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_AES).getName());
 					peticiones_OO = peticiones_OO == null || "".equals(peticiones_OO) ? dummyGEDEON : peticiones_OO.concat(";").concat(dummyGEDEON);
-					ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_AES).getName(), peticiones_OO);
+					ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GEDEON_AES).getName(), peticiones_OO);
 
 				}
 				
 				dummyGEDEONes2Delete.add(dummyGEDEON);
 				
-				String entregaActualEnModulo = (String) ultimoModuloGrabado.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName());
-				Date fechaEntregaActualEnModulo = (Date) ultimoModuloGrabado.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());
-				String entregaParaEsteTrabajo = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName());
+				String entregaActualEnModulo = (String) ultimoModuloGrabado.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName());
+				Date fechaEntregaActualEnModulo = (Date) ultimoModuloGrabado.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName());
+				String entregaParaEsteTrabajo = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName());
 				if (entregaActualEnModulo.equals("") || fechaEntregaActualEnModulo == null){
 					Date fechaEntrega = entregas.get(entregaParaEsteTrabajo);
-					ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName(), entregaParaEsteTrabajo);
-					ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), fechaEntrega);
+					ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName(), entregaParaEsteTrabajo);
+					ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), fechaEntrega);
 					if (estadoTarea.startsWith("Produccion")/*esta implantada*/){
-						ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName(), fechaEntrega);
+						ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName(), fechaEntrega);
 					}
 				}else{
 					//miramos las fechas de ambas entregas en las hashmap
@@ -527,10 +527,10 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					Date fechEntregaParaEsteTrabajo = entregas.get(entregaParaEsteTrabajo);
 					if (fechEntregaParaEsteTrabajo != null && fechEntregaParaEsteTrabajo.after(fechEntregaActualModulo)){
 						Date fechaEntrega = entregas.get(entregaParaEsteTrabajo);
-						ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName(), entregaParaEsteTrabajo);
-						ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), fechaEntrega);
+						ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_INCLUIDO_EN_ENTREGABLE).getName(), entregaParaEsteTrabajo);
+						ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_IMPLANTACION).getName(), fechaEntrega);
 						if (estadoTarea.startsWith("Produccion")/*esta implantada*/){
-							ultimoModuloGrabado.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName(), fechaEntrega);
+							ultimoModuloGrabado.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_REAL_IMPLANTACION).getName(), fechaEntrega);
 						}
 					}
 				}				 
@@ -545,15 +545,15 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 			
 			FieldViewSet fila = modulos.get(m);
 			
-			final String title = (String) fila.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
+			final String title = (String) fila.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName());
 			List<FieldViewSet> peticionesDG_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_DG);
 			Date actualFecprevFinPruebasCD = null;
 			Double avanceDesarrolloReal = 0.0, avanceTestingCDReal = 0.0, avanceAnalysisReal = 0.0;
 			for (int petI=0;petI<peticionesDG_.size();petI++){
 				FieldViewSet petDG =  peticionesDG_.get(petI);				
-				avanceDesarrolloReal += (Double) petDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName());
-				avanceTestingCDReal += (Double) petDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName());
-				Date fechaPrevFinPruebasCD = (Date) petDG.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD).getName());
+				avanceDesarrolloReal += (Double) petDG.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_DESAR).getName());
+				avanceTestingCDReal += (Double) petDG.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_AVANCE_TESTING_EN_CD).getName());
+				Date fechaPrevFinPruebasCD = (Date) petDG.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD).getName());
 				if (actualFecprevFinPruebasCD == null){
 					actualFecprevFinPruebasCD = fechaPrevFinPruebasCD;
 				}else if (actualFecprevFinPruebasCD.before(fechaPrevFinPruebasCD)){
@@ -565,11 +565,11 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 			List<FieldViewSet> peticionesOO_ = obtenerListaPetsAsociadas(fila, MODEL_MAPPING_COLUMN_GEDEON_AES);
 			for (int petI=0;petI<peticionesOO_.size();petI++){
 				FieldViewSet petOO =  peticionesOO_.get(petI);
-				avanceAnalysisReal += CommonUtils.numberFormatter.parse((String) petOO.getValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName()));
+				avanceAnalysisReal += CommonUtils.numberFormatter.parse((String) petOO.getValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE_ANALYSIS).getName()));
 			}
 			
 			if (actualFecprevFinPruebasCD != null){
-				fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD).getName(), actualFecprevFinPruebasCD);
+				fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_FECHA_PREV_FIN_PRUEBAS_CD).getName(), actualFecprevFinPruebasCD);
 			}
 			
 			//recalculamos el %
@@ -581,7 +581,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 			final double avanceGlobal = 0.35*CommonUtils.numberFormatter.parse(avanceAnalysis== null || "".equals(avanceAnalysis) ? 0 :  avanceAnalysis) + 
 												0.45*(avanceDesarrollo==null?0:avanceDesarrollo)
 														+ 0.2*(avanceTestingCD==null?0:avanceTestingCD);			
-			fila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE).getName(), CommonUtils.roundWith4Decimals(avanceGlobal));
+			fila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_GRADO_AVANCE).getName(), CommonUtils.roundWith4Decimals(avanceGlobal));
 			
 			int size2 = peticionesOO_.size(), size1 = peticionesDG_.size();
 			if ((size1 + size2) < 10){
@@ -596,7 +596,7 @@ public class GeneradorCronograma2PPT extends GeneradorPresentaciones{
 					int numSubtareas2 = size2 <= (10-numSubtareas1) ? size2 : (10-numSubtareas1);
 					int restoA2 = size2 <= (10-numSubtareas1) ? 0 : size2 - (10-numSubtareas1);
 					FieldViewSet nuevaFila = fila.copyOf();
-					nuevaFila.setValue(incidenciasProyectoEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName(), title.concat(" ").concat(CommonUtils.dameNumeroRomano(numpagina)) );
+					nuevaFila.setValue(peticionesEntidad.searchField(MODEL_MAPPING_COLUMN_TITULO).getName(), title.concat(" ").concat(CommonUtils.dameNumeroRomano(numpagina)) );
 					actualizarConNSubtareas(nuevaFila, MODEL_MAPPING_COLUMN_GEDEON_DG, numSubtareas1_actual, numSubtareas1);
 					actualizarConNSubtareas(nuevaFila, MODEL_MAPPING_COLUMN_GEDEON_AES, numSubtareas2_actual, numSubtareas2);
 					numSubtareas1_actual += numSubtareas1;
