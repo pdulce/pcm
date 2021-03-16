@@ -71,7 +71,7 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>
 							
-							<fieldView mappingTo="45" type="select" size="10">
+							<fieldView mappingTo="45" type="select" size="5">
 								<optionValues selectionMultiple="true">
 									<option code="Servicio Nuevos Desarrollos Pros@" title="Servicio Nuevos Desarrollos Pros@"></option>
 									<option code="Servicio Mto. Pros@" title="Servicio Mto. Aplicaciones Pros@"></option>
@@ -90,11 +90,12 @@ xmlns:service="http://pcm.framework.org/service"
 																	
 					</fieldViewSet>
 				</form>
-				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.4,agregadosPeticiones.3,agregadosPeticiones.5"
+				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.2, agregadosPeticiones.5"
 					eventsRegistered="detail, create">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
 						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/><!-- Peticion -->
 						<fieldView mappingTo="45" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="3" hidden="true"/>
 						<fieldView mappingTo="2" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="4" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="5" styleCss="font-weight: bold;color: white;"/>
@@ -223,12 +224,12 @@ xmlns:service="http://pcm.framework.org/service"
 		<viewComponent>
 			<form columns="2" title="Generar Estudio Ciclo Vida Peticiones por períodos">
 				<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">					
-					<fieldset legend="Filtrar por Tecnología y Servicio">											
-						<fieldView mappingTo="2" type="select" size="10">
-							<optionValues selectionMultiple="false">
-								<option code="Estudio Peticiones en periodo para Servicio Nuevos Desarrollos Pros@" title="Nuevos Desarrollos Pros@ (FOM2, SBOT,...)"></option>
-								<option code="Estudio Peticiones en periodo para Servicio Mto. Pros@" title="Aplicaciones Mto. Pros@ (AYFL,FOMA,SANI,...)"></option>
-								<option code="Estudio Peticiones en periodo para Servicio Mto. HOST" title="Aplicaciones Mto. HOST"></option>
+					<fieldset legend="Escoja el Servicio para el Estudio">											
+						<fieldView mappingTo="45" type="select" size="5">
+							<optionValues selectionMultiple="true">
+								<option code="Servicio Nuevos Desarrollos Pros@" title="Servicio Nuevos Desarrollos Pros@"></option>
+								<option code="Servicio Mto. Pros@" title="Servicio Mto. Aplicaciones Pros@"></option>
+								<option code="Servicio Mto. HOST" title="Servicio Mto. Aplicaciones HOST"></option>
 							</optionValues>
 						</fieldView>
 								
@@ -236,7 +237,7 @@ xmlns:service="http://pcm.framework.org/service"
 								
 					</fieldset>
 							
-					<fieldset legend="Introduzca fechas del estudio (desde-hasta)">
+					<fieldset legend="Introduzca fechas del estudio (inicio-fin)">
 						<fieldView mappingTo="5" editable="true" />
 						<fieldView mappingTo="6" editable="true" />
 					</fieldset>

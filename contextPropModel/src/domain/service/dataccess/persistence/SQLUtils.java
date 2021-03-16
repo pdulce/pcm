@@ -365,6 +365,9 @@ public class SQLUtils {
 			final StringBuilder orderFieldapp_ = new StringBuilder();
 			int orderFieldsCount = orderFields_.length;
 			for (int o_ = 0; o_ < orderFieldsCount; o_++) {
+				if (orderFields_[o_] ==null) {
+					continue;
+				}
 				final String orderField_ = orderFields_[o_];
 				if (orderField_ == null || "null".equals(orderField_)) {
 					throw new DatabaseException("Error in the query string: orderField is null");
