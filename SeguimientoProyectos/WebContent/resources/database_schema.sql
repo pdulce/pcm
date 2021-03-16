@@ -54,12 +54,12 @@ CREATE TABLE `incidenciasProyecto` (
 CREATE TABLE `agregadosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `tituloEstudio` varchar(250) NOT NULL,
-  `entorno` varchar(50) NOT NULL,
+  `entorno` varchar(50) DEFAULT NULL,
   `aplicaciones` varchar(500) DEFAULT NULL,
   `fecha_inicio_estudio` date NOT NULL,
   `fecha_fin_estudio` date NOT NULL,
-  `num_peticiones` int(6),
-  `num_meses` int(4),
+  `num_peticiones` int(6) DEFAULT NULL,
+  `num_meses` int(4) DEFAULT NULL,
   `total_uts` double DEFAULT NULL,
   `ciclo_vida` double DEFAULT NULL,  
   `duracion_analysis` double DEFAULT NULL,
@@ -503,4 +503,5 @@ CREATE INDEX index_FraServ ON facturacionMesPorServicio (id_servicio);
 CREATE INDEX index_FraDpto ON facturacionMesPorDpto (id_dpto);
 CREATE INDEX index_FraApp ON facturacionMesPorApp (id_app);
 CREATE INDEX index_FraColab ON facturacionMesPorColaborador (id_colaborador);
+CREATE INDEX index_Estudios ON agregadosPeticiones (aplicaciones, entorno, fecha_inicio_estudio);
   

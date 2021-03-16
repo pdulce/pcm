@@ -100,20 +100,30 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Petición finalizada"); 
 				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), "FACTDG07");				
 				
+				Collection<String> valuesTipo = new ArrayList<String>();
+				valuesTipo.add("Mejora desarrollo");
+				valuesTipo.add("Incidencia desarrollo");
+				valuesTipo.add("Incidencia gestión");
+				valuesTipo.add("Pequeño evolutivo"); 
+				filterPeticiones.setValues(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName(), valuesTipo);
+								
+				Collection<String> valuesPrjs =  new ArrayList<String>();				
+				String titleEstudio = (String) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName());
+				if (titleEstudio.indexOf("Mto. HOST") != -1) {
+					valuesPrjs.addAll(ImportarTareasGEDEON.aplicacionesHostEstudioMto);
+				}else if (titleEstudio.indexOf("Mto. Pros") != -1) {
+					valuesPrjs.addAll(ImportarTareasGEDEON.aplicacionesProsaEstudioMto);
+				}else {
+					valuesPrjs.addAll(ImportarTareasGEDEON.aplicacionesProsaEstudioNewDesa);
+				}
+				filterPeticiones.setValues(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME).getName(), valuesPrjs);				
+				
 				final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 				
-				ImportarTareasGEDEON importer = new ImportarTareasGEDEON(dataAccess, dictionaryOfEntities);
-				FieldViewSet recordFilled = importer.aplicarEstudioPorPeticion(estudioFSet, listadoPeticiones);
+				ImportarTareasGEDEON importer = new ImportarTareasGEDEON(dataAccess);
+				importer.aplicarEstudioPorPeticion(estudioFSet, listadoPeticiones);
 				
-				//this.dataAccess.setAutocommit(false);
-				int ok = dataAccess.modifyEntity(recordFilled);
-				if (ok != 1) {
-					throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");
-				}
-				//this.dataAccess.commit();
-				
-				System.out.println("Estudio insertado");
-				//HAY QUE BORRAR EL ESTUDIO QUE GENERA ESTE ESCENARIO POR DEFECTO
+				System.out.println("Estrategia finished INSERT Estudio");
 				
 			}catch(Throwable exA) {
 				exA.printStackTrace();

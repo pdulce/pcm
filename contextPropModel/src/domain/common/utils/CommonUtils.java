@@ -83,21 +83,24 @@ public final class CommonUtils {
 	public static final ThreadSafeSimpleDateFormat myDateFormatter = ThreadSafeSimpleDateFormat.getUniqueInstance();
 
 	public static final ThreadSafeNumberFormat numberFormatter = ThreadSafeNumberFormat.getUniqueInstance();
-
-	public static int obtenerDifEnMeses(final Calendar fechaCalMasAntigua, final Calendar fechaCalMasReciente){
-		
+	
+	public static int obtenerDifEnMeses(final Date fechaCalMasAntigua, final Date fechaCalMasReciente){
 		Calendar fechaCalAux = Calendar.getInstance();
-		fechaCalAux.setTime(fechaCalMasAntigua.getTime());
+		fechaCalAux.setTime(fechaCalMasAntigua);
 		fechaCalAux.set(Calendar.DAY_OF_MONTH, 1);
 		
 		int diferencia = 0;
 		
-		while (fechaCalAux.compareTo(fechaCalMasReciente) <= 0) {					
+		while (fechaCalMasAntigua.compareTo(fechaCalMasReciente) <= 0) {					
 			diferencia++;		
 			fechaCalAux.add(Calendar.MONTH, 1);				
 		}//while
 		
 		return diferencia;
+	}
+	
+	public static int obtenerDifEnMeses(final Calendar fechaCalMasAntigua, final Calendar fechaCalMasReciente){
+		return obtenerDifEnMeses(fechaCalMasAntigua.getTime(), fechaCalMasReciente.getTime());		
 	}
 
 	/** para horas de análisis **/

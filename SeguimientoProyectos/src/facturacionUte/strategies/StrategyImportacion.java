@@ -87,7 +87,7 @@ public class StrategyImportacion extends StrategyLogin {
 			
 			/** TOMAMOS LAS DECISIONES DE NEGOCIO QUE CORRESPONDA * */
 			Integer numEntradas = Integer.valueOf("0"), numFilasOfFile = Integer.valueOf("0");
-			ImportarTareasGEDEON importador = new ImportarTareasGEDEON(dataAccess, datamap.getEntitiesDictionary());
+			ImportarTareasGEDEON importador = new ImportarTareasGEDEON(dataAccess);
 			try {
 				Map<Integer, String> numEntradasMap = importador.importarExcel2BBDD(filePath, importacionFSet);
 				//la entrada con la key mos baja, es la que queremos aqui obtener

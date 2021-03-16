@@ -60,7 +60,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldset legend="Filtrar por Tecnología y Servicio">					
 							<fieldView mappingTo="3" type="checkbox" size="10">
 								<optionValues selectionMultiple="true">
-									<option code="Host" title="Host"></option>
+									<option code="HOST" title="HOST"></option>
 									<option code="Pros@" title="Pros@"></option>
 								</optionValues>
 							</fieldView>
@@ -84,7 +84,7 @@ xmlns:service="http://pcm.framework.org/service"
 																	
 					</fieldViewSet>
 				</form>
-				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.4,agregadosPeticiones.3"
+				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.4,agregadosPeticiones.3,agregadosPeticiones.5"
 					eventsRegistered="detail, create">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
 						<fieldView mappingTo="1" editable="false" styleCss="font-weight: bold;"/><!-- Peticion -->
@@ -215,14 +215,7 @@ xmlns:service="http://pcm.framework.org/service"
 		<viewComponent>
 			<form columns="2" title="Generar Estudio Ciclo Vida Peticiones por períodos">
 				<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">					
-					<fieldset legend="Filtrar por Tecnología y Servicio">					
-						<fieldView mappingTo="3" type="checkbox" size="10">
-							<optionValues selectionMultiple="true">
-								<option code="Host" title="Host"></option>
-								<option code="Pros@" title="Pros@"></option>
-							</optionValues>
-						</fieldView>
-						
+					<fieldset legend="Filtrar por Tecnología y Servicio">											
 						<fieldView mappingTo="2" type="select" size="10">
 							<optionValues selectionMultiple="false">
 								<option code="Estudio Peticiones en periodo para Servicio Nuevos Desarrollos Pros@" title="Nuevos Desarrollos Pros@ (FOM2, SBOT,...)"></option>
