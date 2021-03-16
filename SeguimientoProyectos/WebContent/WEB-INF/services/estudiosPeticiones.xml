@@ -21,7 +21,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldViewSet nameSpace="histog1">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
-								<fieldView name="orderBy" hidden="true" value="5"/>
+								<fieldView name="orderBy" hidden="true" value="1"/>
 								<fieldView name="fieldForGroupBy" type="select">
 									<optionValues>
 										<option code="2" title="Agrupado por Estudio" selected="true"></option>
@@ -96,7 +96,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/><!-- Peticion -->
 						<fieldView mappingTo="45" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="3" hidden="true"/>
-						<fieldView mappingTo="2" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="2" hidden="true"/>
 						<fieldView mappingTo="4" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="5" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="6" styleCss="font-weight: bold;color: white;"/>

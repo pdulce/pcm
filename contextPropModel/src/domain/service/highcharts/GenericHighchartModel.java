@@ -253,7 +253,7 @@ public abstract class GenericHighchartModel implements IStats {
 			List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados = null;
 			if (fieldsForAgrupacionesPor.length > 0){				
 				listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
-					joinFView, units.indexOf("%")==-1 ? aggregateFunction: OPERATION_AVERAGE, fieldsForAgregadoPor, fieldsForAgrupacionesPor, IAction.ORDEN_DESCENDENTE);
+					joinFView, units.indexOf("%")==-1 ? aggregateFunction: OPERATION_AVERAGE, fieldsForAgregadoPor, fieldsForAgrupacionesPor, IAction.ORDEN_ASCENDENTE);
 			}
 			if (listaValoresAgregados == null || listaValoresAgregados.isEmpty()){
 				throw new Throwable("NO HAY DATOS");
@@ -379,8 +379,8 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 
 	protected final String htmlForHistograms(final Datamap data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		data_.setAttribute("width-container", 800);
-		data_.setAttribute("height-container", 800);
+		data_.setAttribute("width-container", 1200);
+		data_.setAttribute("height-container", 1000);
 		if (is3D()) {
 			data_.setAttribute("is3D", "3D");
 		}
