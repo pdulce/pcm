@@ -480,6 +480,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				modelo = new FileOutputStream(fModelo);
 				dataset= new FileOutputStream(datasetFile);
 				
+				dataAccess.setAutocommit(false);
+				
 				String titleEstudio = (String) registroMtoProsa.getValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_2_TITULO_ESTUDIO).getName());
 				String entornoTextual = "Pros@", textoAplicaciones = "";
 				if (titleEstudio.indexOf("Mto. HOST") != -1) {
@@ -575,8 +577,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 											daysAnalisis = 0.1;
 										}
 									}
-								}									
-							}								
+								}
+							}
 						}//end of si tiene peticiones relacionadas
 						
 						if (horasEstimadas == 0.0 && horasReales==0.0) {								
@@ -663,6 +665,17 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_48_GAP_FINDESA_INIPRUE).getName(), daysFinDesaIniPruebas);
 					registro.setValue(incidenciasProyectoEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_49_GAP_FINPRUEBAS_PRODUCC).getName(), daysDesdeFinPruebasHastaImplantacion);
 					
+					int ok = dataAccess.modifyEntity(registro);
+					if (ok != 1) {
+						out.flush();
+						out.close();
+						modelo.flush();
+						modelo.close();
+						dataset.flush();
+						dataset.close();
+						throw new Throwable("Error actualizando registro de petición");
+					}
+					
 					numPeticionesEstudio++;
 					total_uts_estudio += uts;
 					total_cicloVida_estudio += cicloVidaPeticion;
@@ -677,23 +690,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				
 				//creamos el registro de agregados del estudio
 				
-				this.dataAccess.commit();
+				//this.dataAccess.commit();
 				
 				out.write(("\n**** TOTAL PETICIONES ESTUDIO: "+ (numPeticionesEstudio) + "  *******\n").getBytes());
 				out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
 					
-				final Date fecIniEstudio = (Date) registroMtoProsa.getValue(agregadosEstudioPeticionesEntidad.searchField(
-						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName());
-				final Date fecFinEstudio = (Date) registroMtoProsa.getValue(agregadosEstudioPeticionesEntidad.searchField(
-						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName());
-				int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);			
-				
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_3_ENTORNO).getName(), entornoTextual);
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_4_APLICACIONES).getName(), textoAplicaciones);
-				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName(), fecIniEstudio);
-				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName(), fecFinEstudio);
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_7_NUMPETICIONES).getName(), numPeticionesEstudio);
-				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_9_TOTALUTS).getName(), total_uts_estudio);
 				
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_10_CICLOVIDA).getName(), total_cicloVida_estudio);
@@ -706,6 +710,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_17_TOTALDEDICACIONES).getName(), (total_analisis_estudio+total_implement_estudio+total_pruebasCD_estudio));
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_18_TOTALGAPS).getName(), (total_gapPlanificacion+total_gapFinDesaIniPruebasCD+total_gapFinPruebasCDProducc));
 				
+				int mesesEstudio = (Integer) registroMtoProsa.getValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName());
 				//bloque mensual
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_19_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/mesesEstudio));
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_20_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/mesesEstudio));
@@ -746,7 +751,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				registroMtoProsa.setValue(agregadosEstudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_44_PORC_TOTALGAP).getName(), 
 						CommonUtils.roundWith2Decimals((total_gapPlanificacion+total_gapFinDesaIniPruebasCD+total_gapFinPruebasCDProducc)/total_cicloVida_estudio));
 				
-				dataAccess.setAutocommit(false);
+				//
 				int ok = dataAccess.modifyEntity(registroMtoProsa);
 				if (ok != 1) {
 					throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");

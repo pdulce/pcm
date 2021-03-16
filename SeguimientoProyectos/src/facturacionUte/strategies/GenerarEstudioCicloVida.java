@@ -9,6 +9,7 @@ import java.util.Iterator;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
+import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.component.definitions.IRank;
@@ -71,12 +72,14 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			Date fecFinEstudio = null;
 			try {
 				Date fecIniEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
-						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName());//ThreadSafeSimpleDateFormat.getUniqueInstance().parse(fechaDesdeReq);
+						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_5_FECHA_INIESTUDIO).getName());
 				fecFinEstudio = (Date) estudioFSet.getValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(
 						ConstantesModelo.AGREG_INCIDENCIASPROYECTO_6_FECHA_FINESTUDIO).getName());
 				if(fecFinEstudio== null) {
 					fecFinEstudio = Calendar.getInstance().getTime();
 				}
+				int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);	
+				estudioFSet.setValue(GenerarEstudioCicloVida.estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_INCIDENCIASPROYECTO_8_NUMMESES).getName(), mesesEstudio);
 				
 				final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
 				
@@ -97,7 +100,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				filterPeticiones.setValue(fViewMinor.getQualifiedContextName(), fecIniEstudio);
 				filterPeticiones.setValue(fViewMayor.getQualifiedContextName(), fecFinEstudio);
 				
-				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Petición finalizada"); 
+				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
 				filterPeticiones.setValue(GenerarEstudioCicloVida.peticionesEntidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_11_CENTRO_DESTINO).getName(), "FACTDG07");				
 				
 				Collection<String> valuesTipo = new ArrayList<String>();

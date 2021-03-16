@@ -114,7 +114,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					if (field.getAbstractField().isDecimal()) {
 						pstmt.setDouble(contador++, CommonUtils.numberFormatter.parse(value).doubleValue());
 					} else if (field.getAbstractField().isDate()) {
-						pstmt.setDate(contador++, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
+						if (!value.equals("")) {
+							pstmt.setDate(contador++, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
+						}
 					} else if (field.getAbstractField().isBoolean()) {
 						pstmt.setInt(contador++, "1".equals(value.toString()) || "true".equals(value.toString()) ? 1 : 0);
 					} else if (!field.getAbstractField().isBlob()) {
@@ -226,7 +228,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				} else if (field.getAbstractField().isDecimal() && value != null) {
 					pstmt.setDouble(contadorArgs, CommonUtils.numberFormatter.parse(value).doubleValue());
 				} else if (field.getAbstractField().isDate()) {
-					pstmt.setDate(contadorArgs, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
+					if (!value.equals("")) {
+						pstmt.setDate(contadorArgs, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
+					}
 				} else if (field.getAbstractField().isBoolean()) {
 					pstmt.setInt(contadorArgs, "1".equals(value.toString()) || "true".equals(value.toString()) ? 1 : 0);
 				} else if (!field.getAbstractField().isBlob()) {

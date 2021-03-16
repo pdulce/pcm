@@ -91,7 +91,7 @@ public final class CommonUtils {
 		
 		int diferencia = 0;
 		
-		while (fechaCalMasAntigua.compareTo(fechaCalMasReciente) <= 0) {					
+		while (fechaCalAux.getTime().compareTo(fechaCalMasReciente) <= 0) {					
 			diferencia++;		
 			fechaCalAux.add(Calendar.MONTH, 1);				
 		}//while
@@ -906,13 +906,17 @@ public final class CommonUtils {
 		System.out.println("resultado: " + b);*/
 		Calendar ini = Calendar.getInstance();
 		Calendar fin = Calendar.getInstance();
-		ini.set(Calendar.MINUTE, -46);
 		
+		/* ini.add(Calendar.MINUTE, -46);
 		double jornadas = CommonUtils.jornadasDuracion(ini.getTime(), fin.getTime());
 		System.out.println("jornadas: " + jornadas);
 		
 		double predicted = CommonUtils.aplicarMLR(10.35, 1, 0);
-		System.out.println("predicted: " + predicted);
+		System.out.println("predicted: " + predicted);*/
+		
+		ini.add(Calendar.MONTH, -6);
+		
+		System.out.println("dif:" + CommonUtils.obtenerDifEnMeses(ini, fin));
 		
 	}
 
