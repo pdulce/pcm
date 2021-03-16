@@ -90,7 +90,7 @@ xmlns:service="http://pcm.framework.org/service"
 																	
 					</fieldViewSet>
 				</form>
-				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.2, agregadosPeticiones.5"
+				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.2"
 					eventsRegistered="detail, create">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
 						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/><!-- Peticion -->

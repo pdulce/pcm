@@ -1078,6 +1078,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		String[] fieldNameOrderByArr = new String[orderFields_.length];
 		for (int o_ = 0; o_ < orderFields_.length; o_++) {
 			final String orderField_ = orderFields_[o_];
+			if (orderField_==null) {
+				continue;
+			}
 			String[] splitter = orderField_.split(PCMConstants.REGEXP_POINT);
 			parentNameOrderBy = splitter[0];
 			fieldNameOrderByArr[o_] = splitter[1];
@@ -1212,7 +1215,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						sqlEntityFieldsToGet.append(tableAlias_).append(PCMConstants.POINT).append(fieldNameOfEntity_)
 								.append(PCMConstants.STRING_SPACE).append(_aliasForField);
 					}
-					if (offset_ != -1 && o_ < orderFields_.length) {
+					if (offset_ != -1 && o_ < fieldNameOrderByArr.length) {
 						String orderEntityName = entityName_;
 						String orderFieldName = fieldView.getEntityField().getName();
 						for (int c = 0; c < fieldNameOrderByArr.length; c++) {
@@ -1316,7 +1319,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 								idEnTableDetail_aliasTablePadre.append(fieldView.getEntityField().getName()+ ":" + aliasTablePadre);
 								idEnTableDetail_aliasTablePadre.append(";");
 							}
-							if (offset_ != -1 && o_ < orderFields_.length) {
+							if (offset_ != -1 && o_ < fieldNameOrderByArr.length) {
 								String orderEntityName = tableDetail.getEntityDef().getName();
 								String orderFieldName = fieldView.getEntityField().getName();
 								for (int c = 0; c < fieldNameOrderByArr.length; c++) {

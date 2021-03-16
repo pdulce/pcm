@@ -53,7 +53,7 @@ CREATE TABLE `peticiones` (
   
 CREATE TABLE `agregadosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
-  `tituloEstudio` varchar(250) NOT NULL,
+  `tituloEstudio` varchar(250) NULL,
   `entorno` varchar(50) DEFAULT NULL,
   `aplicaciones` varchar(500) DEFAULT NULL,
   `fecha_inicio_estudio` date NOT NULL,
@@ -504,5 +504,5 @@ CREATE INDEX index_FraServ ON facturacionMesPorServicio (id_servicio);
 CREATE INDEX index_FraDpto ON facturacionMesPorDpto (id_dpto);
 CREATE INDEX index_FraApp ON facturacionMesPorApp (id_app);
 CREATE INDEX index_FraColab ON facturacionMesPorColaborador (id_colaborador);
-CREATE INDEX index_Estudios ON agregadosPeticiones (aplicaciones, entorno, fecha_inicio_estudio);
+CREATE INDEX index_Estudios ON agregadosPeticiones (servicio, fecha_inicio_estudio);
   

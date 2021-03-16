@@ -519,8 +519,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			 */
 			String periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
 			String newTitle = servicio.replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND-Pros@ Periodo " + periodo);
-			newTitle = servicio.replaceFirst("Servicio Mto. Pros@", "MTO-Pros@ Periodo " + periodo);
-			newTitle = servicio.replaceFirst("Servicio Mto. HOST", "MTO-HOST Periodo " + periodo);
+			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "MTO-Pros@ Periodo " + periodo);
+			newTitle = newTitle.replaceFirst("Servicio Mto. HOST", "MTO-HOST Periodo " + periodo);
 			
 			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);	
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
