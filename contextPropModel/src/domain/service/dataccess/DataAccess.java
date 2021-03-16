@@ -11,12 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 import domain.common.InternalErrorsConstants;
+import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.TransactionException;
+import domain.service.component.definitions.FieldView;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.component.definitions.FieldViewSetComparator;
+import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
@@ -449,6 +452,29 @@ public class DataAccess implements IDataAccess {
 			throw exc1;
 		}
 	}
+	
+	@Override
+	public FieldViewSet searchLastInserted(final FieldViewSet filter) throws DatabaseException {
+		FieldViewSet last = null;
+		try {
+			IFieldLogic pkField = filter.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
+			IFieldView fieldId = new FieldView(pkField);
+			fieldId.setContextName(filter.getContextName());
+			fieldId.setQualifiedContextName(filter.getContextName().concat(PCMConstants.POINT).concat(pkField.getName()));
+			filter.addFieldView(fieldId);
+			String[] orderByColumns= {fieldId.getQualifiedContextName()};
+			List<FieldViewSetCollection> collectionOfResults = searchAll(filter, orderByColumns, IAction.ORDEN_DESCENDENTE, 1);//tomo el primero porque he ordenado de forma conveniente
+			if (!collectionOfResults.isEmpty()) {
+				return collectionOfResults.iterator().next().getFieldViewSets().get(0);
+			}
+			
+		}
+		catch (final DatabaseException exc1) {
+			throw exc1;
+		}
+		return last;
+	}
+	
 
 	/** ** METODOS DE ACCESO AL DAO ABSTRACTO ** */
 	@Override

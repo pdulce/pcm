@@ -95,7 +95,7 @@ public abstract class ConstantesModelo {
 		 
 	    
     public static final int AGREG_PETICIONES_1_ID = 1;
-    public static final int AGREG_PETICIONES_2_TITULO_ESTUDIO = 2;
+    public static final int AGREG_PETICIONES_2_TITULOESTUDIO = 2;
     public static final int AGREG_PETICIONES_3_ENTORNO = 3;
     public static final int AGREG_PETICIONES_4_APLICACIONES = 4;
     public static final int AGREG_PETICIONES_5_FECHA_INIESTUDIO = 5;
@@ -142,6 +142,7 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_42_PORC_GAPFINPRUEBASCDHASTAPRODUC = 42;
     public static final int AGREG_PETICIONES_43_PORC_TOTALDEDICACIONES = 43;
     public static final int AGREG_PETICIONES_44_PORC_TOTALGAP = 44;
+    public static final int AGREG_PETICIONES_45_SERVICIO = 45;
 	public static final String AGREG_PETICIONES_ENTIDAD = "agregadosPeticiones";
 	
 	public static final int SABANA_1_ID = 1;

@@ -63,9 +63,11 @@ public interface IDataAccess {
 	public List<FieldViewSetCollection> searchAll(final FieldViewSet entidad, final String[] ordersBy, final String directionOrder)
 			throws DatabaseException;
 
+	public FieldViewSet searchLastInserted(final FieldViewSet entidad) throws DatabaseException;
+
 	public List<FieldViewSetCollection> searchAll(final FieldViewSet entidad, final String[] ordersBy, final String directionOrder,
 			final int max) throws DatabaseException;
-
+	
 	public FieldViewSet searchEntityByPk(final FieldViewSet fieldViewSet) throws DatabaseException;
 
 	public List<FieldViewSet> searchByCriteria(final FieldViewSet filter) throws DatabaseException;

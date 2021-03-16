@@ -48,7 +48,7 @@ CREATE TABLE `peticiones` (
   `duracion_pruebas` double DEFAULT NULL,
   `gap_tram_iniRealDesa` double DEFAULT NULL,  
   `gap_finDesa_iniPrue` double DEFAULT NULL,
-  `gap_finPrue_Producc` double DEFAULT NULL      
+  `gap_finPrue_Producc` double DEFAULT NULL
   );  
   
 CREATE TABLE `agregadosPeticiones` (
@@ -95,7 +95,8 @@ CREATE TABLE `agregadosPeticiones` (
   `porc_gap_finDesa_iniPrue` double DEFAULT NULL,
   `porc_gap_finPrue_Producc` double DEFAULT NULL,
   `porc_total_dedicaciones` double DEFAULT NULL,        
-  `porc_total_gaps` double DEFAULT NULL  
+  `porc_total_gaps` double DEFAULT NULL,
+  `servicio` varchar(150) DEFAULT NULL  
 );  
 
 

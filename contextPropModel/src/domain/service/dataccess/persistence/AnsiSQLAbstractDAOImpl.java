@@ -1368,6 +1368,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			}
 			String sql_ = null, sql_withoutPagination = PCMConstants.EMPTY_;
 			if (offset_ != -1) {
+				
 				sql_ = SQLUtils.replaceSQLWithPagination(this.getQueryPagination(offset_), sqlEntityFieldsToGet.toString(),
 						FROM_.concat(tablesInQuery.toString()), sqlWhereClausule.toString(), orderFieldsAlias_, orderDirec_);
 				if (!hasCounterSQLEmbbeded()) {

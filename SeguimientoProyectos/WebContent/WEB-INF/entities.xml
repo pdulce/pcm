@@ -157,7 +157,8 @@
     <field mappingTo="41" name="porc_gap_finDesa_iniPrue" type="double" length="6" required="false"/>
     <field mappingTo="42" name="porc_gap_finPrue_Producc" type="double" length="6" required="false"/>
     <field mappingTo="43" name="porc_total_dedicaciones" type="double" length="6" required="false"/>
-    <field mappingTo="44" name="porc_total_gaps" type="double" length="6" required="false"/>           
+    <field mappingTo="44" name="porc_total_gaps" type="double" length="6" required="false"/>
+    <field mappingTo="45" name="servicio" type="string" length="150" required="false"/>
   </entity>	
 	
   <entity>
