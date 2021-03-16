@@ -62,7 +62,7 @@ public class Histogram3D extends GenericHighchartModel {
 			try {
 				periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, agrupacionInterna, filtro_, escalado);
 				if (periodos.size() == 0){
-					data_.setAttribute(CHART_TITLE, "No hay datos: revise si la fecha final del rango especificado es posterior a la inicial");
+					data_.setAttribute(CHART_TITLE, "No se han podido obtener periodos en el eje X");
 					return 0;
 				}
 			} catch (DatabaseException e) {
@@ -141,8 +141,7 @@ public class Histogram3D extends GenericHighchartModel {
 				final String media_formatted = CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(periodos.size())));
 				final String plural = itemGrafico.toLowerCase();
 								
-				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + " (" + total_formatted + "), promedio en periodo: " + 
-														media_formatted + " " + HistogramUtils.traducirEscala(escalado) + ". ");				
+				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + total_formatted + HistogramUtils.traducirEscala(escalado) + ". ");				
 				registrosJSON.put((clavePeticion == null) ? itemGrafico : clavePeticion, subtotalPorCategoriaDeEjeX);
 			}
 

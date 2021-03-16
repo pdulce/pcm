@@ -21,20 +21,20 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldViewSet nameSpace="histog1">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
-								<fieldView name="orderBy" hidden="true" value="1"/>
+								<fieldView name="orderBy" hidden="true" value="5"/>
 								<fieldView name="fieldForGroupBy" type="select">
 									<optionValues>
-										<option code="-1" title="periodos" selected="true"></option>
-										<option code="3" title="Servicio"></option>
-										<option code="2" title="Entorno"></option>
+										<!-- option code="-1" title="periodos" ></option> -->
+										<option code="2" title="Servicio" selected="true"></option>
+										<option code="3" title="Entorno"></option>
 									</optionValues>
 								</fieldView>
 								<!-- fieldView separator="br" /> -->
 								<fieldView name="agregado" type="radio">
 									<optionValues>
-										<option code="6" title="Núm.Peticiones"></option>
-										<option code="8" title="Ciclo Vida" selected="true"></option>
-										<option code="9" title="Uts Total" selected="true"></option>
+										<option code="10" title="Ciclo Vida Peticiones" selected="true"></option>
+										<option code="9" title="Uts Total"></option>
+										<option code="7" title="Núm.Peticiones"></option>
 									</optionValues>
 								</fieldView>
 								<!-- fieldView separator="br" /> -->
@@ -67,9 +67,12 @@ xmlns:service="http://pcm.framework.org/service"
 							
 							<fieldView mappingTo="2" type="select" size="10">
 								<optionValues selectionMultiple="true">
-									<option code="Estudio Peticiones en periodo para Servicio Nuevos Desarrollos Pros@" title="Nuevos Desarrollos Pros@ (FOM2, SBOT,...)"></option>
-									<option code="Estudio Peticiones en periodo para Servicio Mto. Pros@" title="Aplicaciones Mto. Pros@ (AYFL,FOMA,SANI,...)"></option>
-									<option code="Estudio Peticiones en periodo para Servicio Mto. HOST" title="Aplicaciones Mto. HOST"></option>
+									<option code="Estudio Peticiones en periodo para Servicio Nuevos Desarrollos Pros@" 
+									title="Servicio Nuevos Desarrollos Pros@"></option>
+									<option code="Estudio Peticiones en periodo para Servicio Mto. Pros@" 
+									title="Servicio Mantenimiento Aplicaciones Pros@"></option>
+									<option code="Estudio Peticiones en periodo para Servicio Mto. HOST" 
+									title="Servicio Mantenimiento Aplicaciones HOST"></option>
 								</optionValues>
 							</fieldView>
 							

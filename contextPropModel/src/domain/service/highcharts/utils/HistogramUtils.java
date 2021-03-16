@@ -255,29 +255,39 @@ public class HistogramUtils {
 	
 	private static final List<String> obtenerPeriodosPorAnyo(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_)
 			throws DatabaseException {
+		
+		Integer anyo = Calendar.getInstance().get(Calendar.YEAR);
 		List<String> inicio_fin_Periodo = new ArrayList<String>();
-		if (orderField_.getAbstractField().isInteger() && orderField_.getAbstractField().getMaxLength() == 4) {
-			Integer anyo = (Integer) filtro_.getValue(orderField_.getName());
-			if (anyo == null) {
-				List<FieldViewSet> lexs = dataAccess.selectWithDistinct(filtro_, orderField_.getMappingTo(), "desc");
-				if (lexs.size() > 0) {
-					FieldViewSet mayorEjercicio = lexs.get(0);
-					Integer ejercicio = (Integer) mayorEjercicio.getValue(orderField_.getName());
-					String period_fin = "31-dic-".concat(ejercicio.toString());
-					String period_ini = "";
-					if (lexs.size() > 1) {
-						FieldViewSet menorEjercicio = lexs.get(lexs.size() - 1);
-						Integer ejercicioMenor = (Integer) menorEjercicio.getValue(orderField_.getName());
-						period_ini = "01-ene-".concat(ejercicioMenor.toString());
-					} else {
-						period_ini = "01-ene-".concat(ejercicio.toString());
-					}
-
-					inicio_fin_Periodo.add(period_ini);
-					inicio_fin_Periodo.add(period_fin);
+		
+		if (orderField_.getAbstractField().isDate()) {
+			Date fechaOrdenacion = (Date) filtro_.getValue(orderField_.getName());
+			Calendar calFecOrdenacion = Calendar.getInstance();
+			calFecOrdenacion.setTime(fechaOrdenacion);
+			anyo = calFecOrdenacion.get(Calendar.YEAR);
+		}else if (orderField_.getAbstractField().isInteger() && orderField_.getAbstractField().getMaxLength() == 4) {
+			anyo = (Integer) filtro_.getValue(orderField_.getName());
+		}
+		
+		if (anyo != null) {
+			List<FieldViewSet> lexs = dataAccess.selectWithDistinct(filtro_, orderField_.getMappingTo(), "desc");
+			if (lexs.size() > 0) {
+				FieldViewSet mayorEjercicio = lexs.get(0);
+				Integer ejercicio = (Integer) mayorEjercicio.getValue(orderField_.getName());
+				String period_fin = "31-dic-".concat(ejercicio.toString());
+				String period_ini = "";
+				if (lexs.size() > 1) {
+					FieldViewSet menorEjercicio = lexs.get(lexs.size() - 1);
+					Integer ejercicioMenor = (Integer) menorEjercicio.getValue(orderField_.getName());
+					period_ini = "01-ene-".concat(ejercicioMenor.toString());
+				} else {
+					period_ini = "01-ene-".concat(ejercicio.toString());
 				}
+
+				inicio_fin_Periodo.add(period_ini);
+				inicio_fin_Periodo.add(period_fin);
 			}
 		}
+	
 		return inicio_fin_Periodo;
 	}
 	
