@@ -59,7 +59,17 @@ public abstract class GenericHighchartModel implements IStats {
 	protected String getUnitName(IFieldLogic aggregateField, IFieldLogic fieldForCategoriaDeAgrupacion,
 			String aggregateFunction, Datamap data_) {
 		if (aggregateField != null) {
-			return aggregateField.getName();
+			String name = aggregateField.getName();
+			if (name.indexOf("peticiones")!=-1) {
+				return "peticiones";
+			}else if (name.indexOf("uts")!=-1 || name.indexOf("Horas_estimadas")!=-1 || name.indexOf("Horas_reales")!=-1) {
+				return "uts";
+			}else if (name.indexOf("ciclo_vida")!=-1 || name.indexOf("duracion_")!=-1 || name.indexOf("gap_")!=-1 ||
+					name.indexOf("dedicaciones")!=-1 || name.indexOf("_gaps")!=-1) {
+				return "jornadas";
+			}else if (name.indexOf("porc_")!=-1) {
+				return "%";
+			}
 		}
 		return "units";
 	}

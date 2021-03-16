@@ -138,7 +138,7 @@ public class Histogram3D extends GenericHighchartModel {
 				// el promedio por periodo es:
 				boolean agregadosDecimal = agregados!=null && agregados[0] !=null && agregados[0].getAbstractField().isDecimal();
 				final String total_formatted = agregadosDecimal? CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue())) : String.valueOf(total_.intValue());
-				final String media_formatted = CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(periodos.size())));
+				//final String media_formatted = CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(periodos.size())));
 				final String plural = itemGrafico.toLowerCase();
 								
 				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + total_formatted + HistogramUtils.traducirEscala(escalado) + ". ");				
@@ -258,7 +258,7 @@ public class Histogram3D extends GenericHighchartModel {
 			
 			String itemGrafico = entidadTraslated;
 			unidades = unidades.equals("")? getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, data_): unidades;
-			double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(totalizacionColumnas.length));
+			//double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(totalizacionColumnas.length));
 			if (sinAgregado){
 				itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 			} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
@@ -278,10 +278,8 @@ public class Histogram3D extends GenericHighchartModel {
 			}
 			
 			data_.setAttribute(CHART_TITLE, 
-					(agregados!=null && agregados.length>1 ? 
-							" Comparativa " : "") + "3D-Histograma " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
-							+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
-					unidades + " " : ""));
+				(agregados!=null && agregados.length>1 ? 
+				" Comparativa " : "") + "3D-Histograma " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + " " + unidades + ") ");
 						
 		}// else
 
