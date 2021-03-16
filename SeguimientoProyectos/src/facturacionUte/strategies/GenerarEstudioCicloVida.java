@@ -332,16 +332,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 							System.out.println("OJO: más de una entrega para esta petición: " + idPeticion);
 						}
 						ultimaEntregaGEDEON = splitterEntregas[0];//nos quedamos con la última que haya
-						FieldViewSet miEntrega = new FieldViewSet(estudioPeticionesEntidad);
-						miEntrega.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), ultimaEntregaGEDEON);						
+						FieldViewSet miEntrega = new FieldViewSet(peticionesEntidad);
+						miEntrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), ultimaEntregaGEDEON);						
 						miEntrega = dataAccess.searchEntityByPk(miEntrega);
 						if (miEntrega != null){
-							String tipoPeticionEntrega = (String) miEntrega.getValue(estudioPeticionesEntidad.searchField(
+							String tipoPeticionEntrega = (String) miEntrega.getValue(peticionesEntidad.searchField(
 									ConstantesModelo.PETICIONES_13_TIPO).getName());
 							if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") != -1 && 
 									tipoPeticionEntrega.toString().toUpperCase().indexOf("PARCIAL")== -1) {
-								fecFinPreparacionEntrega = (Date) miEntrega.getValue(estudioPeticionesEntidad.searchField(
-									ConstantesModelo.PETICIONES_20_FECHA_FIN_DE_DESARROLLO).getName());
+								fecFinPreparacionEntrega = (Date) miEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_20_FECHA_FIN_DE_DESARROLLO).getName());
 								daysFinDesaIniPruebas = CommonUtils.jornadasDuracion(fechaRealFin, fecFinPreparacionEntrega);										
 								utsPeticionesEntrega = getTotalUtsEntrega(dataAccess, miEntrega);
 							}
@@ -355,17 +354,17 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						for (int i=0;i<peticionesAnalisis.size();i++) {
 							Long candidataPeticionAT = peticionesAnalisis.get(i);
 							FieldViewSet peticionBBDDAnalysis = new FieldViewSet(estudioPeticionesEntidad);
-							peticionBBDDAnalysis.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), candidataPeticionAT);									
+							peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), candidataPeticionAT);									
 							peticionBBDDAnalysis = dataAccess.searchEntityByPk(peticionBBDDAnalysis);
 							if (peticionBBDDAnalysis != null) {										
-								String areaDestino = (String) peticionBBDDAnalysis.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
+								String areaDestino = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
 								if (areaDestino.startsWith("7201 17G L2 ISM ATH Análisis")) {
 									peticionAT = peticionesAnalisis.get(i);
 									if (daysAnalisis==-1.0) {
 										daysAnalisis = 0.0;
 									}
-									Date fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
-									Date fechaFinAnalysis = (Date) peticionBBDDAnalysis.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
+									Date fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
+									Date fechaFinAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
 									if (fechaFinAnalysis == null || fechaFinAnalysis.compareTo(fechaTramite) > 0) {
 										daysAnalisis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue()*0.45;
 									}else {
