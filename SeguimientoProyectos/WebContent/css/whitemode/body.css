@@ -1,15 +1,15 @@
 
 .inputHighlighted{  
-  background-color: black;
-  color: black;
+  background-color: #334036;
+  color: white;
   border:1px solid #000;
 } 
 
 
 .small {
-	font: normal 85% "Lucida Grande", Helvetica, Verdana, Arial;
-	color: black;
-	background-color: black;
+	font: normal 85% Verdana, sans-serif;
+	color: white;
+	background-color: #334036;
 	top: 0;
 	height: 1px;
 	overflow: auto;
@@ -37,13 +37,13 @@ Redefine aspecto de los elementos estandard de HTML
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 	padding: 0;
-	background-color: black;
+	background-color: #334036;
 }
 	
 body {
 	padding: 0 2px;
-	color: black;
-	background-color: black;
+	color: white;
+	background-color: #334036;
 	margin: 0;
 	padding: 0;
 }
@@ -51,35 +51,25 @@ body {
 blockquote {
 	margin: 0;
 	padding: 0;
-	background-color: black;
-}
-
-	
-p {
- font-family:verdana;
- background-color: black;
- padding: 5px 2px 4px;
- margin: 5px 0;
- font-size: 1em;
- color: black;
+	background-color: #334036;
 }
 
 
 table.cmxtable tr {
 	border: none;
-	background-color: black;
+	background-color: #334036;
 	border-top: 1.0px solid #C9DCA6;
 	}
 
 table.cmxtable tr2 {
-	background-color: black;
+	background-color: #334036;
 	border: none;
 	border-top: 1px solid #C9DCA6;	
 }
 
 img, iframe { 
 	border: none; 
-	blackground: white;
+	background: #334036;
 }
 
 

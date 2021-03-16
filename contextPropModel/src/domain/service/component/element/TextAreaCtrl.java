@@ -30,26 +30,23 @@ public class TextAreaCtrl extends AbstractCtrl {
 		int rows_= 4, cols_ = 200, saltosLinea = retornoContarLineas[0] - (retornoContarLineas[0]/2);
 		int lengthOftextArea = valueOfText.length();
 		
-		if (lengthOftextArea == 0){
-			rows_= 2;
-			cols_ = 20;
-		}else if (lengthOftextArea < 10){
+		if (lengthOftextArea < 10){
 			rows_= 2;
 			cols_ = 20;
 		}else if (lengthOftextArea < 20){
-			rows_= 2;
-			cols_ = 25;
-		}else if (lengthOftextArea < 30){
 			rows_= 3;
-			cols_ = 15;
+			cols_ = 20;
+		}else if (lengthOftextArea < 30){
+			rows_= 4;
+			cols_ = 25;
 		}else if (lengthOftextArea >= 30 && lengthOftextArea < 50){
 			rows_= 3 + saltosLinea;
 			cols_ = 20;
 		}else if (lengthOftextArea >= 50 && lengthOftextArea < 100){
-			rows_= 2 + saltosLinea;
+			rows_= 4 + saltosLinea;
 			cols_ = 25;
 		}else if (lengthOftextArea >= 100 && lengthOftextArea < 500){
-			rows_= 3 + saltosLinea;
+			rows_= 4 + saltosLinea;
 			cols_ = 50;
 		}else if (lengthOftextArea >= 500 && lengthOftextArea < 1000){
 			rows_= 4 + saltosLinea;

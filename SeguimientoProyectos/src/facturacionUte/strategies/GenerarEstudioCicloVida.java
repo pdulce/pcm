@@ -328,9 +328,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						idEntregas = idEntregas.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
 						//recorro las que tenga asociadas
 						String[] splitterEntregas = idEntregas.split(" ");
-						if (splitterEntregas.length> 1) {
-							System.out.println("OJO: más de una entrega para esta petición: " + idPeticion);
-						}
+						//if (splitterEntregas.length> 1) {
+							//System.out.println("OJO: más de una entrega para esta petición: " + idPeticion);
+						//}
 						ultimaEntregaGEDEON = splitterEntregas[0];//nos quedamos con la última que haya
 						FieldViewSet miEntrega = new FieldViewSet(peticionesEntidad);
 						miEntrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), ultimaEntregaGEDEON);						
@@ -536,21 +536,21 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			//%s
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_37_PORC_DURACIONANALYS).getName(), 
-					CommonUtils.roundWith2Decimals(total_analisis_estudio/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals((total_analisis_estudio/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_38_PORC_DURACIONDESARR).getName(), 
-					CommonUtils.roundWith2Decimals(total_implement_estudio/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals((total_implement_estudio/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_39_PORC_DURACIONPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals((total_pruebasCD_estudio/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_40_PORC_GAPTRAMIINIDESA).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapPlanificacion/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals((total_gapPlanificacion/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_41_PORC_GAPFINDESAINIPRUEBASCD).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinDesaIniPruebasCD/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals((total_gapFinDesaIniPruebasCD/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_42_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
-					CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals((total_gapFinPruebasCDProducc/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_43_PORC_TOTALDEDICACIONES).getName(), 
-					CommonUtils.roundWith2Decimals((total_analisis_estudio+total_implement_estudio+total_pruebasCD_estudio)/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals(((total_analisis_estudio+total_implement_estudio+total_pruebasCD_estudio)/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_44_PORC_TOTALGAP).getName(), 
-					CommonUtils.roundWith2Decimals((total_gapPlanificacion+total_gapFinDesaIniPruebasCD+total_gapFinPruebasCDProducc)/total_cicloVida_estudio));
+					CommonUtils.roundWith2Decimals(((total_gapPlanificacion+total_gapFinDesaIniPruebasCD+total_gapFinPruebasCDProducc)/total_cicloVida_estudio))*100.00);
 			
 			int ok = dataAccess.modifyEntity(registroMtoProsa);
 			if (ok != 1) {

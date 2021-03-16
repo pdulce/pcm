@@ -7,7 +7,7 @@ ul#pcmUl {
 	list-style: none;     
 	float: left;
 	background: #334036;
-	font-size: 0.9em;
+	font-size: 1.0em;
     font-family: Verdana, sans-serif;
     color: blue;
 }   
@@ -28,7 +28,6 @@ ul#pcmUl li span {
 	position: relative;
 	background: url('../../img/blue.PNG');
 	float: center; 
-	font-size: 0.9em;
     font-family: Verdana, sans-serif;
     color: blue;
 }

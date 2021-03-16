@@ -94,16 +94,19 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="5" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="6" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="7" styleCss="font-weight: bold;color: white;"/>
-						<fieldView mappingTo="8" styleCss="font-weight: bold;color: orange;"/>
-						<fieldView mappingTo="35" styleCss="font-weight: bold;color: orange;"/>
-						<fieldView mappingTo="36" styleCss="font-weight: bold;color: orange;"/>
-						<fieldView mappingTo="28" styleCss="font-weight: bold;color: orange;"/>
-						<fieldView mappingTo="29" styleCss="font-weight: bold;color: orange;"/>
-						<fieldView mappingTo="30" styleCss="font-weight: bold;color: orange;"/>
-						<fieldView mappingTo="31" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="8" styleCss="font-weight: bold;color: white;"/>
+						
+						<fieldView mappingTo="28" styleCss="font-weight: bold;color: yellow;"/>
+						
+						<fieldView mappingTo="29" styleCss="font-weight: bold;color: #38ef7d;"/>
+						<fieldView mappingTo="30" styleCss="font-weight: bold;color: #38ef7d;"/>
+						<fieldView mappingTo="31" styleCss="font-weight: bold;color: #38ef7d;"/>
+						<fieldView mappingTo="35" styleCss="font-weight: bold;color: yellow;"/>
+						
 						<fieldView mappingTo="32" styleCss="font-weight: bold;color: orange;"/>
 						<fieldView mappingTo="33" styleCss="font-weight: bold;color: orange;"/>
 						<fieldView mappingTo="34" styleCss="font-weight: bold;color: orange;"/>
+						<fieldView mappingTo="36" styleCss="font-weight: bold;color: yellow;"/>
 						
 					</fieldViewSet>
 				</grid>
@@ -127,71 +130,65 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="4" editable="false" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView separator="br" />
 						<fieldView mappingTo="5" editable="false" />
 						<fieldView mappingTo="6" editable="false" />
 						<fieldView mappingTo="7" editable="false" />
-						<fieldView mappingTo="8" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 					</fieldset>
 					<fieldset legend="Agregados en Periodo Estudio">
 						<fieldView mappingTo="9" editable="false" />
-						<fieldView mappingTo="10" editable="false" />
+						<fieldView mappingTo="10" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="11" editable="false" />
 						<fieldView mappingTo="12" editable="false" />
 						<fieldView mappingTo="13" editable="false" />
-						<fieldView mappingTo="17" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="17" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="14" editable="false" />
 						<fieldView mappingTo="15" editable="false" />
 						<fieldView mappingTo="16" editable="false" />
-						<fieldView mappingTo="18" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 					</fieldset>
 					<fieldset legend="Promedios Mensuales">
-						<fieldView mappingTo="19" editable="false" />
+						<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="20" editable="false" />
 						<fieldView mappingTo="21" editable="false" />					
 						<fieldView mappingTo="22" editable="false" />
-						<fieldView mappingTo="26" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="26" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />						
 						<fieldView mappingTo="23" editable="false" />
 						<fieldView mappingTo="24" editable="false" />
 						<fieldView mappingTo="25" editable="false" />		
-						<fieldView mappingTo="27" editable="false" />
+						<fieldView mappingTo="27" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="28" editable="false" />
+					</fieldset>
+					<fieldset legend="Promedios Por Petición">	
+						<fieldView mappingTo="28" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="29" editable="false" />
 						<fieldView mappingTo="30" editable="false" />
 						<fieldView mappingTo="31" editable="false" />
-						<fieldView mappingTo="35" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="35" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="32" editable="false" />
 						<fieldView mappingTo="33" editable="false" />
 						<fieldView mappingTo="34" editable="false" />						
-						<fieldView mappingTo="36" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="36" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 					</fieldset>
@@ -199,15 +196,13 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="37" editable="false" />
 						<fieldView mappingTo="38" editable="false" />
 						<fieldView mappingTo="39" editable="false" />
-						<fieldView mappingTo="43" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="43" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="40" editable="false" />
 						<fieldView mappingTo="41" editable="false" />
 						<fieldView mappingTo="42" editable="false" />
-						<fieldView mappingTo="44" editable="false" />
-						<fieldView separator="br" />
+						<fieldView mappingTo="44" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 					</fieldset>
 				</fieldViewSet>

@@ -5,7 +5,7 @@
 		padding:0px;
 		width:175px;	/* Width of context menu */
 		font-family:verdana;
-		color: black;
+		color: white;
 		font-size:9px;
 		background-image:url('../img/gradient.gif');
 		background-repeat:repeat-y;
@@ -19,8 +19,8 @@
 #contextMenu a{	/* Links in the context menu */
 	/*color: #000;*/
 	text-decoration:none;
-	color: black;
-	blackground: white;
+	color: white;
+	background: #334036;
 	line-height:25px;
 	vertical-align:middle;	
 	height:28px;
@@ -35,21 +35,21 @@
 	padding:1px;
 	margin:1px;
 	cursor:pointer;	
-	color: black;
-	blackground: white;
+	color: white;
+	background: #334036;
 	clear:both;
 }
 
 #contextMenu li div{	/* Dynamically created divs */
 	cursor:pointer;	
-	background-color: black;
+	background-color: #334036;
 }
 
 #contextMenu .contextMenuHighlighted{	/* Highlighted context menu item */
 	border:1px solid #000;
 	padding:0px;
-	background-color: black;
-	color: black;
+	background-color: #334036;
+	color: white;
 }
 
 #contextMenu img{
@@ -57,8 +57,8 @@
 }
 
 #contextMenu .imageBox{	/* Dynamically created divs for images in the menu */
-	color: black;
-	background-color: black;
+	color: white;
+	background-color: #334036;
 	float:left;
 	padding-left:2px;
 	padding-top:3px;
@@ -69,6 +69,6 @@
 #contextMenu .itemTxt{
 	float: left;		
 	width: 140px;		
-	color: black;
-	background-color: black;
+	color: white;
+	background-color: #334036;
 }
