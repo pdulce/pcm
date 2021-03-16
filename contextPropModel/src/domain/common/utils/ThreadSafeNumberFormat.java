@@ -81,7 +81,7 @@ public class ThreadSafeNumberFormat {
 
 
 	public synchronized Double parse(Serializable val) throws ParseException {
-		if (val == null) {
+		if (val == null || "".contentEquals(val.toString())) {
 			return Double.valueOf("0");
 		} else if (val instanceof java.lang.String) {			
 			return parse(val.toString());
@@ -94,7 +94,7 @@ public class ThreadSafeNumberFormat {
 	}
 	
 	public synchronized Double parse(java.lang.String val) throws ParseException {
-		if (val == null) {
+		if (val == null || "".contentEquals(val)) {
 			return Double.valueOf("0");
 		} else  {
 			if (val.toString().indexOf(PCMConstants.POINT) != -1 && val.toString().indexOf(PCMConstants.COMMA) == -1) {

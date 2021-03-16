@@ -628,7 +628,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			final List<IEntityLogic> joinFViewSet, final List<IFieldLogic> joinFView, final String aggregateFunction_,
 			final IFieldLogic[] fieldsToAggregate, final IFieldLogic[] fieldsForGroupBy, final String order, final DAOConnection conn)
 			throws DatabaseException {
-
+//n
 		List<IFieldLogic> fieldCollection = new ArrayList<IFieldLogic>();
 		fieldCollection.addAll(fieldViewSet.getEntityDef().getFieldSet().values());
 		Collections.sort(fieldCollection, new FieldLogicComparator());

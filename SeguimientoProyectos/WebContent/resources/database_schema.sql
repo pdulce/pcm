@@ -38,9 +38,9 @@ CREATE TABLE `peticiones` (
   `pets_relacionadas` varchar(250) DEFAULT NULL,
   `fecha_estado_modif` TIMESTAMP DEFAULT NULL,
   `tipo_fecha` int(2),
-  `fecha_informe` TIMESTAMP DEFAULT NULL
- , `estado_informe` varchar(100) DEFAULT NULL, id_area int(11) DEFAULT NULL, 
- `entorno` int(11) DEFAULT NULL,
+  `fecha_informe` TIMESTAMP DEFAULT NULL, 
+  `estado_informe` varchar(100) DEFAULT NULL, id_area int(11) DEFAULT NULL, 
+  `entorno` int(11) DEFAULT NULL,
   `Horas_estimadas_iniciales` double DEFAULT NULL,
   `duracion_total` double DEFAULT NULL,
   `duracion_analysis` double DEFAULT NULL,
