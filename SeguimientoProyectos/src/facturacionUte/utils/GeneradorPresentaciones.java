@@ -216,7 +216,7 @@ public class GeneradorPresentaciones {
 		if (incidenciasProyectoEntidad == null) {
 			try {
 				incidenciasProyectoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
-						entitiesDictionary, ConstantesModelo.INCIDENCIASPROYECTO_ENTIDAD);
+						entitiesDictionary, ConstantesModelo.PETICIONES_ENTIDAD);
 				importacionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.IMPORTACIONESGEDEON_ENTIDAD);
 				aplicacionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,

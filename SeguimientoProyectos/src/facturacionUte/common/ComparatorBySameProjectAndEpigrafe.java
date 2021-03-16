@@ -14,8 +14,8 @@ public class ComparatorBySameProjectAndEpigrafe implements Comparator<FieldViewS
 	@Override
 	public final int compare(final FieldViewSet entry1, final FieldViewSet entry2) {
 		
-		String prjName1 = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME).getName());
-		String prjName2 = (String) entry2.getValue(entry2.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_27_PROYECTO_NAME).getName());
+		String prjName1 = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
+		String prjName2 = (String) entry2.getValue(entry2.getEntityDef().searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
 		
 		String servicio1 = GeneradorPresentaciones.APP_AREA.get(prjName1);
 		String servicio2 = GeneradorPresentaciones.APP_AREA.get(prjName2);
@@ -32,14 +32,14 @@ public class ComparatorBySameProjectAndEpigrafe implements Comparator<FieldViewS
 				resultado = 1;
 			} else {
 				// si pertenecen al mismo proyecto, ordenamos por el estado, y luego, por el epografe
-				String status1_ = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_30_ANYO_MES).getName());
-				String status2_ = (String) entry2.getValue(entry2.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_30_ANYO_MES).getName());			
+				String status1_ = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.PETICIONES_30_ANYO_MES).getName());
+				String status2_ = (String) entry2.getValue(entry2.getEntityDef().searchField(ConstantesModelo.PETICIONES_30_ANYO_MES).getName());			
 				
-				String epigrafe1 = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
-				String epigrafe2 = (String) entry2.getValue(entry2.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_13_TIPO).getName());
+				String epigrafe1 = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
+				String epigrafe2 = (String) entry2.getValue(entry2.getEntityDef().searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
 							
 				if (status1_.equals("2")){
-					String estadoTareaGlobal_1 = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
+					String estadoTareaGlobal_1 = (String) entry1.getValue(entry1.getEntityDef().searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 					if (estadoTareaGlobal_1.equals("Desestimada")){
 						status1_ = "1";
 					}
@@ -47,7 +47,7 @@ public class ComparatorBySameProjectAndEpigrafe implements Comparator<FieldViewS
 				
 				
 				if (status2_.equals("2")){
-					String estadoTareaGlobal_2 = (String) entry2.getValue(entry1.getEntityDef().searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());			
+					String estadoTareaGlobal_2 = (String) entry2.getValue(entry1.getEntityDef().searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());			
 					if (estadoTareaGlobal_2.equals("Desestimada")){
 						status2_ = "1";
 					}

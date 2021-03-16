@@ -32,16 +32,16 @@ public final class ComparatorTasksBySituation implements Comparator<FieldViewSet
 	public final int compare(final FieldViewSet obj1, final FieldViewSet obj2) {
 
 		IEntityLogic entidad= obj1.getEntityDef();
-		final String situac_1 = (String) obj1.getValue(entidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
-		final String situac_2 = (String) obj2.getValue(entidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_7_ESTADO).getName());
+		final String situac_1 = (String) obj1.getValue(entidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+		final String situac_2 = (String) obj2.getValue(entidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 		int situa1 = -1, situa2 = -1;
 		boolean sPeticionADG_1 = false;
-		String areaDestino = (String) obj1.getValue(entidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());      								
+		String areaDestino = (String) obj1.getValue(entidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());      								
 		if (areaDestino.startsWith("Desarrollo Gestionado")){
 			sPeticionADG_1 = true;
 		}
 		boolean sPeticionADG_2 = false;
-		areaDestino = (String) obj2.getValue(entidad.searchField(ConstantesModelo.INCIDENCIASPROYECTO_12_AREA_DESTINO).getName());      								
+		areaDestino = (String) obj2.getValue(entidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());      								
 		if (areaDestino.startsWith("Desarrollo Gestionado")){
 			sPeticionADG_2 = true;
 		}

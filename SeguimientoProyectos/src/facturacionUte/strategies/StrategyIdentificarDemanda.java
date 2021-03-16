@@ -44,7 +44,7 @@ public class StrategyIdentificarDemanda extends StrategyLogin {
 					StrategyIdentificarDemanda.proyectoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
 							entitiesDictionary, ConstantesModelo.PROYECTO_ENTIDAD);
 					StrategyIdentificarDemanda.peticionGEDEONEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
-							entitiesDictionary, ConstantesModelo.INCIDENCIASPROYECTO_ENTIDAD);
+							entitiesDictionary, ConstantesModelo.PETICIONES_ENTIDAD);
 					StrategyIdentificarDemanda.subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(
 							entitiesDictionary, ConstantesModelo.SUBDIRECCION_ENTIDAD);
 				}

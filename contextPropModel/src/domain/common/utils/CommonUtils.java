@@ -99,6 +99,79 @@ public final class CommonUtils {
 		return diferencia;
 	}
 	
+	public static Long obtenerCodigo(String peticionId, final String avisador){
+		
+		Long numeroPeticion = Long.valueOf(-1);	
+		if (peticionId == null){
+			return numeroPeticion;
+		}
+		if (peticionId.indexOf(avisador) != -1){
+			return numeroPeticion;//no hago transformacion alguna
+		}
+		
+		StringBuilder str_ = new StringBuilder();		
+		if ( peticionId.indexOf(">") != -1 ){		
+			int length_ = peticionId.length();
+			for (int i=0;i<length_;i++){
+				char c_ = peticionId.charAt(i);
+				if (Character.isDigit(c_)){
+					str_.append(String.valueOf(c_));
+				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
+					numeroPeticion = Long.valueOf(str_.toString().trim());
+					break;
+				}
+			}
+		}else{			
+			if (peticionId.length() > 0 && Character.isDigit(peticionId.charAt(0))){
+				String[] splitter2 = peticionId.split(PCMConstants.REGEXP_POINT);
+				numeroPeticion = Long.valueOf(splitter2[0].trim());
+			}		
+		}
+		
+		return numeroPeticion;
+		
+	}
+	
+	public static List<Long> obtenerCodigos(String pets, String avisador){
+		
+		List<Long> arr = new ArrayList<Long>();	
+		if (pets == null){
+			return arr;
+		}
+		if (pets.indexOf(avisador) != -1){
+			return arr;//no hago transformacion alguna
+		}
+		
+		StringBuilder str_ = new StringBuilder();
+		if ( pets.indexOf(">") != -1 ){
+			int length_ = pets.length();
+			for (int i=0;i<length_;i++){
+				char c_ = pets.charAt(i);
+				if (Character.isDigit(c_)){
+					str_.append(String.valueOf(c_));
+				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
+					Long num = Long.valueOf(str_.toString().trim());
+					arr.add(num);
+					str_ = new StringBuilder();
+				}
+			}
+		}else{			
+			String[] splitter = pets.split(",");
+			int length_ = splitter.length;
+			for (int i=0;i<length_;i++){
+				 if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
+					try {
+						Long num = Long.valueOf(splitter[i]);
+						arr.add(num);
+					}catch (Throwable excx) {
+						excx.printStackTrace();
+					}
+				}
+			}
+		}		
+		return arr;
+	}
+	
 	public static int obtenerDifEnMeses(final Calendar fechaCalMasAntigua, final Calendar fechaCalMasReciente){
 		return obtenerDifEnMeses(fechaCalMasAntigua.getTime(), fechaCalMasReciente.getTime());		
 	}
