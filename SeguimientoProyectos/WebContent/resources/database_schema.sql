@@ -131,7 +131,8 @@ CREATE TABLE `resumenPeticiones` (
   `fecha_fin_pruebasCD` date DEFAULT NULL,
   `fecha_inicio_instalacion_Prod` date DEFAULT NULL,
   `fecha_fin_instalacion_Prod` date DEFAULT NULL,
-  `uts` double DEFAULT NULL
+  `uts` double DEFAULT NULL,
+  `titulo` varchar(500)
 );
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
 

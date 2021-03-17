@@ -289,6 +289,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				String peticionDG = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());					
 				String tipoPeticion = (String) registro.getValue(peticionesEntidad.searchField(
 						ConstantesModelo.PETICIONES_13_TIPO).getName());					
+				String titulo = (String) registro.getValue(peticionesEntidad.searchField(
+						ConstantesModelo.PETICIONES_2_TITULO).getName());
 				String nombreAplicacionDePeticion = (String) registro.getValue(peticionesEntidad.searchField(
 						ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
 				String servicioAtiendePeticion = destinoPeticion(dataAccess, registro);
@@ -505,6 +507,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fecInicioInstalacion.getTime());
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), uts);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_TITULO).getName(), titulo);
 				
 				int ok = dataAccess.insertEntity(resumenPorPeticion);
 				if (ok != 1) {

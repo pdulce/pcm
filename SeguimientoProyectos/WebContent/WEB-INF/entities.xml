@@ -189,6 +189,7 @@
     <field mappingTo="26" name="fecha_inicio_instalacion_Prod" type="date" length="10" required="false"/>
     <field mappingTo="27" name="fecha_fin_instalacion_Prod" type="date" length="10" required="false"/>
     <field mappingTo="28" name="uts" type="double" length="6" required="false"/>
+    <field mappingTo="29" name="titulo" type="string" length="500" required="false"/>
   </entity>
   
 	

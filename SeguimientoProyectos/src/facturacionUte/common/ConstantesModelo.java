@@ -165,6 +165,7 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD = 26;
 	public static final int RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD = 27;	
 	public static final int RESUMEN_PETICION_28_UTS = 28;
+	public static final int RESUMEN_PETICION_29_TITULO = 29;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
 	
 		
