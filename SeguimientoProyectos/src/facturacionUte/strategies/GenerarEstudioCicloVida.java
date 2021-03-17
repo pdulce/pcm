@@ -358,12 +358,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						List<Long> peticionesAnalisis = CommonUtils.obtenerCodigos(petsRelacionadas, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
 						for (int i=0;i<peticionesAnalisis.size();i++) {
 							Long candidataPeticionAT = peticionesAnalisis.get(i);
-							FieldViewSet peticionBBDDAnalysis = new FieldViewSet(estudioPeticionesEntidad);
+							FieldViewSet peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
 							peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), candidataPeticionAT);									
 							peticionBBDDAnalysis = dataAccess.searchEntityByPk(peticionBBDDAnalysis);
 							if (peticionBBDDAnalysis != null) {										
 								String areaDestino = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
-								if (areaDestino.startsWith("7201 17G L2 ISM ATH Análisis")) {
+								if (areaDestino.indexOf("ATH Análisis") != -1) {
 									peticionAT = peticionesAnalisis.get(i);
 									if (daysAnalisis==-1.0) {
 										daysAnalisis = 0.0;
