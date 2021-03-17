@@ -307,6 +307,7 @@ public class HistogramUtils {
 		if (!orderField_.getAbstractField().isDate() && !CommonUtils.filtroConCriteriosDeFechas(filtro_)) {
 			return obtenerPeriodosPorAnyo(dataAccess, orderField_, filtro_);
 		}
+		List<String> periodos = new ArrayList<String>();
 		String orderField = filtro_.getContextName().concat(PCMConstants.POINT).concat(orderField_.getName());
 		Calendar fechaCalAux = null;
 		String inicioPeriodoTotal = "", finPeriodoTotal = "";
@@ -314,11 +315,13 @@ public class HistogramUtils {
 		Calendar fechaCalMasAntigua = CommonUtils.getClientFilterFromInitialDate(filtro_, orderField_);
 		if (fechaCalMasAntigua == null){
 			Map<Integer, FieldViewSet> petFirstAndLast = dataAccess.searchFirstAndLast(filtro_, new String[]{orderField}, IAction.ORDEN_ASCENDENTE);
+			if (petFirstAndLast == null) {
+				return periodos;
+			}
 			fechaCalMasAntigua = Calendar.getInstance();
 			fechaCalMasAntigua.setTime((Date) petFirstAndLast.get(1).getValue(orderField_.getName()));
 		}
-
-		List<String> periodos = new ArrayList<String>();		
+		
 		// veamos cuantos doas hay, que es la unidad bosica para nuestro eje X:		
 		long fechaInicial = 0, fechaFinal=0;
     	// differenceInDays > 30*12*10: en lugar de meses, mostramos aoos (hay mos de diez aoos)

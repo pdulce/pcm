@@ -43,8 +43,8 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="36" title="Total Intervalos sin Dedicación Petición"></option>
 									</optionValues>
 								</fieldView>
-								<fieldView name="escalado" type="hidden" value="automatic"/>
-								<fieldView name="operation" hidden="true" value="SUM"/>							
+								<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="SUM"/>
 							</fieldViewSet>
 						</button>
 					</userbuttons>
@@ -124,7 +124,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>
+							<fieldView name="orderBy" hidden="true" value="1"/>
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
 									<option code="-1" title="periodos" selected="true"></option>
@@ -132,7 +132,6 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="16" title="tipo"></option>
 								</optionValues>
 							</fieldView>
-							<!-- fieldView separator="br" /> -->
 							<fieldView name="agregado" type="radio">
 								<optionValues>
 									<option code="-1" title="peticiones"></option>								
@@ -148,7 +147,6 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="14" title="Total Intervalos sin dedicación"></option>
 								</optionValues>
 							</fieldView>
-							<!-- fieldView separator="br" /> -->
 							<fieldView name="escalado" type="select">
 								<optionValues>
 									<option code="dayly" title="Diario"></option>
@@ -258,10 +256,18 @@ xmlns:service="http://pcm.framework.org/service"
 				
 				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
 					<fieldView mappingTo="1" hidden="true" />
-					<fieldView mappingTo="2" editable="false" styleCss="font-weight: bold;color: white;" />
-					<fieldView mappingTo="3" editable="false" styleCss="font-weight: bold;color: white;" />
-					<fieldView mappingTo="4" editable="false" styleCss="font-weight: bold;color: white;" />
-					<fieldView mappingTo="5" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="16" editable="false" styleCss="color: white;" />
+					<fieldView mappingTo="15" editable="false" styleCss="color: white;" />
+					
+					<fieldView mappingTo="2" type="select" editable="false">
+						<optionValues entitymodel="agregadosPeticiones"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
+						
+					<fieldView mappingTo="3" editable="false" styleCss="color: white;" />
+					<fieldView mappingTo="4" editable="false" styleCss="color: white;" />
+					<fieldView mappingTo="5" editable="false" styleCss="color: white;" />
 					<fieldView mappingTo="6" editable="false" styleCss="font-weight: bold;color: white;" />
 					<fieldView mappingTo="7" editable="false" styleCss="font-weight: bold;color: white;" />
 					<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: white;" />
