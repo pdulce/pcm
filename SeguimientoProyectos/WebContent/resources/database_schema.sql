@@ -26,7 +26,7 @@ CREATE TABLE `peticiones` (
   `Des_fecha_real_inicio` date,
   `Des_fecha_real_fin` date,
   `Proyecto_ID` varchar(10) NOT NULL,
-  `Proyecto_Name` varchar(50),
+  `Proyecto_Name` varchar(150),
   `Horas_estimadas_actuales` double,
   `Horas_reales` double,
   `anyo_mes` VARCHAR2(7),
@@ -40,10 +40,10 @@ CREATE TABLE `peticiones` (
   `tipo_fecha` int(2),
   `fecha_informe` TIMESTAMP DEFAULT NULL, 
   `estado_informe` varchar(100) DEFAULT NULL, 
-  `id_area int(11) DEFAULT NULL, 
+  `id_area` int(11) DEFAULT NULL, 
   `entorno` int(11) DEFAULT NULL,
   `Horas_estimadas_iniciales` double DEFAULT NULL
-  );  
+);  
 CREATE INDEX index_search_gedeones_1 on peticiones (id);
 CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 
@@ -94,12 +94,12 @@ CREATE TABLE `agregadosPeticiones` (
   `porc_total_gaps` double DEFAULT NULL,
   `servicio` varchar(150) DEFAULT NULL  
 );  
-CREATE INDEX index_Estudios ON agregadosPeticiones (servicio);
-CREATE INDEX index_Estudios ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
+CREATE INDEX index_Estudios_sr ON agregadosPeticiones (servicio);
+CREATE INDEX index_Estudios_ti ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
 
 CREATE TABLE `resumenPeticiones` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  'id_estudio' int(11) NOT NULL,
+  `id_estudio` int(11) NOT NULL,
   `gedeon_DG` varchar(10) DEFAULT NULL,
   `gedeon_AT` varchar(10) DEFAULT NULL,
   `gedeon_Entrega` varchar(10) DEFAULT NULL,
@@ -111,7 +111,9 @@ CREATE TABLE `resumenPeticiones` (
   `gap_finDesa_iniPrue` double DEFAULT NULL,
   `gap_finPrue_Producc` double DEFAULT NULL,
   `total_dedicaciones` double DEFAULT NULL,
-  `total_intervalos_sin_dedicacion` double DEFAULT NULL
+  `total_intervalos_sin_dedicacion` double DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
+  `aplicacion` varchar(150) DEFAULT NULL
 );  
 
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
