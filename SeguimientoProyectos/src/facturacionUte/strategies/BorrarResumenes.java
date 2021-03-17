@@ -2,16 +2,18 @@ package facturacionUte.strategies;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
+import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
 import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
+import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
 
 public class BorrarResumenes extends DefaultStrategyRequest{
@@ -42,6 +44,9 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			PCMConfigurationException {
 		try {
 			
+			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
+				return;
+			}
 			initEntitiesFactories(req.getEntitiesDictionary());
 			
 			this.validParameters(req);
@@ -60,16 +65,22 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			Long idEstudio = (Long) estudioFSet_.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_1_ID).getName());
 			FieldViewSet resumenesFilter = new FieldViewSet(resumenPeticionEntidad);
 			resumenesFilter.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
-			List<FieldViewSet> resumenes = dataAccess.searchByCriteria(resumenesFilter);
+			FieldViewSetCollection fsetColl = new FieldViewSetCollection();
+			fsetColl.getFieldViewSets().add(resumenesFilter);
+			int deleted = dataAccess.deleteEntities(fsetColl);
+			if (deleted <= 0) {
+				throw new StrategyException("Error borrando resumen de estudio por petición");
+			}
+			//System.out.println("deleted: " + deleted);
+			/*List<FieldViewSet> resumenes = dataAccess.searchByCriteria(resumenesFilter);
 			int ok = 0;
 			for (FieldViewSet resumen: resumenes) {
 				ok = dataAccess.deleteEntity(resumen);
 				if (ok != 1) {
 					throw new StrategyException("Error borrando resumen de estudio por petición");
 				}
-			}			
-			
-			
+			}*/			
+						
 		} catch (final StrategyException ecxx) {
 			throw ecxx;
 		} catch (final Throwable exc2) {
