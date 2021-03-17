@@ -105,7 +105,6 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_17_GAPFINPRUEBASCDHASTAPRODUC = 17;    
     public static final int AGREG_PETICIONES_18_TOTALDEDICACIONES = 18;
     public static final int AGREG_PETICIONES_19_TOTALGAPS = 19;
-    
     public static final int AGREG_PETICIONES_20_CICLOVIDA_PERMONTH = 20;
     public static final int AGREG_PETICIONES_21_DURACIONANALYS_PERMONTH = 21;
     public static final int AGREG_PETICIONES_22_DURACIONDESARR_PERMONTH = 22;
@@ -113,20 +112,17 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_24_DURACIONPRUEBASCD_PERMONTH = 24;    
     public static final int AGREG_PETICIONES_25_GAPTRAMIINIDESA_PERMONTH = 25;
     public static final int AGREG_PETICIONES_26_GAPFINDESASOLICENTREGA_PERMONTH = 26;
-    public static final int AGREG_PETICIONES_27_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH = 27;
-    
+    public static final int AGREG_PETICIONES_27_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH = 27;    
     public static final int AGREG_PETICIONES_28_TOTALDEDICACIONES_PERMONTH = 28;
     public static final int AGREG_PETICIONES_29_TOTALGAPS_PERMONTH = 29;    
     public static final int AGREG_PETICIONES_30_CICLOVIDA_PERPETICION = 30;
     public static final int AGREG_PETICIONES_31_DURACIONANALYS_PERPETICION = 31;
     public static final int AGREG_PETICIONES_32_DURACIONDESARR_PERPETICION = 32;
     public static final int AGREG_PETICIONES_33_DURACIONENTREGA_PERPETICION = 33;
-    public static final int AGREG_PETICIONES_34_DURACIONPRUEBASCD_PERPETICION = 34;
-    
+    public static final int AGREG_PETICIONES_34_DURACIONPRUEBASCD_PERPETICION = 34;    
     public static final int AGREG_PETICIONES_35_GAPTRAMIINIDESA_PERPETICION = 35;
     public static final int AGREG_PETICIONES_36_GAPFINDESASOLICENTREGA_PERPETICION = 36;
-    public static final int AGREG_PETICIONES_37_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION = 37;
-    
+    public static final int AGREG_PETICIONES_37_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION = 37;    
     public static final int AGREG_PETICIONES_38_TOTALDEDICACIONES_PERPETICION = 38;
     public static final int AGREG_PETICIONES_39_TOTALGAPS_PERPETICION = 39;
     public static final int AGREG_PETICIONES_40_PORC_DURACIONANALYS = 40;
@@ -139,8 +135,7 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_47_PORC_TOTALDEDICACIONES = 47;
     public static final int AGREG_PETICIONES_48_PORC_TOTALGAP = 48;
     public static final int AGREG_PETICIONES_49_SERVICIO = 49;
-	public static final String AGREG_PETICIONES_ENTIDAD = "agregadosPeticiones";
-	
+	public static final String AGREG_PETICIONES_ENTIDAD = "agregadosPeticiones";	
 	
     public static final int RESUMEN_PETICION_1_ID = 1;
     public static final int RESUMEN_PETICION_2_ID_ESTUDIO = 2;
@@ -169,6 +164,7 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD = 25;
 	public static final int RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD = 26;
 	public static final int RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD = 27;	
+	public static final int RESUMEN_PETICION_28_UTS = 28;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
 	
 		

@@ -504,7 +504,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				} 
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fecInicioInstalacion.getTime());
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
-
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), uts);
+				
 				int ok = dataAccess.insertEntity(resumenPorPeticion);
 				if (ok != 1) {
 					out.flush();
