@@ -272,12 +272,12 @@ public class HistogramUtils {
 			List<FieldViewSet> lexs = dataAccess.selectWithDistinct(filtro_, orderField_.getMappingTo(), "desc");
 			if (lexs.size() > 0) {
 				FieldViewSet mayorEjercicio = lexs.get(0);
-				Integer ejercicio = (Integer) mayorEjercicio.getValue(orderField_.getName());
+				Number ejercicio = (Number) mayorEjercicio.getValue(orderField_.getName());
 				String period_fin = "31-dic-".concat(ejercicio.toString());
 				String period_ini = "";
 				if (lexs.size() > 1) {
 					FieldViewSet menorEjercicio = lexs.get(lexs.size() - 1);
-					Integer ejercicioMenor = (Integer) menorEjercicio.getValue(orderField_.getName());
+					Number ejercicioMenor = (Number) menorEjercicio.getValue(orderField_.getName());
 					period_ini = "01-ene-".concat(ejercicioMenor.toString());
 				} else {
 					period_ini = "01-ene-".concat(ejercicio.toString());

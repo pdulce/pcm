@@ -150,7 +150,7 @@ public class FieldViewSet implements Serializable {
 	public List<IFieldLogic> getDescriptionFieldList(){
 		
 		List<IFieldLogic> resultDescFields = new ArrayList<IFieldLogic>();
-		int max = 3;
+		int max = 1;
 		List<IFieldLogic> newCollection = new ArrayList<IFieldLogic>();
 		newCollection.addAll(this.getEntityDef().getFieldSet().values());
 		Collections.sort(newCollection, new ComparatorFieldLogic());

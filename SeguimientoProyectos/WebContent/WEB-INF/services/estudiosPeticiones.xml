@@ -129,7 +129,11 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
-							<fieldView mappingTo="3" editable="false" />
+							<fieldView mappingTo="3" type="select" editable="false">
+								<optionValues entitymodel="tecnologia"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView mappingTo="4" editable="false" />		
 							<fieldView separator="br" />
 									
@@ -187,7 +191,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
-							<fieldView name="orderBy" hidden="true" value="1"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
 									<option code="-1" title="periodos" selected="true"></option>
@@ -237,14 +241,18 @@ xmlns:service="http://pcm.framework.org/service"
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="2" editable="false" />
-						<fieldView mappingTo="3" editable="false" />
+						<fieldView mappingTo="3" type="select" editable="false">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
-						<fieldView mappingTo="4" editable="false" />
 						<fieldView separator="br" />
+						<fieldView mappingTo="4" editable="false" />						
 						<fieldView mappingTo="5" editable="false" />
 						<fieldView mappingTo="6" editable="false" />
 						<fieldView mappingTo="7" editable="false" />
-						<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 					</fieldset>
 					<fieldset legend="Agregados en Periodo Estudio">

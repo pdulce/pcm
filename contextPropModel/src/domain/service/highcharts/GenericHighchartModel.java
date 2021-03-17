@@ -131,12 +131,13 @@ public abstract class GenericHighchartModel implements IStats {
 					break;
 				}
 			}
-			/*if (userFilter == null || userFilter.isEmpty()){
-				throw new Exception("Seleccione criterios de búsqueda");
-			}*/
+			if (userFilter == null /* userFilter.isEmpty()*/){
+				userFilter = new FieldViewSet(entidadGrafico);
+				userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
+			}
 			
 			String[] categoriasAgrupacion = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
-			if (categoriasAgrupacion == null){
+			if (categoriasAgrupacion == null || categoriasAgrupacion.length==0){
 				String categoriaAgrupacion = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
 				categoriasAgrupacion = new String[]{categoriaAgrupacion};
 			}
@@ -521,7 +522,7 @@ public abstract class GenericHighchartModel implements IStats {
 								}
 							}//for
 							countOfMapavalues++;
-							valoresDescriptivos.add(strBuf.toString());
+							valoresDescriptivos.add(strBuf.toString().replaceAll(",", " - "));
 						} catch (DatabaseException e) {
 							e.printStackTrace();
 						}
