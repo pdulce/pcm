@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group 
+	xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+    <service name="GestionServiciosUTE" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="GestionServiciosUTE.query"
+			submitSucces="GestionServiciosUTE.query">
+
+			<viewComponent>
+
+				<form columns="3" title="Consulta servicios">
+
+					<fieldViewSet entitymodel="servicioUTE"
+						nameSpace="servicioUTE">
+						<fieldView mappingTo="2"/>
+						<fieldView mappingTo="3" type="select" editable="true">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="4"/>
+					</fieldViewSet>
+				</form>
+
+				<grid title="Listado Servicios UTE" orderDirection="asc" eventsRegistered="update, create, delete">
+					<fieldViewSet entitymodel="servicioUTE"
+						nameSpace="servicioUTE">
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="2" />
+						<fieldView mappingTo="3" type="select" editable="false">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="4" />
+					</fieldViewSet>
+				</grid>
+
+			</viewComponent>
+		</action>
+
+		<action event="delete" submitError="GestionServiciosUTE.query"
+			submitSucces="GestionServiciosUTE.delete">
+
+			<viewComponent>
+				<form columns="3" title="Servicio">
+					<fieldViewSet entitymodel="servicioUTE"
+						nameSpace="servicioUTE">
+						<fieldView mappingTo="1" editable="false" />
+						<fieldView mappingTo="2" editable="false" />
+						<fieldView mappingTo="3" type="select" editable="false">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="4" editable="false" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+		
+		<action event="create" submitError="GestionServiciosUTE.create"
+			submitSucces="GestionServiciosUTE.create">
+
+			<viewComponent>
+				<form columns="3" title="Servicio">
+					<fieldViewSet entitymodel="servicioUTE"
+						nameSpace="servicioUTE">
+						<fieldView mappingTo="2" editable="true" />
+						<fieldView mappingTo="3" type="select" editable="true">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="4" editable="true" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+		
+		<action event="update" submitError="GestionServiciosUTE.update"
+			submitSucces="GestionServiciosUTE.update">
+
+			<viewComponent>
+				<form columns="3" title="Servicio">
+					<fieldViewSet entitymodel="servicioUTE"
+						nameSpace="servicioUTE">
+						<fieldView mappingTo="1" hidden="true" />
+						<fieldView mappingTo="2" editable="true" />
+						<fieldView mappingTo="3" type="select" editable="true">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="4" editable="true" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+	</service>
+	
+</service:service-group>

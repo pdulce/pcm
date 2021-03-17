@@ -40,12 +40,10 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldset legend="Fechas significativas">
 							<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: white;" />
 							<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: white;" />
-							<fieldView separator="br" />
-							<fieldView separator="br" />
 							<fieldView mappingTo="20" editable="false" styleCss="font-weight: bold;color: white;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
 							<fieldView mappingTo="21" editable="false" styleCss="font-weight: bold;color: white;" />
-							<fieldView separator="br" />
-							<fieldView separator="br" />
 							<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;color: white;" />
 							<fieldView mappingTo="23" editable="false" styleCss="font-weight: bold;color: white;" />
 							<fieldView separator="br" />
@@ -62,7 +60,7 @@ xmlns:service="http://pcm.framework.org/service"
 					
 						<fieldset legend="Dedicaciones efectivas e intervalos entre dedicaciones">
 							<fieldView mappingTo="16" editable="false" styleCss="font-weight: bold;color: white;" />							
-							<fieldView mappingTo="17" editable="false" styleCss="font-weight: bold;color: white;" />
+							<fieldView mappingTo="17" editable="false" styleCss="font-weight: bold;color: red;" />
 							<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: white;" />
 							<fieldView separator="br" />
 							<fieldView separator="br" />
@@ -72,9 +70,9 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="12" editable="false" styleCss="font-weight: bold;color: white;" />
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="13" editable="false" styleCss="font-weight: bold;color: white;" />
-							<fieldView mappingTo="14" editable="false" styleCss="font-weight: bold;color: white;" />
-							<fieldView mappingTo="15" editable="false" styleCss="font-weight: bold;color: white;" />
+							<fieldView mappingTo="13" editable="false" styleCss="font-weight: bold;color: red;" />
+							<fieldView mappingTo="14" editable="false" styleCss="font-weight: bold;color: red;" />
+							<fieldView mappingTo="15" editable="false" styleCss="font-weight: bold;color: red;" />
 							
 							<fieldView separator="br" />
 							<fieldView separator="br" />

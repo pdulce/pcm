@@ -88,7 +88,7 @@ public abstract class ConstantesModelo {
 		 	    
     public static final int AGREG_PETICIONES_1_ID = 1;
     public static final int AGREG_PETICIONES_2_TITULOESTUDIO = 2;
-    public static final int AGREG_PETICIONES_3_ENTORNO = 3;
+    public static final int AGREG_PETICIONES_3_ID_ENTORNO = 3;
     public static final int AGREG_PETICIONES_4_APLICACIONES = 4;
     public static final int AGREG_PETICIONES_5_FECHA_INIESTUDIO = 5;
     public static final int AGREG_PETICIONES_6_FECHA_FINESTUDIO = 6;	    
@@ -134,7 +134,7 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_46_PORC_GAPFINPRUEBASCDHASTAPRODUC = 46;
     public static final int AGREG_PETICIONES_47_PORC_TOTALDEDICACIONES = 47;
     public static final int AGREG_PETICIONES_48_PORC_TOTALGAP = 48;
-    public static final int AGREG_PETICIONES_49_SERVICIO = 49;
+    public static final int AGREG_PETICIONES_49_ID_SERVICIO = 49;
 	public static final String AGREG_PETICIONES_ENTIDAD = "agregadosPeticiones";	
 	
     public static final int RESUMEN_PETICION_1_ID = 1;
@@ -167,8 +167,24 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_28_UTS = 28;
 	public static final int RESUMEN_PETICION_29_TITULO = 29;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
-	
 		
+	public static final int TECHNOLOGY_1_ID = 1;
+	public static final int TECHNOLOGY_2_NOMBRE = 2;
+	public static final int TECHNOLOGY_3_DESCRIPC = 3;
+	public static final String TECHNOLOGY_ENTIDAD = "tecnologia";
+
+	public static final int SERVICIOUTE_1_ID = 1;
+	public static final int SERVICIOUTE_2_NOMBRE = 2;
+	public static final int SERVICIOUTE_3_ID_TECHNOLO = 3;
+	public static final int SERVICIOUTE_4_DESCRIPC = 4;
+	public static final String SERVICIOUTE_ENTIDAD = "servicioUTE";
+
+	public static final int APLICATIVO_1_ID = 1;
+	public static final int APLICATIVO_2_NOMBRE = 2;
+	public static final int APLICATIVO_3_ID_SERVICIO = 3;
+	public static final int APLICATIVO_4_DESCRIPC = 4;
+	public static final String APLICATIVO_ENTIDAD = "aplicativo";
+  
 	public static final int SABANA_1_ID = 1;
 	public static final int SABANA_2_Titulo = 2;
 	public static final int SABANA_3_Fecha_Necesidad = 3;

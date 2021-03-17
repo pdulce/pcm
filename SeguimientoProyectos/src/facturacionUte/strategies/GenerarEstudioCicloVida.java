@@ -38,41 +38,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	private String dictionaryOfEntities;
 	
-	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, subdireccionEntidad;
-	
-	public static final List<String> aplicacionesHostEstudioMto = new ArrayList<String>();
-	public static final List<String> aplicacionesProsaEstudioMto = new ArrayList<String>();
-	public static final List<String> aplicacionesProsaEstudioNewDesa = new ArrayList<String>();
-	
-	static {
-		
-		aplicacionesHostEstudioMto.add("APRO - ANTEPROYECTO");
-		aplicacionesHostEstudioMto.add("INVE - INVENTARIO");
-		aplicacionesHostEstudioMto.add("PAGO - PAGODA");
-		aplicacionesHostEstudioMto.add("FMAR - FORMAR");
-		aplicacionesHostEstudioMto.add("TASA - TSE111");
-		aplicacionesHostEstudioMto.add("PRES - PRESMAR");
-		aplicacionesHostEstudioMto.add("AFLO - AYFLO");
-		aplicacionesHostEstudioMto.add("FARM - FARMAR");
-		aplicacionesHostEstudioMto.add("INBU - SEGUMAR");
-		aplicacionesHostEstudioMto.add("CMAR - CONTAMAR2");
-		aplicacionesHostEstudioMto.add("CONT - CONTAMAR");
-		aplicacionesHostEstudioMto.add("MIND - ESTAD_IND");
-		aplicacionesHostEstudioMto.add("INCM - INCA_ISM");
-				
-		aplicacionesProsaEstudioMto.add("AYFL - AYUDAS_FLOTA");//compara con el campo 27
-		aplicacionesProsaEstudioMto.add("FOMA - FORMAR_PROSA");
-		aplicacionesProsaEstudioMto.add("FRMA - FRMA");
-		aplicacionesProsaEstudioMto.add("FAMA - FARMAR_PROSA");
-		aplicacionesProsaEstudioMto.add("SANI - SANIMA_PROSA");
-		
-		aplicacionesProsaEstudioNewDesa.add("FOM2 - FOMA2");
-		aplicacionesProsaEstudioNewDesa.add("SBOT - SUBVEN_BOTIQ");
-		aplicacionesProsaEstudioNewDesa.add("FAM2 - FAM2_BOTIQU");
-		aplicacionesProsaEstudioNewDesa.add("GFOA - GEFORA");
-		aplicacionesProsaEstudioNewDesa.add("OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.");
-	}
-	
+	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, 
+				tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudioPeticionesEntidad == null) {
@@ -86,6 +53,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						ConstantesModelo.PETICIONES_ENTIDAD);
 				subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
+				tecnologiaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.TECHNOLOGY_ENTIDAD);
+				servicioUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.SERVICIOUTE_ENTIDAD);
+				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.APLICATIVO_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -160,13 +133,14 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(), valuesTipo);
 								
 				Collection<String> valuesPrjs =  new ArrayList<String>();				
-				String servicio = (String) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_SERVICIO).getName());
-				if (servicio.indexOf("Mto. HOST") != -1) {
-					valuesPrjs.addAll(aplicacionesHostEstudioMto);
-				}else if (servicio.indexOf("Mto. Pros") != -1) {
-					valuesPrjs.addAll(aplicacionesProsaEstudioMto);
-				}else {
-					valuesPrjs.addAll(aplicacionesProsaEstudioNewDesa);
+				Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());
+				
+				//obtenemos todas las aplicaciones de este servicio				
+				FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
+				filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
+				List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
+				for (FieldViewSet app: aplicaciones) {
+					valuesPrjs.add((String)app.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
 				}
 				
 				filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), valuesPrjs);				
@@ -212,19 +186,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		}    	
     	return numUtsEntrega;
     }
-	
-	private String getTextoAplicacionesEstudio(List<String> aplicaciones) {
-    	StringBuffer strBuffer = new StringBuffer("Aplicaciones Estudio: ");
-    	for (int j=0;j<aplicaciones.size();j++) {
-    		String appEstudio =aplicaciones.get(j);
-    		strBuffer.append(appEstudio.split(" - ")[1]);
-    		if (!((j+1) == (aplicaciones.size()))) {
-    			strBuffer.append(", ");
-    		}
-    	}
-    	return strBuffer.toString();
-    }
-	
+		
 	private String destinoPeticion(final IDataAccess dataAccess, FieldViewSet registro) throws DatabaseException{
     	String servicioAtiendePeticion = ""; 
 		final String centroDestino = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());								
@@ -278,11 +240,30 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			dataAccess.setAutocommit(false);
 			
-			String servicio = (String) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_SERVICIO).getName());
-			String entornoTextual = "Pros@";
-			if (servicio.indexOf("Mto. HOST") != -1) {
-				entornoTextual = "HOST";
+			Long servicioId = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());
+			FieldViewSet servicioEnBBDD = new FieldViewSet(servicioUTEEntidad);
+			servicioEnBBDD.setValue(servicioUTEEntidad.searchField(ConstantesModelo.SERVICIOUTE_1_ID).getName(), servicioId);				
+			servicioEnBBDD = dataAccess.searchEntityByPk(servicioEnBBDD);
+			String servicio = (String) servicioEnBBDD.getValue(servicioUTEEntidad.searchField(ConstantesModelo.SERVICIO_2_NOMBRE).getName());
+			
+			StringBuffer textoAplicaciones = new StringBuffer();
+			FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
+			filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
+			List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
+			for (int i =0;i<aplicaciones.size();i++) {
+				FieldViewSet app = aplicaciones.get(i);
+				textoAplicaciones.append((String)app.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
+				if (i < (aplicaciones.size()-1)) {
+					textoAplicaciones.append(", ");
+				}
 			}
+			
+			Long idTecnologia = (Long) servicioEnBBDD.getValue(servicioUTEEntidad.searchField(ConstantesModelo.SERVICIOUTE_2_NOMBRE).getName());
+			
+			FieldViewSet tecnologiaBBDD = new FieldViewSet(tecnologiaEntidad);
+			tecnologiaBBDD.setValue(tecnologiaEntidad.searchField(ConstantesModelo.TECHNOLOGY_1_ID).getName(), idTecnologia);
+			tecnologiaBBDD = dataAccess.searchEntityByPk(tecnologiaBBDD);			
+			String nombreTecnologia = (String) tecnologiaBBDD.getValue(tecnologiaEntidad.searchField(ConstantesModelo.TECHNOLOGY_2_NOMBRE).getName());			
 			
 			for (final FieldViewSet registro : filas) {
 				
@@ -304,12 +285,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				/** INICIO DEL ESTUDIO **/
 				FieldViewSet resumenPorPeticion = new FieldViewSet(resumenPeticionEntidad);
 				
-				int entorno = 0;
+				int entorno = nombreTecnologia.contains("HOST")?1:0;
 									
-				if (!aplicacionesHostEstudioMto.contains(nombreAplicacionDePeticion)) {
-					entorno = 1;
-				}
-				
 				Date fechaInicioRealAnalysis= null, fechaFinRealAnalysis = null, fechaSolicitudEntrega = null;
 				Date fecFinPreparacionEntrega = Calendar.getInstance().getTime();
 				
@@ -536,18 +513,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			//creamos el registro de agregados del estudio
 			
 			//this.dataAccess.commit();
-			
-			String textoAplicaciones = "";
-			if (servicio.indexOf("Mto. HOST") != -1) {
-				textoAplicaciones= getTextoAplicacionesEstudio(aplicacionesHostEstudioMto);
-			}else if (servicio.indexOf("Mto. Pros") != -1) {
-				textoAplicaciones= getTextoAplicacionesEstudio(aplicacionesProsaEstudioMto);
-				textoAplicaciones = textoAplicaciones.replaceAll("_PROSA", "");
-			}else {
-				textoAplicaciones= getTextoAplicacionesEstudio(aplicacionesProsaEstudioNewDesa);
-				textoAplicaciones = textoAplicaciones.replaceAll("_PROSA", "");
-			}
-			
+						
 			out.write(("\n**** TOTAL PETICIONES ESTUDIO: "+ (numPeticionesEstudio) + "  *******\n").getBytes());
 			out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
 			
@@ -559,11 +525,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				fecFinEstudio = Calendar.getInstance().getTime();
 			}
 			
-			/*
-			 * "Servicio Nuevos Desarrollos Pros@"
-				<option code="Servicio Mto. Pros@"
-				<option code="Servicio Mto. HOST" 
-			 */
+			
 			String periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
 			String newTitle = servicio.replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND-Prosa[" + periodo+ "]");
 			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "MTO-Prosa[" + periodo+ "]");
@@ -574,7 +536,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_3_ENTORNO).getName(), entornoTextual);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_3_ID_ENTORNO).getName(), idTecnologia);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_7_NUMPETICIONES).getName(), numPeticionesEstudio);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_9_TOTALUTS).getName(), total_uts_estudio);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_4_APLICACIONES).getName(), textoAplicaciones);

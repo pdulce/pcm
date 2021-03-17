@@ -51,7 +51,7 @@ DROP TABLE `agregadosPeticiones`;
 CREATE TABLE `agregadosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `tituloEstudio` varchar(250) NULL,
-  `entorno` varchar(50) DEFAULT NULL,
+  `id_entorno` int(11) DEFAULT NULL,
   `aplicaciones` varchar(500) DEFAULT NULL,
   `fecha_inicio_estudio` date NOT NULL,
   `fecha_fin_estudio` date NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE `agregadosPeticiones` (
   `porc_gap_finPrue_Producc` double DEFAULT NULL,
   `porc_total_dedicaciones` double DEFAULT NULL,        
   `porc_total_gaps` double DEFAULT NULL,
-  `servicio` varchar(150) DEFAULT NULL  
+  `id_servicio` int(11) DEFAULT NULL 
 );  
 CREATE INDEX index_Estudios_sr ON agregadosPeticiones (servicio);
 CREATE INDEX index_Estudios_ti ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
@@ -132,11 +132,31 @@ CREATE TABLE `resumenPeticiones` (
   `fecha_inicio_instalacion_Prod` date DEFAULT NULL,
   `fecha_fin_instalacion_Prod` date DEFAULT NULL,
   `uts` double DEFAULT NULL,
-  `titulo` varchar(500)
+  `titulo` varchar(500) DEFAULT NULL
 );
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
 
+drop table tecnologia;
+CREATE TABLE `tecnologia` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `descripcion` varchar(250) DEFAULT NULL
+);
 
+drop table servicioUTE;
+CREATE TABLE `servicioUTE` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `id_tecnologia` int(11) NOT NULL,
+  `descripcion` varchar(250) DEFAULT NULL
+);
+drop table aplicativo;
+CREATE TABLE `aplicativo` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `id_servicio` int(11) NOT NULL,
+  `descripcion` varchar(250) DEFAULT NULL  
+);
 
 
 

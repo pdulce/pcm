@@ -15,11 +15,40 @@
 
 	<logo content="img/logoPCM.PNG" width="202" height="72" alt="Inicio" uri="prjManager"/>
 
-	<foot text="Seguimiento Proyectos v&lt;b&gt;&lt;i&gt;01.05&lt;/i&gt;&lt;/b&gt; [14/01/2020]" link="prjManager" />
+	<foot text="Seguimiento Peticiones UTE v&lt;b&gt;&lt;i&gt;01.05&lt;/i&gt;&lt;/b&gt; [17/03/2021]" link="prjManager" />
 
 	<tree profile="ADMINISTRADOR" name="tree">
 
-		<FOLDER profile="ADMINISTRADOR" name="Config.">
+		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="Mapa organizativo">
+			<LEAF link="event=GestionEntidades.query#entityName=unidadOrg" name="Organismos" />
+			<LEAF link="event=GestionEntidades.query#entityName=edificio" name="Centros" />
+			<LEAF link="event=GestionEntidades.query#entityName=subdireccion" name="Subdirecciones" />
+			<LEAF link="event=GestionResponsablesCentros.query" name="Responsables" />
+			<LEAF link="event=GestionServicios.query" name="Servicios CDISM" />
+			<!-- <LEAF link="event=GestionProyectos.query" name="Aplicaciones" />-->
+			<LEAF link="event=GestionColaboradores.query" name="Colaboradores" />
+		</FOLDER>
+		
+		<!-- -FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="UTEs">
+			<LEAF link="event=GestionConcursos.query" name="Contratos/Lotes" />
+			<LEAF link="event=GestionEmpresasUTE.query" name="Empresas" />
+			<LEAF link="event=GestionEntidades.query#entityName=categoria_profesional" name="Tarifas por perfil" />
+			<LEAF link="event=GestionEntidades.query#entityName=responsabilidad" name="Atribuciones" />
+		</FOLDER>-->
+
+		<FOLDER profile="ANALISIS_TEAM, ADMINISTRADOR"
+			name="Seguimiento CD">
+			<LEAF link="event=GestionTech.query" name="Tecnologías" />
+			<LEAF link="event=GestionServiciosUTE.query" name="Servicios UTE" />
+			<LEAF link="event=GestionApps.query" name="Aplicativos" />
+			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
+			<LEAF link="event=EstudioPeticiones.query" name="Estudios Peticiones" />			
+			<FOLDER profile="ADMINISTRADOR"	name="Importaciones GEDEON">
+				<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
+			</FOLDER>
+		</FOLDER>
+		
+		<FOLDER profile="ADMINISTRADOR" name="configuration">
 			<LEAF link="exec=Configuration" name="Configuraciones" />
 			<LEAF link="event=GestionEntidades.query#entityName=rol" name="Roles" />
 			<LEAF link="event=GestionUsuarios.query" name="Usuarios" />
@@ -27,39 +56,6 @@
 			<LEAF link="event=GestionEntidades.query#entityName=mes" name="Meses" />
 		</FOLDER>
 		
-		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="Mapa organizativo">
-			<LEAF link="event=GestionEntidades.query#entityName=unidadOrg" name="Organismos" />
-			<LEAF link="event=GestionEntidades.query#entityName=edificio" name="Centros" />
-			<LEAF link="event=GestionEntidades.query#entityName=subdireccion" name="Subdirecciones" />
-			<LEAF link="event=GestionResponsablesCentros.query" name="Responsables" />
-			<LEAF link="event=GestionServicios.query" name="Servicios" />
-			<LEAF link="event=GestionProyectos.query" name="Aplicaciones" />
-			<LEAF link="event=GestionColaboradores.query" name="Colaboradores" />
-		</FOLDER>
-		
-		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="UTEs">
-			<LEAF link="event=GestionConcursos.query" name="Contratos/Lotes" />
-			<LEAF link="event=GestionEmpresasUTE.query" name="Empresas" />
-			<LEAF link="event=GestionEntidades.query#entityName=categoria_profesional" name="Tarifas por perfil" />
-			<LEAF link="event=GestionEntidades.query#entityName=responsabilidad" name="Atribuciones" />
-		</FOLDER>
-
-		<FOLDER profile="ANALISIS_TEAM, ADMINISTRADOR"
-			name="Seguimiento">
-			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
-			<LEAF link="event=EstudioPeticiones.query" name="Estudios Peticiones" />
-			 <!-- FOLDER profile="ANALISIS_TEAM" name="WAS Config">
-			 </FOLDER>
-			 <FOLDER profile="ANALISIS_TEAM" name="BBDD Conexiones">
-			 </FOLDER>
-			 <FOLDER profile="ANALISIS_TEAM" name="DIMENSIONS Conexiones">
-			 </FOLDER> -->
-		</FOLDER>
-		
-		<FOLDER profile="ADMINISTRADOR"
-				name="Importaciones GEDEON">
-			<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
-		</FOLDER>
 					
 		<!-- <FOLDER profile="ADMINISTRADOR"	name="Cotizaciones Bolsa">
 			<LEAF link="event=ConsultaPeticionesDatosInvertia.query" name="Consultas/estad." />

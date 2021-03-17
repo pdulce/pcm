@@ -84,10 +84,10 @@ xmlns:service="http://pcm.framework.org/service"
 					eventsRegistered="detail, create">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
 						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/><!-- Peticion -->
-						<fieldView mappingTo="49" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="49"/>
 						<fieldView mappingTo="3" hidden="true"/>
 						<fieldView mappingTo="2" hidden="true"/>
-						<fieldView mappingTo="4" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="4" />
 						<fieldView mappingTo="5" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="6" styleCss="font-weight: bold;color: white;"/>
 						<fieldView mappingTo="7" styleCss="font-weight: bold;color: white;"/>
@@ -203,8 +203,8 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="49" editable="false" />
 						<fieldView mappingTo="2" editable="false" />
 						<fieldView mappingTo="3" editable="false" />
-						<fieldView mappingTo="4" editable="false" />
 						<fieldView separator="br" />
+						<fieldView mappingTo="4" editable="false" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="5" editable="false" />
 						<fieldView mappingTo="6" editable="false" />
@@ -287,10 +287,10 @@ xmlns:service="http://pcm.framework.org/service"
 					<fieldView mappingTo="1" hidden="true" />					
 					<fieldView mappingTo="3" editable="false" styleCss="color: white;" />
 					<fieldView mappingTo="4" editable="false" styleCss="color: white;" />
-					<fieldView mappingTo="5" editable="false" styleCss="color: green;" />
+					<fieldView mappingTo="5" editable="false" styleCss="color: orange;" />
 					<fieldView mappingTo="28" editable="false" styleCss="color: white;" />
-					<fieldView mappingTo="6" editable="false" styleCss="color: green;" />
-					<fieldView mappingTo="7" editable="false" styleCss="color: green;" />					
+					<fieldView mappingTo="6" editable="false" styleCss="color: orange;" />
+					<fieldView mappingTo="7" editable="false" styleCss="color: orange;" />					
 					<fieldView mappingTo="16" editable="false" styleCss="color: white;" />
 					<fieldView mappingTo="17" editable="false" styleCss="color: white;" />
 					<fieldView mappingTo="8" editable="false" styleCss="color: yellow;" />
