@@ -131,9 +131,9 @@ public abstract class GenericHighchartModel implements IStats {
 					break;
 				}
 			}
-			if (userFilter == null || userFilter.isEmpty()){
+			/*if (userFilter == null || userFilter.isEmpty()){
 				throw new Exception("Seleccione criterios de búsqueda");
-			}
+			}*/
 			
 			String[] categoriasAgrupacion = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
 			if (categoriasAgrupacion == null){
@@ -327,7 +327,7 @@ public abstract class GenericHighchartModel implements IStats {
 		if (groupByField != null && groupByField.length > 1){
 			newNombreCategoriaOPeriodo = units;
 		}
-		data_.setAttribute(TEXT_Y_AXIS, "num. " + (!"".equals(units) ? units : 
+		data_.setAttribute(TEXT_Y_AXIS, "" + (!"".equals(units) ? units : 
 			(entidadTraslated + (newNombreCategoriaOPeriodo.equals(entidadTraslated) ? "" : " por " + newNombreCategoriaOPeriodo))));
 		data_.setAttribute(TEXT_X_AXIS, ("".equals(units) ? entidadTraslated : units));
 		data_.setAttribute(UNITS_ATTR, units);

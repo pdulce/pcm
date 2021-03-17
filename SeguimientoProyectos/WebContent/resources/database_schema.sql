@@ -47,6 +47,7 @@ CREATE TABLE `peticiones` (
 CREATE INDEX index_search_gedeones_1 on peticiones (id);
 CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 
+DROP TABLE `agregadosPeticiones`;
 CREATE TABLE `agregadosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `tituloEstudio` varchar(250) NULL,
@@ -60,35 +61,39 @@ CREATE TABLE `agregadosPeticiones` (
   `ciclo_vida` double DEFAULT NULL,  
   `duracion_analysis` double DEFAULT NULL,
   `duracion_desarrollo` double DEFAULT NULL,
+  `duracion_entregas` double DEFAULT NULL,
   `duracion_pruebas` double DEFAULT NULL,
   `gap_tram_iniRealDesa` double DEFAULT NULL,
-  `gap_finDesa_iniPrue` double DEFAULT NULL,
+  `gap_finDesa_solicEntrega` double DEFAULT NULL,
   `gap_finPrue_Producc` double DEFAULT NULL,
   `total_dedicaciones` double DEFAULT NULL,
   `total_gaps` double DEFAULT NULL,
   `ciclo_vida_permonth` double DEFAULT NULL,  
   `duracion_analysis_permonth` double DEFAULT NULL,
   `duracion_desarrollo_permonth` double DEFAULT NULL,
+  `duracion_entregas_permonth` double DEFAULT NULL,
   `duracion_pruebas_permonth` double DEFAULT NULL,
   `gap_tram_iniRealDesa_permonth` double DEFAULT NULL,
-  `gap_finDesa_iniPrue_permonth` double DEFAULT NULL,
+  `gap_finDesa_solicEntrega_permonth` double DEFAULT NULL,
   `gap_finPrue_Producc_permonth` double DEFAULT NULL,
   `total_dedicaciones_permonth` double DEFAULT NULL,
   `total_gaps_permonth` double DEFAULT NULL,
   `ciclo_vida_perpet` double DEFAULT NULL,  
   `duracion_analysis_perpet` double DEFAULT NULL,
   `duracion_desarrollo_perpet` double DEFAULT NULL,
+  `duracion_entregas_perpet` double DEFAULT NULL,
   `duracion_pruebas_perpet` double DEFAULT NULL,
   `gap_tram_iniRealDesa_perpet` double DEFAULT NULL,
-  `gap_finDesa_iniPrue_perpet` double DEFAULT NULL,
+  `gap_finDesa_solicEntrega_perpet` double DEFAULT NULL,
   `gap_finPrue_Producc_perpet` double DEFAULT NULL,
   `total_dedicaciones_perpet` double DEFAULT NULL,
   `total_gaps_perpet` double DEFAULT NULL,  
   `porc_duracion_analysis` double DEFAULT NULL,
   `porc_duracion_desarrollo` double DEFAULT NULL,
+  `porc_duracion_entrega` double DEFAULT NULL,
   `porc_pruebas` double DEFAULT NULL,
   `porc_gap_tram_iniRealDesa` double DEFAULT NULL,
-  `porc_gap_finDesa_iniPrue` double DEFAULT NULL,
+  `porc_gap_finDesa_solicEntrega` double DEFAULT NULL,
   `porc_gap_finPrue_Producc` double DEFAULT NULL,
   `porc_total_dedicaciones` double DEFAULT NULL,        
   `porc_total_gaps` double DEFAULT NULL,
@@ -97,26 +102,45 @@ CREATE TABLE `agregadosPeticiones` (
 CREATE INDEX index_Estudios_sr ON agregadosPeticiones (servicio);
 CREATE INDEX index_Estudios_ti ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
 
+DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `id_estudio` int(11) NOT NULL,
+  `aplicacion` varchar(150) DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
   `gedeon_DG` varchar(10) DEFAULT NULL,
   `gedeon_AT` varchar(10) DEFAULT NULL,
   `gedeon_Entrega` varchar(10) DEFAULT NULL,
   `ciclo_vida` double DEFAULT NULL,  
   `duracion_analysis` double DEFAULT NULL,
   `duracion_desarrollo` double DEFAULT NULL,
+  `duracion_entrega_DG` double DEFAULT NULL,  
   `duracion_pruebas` double DEFAULT NULL,
-  `gap_tram_iniRealDesa` double DEFAULT NULL,
-  `gap_finDesa_iniPrue` double DEFAULT NULL,
+  `gap_tram_iniRealDesa` double DEFAULT NULL,   
+  `gap_finDesa_solicitudEntrega` double DEFAULT NULL,
   `gap_finPrue_Producc` double DEFAULT NULL,
   `total_dedicaciones` double DEFAULT NULL,
   `total_intervalos_sin_dedicacion` double DEFAULT NULL,
-  `tipo` varchar(50) DEFAULT NULL,
-  `aplicacion` varchar(150) DEFAULT NULL
+  `fecha_inicio_analisis` date DEFAULT NULL,
+  `fecha_fin_analisis` date DEFAULT NULL,
+  `fecha_tramite_a_DG` date DEFAULT NULL, 
+  `fecha_inicio_desarrollo` date DEFAULT NULL,
+  `fecha_fin_desarrollo` date DEFAULT NULL,
+  `fecha_solicitud_entrega` date DEFAULT NULL,
+  `fecha_inicio_pruebasCD` date DEFAULT NULL,
+  `fecha_fin_pruebasCD` date DEFAULT NULL,
+  `fecha_inicio_instalacion_Prod` date DEFAULT NULL,
+  `fecha_fin_instalacion_Prod` date DEFAULT NULL
 );  
-
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
+
+
+
+
+
+
+
+
 
 CREATE TABLE `categoria_profesional` (
   `ID_CATEGORIA` INTEGER PRIMARY KEY   AUTOINCREMENT,

@@ -31,20 +31,20 @@ public class TextAreaCtrl extends AbstractCtrl {
 		int lengthOftextArea = valueOfText.length();
 		
 		if (lengthOftextArea < 10){
-			rows_= 2;
-			cols_ = 20;
+			rows_= 1;
+			cols_ = 30;
 		}else if (lengthOftextArea < 20){
-			rows_= 3;
-			cols_ = 20;
+			rows_= 2;
+			cols_ = 40;
 		}else if (lengthOftextArea < 30){
-			rows_= 4;
-			cols_ = 25;
+			rows_= 2;
+			cols_ = 55;
 		}else if (lengthOftextArea >= 30 && lengthOftextArea < 50){
-			rows_= 3 + saltosLinea;
-			cols_ = 20;
+			rows_= 2;
+			cols_ = 80;
 		}else if (lengthOftextArea >= 50 && lengthOftextArea < 100){
-			rows_= 4 + saltosLinea;
-			cols_ = 25;
+			rows_= 3;
+			cols_ = 95;
 		}else if (lengthOftextArea >= 100 && lengthOftextArea < 500){
 			rows_= 4 + saltosLinea;
 			cols_ = 50;
