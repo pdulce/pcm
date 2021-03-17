@@ -197,26 +197,27 @@
   <entity>
     <entityname>tecnologia</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="nombre" type="string" length="100" required="true"/>
-    <field mappingTo="3" name="descripcion" type="string" length="250" required="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="100" required="false"/>
+    <field mappingTo="3" name="descripcion" type="string" length="250" required="false"/>
  </entity>
  
   <entity>
     <entityname>servicioUTE</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="nombre" type="string" length="100" required="true"/>
-    <field mappingTo="3" name="id_tecnologia" type="long" length="11" required="true" 
+    <field mappingTo="2" name="nombre" type="string" length="100" required="false"/>
+    <field mappingTo="3" name="id_tecnologia" type="long" length="11" required="false" 
 	    fkParentEntities="tecnologia" fkParentFields="1"/>    
-	 <field mappingTo="4" name="descripcion" type="string" length="250" required="true"/>
+	 <field mappingTo="4" name="descripcion" type="string" length="250" required="false"/>
    </entity>
   
   <entity>
     <entityname>aplicativo</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="nombre" type="string" length="100" required="true"/>
-    <field mappingTo="3" name="id_servicio" type="long" length="11" required="true" 
+    <field mappingTo="2" name="nombre" type="string" length="100" required="false"/>
+    <field mappingTo="3" name="id_servicio" type="long" length="11" required="false" 
 	    fkParentEntities="servicioUTE" fkParentFields="1"/>    
-	 <field mappingTo="4" name="descripcion" type="string" length="250" required="true"/>
+	 <field mappingTo="4" name="descripcion" type="string" length="250" required="false"/>
+	 <field mappingTo="5" name="rochade" type="string" length="20" required="false"/>
    </entity>
       
   

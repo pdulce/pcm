@@ -183,6 +183,7 @@ public abstract class ConstantesModelo {
 	public static final int APLICATIVO_2_NOMBRE = 2;
 	public static final int APLICATIVO_3_ID_SERVICIO = 3;
 	public static final int APLICATIVO_4_DESCRIPC = 4;
+	public static final int APLICATIVO_5_ROCHADE = 5;
 	public static final String APLICATIVO_ENTIDAD = "aplicativo";
   
 	public static final int SABANA_1_ID = 1;

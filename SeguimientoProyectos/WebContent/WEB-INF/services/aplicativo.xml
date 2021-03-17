@@ -24,20 +24,28 @@
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="4"/>
+						<fieldView mappingTo="5" type="select" editable="true">						
+							<optionValues selectionMultiple="true" entitymodel="rochade"
+								descrMappingTo="5" codeField="5">
+							</optionValues>							
+						</fieldView>
+
 					</fieldViewSet>
 				</form>
 
-				<grid title="Listado aplicativos" orderDirection="asc" eventsRegistered="update, create, delete">
+				<grid title="Listado aplicativos" orderDirection="asc" defaultOrderField="aplicativo.3" 
+				eventsRegistered="update, create, delete">
 					<fieldViewSet entitymodel="aplicativo"
 						nameSpace="aplicativo">
 						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="5" />
 						<fieldView mappingTo="2" />
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="4" />
+						
 					</fieldViewSet>
 				</grid>
 
@@ -52,6 +60,7 @@
 					<fieldViewSet entitymodel="aplicativo"
 						nameSpace="aplicativo">
 						<fieldView mappingTo="1" editable="false" />
+						<fieldView mappingTo="5" editable="false" />
 						<fieldView mappingTo="2" editable="false" />
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="servicioUTE"
@@ -71,6 +80,7 @@
 				<form columns="3" title="Servicio">
 					<fieldViewSet entitymodel="aplicativo"
 						nameSpace="aplicativo">
+						<fieldView mappingTo="5" editable="true" />
 						<fieldView mappingTo="2" editable="true" />
 						<fieldView mappingTo="3" type="select" editable="true">
 							<optionValues entitymodel="servicioUTE"
@@ -91,6 +101,7 @@
 					<fieldViewSet entitymodel="aplicativo"
 						nameSpace="aplicativo">
 						<fieldView mappingTo="1" hidden="true" />
+						<fieldView mappingTo="5" editable="true" />
 						<fieldView mappingTo="2" editable="true" />
 						<fieldView mappingTo="3" type="select" editable="true">
 							<optionValues entitymodel="servicioUTE"

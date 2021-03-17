@@ -24,14 +24,16 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="orderBy" hidden="true" value="1"/>
 								<fieldView name="fieldForGroupBy" type="select">
 									<optionValues>
+										<option code="-1" title="comparativa"></option>
 										<option code="2" title="Agrupado por Estudio" selected="true"></option>
 										<option code="49" title="Agrupado por Servicio"></option>
 										<option code="3" title="Agrupado por Entorno"></option>
 									</optionValues>
 								</fieldView>
 								<!-- fieldView separator="br" /> -->
-								<fieldView name="agregado" type="radio">
+								<fieldView name="agregado" type="select">
 									<optionValues>
+										<option code="-1" title="comparativa"></option>
 										<option code="30" title="Ciclo Vida Petición" selected="true"></option>
 										<option code="31" title="Análisis"></option>
 										<option code="32" title="Desarrollo"></option>
@@ -53,19 +55,17 @@ xmlns:service="http://pcm.framework.org/service"
 							
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
 					
-						<fieldset legend="Filtrar por Tecnología y Servicio">					
-							<fieldView mappingTo="3" type="checkbox" size="10">
-								<optionValues selectionMultiple="true">
-									<option code="HOST" title="HOST"></option>
-									<option code="Pros@" title="Pros@"></option>
+						<fieldset legend="Filtrar por Tecnología y Servicio">			
+															
+							<fieldView mappingTo="3" type="select">
+								<optionValues entitymodel="tecnologia"
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							
 							<fieldView mappingTo="49" type="select" size="5">
-								<optionValues selectionMultiple="true">
-									<option code="Servicio Nuevos Desarrollos Pros@" title="Servicio Nuevos Desarrollos Pros@"></option>
-									<option code="Servicio Mto. Pros@" title="Servicio Mto. Aplicaciones Pros@"></option>
-									<option code="Servicio Mto. HOST" title="Servicio Mto. Aplicaciones HOST"></option>
+								<optionValues entitymodel="servicioUTE"
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							
@@ -81,10 +81,14 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</form>
 				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.2"
-					eventsRegistered="detail, create">
+					eventsRegistered="detail, create, delete">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
 						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/><!-- Peticion -->
-						<fieldView mappingTo="49"/>
+						<fieldView mappingTo="49" type="select" size="1" editable="false">
+							<optionValues entitymodel="servicioUTE"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="3" hidden="true"/>
 						<fieldView mappingTo="2" hidden="true"/>
 						<fieldView mappingTo="4" />
@@ -104,8 +108,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="35" styleCss="font-weight: bold;color: orange;"/>
 						<fieldView mappingTo="36" styleCss="font-weight: bold;color: orange;"/>
 						<fieldView mappingTo="37" styleCss="font-weight: bold;color: orange;"/>
-						
-						
+												
 					</fieldViewSet>
 				</grid>
 				
@@ -114,17 +117,45 @@ xmlns:service="http://pcm.framework.org/service"
 		</action>
 		
 		
+		<action event="delete" submitError="EstudioPeticiones.delete"
+			submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.BorrarResumenes">
+			<viewComponent>
+				<form columns="2" title="Borrar Estudio Ciclo Vida Peticiones">
+					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">					
+						<fieldset legend="Estudio">											
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="49" type="select" size="5" editable="false">
+								<optionValues entitymodel="servicioUTE"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" editable="false" />
+							<fieldView mappingTo="4" editable="false" />		
+							<fieldView separator="br" />
+									
+						</fieldset>
+								
+						<fieldset legend="Fechas del estudio (inicio-fin)">
+							<fieldView mappingTo="5" editable="false" />
+							<fieldView mappingTo="6" editable="false" />
+						</fieldset>
+																			
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+			
+		</action>
+		
 		<action event="create" submitError="EstudioPeticiones.create"
 			submitSucces="EstudioPeticiones.query" strategy="facturacionUte.strategies.GenerarEstudioCicloVida">
 			<viewComponent>
 				<form columns="2" title="Generar Estudio Ciclo Vida Peticiones por períodos">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">					
 						<fieldset legend="Escoja el Servicio para el Estudio">											
-							<fieldView mappingTo="49" type="select" size="5">
-								<optionValues selectionMultiple="true">
-									<option code="Servicio Nuevos Desarrollos Pros@" title="Servicio Nuevos Desarrollos Pros@"></option>
-									<option code="Servicio Mto. Pros@" title="Servicio Mto. Aplicaciones Pros@"></option>
-									<option code="Servicio Mto. HOST" title="Servicio Mto. Aplicaciones HOST"></option>
+							
+							<fieldView mappingTo="49" type="select" size="5" editable="true">
+								<optionValues entitymodel="servicioUTE"
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 									
@@ -151,8 +182,8 @@ xmlns:service="http://pcm.framework.org/service"
 			<form columns="3" title="Detalle del Estudio">
 				
 				<userbuttons>
-					<button	link="prjManager" id="histog1" name="Histogram" >
-						<fieldViewSet nameSpace="histog1">
+					<button	link="prjManager" id="histog2" name="Histogram" >
+						<fieldViewSet nameSpace="histog2">
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
@@ -164,9 +195,9 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="4" title="tipo"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="agregado" type="radio">
+							<fieldView name="agregado" type="select">
 								<optionValues>
-									<option code="-1" title="peticiones"></option>								
+									<option code="-1" title="comparativa"></option>
 									<option code="28" title="uts "></option>
 									<option code="8" title="CicloVida" selected="true"></option>
 									<option code="9" title="Análisis"></option>
@@ -200,7 +231,11 @@ xmlns:service="http://pcm.framework.org/service"
 					nameSpace="agregadosPeticionesForm">
 					<fieldset legend="Resumen Estudio">
 						<fieldView mappingTo="1" hidden="true" />
-						<fieldView mappingTo="49" editable="false" />
+						<fieldView mappingTo="49" type="select" size="1" editable="false">
+							<optionValues entitymodel="servicioUTE"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="2" editable="false" />
 						<fieldView mappingTo="3" editable="false" />
 						<fieldView separator="br" />

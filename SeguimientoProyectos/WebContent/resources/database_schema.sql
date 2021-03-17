@@ -155,9 +155,34 @@ CREATE TABLE `aplicativo` (
   `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `id_servicio` int(11) NOT NULL,
-  `descripcion` varchar(250) DEFAULT NULL  
+  `descripcion` varchar(250) DEFAULT NULL,
+  `rochade` varchar(20) DEFAULT NULL  
 );
-
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (1,'APRO - ANTEPROYECTO',1,'APRO - ANTEPROYECTO', 'APRO');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (2,'INVE - INVENTARIO',1,'INVE - INVENTARIO', 'INVE');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (3,'PAGO - PAGODA',1,'PAGO - PAGODA', 'PAGO');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (4,'FMAR - FORMAR',1,'FMAR - FORMAR', 'FMAR');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (5,'TASA - TSE111',1,'TASA - TSE111', 'TASA');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (6,'PRES - PRESMAR',1,'PRES - PRESMAR', 'PRES');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (7,'AFLO - AYFLO',1,'AFLO - AYFLO', 'AFLO');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (8,'FARM - FARMAR',1,'FARM - FARMAR', 'FARM');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (9,'INBU - SEGUMAR',1,'INBU - SEGUMAR', 'INBU');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (10,'CMAR - CONTAMAR2',1,'CMAR - CONTAMAR2', 'CMAR');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (11,'CONT - CONTAMAR',1,'CONT - CONTAMAR', 'CONT');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (12,'MIND - ESTAD_IND',1,'MIND - ESTAD_IND', 'MIND');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (13,'INCM - INCA_ISM',1,'INCM - INCA_ISM', 'INCA');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (14,'AYFL - AYUDAS_FLOTA',3,'AYFL - AYUDAS_FLOTA', 'AYFL');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (15,'FOMA - FORMAR_PROSA',3,'FOMA - FORMAR_PROSA', 'FOMA');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (16,'FRMA - FRMA',3,'FRMA - FRMA', 'FRMA');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (17,'FAMA - FARMAR_PROSA',3,'FAMA - FARMAR_PROSA', 'FAMA');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (18,'SANI - SANIMA_PROSA',3,'SANI - SANIMA_PROSA', 'SANI');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (19,'FOM2 - FOMA2',2,'FOM2 - FOMA2', 'FOM2');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (20,'SBOT - SUBVEN_BOTIQ',2,'SBOT - SUBVEN_BOTIQ', 'SBOT');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (21,'FAM2 - FAM2_BOTIQU',2,'FAM2 - FAM2_BOTIQU', 'FAM2');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (22,'GFOA - GEFORA',2,'GFOA - GEFORA', 'GFOA');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (23,
+'OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.',
+2,'OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.', 'OBIS');
 
 
 

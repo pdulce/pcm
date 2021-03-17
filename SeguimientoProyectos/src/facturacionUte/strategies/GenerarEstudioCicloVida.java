@@ -36,14 +36,11 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " ¡OJO ya en entrega previa! ";
 	
-	private String dictionaryOfEntities;
-	
 	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, 
 				tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudioPeticionesEntidad == null) {
-			this.dictionaryOfEntities = entitiesDictionary;
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.AGREG_PETICIONES_ENTIDAD);
@@ -90,8 +87,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 
 			//obtenemos el id que es secuencial
 			FieldViewSet estudioFSet = dataAccess.searchLastInserted(estudioFSet_);
-			//Long id = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_1_ID).getName());
-			//System.out.println("id: " + id);			
 			
 			Date fecFinEstudio = null;
 			try {
@@ -118,7 +113,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				fieldViews4Filter.add(fViewMinor);
 				fieldViews4Filter.add(fViewMayor);
 				
-				FieldViewSet filterPeticiones = new FieldViewSet(this.dictionaryOfEntities, peticionesEntidad.getName(), fieldViews4Filter);
+				FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4Filter);
 				filterPeticiones.setValue(fViewMinor.getQualifiedContextName(), fecIniEstudio);
 				filterPeticiones.setValue(fViewMayor.getQualifiedContextName(), fecFinEstudio);
 				
@@ -252,13 +247,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
 			for (int i =0;i<aplicaciones.size();i++) {
 				FieldViewSet app = aplicaciones.get(i);
-				textoAplicaciones.append((String)app.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
+				textoAplicaciones.append((String)app.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_ROCHADE).getName()));
 				if (i < (aplicaciones.size()-1)) {
 					textoAplicaciones.append(", ");
 				}
-			}
-			
-			Long idTecnologia = (Long) servicioEnBBDD.getValue(servicioUTEEntidad.searchField(ConstantesModelo.SERVICIOUTE_2_NOMBRE).getName());
+			}			
+			Long idTecnologia = (Long) servicioEnBBDD.getValue(servicioUTEEntidad.searchField(ConstantesModelo.SERVICIOUTE_3_ID_TECHNOLO).getName());
 			
 			FieldViewSet tecnologiaBBDD = new FieldViewSet(tecnologiaEntidad);
 			tecnologiaBBDD.setValue(tecnologiaEntidad.searchField(ConstantesModelo.TECHNOLOGY_1_ID).getName(), idTecnologia);
@@ -349,12 +343,13 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 									}
 									fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
 									fechaFinRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
+									double aumentarDedicacionAnalisis = servicio.contains("Mto.") ? 0.025 : 0.325;
 									if (fechaFinRealAnalysis == null || fechaFinRealAnalysis.compareTo(fechaTramite) > 0) {
-										daysAnalisis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue()*0.45;
+										daysAnalisis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaTramite).doubleValue()*(0.45 + aumentarDedicacionAnalisis);
 									}else {
-										daysAnalisis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinRealAnalysis).doubleValue()*0.45;
+										daysAnalisis += CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinRealAnalysis).doubleValue()*(0.45 + aumentarDedicacionAnalisis);
 									}
-									// Se aplica un peso del 45% del tiempo total de inicio-fin de un análisis porque en base a otros estudios sabemos
+									// Se aplica un peso del 45% del tiempo total de inicio-fin de un análisis porque en base a otros estudios sabemos: aumentamos ese peso en desarrollos puros
 									// que en AT se dedica un 55% del tiempo a otras tareas de soporte y atención al usuario en las aplicaciones en Producción
 									if (daysAnalisis == 0.0) {
 										daysAnalisis = 0.1;
