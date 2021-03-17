@@ -39,18 +39,14 @@ CREATE TABLE `peticiones` (
   `fecha_estado_modif` TIMESTAMP DEFAULT NULL,
   `tipo_fecha` int(2),
   `fecha_informe` TIMESTAMP DEFAULT NULL, 
-  `estado_informe` varchar(100) DEFAULT NULL, id_area int(11) DEFAULT NULL, 
+  `estado_informe` varchar(100) DEFAULT NULL, 
+  `id_area int(11) DEFAULT NULL, 
   `entorno` int(11) DEFAULT NULL,
-  `Horas_estimadas_iniciales` double DEFAULT NULL,
-  `duracion_total` double DEFAULT NULL,
-  `duracion_analysis` double DEFAULT NULL,
-  `duracion_desarrollo` double DEFAULT NULL,
-  `duracion_pruebas` double DEFAULT NULL,
-  `gap_tram_iniRealDesa` double DEFAULT NULL,  
-  `gap_finDesa_iniPrue` double DEFAULT NULL,
-  `gap_finPrue_Producc` double DEFAULT NULL
+  `Horas_estimadas_iniciales` double DEFAULT NULL
   );  
-  
+CREATE INDEX index_search_gedeones_1 on peticiones (id);
+CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
+
 CREATE TABLE `agregadosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `tituloEstudio` varchar(250) NULL,
@@ -98,7 +94,27 @@ CREATE TABLE `agregadosPeticiones` (
   `porc_total_gaps` double DEFAULT NULL,
   `servicio` varchar(150) DEFAULT NULL  
 );  
+CREATE INDEX index_Estudios ON agregadosPeticiones (servicio);
+CREATE INDEX index_Estudios ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
 
+CREATE TABLE `resumenPeticiones` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  'id_estudio' int(11) NOT NULL,
+  `gedeon_DG` varchar(10) DEFAULT NULL,
+  `gedeon_AT` varchar(10) DEFAULT NULL,
+  `gedeon_Entrega` varchar(10) DEFAULT NULL,
+  `ciclo_vida` double DEFAULT NULL,  
+  `duracion_analysis` double DEFAULT NULL,
+  `duracion_desarrollo` double DEFAULT NULL,
+  `duracion_pruebas` double DEFAULT NULL,
+  `gap_tram_iniRealDesa` double DEFAULT NULL,
+  `gap_finDesa_iniPrue` double DEFAULT NULL,
+  `gap_finPrue_Producc` double DEFAULT NULL,
+  `total_dedicaciones` double DEFAULT NULL,
+  `total_intervalos_sin_dedicacion` double DEFAULT NULL
+);  
+
+CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
 
 CREATE TABLE `categoria_profesional` (
   `ID_CATEGORIA` INTEGER PRIMARY KEY   AUTOINCREMENT,
@@ -493,8 +509,6 @@ CREATE TABLE `sabana` (
  );
 
   
-CREATE INDEX index_search_gedeones_1 on peticiones (id);
-CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 CREATE INDEX index_cotizaciones ON invertia_data (GRUPO);
 CREATE INDEX index_cotizaciones2 ON invertia_data (GRUPO, FECHA);
 CREATE INDEX index_prev_anual ON resultado_prevision_anualidad(id_prevision_contrato);
@@ -504,5 +518,5 @@ CREATE INDEX index_FraServ ON facturacionMesPorServicio (id_servicio);
 CREATE INDEX index_FraDpto ON facturacionMesPorDpto (id_dpto);
 CREATE INDEX index_FraApp ON facturacionMesPorApp (id_app);
 CREATE INDEX index_FraColab ON facturacionMesPorColaborador (id_colaborador);
-CREATE INDEX index_Estudios ON agregadosPeticiones (servicio, fecha_inicio_estudio);
+
   

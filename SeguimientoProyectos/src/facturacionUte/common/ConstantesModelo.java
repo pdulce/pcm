@@ -84,16 +84,8 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_40_ESTADO_INFORME = 40;
 	public static final int PETICIONES_41_ENTORNO_TECNOLOG = 41;
 	public static final int PETICIONES_42_HORAS_ESTIMADAS_INICIALES = 42;
-	public static final int PETICIONES_43_DURACION_TOTAL = 43;
-	public static final int PETICIONES_44_DURACION_ANALYSIS = 44;
-	public static final int PETICIONES_45_DURACION_DESARROLLO = 45;
-	public static final int PETICIONES_46_DURACION_PRUEBAS_CD = 46;
-	public static final int PETICIONES_47_GAP_TRAMITE_INIREALDESA = 47;
-	public static final int PETICIONES_48_GAP_FINDESA_INIPRUE = 48;
-	public static final int PETICIONES_49_GAP_FINPRUEBAS_PRODUCC = 49;
 	public static final String PETICIONES_ENTIDAD = "peticiones";
-		 
-	    
+		 	    
     public static final int AGREG_PETICIONES_1_ID = 1;
     public static final int AGREG_PETICIONES_2_TITULOESTUDIO = 2;
     public static final int AGREG_PETICIONES_3_ENTORNO = 3;
@@ -144,6 +136,25 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_44_PORC_TOTALGAP = 44;
     public static final int AGREG_PETICIONES_45_SERVICIO = 45;
 	public static final String AGREG_PETICIONES_ENTIDAD = "agregadosPeticiones";
+	
+    public static final int RESUMEN_PETICION_1_ID = 1;
+    public static final int RESUMEN_PETICION_2_ID_ESTUDIO = 2;
+    public static final int RESUMEN_PETICION_3_ID_PET_DG = 3;
+    public static final int RESUMEN_PETICION_4_ID_PET_AT = 4;
+    public static final int RESUMEN_PETICION_5_ID_PET_ENTREGA = 5;	
+    public static final int RESUMEN_PETICION_6_CICLO_VIDA = 6;
+	public static final int RESUMEN_PETICION_7_DURACION_ANALYSIS = 7;
+	public static final int RESUMEN_PETICION_8_DURACION_DESARROLLO = 8;
+	public static final int RESUMEN_PETICION_9_DURACION_PRUEBAS_CD = 9;
+	public static final int RESUMEN_PETICION_10_GAP_TRAMITE_INIREALDESA = 10;
+	public static final int RESUMEN_PETICION_11_GAP_FINDESA_INIPRUE = 11;
+	public static final int RESUMEN_PETICION_12_GAP_FINPRUEBAS_PRODUCC = 12;	
+	public static final int RESUMEN_PETICION_13_TOTAL_DEDICACIONES = 13;
+	public static final int RESUMEN_PETICION_14_TOTAL_GAPS = 14;
+	public static final int RESUMEN_PETICION_15_TIPO = 15;	
+	public static final int RESUMEN_PETICION_16_APLICACION = 16;	
+	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
+
 	
 	public static final int SABANA_1_ID = 1;
 	public static final int SABANA_2_Titulo = 2;

@@ -86,7 +86,7 @@
     <field mappingTo="24" name="Des_fecha_real_inicio" type="date" length="10" required="false"/>
     <field mappingTo="25" name="Des_fecha_real_fin" type="date" length="10" required="false"/>
     <field mappingTo="26" name="Proyecto_ID" type="string" length="10" required="true"/>        
-    <field mappingTo="27" name="Proyecto_Name" type="string" length="50" required="false"/>    
+    <field mappingTo="27" name="Proyecto_Name" type="string" length="150" required="false"/>    
     <field mappingTo="28" name="Horas_estimadas_actuales" type="double" length="10" required="false"/>
     <field mappingTo="29" name="Horas_reales" type="double" length="10" required="false"/>
     <field mappingTo="30" name="anyo_mes" type="string" length="7" required="false"/>
@@ -103,13 +103,6 @@
     <field mappingTo="41" name="entorno" type="long" length="11" required="false" 
        fkParentEntities="tipoAplicacion" fkParentFields="1"/>
     <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
-    <field mappingTo="43" name="duracion_total" type="double" length="10" required="false"/>
-    <field mappingTo="44" name="duracion_analysis" type="double" length="10" required="false"/>
-    <field mappingTo="45" name="duracion_desarrollo" type="double" length="10" required="false"/>
-    <field mappingTo="46" name="duracion_pruebas" type="double" length="10" required="false"/>
-    <field mappingTo="47" name="gap_tram_iniRealDesa" type="double" length="10" required="false"/>
-    <field mappingTo="48" name="gap_finDesa_iniPrue" type="double" length="10" required="false"/>
-    <field mappingTo="49" name="gap_finPrue_Producc" type="double" length="10" required="false"/>    
   </entity>
 	
 <entity>
@@ -160,6 +153,28 @@
     <field mappingTo="44" name="porc_total_gaps" type="double" length="6" required="false"/>
     <field mappingTo="45" name="servicio" type="string" length="150" required="false"/>
   </entity>	
+  
+  <entity>
+    <entityname>resumenPeticiones</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="id_estudio" type="long" length="11" required="true" 
+	    	   fkParentEntities="agregadosPeticiones" fkParentFields="1"/>    
+    <field mappingTo="3" name="gedeon_DG" type="string" length="10" required="false"/>
+    <field mappingTo="4" name="gedeon_AT" type="string" length="10" required="false"/>
+    <field mappingTo="5" name="gedeon_Entrega" type="string" length="10" required="false"/>
+    <field mappingTo="6" name="ciclo_vida" type="double" length="6" required="false"/>
+    <field mappingTo="7" name="duracion_analysis" type="double" length="6" required="false"/>
+    <field mappingTo="8" name="duracion_desarrollo" type="double" length="6" required="false"/>
+    <field mappingTo="9" name="duracion_pruebas" type="double" length="6" required="false"/>
+    <field mappingTo="10" name="gap_tram_iniRealDesa" type="double" length="6" required="false"/>
+    <field mappingTo="11" name="gap_finDesa_iniPrue" type="double" length="6" required="false"/>
+    <field mappingTo="12" name="gap_finPrue_Producc" type="double" length="6" required="false"/>
+    <field mappingTo="13" name="total_dedicaciones" type="double" length="6" required="false"/>
+    <field mappingTo="14" name="total_intervalos_sin_dedicacion" type="double" length="6" required="false"/>
+    <field mappingTo="15" name="tipo" type="string" length="50" required="false"/>
+    <field mappingTo="16" name="aplicacion" type="string" length="150" required="false"/>    
+   </entity>
+  
 	
   <entity>
     <entityname>sabana</entityname>

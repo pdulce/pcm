@@ -38,13 +38,13 @@
 								<optionValues>
 									<option code="-1" title="peticiones"></option>								
 									<option code="28" title="UTs Estimadas"></option>
-									<option code="43" title="CicloVida" selected="true"></option>
+									<!-- <option code="43" title="CicloVida" selected="true"></option>
 									<option code="44" title="Análisis"></option>
 									<option code="45" title="Desarrollo"></option>
 									<option code="46" title="Pruebas CD"></option>
 									<option code="47" title="Lapso Planificación DG"></option>
 									<option code="48" title="Lapso Planificación Pruebas CD"></option>
-									<option code="49" title="Lapso Planificación Instalación Producc."></option>									
+									<option code="49" title="Lapso Planificación Instalación Producc."></option>-->									
 								</optionValues>
 							</fieldView>
 							<!-- fieldView separator="br" /> -->

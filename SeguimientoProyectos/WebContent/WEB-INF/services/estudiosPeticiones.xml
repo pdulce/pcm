@@ -17,7 +17,7 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 				
-						<button	link="prjManager" id="histog1" name="Histogram" >
+						<button	link="prjManager" id="histog1" name="Comparativa Estudios" >
 							<fieldViewSet nameSpace="histog1">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
@@ -43,18 +43,7 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="36" title="Total Intervalos sin Dedicación Petición"></option>
 									</optionValues>
 								</fieldView>
-								<!-- fieldView separator="br" /> -->
-								<fieldView name="escalado" type="select">
-									<optionValues>
-										<option code="dayly" title="Diario"></option>
-										<option code="weekly" title="Semanal"></option>
-										<option code="monthly" title="Mensual" selected="true"></option>
-										<option code="3monthly" title="Trimestral"></option>
-										<option code="6monthly" title="Semestral"></option>
-										<option code="anualy" title="Anual"></option>
-										<option code="automatic" title="Automatico"></option>
-									</optionValues>
-								</fieldView>
+								<fieldView name="escalado" type="hidden" value="automatic"/>
 								<fieldView name="operation" hidden="true" value="SUM"/>							
 							</fieldViewSet>
 						</button>
@@ -126,10 +115,58 @@ xmlns:service="http://pcm.framework.org/service"
 		submitSucces="EstudioPeticiones.detail">
 
 		<viewComponent>
+		
 			<form columns="3" title="Detalle del Estudio">
-			
+				
+				<userbuttons>
+					<button	link="prjManager" id="histog1" name="Histogram" >
+						<fieldViewSet nameSpace="histog1">
+							<fieldView name="highchart" hidden="true" value="histogram3D"/>
+							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="orderBy" hidden="true" value="17"/>
+							<fieldView name="fieldForGroupBy" type="select">
+								<optionValues>
+									<option code="-1" title="periodos" selected="true"></option>
+									<option code="15" title="aplicacion"></option>
+									<option code="16" title="tipo"></option>
+								</optionValues>
+							</fieldView>
+							<!-- fieldView separator="br" /> -->
+							<fieldView name="agregado" type="radio">
+								<optionValues>
+									<option code="-1" title="peticiones"></option>								
+									<option code="28" title="UTs Estimadas"></option>
+									<option code="6" title="CicloVida" selected="true"></option>
+									<option code="7" title="Análisis"></option>
+									<option code="8" title="Desarrollo"></option>
+									<option code="9" title="Pruebas CD"></option>
+									<option code="10" title="Lapso Planificación DG"></option>
+									<option code="11" title="Lapso Planificación Pruebas CD"></option>
+									<option code="12" title="Lapso Planificación Instalación Producc."></option>
+									<option code="13" title="Total dedicaciones"></option>
+									<option code="14" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+							<!-- fieldView separator="br" /> -->
+							<fieldView name="escalado" type="select">
+								<optionValues>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal"></option>
+									<option code="monthly" title="Mensual" selected="true"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+									<option code="automatic" title="Automatico"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" hidden="true" value="SUM"/>							
+						</fieldViewSet>
+					</button>
+				</userbuttons>
+				
 				<fieldViewSet entitymodel="agregadosPeticiones"
-					nameSpace="agregadosPeticiones">
+					nameSpace="agregadosPeticionesForm">
 					<fieldset legend="Resumen Estudio">
 						<fieldView mappingTo="1" hidden="true" />
 						<fieldView mappingTo="45" editable="false" />
@@ -215,6 +252,28 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldset>
 				</fieldViewSet>
 			</form>
+			
+			<grid title="Resumen por peticiones del estudio" dependsOf="agregadosPeticionesForm" orderDirection="asc"
+					defaultOrderField="resumenPeticiones.1">
+				
+				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
+					<fieldView mappingTo="1" hidden="true" />
+					<fieldView mappingTo="2" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="3" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="4" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="5" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="6" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="7" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="9" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="10" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="11" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="12" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="13" editable="false" styleCss="font-weight: bold;color: white;" />
+					<fieldView mappingTo="14" editable="false" styleCss="font-weight: bold;color: white;" />
+				</fieldViewSet>
+			</grid>
+		
 		</viewComponent>
 	</action>
 		
