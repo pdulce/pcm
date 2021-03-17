@@ -587,7 +587,7 @@ public class DataAccess implements IDataAccess {
 		String entityName = "";
 		try {
 			for (final FieldViewSet fieldViewSet : entities.getFieldViewSets()) {
-				if (fieldViewSet.isUserDefined() || !this.getEntitiesToUpdate().contains(fieldViewSet.getEntityDef().getName())) {
+				if (fieldViewSet.isUserDefined() /*|| !this.getEntitiesToUpdate().contains(fieldViewSet.getEntityDef().getName())*/) {
 					continue;
 				}
 				if (entityName.equals("")) {
