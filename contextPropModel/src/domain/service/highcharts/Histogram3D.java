@@ -356,8 +356,7 @@ public class Histogram3D extends GenericHighchartModel {
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = valoresAgregados.get(0).values().iterator().next().values().iterator().next();
-			total_ = median;
+			total_ = total_.doubleValue()/totalizacionColumnas.length;
 		}
 		return total_.doubleValue();
 	}

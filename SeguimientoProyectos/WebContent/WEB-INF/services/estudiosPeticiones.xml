@@ -22,15 +22,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
 								<fieldView name="orderBy" hidden="true" value="1"/>								
-								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>
-								<!-- fieldView name="fieldForGroupBy" type="select">
-									<optionValues>
-										<option code="-1" title="comparativa"></option>
-										<option code="2" title="Agrupado por Estudio" selected="true"></option>
-										<option code="49" title="Agrupado por Servicio"></option>
-										<option code="3" title="Agrupado por Entorno"></option>
-									</optionValues>
-								</fieldView> -->
+								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
 								<fieldView name="agregado" type="select">
 									<optionValues>
 										<option code="30" title="Promedio Ciclo Vida/petición" selected="true"></option>
@@ -88,8 +80,9 @@ xmlns:service="http://pcm.framework.org/service"
 				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.2"
 					eventsRegistered="detail, create, delete">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
-						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/><!-- Peticion -->
-						<fieldView mappingTo="49" type="select" size="1" editable="false">
+						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/>
+						<fieldView mappingTo="2" />
+						<!-- fieldView mappingTo="49" type="select" size="1" editable="false">
 							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
 							</optionValues>
@@ -98,10 +91,9 @@ xmlns:service="http://pcm.framework.org/service"
 							<optionValues entitymodel="tiposPeriodos"
 								descrMappingTo="3">
 							</optionValues>
-						</fieldView>						
-						<fieldView mappingTo="3" hidden="true"/>
-						<fieldView mappingTo="2" hidden="true"/>
-						<fieldView mappingTo="4" />
+						</fieldView>	 -->					
+						<!-- <fieldView mappingTo="3" hidden="true"/>-->
+						<!-- <fieldView mappingTo="4" />-->
 						<fieldView mappingTo="5" styleCss="font-weight: bold;"/>
 						<fieldView mappingTo="6" styleCss="font-weight: bold;"/>
 						<fieldView mappingTo="7" styleCss="font-weight: bold;"/>

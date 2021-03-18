@@ -195,8 +195,7 @@ public class Dualhistogram extends GenericHighchartModel {
 		data_.setAttribute("minEjeRef", minimal);
 		
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = valoresAgregados.get(0).values().iterator().next().values().iterator().next();
-			frecuenciaAcumulada = median;
+			frecuenciaAcumulada = frecuenciaAcumulada/jsArrayEjeAbcisas.size();
 		}
 
 		return frecuenciaAcumulada;

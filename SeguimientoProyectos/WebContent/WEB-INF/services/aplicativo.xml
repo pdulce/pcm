@@ -95,7 +95,7 @@
 							<fieldView separator="br" />
 							<fieldView mappingTo="3" type="select" size="5" editable="true">
 								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2">
+									descrMappingTo="2" selectionMultiple="true">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />
@@ -123,7 +123,7 @@
 							<fieldView separator="br" />
 							<fieldView mappingTo="3" type="select" size="5" editable="true">
 								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2">
+									descrMappingTo="2" selectionMultiple="true">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />

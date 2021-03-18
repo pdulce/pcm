@@ -320,6 +320,8 @@ public class HistogramUtils {
 			}
 			fechaCalMasAntigua = Calendar.getInstance();
 			fechaCalMasAntigua.setTime((Date) petFirstAndLast.get(1).getValue(orderField_.getName()));
+			fechaCalMasReciente= Calendar.getInstance();
+			fechaCalMasReciente.setTime((Date) petFirstAndLast.get(2).getValue(orderField_.getName()));
 		}
 		
 		// veamos cuantos doas hay, que es la unidad bosica para nuestro eje X:		

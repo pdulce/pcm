@@ -444,7 +444,7 @@ public class DataAccess implements IDataAccess {
 					order != null ? 1 : -1, orderFields, order, this.conn);
 			int contador = 1;
 			for (FieldViewSetCollection resultColec : results) {
-				firstAndLast.put(Integer.valueOf(contador++), resultColec.getFieldViewSets().iterator().next());
+				firstAndLast.put(Integer.valueOf(contador++), resultColec.getFieldViewSets().get(0));
 			}
 			return firstAndLast;
 		}
