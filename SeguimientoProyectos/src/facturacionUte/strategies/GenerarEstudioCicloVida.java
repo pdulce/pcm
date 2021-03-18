@@ -635,7 +635,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			fechaInicioEstudio.setTime(fecIniEstudio);
 			int mes = fechaInicioEstudio.get(Calendar.MONTH)+1;
 			int yearAbbr = fechaInicioEstudio.get(Calendar.YEAR)%2000;
-			int year = fechaInicioEstudio.get(Calendar.YEAR)%2000;
+			int year = fechaInicioEstudio.get(Calendar.YEAR);
 			String periodo = "";
 			switch (idPeriodo){
 				case 1:					
