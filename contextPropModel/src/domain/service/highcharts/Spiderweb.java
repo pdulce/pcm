@@ -85,7 +85,7 @@ public class Spiderweb extends GenericHighchartModel {
 
 		data_.setAttribute(CATEGORIES, categories_UTF8);
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = total_.doubleValue()/ocurrencias.size();
+			double median = total_.doubleValue()/jsArrayEjeAbcisas.size();
 			total_ = median;
 		}
 		return total_.doubleValue();

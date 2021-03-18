@@ -106,7 +106,7 @@ public final class CommonUtils {
 			palabra = palabra.replace("ón", "on");
 			plural = palabra.concat("es");
 		}else if (palabra.endsWith("a") || palabra.endsWith("e") || palabra.endsWith("i") || palabra.endsWith("o") || palabra.endsWith("u") ) {
-			plural = palabra.concat("es");
+			plural = palabra.concat("s");
 		}
 		return plural;
 	}

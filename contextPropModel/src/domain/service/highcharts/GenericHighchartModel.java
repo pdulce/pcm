@@ -340,21 +340,17 @@ public abstract class GenericHighchartModel implements IStats {
 		} else if (data_.getAttribute(CHART_TITLE) != null){
 			title = (String) data_.getAttribute(CHART_TITLE);
 		}
+		if (groupByField.length>0 && agregados.length> 0 && groupByField[0] !=null && agregados[0]!=null) {
+			String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
+			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
+			title = title.concat("agrupando por " + 
+					Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgrupacion) + 
+					" para obtener " + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado));
+		}
 		
 		String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
 				.intValue()) : CommonUtils.numberFormatter.format(total);
 		String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
-		
-		if (groupByField != null && groupByField.length > 1){
-			newNombreCategoriaOPeriodo = "";
-			for (int agg=0;agg<groupByField.length;agg++){
-				if (agg>0){
-					newNombreCategoriaOPeriodo += " y ";
-				}
-				newNombreCategoriaOPeriodo += Translator.traduceDictionaryModelDefined(lang, groupByField[agg].getEntityDef().getName()
-						.concat(".").concat(groupByField[agg].getName()));				
-			}//for
-		}
 		
 		title +=  (aggregateFunction.contentEquals(OPERATION_AVERAGE)?" -> promedio: ": " -> total: ") + resumenToalizadoOpromediado;
 		

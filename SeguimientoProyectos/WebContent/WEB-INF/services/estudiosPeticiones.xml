@@ -314,6 +314,38 @@ xmlns:service="http://pcm.framework.org/service"
 						</fieldViewSet>
 					</button>
 					
+					<button link="prjManager" id="spiderchart2"
+						name="Spiderwebchart">
+						<fieldViewSet nameSpace="spiderchart2">
+							<fieldView name="highchart" hidden="true" value="spiderweb"/>
+							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="fieldForGroupBy" type="select">
+								<optionValues selectionMultiple="true">
+									<option code="3" title="aplicacion" selected="true"></option>
+									<option code="4" title="tipo"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="28" title="uts "></option>
+									<option code="8" title="CicloVida" selected="true"></option>
+									<option code="9" title="Análisis"></option>
+									<option code="10" title="Desarrollo"></option>
+									<option code="11" title="Duración Entrega"></option>
+									<option code="12" title="Pruebas CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>				
+							<fieldView name="operation" hidden="true" value="AVG"/>
+						</fieldViewSet>
+					</button>
+					
 				</userbuttons>
 				
 				<fieldViewSet entitymodel="agregadosPeticiones"
@@ -415,10 +447,11 @@ xmlns:service="http://pcm.framework.org/service"
 			</form>
 			
 			<grid title="Resumen Peticiones del Estudio" dependsOf="agregadosPeticionesForm" orderDirection="asc"
-					defaultOrderField="resumenPeticiones.1" eventsRegistered="detail" serviceRef="ResumenPeticionesEstudio">
+					defaultOrderField="resumenPeticiones.3" eventsRegistered="detail" serviceRef="ResumenPeticionesEstudio">
 				
 				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
 					<fieldView mappingTo="1" hidden="true" />					
+					<fieldView mappingTo="2" hidden="true"/>
 					<fieldView mappingTo="3" editable="false" styleCss="color: white;" />
 					<fieldView mappingTo="4" editable="false" styleCss="color: white;" />
 					<fieldView mappingTo="5" editable="false" styleCss="color: orange;" />
