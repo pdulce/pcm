@@ -19,7 +19,7 @@
 
 	<tree profile="ADMINISTRADOR" name="tree">
 
-		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="Mapa organizativo">
+		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="Mapa organizativo CDISM">
 			<LEAF link="event=GestionEntidades.query#entityName=unidadOrg" name="Organismos" />
 			<LEAF link="event=GestionEntidades.query#entityName=edificio" name="Centros" />
 			<LEAF link="event=GestionEntidades.query#entityName=subdireccion" name="Subdirecciones" />
@@ -48,7 +48,7 @@
 			</FOLDER>
 		</FOLDER>
 		
-		<FOLDER profile="ADMINISTRADOR" name="configuration">
+		<FOLDER profile="ADMINISTRADOR" name="Site technical config.">
 			<LEAF link="exec=Configuration" name="Configuraciones" />
 			<LEAF link="event=GestionEntidades.query#entityName=rol" name="Roles" />
 			<LEAF link="event=GestionUsuarios.query" name="Usuarios" />

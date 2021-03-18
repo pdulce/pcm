@@ -260,8 +260,11 @@ public abstract class GenericHighchartModel implements IStats {
 				throw new Throwable("NO HAY DATOS");
 			}
 
-			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction);
-			
+			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction);			
+			if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+				double median = listaValoresAgregados.get(0).values().iterator().next().values().iterator().next();
+				total = median;
+			}
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
 			data_.setAttribute(DECIMALES, decimals);
@@ -341,9 +344,9 @@ public abstract class GenericHighchartModel implements IStats {
 			title = (String) data_.getAttribute(CHART_TITLE);
 		}
 		
-		String totalStr = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
+		String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
 				.intValue()) : CommonUtils.numberFormatter.format(total);
-		String totalizado = "<b>" + totalStr + "</b>";		
+		String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
 		
 		if (groupByField != null && groupByField.length > 1){
 			newNombreCategoriaOPeriodo = "";
@@ -356,12 +359,7 @@ public abstract class GenericHighchartModel implements IStats {
 			}//for
 		}
 		
-		if ( (aggregateFunction.equals(OPERATION_SUM) || aggregateFunction.equals(OPERATION_AVERAGE)) 
-				&& units.indexOf("%")==-1 
-				&& (groupByField != null && groupByField.length > 1) ){
-			title += nombreConceptoRecuento + " por [" + newNombreCategoriaOPeriodo.toLowerCase() + "]<br/>";
-			title +=  "total " + totalizado  + " " + units;
-		}
+		title +=  (aggregateFunction.contentEquals(OPERATION_AVERAGE)?"promedio: ": "total ") + resumenToalizadoOpromediado;
 		
 		data_.setAttribute(TITLE_ATTR, title);
 

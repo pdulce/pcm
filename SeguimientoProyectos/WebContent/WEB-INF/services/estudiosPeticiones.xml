@@ -248,7 +248,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="automatic" title="Automatico"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" hidden="true" value="SUM"/>							
+							<fieldView name="operation" hidden="true" value="AVG"/>							
 						</fieldViewSet>
 					</button>
 				</userbuttons>

@@ -91,105 +91,101 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			FieldViewSet estudioFSet = dataAccess.searchLastInserted(estudioFSet_);
 			Long idPeriodicidad = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName());
 			
-			Date fecFinEstudio = null;
-			try {
-				Date fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-						ConstantesModelo.AGREG_PETICIONES_5_FECHA_INIESTUDIO).getName());
-				fecFinEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-						ConstantesModelo.AGREG_PETICIONES_6_FECHA_FINESTUDIO).getName());
-				if(fecFinEstudio== null) {
-					fecFinEstudio = Calendar.getInstance().getTime();
-				}
-				
-				final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
-				
-				final IFieldLogic fieldDesde = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
-				IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldDesde);
-				
-				final IFieldView fViewMinor = fViewEntradaEnDG.copyOf();
-				final Rank rankDesde = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
-				fViewMinor.setRankField(rankDesde);
-				
-				final Rank rankHasta = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
-				final IFieldView fViewMayor = fViewEntradaEnDG.copyOf();
-				fViewMayor.setRankField(rankHasta);
-				fieldViews4Filter.add(fViewMinor);
-				fieldViews4Filter.add(fViewMayor);
-				
-				FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4Filter);
-				filterPeticiones.setValue(fViewMinor.getQualifiedContextName(), fecIniEstudio);
-				filterPeticiones.setValue(fViewMayor.getQualifiedContextName(), fecFinEstudio);
-				
-				filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
-				filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), "FACTDG07");				
-				
-				Collection<String> valuesTipo = new ArrayList<String>();
-				valuesTipo.add("Mejora desarrollo");
-				valuesTipo.add("Incidencia desarrollo");
-				valuesTipo.add("Incidencia gestión");
-				valuesTipo.add("Pequeño evolutivo"); 
-				filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(), valuesTipo);
-								
-				Collection<String> valuesPrjs =  new ArrayList<String>();				
-				Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());
-				
-				//obtenemos todas las aplicaciones de este servicio				
-				FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
-				filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
-				List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
-				for (FieldViewSet app: aplicaciones) {
-					valuesPrjs.add((String)app.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
-				}
-				
-				filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), valuesPrjs);				
-				
-				final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
-								
-				aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
-				
-				int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);				
-				FieldViewSet tipoperiodoInferido = new FieldViewSet(tipoPeriodo);
-				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesInferidoPorfechas);
-				List<FieldViewSet> tipoperiodoMesesColl = dataAccess.searchByCriteria(tipoperiodoInferido);
-				if (tipoperiodoMesesColl != null && !tipoperiodoMesesColl.isEmpty()) {
-					tipoperiodoInferido = tipoperiodoMesesColl.get(0);
-				}
-								
-				FieldViewSet tipoperiodoEstudio = new FieldViewSet(tipoPeriodo);
-				tipoperiodoEstudio.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName(), idPeriodicidad);
-				List<FieldViewSet> tipoperiodoEstudioColl = dataAccess.searchByCriteria(tipoperiodoEstudio);
-				if (tipoperiodoEstudioColl != null && !tipoperiodoEstudioColl.isEmpty()) {
-					tipoperiodoEstudio = tipoperiodoEstudioColl.get(0);
-				}
-				
-				String periodicidadConsignadaUser = (String) tipoperiodoEstudio.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
-				String periodicidadInferida = (String) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
-				if (periodicidadConsignadaUser.contentEquals(periodicidadInferida)) {
-					//saca una alerta: OJO, este estudio no es comparable con otros
-					final Collection<Object> messageArguments = new ArrayList<Object>();
-					//ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO=La periodicidad indicada para el estudio, {0}, no coincide con la inferida por las fechas {1} y {2} consignadas: se establece la periodicidad {3}
-					messageArguments.add(periodicidadConsignadaUser);
-					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
-					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
-					messageArguments.add(periodicidadInferida);
-					throw new StrategyException("ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO", messageArguments);
-				}
-				
-				if (ConstantesModelo.TIPO_PERIODO_INDETERMINADO == idPeriodicidad.intValue()) {
-					//saca una alerta: OJO, este estudio no es comparable con otros
-					final Collection<Object> messageArguments = new ArrayList<Object>();
-					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
-					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
-					throw new StrategyException("ERR_PERIODICIDAD_NO_MATCHED", messageArguments);
-				}
-				
-			}catch(Throwable exA) {
-				exA.printStackTrace();
+			
+			Date fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
+					ConstantesModelo.AGREG_PETICIONES_5_FECHA_INIESTUDIO).getName());
+			Date fecFinEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
+					ConstantesModelo.AGREG_PETICIONES_6_FECHA_FINESTUDIO).getName());
+			if(fecFinEstudio== null) {
+				fecFinEstudio = Calendar.getInstance().getTime();
 			}
-
-		}catch (final Throwable ecxx1) {
+			
+			final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
+			
+			final IFieldLogic fieldDesde = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
+			IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldDesde);
+			
+			final IFieldView fViewMinor = fViewEntradaEnDG.copyOf();
+			final Rank rankDesde = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
+			fViewMinor.setRankField(rankDesde);
+			
+			final Rank rankHasta = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
+			final IFieldView fViewMayor = fViewEntradaEnDG.copyOf();
+			fViewMayor.setRankField(rankHasta);
+			fieldViews4Filter.add(fViewMinor);
+			fieldViews4Filter.add(fViewMayor);
+			
+			FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4Filter);
+			filterPeticiones.setValue(fViewMinor.getQualifiedContextName(), fecIniEstudio);
+			filterPeticiones.setValue(fViewMayor.getQualifiedContextName(), fecFinEstudio);
+			
+			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
+			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), "FACTDG07");				
+			
+			Collection<String> valuesTipo = new ArrayList<String>();
+			valuesTipo.add("Mejora desarrollo");
+			valuesTipo.add("Incidencia desarrollo");
+			valuesTipo.add("Incidencia gestión");
+			valuesTipo.add("Pequeño evolutivo"); 
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(), valuesTipo);
+							
+			Collection<String> valuesPrjs =  new ArrayList<String>();				
+			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());
+			
+			//obtenemos todas las aplicaciones de este servicio				
+			FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
+			filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
+			List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
+			for (FieldViewSet app: aplicaciones) {
+				valuesPrjs.add((String)app.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
+			}
+			
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), valuesPrjs);				
+			
+			final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
+							
+			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
+			
+			int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);				
+			FieldViewSet tipoperiodoInferido = new FieldViewSet(tipoPeriodo);
+			tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesInferidoPorfechas);
+			List<FieldViewSet> tipoperiodoMesesColl = dataAccess.searchByCriteria(tipoperiodoInferido);
+			if (tipoperiodoMesesColl != null && !tipoperiodoMesesColl.isEmpty()) {
+				tipoperiodoInferido = tipoperiodoMesesColl.get(0);
+			}
+							
+			FieldViewSet tipoperiodoEstudio = new FieldViewSet(tipoPeriodo);
+			tipoperiodoEstudio.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName(), idPeriodicidad);
+			List<FieldViewSet> tipoperiodoEstudioColl = dataAccess.searchByCriteria(tipoperiodoEstudio);
+			if (tipoperiodoEstudioColl != null && !tipoperiodoEstudioColl.isEmpty()) {
+				tipoperiodoEstudio = tipoperiodoEstudioColl.get(0);
+			}
+			
+			String periodicidadConsignadaUser = (String) tipoperiodoEstudio.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
+			String periodicidadInferida = (String) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
+			if (!periodicidadConsignadaUser.contentEquals(periodicidadInferida)) {
+				//saca una alerta: OJO, este estudio no es comparable con otros
+				final Collection<Object> messageArguments = new ArrayList<Object>();
+				//ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO=La periodicidad indicada para el estudio, {0}, no coincide con la inferida por las fechas {1} y {2} consignadas: se establece la periodicidad {3}
+				messageArguments.add(periodicidadConsignadaUser);
+				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
+				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
+				messageArguments.add(periodicidadInferida);
+				throw new StrategyException("ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO", messageArguments);
+			}else if (ConstantesModelo.TIPO_PERIODO_INDETERMINADO == idPeriodicidad.intValue()) {
+				//saca una alerta: OJO, este estudio no es comparable con otros
+				final Collection<Object> messageArguments = new ArrayList<Object>();
+				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
+				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
+				throw new StrategyException("ERR_PERIODICIDAD_NO_MATCHED", messageArguments);
+			}
+			
+		}catch(StrategyException exA) {
+			throw exA;
+		}catch (final Exception ecxx1) {
 			throw new PCMConfigurationException("Configuration error: table IncidenciasProyectos is possible does not exist", ecxx1);
 		}
+			
 	}
 	
 	private double getTotalUtsEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega) throws Throwable{

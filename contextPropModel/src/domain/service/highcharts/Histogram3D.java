@@ -137,13 +137,7 @@ public class Histogram3D extends GenericHighchartModel {
 					itemGrafico = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 							.concat(".").concat(agregados[0].getName()));
 				}
-				if (unidades_.contains("%")) {
-					final String media_formatted = CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(periodos.size())));
-					data_.setAttribute(CHART_TITLE, "Histograma de " + plural + ":  " + media_formatted + " " + HistogramUtils.traducirEscala(escalado));
-				}else {
-					final String total_formatted = agregadosDecimal? CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue())) : String.valueOf(total_.intValue());
-					data_.setAttribute(CHART_TITLE, "Histograma de " + plural + ":  " + total_formatted);
-				}
+				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + ":  ");//+ media_formatted + " " + HistogramUtils.traducirEscala(escalado));
 				registrosJSON.put((clavePeticion == null) ? itemGrafico : clavePeticion, subtotalPorCategoriaDeEjeX);
 			}
 
@@ -256,37 +250,8 @@ public class Histogram3D extends GenericHighchartModel {
 				
 			
 			}//por cada registro: OJO: si hay un agregado, entonces el valor del agregado es el valor en el eje y y eje Z=0, si hay dos agregados, entonces el valor de la segunda se monta sobre el eje Y y ejez Z=1
-			
-			/*if (sinAgregado){
-				itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-			} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
-				itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
-			} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){
-				itemGrafico = "entre ";
-				for (int ag=0;ag<agregados.length;ag++){
-					itemGrafico += Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[ag].getName()));
-					if (ag == (agregados.length-2)){
-						itemGrafico += " y ";	
-					}else if (ag < (agregados.length-2)){
-						itemGrafico += ", ";
-					}
-				}
-			} else {
-				itemGrafico = "en " + unidades;
-			}*/
-			
-			//data_.setAttribute(CHART_TITLE, 
-			//	(agregados!=null && agregados.length>1 ? 
-			//	" Comparativa " : "") + "Histograma " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + " " + unidades + ") ");
-			
-			if (unidades_.contains("%")) {
-				double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(totalizacionColumnas.length));
-				final String media_formatted = CommonUtils.numberFormatter.format(avg);
-				data_.setAttribute(CHART_TITLE, "Comparativa de " + plural + ":  " + media_formatted + " " + HistogramUtils.traducirEscala(escalado));
-			}else {
-				final String total_formatted = agregadosDecimal? CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_.doubleValue())) : String.valueOf(total_.intValue());
-				data_.setAttribute(CHART_TITLE, "Comparativa de " + plural + ":  " + total_formatted);
-			}
+						
+			data_.setAttribute(CHART_TITLE, "Comparativa de " + plural + ":  ");// + media_formatted + " " + HistogramUtils.traducirEscala(escalado));
 			
 						
 		}// else
