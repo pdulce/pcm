@@ -33,7 +33,7 @@
 									<option code="6" title="solicitante"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="agregado" type="radio">
+							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="-1" title="peticiones" selected="true"></option>								
 									<option code="28" title="UTs Estimadas"></option>
@@ -116,7 +116,7 @@
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="radio">
+							<fieldView name="operation" type="select">
 								<optionValues>
 									<option code="SUM" title="agregados" selected="true"></option>
 									<option code="AVG" title="medias"></option>
@@ -188,12 +188,12 @@
 							<fieldView name="filteredByField" hidden="true" value="7=peticiones.7"/>
 							<fieldView name="filteredByFieldValues" hidden="true" value="%finalizad%, %Cerrada%"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="26"/><!-- ROCHADE -->		
-							<fieldView name="ejeX" type="radio" editable="false">
+							<fieldView name="ejeX" type="select" editable="false">
 								<optionValues>
 									<option code="28" title="UTs estimadas" selected="true"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="ejeY" type="radio" editable="false">
+							<fieldView name="ejeY" type="select" editable="false">
 								<optionValues>
 									<option code="29" title="UTs reales" selected="true"></option>
 								</optionValues>
@@ -223,7 +223,7 @@
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="radio">
+							<fieldView name="operation" type="select">
 								<optionValues>
 									<option code="SUM" title="agregados" selected="true"></option>
 									<option code="AVG" title="medias"></option>
@@ -254,7 +254,7 @@
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="radio">
+							<fieldView name="operation" type="select">
 								<optionValues>
 									<option code="SUM" title="agregados" selected="true"></option>
 									<option code="AVG" title="medias"></option>
@@ -285,7 +285,7 @@
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="radio">
+							<fieldView name="operation" type="select">
 								<optionValues>
 									<option code="SUM" title="agregados" selected="true"></option>
 									<option code="AVG" title="medias"></option>

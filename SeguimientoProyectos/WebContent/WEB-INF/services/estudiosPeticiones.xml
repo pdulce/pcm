@@ -21,22 +21,21 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldViewSet nameSpace="histog1">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
-								<fieldView name="orderBy" hidden="true" value="1"/>
-								<fieldView name="fieldForGroupBy" type="select">
+								<fieldView name="orderBy" hidden="true" value="1"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>
+								<!-- fieldView name="fieldForGroupBy" type="select">
 									<optionValues>
 										<option code="-1" title="comparativa"></option>
 										<option code="2" title="Agrupado por Estudio" selected="true"></option>
 										<option code="49" title="Agrupado por Servicio"></option>
 										<option code="3" title="Agrupado por Entorno"></option>
 									</optionValues>
-								</fieldView>
-								<!-- fieldView separator="br" /> -->
+								</fieldView> -->
 								<fieldView name="agregado" type="select">
 									<optionValues>
-										<option code="-1" title="comparativa"></option>
 										<option code="30" title="Ciclo Vida Petición" selected="true"></option>
-										<option code="31" title="Análisis"></option>
-										<option code="32" title="Desarrollo"></option>
+										<option code="31" title="Análisis(Jornadas)"></option>
+										<option code="32" title="Desarrollo(Jornadas)"></option>
 										<option code="33" title="Preparación Entrega"></option>
 										<option code="34" title="Pruebas en CD"></option>
 										<option code="35" title="Intervalo Trámite y Desarrollo"></option>

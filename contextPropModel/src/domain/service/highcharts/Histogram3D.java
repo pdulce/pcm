@@ -62,16 +62,50 @@ public class Histogram3D extends GenericHighchartModel {
 				}
 			}
 			List<String> periodos = new ArrayList<String>();
+			String atributoFecha = filtro_.getEntityDef().searchField(agrupacionInterna.getMappingTo()).getName();			
+			IFieldLogic fechaFieldLogic = filtro_.getEntityDef().searchByName(atributoFecha);
+			
 			try {
-				periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, agrupacionInterna, filtro_, escalado);
-				if (periodos.size() == 0){
-					data_.setAttribute(CHART_TITLE, "No hay datos; cambio los criterios de búsqueda");
-					return 0;
+				if (!fechaFieldLogic.getAbstractField().isDate() && !fechaFieldLogic.getAbstractField().isTimestamp()) {
+					String descField = filtro_.getEntityDef().getName();
+					boolean belongsPK = filtro_.getEntityDef().getFieldKey().contains(atributoFecha);
+					periodos = new ArrayList<String>(petsAgrupadasPorCampoEjeX.size());
+					for (int j=0;j<petsAgrupadasPorCampoEjeX.size();j++) {
+						String fieldName = petsAgrupadasPorCampoEjeX.get(0).getDescriptionField().getName();
+						String title = (String) petsAgrupadasPorCampoEjeX.get(0).getValue(fieldName);
+						if (title==null) {						
+							//buscamos el registro en BBDD y obtenemos su title
+							FieldViewSet record = new FieldViewSet(filtro_.getEntityDef());							
+							record.setValue(atributoFecha, petsAgrupadasPorCampoEjeX.get(0).getValue(atributoFecha));
+							try {
+								if (belongsPK) {
+									FieldViewSet recordBBDD = this._dataAccess.searchEntityByPk(record);
+									title = (String) recordBBDD.getValue(fieldName);
+								}else {
+									List<FieldViewSet> recordsBBDD = this._dataAccess.searchByCriteria(record);
+									if (recordsBBDD.isEmpty()) {
+										title= "registro_"+ j;
+									}else {
+										title = (String) recordsBBDD.get(0).getValue(descField);
+									}
+								}																
+							} catch (DatabaseException e) {
+								e.printStackTrace();
+							}
+						}//if title es null
+						periodos.add(title);
+					}
+				}else {
+					periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, agrupacionInterna, filtro_, escalado);
+					if (periodos.size() == 0){
+						data_.setAttribute(CHART_TITLE, "No hay datos; cambio los criterios de búsqueda");
+						return 0;
+					}
 				}
 			} catch (DatabaseException e) {
 				e.printStackTrace();
 			}
-			
+						
 			totalizacionColumnas = new Number[periodos.size()];
 			
 			for (FieldViewSet categoriaEnPeticion : petsAgrupadasPorCampoEjeX) {
@@ -87,50 +121,62 @@ public class Histogram3D extends GenericHighchartModel {
 					}else{
 						finPeriodoDeAgrupacion = periodos.get(period_i+1);
 					}
-					FieldViewSet filtroPorRangoFecha = HistogramUtils.getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
-							agrupacionInterna.getMappingTo());
-					if (clavePeticion != null) {
-						filtroPorRangoFecha.setValue(agrupacionInterna.getName(),
-								categoriaEnPeticion.getValue(agrupacionInterna.getName()).toString());
-					}
+					
 					double subTotal = 0.00;
 					try {
-						subTotal = this._dataAccess.selectWithAggregateFunction(filtroPorRangoFecha, (sinAgregado) ? "COUNT" : aggregateFunction,
-								(sinAgregado) ? -1 : agregados[0].getMappingTo());
-						minimal = subTotal < minimal ? subTotal : minimal;
-						
-						if (sinAgregado){//Long al contar totales					
-							total_ = Long.valueOf(Double.valueOf(subTotal).longValue() + total_.longValue());
-							totalizacionColumnas[period_i] = Long.valueOf(Double.valueOf(subTotal).longValue());
-						}else{
-							total_ = Double.valueOf(subTotal + total_.doubleValue());
-							totalizacionColumnas[period_i] = Double.valueOf(subTotal);						
-						}						
-						
-						if (subTotal == 0){//miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
-							long count4ThisPeriod = this._dataAccess.countAll(filtroPorRangoFecha);
-							if (count4ThisPeriod > 0){
-								String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
-								if (agregadosDecimal){
-									subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, Double.valueOf(subTotal));
-								}else{
-									subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, Long.valueOf(Double.valueOf(subTotal).longValue()));
-								}
-								posicionAgrupacion++;
+						if (fechaFieldLogic.getAbstractField().isDate() || fechaFieldLogic.getAbstractField().isTimestamp()) {
+							FieldViewSet filtroPorRangoFecha = HistogramUtils.getRangofechasFiltro(inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
+								agrupacionInterna.getMappingTo());
+							if (clavePeticion != null) {
+								filtroPorRangoFecha.setValue(agrupacionInterna.getName(),
+										categoriaEnPeticion.getValue(agrupacionInterna.getName()).toString());
 							}
-						}else{	
+							subTotal = this._dataAccess.selectWithAggregateFunction(filtroPorRangoFecha, (sinAgregado) ? "COUNT" : aggregateFunction,
+									(sinAgregado) ? -1 : agregados[0].getMappingTo());
+						}else {
+							subTotal = this._dataAccess.selectWithAggregateFunction(filtro_, (sinAgregado) ? "COUNT" : aggregateFunction,
+									(sinAgregado) ? -1 : agregados[0].getMappingTo());
+						}
+					} catch (DatabaseException e) {
+						e.printStackTrace();
+					}
+										
+					minimal = subTotal < minimal ? subTotal : minimal;
+					
+					if (sinAgregado){//Long al contar totales					
+						total_ = Long.valueOf(Double.valueOf(subTotal).longValue() + total_.longValue());
+						totalizacionColumnas[period_i] = Long.valueOf(Double.valueOf(subTotal).longValue());
+					}else{
+						total_ = Double.valueOf(subTotal + total_.doubleValue());
+						totalizacionColumnas[period_i] = Double.valueOf(subTotal);						
+					}						
+					
+					if (subTotal == 0){//miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
+						long count4ThisPeriod = 0;
+						try {
+							count4ThisPeriod = this._dataAccess.countAll(filtro_);
+						} catch (DatabaseException e) {
+							e.printStackTrace();
+						}
+						if (count4ThisPeriod > 0){
 							String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
 							if (agregadosDecimal){
-								subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, (subTotal == 0) ? null: Double.valueOf(subTotal));
+								subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, Double.valueOf(subTotal));
 							}else{
-								subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, (subTotal == 0) ? null: Long.valueOf(Double.valueOf(subTotal).longValue()));	
+								subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, Long.valueOf(Double.valueOf(subTotal).longValue()));
 							}
 							posicionAgrupacion++;
 						}
-					} catch (Throwable e32) {
-						e32.printStackTrace();
-					}					
-					
+					}else{	
+						String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
+						if (agregadosDecimal){
+							subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, (subTotal == 0) ? null: Double.valueOf(subTotal));
+						}else{
+							subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion, (subTotal == 0) ? null: Long.valueOf(Double.valueOf(subTotal).longValue()));	
+						}
+						posicionAgrupacion++;
+					}
+				
 				}// for
 				if (agregados!= null && agregados[0] != null){
 					itemGrafico = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
