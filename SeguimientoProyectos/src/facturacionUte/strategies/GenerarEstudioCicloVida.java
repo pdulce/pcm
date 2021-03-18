@@ -168,15 +168,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
 				//ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO=La periodicidad indicada para el estudio, {0}, no coincide con la inferida por las fechas {1} y {2} consignadas: se establece la periodicidad {3}
 				messageArguments.add(periodicidadConsignadaUser);
-				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
-				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
+				messageArguments.add(CommonUtils.convertDateToShortFormatted(fecIniEstudio));
+				messageArguments.add(CommonUtils.convertDateToShortFormatted(fecFinEstudio));
 				messageArguments.add(periodicidadInferida);
 				throw new StrategyException("ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO", messageArguments);
 			}else if (ConstantesModelo.TIPO_PERIODO_INDETERMINADO == idPeriodicidad.intValue()) {
 				//saca una alerta: OJO, este estudio no es comparable con otros
 				final Collection<Object> messageArguments = new ArrayList<Object>();
-				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
-				messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
+				messageArguments.add(CommonUtils.convertDateToShortFormatted(fecIniEstudio));
+				messageArguments.add(CommonUtils.convertDateToShortFormatted(fecFinEstudio));
 				throw new StrategyException("ERR_PERIODICIDAD_NO_MATCHED", messageArguments);
 			}
 			
@@ -554,18 +554,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			if(fecFinEstudio== null) {
 				fecFinEstudio = Calendar.getInstance().getTime();
 			}
-			
-			
-			String periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
-			String newTitle = servicio.replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND-Prosa[" + periodo+ "]");
-			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "MTO-Prosa[" + periodo+ "]");
-			newTitle = newTitle.replaceFirst("Servicio Mto. HOST", "MTO-HOST[" + periodo+ "]");		
+								
 			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
 			double totalDedicaciones = (total_analisis_estudio+total_implement_estudio+total_preparacion_entregas_estudio+total_pruebasCD_estudio);
 			double totalGaps = (total_gapPlanificacion+total_gapFinDesaIniSolicitudEntregaEnCD+total_gapFinPruebasCDProducc); 
 			
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_3_ID_ENTORNO).getName(), idTecnologia);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_7_NUMPETICIONES).getName(), numPeticionesEstudio);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_9_TOTALUTS).getName(), total_uts_estudio);
@@ -624,17 +618,76 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					CommonUtils.roundWith2Decimals((totalDedicaciones/total_cicloVida_estudio))*100.00);
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_48_PORC_TOTALGAP).getName(), 
 					CommonUtils.roundWith2Decimals((totalGaps/total_cicloVida_estudio))*100.00);
-			
-			
+						
 			FieldViewSet tipoperiodo = new FieldViewSet(tipoPeriodo);
 			tipoperiodo.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesEstudio);
 			List<FieldViewSet> tiposperiodo = dataAccess.searchByCriteria(tipoperiodo);
+			int idPeriodo = ConstantesModelo.TIPO_PERIODO_INDETERMINADO;
 			if (tiposperiodo != null && !tiposperiodo.isEmpty()) {
-				long idPeriodo = (Long) tiposperiodo.get(0).getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName());
-				registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodo);
-			}else {
-				registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName(), ConstantesModelo.TIPO_PERIODO_INDETERMINADO);
+				idPeriodo = ((Long) tiposperiodo.get(0).getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName())).intValue();
 			}
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodo);
+			//Mto.Pros@[1st Quarter2020]
+			//Mto.Pros@[2nd Quarter2020]
+			//Mto.Pros@[3rd Quarter2020]
+			//Mto.Pros@[4th Quarter2020]
+			/**
+			 *  1|mensual
+				2|bimensual
+				3|trimestre
+				4|cuatrimestre
+				5|semestre
+				6|anual
+				7|bienio
+				8|trienio
+				9|cuatrienio
+				10|indeterminado
+			 */
+			Calendar fechaInicioEstudio = Calendar.getInstance();
+			fechaInicioEstudio.setTime(fecIniEstudio);
+			int mes = fechaInicioEstudio.get(Calendar.MONTH)+1;
+			int year = fechaInicioEstudio.get(Calendar.YEAR);
+			String periodo = "";
+			switch (idPeriodo){
+				case 1:					
+					periodo = CommonUtils.translateMonthToSpanish(mes).concat(String.valueOf(year));
+					break;
+				case 2:
+					periodo = CommonUtils.translateMonthToSpanish(mes).concat("-").concat(CommonUtils.translateMonthToSpanish(mes+1)).concat(String.valueOf(year));
+					break;
+				case 3:
+					periodo = (mes<3?"1st":(mes<6?"2nd":(mes<9?"3rd":"4th"))).concat("Quarter").concat(String.valueOf(year));
+					break;
+				case 4:
+					periodo = (mes<4?"1st":(mes<8?"2nd":"3rd")).concat("Four-month period").concat(String.valueOf(year));
+					break;
+				case 5:
+					periodo = (mes<6?"1st":"2nd").concat("Half-year").concat(String.valueOf(year));
+					break;
+				case 6:
+					periodo = String.valueOf(year);
+					break;
+				case 7:
+					periodo = String.valueOf(year).concat("-").concat(String.valueOf(year+1));
+					break;
+				case 8:
+					periodo = String.valueOf(year).concat("-").concat(String.valueOf(year+2));
+					break;
+				case 9:
+					periodo = String.valueOf(year).concat("-").concat(String.valueOf(year+3));
+					break;
+				case 10:
+					periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
+					break;
+				default:
+					periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
+			}
+			
+			String newTitle = servicio.replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND.Pros@[" + periodo + "]");
+			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "Mto.Pros@[" + periodo + "]");
+			newTitle = newTitle.replaceFirst("Servicio Mto. HOST", "Mto.HOST[" + periodo + "]");		
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);
+			
 			int ok = dataAccess.modifyEntity(registroMtoProsa);
 			if (ok != 1) {
 				throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");
