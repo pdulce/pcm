@@ -37,7 +37,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " ¡OJO ya en entrega previa! ";
 	
 	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, 
-				tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad;
+				tipoPeriodo, tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudioPeticionesEntidad == null) {
@@ -55,7 +55,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				servicioUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SERVICIOUTE_ENTIDAD);
 				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.APLICATIVO_ENTIDAD);
+						ConstantesModelo.APLICATIVO_ENTIDAD);				
+				tipoPeriodo = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.TIPO_PERIODO_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -74,7 +76,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
 				return;
 			}
-			
+						
 			//accedemos al objeto grabado
 			FieldViewSet estudioFSet_ = null;
 			Iterator<FieldViewSet> iteFieldSets = fieldViewSets.iterator();
@@ -84,9 +86,10 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			if (estudioFSet_ == null) {
 				throw new PCMConfigurationException("Error: Objeto Estudio recibido del datamap es nulo ", new Exception("null object"));
 			}
-
+			
 			//obtenemos el id que es secuencial
 			FieldViewSet estudioFSet = dataAccess.searchLastInserted(estudioFSet_);
+			Long idPeriodicidad = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName());
 			
 			Date fecFinEstudio = null;
 			try {
@@ -144,7 +147,41 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 								
 				aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
 				
-				//System.out.println("Estrategia finished INSERT Estudio");
+				int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);				
+				FieldViewSet tipoperiodoInferido = new FieldViewSet(tipoPeriodo);
+				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesInferidoPorfechas);
+				List<FieldViewSet> tipoperiodoMesesColl = dataAccess.searchByCriteria(tipoperiodoInferido);
+				if (tipoperiodoMesesColl != null && !tipoperiodoMesesColl.isEmpty()) {
+					tipoperiodoInferido = tipoperiodoMesesColl.get(0);
+				}
+								
+				FieldViewSet tipoperiodoEstudio = new FieldViewSet(tipoPeriodo);
+				tipoperiodoEstudio.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName(), idPeriodicidad);
+				List<FieldViewSet> tipoperiodoEstudioColl = dataAccess.searchByCriteria(tipoperiodoEstudio);
+				if (tipoperiodoEstudioColl != null && !tipoperiodoEstudioColl.isEmpty()) {
+					tipoperiodoEstudio = tipoperiodoEstudioColl.get(0);
+				}
+				
+				String periodicidadConsignadaUser = (String) tipoperiodoEstudio.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
+				String periodicidadInferida = (String) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
+				if (periodicidadConsignadaUser.contentEquals(periodicidadInferida)) {
+					//saca una alerta: OJO, este estudio no es comparable con otros
+					final Collection<Object> messageArguments = new ArrayList<Object>();
+					//ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO=La periodicidad indicada para el estudio, {0}, no coincide con la inferida por las fechas {1} y {2} consignadas: se establece la periodicidad {3}
+					messageArguments.add(periodicidadConsignadaUser);
+					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
+					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
+					messageArguments.add(periodicidadInferida);
+					throw new StrategyException("ERR_PERIODO_NO_MATCHED_MESES_ESTUDIO", messageArguments);
+				}
+				
+				if (ConstantesModelo.TIPO_PERIODO_INDETERMINADO == idPeriodicidad.intValue()) {
+					//saca una alerta: OJO, este estudio no es comparable con otros
+					final Collection<Object> messageArguments = new ArrayList<Object>();
+					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecIniEstudio));
+					messageArguments.add(CommonUtils.convertDateToShortFormattedClean(fecFinEstudio));
+					throw new StrategyException("ERR_PERIODICIDAD_NO_MATCHED", messageArguments);
+				}
 				
 			}catch(Throwable exA) {
 				exA.printStackTrace();
@@ -590,6 +627,16 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_48_PORC_TOTALGAP).getName(), 
 					CommonUtils.roundWith2Decimals((totalGaps/total_cicloVida_estudio))*100.00);
 			
+			
+			FieldViewSet tipoperiodo = new FieldViewSet(tipoPeriodo);
+			tipoperiodo.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesEstudio);
+			List<FieldViewSet> tiposperiodo = dataAccess.searchByCriteria(tipoperiodo);
+			if (tiposperiodo != null && !tiposperiodo.isEmpty()) {
+				long idPeriodo = (Long) tiposperiodo.get(0).getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName());
+				registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodo);
+			}else {
+				registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName(), ConstantesModelo.TIPO_PERIODO_INDETERMINADO);
+			}
 			int ok = dataAccess.modifyEntity(registroMtoProsa);
 			if (ok != 1) {
 				throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");

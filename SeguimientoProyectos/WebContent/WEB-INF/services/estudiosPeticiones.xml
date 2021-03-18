@@ -69,6 +69,12 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>
 							
+							<fieldView mappingTo="50" type="select">
+								<optionValues entitymodel="tiposPeriodos"
+									descrMappingTo="3">
+								</optionValues>
+							</fieldView>
+							
 							<fieldView separator="br" />
 							
 						</fieldset>
@@ -89,6 +95,11 @@ xmlns:service="http://pcm.framework.org/service"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+						<fieldView mappingTo="50" type="select" editable="false">
+							<optionValues entitymodel="tiposPeriodos"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>						
 						<fieldView mappingTo="3" hidden="true"/>
 						<fieldView mappingTo="2" hidden="true"/>
 						<fieldView mappingTo="4" />
@@ -134,6 +145,12 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
+							<fieldView mappingTo="50" type="select" editable="false">
+								<optionValues entitymodel="tiposPeriodos"
+									descrMappingTo="3">
+								</optionValues>
+							</fieldView>
+							
 							<fieldView mappingTo="4" editable="false" />		
 							<fieldView separator="br" />
 									
@@ -160,6 +177,11 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="49" type="select" size="5" editable="true">
 								<optionValues entitymodel="servicioUTE"
 									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="50" type="select" editable="true">
+								<optionValues entitymodel="tiposPeriodos"
+									descrMappingTo="3">
 								</optionValues>
 							</fieldView>
 									
@@ -246,6 +268,12 @@ xmlns:service="http://pcm.framework.org/service"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+						<fieldView mappingTo="50" type="select" editable="false">
+							<optionValues entitymodel="tiposPeriodos"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>
+						
 						<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />

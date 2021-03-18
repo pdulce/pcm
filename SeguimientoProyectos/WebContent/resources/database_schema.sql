@@ -97,10 +97,30 @@ CREATE TABLE `agregadosPeticiones` (
   `porc_gap_finPrue_Producc` double DEFAULT NULL,
   `porc_total_dedicaciones` double DEFAULT NULL,        
   `porc_total_gaps` double DEFAULT NULL,
-  `id_servicio` int(11) DEFAULT NULL 
+  `id_servicio` int(11) DEFAULT NULL,
+  `tipo_periodo` int(11) DEFAULT NULL
 );  
-CREATE INDEX index_Estudios_sr ON agregadosPeticiones (servicio);
+CREATE INDEX index_Estudios_sr ON agregadosPeticiones (id_servicio);
 CREATE INDEX index_Estudios_ti ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
+
+DROP TABLE `tiposPeriodos`;
+CREATE TABLE `tiposPeriodos` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `numMeses` int(4) NOT NULL,
+  `periodo` varchar(50) DEFAULT NULL
+);
+
+insert into tiposPeriodos (numMeses, periodo) values (1, 'mensual');
+insert into tiposPeriodos (numMeses, periodo) values (2, 'bimensual');
+insert into tiposPeriodos (numMeses, periodo) values (3, 'trimestre');
+insert into tiposPeriodos (numMeses, periodo) values (4, 'cuatrimestre');
+insert into tiposPeriodos (numMeses, periodo) values (6, 'semestre');
+insert into tiposPeriodos (numMeses, periodo) values (12, 'anual');
+insert into tiposPeriodos (numMeses, periodo) values (24, 'bienio');
+insert into tiposPeriodos (numMeses, periodo) values (36, 'trienio');
+insert into tiposPeriodos (numMeses, periodo) values (48, 'cuatrienio');
+insert into tiposPeriodos (numMeses, periodo) values (99, 'indeterminado');
+
 
 DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (

@@ -157,8 +157,18 @@
     <field mappingTo="47" name="porc_total_dedicaciones" type="double" length="6" required="false"/>
     <field mappingTo="48" name="porc_total_gaps" type="double" length="6" required="false"/>    
     <field mappingTo="49" name="id_servicio" type="long" length="11" required="true" 
-	    fkParentEntities="servicioUTE" fkParentFields="1"/>        
+	    fkParentEntities="servicioUTE" fkParentFields="1"/>   
+	<field mappingTo="50" name="tipo_periodo" type="long" length="11" required="true" 
+	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>          
   </entity>	
+  
+  <entity>
+    <entityname>tiposPeriodos</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="numMeses" type="integer" length="4" required="true"/>
+    <field mappingTo="3" name="periodo" type="string" length="50" required="false"/>    
+  </entity>	
+    
   
   <entity>
     <entityname>resumenPeticiones</entityname>

@@ -135,6 +135,7 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_47_PORC_TOTALDEDICACIONES = 47;
     public static final int AGREG_PETICIONES_48_PORC_TOTALGAP = 48;
     public static final int AGREG_PETICIONES_49_ID_SERVICIO = 49;
+    public static final int AGREG_PETICIONES_50_ID_TIPOPERIODO = 50;
 	public static final String AGREG_PETICIONES_ENTIDAD = "agregadosPeticiones";	
 	
     public static final int RESUMEN_PETICION_1_ID = 1;
@@ -167,7 +168,13 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_28_UTS = 28;
 	public static final int RESUMEN_PETICION_29_TITULO = 29;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
-		
+	
+	public static final int TIPO_PERIODO_1_ID = 1;
+	public static final int TIPO_PERIODO_2_NUM_MESES = 2;
+	public static final int TIPO_PERIODO_3_PERIODO = 3;
+	public static final int TIPO_PERIODO_INDETERMINADO = 99;
+	public static final String TIPO_PERIODO_ENTIDAD = "tiposPeriodos";	
+	
 	public static final int TECHNOLOGY_1_ID = 1;
 	public static final int TECHNOLOGY_2_NOMBRE = 2;
 	public static final int TECHNOLOGY_3_DESCRIPC = 3;
