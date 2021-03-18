@@ -193,6 +193,11 @@ public class Dualhistogram extends GenericHighchartModel {
 		data_.setAttribute(FREQ_ABSOLUTE, seriesJSONFrecAbsolutas.toJSONString());
 		data_.setAttribute(FREQ_ACUMULATED, seriesJSONFrecAcumuladas.toJSONString());
 		data_.setAttribute("minEjeRef", minimal);
+		
+		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+			double median = valoresAgregados.get(0).values().iterator().next().values().iterator().next();
+			frecuenciaAcumulada = median;
+		}
 
 		return frecuenciaAcumulada;
 	}

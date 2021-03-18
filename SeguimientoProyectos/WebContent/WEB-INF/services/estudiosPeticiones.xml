@@ -208,6 +208,7 @@ xmlns:service="http://pcm.framework.org/service"
 			<form columns="3" title="Detalle del Estudio">
 				
 				<userbuttons>
+				
 					<button	link="prjManager" id="histog2" name="Histogram" >
 						<fieldViewSet nameSpace="histog2">
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
@@ -251,6 +252,50 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="operation" hidden="true" value="AVG"/>							
 						</fieldViewSet>
 					</button>
+								
+					<button link="prjManager" id="histDual2" name="Frequency">						
+						<fieldViewSet nameSpace="histDual2">
+							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
+							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="fieldForGroupBy" type="select">
+								<optionValues>
+									<option code="-1" title="periodos" selected="true"></option>
+									<option code="3" title="aplicacion"></option>
+									<option code="4" title="tipo"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="-1" title="comparativa"></option>
+									<option code="28" title="uts "></option>
+									<option code="8" title="CicloVida" selected="true"></option>
+									<option code="9" title="Análisis"></option>
+									<option code="10" title="Desarrollo"></option>
+									<option code="11" title="Duración Entrega"></option>
+									<option code="12" title="Pruebas CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" type="select">
+								<optionValues>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal"></option>
+									<option code="monthly" title="Mensual" selected="true"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+									<option code="automatic" title="Automatico"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" hidden="true" value="AVG"/>						
+						</fieldViewSet>
+					</button>			
 									
 					<button link="prjManager" id="barchart2" name="Barchart">
 						<fieldViewSet nameSpace="barchart2">
@@ -314,8 +359,7 @@ xmlns:service="http://pcm.framework.org/service"
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="spiderchart2"
-						name="Spiderwebchart">
+					<button link="prjManager" id="spiderchart2"	name="Spiderwebchart">
 						<fieldViewSet nameSpace="spiderchart2">
 							<fieldView name="highchart" hidden="true" value="spiderweb"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
@@ -345,6 +389,46 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="operation" hidden="true" value="AVG"/>
 						</fieldViewSet>
 					</button>
+					
+					<button link="prjManager" id="scatter2"	name="Correlación">
+						<fieldViewSet nameSpace="scatter2">
+							<fieldView name="highchart" hidden="true" value="scatter"/>
+							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="fieldForGroupBy" hidden="true" value="1"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->							
+							<fieldView name="ejeX" type="select" editable="true">
+								<optionValues>
+									<option code="28" title="uts "></option>
+									<option code="8" title="CicloVida"></option>
+									<option code="9" title="Análisis" selected="true"></option>
+									<option code="10" title="Desarrollo"></option>
+									<option code="11" title="Duración Entrega"></option>
+									<option code="12" title="Pruebas CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="ejeY" type="select" editable="true">
+								<optionValues>
+									<option code="28" title="uts "></option>
+									<option code="8" title="CicloVida" selected="true"></option>
+									<option code="9" title="Análisis"></option>
+									<option code="10" title="Desarrollo" selected="true"></option>
+									<option code="11" title="Duración Entrega"></option>
+									<option code="12" title="Pruebas CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+						</fieldViewSet>
+					</button>					
 					
 				</userbuttons>
 				

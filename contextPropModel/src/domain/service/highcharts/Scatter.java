@@ -54,7 +54,7 @@ public class Scatter extends GenericHighchartModel {
 
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
-			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
+			final FieldViewSet userFilter, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 
 		return 0.0;
@@ -106,25 +106,25 @@ public class Scatter extends GenericHighchartModel {
 	}
 	
 	
-	private boolean esComparable(final FieldViewSet filtro_, final IFieldLogic fieldForCompareTwoGroups){
+	private boolean esComparable(final FieldViewSet userFilter, final IFieldLogic fieldForCompareTwoGroups){
 		if (fieldForCompareTwoGroups.belongsPK()){
 			return true;
 		}
-		IFieldValue valuesOfFilter = filtro_.getFieldvalue(fieldForCompareTwoGroups);
+		IFieldValue valuesOfFilter = userFilter.getFieldvalue(fieldForCompareTwoGroups);
 		return (valuesOfFilter.getAllValues().size() > 0);
 	}
 	
 	@Override
-	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet filtro_, final String aggregateFunction,
+	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet userFilter, final String aggregateFunction,
 			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo, final double coefCorrelacion, final String unidadesmedicion) {
 
 		IFieldValue camposAComparar = null;
 		IFieldLogic field4Classify = groupByField[0];
 		if (field4Classify != null) {
-			camposAComparar = filtro_.getFieldvalue(field4Classify);
+			camposAComparar = userFilter.getFieldvalue(field4Classify);
 			if (camposAComparar.getValues().isEmpty()) {
 				try {
-					List<FieldViewSet> appsPeticiones = dataAccess.selectWithDistinct(filtro_, field4Classify.getMappingTo() , "desc");
+					List<FieldViewSet> appsPeticiones = dataAccess.selectWithDistinct(userFilter, field4Classify.getMappingTo() , "desc");
 					Collection<String> listaDistintos = new ArrayList<String>();
 					for (FieldViewSet peticion : appsPeticiones) {
 						listaDistintos.add(peticion.getValue(field4Classify.getName()).toString());
@@ -137,8 +137,8 @@ public class Scatter extends GenericHighchartModel {
 			}
 		}
 		String lang = data_.getLanguage();
-		String catX = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
-		String catY = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[1].getName()));
+		String catX = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
+		String catY = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[1].getName()));
 		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
@@ -151,7 +151,7 @@ public class Scatter extends GenericHighchartModel {
 		
 		SceneResult scene = new SceneResult();
 		long mills1 = Calendar.getInstance().getTimeInMillis();
-		FieldViewSet filtro_ = null;
+		FieldViewSet userFilter = null;
 		StringBuilder sbXml = new StringBuilder();
 		try {
 			this._dataAccess = dataAccess;
@@ -167,29 +167,29 @@ public class Scatter extends GenericHighchartModel {
 			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
 			for (FieldViewSet fSetItem: fSet) {
 				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {
-					filtro_ = fSetItem;
-					filtro_.setNameSpace(nameSpaceOfButtonFieldSet);
-					IFieldLogic pkField = filtro_.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
-					IFieldValue valuesOfPK = filtro_.getFieldvalue(pkField);
+					userFilter = fSetItem;
+					userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
+					IFieldLogic pkField = userFilter.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
+					IFieldValue valuesOfPK = userFilter.getFieldvalue(pkField);
 					if (!valuesOfPK.isNull() && !valuesOfPK.isEmpty()){
-						filtro_.resetFieldValuesMap();
-						filtro_.setValues(pkField.getName(), valuesOfPK.getValues());
+						userFilter.resetFieldValuesMap();
+						userFilter.setValues(pkField.getName(), valuesOfPK.getValues());
 					}
 					break;
 				}
 			}
-			if (filtro_ == null){
-				filtro_ = new FieldViewSet(entidadGrafico);
-				filtro_.setNameSpace(nameSpaceOfButtonFieldSet);
+			if (userFilter == null){
+				userFilter = new FieldViewSet(entidadGrafico);
+				userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
 			}
 			
-			String categoriaX = data_.getParameter(filtro_.getNameSpace().concat(".").concat(CATEGORIA_EJE_X));
-			String categoriaY = data_.getParameter(filtro_.getNameSpace().concat(".").concat(CATEGORIA_EJE_Y));
+			String categoriaX = data_.getParameter(userFilter.getNameSpace().concat(".").concat(CATEGORIA_EJE_X));
+			String categoriaY = data_.getParameter(userFilter.getNameSpace().concat(".").concat(CATEGORIA_EJE_Y));
 			String attrDiferenciador = null;
 			if (categoriaX.equals(categoriaY)){
-				attrDiferenciador = data_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_FOR_DIFFERENCE_IN_CORRELATION));				
+				attrDiferenciador = data_.getParameter(userFilter.getNameSpace().concat(".").concat(FIELD_FOR_DIFFERENCE_IN_CORRELATION));				
 			}			
-			String field4Clasify = data_.getParameter(filtro_.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
+			String field4Clasify = data_.getParameter(userFilter.getNameSpace().concat(".").concat(FIELD_4_GROUP_BY));
 			if (attrDiferenciador != null){
 				field4Clasify = attrDiferenciador;
 			}
@@ -200,11 +200,11 @@ public class Scatter extends GenericHighchartModel {
 			
 			String lang = data_.getLanguage();
 			
-			if (!esComparable(filtro_, fieldForCompareTwoGroups)){
+			if (!esComparable(userFilter, fieldForCompareTwoGroups)){
 				sbXml = new StringBuilder();
 				XmlUtils.openXmlNode(sbXml, IViewComponent.HTML_);
 				sbXml.append("<BR/><BR/><UL align=\"center\"  id=\"pcmUl\"><LI><a title=\"Volver\" href=\"#\" ");
-				String cat4Group = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(fieldForCompareTwoGroups.getName()));
+				String cat4Group = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(fieldForCompareTwoGroups.getName()));
 				sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI><LI>Seleccione al menos un elemento comparable bajo el campo-criterio " +  cat4Group + " para obtener el diagrama de correlacion</LI></UL>");				
 				XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 				scene = new SceneResult();
@@ -223,34 +223,35 @@ public class Scatter extends GenericHighchartModel {
 			
 						
 			String nameTraducedOfFilterField4Results = null;
-			List<Integer> mappingFieldForFilter = new ArrayList<Integer>();			
-			IFieldLogic fieldForFilterResults = null;
+			IFieldLogic fieldForFilterResults = null;			
+
 			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
 			if (fieldForFilter != null){
+				
 				String[] fields4Filter = fieldForFilter.split(";");
 				for (int filter=0;filter<fields4Filter.length;filter++){
-					String field4Filter_ = fields4Filter[filter];
-					String[] splitter = field4Filter_.split("=");
+					String field4Filter = fields4Filter[filter];
+					String[] splitter = field4Filter.split("=");
 					if (splitter.length< 2){
-						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato volido 1=<nameSpaceOfForm>.5)");
+						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato válido 1=<nameSpaceOfForm>.5)");
 					}
 					String leftPartOfEquals = splitter[0];
 					String rigthPartOfEquals = splitter[1];
 					
 					if (rigthPartOfEquals.indexOf(".") == -1){//es un valor fijo
-						filtro_.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), rigthPartOfEquals);
+						userFilter.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), rigthPartOfEquals);
 					}else{
 						String[] entidadPointValue = rigthPartOfEquals.split(PCMConstants.REGEXP_POINT);
 						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(data_.getEntitiesDictionary(),
 								entidadPointValue[0]);
 						if (!esEntidad){//no es una entidad, sino un parometro
-							if (data_.getParameterValues(rigthPartOfEquals) != null){
+							if (data_.getParameterValues(rigthPartOfEquals) != null){								
 								String[] valuesOfParamReq_ = data_.getParameterValues(rigthPartOfEquals);
 								Collection<String> serialValues = new ArrayList<String>();
 								for (int v=0;v<valuesOfParamReq_.length;v++){
 									serialValues.add(valuesOfParamReq_[v]);
 								}
-								filtro_.setValues(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), serialValues);
+								userFilter.setValues(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), serialValues);
 							}
 							
 						}else{//tratamiento cuando es entidad.campo
@@ -261,30 +262,18 @@ public class Scatter extends GenericHighchartModel {
 								if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidad1ToGet.getName())) {
 									//busco en el form el fieldviewset de la entidad para la que obtener el dato
 									String value = data_.getParameter(fSetItem.getNameSpace().concat(".").concat(entidad1ToGet.searchField(fieldToGet).getName()));
-									filtro_.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), value);
+									userFilter.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), value);
 									break;
 								}
 							}
 						}
-					}
-					
-					String[] values4Filter_ = data_.getParameter(filtro_.getNameSpace().concat(".").concat(VALUE_FOR_FILTER)).replaceAll(" ,", ",")
-							.replaceAll(", ", ",").split(",");
-					if (values4Filter_.length> 0 && !"".equals(values4Filter_[0])){
-						IFieldLogic fieldForFilter_ = entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals));
-						mappingFieldForFilter.add(Integer.valueOf(fieldForFilter_.getMappingTo()));				
-						for (String value4Filter_: values4Filter_) {
-							if (!differentValues_.contains(value4Filter_)) {
-								differentValues_.add(value4Filter_);
-							}
-						}// for
 					}
 				}
 			}
 			
 			/*** fin del establecimiento de un valor por defecto para el filtrado ***/
 
-			String orderFieldParam = data_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM));
+			String orderFieldParam = data_.getParameter(userFilter.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM));
 			IFieldLogic orderField_ = entidadGrafico.searchField(Integer.parseInt(orderFieldParam));
 
 			List<Integer> fieldMappings = new ArrayList<Integer>();
@@ -297,7 +286,7 @@ public class Scatter extends GenericHighchartModel {
 				fieldForClasifyResults = entidadGrafico.searchField(Integer.parseInt(field4Clasify));
 				fieldMappings.add(Integer.valueOf(fieldForClasifyResults.getMappingTo()));
 			}
-			List<List<Serializable>> tuplas = dataAccess.selectWithSpecificFields(filtro_, fieldMappings);
+			List<List<Serializable>> tuplas = dataAccess.selectWithSpecificFields(userFilter, fieldMappings);
 			//recibimos tuplas con este formato, si hay atributo diferenciador: 
 			//[[6.44,6.4,'01/01/2016','BBVA'],....[6.44,6.4,'01/01/2016','IBEX35']]
 			//Llamamos a un motodo merge que genera una lista merged a partir de dos sublistas diferenciadas por el campo Agrupador
@@ -316,10 +305,10 @@ public class Scatter extends GenericHighchartModel {
 				if (fieldForClasifyResults != null) {
 					// vamos a extraer una muestra estratificada; es decir, lo mos compensada
 					// posible mirando cuantos valores diferentes hay del campo de clasificacion:
-					List<FieldViewSet> differentValues4Clasify = dataAccess.selectWithDistinct(filtro_,
+					List<FieldViewSet> differentValues4Clasify = dataAccess.selectWithDistinct(userFilter,
 							fieldForClasifyResults.getMappingTo(), IAction.ORDEN_ASCENDENTE);					
 					// hallamos la proporcion (valor [0..1]) de cada valor en la poblacion:
-					FieldViewSet filtroByClasifiedValue = filtro_.copyOf();
+					FieldViewSet filtroByClasifiedValue = userFilter.copyOf();
 					for (FieldViewSet differentValue: differentValues4Clasify) {
 						FieldViewSet record = differentValue;
 						String valueOfClasificacion = (String) record.getValue(fieldForClasifyResults.getName());
@@ -513,9 +502,9 @@ public class Scatter extends GenericHighchartModel {
 			IFieldLogic[] fields4GroupBy = new IFieldLogic[1];
 			fields4GroupBy[0] = fieldForClasifyResults;
 			IFieldLogic[] agregados= new IFieldLogic[2];
-			agregados[0] = filtro_.getEntityDef().searchField(Integer.valueOf(categoriaX));
-			agregados[1] = filtro_.getEntityDef().searchField(Integer.valueOf(categoriaY));
-			setAttrsOnRequest(dataAccess, data_, filtro_, OPERATION_SUM, agregados, fields4GroupBy, tamanioMuestral_, null, coeficiente_R_deCorrelacion, units);
+			agregados[0] = userFilter.getEntityDef().searchField(Integer.valueOf(categoriaX));
+			agregados[1] = userFilter.getEntityDef().searchField(Integer.valueOf(categoriaY));
+			setAttrsOnRequest(dataAccess, data_, userFilter, OPERATION_SUM, agregados, fields4GroupBy, tamanioMuestral_, null, coeficiente_R_deCorrelacion, units);
 
 			String summary_X_media = "", summary_X_mediana = "", summary_X_deviat = "", summary_Y_media = "", summary_Y_mediana = "", summary_Y_deviat = "", regressionInfo = "";
 
@@ -549,16 +538,16 @@ public class Scatter extends GenericHighchartModel {
 			String nombreConceptoRecuento = units;
 			
 			StringBuilder infoSumaryAndRegression = new StringBuilder();
-			infoSumaryAndRegression.append(htmlForHistograms(data_, fieldForCategoryX, filtro_));
+			infoSumaryAndRegression.append(htmlForHistograms(data_, fieldForCategoryX, userFilter));
 			infoSumaryAndRegression.append("<HR/><BR/><TABLE><TH>Summary <I>"
 					+ titulo_EJE_X
 					+ "</I></TH><TH>Summary <I>"
 					+ titulo_EJE_Y
-					+ "</I></TH><TH>Modelo de Regresion Simple para <I>"
+					+ "</I></TH><TH>Modelo de Regresión Lineal Simple para <I>"
 					+ titulo_EJE_Y
-					+ "</I> a partir de la muestra aleatoria de tamaoo "
+					+ "</I> a partir de la muestra aleatoria de tamaño "
 					+ CommonUtils.numberFormatter.format(tamanioMuestral)
-					+ " para una poblacion de "
+					+ " para una población de "
 					+ CommonUtils.numberFormatter.format(tamanioPoblacional)
 					+ " "
 					+ nombreConceptoRecuento
@@ -598,7 +587,7 @@ public class Scatter extends GenericHighchartModel {
 			infoSumaryAndRegression.append("</TR>");
 			infoSumaryAndRegression.append("</TABLE>");
 
-			String criteriosConsulta = "Criterios de consulta: " + pintarCriterios(filtro_, data_);
+			String criteriosConsulta = "Criterios de consulta: " + pintarCriterios(userFilter, data_);
 			String subtitle = criteriosConsulta + "(rendered in " + segundosConsumidos + " seconds)";
 			data_.setAttribute(SUBTILE_ATTR, subtitle);
 

@@ -54,6 +54,45 @@
 						</fieldViewSet>
 					</button>
 					
+					<button link="prjManager" id="histDual1"
+						name="Frequency">						
+						<fieldViewSet nameSpace="histDual1">
+							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
+							<fieldView name="orderBy" hidden="true" value="17"/>							
+							<fieldView name="fieldForGroupBy" type="select">
+								<optionValues>
+									<option code="-1" title="periodos" selected="true"></option>
+									<option code="26" title="aplicacion"></option>
+									<option code="13" title="tipo"></option>
+									<option code="7" title="situacion"></option>
+									<option code="12" title="area destino"></option>
+									<option code="16" title="prioridad"></option>
+									<option code="6" title="solicitante"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="-1" title="peticiones"></option>
+									<option code="28" title="UTs estimadas" selected="true"></option>
+									<option code="29" title="UTs reales"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" type="select">
+								<optionValues>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal"></option>
+									<option code="monthly" title="Mensual" selected="true"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+									<option code="automatic" title="Automatico"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" hidden="true" value="SUM"/>							
+						</fieldViewSet>
+					</button>
+					
 					<button link="prjManager" id="barchart1"
 						name="Barchart">
 						<fieldViewSet nameSpace="barchart1">
@@ -139,46 +178,7 @@
 							<fieldView name="operation" hidden="true" value="SUM"/>
 						</fieldViewSet>
 					</button>
-					
-					<button link="prjManager" id="histDual1"
-						name="Frequency">						
-						<fieldViewSet nameSpace="histDual1">
-							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>							
-							<fieldView name="fieldForGroupBy" type="select">
-								<optionValues>
-									<option code="-1" title="periodos" selected="true"></option>
-									<option code="26" title="aplicacion"></option>
-									<option code="13" title="tipo"></option>
-									<option code="7" title="situacion"></option>
-									<option code="12" title="area destino"></option>
-									<option code="16" title="prioridad"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="agregado" type="select">
-								<optionValues>
-									<option code="-1" title="peticiones"></option>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="escalado" type="select">
-								<optionValues>
-									<option code="dayly" title="Diario"></option>
-									<option code="weekly" title="Semanal"></option>
-									<option code="monthly" title="Mensual" selected="true"></option>
-									<option code="3monthly" title="Trimestral"></option>
-									<option code="6monthly" title="Semestral"></option>
-									<option code="anualy" title="Anual"></option>
-									<option code="automatic" title="Automatico"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="operation" hidden="true" value="SUM"/>							
-						</fieldViewSet>
-					</button>
-						
+													
 					<button link="prjManager" id="scatter1"
 						name="Correlation">
 						<fieldViewSet nameSpace="scatter1">
@@ -201,7 +201,7 @@
 						</fieldViewSet>
 					</button>
 
-					<button link="prjManager" id="mapaSpain" name="Mapa Spain">
+					<button link="prjManager" id="mapaSpain" name="Demo con mapas (Spain)">
 						<fieldViewSet nameSpace="mapaSpain">
 							<fieldView name="highchart" hidden="true" value="mapspain"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
@@ -232,7 +232,7 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="mapaEurope" name="Mapa Europe">
+					<button link="prjManager" id="mapaEurope" name="Demo con mapas (Europe)">
 						<fieldViewSet nameSpace="mapaEurope">
 							<fieldView name="highchart" hidden="true" value="mapeurope"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
