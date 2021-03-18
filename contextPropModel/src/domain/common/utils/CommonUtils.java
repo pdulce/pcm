@@ -99,6 +99,38 @@ public final class CommonUtils {
 		return diferencia;
 	}
 	
+	public static final String pluralOfterm(final String palabra_) {
+		String palabra = palabra_;
+		String plural = "";
+		if (palabra.endsWith("n")) {
+			palabra = palabra.replace("ón", "on");
+			plural = palabra.concat("es");
+		}else if (palabra.endsWith("a") || palabra.endsWith("e") || palabra.endsWith("i") || palabra.endsWith("o") || palabra.endsWith("u") ) {
+			plural = palabra.concat("es");
+		}
+		return plural;
+	}
+	
+	public static final String obtenerPlural(String entidad) {
+		if (entidad.endsWith("s")) {
+			return entidad;
+		}
+		StringBuffer pluralOf = new StringBuffer("");
+		String[] terminos = entidad.split(" ");
+		if (terminos.length == 1) {
+			return pluralOfterm(terminos[0]);
+		}
+		
+		pluralOf.append(pluralOfterm(terminos[0]));
+		
+		for (int i=1;i<terminos.length;i++) {
+			String term = terminos[i];
+			pluralOf.append(" ");
+			pluralOf.append(pluralOfterm(term));
+		}
+		return pluralOf.toString();
+	}
+	
 	public static Long obtenerCodigo(String peticionId, final String avisador){
 		
 		Long numeroPeticion = Long.valueOf(-1);	

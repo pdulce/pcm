@@ -263,13 +263,13 @@ public class BarChart extends GenericHighchartModel {
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
 		
-		data_.setAttribute(CHART_TITLE, "Barchart de " + itemGrafico + ":  ");
+		data_.setAttribute(CHART_TITLE, "Barchart de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
 		
 		data_.setAttribute(IS_BAR_INTERNAL_LABELED, "false");
 		
 		data_.setAttribute("minEjeRef", CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = listaValoresAgregados.get(0).values().iterator().next().values().iterator().next();
+			double median = total_.doubleValue()/listaValoresAgregados.size();
 			total_ = median;
 		}
 		return total_.doubleValue();

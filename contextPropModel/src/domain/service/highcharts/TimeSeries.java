@@ -120,7 +120,7 @@ public class TimeSeries extends GenericHighchartModel {
 				data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else if (registrosJSON.size() == 1){
 				// el promedio por mes es:
-				data_.setAttribute(CHART_TITLE, "Timeseries de " + itemGrafico);
+				data_.setAttribute(CHART_TITLE, "Timeseries de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
 			}
 
 		} else {
@@ -180,7 +180,7 @@ public class TimeSeries extends GenericHighchartModel {
 				data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else{
 				// el promedio por categoroa es:
-				data_.setAttribute(CHART_TITLE, "TimeSeries de " + itemGrafico);
+				data_.setAttribute(CHART_TITLE, "TimeSeries de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
 			}
 			
 			registrosJSON.put(categoriaNombreTraslated, subtotalPorCategoria);

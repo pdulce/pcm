@@ -261,10 +261,7 @@ public abstract class GenericHighchartModel implements IStats {
 			}
 
 			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction);			
-			if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-				double median = listaValoresAgregados.get(0).values().iterator().next().values().iterator().next();
-				total = median;
-			}
+			
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
 			data_.setAttribute(DECIMALES, decimals);
@@ -359,7 +356,7 @@ public abstract class GenericHighchartModel implements IStats {
 			}//for
 		}
 		
-		title +=  (aggregateFunction.contentEquals(OPERATION_AVERAGE)?"promedio: ": "total ") + resumenToalizadoOpromediado;
+		title +=  (aggregateFunction.contentEquals(OPERATION_AVERAGE)?" -> promedio: ": " -> total: ") + resumenToalizadoOpromediado;
 		
 		data_.setAttribute(TITLE_ATTR, title);
 

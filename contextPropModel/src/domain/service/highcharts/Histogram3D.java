@@ -46,7 +46,6 @@ public class Histogram3D extends GenericHighchartModel {
 		
 		boolean agregadosDecimal = agregados!=null && agregados[0] !=null && agregados[0].getAbstractField().isDecimal();
 		String itemGrafico = entidadTraslated;
-		final String plural = itemGrafico.toLowerCase();
 		
 		if (agrupacionInterna == null) {
 			agrupacionInterna = getUserFilterWithDateType(filtro_) == null ? filtro_.getEntityDef().searchField(
@@ -137,7 +136,7 @@ public class Histogram3D extends GenericHighchartModel {
 					itemGrafico = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 							.concat(".").concat(agregados[0].getName()));
 				}
-				data_.setAttribute(CHART_TITLE, "Histograma de " + plural + ":  ");
+				data_.setAttribute(CHART_TITLE, "Histograma de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
 				registrosJSON.put((clavePeticion == null) ? itemGrafico : clavePeticion, subtotalPorCategoriaDeEjeX);
 			}
 
@@ -251,7 +250,7 @@ public class Histogram3D extends GenericHighchartModel {
 			
 			}//por cada registro: OJO: si hay un agregado, entonces el valor del agregado es el valor en el eje y y eje Z=0, si hay dos agregados, entonces el valor de la segunda se monta sobre el eje Y y ejez Z=1
 						
-			data_.setAttribute(CHART_TITLE, "Comparativa de " + plural + ":  ");
+			data_.setAttribute(CHART_TITLE, "Comparativa de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
 			
 						
 		}// else
@@ -263,7 +262,10 @@ public class Histogram3D extends GenericHighchartModel {
 		data_.setAttribute("abscisas", newArrayEjeAbcisas.isEmpty() ? jsArrayEjeAbcisas.toString(): newArrayEjeAbcisas.toJSONString());
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad" , agregados==null? 15 : 10 + 5*(agregados.length));
-		
+		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+			double median = valoresAgregados.get(0).values().iterator().next().values().iterator().next();
+			total_ = median;
+		}
 		return total_.doubleValue();
 	}
 	
