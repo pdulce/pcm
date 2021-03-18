@@ -219,12 +219,7 @@ public class Scatter extends GenericHighchartModel {
 			String titulo_EJE_Y = Translator.traduceDictionaryModelDefined(lang,
 					entidadGrafico.getName().concat(".").concat(fieldForCategoryY.getName()));
 			titulo_EJE_Y = CommonUtils.quitarTildes(titulo_EJE_Y);
-			Collection<Serializable> differentValues_ = new ArrayList<Serializable>();
 			
-						
-			String nameTraducedOfFilterField4Results = null;
-			IFieldLogic fieldForFilterResults = null;			
-
 			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
 			if (fieldForFilter != null){
 				
@@ -335,8 +330,7 @@ public class Scatter extends GenericHighchartModel {
 			Map<String, List<Map<Double, Double>>> mapaDePuntos = new HashMap<String, List<Map<Double, Double>>>();
 			Map<String, Integer> cantidadesExtraidasDeValoresEnMuestra = new HashMap<String, Integer>();
 			String clavevalorAgrupacion = units;
-			int tamanioMuestral_ = 0;
-			//int paresAPintar = 0;
+			int tamanioMuestral_ = 0, descartados = 0;
 			RandomDataGenerator randomizer = new RandomDataGenerator();
 			for (int i = 0; i < tamanioMuestral; i++) {
 				int indice_A_Extraer = i;
@@ -347,7 +341,8 @@ public class Scatter extends GenericHighchartModel {
 				Number valor_Eje_X = (Number) tupla.get(0);
 				Number valor_Eje_Y = (Number) tupla.get(1);
 				if (valor_Eje_Y.doubleValue()== 0.0 || valor_Eje_X.doubleValue() == 0.0){
-					//no contemplamos valores vacoos porque la recta de regresion no es posible obtenerla 
+					//no contemplamos valores vacoos porque la recta de regresion no es posible obtenerla
+					descartados++;
 					continue;
 				}
 				tamanioMuestral_++;
@@ -387,7 +382,6 @@ public class Scatter extends GenericHighchartModel {
 				if (tamanioMuestral < tamanioPoblacional) {
 					tuplas.remove(indice_A_Extraer);
 				}
-				//paresAPintar++;
 			}
 
 			// revisar aqui los acumulados de cada valor de clasificacion
@@ -429,12 +423,9 @@ public class Scatter extends GenericHighchartModel {
 				seriesJSON.add(serie);
 			}
 
-			// Procedemos a eliminar los datos atopicos, que siempre vamos a buscarlos en la lista
-			// de los valores del eje Y:
-			// De no hacer esta eliminacion, el modelo de regresion quedaro intoxicado por estos
-			// pocos datos que no son representativos.
-			// Para ello, hallamos el lomite inferior y el lomite superior de referencia para
-			// localizar los datos atopicos, y descartarlos.
+			// Procedemos a eliminar los datos atopicos, que siempre vamos a buscarlos en la lista de los valores del eje Y:
+			// De no hacer esta eliminacion, el modelo de regresion quedaro intoxicado por estos pocos datos que no son representativos.
+			// Para ello, hallamos el límite inferior y el límite superior de referencia para localizar los datos atípicos, y descartarlos.
 
 			data_.setAttribute(TITULO_EJE_X, titulo_EJE_X);
 			data_.setAttribute(TITULO_EJE_Y, titulo_EJE_Y);
@@ -468,7 +459,7 @@ public class Scatter extends GenericHighchartModel {
 			tupla_Destino_En_X_igualA_N.add(Double.valueOf(CommonUtils.roundWith2Decimals(coordenadaY_cuando_X_es_N)));
 			jsArrayRegressionLine.add(tupla_Destino_En_X_igualA_N);
 
-			// pintamos la recta de regression
+			// pintamos la recta de regresión
 			JSONObject serieRegressionLine = new JSONObject();
 			JSONObject shadow = new JSONObject();
 			shadow.put("color", "olive");
@@ -488,7 +479,6 @@ public class Scatter extends GenericHighchartModel {
 			serieRegressionLine.put("states", states);
 
 			serieRegressionLine.put("type", "line");
-			//serieRegressionLine.put("color", coloresHistogramas[0]);
 			serieRegressionLine.put("name", "Regression Line");
 			serieRegressionLine.put("enableMouseTracking", false);
 			serieRegressionLine.put("data", jsArrayRegressionLine);
@@ -533,26 +523,18 @@ public class Scatter extends GenericHighchartModel {
 			long mills2 = Calendar.getInstance().getTimeInMillis();
 			long segundosConsumidos = (mills2 - mills1) / 1000;
 
-			//String plural = CommonUtils.isVocal(units.substring(units.length() - 1).charAt(0)) ? "s" : "/es";
-			//String nombreConceptoRecuento = (units.indexOf(" ") != -1)?units.replaceFirst(" ", plural + " "):units.concat(plural);
-			String nombreConceptoRecuento = units;
-			
 			StringBuilder infoSumaryAndRegression = new StringBuilder();
 			infoSumaryAndRegression.append(htmlForHistograms(data_, fieldForCategoryX, userFilter));
 			infoSumaryAndRegression.append("<HR/><BR/><TABLE><TH>Summary <I>"
 					+ titulo_EJE_X
 					+ "</I></TH><TH>Summary <I>"
 					+ titulo_EJE_Y
-					+ "</I></TH><TH>Modelo de Regresión Lineal Simple para <I>"
+					+ "</I></TH><TH>Modelo Regresión Lineal Simple para <I>"
 					+ titulo_EJE_Y
-					+ "</I> a partir de la muestra aleatoria de tamaño "
-					+ CommonUtils.numberFormatter.format(tamanioMuestral)
-					+ " para una población de "
-					+ CommonUtils.numberFormatter.format(tamanioPoblacional)
-					+ " "
-					+ nombreConceptoRecuento
-					+ ((fieldForFilterResults == null || differentValues_.isEmpty()) ? "" : " filtradas por los valores <I>"
-							+ differentValues_.toString() + "</I> del campo <I>" + nameTraducedOfFilterField4Results) + "</I></th>");
+					+ "</I> a partir de muestra con "
+					+ CommonUtils.numberFormatter.format(tamanioMuestral_)
+					+ " datos (descartados: " + descartados + " por tener alguna dimensión (x,y) con valor 0.0) </TH>");					
+
 			infoSumaryAndRegression.append("<TR class=\"trPaired\"><TD style=\"text-align: center\">");
 			infoSumaryAndRegression.append(summary_X_media);
 			infoSumaryAndRegression.append("</TD>");

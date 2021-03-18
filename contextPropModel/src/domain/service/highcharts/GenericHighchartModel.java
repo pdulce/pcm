@@ -371,8 +371,8 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 
 	protected final String htmlForHistograms(final Datamap data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		data_.setAttribute("width-container", 1200);
-		data_.setAttribute("height-container", 1000);
+		data_.setAttribute("width-container", 1000);
+		data_.setAttribute("height-container", 950);
 		if (is3D()) {
 			data_.setAttribute("is3D", "3D");
 		}

@@ -29,7 +29,7 @@
 	            }
 	        },
 	        legend: {		            	
-	            width: 940,
+	            width: 900,
 	            floating: true,
 	            align: 'left',
 	            x: 60,
@@ -42,7 +42,7 @@
 	        plotOptions: {
 	            scatter: {
 	                marker: {
-	                    radius: 2,
+	                    radius: 3,
 	                    states: {
 	                        hover: {
 	                            enabled: true,

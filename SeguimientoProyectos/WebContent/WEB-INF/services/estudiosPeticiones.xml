@@ -103,10 +103,10 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="3" hidden="true"/>
 						<fieldView mappingTo="2" hidden="true"/>
 						<fieldView mappingTo="4" />
-						<fieldView mappingTo="5" styleCss="font-weight: bold;color: white;"/>
-						<fieldView mappingTo="6" styleCss="font-weight: bold;color: white;"/>
-						<fieldView mappingTo="7" styleCss="font-weight: bold;color: white;"/>
-						<fieldView mappingTo="8" styleCss="font-weight: bold;color: white;"/>
+						<fieldView mappingTo="5" styleCss="font-weight: bold;"/>
+						<fieldView mappingTo="6" styleCss="font-weight: bold;"/>
+						<fieldView mappingTo="7" styleCss="font-weight: bold;"/>
+						<fieldView mappingTo="8" styleCss="font-weight: bold;"/>
 						<fieldView mappingTo="30" styleCss="font-weight: bold;color: yellow;"/>
 						
 						<fieldView mappingTo="38" styleCss="font-weight: bold;color: yellow;"/>						
@@ -225,10 +225,11 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="-1" title="comparativa"></option>
-									<option code="28" title="uts "></option>
+									<option code="28" title="uts"></option>
+									<option code="29" title="hrs.análisis"></option>
 									<option code="8" title="CicloVida" selected="true"></option>
-									<option code="9" title="Análisis"></option>
-									<option code="10" title="Desarrollo"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
@@ -270,9 +271,10 @@ xmlns:service="http://pcm.framework.org/service"
 								<optionValues>
 									<option code="-1" title="comparativa"></option>
 									<option code="28" title="uts "></option>
+									<option code="29" title="hrs.análisis"></option>
 									<option code="8" title="CicloVida" selected="true"></option>
-									<option code="9" title="Análisis"></option>
-									<option code="10" title="Desarrollo"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
@@ -312,9 +314,10 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="28" title="uts "></option>
+									<option code="29" title="hrs.análisis"></option>
 									<option code="8" title="CicloVida" selected="true"></option>
-									<option code="9" title="Análisis"></option>
-									<option code="10" title="Desarrollo"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
@@ -342,10 +345,11 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							<fieldView name="agregado" type="select">
 								<optionValues>
-									<option code="28" title="uts "></option>
+									<option code="28" title="uts"></option>
+									<option code="29" title="hrs.análisis"></option>
 									<option code="8" title="CicloVida" selected="true"></option>
-									<option code="9" title="Análisis"></option>
-									<option code="10" title="Desarrollo"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
@@ -374,9 +378,10 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="28" title="uts "></option>
+									<option code="29" title="hrs.análisis"></option>
 									<option code="8" title="CicloVida" selected="true"></option>
-									<option code="9" title="Análisis"></option>
-									<option code="10" title="Desarrollo"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
@@ -396,13 +401,14 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="1"/>
-							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->							
+							<fieldView name="orderBy" hidden="true" value="1"/>							
 							<fieldView name="ejeX" type="select" editable="true">
 								<optionValues>
 									<option code="28" title="uts "></option>
+									<option code="29" title="hrs.análisis"  selected="true"></option>
 									<option code="8" title="CicloVida"></option>
-									<option code="9" title="Análisis" selected="true"></option>
-									<option code="10" title="Desarrollo"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
@@ -414,10 +420,11 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							<fieldView name="ejeY" type="select" editable="true">
 								<optionValues>
-									<option code="28" title="uts "></option>
-									<option code="8" title="CicloVida" selected="true"></option>
-									<option code="9" title="Análisis"></option>
-									<option code="10" title="Desarrollo" selected="true"></option>
+									<option code="28" title="uts" selected="true"></option>
+									<option code="29" title="hrs.análisis"></option>
+									<option code="8" title="CicloVida"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
@@ -536,14 +543,15 @@ xmlns:service="http://pcm.framework.org/service"
 				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
 					<fieldView mappingTo="1" hidden="true" />					
 					<fieldView mappingTo="2" hidden="true"/>
-					<fieldView mappingTo="3" editable="false" styleCss="color: white;" />
-					<fieldView mappingTo="4" editable="false" styleCss="color: white;" />
+					<fieldView mappingTo="3" editable="false"  />
+					<fieldView mappingTo="4" editable="false"  />
 					<fieldView mappingTo="5" editable="false" styleCss="color: orange;" />
-					<fieldView mappingTo="28" editable="false" styleCss="color: white;" />
+					<fieldView mappingTo="29" editable="false"  />
+					<fieldView mappingTo="28" editable="false"  />
 					<fieldView mappingTo="6" editable="false" styleCss="color: orange;" />
 					<fieldView mappingTo="7" editable="false" styleCss="color: orange;" />					
-					<fieldView mappingTo="16" editable="false" styleCss="color: white;" />
-					<fieldView mappingTo="17" editable="false" styleCss="color: white;" />
+					<fieldView mappingTo="16" editable="false"  />
+					<fieldView mappingTo="17" editable="false"  />
 					<fieldView mappingTo="8" editable="false" styleCss="color: yellow;" />
 				</fieldViewSet>
 			</grid>

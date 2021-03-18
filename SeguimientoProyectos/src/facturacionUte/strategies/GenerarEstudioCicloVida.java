@@ -329,6 +329,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				Double daysDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
 				Double utsPeticionesEntrega = 0.0, uts = (horasEstimadas==0.0?horasReales:horasEstimadas);
 				Double daysAnalisis = -1.0, daysDesfaseFinDesaSolicEntrega= 0.0, daysEntrega = 0.0;
+				double horasAnalysis = 0.0;
 				
 				if (fechaRealFin != null && registro != null && servicioAtiendePeticion.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO) /*&& idPeticion.contentEquals("681792")*/) {
 					String idEntregas = (String) registro.getValue(peticionesEntidad.searchField(
@@ -406,15 +407,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						tipoP = 1;
 					}
 					if (daysAnalisis < 0.0) {								
-						double horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno);
+						horasAnalysis = CommonUtils.aplicarMLR(uts, tipoP, entorno);
 						daysAnalisis = horasAnalysis/8.0;
 						out.write(("****** ANALYSIS ESTIMADO CON MLR SOBRE DATOS REALES ******\n").getBytes());
 					}else {
 						// datos para el modelo
 						double esfuerzoUts = CommonUtils.roundDouble((horasEstimadas==0.0?horasReales:horasEstimadas),2);
-						double esfuerzoAnalisis = CommonUtils.roundDouble(daysAnalisis*8.0,2);
-						modelo.write(("data.push([" + esfuerzoUts + ", " + tipoP + ", " + (entorno-1) + ", " + esfuerzoAnalisis +"]);\n").getBytes());
-						dataset.write((peticionDG + ";" + esfuerzoUts + ";" + tipoP + ";" + (entorno-1) + ";" + esfuerzoAnalisis + "\n").getBytes());
+						horasAnalysis = CommonUtils.roundDouble(daysAnalisis*8.0,2);
+						modelo.write(("data.push([" + esfuerzoUts + ", " + tipoP + ", " + (entorno-1) + ", " + horasAnalysis +"]);\n").getBytes());
+						dataset.write((peticionDG + ";" + esfuerzoUts + ";" + tipoP + ";" + (entorno-1) + ";" + horasAnalysis + "\n").getBytes());
 					}
 				}
 				
@@ -512,7 +513,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fecInicioInstalacion.getTime());
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), uts);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_TITULO).getName(), titulo);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_HRS_ANALYSIS).getName(), horasAnalysis);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_TITULO).getName(), titulo);
 				
 				int ok = dataAccess.insertEntity(resumenPorPeticion);
 				if (ok != 1) {

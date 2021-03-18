@@ -589,17 +589,13 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 							valueSerialized = (Serializable) resultSet.getObject(fieldLogic.getName());
 						}
 						tupla.add(valueSerialized);
-					}
-					catch (SQLException sqlExcc) {
+					}catch (SQLException sqlExcc) {
 						AnsiSQLAbstractDAOImpl.log.log(Level.SEVERE, "Error.. al obtener campo..." + fieldLogic.getName(), sqlExcc);
 						throw new DatabaseException(InternalErrorsConstants.BBDD_QUERY_EXCEPTION, new SQLException(
 								"Error.. al obtener campo..." + fieldLogic.getName()));
 					}
 				}// while of fieldset iterator
 				resultados.add(tupla);
-				// if (resultados.size() == 1000) {
-				// break;
-				// }
 			}// while resultset iterado
 
 		}
