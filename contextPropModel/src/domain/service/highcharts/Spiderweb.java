@@ -22,12 +22,9 @@ public class Spiderweb extends GenericHighchartModel {
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final String aggregateFunction) {
 		
-		boolean sinAgregado = agregados == null || agregados[0]==null;
-		String lang = data_.getLanguage();
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>();
 		Number total_ = Double.valueOf(0.0);
-		int valoresCategMayoresQueCero = 0;
-		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
+		
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado : valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 			Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
@@ -68,10 +65,6 @@ public class Spiderweb extends GenericHighchartModel {
 				subtotalesPorCategoria.put(agrupacion, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorCategoria.doubleValue())));
 			}
 			
-			if (subTotalPorCategoria.doubleValue() > 0){
-				valoresCategMayoresQueCero++;
-			}			
-						
 		}
 
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
@@ -83,37 +76,18 @@ public class Spiderweb extends GenericHighchartModel {
 		ocurrencias.put(entidadTraslated, subtotalesPorCategoria);
 		
 		String itemGrafico = entidadTraslated;
-		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
-		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(valoresCategMayoresQueCero));
-		if (sinAgregado){
-			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
-			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
-		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){
-			itemGrafico = "entre ";
-			for (int ag=0;ag<agregados.length;ag++){
-				itemGrafico += Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[ag].getName()));
-				if (ag == (agregados.length-2)){
-					itemGrafico += " y ";	
-				}else if (ag < (agregados.length-2)){
-					itemGrafico += ", ";
-				}
-			}
-		} else {
-			itemGrafico = "en " + unidades;
-		}
-		data_.setAttribute(CHART_TITLE, 
-				(agregados!=null && agregados.length>1 ? 
-						" Comparativa " : "") + "Spiderchart " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
-						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
-				unidades + " " : ""));
+				
+		data_.setAttribute(CHART_TITLE, "Spiderchart de " + itemGrafico); 
 		
 		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
 
 		String categories_UTF8 = CommonUtils.quitarTildes(jsArrayEjeAbcisas.toJSONString());
 
 		data_.setAttribute(CATEGORIES, categories_UTF8);
-
+		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+			double median = total_.doubleValue()/ocurrencias.size();//listaValoresAgregados.get(0).values().iterator().next().values().iterator().next();
+			total_ = median;
+		}
 		return total_.doubleValue();
 	}
 

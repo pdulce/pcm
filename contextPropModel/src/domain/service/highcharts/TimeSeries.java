@@ -61,8 +61,6 @@ public class TimeSeries extends GenericHighchartModel {
 			catch (DatabaseException e) {
 				e.printStackTrace();
 			}
-			long valores = 0;
-			
 			int posicionAgrupacion = 1;				
 			for (int i=0;i<periodos.size(); i++) {//pueden ser aoos, meses o doas
 				String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
@@ -92,7 +90,6 @@ public class TimeSeries extends GenericHighchartModel {
 						total_ = isLogarithmicScale(scaleParamValue) ? Math.log(total_): total_;
 						minimal = subTotal < minimal ? subTotal : minimal;
 						if (subTotal > 0 || this._dataAccess.countAll(filtroPorRangoFecha) > 0){//miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
-							valores++;
 							posicionAgrupacion++;
 							//extraigo los dos valores de los fields de agrupacion
 							String valueOfSecondAgrupateField = claveFSet.getFieldvalue(fieldsForGroupBy[1]).getValue();//second agrupate field
@@ -123,8 +120,7 @@ public class TimeSeries extends GenericHighchartModel {
 				data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else if (registrosJSON.size() == 1){
 				// el promedio por mes es:
-				data_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(valores))) + " de media " + 
-						HistogramUtils.traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
+				data_.setAttribute(CHART_TITLE, "Timeseries de " + itemGrafico);
 			}
 
 		} else {
@@ -184,7 +180,7 @@ public class TimeSeries extends GenericHighchartModel {
 				data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
 			}else{
 				// el promedio por categoroa es:
-				data_.setAttribute(CHART_TITLE, itemGrafico + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_/ Double.valueOf(listaValoresAgregados.size()))) + " de media por " + categoriaNombreTraslated + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(total_))+ " en todo el periodo": ""));
+				data_.setAttribute(CHART_TITLE, "TimeSeries de " + itemGrafico);
 			}
 			
 			registrosJSON.put(categoriaNombreTraslated, subtotalPorCategoria);
@@ -196,7 +192,10 @@ public class TimeSeries extends GenericHighchartModel {
 		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, data_));
 		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toJSONString());
 		data_.setAttribute("minEjeRef", minimal);
-		
+		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+			double median = total_/jsArrayEjeAbcisas.size();//listaValoresAgregados.get(0).values().iterator().next().values().iterator().next();
+			total_ = median;
+		}
 		return total_;
 	}
 

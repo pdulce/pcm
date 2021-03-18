@@ -32,7 +32,7 @@ public class Pie extends GenericHighchartModel {
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];		
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>(), subtotalesPorAgregado = new HashMap<String, Number>();
 		Number total_ = Double.valueOf(0);
-		int positionClaveAgregacion = 0, valoresCategMayoresQueCero = 0;
+		int positionClaveAgregacion = 0;
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado:valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 			Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
@@ -47,9 +47,6 @@ public class Pie extends GenericHighchartModel {
 						String agregadosQueryResultNameIesimo = agregadosQueryResultNames.next();
 						subTotalPorCategoria_ = agregadosQueryResult.get(agregadosQueryResultNameIesimo);
 						agregadosQueryResultNameIesimo = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregadosQueryResultNameIesimo));
-						if (subTotalPorCategoria_.doubleValue() > 0){
-							valoresCategMayoresQueCero++;
-						}
 						if (sinAgregado){//Integer al contar totales
 							subtotalesPorAgregado.put(agregadosQueryResultNameIesimo, subTotalPorCategoria_.longValue());
 						}else{
@@ -145,33 +142,14 @@ public class Pie extends GenericHighchartModel {
 		
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
-		String unidades =getUnitName(sinAgregado ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
-		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(valoresCategMayoresQueCero));
-		if (sinAgregado){
-			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
-			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
-		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){
-			itemGrafico = "entre ";
-			for (int ag=0;ag<agregados.length;ag++){
-				itemGrafico += Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[ag].getName()));
-				if (ag == (agregados.length-2)){
-					itemGrafico += " y ";	
-				}else if (ag < (agregados.length-2)){
-					itemGrafico += ", ";
-				}
-			}
-		} else {
-			itemGrafico = "en " + unidades;
-		}
-		data_.setAttribute(CHART_TITLE, 
-				(agregados!=null && agregados.length>1 ? 
-						" Comparativa " : "") + "Piechart " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
-						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
-				unidades + " " : ""));
+			
+		data_.setAttribute(CHART_TITLE, "Piechart de " + itemGrafico); 
 		
 		data_.setAttribute(JSON_OBJECT, generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, itemGrafico.substring(3)));
-
+		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+			double median = total_.doubleValue()/subtotalesPorCategoria.size();//listaValoresAgregados.get(0).values().iterator().next().values().iterator().next();
+			total_ = median;
+		}
 		return total_.doubleValue();
 	}
 

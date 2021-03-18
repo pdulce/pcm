@@ -260,39 +260,18 @@ public class BarChart extends GenericHighchartModel {
 		String categories_UTF8 = CommonUtils.quitarTildes(newArrayEjeAbcisas.toJSONString());
 		data_.setAttribute(CATEGORIES, categories_UTF8);
 		
-		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
-		String unidades = getUnitName(agregados == null || agregados[0]==null ? null:agregados[0], agrupacionInterna, aggregateFunction, data_);
-		double avg = CommonUtils.roundWith2Decimals(total_.doubleValue()/ Double.valueOf(newArrayEjeAbcisas.size()));
-		if (sinAgregado){
-			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length == 1){
-			itemGrafico = "de " + Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
-		} else if (!aggregateFunction.equals(OPERATION_COUNT) && agregados.length > 1){
-			itemGrafico = "entre ";
-			for (int ag=0;ag<agregados.length;ag++){
-				itemGrafico += Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[ag].getName()));
-				if (ag == (agregados.length-2)){
-					itemGrafico += " y ";	
-				}else if (ag < (agregados.length-2)){
-					itemGrafico += ", ";
-				}
-			}
-		} else {
-			itemGrafico = "en " + unidades;
-		}
 		
-		data_.setAttribute(CHART_TITLE, 
-				(agregados!=null && agregados.length>1 ? 
-						" Comparativa " : "") + "Barchart " + itemGrafico + " ("  + (sinAgregado ? total_.longValue() : CommonUtils.numberFormatter.format(total_.doubleValue())) + ")" 
-						+ (unidades.indexOf("%")== -1 && (agregados ==null || agregados.length == 1) ?", media de " + CommonUtils.numberFormatter.format(avg) + 
-				unidades + " " : ""));
+		data_.setAttribute(CHART_TITLE, "Barchart de " + itemGrafico + ":  ");
 		
 		data_.setAttribute(IS_BAR_INTERNAL_LABELED, "false");
 		
 		data_.setAttribute("minEjeRef", CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
-
+		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+			double median = listaValoresAgregados.get(0).values().iterator().next().values().iterator().next();
+			total_ = median;
+		}
 		return total_.doubleValue();
 	}
 	

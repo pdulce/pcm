@@ -12,7 +12,6 @@ import org.json.simple.JSONArray;
 
 import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
-import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.dataccess.comparator.ComparatorEntryWithDouble;
@@ -39,9 +38,6 @@ public class Dualhistogram extends GenericHighchartModel {
 		}
 		double frecuenciaAcumulada = 0.0, minimal = 0.0;
 		
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName()
-				.concat(".").concat(filtro_.getEntityDef().getName()));
-
 		JSONArray seriesJSONFrecAcumuladas = new JSONArray();
 		JSONArray seriesJSONFrecAbsolutas = new JSONArray();
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
@@ -67,7 +63,6 @@ public class Dualhistogram extends GenericHighchartModel {
 			}
 
 			int posicionAgrupacion = 1;
-			long valores = 0;
 			for (int i=0;i<periodos.size(); i++) {//pueden ser aoos, meses o doas
 				String inicioPeriodoDeAgrupacion = periodos.get(i);
 				String finPeriodoDeAgrupacion = "";
@@ -87,7 +82,6 @@ public class Dualhistogram extends GenericHighchartModel {
 					if (subTotal == 0){//miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
 						count4ThisPeriod = this._dataAccess.countAll(filtroPorRangoFecha);
 						if (count4ThisPeriod > 0){
-							valores++;
 							minimal = subTotal < minimal ? subTotal : minimal;
 							frecuenciaAcumulada += subTotal;
 						
@@ -106,7 +100,6 @@ public class Dualhistogram extends GenericHighchartModel {
 
 						}
 					}else{	
-						valores++;
 						minimal = subTotal < minimal ? subTotal : minimal;
 						frecuenciaAcumulada += subTotal;
 					
@@ -132,11 +125,7 @@ public class Dualhistogram extends GenericHighchartModel {
 
 			}// for
 			
-			// el promedio por periodo es:
-			data_.setAttribute(CHART_TITLE, entidadTraslated + " de " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada/ Double.valueOf(valores))) + " de media " + 
-					HistogramUtils.traducirEscala(escalado) + ". " +  (aggregateFunction.equals(OPERATION_SUM)?"Acumulado " + CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(frecuenciaAcumulada)) + " en todo el periodo": ""));
-
-
+			
 		} else { // el eje X es un campo que existe, por tanto, hacemos
 					// la select con agregados
 			// y groupBy
@@ -182,7 +171,6 @@ public class Dualhistogram extends GenericHighchartModel {
 				
 				frecuenciasAcumuladasPorPeriodos.put(agrupacion, Double.valueOf(frecuenciaAcumulada));
 				
-				//posicionDeAgrupacion++;
 			}// for
 
 		}// else
