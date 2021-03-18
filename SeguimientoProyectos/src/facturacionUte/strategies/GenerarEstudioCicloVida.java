@@ -627,54 +627,43 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				idPeriodo = ((Long) tiposperiodo.get(0).getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName())).intValue();
 			}
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodo);
-			//Mto.Pros@[1st Quarter2020]
-			//Mto.Pros@[2nd Quarter2020]
-			//Mto.Pros@[3rd Quarter2020]
-			//Mto.Pros@[4th Quarter2020]
 			/**
-			 *  1|mensual
-				2|bimensual
-				3|trimestre
-				4|cuatrimestre
-				5|semestre
-				6|anual
-				7|bienio
-				8|trienio
-				9|cuatrienio
-				10|indeterminado
+			 *  1|mensual	2|bimensual	3|trimestre	4|cuatrimestre	5|semestre	6|anual
+				7|bienio	8|trienio	9|cuatrienio		10|indeterminado
 			 */
 			Calendar fechaInicioEstudio = Calendar.getInstance();
 			fechaInicioEstudio.setTime(fecIniEstudio);
 			int mes = fechaInicioEstudio.get(Calendar.MONTH)+1;
-			int year = fechaInicioEstudio.get(Calendar.YEAR);
+			int yearAbbr = fechaInicioEstudio.get(Calendar.YEAR)%2000;
+			int year = fechaInicioEstudio.get(Calendar.YEAR)%2000;
 			String periodo = "";
 			switch (idPeriodo){
 				case 1:					
-					periodo = CommonUtils.translateMonthToSpanish(mes).concat(String.valueOf(year));
+					periodo = CommonUtils.translateMonthToSpanish(mes).concat(String.valueOf(yearAbbr));
 					break;
 				case 2:
-					periodo = CommonUtils.translateMonthToSpanish(mes).concat("-").concat(CommonUtils.translateMonthToSpanish(mes+1)).concat(String.valueOf(year));
+					periodo = CommonUtils.translateMonthToSpanish(mes).concat("-").concat(CommonUtils.translateMonthToSpanish(mes+1)).concat(String.valueOf(yearAbbr));
 					break;
 				case 3:
-					periodo = (mes<3?"1st":(mes<6?"2nd":(mes<9?"3rd":"4th"))).concat("Quarter").concat(String.valueOf(year));
+					periodo = (mes<3?"1st":(mes<6?"2nd":(mes<9?"3rd":"4th"))).concat("Quarter").concat(String.valueOf(yearAbbr));
 					break;
 				case 4:
-					periodo = (mes<4?"1st":(mes<8?"2nd":"3rd")).concat("Four-month period").concat(String.valueOf(year));
+					periodo = (mes<4?"1st":(mes<8?"2nd":"3rd")).concat("Four-month period").concat(String.valueOf(yearAbbr));
 					break;
 				case 5:
-					periodo = (mes<6?"1st":"2nd").concat("Half-year").concat(String.valueOf(year));
+					periodo = (mes<6?"1st":"2nd").concat("Half-year").concat(String.valueOf(yearAbbr));
 					break;
 				case 6:
 					periodo = String.valueOf(year);
 					break;
 				case 7:
-					periodo = String.valueOf(year).concat("-").concat(String.valueOf(year+1));
+					periodo = String.valueOf(year).concat("-").concat(String.valueOf((year%2000)+1));
 					break;
 				case 8:
-					periodo = String.valueOf(year).concat("-").concat(String.valueOf(year+2));
+					periodo = String.valueOf(year).concat("-").concat(String.valueOf((year%2000)+2));
 					break;
 				case 9:
-					periodo = String.valueOf(year).concat("-").concat(String.valueOf(year+3));
+					periodo = String.valueOf(year).concat("-").concat(String.valueOf((year%2000)+3));
 					break;
 				case 10:
 					periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
