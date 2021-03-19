@@ -36,14 +36,14 @@ form.pcmForm fieldset fieldset {
 
 
 .textInput{ 
-  background-color:#48403e;
-  background:#48403e;
+  background-color:rgb(255, 255, 172);
+  background:rgb(255, 255, 198);
   margin: 0;
   padding: 1px;
   font-size: 0.9em;
   font-family: Verdana, sans-serif;
-  color: orange;
-  border:1px solid #000;
+  color: rgb(89, 45, 0);
+  border:1px solid #bdc3c7;
 }
 
 .imgCalendar{
@@ -63,21 +63,21 @@ label.order{
 
 label.infoCls{
   background: #eef2f3;
-  color: #91e0de;
+  color: rgb(0, 0, 160);
   font-size: 99%;
   font-family: Verdana, sans-serif;
 }
 
 label.warningCls{
   background: #eef2f3;
-  color: #d3cf06;
+  color: rgb(255, 128, 0);
   font-size: 0.8em;
   font-family: Verdana, sans-serif;
 }
 
 label.errorCls{
   background: #eef2f3;
-  color: red;
+  color: rgb(128, 0, 64);
   font-size: 0.8em;
   font-family: Verdana, sans-serif;
 }
