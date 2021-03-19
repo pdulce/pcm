@@ -27,6 +27,13 @@ xmlns:service="http://pcm.framework.org/service"
 								<option code="es_" title="castellano" selected="true"></option>
 								<option code="en_" title="ingles"></option>
 							</optionValues> -->
+						<fieldView name="style" type="radio" 
+							required="false" persistsIn="%session%">
+							<optionValues> 
+								<option code="darkmode" title="darkmode" selected="true"></option>
+								<option code="whitemode" title="whitemode"></option>
+							</optionValues>
+						</fieldView>
 					</fieldViewSet>
 				</form>
 			</viewComponent>

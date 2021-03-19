@@ -23,7 +23,7 @@ public interface PCMConstants {
 	public static final String ID_PAGINACION = "paginacion", LANGUAGE = "language", DEFAULT_LANG = "es_",
 			NAVIGATION_MODEL = "navigationApp",	SERVICE_DIRECTORY = "serviceDirectory", ENTITIES_MODEL = "entitiesDictionary",
 			DOWNLOAD_DIR = "downloadDir", LOG_APPFILE = "logAppFile", UPLOAD_DIR = "uploadDir", APPURI_ = "uri", PAGESIZE = "pageSize",
-			APP_PROFILE = "profile", SERVLET_MAPPING = "servletMapping", AUDITON_APP = "auditActivated",
+			APP_PROFILE = "profile", STYLE_MODE_SITE = "style", SERVLET_MAPPING = "servletMapping", AUDITON_APP = "auditActivated",
 			DATA_SOURCE_TYPE = "datasourceAccess", DATASOURCE_FACTORY_IMPL = "datasourceFactoryImpl",
 			DSOURCE_IMPLEMENTATION = "datasourceImpl", SOURCE_DRIVER = "driver", DB_PREFFIX = "dbPreffix",
 			DB_RESOURCE_NAME = "dbResourceName", JNDI_PREFFIX = "jndiPreffix", JNDI_RESOURCE_NAME = "jndiName",

@@ -18,7 +18,8 @@ import facturacionUte.common.ConstantesModelo;
 
 public class StrategyLogin extends DefaultStrategyLogin {
 
-	public static final String MY_USER_PARAM = "entryForm.user", MY_PASSWD_PARAM = "entryForm.password";
+	public static final String MY_USER_PARAM = "entryForm.user", MY_PASSWD_PARAM = "entryForm.password",
+			STYLE_PARAM = "entryForm.style";
 
 	public static IEntityLogic administrators, roles;
 
@@ -87,6 +88,11 @@ public class StrategyLogin extends DefaultStrategyLogin {
 				String _profileName = (String) rol.getValue(roles.searchField(ConstantesModelo.ROL_2_NOMBRE).getName());
 				req.setAttribute(PCMConstants.APP_PROFILE, _profileName);
 			}
+			String defaultMode = "darkmode";
+			if (req.getParameter(STYLE_PARAM)!=null && !"".contentEquals(req.getParameter(STYLE_PARAM))){
+				defaultMode = req.getParameter(STYLE_PARAM);
+			}
+			req.setAttribute(PCMConstants.STYLE_MODE_SITE, defaultMode);
 
 		}
 		catch (final StrategyException ecxx) {

@@ -190,6 +190,11 @@ public class CDDWebController extends HttpServlet {
 				datamap.setAttribute("gP2fID", httpRequest.getSession().getAttribute("gP2fID"));
 			}
 		}
+		if (httpRequest.getSession().getAttribute(PCMConstants.STYLE_MODE_SITE) != null) {
+			datamap.setAttribute(PCMConstants.STYLE_MODE_SITE, (String) httpRequest.getSession().getAttribute(PCMConstants.STYLE_MODE_SITE));
+		}else {
+			datamap.setAttribute(PCMConstants.STYLE_MODE_SITE, "darkmode");
+		}
 	}
 	
 	private void transferDatabusToHttpRequest(final Datamap datamap, final HttpServletRequest httpRequest){		
@@ -208,6 +213,11 @@ public class CDDWebController extends HttpServlet {
 			httpRequest.getSession().setAttribute("fID", datamap.getAttribute("fID"));
 			httpRequest.getSession().setAttribute("gPfID", datamap.getAttribute("gPfID"));
 			httpRequest.getSession().setAttribute("gP2fID", datamap.getAttribute("gP2fID"));
+		}
+		if (datamap.getAttribute(PCMConstants.STYLE_MODE_SITE) != null) {
+			httpRequest.getSession().setAttribute(PCMConstants.STYLE_MODE_SITE, datamap.getAttribute(PCMConstants.STYLE_MODE_SITE));
+		}else {
+			httpRequest.getSession().setAttribute(PCMConstants.STYLE_MODE_SITE, "darkmode");			
 		}
 	}
 

@@ -9,7 +9,7 @@
 
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;
-	color: white;
+	color: black;
 	border-collapse: collapse;
 	border: 1px solid #EBEBEB;
 	margin: 10px auto;
@@ -24,9 +24,9 @@
 }
 .highcharts-data-table th {
 	font-weight: 600;
-	color: white;
+	color: black;
     padding: 0.5em;
-    background: #334036;
+    background: #eef2f3;
 }
 .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
     padding: 0.5em;

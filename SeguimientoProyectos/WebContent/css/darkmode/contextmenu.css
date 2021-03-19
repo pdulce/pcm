@@ -20,7 +20,7 @@
 	/*color: #000;*/
 	text-decoration:none;
 	color: white;
-	background: #334036;
+	background: #203A43;
 	line-height:25px;
 	vertical-align:middle;	
 	height:28px;
@@ -36,19 +36,19 @@
 	margin:1px;
 	cursor:pointer;	
 	color: white;
-	background: #334036;
+	background: #203A43;
 	clear:both;
 }
 
 #contextMenu li div{	/* Dynamically created divs */
 	cursor:pointer;	
-	background-color: #334036;
+	background-color: #203A43;
 }
 
 #contextMenu .contextMenuHighlighted{	/* Highlighted context menu item */
 	border:1px solid #000;
 	padding:0px;
-	background-color: #334036;
+	background-color: #203A43;
 	color: white;
 }
 
@@ -58,7 +58,7 @@
 
 #contextMenu .imageBox{	/* Dynamically created divs for images in the menu */
 	color: white;
-	background-color: #334036;
+	background-color: #203A43;
 	float:left;
 	padding-left:2px;
 	padding-top:3px;
@@ -70,5 +70,5 @@
 	float: left;		
 	width: 140px;		
 	color: white;
-	background-color: #334036;
+	background-color: #203A43;
 }
