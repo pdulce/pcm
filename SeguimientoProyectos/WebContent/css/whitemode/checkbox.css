@@ -27,12 +27,12 @@
   left: 0;
   height: 14px;
   width: 14px;
-  background-color: rgb(253, 244, 223);
+  background-color: rgb(160, 252, 160);
 }
 
 /* On mouse-over, add a grey background color */
 .checkboxcontainer:hover input ~ .checkmarkbox {
-  background-color: rgb(255, 128, 0);
+  background-color: rgb(0, 128, 64);
 }
 
 /* When the checkbox is checked, add a blue background */

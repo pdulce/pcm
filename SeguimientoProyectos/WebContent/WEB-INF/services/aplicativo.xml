@@ -23,18 +23,22 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+						<fieldView separator="br" />
+						<fieldView separator="br" />
 						<fieldView mappingTo="6" type="select" size="5" editable="true">
 							<optionValues entitymodel="tecnologia"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>			
 						<fieldView mappingTo="4"/>
+						<fieldView separator="br" />
+						<fieldView separator="br" />
 						<fieldView mappingTo="5" type="select" size="10" editable="true">						
 							<optionValues selectionMultiple="true" entitymodel="aplicativo"
 								descrMappingTo="5" codeField="5">
 							</optionValues>							
 						</fieldView>
-						<fieldView mappingTo="7" type="checkbox" size="8">
+						<fieldView mappingTo="7" type="checkbox">
 							<optionValues selectionMultiple="true" entitymodel="aplicativo"
 								descrMappingTo="7" codeField="7">
 							</optionValues>
@@ -60,11 +64,7 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="7" type="checkbox" size="8" editable="false">
-							<optionValues selectionMultiple="true" entitymodel="aplicativo"
-								descrMappingTo="7" codeField="7">
-							</optionValues>
-						</fieldView>
+						<fieldView mappingTo="7" type="text" editable="false"/>
 					</fieldViewSet>
 				</grid>
 
@@ -96,8 +96,8 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="false" />
-							<fieldView mappingTo="7" type="checkbox" size="8" editable="false">
-								<optionValues selectionMultiple="true" entitymodel="aplicativo"
+							<fieldView mappingTo="7" type="radio" editable="false">
+								<optionValues entitymodel="aplicativo"
 									descrMappingTo="7" codeField="7">
 								</optionValues>
 							</fieldView>
@@ -133,8 +133,8 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />
-							<fieldView mappingTo="7" type="checkbox" size="8" editable="true">
-								<optionValues selectionMultiple="true" entitymodel="aplicativo"
+							<fieldView mappingTo="7" type="radio" editable="true">
+								<optionValues entitymodel="aplicativo"
 									descrMappingTo="7" codeField="7">
 								</optionValues>
 							</fieldView>							
@@ -172,8 +172,8 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />
-							<fieldView mappingTo="7" type="checkbox" size="8" editable="false">
-								<optionValues selectionMultiple="true" entitymodel="aplicativo"
+							<fieldView mappingTo="7" type="radio" editable="true">
+								<optionValues entitymodel="aplicativo"
 									descrMappingTo="7" codeField="7">
 								</optionValues>
 							</fieldView>

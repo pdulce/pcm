@@ -36,14 +36,14 @@ form.pcmForm fieldset fieldset {
 
 
 .textInput{ 
-  background-color:rgb(255, 255, 172);
-  background:rgb(255, 255, 198);
+  background-color:rgb(249, 204, 214);
+  background:rgb(253, 251, 202);
   margin: 0;
   padding: 1px;
-  font-size: 0.9em;
+  font-size: 0.95em;
   font-family: Verdana, sans-serif;
   color: rgb(89, 45, 0);
-  border:1px solid #bdc3c7;
+  border:1px solid rgb(162, 244, 162);
 }
 
 .imgCalendar{

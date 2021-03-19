@@ -432,20 +432,20 @@
 					</fieldView>
 										
 					<fieldView mappingTo="2" editable="false" /><!-- Titulo -->
-					<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: aqua;"/><!-- Fecha_de_tramitacion -->
-					<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: aqua;"/><!-- Fecha_de_necesidad -->
+					<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/><!-- Fecha_de_tramitacion -->
+					<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/><!-- Fecha_de_necesidad -->
 					
 					<fieldView mappingTo="16" editable="false" /><!-- Prioridad -->
 					
 					<!-- FIN datos para Excel del Informe quincenal a Subdirecciones de Gestion -->
 															
-					<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;color: aqua;"/> <!-- Des_fecha_prevista_inicio-->
-					<fieldView mappingTo="24" editable="false" styleCss="font-weight: bold;color: aqua;"/> <!-- Des_fecha_real_inicio -->
-					<fieldView mappingTo="23" editable="false" styleCss="font-weight: bold;color: aqua;"/> <!-- Des_fecha_prevista_fin-->
-					<fieldView mappingTo="25" editable="false" styleCss="font-weight: bold;color: aqua;"/> <!-- Des_fecha_real_fin -->
+					<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_prevista_inicio-->
+					<fieldView mappingTo="24" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_real_inicio -->
+					<fieldView mappingTo="23" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_prevista_fin-->
+					<fieldView mappingTo="25" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_real_fin -->
 				     
-					<fieldView mappingTo="35" editable="false" styleCss="font-weight: normal;color: aqua;"/><!-- ID entrega -->
-					<fieldView mappingTo="36" editable="false" styleCss="font-weight: normal;color: aqua;"/><!--  Peticiones relacionadas -->
+					<fieldView mappingTo="35" editable="false" styleCss="font-weight: normal;color: #00B4DB;"/><!-- ID entrega -->
+					<fieldView mappingTo="36" editable="false" styleCss="font-weight: normal;color: #00B4DB;"/><!--  Peticiones relacionadas -->
 										
 				</fieldViewSet>
 			</grid>
