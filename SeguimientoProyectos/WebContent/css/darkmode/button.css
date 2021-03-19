@@ -18,6 +18,7 @@ ul#pcmUl li {
 	position: relative;
 	background: url('../../img/blue.PNG');
 	display: inline; 
+	font-size: 1.0em;
 	margin: 0 9px; 
     font-family: Verdana, sans-serif;
 } 
@@ -27,6 +28,7 @@ ul#pcmUl li span {
 	padding: 1px 2px 2px 1px;     
 	position: relative;
 	background: url('../../img/blue.PNG');
+	font-size: 1.0em;
 	float: center; 
     font-family: Verdana, sans-serif;
     color: blue;
