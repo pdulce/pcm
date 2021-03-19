@@ -57,7 +57,6 @@ CREATE TABLE `agregadosPeticiones` (
   `fecha_fin_estudio` date NOT NULL,
   `num_peticiones` int(6) DEFAULT NULL,
   `num_meses` int(4) DEFAULT NULL,
-  `total_uts` double DEFAULT NULL,
   `ciclo_vida` double DEFAULT NULL,  
   `duracion_analysis` double DEFAULT NULL,
   `duracion_desarrollo` double DEFAULT NULL,
@@ -98,7 +97,14 @@ CREATE TABLE `agregadosPeticiones` (
   `porc_total_dedicaciones` double DEFAULT NULL,        
   `porc_total_gaps` double DEFAULT NULL,
   `id_servicio` int(11) DEFAULT NULL,
-  `tipo_periodo` int(11) DEFAULT NULL
+  `tipo_periodo` int(11) DEFAULT NULL,  
+  `total_hrs_analisis` double DEFAULT NULL,
+  `hrs_analisis_permonth` double DEFAULT NULL,
+  `hrs_analisis_perpet` double DEFAULT NULL,
+  `total_uts` double DEFAULT NULL,
+  `uts_permonth` double DEFAULT NULL,
+  `uts_perpet` double DEFAULT NULL,
+  `id_aplicativo` int(11) DEFAULT NULL  
 );  
 CREATE INDEX index_Estudios_sr ON agregadosPeticiones (id_servicio);
 CREATE INDEX index_Estudios_ti ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
@@ -137,9 +143,30 @@ CREATE TABLE `resumenPeticiones` (
   `hrs_analysis` double DEFAULT NULL,
   `titulo` varchar(500) DEFAULT NULL
 );  
-
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
 
+DROP TABLE `tareasPeticion`;
+CREATE TABLE `tareasPeticion` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_tareaGEDEON` varchar(20) DEFAULT NULL,
+  `id_peticion` varchar(10) DEFAULT NULL,
+  `id_tipotarea` int(11) DEFAULT NULL,
+  `nombre` varchar(200) DEFAULT NULL,
+  `horas_imputadas` double DEFAULT NULL,
+  `horas_previstas` double DEFAULT NULL,
+  `fecha_inicio_previsto` date DEFAULT NULL,
+  `fecha_fin_previsto` date DEFAULT NULL,
+  `fecha_inicio_real` date DEFAULT NULL,  
+  `fecha_fin_real` date DEFAULT NULL
+ );
+ CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
+
+
+DROP TABLE `tiposTareas`;
+CREATE TABLE `tiposTareas` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(100) NOT NULL
+);
 
 DROP TABLE `tiposPeriodos`;
 CREATE TABLE `tiposPeriodos` (
@@ -177,39 +204,54 @@ drop table aplicativo;
 CREATE TABLE `aplicativo` (
   `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
-  `id_servicio` int(11) NOT NULL,
+  `id_servicio` int(11) DEFAULT NULL,
   `descripcion` varchar(250) DEFAULT NULL,
-  `rochade` varchar(20) DEFAULT NULL  
+  `rochade` varchar(20) DEFAULT NULL,
+  `id_tecnologia` int(11) DEFAULT NULL,
+  `en_mantenimiento` int(1) NOT NULL DEFAULT 1
 );
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (1,'APRO - ANTEPROYECTO',1,'APRO - ANTEPROYECTO', 'APRO');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (2,'INVE - INVENTARIO',1,'INVE - INVENTARIO', 'INVE');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (3,'PAGO - PAGODA',1,'PAGO - PAGODA', 'PAGO');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (4,'FMAR - FORMAR',1,'FMAR - FORMAR', 'FMAR');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (5,'TASA - TSE111',1,'TASA - TSE111', 'TASA');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (6,'PRES - PRESMAR',1,'PRES - PRESMAR', 'PRES');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (7,'AFLO - AYFLO',1,'AFLO - AYFLO', 'AFLO');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (8,'FARM - FARMAR',1,'FARM - FARMAR', 'FARM');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (9,'INBU - SEGUMAR',1,'INBU - SEGUMAR', 'INBU');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (10,'CMAR - CONTAMAR2',1,'CMAR - CONTAMAR2', 'CMAR');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (11,'CONT - CONTAMAR',1,'CONT - CONTAMAR', 'CONT');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (12,'MIND - ESTAD_IND',1,'MIND - ESTAD_IND', 'MIND');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (13,'INCM - INCA_ISM',1,'INCM - INCA_ISM', 'INCA');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (14,'AYFL - AYUDAS_FLOTA',3,'AYFL - AYUDAS_FLOTA', 'AYFL');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (15,'FOMA - FORMAR_PROSA',3,'FOMA - FORMAR_PROSA', 'FOMA');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (16,'FRMA - FRMA',3,'FRMA - FRMA', 'FRMA');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (17,'FAMA - FARMAR_PROSA',3,'FAMA - FARMAR_PROSA', 'FAMA');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (18,'SANI - SANIMA_PROSA',3,'SANI - SANIMA_PROSA', 'SANI');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (19,'FOM2 - FOMA2',2,'FOM2 - FOMA2', 'FOM2');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (20,'SBOT - SUBVEN_BOTIQ',2,'SBOT - SUBVEN_BOTIQ', 'SBOT');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (21,'FAM2 - FAM2_BOTIQU',2,'FAM2 - FAM2_BOTIQU', 'FAM2');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (22,'GFOA - GEFORA',2,'GFOA - GEFORA', 'GFOA');
-insert into aplicativo (id, nombre,id_servicio,descripcion,rochade) values (23,
-'OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.',
-2,'OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.', 'OBIS');
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (1,'APRO - ANTEPROYECTO',1,'APRO - ANTEPROYECTO', 'APRO', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (2,'INVE - INVENTARIO',1,'INVE - INVENTARIO', 'INVE', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (3,'PAGO - PAGODA',1,'PAGO - PAGODA', 'PAGO', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (4,'FMAR - FORMAR',1,'FMAR - FORMAR', 'FMAR', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (5,'TASA - TSE111',1,'TASA - TSE111', 'TASA', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (6,'PRES - PRESMAR',1,'PRES - PRESMAR', 'PRES', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (7,'AFLO - AYFLO',1,'AFLO - AYFLO', 'AFLO', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (8,'FARM - FARMAR',1,'FARM - FARMAR', 'FARM', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (9,'INBU - SEGUMAR',1,'INBU - SEGUMAR', 'INBU', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (10,'CMAR - CONTAMAR2',1,'CMAR - CONTAMAR2', 'CMAR', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (11,'CONT - CONTAMAR',1,'CONT - CONTAMAR', 'CONT', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (12,'MIND - ESTAD_IND',1,'MIND - ESTAD_IND', 'MIND', 1);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (13,'INCM - INCA_ISM',1,'INCM - INCA_ISM', 'INCA', 1);
 
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (14,'AYFL - AYUDAS_FLOTA',3,'AYFL - AYUDAS_FLOTA', 'AYFL', 2);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (15,'FOMA - FORMAR_PROSA',3,'FOMA - FORMAR_PROSA', 'FOMA', 2);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (16,'FRMA - FRMA',3,'FRMA - FRMA', 'FRMA', 2);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (17,'FAMA - FARMAR_PROSA',3,'FAMA - FARMAR_PROSA', 'FAMA', 2);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia) values (18,'SANI - SANIMA_PROSA',3,'SANI - SANIMA_PROSA', 'SANI', 2);
 
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia,en_mantenimiento) values (19,'FOM2 - FOMA2',2,'FOM2 - FOMA2', 'FOM2', 2, 0);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia,en_mantenimiento) values (20,'SBOT - SUBVEN_BOTIQ',2,'SBOT - SUBVEN_BOTIQ', 'SBOT', 2, 0);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia,en_mantenimiento) values (21,'FAM2 - FAM2_BOTIQU',2,'FAM2 - FAM2_BOTIQU', 'FAM2', 2, 0);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia,en_mantenimiento) values (22,'GFOA - GEFORA',2,'GFOA - GEFORA', 'GFOA', 2, 0);
+insert into aplicativo (id, nombre,id_servicio,descripcion,rochade, id_tecnologia,en_mantenimiento) values (23,'OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.',2,'OBIS - Orquestador de servicios, operaciones, consultas vía aplicación móvil o web.', 'OBIS', 2, 0);
 
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (24,'WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria','WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria', 'WSRT', 4);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (25,'BISM - ISM en tu Bolsillo','BISM - ISM en tu Bolsillo', 'BISM', 5);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (26,'TISM - Tu ISM','TISM - Tu ISM', 'TISM', 5);
 
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (27,'ISMW - WS_EXT_ISM','ISMW - WS_EXT_ISM', 'ISMW', 3);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (29,'MOVI - MOVIL_ISM','MOVI - MOVIL_ISM', 'MOVI', 3);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (38,'WSAO - Servicio Web intercambio avisos OBIS','WSAO - Servicio Web intercambio avisos OBIS', 'WSAO', 3);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (39,'WISM - WS_CDISM','WISM - WS_CDISM', 'WISM', 3);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (40,'WSPX - WS_PERMEX','WSPX - WS_PERMEX', 'WSPX', 3);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (41,'WBOF - WS_INSPBOT2','WBOF - WS_INSPBOT2', 'WBOF', 3);
+insert into aplicativo (id, nombre,descripcion,rochade, id_tecnologia) values (42,'WSCR - WS_CADUC_FSE','WSCR - WS_CADUC_FSE', 'WSCR', 3);
+
+insert into aplicativo (id, nombre,descripcion,rochade) values (43,'"MGEN - AP_GENERICA','"MGEN - AP_GENERICA','MGEN');
+insert into aplicativo (id, nombre,descripcion,rochade) values (44,'SIEB - SIEBEL','SIEB - SIEBEL','SIEB');		
+insert into aplicativo (id, nombre,descripcion,rochade) values (45,'IMAG - IMAGENES','IMAG - IMAGENES','IMAG');		
+insert into aplicativo (id, nombre,descripcion,rochade) values (46,'MEJP - MEJOPENS','MEJP - MEJOPENS','MEJP');		
 
 
 CREATE TABLE `categoria_profesional` (

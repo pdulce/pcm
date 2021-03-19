@@ -76,9 +76,7 @@
 				//alert('consignado criterio');
 			}
 			
-			if (textoDiagrama.lastIndexOf("Diagramas") > -1 
-					|| (textoDiagrama.lastIndexOf("Criterios por Fechas") > -1 && !consignedCritFechas)
-						//|| (textoDiagrama.lastIndexOf("Por Aplicativo") > -1 && !consignedCritAplicativo)
+			if ((textoDiagrama.lastIndexOf("Criterios por Fechas") > -1 && !consignedCritFechas)						
 							|| (textoDiagrama.lastIndexOf("Por Situacion") > -1 && !consignedCritSituacion)
 							|| (textoDiagrama.lastIndexOf("Por Detalle") > -1 && !consignedCritDetalles)
 							|| (textoDiagrama.lastIndexOf("Por Localizacion") > -1 && !consignedCritLocaliz)
@@ -86,6 +84,13 @@
 			 	isCollapsed = true;
 			}else{
 				isCollapsed = false;
+			}
+			
+			if (textoDiagrama.lastIndexOf("Diagramas") > -1 ){
+				isCollapsed = false;
+			}else if (textoDiagrama.lastIndexOf("Agregados en Periodo Estudio") > -1 ||
+					textoDiagrama.lastIndexOf("Promedios Mensuales") > -1){
+				isCollapsed = true;
 			}
 			
 			// Perform initial collapse.

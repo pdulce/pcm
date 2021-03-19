@@ -22,13 +22,19 @@
 							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
 							</optionValues>
-						</fieldView>						
+						</fieldView>
+						<fieldView mappingTo="6" type="select" size="5" editable="true">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>			
 						<fieldView mappingTo="4"/>
 						<fieldView mappingTo="5" type="select" size="10" editable="true">						
 							<optionValues selectionMultiple="true" entitymodel="aplicativo"
 								descrMappingTo="5" codeField="5">
 							</optionValues>							
 						</fieldView>
+						<fieldView mappingTo="7"/>
 
 					</fieldViewSet>
 				</form>
@@ -40,12 +46,17 @@
 						<fieldView mappingTo="1" hidden="true"/>
 						<fieldView mappingTo="5" />
 						<fieldView mappingTo="2" />
+						<fieldView mappingTo="6" type="select" size="5" editable="false">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						
+						<fieldView mappingTo="7"/>
 					</fieldViewSet>
 				</grid>
 
@@ -64,6 +75,11 @@
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="5" editable="false" />
 							<fieldView mappingTo="2" editable="false" />
+							<fieldView mappingTo="6" type="select" size="5" editable="false">
+							<optionValues entitymodel="tecnologia"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="3" type="select" size="5" editable="false">
@@ -72,6 +88,7 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="false" />
+							<fieldView mappingTo="7" editable="false" />
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 						</fieldset>
@@ -91,6 +108,11 @@
 							<fieldView separator="br" />
 							<fieldView mappingTo="5" editable="true" />
 							<fieldView mappingTo="2" editable="true" />
+							<fieldView mappingTo="6" type="select" size="5" editable="true">
+								<optionValues entitymodel="tecnologia"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="3" type="select" size="5" editable="true">
@@ -99,6 +121,7 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />
+							<fieldView mappingTo="7" editable="true" />
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 						</fieldset>
@@ -118,7 +141,12 @@
 							<fieldView separator="br" />
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="5" editable="true" />
-							<fieldView mappingTo="2" editable="true" />
+							<fieldView mappingTo="2" editable="false" />
+							<fieldView mappingTo="6" type="select" size="5" editable="true">
+								<optionValues entitymodel="tecnologia"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="3" type="select" size="5" editable="true">
@@ -127,6 +155,7 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />
+							<fieldView mappingTo="7" editable="true" />
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 						</fieldset>

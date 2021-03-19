@@ -87,7 +87,6 @@
 					
 						<fieldViewSet entitymodel="servicioUTE"	nameSpace="servicioUTE">
 							<fieldset legend="Servicio">
-								<fieldView separator="br" />
 								<fieldView separator="br" />						
 								<fieldView mappingTo="2" editable="true" />
 								<fieldView mappingTo="3" type="select" editable="true">
@@ -112,10 +111,9 @@
 
 			<viewComponent>
 				<form columns="2" title="Servicio">
-					<fieldViewSet entitymodel="servicioUTE"	nameSpace="servicioUTE">
+					<fieldViewSet entitymodel="servicioUTE"	nameSpace="servicioUTEForm">
 					
 						<fieldset legend="Servicio">
-							<fieldView separator="br" />
 							<fieldView separator="br" />	
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" editable="true" />
@@ -132,6 +130,19 @@
 						</fieldset>
 					</fieldViewSet>
 				</form>
+				
+				<grid title="Aplicaciones en cartera" dependsOf="servicioUTEForm" orderDirection="asc"
+					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionServiciosUTE">
+				
+					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
+						<fieldView mappingTo="1" hidden="true" />					
+						<fieldView mappingTo="5" editable="false"  />
+						<fieldView mappingTo="2" editable="false"  />
+						<fieldView mappingTo="3" hidden="true" />
+					</fieldViewSet>
+					
+				</grid>
+				
 			</viewComponent>
 		</action>
 

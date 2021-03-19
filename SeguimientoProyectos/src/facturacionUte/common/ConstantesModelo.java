@@ -85,7 +85,24 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_41_ENTORNO_TECNOLOG = 41;
 	public static final int PETICIONES_42_HORAS_ESTIMADAS_INICIALES = 42;
 	public static final String PETICIONES_ENTIDAD = "peticiones";
-		 	    
+
+	public static final int TIPOTAREA_1_ID = 1;
+	public static final int TIPOTAREA_2_NOMBRE = 2;
+	public static final String TIPOTAREA_ENTIDAD = "tiposTareas";
+
+	public static final int TAREA_PETICION_1_ID = 1;
+	public static final int TAREA_PETICION_2_ID_TAREA_GEDEON = 2;
+	public static final int TAREA_PETICION_3_ID_PETICION = 3;
+	public static final int TAREA_PETICION_4_ID_TIPOTAREA = 4;
+	public static final int TAREA_PETICION_5_NOMBRE = 5;
+	public static final int TAREA_PETICION_6_HRS_IMPUTADAS = 6;
+	public static final int TAREA_PETICION_7_HRS_PREVISTAS = 7;
+	public static final int TAREA_PETICION_8_FECHA_INICIO_PREVISTO = 8;
+	public static final int TAREA_PETICION_9_FECHA_FIN_PREVISTO = 9;
+	public static final int TAREA_PETICION_10_FECHA_INICIO_REAL = 10;
+	public static final int TAREA_PETICION_11_FECHA_FIN_REAL = 11;
+	public static final String TAREA_PETICION_ENTIDAD = "tareasPeticion";
+	
     public static final int AGREG_PETICIONES_1_ID = 1;
     public static final int AGREG_PETICIONES_2_TITULOESTUDIO = 2;
     public static final int AGREG_PETICIONES_3_ID_ENTORNO = 3;
@@ -95,7 +112,7 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_7_NUMPETICIONES = 7;
     public static final int AGREG_PETICIONES_8_NUMMESES = 8;
     public static final int AGREG_PETICIONES_9_TOTALUTS = 9;
-    public static final int AGREG_PETICIONES_10_CICLOVIDA = 10;
+    public static final int AGREG_PETICIONES_10_CICLOVIDA = 10;   
     public static final int AGREG_PETICIONES_11_DURACIONANALYS = 11;
     public static final int AGREG_PETICIONES_12_DURACIONDESARR = 12;
     public static final int AGREG_PETICIONES_13_DURACIONENTREGA = 13;
@@ -135,7 +152,13 @@ public abstract class ConstantesModelo {
     public static final int AGREG_PETICIONES_47_PORC_TOTALDEDICACIONES = 47;
     public static final int AGREG_PETICIONES_48_PORC_TOTALGAP = 48;
     public static final int AGREG_PETICIONES_49_ID_SERVICIO = 49;
-    public static final int AGREG_PETICIONES_50_ID_TIPOPERIODO = 50;
+    public static final int AGREG_PETICIONES_50_ID_TIPOPERIODO = 50;    
+    public static final int AGREG_PETICIONES_51_HRS_ANALYSIS_TOTAL = 51;
+    public static final int AGREG_PETICIONES_52_HRS_ANALYSIS_PERMONTH = 52;
+    public static final int AGREG_PETICIONES_53_HRS_ANALYSIS_PERPET = 53;    
+    public static final int AGREG_PETICIONES_54_UTS_PERMONTH = 54;
+    public static final int AGREG_PETICIONES_55_UTS_PERPET = 55;
+    public static final int AGREG_PETICIONES_56_ID_APLICATIVO = 56;
 	public static final String AGREG_PETICIONES_ENTIDAD = "agregadosPeticiones";	
 	
     public static final int RESUMEN_PETICION_1_ID = 1;
@@ -192,6 +215,8 @@ public abstract class ConstantesModelo {
 	public static final int APLICATIVO_3_ID_SERVICIO = 3;
 	public static final int APLICATIVO_4_DESCRIPC = 4;
 	public static final int APLICATIVO_5_ROCHADE = 5;
+	public static final int APLICATIVO_6_ID_TECNOLOGHY = 6;
+	public static final int APLICATIVO_7_MANTENIMIENTO_EN_PRODUC = 7;
 	public static final String APLICATIVO_ENTIDAD = "aplicativo";
   
 	public static final int SABANA_1_ID = 1;

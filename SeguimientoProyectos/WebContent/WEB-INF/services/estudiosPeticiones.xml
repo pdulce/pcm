@@ -17,8 +17,8 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 				
-						<button	link="prjManager" id="histog1" name="Comparativa Estudios" >
-							<fieldViewSet nameSpace="histog1">
+						<button	link="prjManager" id="histog01" name="Comparativa Estudios (por promedios)" >
+							<fieldViewSet nameSpace="histog01">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
 								<fieldView name="orderBy" hidden="true" value="1"/>								
@@ -31,7 +31,7 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="33" title="Promedio Preparación Entrega/petición"></option>
 										<option code="34" title="Promedio Pruebas en CD/petición"></option>
 										<option code="35" title="Promedio Intervalo Trámite y Desarrollo/petición"></option>
-										<option code="36" title="Promedio Intervalo Fin Desarrollo e Solicitud Entrega en CD/petición"></option>
+										<option code="36" title="Promedio Intervalo Fin Desarrollo y Solicitud Entrega en CD/petición"></option>
 										<option code="37" title="Promedio Intervalo Fin PruebasCD e Instalación Producc./petición"></option>
 										<option code="38" title="Promedio Dedicaciones Efectivas/petición"></option>
 										<option code="39" title="Promedio Intervalos sin Dedicación AT-DG/petición"></option>
@@ -41,6 +41,34 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="operation" hidden="true" value="AVG"/>
 							</fieldViewSet>
 						</button>
+						
+						<button	link="prjManager" id="histog02" name="Comparativa Estudios (totales)" >
+							<fieldViewSet nameSpace="histog02">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
+								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
+								<fieldView name="orderBy" hidden="true" value="1"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="9" title="Total uts" selected="true"></option>
+										<option code="51" title="Total horas análisis" selected="true"></option>
+										<option code="10" title="Ciclo Vida (Jornadas)"></option>
+										<option code="11" title="Análisis (Jornadas)"></option>
+										<option code="12" title="Desarrollo (Jornadas)"></option>
+										<option code="13" title="Preparación Entregas(Jornadas)"></option>
+										<option code="14" title="Pruebas en CD (Jornadas)"></option>
+										<option code="15" title="Intervalo Trámite y Desarrollo (Jornadas)"></option>
+										<option code="16" title="Intervalo Fin Desarrollo y Solicitud Entrega en CD (Jornadas)"></option>
+										<option code="17" title="Intervalo Fin PruebasCD e Instalación Producc.(Jornadas)"></option>
+										<option code="18" title="Dedicaciones Efectivas (Jornadas)"></option>
+										<option code="19" title="Intervalos sin Dedicación AT-DG (Jornadas)"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="SUM"/>
+							</fieldViewSet>
+						</button>
+						
 					</userbuttons>
 					
 							
@@ -50,19 +78,25 @@ xmlns:service="http://pcm.framework.org/service"
 															
 							<fieldView mappingTo="3" type="select">
 								<optionValues entitymodel="tecnologia"
-									descrMappingTo="2">
+									descrMappingTo="2" selectionMultiple="true">
 								</optionValues>
 							</fieldView>
 							
 							<fieldView mappingTo="49" type="select" size="5">
 								<optionValues entitymodel="servicioUTE"
+									descrMappingTo="2" selectionMultiple="true">
+								</optionValues>
+							</fieldView>
+							
+							<fieldView mappingTo="56" type="select" size="5" editable="true">
+								<optionValues entitymodel="aplicativo"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							
 							<fieldView mappingTo="50" type="select">
 								<optionValues entitymodel="tiposPeriodos"
-									descrMappingTo="3">
+									descrMappingTo="3" selectionMultiple="true">
 								</optionValues>
 							</fieldView>
 							
@@ -81,24 +115,12 @@ xmlns:service="http://pcm.framework.org/service"
 					eventsRegistered="detail, create, delete">
 					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
 						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/>
-						<fieldView mappingTo="2" />
-						<!-- fieldView mappingTo="49" type="select" size="1" editable="false">
-							<optionValues entitymodel="servicioUTE"
-								descrMappingTo="2">
-							</optionValues>
-						</fieldView>
-						<fieldView mappingTo="50" type="select" editable="false">
-							<optionValues entitymodel="tiposPeriodos"
-								descrMappingTo="3">
-							</optionValues>
-						</fieldView>	 -->					
-						<!-- <fieldView mappingTo="3" hidden="true"/>-->
-						<!-- <fieldView mappingTo="4" />-->
-						<fieldView mappingTo="5" styleCss="font-weight: bold;"/>
-						<fieldView mappingTo="6" styleCss="font-weight: bold;"/>
-						<fieldView mappingTo="7" styleCss="font-weight: bold;"/>
-						<fieldView mappingTo="8" styleCss="font-weight: bold;"/>
-						<fieldView mappingTo="30" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="2" />						
+						<fieldView mappingTo="5" />
+						<fieldView mappingTo="6" />
+						<fieldView mappingTo="7" />
+						<fieldView mappingTo="8" />
+						<fieldView mappingTo="30" />
 						
 						<fieldView mappingTo="38" styleCss="font-weight: bold;color: yellow;"/>						
 						<fieldView mappingTo="31" styleCss="font-weight: bold;color: #38ef7d;"/>
@@ -131,6 +153,11 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
+							<fieldView mappingTo="56" type="select" size="5" editable="false">
+								<optionValues entitymodel="aplicativo"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="false">
 								<optionValues entitymodel="tecnologia"
 									descrMappingTo="2">
@@ -158,7 +185,8 @@ xmlns:service="http://pcm.framework.org/service"
 			
 		</action>
 		
-		<action event="create" submitError="EstudioPeticiones.create"
+		<action event="create" submitError="EstudioPeticiones.create" 
+				strategyPre="facturacionUte.strategies.TipoEstudioAGenerar"
 			submitSucces="EstudioPeticiones.query" strategy="facturacionUte.strategies.GenerarEstudioCicloVida">
 			<viewComponent>
 				<form columns="2" title="Generar Estudio Ciclo Vida Peticiones por períodos">
@@ -170,6 +198,11 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
+							<fieldView mappingTo="56" type="select" size="5" editable="true">
+								<optionValues entitymodel="aplicativo"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>							
 							<fieldView mappingTo="50" type="select" editable="true">
 								<optionValues entitymodel="tiposPeriodos"
 									descrMappingTo="3">
@@ -300,6 +333,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<optionValues selectionMultiple="true">
 									<option code="3" title="aplicacion" selected="true"></option>
 									<option code="4" title="tipo" selected="true"></option>
+									<option code="3" title="aplicacion"></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="agregado" type="select">
@@ -439,6 +473,11 @@ xmlns:service="http://pcm.framework.org/service"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+						<fieldView mappingTo="56" type="select" size="5" editable="false">
+								<optionValues entitymodel="aplicativo"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 						<fieldView mappingTo="2" editable="false" />
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="tecnologia"
@@ -461,7 +500,8 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView separator="br" />
 					</fieldset>
 					<fieldset legend="Agregados en Periodo Estudio">
-						<fieldView mappingTo="9" editable="false" />
+						<fieldView mappingTo="51" editable="false" styleCss="font-weight: bold;color: yellow;"/>		
+						<fieldView mappingTo="9"  editable="false" styleCss="font-weight: bold;color: yellow;"/>	
 						<fieldView mappingTo="10" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
@@ -480,6 +520,8 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldset>
 					<fieldset legend="Promedios Mensuales">
 						<fieldView mappingTo="20" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="52" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="54" editable="false" styleCss="font-weight: bold;color: yellow;"/>						
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="21" editable="false" />
@@ -497,6 +539,8 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldset>
 					<fieldset legend="Promedios Por Petición">	
 						<fieldView mappingTo="30" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="53" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="55" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="31" editable="false" />
@@ -509,7 +553,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="35" editable="false" />
 						<fieldView mappingTo="36" editable="false" />
 						<fieldView mappingTo="37" editable="false" />						
-						<fieldView mappingTo="39" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="39" editable="false" styleCss="font-weight: bold;color: yellow;"/>						
 						<fieldView separator="br" />
 					</fieldset>
 					<fieldset legend="Porcentajes Por Petición">	
