@@ -60,9 +60,12 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());
 			Long aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_56_ID_APLICATIVO).getName());
 			
-			if (servicioId != null &&  aplicativoId!=null) {
+			if (servicioId != null &&  aplicativoId !=null) {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
-				throw new StrategyException("ERR_SERVICIO_O_APP_PARA_ESTUDIO", messageArguments);
+				throw new StrategyException("ERR_SERVICIO_Y_APP_PARA_ESTUDIO", messageArguments);
+			}else if (servicioId == null &&  aplicativoId ==null) {
+				final Collection<Object> messageArguments = new ArrayList<Object>();
+				throw new StrategyException("ERR_NO_SERVICIO_NO_APP_PARA_ESTUDIO", messageArguments);
 			}
 							
 		

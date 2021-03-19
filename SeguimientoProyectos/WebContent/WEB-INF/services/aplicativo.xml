@@ -34,7 +34,11 @@
 								descrMappingTo="5" codeField="5">
 							</optionValues>							
 						</fieldView>
-						<fieldView mappingTo="7"/>
+						<fieldView mappingTo="7" type="checkbox" size="8">
+							<optionValues selectionMultiple="true" entitymodel="aplicativo"
+								descrMappingTo="7" codeField="7">
+							</optionValues>
+						</fieldView>
 
 					</fieldViewSet>
 				</form>
@@ -56,7 +60,11 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="7"/>
+						<fieldView mappingTo="7" type="checkbox" size="8" editable="false">
+							<optionValues selectionMultiple="true" entitymodel="aplicativo"
+								descrMappingTo="7" codeField="7">
+							</optionValues>
+						</fieldView>
 					</fieldViewSet>
 				</grid>
 
@@ -88,7 +96,11 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="false" />
-							<fieldView mappingTo="7" editable="false" />
+							<fieldView mappingTo="7" type="checkbox" size="8" editable="false">
+								<optionValues selectionMultiple="true" entitymodel="aplicativo"
+									descrMappingTo="7" codeField="7">
+								</optionValues>
+							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 						</fieldset>
@@ -121,7 +133,12 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />
-							<fieldView mappingTo="7" editable="true" />
+							<fieldView mappingTo="7" type="checkbox" size="8" editable="true">
+								<optionValues selectionMultiple="true" entitymodel="aplicativo"
+									descrMappingTo="7" codeField="7">
+								</optionValues>
+							</fieldView>							
+
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 						</fieldset>
@@ -155,7 +172,11 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" editable="true" />
-							<fieldView mappingTo="7" editable="true" />
+							<fieldView mappingTo="7" type="checkbox" size="8" editable="false">
+								<optionValues selectionMultiple="true" entitymodel="aplicativo"
+									descrMappingTo="7" codeField="7">
+								</optionValues>
+							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 						</fieldset>

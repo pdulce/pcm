@@ -281,15 +281,14 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			Long idTecnologia = null;
 			Long servicioId = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());			
 			StringBuffer textoAplicaciones = new StringBuffer();					
-			if (servicioId == null) {
+			if (servicioId == null || servicioId==0) {
 				Long idAplicativo = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_56_ID_APLICATIVO).getName());
 				FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
 				aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
 				aplicacion = dataAccess.searchEntityByPk(aplicacion);
 				title = (String) aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName());
 				idTecnologia = (Long) aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
-				Integer enMto = (Integer)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_7_MANTENIMIENTO_EN_PRODUC).getName());
-				sonAplicativosEnMto = enMto.intValue()==1;
+				sonAplicativosEnMto = (Boolean)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_7_MANTENIMIENTO_EN_PRODUC).getName());
 				textoAplicaciones.append(title);
 			}else {
 				FieldViewSet servicioEnBBDD = new FieldViewSet(servicioUTEEntidad);

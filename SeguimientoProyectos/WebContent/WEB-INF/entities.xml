@@ -180,7 +180,7 @@
     <field mappingTo="46" name="porc_gap_finPrue_Producc" type="double" length="6" required="false"/>
     <field mappingTo="47" name="porc_total_dedicaciones" type="double" length="6" required="false"/>
     <field mappingTo="48" name="porc_total_gaps" type="double" length="6" required="false"/>    
-    <field mappingTo="49" name="id_servicio" type="long" length="11" required="true" 
+    <field mappingTo="49" name="id_servicio" type="long" length="11" required="false" 
 	    fkParentEntities="servicioUTE" fkParentFields="1"/>   
 	<field mappingTo="50" name="tipo_periodo" type="long" length="11" required="true" 
 	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>	
@@ -189,7 +189,7 @@
 	<field mappingTo="53" name="hrs_analisis_perpet" type="double" length="6" required="false"/>
 	<field mappingTo="54" name="uts_permonth" type="double" length="6" required="false"/>
 	<field mappingTo="55" name="uts_perpet" type="double" length="6" required="false"/>
-	<field mappingTo="56" name="id_aplicativo" type="long" length="11" required="true" 
+	<field mappingTo="56" name="id_aplicativo" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>   	
   </entity>	
   
