@@ -25,7 +25,6 @@
 			<LEAF link="event=GestionEntidades.query#entityName=subdireccion" name="Subdirecciones" />
 			<LEAF link="event=GestionResponsablesCentros.query" name="Responsables" />
 			<LEAF link="event=GestionServicios.query" name="Servicios CDISM" />
-			<!-- <LEAF link="event=GestionProyectos.query" name="Aplicaciones" />-->
 			<LEAF link="event=GestionColaboradores.query" name="Colaboradores" />
 		</FOLDER>
 		
@@ -46,6 +45,9 @@
 			<FOLDER profile="ADMINISTRADOR"	name="Importaciones GEDEON">
 				<LEAF link="event=GestionarImportacionesGEDEON.query" name="Importaciones" />
 			</FOLDER>
+			<FOLDER profile="ADMINISTRADOR"	name="Demos">
+				<LEAF link="event=Demos.query" name="Gráficos - mapas" />
+			</FOLDER>			
 		</FOLDER>
 		
 		<FOLDER profile="ADMINISTRADOR" name="Site technical config.">

@@ -17,7 +17,7 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 				
-						<button	link="prjManager" id="histog01" name="Comparativa Estudios (por promedios)" >
+						<button	link="prjManager" id="histog01" name="Comparativa Estudios (promedios/petición)" >
 							<fieldViewSet nameSpace="histog01">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
@@ -42,6 +42,31 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
+						<button	link="prjManager" id="histog01" name="Comparativa Estudios (promedios mes/aplicación)" >
+							<fieldViewSet nameSpace="histog01">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
+								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
+								<fieldView name="orderBy" hidden="true" value="1"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="57" title="Promedio mensual Ciclo Vida/aplicación" selected="true"></option>
+										<option code="58" title="Promedio mensual Análisis/aplicación (Jornadas)"></option>
+										<option code="59" title="Desarrollo/petición (Jornadas)"></option>
+										<option code="60" title="Promedio mensual Preparación Entrega/aplicación"></option>
+										<option code="61" title="Promedio mensual Pruebas en CD/aplicación"></option>
+										<option code="62" title="Promedio mensual Intervalo Trámite y Desarrollo/aplicación"></option>
+										<option code="63" title="Promedio mensual Intervalo Fin Desarrollo y Solicitud Entrega en CD/aplicación"></option>
+										<option code="64" title="Promedio mensual Intervalo Fin PruebasCD e Instalación Producc./aplicación"></option>
+										<option code="65" title="Promedio mensual Dedicaciones Efectivas/aplicación"></option>
+										<option code="66" title="Promedio mensual Intervalos sin Dedicación AT-DG/aplicación"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="AVG"/>
+							</fieldViewSet>
+						</button>
+						
 						<button	link="prjManager" id="histog02" name="Comparativa Estudios (totales)" >
 							<fieldViewSet nameSpace="histog02">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
@@ -50,8 +75,10 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
 								<fieldView name="agregado" type="select">
 									<optionValues>
+										<option code="51" title="Horas análisis estudio" selected="true"></option>
+										<option code="67" title="Horas análisis aplicación/mes" selected="true"></option>
 										<option code="9" title="Total uts" selected="true"></option>
-										<option code="51" title="Total horas análisis" selected="true"></option>
+										<option code="68" title="Uts aplicación/mes" selected="true"></option>										
 										<option code="10" title="Ciclo Vida (Jornadas)"></option>
 										<option code="11" title="Análisis (Jornadas)"></option>
 										<option code="12" title="Desarrollo (Jornadas)"></option>

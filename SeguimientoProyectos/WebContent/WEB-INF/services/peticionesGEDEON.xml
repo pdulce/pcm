@@ -14,7 +14,7 @@
 
 		<viewComponent>
 
-			<form columns="12" title="Tareas GEDEON importadas">
+			<form columns="12" title="Peticiones GEDEON">
 				
 				<userbuttons>
 				
@@ -200,99 +200,6 @@
 							</fieldView>
 						</fieldViewSet>
 					</button>
-
-					<button link="prjManager" id="mapaSpain" name="Demo con mapas (Spain)">
-						<fieldViewSet nameSpace="mapaSpain">
-							<fieldView name="highchart" hidden="true" value="mapspain"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="fieldForGroupBy" type="select">
-							<optionValues selectionMultiple="true">
-									<option code="26" title="aplicacion" selected="true"></option>
-									<option code="7" title="situacion" selected="true"></option>
-									<option code="13" title="tipo"></option>
-									<option code="26" title="aplicacion"></option>
-									<option code="12" title="area destino"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="agregado" type="select">
-								<optionValues>
-									<option code="-1" title="peticiones"></option>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="operation" type="select">
-								<optionValues>
-									<option code="SUM" title="agregados" selected="true"></option>
-									<option code="AVG" title="medias"></option>
-								</optionValues>
-							</fieldView>
-						</fieldViewSet>
-					</button>
-					
-					<button link="prjManager" id="mapaEurope" name="Demo con mapas (Europe)">
-						<fieldViewSet nameSpace="mapaEurope">
-							<fieldView name="highchart" hidden="true" value="mapeurope"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="fieldForGroupBy" type="select">
-							<optionValues selectionMultiple="true">
-									<option code="26" title="aplicacion" selected="true"></option>
-									<option code="7" title="situacion" selected="true"></option>
-									<option code="13" title="tipo"></option>
-									<option code="26" title="aplicacion"></option>
-									<option code="12" title="area destino"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="agregado" type="select">
-								<optionValues>
-									<option code="-1" title="peticiones"></option>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="operation" type="select">
-								<optionValues>
-									<option code="SUM" title="agregados" selected="true"></option>
-									<option code="AVG" title="medias"></option>
-								</optionValues>
-							</fieldView>
-						</fieldViewSet>
-					</button>
-					
-					<button link="prjManager" id="mapaWorld" name="Mapa World">
-						<fieldViewSet nameSpace="mapaWorld">
-							<fieldView name="highchart" hidden="true" value="mapworld"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="fieldForGroupBy" type="select">
-							<optionValues selectionMultiple="true">
-									<option code="26" title="aplicacion" selected="true"></option>
-									<option code="7" title="situacion" selected="true"></option>
-									<option code="13" title="tipo"></option>
-									<option code="26" title="aplicacion"></option>
-									<option code="12" title="area destino"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="agregado" type="select">
-								<optionValues>
-									<option code="-1" title="peticiones"></option>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="operation" type="select">
-								<optionValues>
-									<option code="SUM" title="agregados" selected="true"></option>
-									<option code="AVG" title="medias"></option>
-								</optionValues>
-							</fieldView>
-						</fieldViewSet>
-					</button>
 					
 				</userbuttons>
 			
@@ -404,7 +311,7 @@
 				</fieldViewSet> 
 			</form>
 
-			<grid title="Listado de tareas GEDEON" orderDirection="desc" defaultOrderField="peticiones.37"
+			<grid title="Listado peticiones" orderDirection="desc" defaultOrderField="peticiones.37"
 				eventsRegistered="detail"><!-- detail -->
 
 				<fieldViewSet entitymodel="peticiones"	nameSpace="peticiones">
