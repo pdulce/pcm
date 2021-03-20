@@ -18,7 +18,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldset legend="Información Petición">
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" type="select" editable="false">
-								<optionValues entitymodel="agregadosPeticiones"
+								<optionValues entitymodel="estudiosPeticiones"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>

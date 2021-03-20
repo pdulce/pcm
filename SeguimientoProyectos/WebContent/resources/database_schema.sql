@@ -47,8 +47,8 @@ CREATE TABLE `peticiones` (
 CREATE INDEX index_search_gedeones_1 on peticiones (id);
 CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 
-DROP TABLE `agregadosPeticiones`;
-CREATE TABLE `agregadosPeticiones` (
+DROP TABLE `estudiosPeticiones`;
+CREATE TABLE `estudiosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `tituloEstudio` varchar(250) NULL,
   `id_entorno` int(11) DEFAULT NULL,
@@ -104,10 +104,22 @@ CREATE TABLE `agregadosPeticiones` (
   `total_uts` double DEFAULT NULL,
   `uts_permonth` double DEFAULT NULL,
   `uts_perpet` double DEFAULT NULL,
-  `id_aplicativo` int(11) DEFAULT NULL  
+  `id_aplicativo` int(11) DEFAULT NULL,
+  `ciclo_vida_perappmonth` double DEFAULT NULL,  
+  `duracion_analysis_perappmonth` double DEFAULT NULL,
+  `duracion_desarrollo_perappmonth` double DEFAULT NULL,
+  `duracion_entregas_perappmonth` double DEFAULT NULL,
+  `duracion_pruebas_perappmonth` double DEFAULT NULL,
+  `gap_tram_iniRealDesa_perappmonth` double DEFAULT NULL,
+  `gap_finDesa_solicEntrega_perappmonth` double DEFAULT NULL,
+  `gap_finPrue_Producc_perappmonth` double DEFAULT NULL,
+  `total_dedicaciones_perappmonth` double DEFAULT NULL,
+  `total_gaps_perappmonth` double DEFAULT NULL,   
+  `hrs_analisis_perappmonth` double DEFAULT NULL,
+  `uts_perappmonth` double DEFAULT NULL  
 );  
-CREATE INDEX index_Estudios_sr ON agregadosPeticiones (id_servicio);
-CREATE INDEX index_Estudios_ti ON agregadosPeticiones (tituloEstudio, fecha_inicio_estudio);
+CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
+CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);
 
 
 DROP TABLE `resumenPeticiones`;

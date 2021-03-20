@@ -24,7 +24,7 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 		if (estudioPeticionesEntidad == null) {			
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.AGREG_PETICIONES_ENTIDAD);
+						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
 				resumenPeticionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
 			}catch (PCMConfigurationException e) {
@@ -62,7 +62,7 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			}
 			
 			//obtenemos el id que es secuencial
-			Long idEstudio = (Long) estudioFSet_.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_1_ID).getName());
+			Long idEstudio = (Long) estudioFSet_.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_1_ID).getName());
 			FieldViewSet resumenesFilter = new FieldViewSet(resumenPeticionEntidad);
 			resumenesFilter.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
 			FieldViewSetCollection fsetColl = new FieldViewSetCollection();

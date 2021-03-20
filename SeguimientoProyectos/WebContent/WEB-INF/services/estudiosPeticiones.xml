@@ -20,7 +20,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<button	link="prjManager" id="histog01" name="Comparativa Estudios (por promedios)" >
 							<fieldViewSet nameSpace="histog01">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
-								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
+								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
 								<fieldView name="orderBy" hidden="true" value="1"/>								
 								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
 								<fieldView name="agregado" type="select">
@@ -45,7 +45,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<button	link="prjManager" id="histog02" name="Comparativa Estudios (totales)" >
 							<fieldViewSet nameSpace="histog02">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
-								<fieldView name="entidadGrafico" hidden="true" value="agregadosPeticiones"/>
+								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
 								<fieldView name="orderBy" hidden="true" value="1"/>								
 								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
 								<fieldView name="agregado" type="select">
@@ -72,7 +72,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</userbuttons>
 					
 							
-					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
+					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">
 					
 						<fieldset legend="Filtrar por Tecnología y Servicio">			
 															
@@ -111,9 +111,9 @@ xmlns:service="http://pcm.framework.org/service"
 																	
 					</fieldViewSet>
 				</form>
-				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="agregadosPeticiones.2"
+				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="estudiosPeticiones.2"
 					eventsRegistered="detail, create, delete">
-					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">
+					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">
 						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/>
 						<fieldView mappingTo="2" />						
 						<fieldView mappingTo="5" />
@@ -145,7 +145,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.BorrarResumenes">
 			<viewComponent>
 				<form columns="2" title="Borrar Estudio Ciclo Vida Peticiones">
-					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">					
+					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">					
 						<fieldset legend="Estudio">											
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="49" type="select" size="5" editable="false">
@@ -190,7 +190,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="EstudioPeticiones.query" strategy="facturacionUte.strategies.GenerarEstudioCicloVida">
 			<viewComponent>
 				<form columns="2" title="Generar Estudio Ciclo Vida Peticiones por períodos">
-					<fieldViewSet entitymodel="agregadosPeticiones" nameSpace="agregadosPeticiones">					
+					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">					
 						<fieldset legend="Escoja el Servicio para el Estudio">											
 							
 							<fieldView mappingTo="49" type="select" size="5" editable="true">
@@ -237,7 +237,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="histog2">
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
@@ -282,7 +282,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="histDual2">
 							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues>
@@ -327,7 +327,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="barchart2">
 							<fieldView name="highchart" hidden="true" value="barchart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues selectionMultiple="true">
@@ -360,7 +360,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="piechart2">
 							<fieldView name="highchart" hidden="true" value="piechart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues selectionMultiple="true">
@@ -392,7 +392,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="spiderchart2">
 							<fieldView name="highchart" hidden="true" value="spiderweb"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select">
 								<optionValues selectionMultiple="true">
@@ -424,7 +424,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="scatter2">
 							<fieldView name="highchart" hidden="true" value="scatter"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=agregadosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="1"/>
 							<fieldView name="orderBy" hidden="true" value="1"/>							
 							<fieldView name="ejeX" type="select" editable="true">
@@ -464,8 +464,8 @@ xmlns:service="http://pcm.framework.org/service"
 					
 				</userbuttons>
 				
-				<fieldViewSet entitymodel="agregadosPeticiones"
-					nameSpace="agregadosPeticionesForm">
+				<fieldViewSet entitymodel="estudiosPeticiones"
+					nameSpace="estudiosPeticionesForm">
 					<fieldset legend="Resumen Estudio">
 						<fieldView mappingTo="1" hidden="true" />
 						<fieldView mappingTo="49" type="select" size="1" editable="false">
@@ -537,6 +537,25 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="29" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView separator="br" />
 					</fieldset>
+					<fieldset legend="Promedios Mensuales Por Aplicación">	
+						<fieldView mappingTo="57" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="67" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="68" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="58" editable="false" />
+						<fieldView mappingTo="59" editable="false" />
+						<fieldView mappingTo="60" editable="false" />
+						<fieldView mappingTo="61" editable="false" />
+						<fieldView mappingTo="62" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="63" editable="false" />
+						<fieldView mappingTo="64" editable="false" />
+						<fieldView mappingTo="65" editable="false" />						
+						<fieldView mappingTo="66" editable="false" styleCss="font-weight: bold;color: yellow;"/>						
+						<fieldView separator="br" />
+					</fieldset>
 					<fieldset legend="Promedios Por Petición">	
 						<fieldView mappingTo="30" editable="false" styleCss="font-weight: bold;color: yellow;"/>
 						<fieldView mappingTo="53" editable="false" styleCss="font-weight: bold;color: yellow;"/>
@@ -572,7 +591,7 @@ xmlns:service="http://pcm.framework.org/service"
 				</fieldViewSet>
 			</form>
 			
-			<grid title="Resumen Peticiones del Estudio" dependsOf="agregadosPeticionesForm" orderDirection="asc"
+			<grid title="Resumen Peticiones del Estudio" dependsOf="estudiosPeticionesForm" orderDirection="asc"
 					defaultOrderField="resumenPeticiones.3" eventsRegistered="detail" serviceRef="ResumenPeticionesEstudio">
 				
 				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">

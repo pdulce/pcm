@@ -30,8 +30,8 @@ import facturacionUte.common.ConstantesModelo;
 
 public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
-	public static final String FECHA_INI_PARAM = "agregadosPeticiones.fecha_inicio_estudio", 
-			FECHA_FIN_PARAM = "agregadosPeticiones.fecha_fin_estudio";
+	public static final String FECHA_INI_PARAM = "estudiosPeticiones.fecha_inicio_estudio", 
+			FECHA_FIN_PARAM = "estudiosPeticiones.fecha_fin_estudio";
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " ¡OJO ya en entrega previa! ";
@@ -43,7 +43,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		if (estudioPeticionesEntidad == null) {
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.AGREG_PETICIONES_ENTIDAD);
+						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
 				resumenPeticionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
 				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
@@ -89,13 +89,13 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			//obtenemos el id que es secuencial
 			FieldViewSet estudioFSet = dataAccess.searchLastInserted(estudioFSet_);
-			Long idPeriodicidad = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName());
+			Long idPeriodicidad = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_50_ID_TIPOPERIODO).getName());
 			
 			
 			Date fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.AGREG_PETICIONES_5_FECHA_INIESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_PETICIONES_5_FECHA_INIESTUDIO).getName());
 			Date fecFinEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.AGREG_PETICIONES_6_FECHA_FINESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_PETICIONES_6_FECHA_FINESTUDIO).getName());
 			if(fecFinEstudio== null) {
 				fecFinEstudio = Calendar.getInstance().getTime();
 			}
@@ -132,9 +132,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			Collection<String> valuesPrjs =  new ArrayList<String>();
 			//obtenemos todas las aplicaciones de este estudio
 			FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);					
-			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());
+			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
 			if (servicioId == null) {
-				Long idAplicativo = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_56_ID_APLICATIVO).getName());
+				Long idAplicativo = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
 				FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
 				aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
 				aplicacion = dataAccess.searchEntityByPk(aplicacion);
@@ -190,7 +190,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		}catch(StrategyException exA) {
 			throw exA;
 		}catch (final Exception ecxx1) {
-			throw new PCMConfigurationException("Configuration error: table agregadosPeticiones is possible does not exist", ecxx1);
+			throw new PCMConfigurationException("Configuration error: table estudiosPeticiones is possible does not exist", ecxx1);
 		}
 			
 	}
@@ -276,13 +276,14 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			dataAccess.setAutocommit(false);
 			
+			int numApps = 0;
 			String title = "";
 			boolean sonAplicativosEnMto = true;
 			Long idTecnologia = null;
-			Long servicioId = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());			
+			Long servicioId = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());			
 			StringBuffer textoAplicaciones = new StringBuffer();					
 			if (servicioId == null || servicioId==0) {
-				Long idAplicativo = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_56_ID_APLICATIVO).getName());
+				Long idAplicativo = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
 				FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
 				aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
 				aplicacion = dataAccess.searchEntityByPk(aplicacion);
@@ -290,6 +291,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				idTecnologia = (Long) aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
 				sonAplicativosEnMto = (Boolean)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_7_MANTENIMIENTO_EN_PRODUC).getName());
 				textoAplicaciones.append(title);
+				numApps = 1;
 			}else {
 				FieldViewSet servicioEnBBDD = new FieldViewSet(servicioUTEEntidad);
 				servicioEnBBDD.setValue(servicioUTEEntidad.searchField(ConstantesModelo.SERVICIOUTE_1_ID).getName(), servicioId);				
@@ -303,6 +305,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
 				for (int i=0;i<aplicaciones.size();i++) {
 					FieldViewSet aplicacion = aplicaciones.get(i);
+					numApps++;
 					textoAplicaciones.append((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_ROCHADE).getName()));
 					if (i < (aplicaciones.size()-1)) {
 						textoAplicaciones.append(", ");
@@ -496,7 +499,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantación Producción: " + CommonUtils.roundDouble(daysDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
 				out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());
 				
-				Long idEstudio = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_1_ID).getName());
+				Long idEstudio = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_1_ID).getName());
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_3_APLICACION).getName(), nombreAplicacionDePeticion);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_4_TIPO).getName(), tipoPeticion);
@@ -570,9 +573,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
 			
 			Date fecIniEstudio = (Date) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.AGREG_PETICIONES_5_FECHA_INIESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_PETICIONES_5_FECHA_INIESTUDIO).getName());
 			Date fecFinEstudio = (Date) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.AGREG_PETICIONES_6_FECHA_FINESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_PETICIONES_6_FECHA_FINESTUDIO).getName());
 			if(fecFinEstudio== null) {
 				fecFinEstudio = Calendar.getInstance().getTime();
 			}
@@ -581,78 +584,97 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			double totalDedicaciones = (total_analisis_estudio+total_implement_estudio+total_preparacion_entregas_estudio+total_pruebasCD_estudio);
 			double totalGaps = (total_gapPlanificacion+total_gapFinDesaIniSolicitudEntregaEnCD+total_gapFinPruebasCDProducc); 
 			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_3_ID_ENTORNO).getName(), idTecnologia);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_7_NUMPETICIONES).getName(), numPeticionesEstudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_9_TOTALUTS).getName(), total_uts_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_4_APLICACIONES).getName(), textoAplicaciones);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_10_CICLOVIDA).getName(), total_cicloVida_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_11_DURACIONANALYS).getName(), total_analisis_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_12_DURACIONDESARR).getName(), total_implement_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_13_DURACIONENTREGA).getName(), total_preparacion_entregas_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_3_ID_ENTORNO).getName(), idTecnologia);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_7_NUMPETICIONES).getName(), numPeticionesEstudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_9_TOTALUTS).getName(), total_uts_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_4_APLICACIONES).getName(), textoAplicaciones);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_10_CICLOVIDA).getName(), total_cicloVida_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_11_DURACIONANALYS).getName(), total_analisis_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_12_DURACIONDESARR).getName(), total_implement_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_13_DURACIONENTREGA).getName(), total_preparacion_entregas_estudio);
 			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_14_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_15_GAPTRAMIINIDESA).getName(), total_gapPlanificacion);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_16_GAPFINDESASOLICENTREGA).getName(), total_gapFinDesaIniSolicitudEntregaEnCD);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_17_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_18_TOTALDEDICACIONES).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_19_TOTALGAPS).getName(), CommonUtils.roundWith2Decimals(totalGaps));		
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_14_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_15_GAPTRAMIINIDESA).getName(), total_gapPlanificacion);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_16_GAPFINDESASOLICENTREGA).getName(), total_gapFinDesaIniSolicitudEntregaEnCD);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_17_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_18_TOTALDEDICACIONES).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_19_TOTALGAPS).getName(), CommonUtils.roundWith2Decimals(totalGaps));		
 			//bloque mensual
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_20_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_21_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_22_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/mesesEstudio));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_23_DURACIONPREPENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_24_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/mesesEstudio));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_25_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_26_GAPFINDESASOLICENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_27_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_28_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_29_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalGaps/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_20_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_21_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_22_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/mesesEstudio));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_23_DURACIONPREPENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_24_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/mesesEstudio));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_25_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_26_GAPFINDESASOLICENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_27_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_28_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_29_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalGaps/mesesEstudio));
 			
 			//bloque por petición
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_30_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(mesesEstudio*numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_31_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(mesesEstudio*numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_32_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(mesesEstudio*numPeticionesEstudio)));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_33_DURACIONENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(mesesEstudio*numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_34_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(mesesEstudio*numPeticionesEstudio)));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_35_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(mesesEstudio*numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_36_GAPFINDESASOLICENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(mesesEstudio*numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_37_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/(mesesEstudio*numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_38_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalDedicaciones)/(mesesEstudio*numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_39_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalGaps)/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_30_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_31_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_32_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(mesesEstudio*numPeticionesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_33_DURACIONENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_34_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(mesesEstudio*numPeticionesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_35_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_36_GAPFINDESASOLICENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_37_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_38_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalDedicaciones)/(mesesEstudio*numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_39_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalGaps)/(mesesEstudio*numPeticionesEstudio)));
+
+			//por aplicación y mes
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_57_CICLOVIDA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_58_DURACIONANALYS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_59_DURACIONDESARR_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(numApps*mesesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_60_DURACIONENTREGA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_61_DURACIONPRUEBASCD_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numApps*mesesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_62_GAPTRAMIINIDESA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_63_GAPFINDESASOLICENTREGA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_64_GAPFINPRUEBASCDHASTAPRODUC_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_65_TOTALDEDICACIONES_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_66_TOTALGAPS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(totalGaps/(numApps*mesesEstudio)));
+
 			
 			//%s
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_40_PORC_DURACIONANALYS).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_40_PORC_DURACIONANALYS).getName(), 
 					CommonUtils.roundWith2Decimals((total_analisis_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_41_PORC_DURACIONDESARR).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_41_PORC_DURACIONDESARR).getName(), 
 					CommonUtils.roundWith2Decimals((total_implement_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_42_PORC_DURACIONENTREGA).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_42_PORC_DURACIONENTREGA).getName(), 
 					CommonUtils.roundWith2Decimals((total_preparacion_entregas_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_43_PORC_DURACIONPRUEBASCD).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_43_PORC_DURACIONPRUEBASCD).getName(), 
 					CommonUtils.roundWith2Decimals((total_pruebasCD_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_44_PORC_GAPTRAMIINIDESA).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_44_PORC_GAPTRAMIINIDESA).getName(), 
 					CommonUtils.roundWith2Decimals((total_gapPlanificacion/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_45_PORC_GAPFINDESASOLICENTREGA).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_45_PORC_GAPFINDESASOLICENTREGA).getName(), 
 					CommonUtils.roundWith2Decimals((total_gapFinDesaIniSolicitudEntregaEnCD/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_46_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_46_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), 
 					CommonUtils.roundWith2Decimals((total_gapFinPruebasCDProducc/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_47_PORC_TOTALDEDICACIONES).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_47_PORC_TOTALDEDICACIONES).getName(), 
 					CommonUtils.roundWith2Decimals((totalDedicaciones/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_48_PORC_TOTALGAP).getName(), 
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_48_PORC_TOTALGAP).getName(), 
 					CommonUtils.roundWith2Decimals((totalGaps/total_cicloVida_estudio))*100.00);
 			
 			//hrs análisis
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_51_HRS_ANALYSIS_TOTAL).getName(), 
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_51_HRS_ANALYSIS_TOTAL).getName(), 
 		    		CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio));
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_52_HRS_ANALYSIS_PERMONTH).getName(), 
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_52_HRS_ANALYSIS_PERMONTH).getName(), 
 		    		CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio/mesesEstudio));
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_53_HRS_ANALYSIS_PERPET).getName(), 
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_66_TOTALGAPS_PERAPPMONTH).getName(), 
+		    		CommonUtils.roundWith2Decimals((total_hrs_analysis_estudio/(numApps*mesesEstudio))));
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_53_HRS_ANALYSIS_PERPET).getName(), 
 		    		CommonUtils.roundWith2Decimals((total_hrs_analysis_estudio/numPeticionesEstudio)));
+
 		    //uts
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_54_UTS_PERMONTH).getName(), 
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_54_UTS_PERMONTH).getName(), 
 		    		CommonUtils.roundWith2Decimals(total_uts_estudio/mesesEstudio));
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_55_UTS_PERPET).getName(), 
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_68_UTS_PERAPPMONTH).getName(), 
+		    		CommonUtils.roundWith2Decimals((total_uts_estudio/(numApps*mesesEstudio))));
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_55_UTS_PERPET).getName(), 
 		    		CommonUtils.roundWith2Decimals((total_uts_estudio/numPeticionesEstudio)));
+
 			
 			FieldViewSet tipoperiodo = new FieldViewSet(tipoPeriodo);
 			tipoperiodo.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesEstudio);
@@ -661,7 +683,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			if (tiposperiodo != null && !tiposperiodo.isEmpty()) {
 				idPeriodo = ((Long) tiposperiodo.get(0).getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName())).intValue();
 			}
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodo);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodo);
 						
 			/**
 			 *  1|mensual	2|bimensual	3|trimestre	4|cuatrimestre	5|semestre	6|anual
@@ -711,7 +733,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			String newTitle = title.replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND.Pros@[" + periodo + "]");
 			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "Mto.Pros@[" + periodo + "]");
 			newTitle = newTitle.replaceFirst("Servicio Mto. HOST", "Mto.HOST[" + periodo + "]");		
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);
 			
 			int ok = dataAccess.modifyEntity(registroMtoProsa);
 			if (ok != 1) {

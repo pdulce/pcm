@@ -2,10 +2,12 @@ package facturacionUte.strategies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
+import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.conditions.DefaultStrategyRequest;
 import domain.service.dataccess.IDataAccess;
@@ -17,8 +19,8 @@ import facturacionUte.common.ConstantesModelo;
 
 public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 	
-	public static final String PARAM_ID_APLICATIVO = "agregadosPeticiones.id_aplicativo", 
-			PARAM_ID_SERVICIO = "agregadosPeticiones.id_servicio";
+	public static final String PARAM_ID_APLICATIVO = "estudiosPeticiones.id_aplicativo", 
+			PARAM_ID_SERVICIO = "estudiosPeticiones.id_servicio";
 		
 	public static IEntityLogic estudioPeticionesEntidad;
 	
@@ -26,7 +28,7 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 		if (estudioPeticionesEntidad == null) {
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.AGREG_PETICIONES_ENTIDAD);
+						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -56,9 +58,23 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 				throw new PCMConfigurationException("Error: Objeto Estudio recibido del datamap es nulo ", new Exception("null object"));
 			}
 			
-			
-			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_49_ID_SERVICIO).getName());
-			Long aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.AGREG_PETICIONES_56_ID_APLICATIVO).getName());
+			Date fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
+					ConstantesModelo.ESTUDIOS_PETICIONES_5_FECHA_INIESTUDIO).getName());
+			Date fecFinEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
+					ConstantesModelo.ESTUDIOS_PETICIONES_6_FECHA_FINESTUDIO).getName());
+			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
+			if (fecIniEstudio.compareTo(fecFinEstudio)>0) {
+				final Collection<Object> messageArguments = new ArrayList<Object>();
+				messageArguments.add(CommonUtils.convertDateToShortFormatted(fecIniEstudio));
+				messageArguments.add(CommonUtils.convertDateToShortFormatted(fecFinEstudio));
+				throw new StrategyException("ERR_ESTUDIO_FECHAFIN_MENOR_FECHAINI", messageArguments);
+			}else if (mesesEstudio < 1) {
+				final Collection<Object> messageArguments = new ArrayList<Object>();
+				throw new StrategyException("ERR_ESTUDIO_MESES_MENOR_QUE_1", messageArguments);
+			}
+						
+			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
+			Long aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
 			
 			if (servicioId != null &&  aplicativoId !=null) {
 				final Collection<Object> messageArguments = new ArrayList<Object>();

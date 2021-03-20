@@ -130,7 +130,7 @@
 
 	
 <entity>
-    <entityname>agregadosPeticiones</entityname>
+    <entityname>estudiosPeticiones</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="tituloEstudio" type="string" length="250" required="false"/>    
     <field mappingTo="3" name="id_entorno" type="long" length="11" required="true" 
@@ -191,13 +191,26 @@
 	<field mappingTo="55" name="uts_perpet" type="double" length="6" required="false"/>
 	<field mappingTo="56" name="id_aplicativo" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>   	
+	<field mappingTo="57" name="ciclo_vida_perappmonth" type="double" length="10" required="false"/>    
+    <field mappingTo="58" name="duracion_analysis_perappmonth" type="double" length="10" required="false"/>
+    <field mappingTo="59" name="duracion_desarrollo_perappmonth" type="double" length="10" required="false"/>    
+    <field mappingTo="60" name="duracion_entregas_perappmonth" type="double" length="10" required="false"/>    
+    <field mappingTo="61" name="duracion_pruebas_perappmonth" type="double" length="10" required="false"/>
+    <field mappingTo="62" name="gap_tram_iniRealDesa_perappmonth" type="double" length="10" required="false"/>
+    <field mappingTo="63" name="gap_finDesa_solicEntrega_perappmonth" type="double" length="10" required="false"/>
+    <field mappingTo="64" name="gap_finPrue_Producc_perappmonth" type="double" length="10" required="false"/>
+    <field mappingTo="65" name="total_dedicaciones_perappmonth" type="double" length="10" required="false"/>
+    <field mappingTo="66" name="total_gaps_perappmonth" type="double" length="10" required="false"/>
+    <field mappingTo="67" name="hrs_analisis_perappmonth" type="double" length="6" required="false"/>
+	<field mappingTo="68" name="uts_perappmonth" type="double" length="6" required="false"/>    
   </entity>	
+  
   
   <entity>
     <entityname>resumenPeticiones</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="true" 
-	    fkParentEntities="agregadosPeticiones" fkParentFields="1"/>    
+	    fkParentEntities="estudiosPeticiones" fkParentFields="1"/>    
     <field mappingTo="3" name="aplicacion" type="string" length="150" required="false"/>    	
 	<field mappingTo="4" name="tipo" type="string" length="50" required="false"/>
     <field mappingTo="5" name="gedeon_DG" type="string" length="10" required="false"/>
