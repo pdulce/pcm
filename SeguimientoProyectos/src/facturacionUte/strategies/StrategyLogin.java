@@ -99,7 +99,7 @@ public class StrategyLogin extends DefaultStrategyLogin {
 			throw ecxx;
 		}
 		catch (final DatabaseException ecxx1) {
-			throw new PCMConfigurationException("Configuration error: table Users is possible does not exist", ecxx1);
+			throw new PCMConfigurationException("Configuration error: table Administrador is possible does not exist", ecxx1);
 		} finally {
 			final String langFromUserRequest = req.getLanguage();
 			if (langFromUserRequest != null) {

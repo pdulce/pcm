@@ -706,7 +706,8 @@ public class FieldViewSet implements Serializable {
 		if (value_ != null) {
 			final Collection<String> values = new ArrayList<String>();
 			values.add(value_.toString());
-			this.setValues(qualifiedName_, values);
+			String qName_ = getContextName() !=null && !qualifiedName_.contains(getContextName())?getContextName().concat(PCMConstants.POINT).concat(qualifiedName_):qualifiedName_;
+			this.setValues(qName_, values);
 		} else {
 			setNull(qualifiedName_);
 		}
@@ -715,7 +716,8 @@ public class FieldViewSet implements Serializable {
 	public void setNull(final String qualifiedName_) {
 		FieldValue nullValue = new FieldValue();
 		nullValue.setValue(null);
-		this.fieldViewsValues.put(qualifiedName_, nullValue);
+		String qName_ = getContextName() !=null && !qualifiedName_.contains(getContextName())?getContextName().concat(PCMConstants.POINT).concat(qualifiedName_):qualifiedName_;
+		this.fieldViewsValues.put(qName_, nullValue);
 	}
 
 	protected void toXML(final StringBuilder sbXML) {
