@@ -41,31 +41,39 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 		try {
 			initEntitiesFactories(datamap.getEntitiesDictionary());
 			
-			String idService_ = datamap.getParameter(PARAM_ID_SERVICIO);
-			String idAplicativo_ = datamap.getParameter(PARAM_ID_APLICATIVO);
+			String[] idService_ = datamap.getParameterValues(PARAM_ID_SERVICIO);
+			String[] idAplicativo_ = datamap.getParameterValues(PARAM_ID_APLICATIVO);
 			
-			if (idService_ != null &&  !idService_.contentEquals("") && 
-					idAplicativo_ !=null && !idAplicativo_.contentEquals("")) {
-				Long servicioId = new Long(new FieldValue(idService_).getValue());
-				Long aplicativoId = new Long(new FieldValue(idAplicativo_).getValue());
+			if (idService_ != null &&  idService_.length>0 && 
+					idAplicativo_ !=null && idAplicativo_.length>0) {
 				
-				List<FieldViewSetCollection> newCollectionResults = new ArrayList<FieldViewSetCollection>();
-				for (FieldViewSetCollection record:fieldCollectionResults) {
-					FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();					
-					Long idServiceFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
-					if (idServiceFound.longValue() == servicioId.longValue()) {
-						FieldViewSetCollection newRecord = new FieldViewSetCollection();
-						newRecord.getFieldViewSets().add(registroBuscado);
-						newCollectionResults.add(newRecord);
-						continue;
-					}						
-					Long idAplicativoFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
-					if (idAplicativoFound.longValue() == aplicativoId.longValue()) {
-						FieldViewSetCollection newRecord = new FieldViewSetCollection();
-						newRecord.getFieldViewSets().add(registroBuscado);
-						newCollectionResults.add(newRecord);
+					List<FieldViewSetCollection> newCollectionResults = new ArrayList<FieldViewSetCollection>();
+					for (FieldViewSetCollection record:fieldCollectionResults) {
+						FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();					
+						Long idServiceFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
+						int i = 0;
+						for (i=0;i<idService_.length;i++) {
+							if (idServiceFound.longValue() == new Long(new FieldValue(idService_[i]).getValue()).longValue()) {
+								FieldViewSetCollection newRecord = new FieldViewSetCollection();
+								newRecord.getFieldViewSets().add(registroBuscado);
+								newCollectionResults.add(newRecord);
+								break;
+							}
+						}
+						if (i < (idService_.length)) {
+							continue;
+						}
+						Long idAplicativoFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
+						i = 0;
+						for (i=0;i<idService_.length;i++) {
+							if (idAplicativoFound.longValue() == new Long(new FieldValue(idAplicativo_[i]).getValue()).longValue()) {
+								FieldViewSetCollection newRecord = new FieldViewSetCollection();
+								newRecord.getFieldViewSets().add(registroBuscado);
+								newCollectionResults.add(newRecord);
+							}
+						}
 					}
-				}
+					
 				fieldCollectionResults.clear();
 				fieldCollectionResults.addAll(newCollectionResults);
 				

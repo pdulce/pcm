@@ -117,7 +117,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							
 							<fieldView mappingTo="56" type="select" size="5" editable="true">
-								<optionValues entitymodel="aplicativo"
+								<optionValues entitymodel="aplicativo" selectionMultiple="true"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
