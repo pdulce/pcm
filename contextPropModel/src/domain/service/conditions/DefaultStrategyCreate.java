@@ -2,9 +2,11 @@ package domain.service.conditions;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
+import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
 import domain.common.exceptions.TransactionException;
 import domain.service.component.definitions.FieldViewSet;
@@ -30,6 +32,11 @@ public class DefaultStrategyCreate implements IStrategy {
 			}
 			this.tratarEntidad(dataAccess, fieldViewSet, context);
 		}
+	}
+	
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+		PCMConfigurationException {
+		//nothing TO DO
 	}
 
 	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final Datamap wrapper)

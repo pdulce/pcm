@@ -53,22 +53,9 @@ public class FiltrarConsultaEstudios extends DefaultStrategyRequest {
 			
 			if (servicioId != null &&  aplicativoId !=null) {
 				//hay que hacer un OR
-				//estudioFSet.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName(), null);
-				//estudioFSet.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName(), null);
+				estudioFSet.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
+				estudioFSet.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
 								
-				FieldViewSet criteriaByService = estudioFSet.copyOf();
-				criteriaByService.setContextName(estudioFSet.getContextName());
-				criteriaByService.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName(), servicioId);
-				criteriaByService.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
-
-				FieldViewSet criteriaByAplication = estudioFSet.copyOf();
-				criteriaByAplication.setContextName(estudioFSet.getContextName());
-				criteriaByAplication.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName(), aplicativoId);
-				criteriaByAplication.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
-
-				fieldViewSets.clear();
-				fieldViewSets.add(criteriaByService);
-				fieldViewSets.add(criteriaByAplication);
 			}
 			
 			

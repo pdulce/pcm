@@ -9,7 +9,8 @@ xmlns:service="http://pcm.framework.org/service"
 	<service name="EstudioPeticiones" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="EstudioPeticiones.query"
-			submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.FiltrarConsultaEstudios">
+			submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.FiltrarConsultaEstudios"
+			strategy="facturacionUte.strategies.FiltrarConsultaEstudiosPost">
 
 			<viewComponent>
 
@@ -141,7 +142,9 @@ xmlns:service="http://pcm.framework.org/service"
 				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="estudiosPeticiones.2"
 					eventsRegistered="detail, create, delete">
 					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">
-						<fieldView mappingTo="1" hidden="true" styleCss="font-weight: bold;"/>
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="49" hidden="true"/>
+						<fieldView mappingTo="56" hidden="true"/>
 						<fieldView mappingTo="2" />						
 						<fieldView mappingTo="5" />
 						<fieldView mappingTo="6" />

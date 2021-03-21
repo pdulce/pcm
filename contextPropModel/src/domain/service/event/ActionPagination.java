@@ -290,6 +290,15 @@ public class ActionPagination extends AbstractAction {
 					coleccion.clear();
 					coleccion.addAll(newCollection);
 				}
+				
+				if (!dataAccess_.getStrategies().isEmpty()) {//estrategias de POST
+					try {						
+						executeStrategyPostQuery(dataAccess_, coleccion);
+					} catch (final StrategyException stratExc) {
+						throw stratExc;
+					}
+				}
+				
 				if (coleccion != null && !coleccion.isEmpty()) {
 					final FieldViewSetCollection registro = coleccion.iterator().next();
 					final long totalRecords = registro.getTotalRecords();

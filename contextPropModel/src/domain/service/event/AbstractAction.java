@@ -30,21 +30,20 @@ import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.dto.Datamap;
 
 public abstract class AbstractAction implements IAction {
-	
+
 	protected IStrategyFactory strategyFactory;
 	protected Map<String, String> imageEvents;
-	protected Element actionElement;	
+	protected Element actionElement;
 	protected Collection<String> registeredEvents;
 	protected Datamap datamap;
 	protected IBodyContainer container;
 	protected String realEvent;
-	
-	protected static final String TARGET_ATTR = "target", 
-			SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces", 
+
+	protected static final String TARGET_ATTR = "target", SUBMIT_SUCCESS_SCENE_ATTR = "submitSucces",
 			SUBMIT_ERROR_SCENE_ATTR = "submitError";
-	
+
 	protected static Logger log = Logger.getLogger(AbstractAction.class.getName());
-	
+
 	static {
 		if (log.getHandlers().length == 0) {
 			try {
@@ -52,13 +51,12 @@ public abstract class AbstractAction implements IAction {
 				log.addHandler(strdout);
 				log.setLevel(Level.INFO);
 				log.log(Level.INFO, "Logger activado");
-			}
-			catch (SecurityException e) {
+			} catch (SecurityException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public String getImgName() {
 		if (this.imageEvents == null) {
 			this.imageEvents = new HashMap<String, String>();
@@ -77,35 +75,32 @@ public abstract class AbstractAction implements IAction {
 		}
 		return this.imageEvents.get(getEvent());
 	}
-	
-	public static boolean isVolverPressed(final String event){ 
-		return (event.endsWith(IEvent.RETURN_BACK) || 
-				event.endsWith(IEvent.CANCEL) );
+
+	public static boolean isVolverPressed(final String event) {
+		return (event.endsWith(IEvent.RETURN_BACK) || event.endsWith(IEvent.CANCEL));
 	}
-	
+
 	public static boolean isShowFormUpdateEvent(final String event) {
 		return (event.endsWith(IEvent.SHOW_FORM_UPDATE));
 	}
-	
+
 	public static boolean isDetailEvent(final String event) {
 		return (event.endsWith(IEvent.DETAIL));
 	}
-	
+
 	public static boolean isUpdateEvent(final String event) {
-		return (event.endsWith(IEvent.SHOW_FORM_UPDATE) || 
-				event.endsWith(IEvent.UPDATE));
+		return (event.endsWith(IEvent.SHOW_FORM_UPDATE) || event.endsWith(IEvent.UPDATE));
 	}
 
 	public boolean isPageEvent() {
-		return this.getEvent().endsWith(IEvent.QUERY_NEXT) || 
-				this.getEvent().endsWith(IEvent.QUERY_PREVIOUS);
+		return this.getEvent().endsWith(IEvent.QUERY_NEXT) || this.getEvent().endsWith(IEvent.QUERY_PREVIOUS);
 	}
 
 	public static boolean isFormularyEntryEvent(final String event) {
-		return (event.endsWith(IEvent.SHOW_FORM_CREATE) ||
-			event.endsWith(IEvent.SHOW_FORM_UPDATE) || 
-			event.endsWith(IEvent.SHOW_CONFIRM_DELETE));
+		return (event.endsWith(IEvent.SHOW_FORM_CREATE) || event.endsWith(IEvent.SHOW_FORM_UPDATE)
+				|| event.endsWith(IEvent.SHOW_CONFIRM_DELETE));
 	}
+
 	public static boolean isShowFormCreate(final String event) {
 		return (event.endsWith(IEvent.SHOW_FORM_CREATE));
 	}
@@ -124,54 +119,45 @@ public abstract class AbstractAction implements IAction {
 	}
 
 	public boolean isUserDataTransactional() {
-		return this.getEvent().endsWith(IEvent.UPDATE) || 
-			this.getEvent().endsWith(IEvent.CREATE) || 
-			this.getEvent().endsWith(IEvent.DELETE) || 
-			this.getEvent().endsWith(IEvent.SUBMIT_FORM);
+		return this.getEvent().endsWith(IEvent.UPDATE) || this.getEvent().endsWith(IEvent.CREATE)
+				|| this.getEvent().endsWith(IEvent.DELETE) || this.getEvent().endsWith(IEvent.SUBMIT_FORM);
 	}
 
 	public static boolean isUniqueFormComposite(final String event) {
-		return (isFormularyEntryEvent(event) || event.endsWith(IEvent.CREATE) || 
-				event.endsWith(IEvent.UPDATE) || event.endsWith(IEvent.DELETE) || 
-				event.endsWith(IEvent.DETAIL));
+		return (isFormularyEntryEvent(event) || event.endsWith(IEvent.CREATE) || event.endsWith(IEvent.UPDATE)
+				|| event.endsWith(IEvent.DELETE) || event.endsWith(IEvent.DETAIL));
 	}
 
 	public static String getInherentEvent(final String event) {
-		return event.indexOf(IEvent.PREFIX_SHOWFORM) == -1 ? event : 
-			event.substring(IEvent.PREFIX_SHOWFORM.length(), event.length()).toLowerCase();
+		return event.indexOf(IEvent.PREFIX_SHOWFORM) == -1 ? event
+				: event.substring(IEvent.PREFIX_SHOWFORM.length(), event.length()).toLowerCase();
 	}
 
 	public static boolean isCreateEvent(final String event) {
-		return event.endsWith(IEvent.CREATE) || 
-				event.endsWith(IEvent.SHOW_FORM_CREATE);
+		return event.endsWith(IEvent.CREATE) || event.endsWith(IEvent.SHOW_FORM_CREATE);
 	}
 
 	public static boolean isDeleteEvent(final String event) {
-		return event.endsWith(IEvent.DELETE) || 
-				event.endsWith(IEvent.SHOW_CONFIRM_DELETE);
+		return event.endsWith(IEvent.DELETE) || event.endsWith(IEvent.SHOW_CONFIRM_DELETE);
 	}
 
 	public static String getShowFormEventOf(final String event) {
 		if (event.endsWith(IEvent.DETAIL)) {
 			return IEvent.DETAIL;
-		} else if (event.endsWith(IEvent.UPDATE) || 
-				event.endsWith(IEvent.SHOW_FORM_UPDATE)) {
+		} else if (event.endsWith(IEvent.UPDATE) || event.endsWith(IEvent.SHOW_FORM_UPDATE)) {
 			return IEvent.SHOW_FORM_UPDATE;
-		} else if (event.endsWith(IEvent.CREATE) || 
-				event.endsWith(IEvent.SHOW_FORM_CREATE)) {
+		} else if (event.endsWith(IEvent.CREATE) || event.endsWith(IEvent.SHOW_FORM_CREATE)) {
 			return IEvent.SHOW_FORM_CREATE;
-		} else if (event.endsWith(IEvent.DELETE) || 
-				event.endsWith(IEvent.SHOW_CONFIRM_DELETE)) {
+		} else if (event.endsWith(IEvent.DELETE) || event.endsWith(IEvent.SHOW_CONFIRM_DELETE)) {
 			return IEvent.SHOW_CONFIRM_DELETE;
 		}
 		return event;
 	}
 
 	public static boolean isTransactionalEvent(final String event) {
-		return event.endsWith(IEvent.DELETE) || event.endsWith(IEvent.UPDATE) || 
-				event.endsWith(IEvent.CREATE);
+		return event.endsWith(IEvent.DELETE) || event.endsWith(IEvent.UPDATE) || event.endsWith(IEvent.CREATE);
 	}
-	
+
 	public void bind(final boolean onlyPK, IViewComponent component, final List<MessageException> messageExceptions)
 			throws ParameterBindingException {
 		final List<MessageException> messagesSubcomp = new ArrayList<MessageException>();
@@ -182,21 +168,22 @@ public abstract class AbstractAction implements IAction {
 		}
 		messageExceptions.addAll(messagesSubcomp);
 	}
-	
-	protected abstract void bindPrimaryKeys(IViewComponent component, List<MessageException> msgs) throws ParameterBindingException;
 
-	protected abstract void bindUserInput(IViewComponent component, List<MessageException> msgs) throws ParameterBindingException;
+	protected abstract void bindPrimaryKeys(IViewComponent component, List<MessageException> msgs)
+			throws ParameterBindingException;
 
+	protected abstract void bindUserInput(IViewComponent component, List<MessageException> msgs)
+			throws ParameterBindingException;
 
-	protected void executeStrategyPre(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection) throws StrategyException,
-			PCMConfigurationException {
+	protected void executeStrategyPre(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection)
+			throws StrategyException, PCMConfigurationException {
 
 		final Iterator<String> iteStrategies = dataAccess.getPreconditionStrategies().iterator();
 		while (iteStrategies.hasNext()) {
 			final String strategyName = iteStrategies.next();
 			IStrategy strategy = this.getStrategyFactory().getStrategy(strategyName);
 			if (strategy == null) {
-				
+
 				try {
 					@SuppressWarnings("unchecked")
 					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
@@ -216,15 +203,17 @@ public abstract class AbstractAction implements IAction {
 				}
 				this.getStrategyFactory().addStrategy(strategyName, strategy);
 			}
-			Collection<FieldViewSet> fieldViewSetCollection = fieldCollection != null ? fieldCollection.copyOf().getFieldViewSets()	: new ArrayList<FieldViewSet>();
-			strategy.doBussinessStrategy(this.datamap, dataAccess, fieldViewSetCollection);			
+			Collection<FieldViewSet> fieldViewSetCollection = fieldCollection != null
+					? fieldCollection.copyOf().getFieldViewSets()
+					: new ArrayList<FieldViewSet>();
+			strategy.doBussinessStrategy(this.datamap, dataAccess, fieldViewSetCollection);
 			fieldCollection.getFieldViewSets().clear();
 			fieldCollection.getFieldViewSets().addAll(fieldViewSetCollection);
 		}
 	}
-	
-	public void executeStrategyPost(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection) throws StrategyException,
-			PCMConfigurationException {
+
+	public void executeStrategyPostQuery(final IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults)
+			throws StrategyException, PCMConfigurationException {
 		final Collection<IStrategy> strategiasAEjecutar = new ArrayList<IStrategy>();
 		if (this.getStrategyFactory() != null) {
 			final Iterator<String> iteStrategies = dataAccess.getStrategies().iterator();
@@ -234,7 +223,7 @@ public abstract class AbstractAction implements IAction {
 				try {
 					@SuppressWarnings("unchecked")
 					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
-					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance();					
+					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance();
 				} catch (InvocationTargetException e1) {
 					AbstractAction.log.log(Level.SEVERE, "Error", e1);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
@@ -248,25 +237,72 @@ public abstract class AbstractAction implements IAction {
 					AbstractAction.log.log(Level.SEVERE, "Error", e4);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				}
-				
+
 				if (strategy != null) {
 					this.getStrategyFactory().addStrategy(strategyName, strategy);
 					strategiasAEjecutar.add(strategy);
 				}
-				
+
 			}
 		}
 		if (strategiasAEjecutar.isEmpty()) {
 			if ((this.getEvent().equals(IEvent.UPDATE))) {
-				strategiasAEjecutar.add(new DefaultStrategyUpdate());			
+				strategiasAEjecutar.add(new DefaultStrategyUpdate());
 			}
 		}
 		final Iterator<IStrategy> iteStrategies = strategiasAEjecutar.iterator();
 		while (iteStrategies.hasNext()) {
 			final IStrategy strategy = iteStrategies.next();
 			if (strategy != null) {
-				strategy.doBussinessStrategy(this.datamap, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
-						: new ArrayList<FieldViewSet>());
+				strategy.doBussinessStrategyQuery(this.datamap, dataAccess,fieldCollectionResults);
+			}
+		}
+	}
+
+	public void executeStrategyPost(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection)
+			throws StrategyException, PCMConfigurationException {
+		final Collection<IStrategy> strategiasAEjecutar = new ArrayList<IStrategy>();
+		if (this.getStrategyFactory() != null) {
+			final Iterator<String> iteStrategies = dataAccess.getStrategies().iterator();
+			while (iteStrategies.hasNext()) {
+				final String strategyName = iteStrategies.next();
+				IStrategy strategy = null;
+				try {
+					@SuppressWarnings("unchecked")
+					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
+					strategy = (IStrategy) classType.getDeclaredConstructors()[0].newInstance();
+				} catch (InvocationTargetException e1) {
+					AbstractAction.log.log(Level.SEVERE, "Error", e1);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (IllegalAccessException e2) {
+					AbstractAction.log.log(Level.SEVERE, "Error", e2);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (ClassNotFoundException e3) {
+					AbstractAction.log.log(Level.SEVERE, "Error", e3);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				} catch (InstantiationException e4) {
+					AbstractAction.log.log(Level.SEVERE, "Error", e4);
+					throw new PCMConfigurationException("Error at IStrategy instantiation");
+				}
+
+				if (strategy != null) {
+					this.getStrategyFactory().addStrategy(strategyName, strategy);
+					strategiasAEjecutar.add(strategy);
+				}
+
+			}
+		}
+		if (strategiasAEjecutar.isEmpty()) {
+			if ((this.getEvent().equals(IEvent.UPDATE))) {
+				strategiasAEjecutar.add(new DefaultStrategyUpdate());
+			}
+		}
+		final Iterator<IStrategy> iteStrategies = strategiasAEjecutar.iterator();
+		while (iteStrategies.hasNext()) {
+			final IStrategy strategy = iteStrategies.next();
+			if (strategy != null) {
+				strategy.doBussinessStrategy(this.datamap, dataAccess,
+						fieldCollection != null ? fieldCollection.getFieldViewSets() : new ArrayList<FieldViewSet>());
 			}
 		}
 	}
@@ -303,17 +339,18 @@ public abstract class AbstractAction implements IAction {
 	public String getErrorViewSPM() {
 		return this.actionElement.getAttribute(SUBMIT_ERROR_SCENE_ATTR);
 	}
+
 	public String getEvent() {
 		return this.realEvent;
 	}
-	
+
 	protected IStrategyFactory getStrategyFactory() {
 		if (this.strategyFactory == null) {
 			this.strategyFactory = new DefaultStrategyFactory();
 		}
 		return this.strategyFactory;
 	}
-	
+
 	protected Element getActionElement() {
 		return this.actionElement;
 	}
@@ -338,20 +375,16 @@ public abstract class AbstractAction implements IAction {
 			throw exc;
 		}
 	}
-	
+
 	public static boolean isQueryEvent(String event) {
-		return (event.endsWith(IEvent.QUERY) || 
-			event.endsWith(IEvent.QUERY_NEXT) || 
-			event.endsWith(IEvent.QUERY_FIRST)	|| 
-			event.endsWith(IEvent.QUERY_LAST) || 
-			event.endsWith(IEvent.QUERY_PREVIOUS) || 
-			event.endsWith(IEvent.QUERY_ORDER));
+		return (event.endsWith(IEvent.QUERY) || event.endsWith(IEvent.QUERY_NEXT) || event.endsWith(IEvent.QUERY_FIRST)
+				|| event.endsWith(IEvent.QUERY_LAST) || event.endsWith(IEvent.QUERY_PREVIOUS)
+				|| event.endsWith(IEvent.QUERY_ORDER));
 	}
 
-
 	@Override
-	public abstract SceneResult executeAction(final IDataAccess dataAccess, Datamap datamap, String realEvent, boolean eventSubmitted,
-			Collection<MessageException> prevMessages);
+	public abstract SceneResult executeAction(final IDataAccess dataAccess, Datamap datamap, String realEvent,
+			boolean eventSubmitted, Collection<MessageException> prevMessages);
 
 	@Override
 	public abstract boolean isPaginationEvent();

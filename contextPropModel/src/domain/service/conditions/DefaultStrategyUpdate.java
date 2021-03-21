@@ -3,10 +3,13 @@ package domain.service.conditions;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import domain.common.exceptions.DatabaseException;
+import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
 import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
@@ -54,5 +57,11 @@ public class DefaultStrategyUpdate implements IStrategy {
 		}
 
 	}
+	
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+		PCMConfigurationException {
+		//nothing TO DO
+	}
+
 
 }

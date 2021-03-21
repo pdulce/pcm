@@ -7,10 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import domain.common.InternalErrorsConstants;
+import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
 import domain.common.utils.CommonUtils;
 import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
@@ -34,6 +36,12 @@ public class DefaultStrategyDelete implements IStrategy {
 			this.tratarEntidad(dataAccess, fieldViewSet, context);
 		}
 	}
+
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+		PCMConfigurationException {
+		//nothing TO DO
+	}
+
 
 	protected void tratarEntidad(final IDataAccess dataAccess, final FieldViewSet fieldViewSet, final Datamap wrapper)
 			throws StrategyException {
