@@ -9,7 +9,7 @@ xmlns:service="http://pcm.framework.org/service"
 	<service name="EstudioPeticiones" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="EstudioPeticiones.query"
-			submitSucces="EstudioPeticiones.query">
+			submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.FiltrarConsultaEstudios">
 
 			<viewComponent>
 
@@ -17,7 +17,7 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 				
-						<button	link="prjManager" id="histog01" name="Comparativa Estudios (promedios/petición)" >
+						<button	link="prjManager" id="histog01" name="Comparativas Estudios (promedios/petic.)" >
 							<fieldViewSet nameSpace="histog01">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
@@ -25,16 +25,16 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
 								<fieldView name="agregado" type="select">
 									<optionValues>
-										<option code="30" title="Promedio Ciclo Vida/petición" selected="true"></option>
-										<option code="31" title="Promedio Análisis/petición (Jornadas)"></option>
-										<option code="32" title="Desarrollo/petición (Jornadas)"></option>
-										<option code="33" title="Promedio Preparación Entrega/petición"></option>
-										<option code="34" title="Promedio Pruebas en CD/petición"></option>
-										<option code="35" title="Promedio Intervalo Trámite y Desarrollo/petición"></option>
-										<option code="36" title="Promedio Intervalo Fin Desarrollo y Solicitud Entrega en CD/petición"></option>
-										<option code="37" title="Promedio Intervalo Fin PruebasCD e Instalación Producc./petición"></option>
-										<option code="38" title="Promedio Dedicaciones Efectivas/petición"></option>
-										<option code="39" title="Promedio Intervalos sin Dedicación AT-DG/petición"></option>
+										<option code="30" title="Promedio Ciclo Vida" selected="true"></option>
+										<option code="31" title="Promedio Análisis(Jornadas)"></option>
+										<option code="32" title="Desarrollo (Jornadas)"></option>
+										<option code="33" title="Promedio Preparación Entrega"></option>
+										<option code="34" title="Promedio Pruebas en CD"></option>
+										<option code="35" title="Promedio Intervalo Trámite e Inicio Desarrollo"></option>
+										<option code="36" title="Promedio Intervalo Fin Desarr. y Solicitud Entrega en CD"></option>
+										<option code="37" title="Promedio Intervalo Fin PruebasCD e Instal.Producc."></option>
+										<option code="38" title="Promedio Dedicaciones Efectivas"></option>
+										<option code="39" title="Promedio Intervalos sin Dedicación AT-DG"></option>
 									</optionValues>
 								</fieldView>
 								<fieldView name="escalado" hidden="true" value="automatic"/>
@@ -42,33 +42,33 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
-						<button	link="prjManager" id="histog01" name="Comparativa Estudios (promedios mes/aplicación)" >
-							<fieldViewSet nameSpace="histog01">
-								<fieldView name="highchart" hidden="true" value="histogram3D"/>
-								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
-								<fieldView name="orderBy" hidden="true" value="1"/>								
-								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
-								<fieldView name="agregado" type="select">
-									<optionValues>
-										<option code="57" title="Promedio mensual Ciclo Vida/aplicación" selected="true"></option>
-										<option code="58" title="Promedio mensual Análisis/aplicación (Jornadas)"></option>
-										<option code="59" title="Desarrollo/petición (Jornadas)"></option>
-										<option code="60" title="Promedio mensual Preparación Entrega/aplicación"></option>
-										<option code="61" title="Promedio mensual Pruebas en CD/aplicación"></option>
-										<option code="62" title="Promedio mensual Intervalo Trámite y Desarrollo/aplicación"></option>
-										<option code="63" title="Promedio mensual Intervalo Fin Desarrollo y Solicitud Entrega en CD/aplicación"></option>
-										<option code="64" title="Promedio mensual Intervalo Fin PruebasCD e Instalación Producc./aplicación"></option>
-										<option code="65" title="Promedio mensual Dedicaciones Efectivas/aplicación"></option>
-										<option code="66" title="Promedio mensual Intervalos sin Dedicación AT-DG/aplicación"></option>
-									</optionValues>
-								</fieldView>
-								<fieldView name="escalado" hidden="true" value="automatic"/>
-								<fieldView name="operation" hidden="true" value="AVG"/>
-							</fieldViewSet>
-						</button>
-						
-						<button	link="prjManager" id="histog02" name="Comparativa Estudios (totales)" >
+						<button	link="prjManager" id="histog02" name="Comparativas (promedios mes/aplicación)" >
 							<fieldViewSet nameSpace="histog02">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
+								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
+								<fieldView name="orderBy" hidden="true" value="1"/>								
+								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="57" title="Promedio Ciclo Vida" selected="true"></option>
+										<option code="58" title="Promedio Análisis (Jornadas)"></option>
+										<option code="59" title="Desarrollo (Jornadas)"></option>
+										<option code="60" title="Promedio Preparación Entrega"></option>
+										<option code="61" title="Promedio Pruebas en CD"></option>
+										<option code="62" title="Promedio Intervalo Trámite e Inicio Desarrollo"></option>
+										<option code="63" title="Promedio Intervalo Fin Desarr. y Solicitud Entrega en CD"></option>
+										<option code="64" title="Promedio Intervalo Fin PruebasCD e Instal.Producc."></option>
+										<option code="65" title="Promedio Dedicaciones Efectivas"></option>
+										<option code="66" title="Promedio Intervalos sin Dedicación AT-DG"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="AVG"/>
+							</fieldViewSet>
+						</button>
+						
+						<button	link="prjManager" id="histog03" name="Comparativa Estudios (totales)" >
+							<fieldViewSet nameSpace="histog03">
 								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
 								<fieldView name="orderBy" hidden="true" value="1"/>								
@@ -82,11 +82,11 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="10" title="Ciclo Vida (Jornadas)"></option>
 										<option code="11" title="Análisis (Jornadas)"></option>
 										<option code="12" title="Desarrollo (Jornadas)"></option>
-										<option code="13" title="Preparación Entregas(Jornadas)"></option>
+										<option code="13" title="Preparación Entregas (Jornadas)"></option>
 										<option code="14" title="Pruebas en CD (Jornadas)"></option>
-										<option code="15" title="Intervalo Trámite y Desarrollo (Jornadas)"></option>
-										<option code="16" title="Intervalo Fin Desarrollo y Solicitud Entrega en CD (Jornadas)"></option>
-										<option code="17" title="Intervalo Fin PruebasCD e Instalación Producc.(Jornadas)"></option>
+										<option code="15" title="Intervalo Trámite e Inicio Desarrollo (Jornadas)"></option>
+										<option code="16" title="Intervalo Fin Desarr. y Solicitud Entrega en CD (Jornadas)"></option>
+										<option code="17" title="Intervalo Fin PruebasCD e Instal.Producc.(Jornadas)"></option>
 										<option code="18" title="Dedicaciones Efectivas (Jornadas)"></option>
 										<option code="19" title="Intervalos sin Dedicación AT-DG (Jornadas)"></option>
 									</optionValues>
@@ -94,7 +94,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="escalado" hidden="true" value="automatic"/>
 								<fieldView name="operation" hidden="true" value="SUM"/>
 							</fieldViewSet>
-						</button>
+						</button>						
 						
 					</userbuttons>
 					
@@ -574,12 +574,12 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="59" editable="false" />
 						<fieldView mappingTo="60" editable="false" />
 						<fieldView mappingTo="61" editable="false" />
-						<fieldView mappingTo="62" editable="false" styleCss="font-weight: bold;color: yellow;"/>
+						<fieldView mappingTo="65" editable="false" styleCss="font-weight: bold;color: yellow;"/>						
 						<fieldView separator="br" />
 						<fieldView separator="br" />
+						<fieldView mappingTo="62" editable="false"/>
 						<fieldView mappingTo="63" editable="false" />
-						<fieldView mappingTo="64" editable="false" />
-						<fieldView mappingTo="65" editable="false" />						
+						<fieldView mappingTo="64" editable="false" />												
 						<fieldView mappingTo="66" editable="false" styleCss="font-weight: bold;color: yellow;"/>						
 						<fieldView separator="br" />
 					</fieldset>

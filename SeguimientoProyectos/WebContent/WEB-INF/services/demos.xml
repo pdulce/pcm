@@ -17,7 +17,7 @@
 				
 				<userbuttons>
 				
-					<button link="prjManager" id="mapaSpain" name="Demo con mapas (Spain)">
+					<button link="prjManager" id="mapaSpain" name="Mapa (Spain)">
 						<fieldViewSet nameSpace="mapaSpain">
 							<fieldView name="highchart" hidden="true" value="mapspain"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
@@ -25,7 +25,7 @@
 							<fieldView name="fieldForGroupBy" type="select">
 							<optionValues selectionMultiple="true">
 									<option code="26" title="origen incidencia" selected="true"></option>
-									<option code="7" title="origen solicitudes de mejora" selected="true"></option>
+									<option code="7" title="origen consultas aplic."></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="agregado" type="select">
@@ -43,7 +43,7 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="mapaEurope" name="Demo con mapas (Europe)">
+					<button link="prjManager" id="mapaEurope" name="Mapa (Europe)">
 						<fieldViewSet nameSpace="mapaEurope">
 							<fieldView name="highchart" hidden="true" value="mapeurope"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
@@ -51,7 +51,7 @@
 							<fieldView name="fieldForGroupBy" type="select">
 							<optionValues selectionMultiple="true">
 									<option code="26" title="origen incidencia" selected="true"></option>
-									<option code="7" title="origen solicitudes de mejora" selected="true"></option>
+									<option code="7" title="origen consultas aplic."></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="agregado" type="select">
@@ -69,7 +69,7 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="mapaWorld" name="Mapa World">
+					<button link="prjManager" id="mapaWorld" name="Mapa (World)">
 						<fieldViewSet nameSpace="mapaWorld">
 							<fieldView name="highchart" hidden="true" value="mapworld"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
@@ -77,7 +77,7 @@
 							<fieldView name="fieldForGroupBy" type="select">
 							<optionValues selectionMultiple="true">
 									<option code="26" title="origen incidencia" selected="true"></option>
-									<option code="7" title="origen solicitudes de mejora" selected="true"></option>
+									<option code="7" title="origen consultas aplic."></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="agregado" type="select">

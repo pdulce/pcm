@@ -14,8 +14,8 @@
    <entity>
     <entityname>administrador</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="login_name" type="string" length="10" required="true"/>
-    <field mappingTo="3" name="password" type="string" length="10" required="true" passwordType="true"/>
+    <field mappingTo="2" name="login_name" type="string" length="20" required="true"/>
+    <field mappingTo="3" name="password" type="string" length="20" required="true" passwordType="true"/>
     <field mappingTo="4" name="profile" type="long" length="11" required="true"
     	fkParentEntities="rol" fkParentFields="1"/>
     <field mappingTo="5" name="nombreCompleto" type="string" length="100" required="true"/>

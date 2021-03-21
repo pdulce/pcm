@@ -216,8 +216,10 @@ public abstract class AbstractAction implements IAction {
 				}
 				this.getStrategyFactory().addStrategy(strategyName, strategy);
 			}
-			strategy.doBussinessStrategy(this.datamap, dataAccess, fieldCollection != null ? fieldCollection.getFieldViewSets()
-					: new ArrayList<FieldViewSet>());
+			Collection<FieldViewSet> fieldViewSetCollection = fieldCollection != null ? fieldCollection.copyOf().getFieldViewSets()	: new ArrayList<FieldViewSet>();
+			strategy.doBussinessStrategy(this.datamap, dataAccess, fieldViewSetCollection);			
+			fieldCollection.getFieldViewSets().clear();
+			fieldCollection.getFieldViewSets().addAll(fieldViewSetCollection);
 		}
 	}
 	

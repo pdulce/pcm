@@ -534,6 +534,7 @@ public class ActionForm extends AbstractAction {
 					if (!dataAccess.getPreconditionStrategies().isEmpty()) {
 						try {
 							executeStrategyPre(dataAccess, fCollectionIesimo);
+							form_.getFieldViewSetCollection();
 						} catch (final StrategyException stratExc) {
 							if (this.isTransactional()) {
 								dataAccess.rollback();

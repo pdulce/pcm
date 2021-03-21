@@ -186,7 +186,8 @@ public class ActionPagination extends AbstractAction {
 			
 				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
 					try {
-						executeStrategyPre(dataAccess_, myForm.getFieldViewSetCollection());// Pre-condiciones
+						FieldViewSetCollection filtro = myForm.getFieldViewSetCollection();
+						executeStrategyPre(dataAccess_, filtro);// Pre-condiciones
 					} catch (final StrategyException stratExc) {
 						throw stratExc;
 					}

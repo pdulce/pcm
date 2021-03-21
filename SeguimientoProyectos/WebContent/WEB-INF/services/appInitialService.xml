@@ -16,10 +16,10 @@ xmlns:service="http://pcm.framework.org/service"
 					<fieldViewSet nameSpace="entryForm">
 						
 						<fieldView name="user" type="text" required="true"
-							value="" size="10" maxlength="20" detailed="true" persistsIn="%session%"
+							value="" size="15" maxlength="20" detailed="true" persistsIn="%session%"
 							styleCss="font-weight: bold;color: #0404B4;" />
 						<fieldView name="password" type="password" required="true"
-							value="" size="4" maxlength="8" detailed="true"
+							value="" size="15" maxlength="20" detailed="true"
 							styleCss="font-weight: bold;color: #0404B4;" />
 						<fieldView name="language" type="text" value="es_" 
 							required="true" hidden="true" persistsIn="%session%"/>

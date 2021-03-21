@@ -133,7 +133,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			//obtenemos todas las aplicaciones de este estudio
 			FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);					
 			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
-			if (servicioId == null) {
+			if (servicioId == null || servicioId == 0) {
 				Long idAplicativo = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
 				FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
 				aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
