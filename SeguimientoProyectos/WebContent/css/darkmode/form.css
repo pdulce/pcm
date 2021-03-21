@@ -36,13 +36,13 @@ form.pcmForm fieldset fieldset {
 
 
 .textInput{ 
-  background-color:#48403e;
-  background:#48403e;
+  background-color: rgb(40, 74, 85);
+  background:  rgb(40, 74, 85);
   margin: 0;
   padding: 1px;
   font-size: 0.95em;
   font-family: Verdana, sans-serif;
-  color: orange;
+  color: #00ffff;
   border:1px solid #000;
 }
 
