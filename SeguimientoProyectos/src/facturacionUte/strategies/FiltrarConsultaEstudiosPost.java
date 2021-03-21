@@ -35,7 +35,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 	}
 
 	@Override
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
 			PCMConfigurationException {
 		
 		try {
@@ -51,7 +51,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 				
 				List<FieldViewSetCollection> newCollectionResults = new ArrayList<FieldViewSetCollection>();
 				for (FieldViewSetCollection record:fieldCollectionResults) {
-					FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();
+					FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();					
 					Long idServiceFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
 					if (idServiceFound.longValue() == servicioId.longValue()) {
 						FieldViewSetCollection newRecord = new FieldViewSetCollection();
@@ -68,6 +68,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 				}
 				fieldCollectionResults.clear();
 				fieldCollectionResults.addAll(newCollectionResults);
+				
 			}			
 			
 		}catch (final Exception ecxx1) {

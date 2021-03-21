@@ -23,7 +23,7 @@ public abstract class DefaultStrategyRequest implements IStrategy {
 	}
 	
 	@Override
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
 		PCMConfigurationException {
 		//nothing TO DO
 	}

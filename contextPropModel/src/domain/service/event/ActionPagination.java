@@ -292,8 +292,11 @@ public class ActionPagination extends AbstractAction {
 				}
 				
 				if (!dataAccess_.getStrategies().isEmpty()) {//estrategias de POST
-					try {						
+					try {
 						executeStrategyPostQuery(dataAccess_, coleccion);
+						if (coleccion != null && !coleccion.isEmpty()) {
+							coleccion.iterator().next().setTotalRecords(coleccion.size());
+						}
 					} catch (final StrategyException stratExc) {
 						throw stratExc;
 					}
