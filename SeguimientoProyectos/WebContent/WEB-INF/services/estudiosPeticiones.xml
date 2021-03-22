@@ -532,7 +532,6 @@ xmlns:service="http://pcm.framework.org/service"
 						</fieldView>
 						<fieldView mappingTo="87" editable="false" />
 						
-						<fieldView mappingTo="5" editable="false" />						
 						<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />

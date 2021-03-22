@@ -617,7 +617,11 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			Collection<String> tiposPet = registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_86_TIPO_PETICIONES).getName()).getValues();
 			StringBuffer tiposPets_ = new StringBuffer();
 			for (String tipo: tiposPet) {
-				tiposPets_.append(tipo);
+				FieldViewSet tipoPeticionBBDD = new FieldViewSet(tiposPeticionesEntidad);
+				tipoPeticionBBDD.setValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName(), Long.valueOf(tipo));
+				tipoPeticionBBDD = dataAccess.searchEntityByPk(tipoPeticionBBDD);
+				String tipoPet = (String) tipoPeticionBBDD.getValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName());
+				tiposPets_.append(tipoPet);
 				tiposPets_.append(" ");
 			}
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_87_DESNORMALIZAR_TIPOPETIC).getName(), tiposPets_.toString());
