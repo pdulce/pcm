@@ -207,6 +207,59 @@ public final class CommonUtils {
 	public static int obtenerDifEnMeses(final Calendar fechaCalMasAntigua, final Calendar fechaCalMasReciente){
 		return obtenerDifEnMeses(fechaCalMasAntigua.getTime(), fechaCalMasReciente.getTime());		
 	}
+	
+	public static final String obtenerPeriodo(int idPeriodo, Date fecIniEstudio, Date fecFinEstudio) {
+		/**
+		 *  1|mensual	2|bimensual	3|trimestre	4|cuatrimestre	5|semestre	6|anual
+			7|bienio	8|trienio	9|cuatrienio		10|indeterminado
+		 */
+		
+		Calendar fechaInicioEstudio = Calendar.getInstance();
+		fechaInicioEstudio.setTime(fecIniEstudio);
+		int mes = fechaInicioEstudio.get(Calendar.MONTH)+1;
+		int yearAbbr = fechaInicioEstudio.get(Calendar.YEAR)%2000;
+		int year = fechaInicioEstudio.get(Calendar.YEAR);
+		String periodo = "";
+		switch (idPeriodo){
+			case 1:					
+				periodo = CommonUtils.translateMonthToSpanish(mes).concat(String.valueOf(yearAbbr));
+				break;
+			case 2:
+				periodo = CommonUtils.translateMonthToSpanish(mes).concat("-").concat(CommonUtils.translateMonthToSpanish(mes+1)).concat(String.valueOf(yearAbbr));
+				break;
+			case 3:
+				periodo = (mes<3?"1st":(mes<6?"2nd":(mes<9?"3rd":"4th"))).concat("Quarter").concat(String.valueOf(yearAbbr));
+				break;
+			case 4:
+				periodo = (mes<4?"1st":(mes<8?"2nd":"3rd")).concat("Four-month period").concat(String.valueOf(yearAbbr));
+				break;
+			case 5:
+				periodo = (mes<6?"1st":"2nd").concat("Half-year").concat(String.valueOf(yearAbbr));
+				break;
+			case 6:
+				periodo = String.valueOf(year);
+				break;
+			case 7:
+				periodo = String.valueOf(year).concat("-").concat(String.valueOf((year%2000)+1));
+				break;
+			case 8:
+				periodo = String.valueOf(year).concat("-").concat(String.valueOf((year%2000)+2));
+				break;
+			case 9:
+				periodo = String.valueOf(year).concat("-").concat(String.valueOf((year%2000)+3));
+				break;
+			case 10:
+				periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
+				break;
+			default:
+				periodo = (CommonUtils.convertDateToShortFormatted(fecIniEstudio) + "-"+ CommonUtils.convertDateToShortFormatted(fecFinEstudio));
+		}
+		return periodo;
+	}
+	
+	public static final double aplicarMLRSimple(double jornadasDesarrollo) {
+		return 3*jornadasDesarrollo;
+	}
 
 	/** para horas de análisis **/
 	public static double aplicarMLR(double uts, int tipoP, int entorno) {

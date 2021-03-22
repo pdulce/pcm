@@ -190,7 +190,7 @@
 	<field mappingTo="54" name="uts_permonth" type="double" length="6" required="false"/>
 	<field mappingTo="55" name="uts_perpet" type="double" length="6" required="false"/>
 	<field mappingTo="56" name="id_aplicativo" type="long" length="11" required="false" 
-	    fkParentEntities="aplicativo" fkParentFields="1"/>   	
+	    fkParentEntities="aplicativo" fkParentFields="1"/>   		    
 	<field mappingTo="57" name="ciclo_vida_perappmonth" type="double" length="10" required="false"/>    
     <field mappingTo="58" name="duracion_analysis_perappmonth" type="double" length="10" required="false"/>
     <field mappingTo="59" name="duracion_desarrollo_perappmonth" type="double" length="10" required="false"/>    
@@ -202,7 +202,26 @@
     <field mappingTo="65" name="total_dedicaciones_perappmonth" type="double" length="10" required="false"/>
     <field mappingTo="66" name="total_gaps_perappmonth" type="double" length="10" required="false"/>
     <field mappingTo="67" name="hrs_analisis_perappmonth" type="double" length="6" required="false"/>
-	<field mappingTo="68" name="uts_perappmonth" type="double" length="6" required="false"/>    
+	<field mappingTo="68" name="uts_perappmonth" type="double" length="6" required="false"/>
+	<field mappingTo="69" name="ciclo_vida_perapp" type="double" length="10" required="false"/>    
+    <field mappingTo="70" name="duracion_analysis_perapp" type="double" length="10" required="false"/>
+    <field mappingTo="71" name="duracion_desarrollo_perapp" type="double" length="10" required="false"/>    
+    <field mappingTo="72" name="duracion_entregas_perapp" type="double" length="10" required="false"/>    
+    <field mappingTo="73" name="duracion_pruebas_perapp" type="double" length="10" required="false"/>
+    <field mappingTo="74" name="gap_tram_iniRealDesa_perapp" type="double" length="10" required="false"/>
+    <field mappingTo="75" name="gap_finDesa_solicEntrega_perapp" type="double" length="10" required="false"/>
+    <field mappingTo="76" name="gap_finPrue_Producc_perapp" type="double" length="10" required="false"/>
+    <field mappingTo="77" name="total_dedicaciones_perapp" type="double" length="10" required="false"/>
+    <field mappingTo="78" name="total_gaps_perapp" type="double" length="10" required="false"/>
+    <field mappingTo="79" name="hrs_analisis_perapp" type="double" length="6" required="false"/>
+	<field mappingTo="80" name="uts_perapp" type="double" length="6" required="false"/>		
+	<field mappingTo="81" name="esfuerzo_pruebas_estudio" type="double" length="6" required="false"/>
+	<field mappingTo="82" name="esfuerzo_pruebas_permonth" type="double" length="6" required="false"/>
+	<field mappingTo="83" name="esfuerzo_pruebas_perappmonth" type="double" length="6" required="false"/>
+	<field mappingTo="84" name="esfuerzo_pruebas_perapp" type="double" length="6" required="false"/>
+	<field mappingTo="85" name="esfuerzo_pruebas_perpet" type="double" length="6" required="false"/>
+	<field mappingTo="86" name="tipo_peticiones" type="long" length="11" required="false" 
+	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>	
   </entity>	
   
   
@@ -237,10 +256,17 @@
     <field mappingTo="26" name="fecha_inicio_instalacion_Prod" type="date" length="10" required="false"/>
     <field mappingTo="27" name="fecha_fin_instalacion_Prod" type="date" length="10" required="false"/>
     <field mappingTo="28" name="uts" type="double" length="6" required="false"/>
-    <field mappingTo="29" name="hrs_analysis" type="double" length="6" required="false"/>
-    <field mappingTo="30" name="titulo" type="string" length="500" required="false"/>
+    <field mappingTo="29" name="esfuerzo_analysis" type="double" length="6" required="false"/>
+    <field mappingTo="30" name="esfuerzo_pruebas" type="double" length="6" required="false"/>
+    <field mappingTo="31" name="titulo" type="string" length="500" required="false"/>	
   </entity>
-
+	
+   <entity>
+    <entityname>tiposPeticiones</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="30" required="true"/>
+  </entity>		
+	
   <entity>
     <entityname>tiposPeriodos</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>

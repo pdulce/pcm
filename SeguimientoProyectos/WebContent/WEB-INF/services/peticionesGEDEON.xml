@@ -92,6 +92,55 @@
 							<fieldView name="operation" hidden="true" value="SUM"/>							
 						</fieldViewSet>
 					</button>
+										
+					<button link="prjManager" id="spiderchart1"
+						name="Spiderwebchart">
+						<fieldViewSet nameSpace="spiderchart1">
+							<fieldView name="highchart" hidden="true" value="spiderweb"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
+							<fieldView name="orderBy" hidden="true" value="17"/>							
+							<fieldView name="fieldForGroupBy" type="select">
+								<optionValues>
+									<option code="26" title="aplicacion" selected="true"></option>
+									<option code="7" title="situacion"></option>
+									<option code="13" title="tipo"></option>
+									<option code="16" title="prioridad"></option>
+									<option code="12" title="area destino"></option>
+									<option code="6" title="solicitante"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="-1" title="peticiones"></option>
+									<option code="28" title="UTs estimadas" selected="true"></option>
+									<option code="29" title="UTs reales"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" hidden="true" value="SUM"/>
+						</fieldViewSet>
+					</button>
+													
+					<!-- button link="prjManager" id="scatter1"
+						name="Correlation">
+						<fieldViewSet nameSpace="scatter1">
+							<fieldView name="highchart" hidden="true" value="scatter"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
+							<fieldView name="orderBy" hidden="true" value="17"/>
+							<fieldView name="filteredByField" hidden="true" value="7=peticiones.7"/>
+							<fieldView name="filteredByFieldValues" hidden="true" value="%finalizad%, %Cerrada%"/>
+							<fieldView name="fieldForGroupBy" hidden="true" value="26"/>		
+							<fieldView name="ejeX" type="select" editable="false">
+								<optionValues>
+									<option code="28" title="UTs estimadas" selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="ejeY" type="select" editable="false">
+								<optionValues>
+									<option code="29" title="UTs reales" selected="true"></option>
+								</optionValues>
+							</fieldView>
+						</fieldViewSet>
+					</button>-->
 					
 					<button link="prjManager" id="barchart1"
 						name="Barchart">
@@ -152,54 +201,6 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="spiderchart1"
-						name="Spiderwebchart">
-						<fieldViewSet nameSpace="spiderchart1">
-							<fieldView name="highchart" hidden="true" value="spiderweb"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>							
-							<fieldView name="fieldForGroupBy" type="select">
-								<optionValues>
-									<option code="26" title="aplicacion" selected="true"></option>
-									<option code="7" title="situacion"></option>
-									<option code="13" title="tipo"></option>
-									<option code="16" title="prioridad"></option>
-									<option code="12" title="area destino"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="agregado" type="select">
-								<optionValues>
-									<option code="-1" title="peticiones"></option>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="operation" hidden="true" value="SUM"/>
-						</fieldViewSet>
-					</button>
-													
-					<button link="prjManager" id="scatter1"
-						name="Correlation">
-						<fieldViewSet nameSpace="scatter1">
-							<fieldView name="highchart" hidden="true" value="scatter"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="filteredByField" hidden="true" value="7=peticiones.7"/>
-							<fieldView name="filteredByFieldValues" hidden="true" value="%finalizad%, %Cerrada%"/>
-							<fieldView name="fieldForGroupBy" hidden="true" value="26"/><!-- ROCHADE -->		
-							<fieldView name="ejeX" type="select" editable="false">
-								<optionValues>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="ejeY" type="select" editable="false">
-								<optionValues>
-									<option code="29" title="UTs reales" selected="true"></option>
-								</optionValues>
-							</fieldView>
-						</fieldViewSet>
-					</button>
 					
 				</userbuttons>
 			

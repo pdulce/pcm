@@ -37,7 +37,7 @@ public class InputCtrl extends AbstractCtrl {
 			return;
 		}
 		
-		int size = InputCtrl.DEFAULT_SIZE, length = InputCtrl.DEFAULT_LENGTH;
+		int size = 0, length = InputCtrl.DEFAULT_LENGTH;
 		if (this.fieldView.getUserDefSize() == 0) {
 			if (this.fieldView.getEntityField() != null) {
 				if (this.fieldView.getEntityField().getAbstractField().isDate()) {
@@ -48,25 +48,7 @@ public class InputCtrl extends AbstractCtrl {
 					length = 6;
 				} else {
 					final int maxLength = this.fieldView.getEntityField().getAbstractField().getMaxLength();
-					int max_ = 1;
-					if (maxLength > 1 && maxLength <= 3) {
-						max_ = 2;
-					} else if (maxLength > 3 && maxLength <= 8) {
-						max_ = 5;
-					} else if (maxLength > 8 && maxLength <= 12) {
-						max_ = 12;
-					} else if (maxLength > 12 && maxLength <= 20) {
-						max_ = 20;
-					} else if (maxLength > 20 && maxLength <= 25) {
-						max_ = 25;
-					} else if (maxLength > 25 && maxLength <= 45) {
-						max_ = 45;
-					} else if (maxLength > 45 && maxLength < 100) {
-						max_ = 60;
-					} else {
-						max_ = 80;
-					}
-					size = max_;
+					size = (int) (maxLength*2)/InputCtrl.DEFAULT_SIZE;
 					length = maxLength;
 				}
 			}

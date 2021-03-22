@@ -45,9 +45,16 @@ public class SelectCtrl extends AbstractCtrl {
 		if (this.fieldView.getStyleCss() != null && !"".equals(this.fieldView.getStyleCss()) && !this.fieldView.isEditable()) {
 			this.select.setStyle(this.fieldView.getStyleCss());
 		}
-		int mySize = this.fieldView.getFieldAndEntityForThisOption().getOptions().size();
-		mySize = mySize > MAX_FOR_OPTIONS_IN_SELECT ? MAX_FOR_OPTIONS_IN_SELECT : (mySize == 0 ? MAX_FOR_OPTIONS_IN_SELECT : mySize);
-		this.select.setSize(mySize);
+		int mySize = this.fieldView.getUserDefSize();
+		if (mySize > 0) {
+			this.select.setSize(mySize);
+		}else {
+			int maxSize = this.fieldView.getFieldAndEntityForThisOption().getOptions().size();
+			mySize = maxSize > MAX_FOR_OPTIONS_IN_SELECT ? MAX_FOR_OPTIONS_IN_SELECT: maxSize;
+		}
+		
+				
+		
 		this.select.setMultiple(this.fieldView.getFieldAndEntityForThisOption() != null && this.fieldView.getFieldAndEntityForThisOption().isMultiple());
 
 		if (this.fieldView.getFieldAndEntityForThisOption() != null) {

@@ -116,11 +116,33 @@ CREATE TABLE `estudiosPeticiones` (
   `total_dedicaciones_perappmonth` double DEFAULT NULL,
   `total_gaps_perappmonth` double DEFAULT NULL,   
   `hrs_analisis_perappmonth` double DEFAULT NULL,
-  `uts_perappmonth` double DEFAULT NULL  
+  `uts_perappmonth` double DEFAULT NULL,      
+  `ciclo_vida_perapp` double DEFAULT NULL,  
+  `duracion_analysis_perapp` double DEFAULT NULL,
+  `duracion_desarrollo_perapp` double DEFAULT NULL,
+  `duracion_entregas_perapp` double DEFAULT NULL,
+  `duracion_pruebas_perapp` double DEFAULT NULL,
+  `gap_tram_iniRealDesa_perapp` double DEFAULT NULL,
+  `gap_finDesa_solicEntrega_perapp` double DEFAULT NULL,
+  `gap_finPrue_Producc_perapp` double DEFAULT NULL,
+  `total_dedicaciones_perapp` double DEFAULT NULL,
+  `total_gaps_perapp` double DEFAULT NULL,     
+  `hrs_analisis_perapp` double DEFAULT NULL,
+  `uts_perapp` double DEFAULT NULL,    
+  `esfuerzo_pruebas_estudio` double DEFAULT NULL,
+  `esfuerzo_pruebas_permonth` double DEFAULT NULL,    
+  `esfuerzo_pruebas_perappmonth` double DEFAULT NULL,
+  `esfuerzo_pruebas_perapp` double DEFAULT NULL,       
+  `esfuerzo_pruebas_perpet` double DEFAULT NULL,
+  `tipo_peticiones` int(11) DEFAULT NULL
 );  
 CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
 CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);
 
+CREATE TABLE `tiposPeticiones` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(30) NOT NULL
+);
 
 DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (
@@ -152,7 +174,8 @@ CREATE TABLE `resumenPeticiones` (
   `fecha_inicio_instalacion_Prod` date DEFAULT NULL,
   `fecha_fin_instalacion_Prod` date DEFAULT NULL,
   `uts` double DEFAULT NULL,
-  `hrs_analysis` double DEFAULT NULL,
+  `esfuerzo_analysis` double DEFAULT NULL,
+  `esfuerzo_pruebas` double DEFAULT NULL,
   `titulo` varchar(500) DEFAULT NULL
 );  
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);

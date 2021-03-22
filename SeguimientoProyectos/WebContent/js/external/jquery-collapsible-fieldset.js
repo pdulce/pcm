@@ -86,7 +86,9 @@
 				isCollapsed = false;
 			}
 			
-			if (textoDiagrama.lastIndexOf("Diagramas") > -1 ){
+			if (textoDiagrama.lastIndexOf("Diagramas Peticiones GEDEON") > -1 ){
+				isCollapsed = true;
+			}else if (textoDiagrama.lastIndexOf("Diagramas Estudios de Peticiones") > -1 ){
 				isCollapsed = false;
 			}else if (textoDiagrama.lastIndexOf("Agregados en Periodo Estudio") > -1 ||
 					textoDiagrama.lastIndexOf("Promedios Mensuales") > -1){

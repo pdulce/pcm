@@ -774,7 +774,7 @@ public class Form extends AbstractComponent {
 					StringBuilder buttonsStrBuilder = new StringBuilder();
 					//buttonsStrBuilder.append("<BR>");
 					XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.FIELDSET + " id=\"diagramas\"");
-					buttonsStrBuilder.append("<LEGEND><span>Diagramas</span></LEGEND>");
+					buttonsStrBuilder.append("<LEGEND><span>Diagramas " + this.title + "</span></LEGEND>");
 					buttonsStrBuilder.append("<DIV>"+ NEW_ROW);
 
 					XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.UL_LABEL_ID);

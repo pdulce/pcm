@@ -153,9 +153,9 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_PETICIONES_48_PORC_TOTALGAP = 48;
     public static final int ESTUDIOS_PETICIONES_49_ID_SERVICIO = 49;
     public static final int ESTUDIOS_PETICIONES_50_ID_TIPOPERIODO = 50;    
-    public static final int ESTUDIOS_PETICIONES_51_HRS_ANALYSIS_TOTAL = 51;
-    public static final int ESTUDIOS_PETICIONES_52_HRS_ANALYSIS_PERMONTH = 52;
-    public static final int ESTUDIOS_PETICIONES_53_HRS_ANALYSIS_PERPET = 53;    
+    public static final int ESTUDIOS_PETICIONES_51_ESFUERZO_ANALYSIS_TOTAL = 51;
+    public static final int ESTUDIOS_PETICIONES_52_ESFUERZO_ANALYSIS_PERMONTH = 52;
+    public static final int ESTUDIOS_PETICIONES_53_ESFUERZO_ANALYSIS_PERPET = 53;    
     public static final int ESTUDIOS_PETICIONES_54_UTS_PERMONTH = 54;
     public static final int ESTUDIOS_PETICIONES_55_UTS_PERPET = 55;
     public static final int ESTUDIOS_PETICIONES_56_ID_APLICATIVO = 56;
@@ -169,9 +169,31 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_PETICIONES_64_GAPFINPRUEBASCDHASTAPRODUC_PERAPPMONTH = 64;    
     public static final int ESTUDIOS_PETICIONES_65_TOTALDEDICACIONES_PERAPPMONTH = 65;
     public static final int ESTUDIOS_PETICIONES_66_TOTALGAPS_PERAPPMONTH = 66;
-    public static final int ESTUDIOS_PETICIONES_67_HRS_ANALYSIS_PERAPPMONTH = 67;
-    public static final int ESTUDIOS_PETICIONES_68_UTS_PERAPPMONTH = 68;
+    public static final int ESTUDIOS_PETICIONES_67_ESFUERZO_ANALYSIS_PERAPPMONTH = 67;
+    public static final int ESTUDIOS_PETICIONES_68_UTS_PERAPPMONTH = 68;           
+    public static final int ESTUDIOS_PETICIONES_69_CICLOVIDA_PERAPP = 69;
+    public static final int ESTUDIOS_PETICIONES_70_DURACIONANALYS_PERAPP = 70;
+    public static final int ESTUDIOS_PETICIONES_71_DURACIONDESARR_PERAPP = 71;
+    public static final int ESTUDIOS_PETICIONES_72_DURACIONENTREGA_PERAPP = 72;
+    public static final int ESTUDIOS_PETICIONES_73_DURACIONPRUEBASCD_PERAPP = 73;    
+    public static final int ESTUDIOS_PETICIONES_74_GAPTRAMIINIDESA_PERAPP = 74;
+    public static final int ESTUDIOS_PETICIONES_75_GAPFINDESASOLICENTREGA_PERAPP = 75;
+    public static final int ESTUDIOS_PETICIONES_76_GAPFINPRUEBASCDHASTAPRODUC_PERAPP = 76;    
+    public static final int ESTUDIOS_PETICIONES_77_TOTALDEDICACIONES_PERAPP = 77;
+    public static final int ESTUDIOS_PETICIONES_78_TOTALGAPS_PERAPP = 78;
+    public static final int ESTUDIOS_PETICIONES_79_ESFUERZO_ANALYSIS_PERAPP = 79;
+    public static final int ESTUDIOS_PETICIONES_80_UTS_PERAPP = 80;    
+    public static final int ESTUDIOS_PETICIONES_81_ESFUERZO_PRUEBASCD_ESTUDIO = 81;
+    public static final int ESTUDIOS_PETICIONES_82_ESFUERZO_PRUEBASCD_PERMONTH = 82;
+    public static final int ESTUDIOS_PETICIONES_83_ESFUERZO_PRUEBASCD_PERAPPMONTH = 83;
+    public static final int ESTUDIOS_PETICIONES_84_ESFUERZO_PRUEBASCD_PERAPP = 84;
+    public static final int ESTUDIOS_PETICIONES_85_ESFUERZO_PRUEBASCD_PERPET = 85;
+    public static final int ESTUDIOS_PETICIONES_86_TIPO_PETICIONES = 86;
 	public static final String ESTUDIOS_PETICIONES_ENTIDAD = "estudiosPeticiones";	
+	
+    public static final int TIPOS_PETICIONES_1_ID = 1;
+    public static final int TIPOS_PETICIONES_NOMBRE = 2;
+	public static final String TIPOS_PETICIONES_ENTIDAD = "tiposPeticiones";	
 	
     public static final int RESUMEN_PETICION_1_ID = 1;
     public static final int RESUMEN_PETICION_2_ID_ESTUDIO = 2;
@@ -201,8 +223,9 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD = 26;
 	public static final int RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD = 27;	
 	public static final int RESUMEN_PETICION_28_UTS = 28;
-	public static final int RESUMEN_PETICION_29_HRS_ANALYSIS = 29;
-	public static final int RESUMEN_PETICION_30_TITULO = 30;
+	public static final int RESUMEN_PETICION_29_ESFUERZO_ANALYSIS = 29;
+	public static final int RESUMEN_PETICION_30_ESFUERZO_PRUEBASCD = 30;	
+	public static final int RESUMEN_PETICION_31_TITULO = 31;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
 	
 	public static final int TIPO_PERIODO_1_ID = 1;

@@ -17,7 +17,7 @@
 				<form columns="10" title="Usuarios">
 					<fieldViewSet entitymodel="administrador" nameSpace="administrador">
 						<fieldView mappingTo="2" size="15" />
-						<fieldView mappingTo="4" type="select" size="12">
+						<fieldView mappingTo="4" type="select" size="4">
 							<optionValues selectionMultiple="true" entitymodel="rol"
 								descrMappingTo="2">
 							</optionValues>
