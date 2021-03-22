@@ -71,15 +71,6 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			if (deleted <= 0) {
 				throw new StrategyException("Error borrando resumen de estudio por petición");
 			}
-			//System.out.println("deleted: " + deleted);
-			/*List<FieldViewSet> resumenes = dataAccess.searchByCriteria(resumenesFilter);
-			int ok = 0;
-			for (FieldViewSet resumen: resumenes) {
-				ok = dataAccess.deleteEntity(resumen);
-				if (ok != 1) {
-					throw new StrategyException("Error borrando resumen de estudio por petición");
-				}
-			}*/			
 						
 		} catch (final StrategyException ecxx) {
 			throw ecxx;

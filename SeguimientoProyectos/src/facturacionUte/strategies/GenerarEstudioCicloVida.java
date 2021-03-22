@@ -614,15 +614,18 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			double totalGaps = (total_gapPlanificacion+total_gapFinDesaIniSolicitudEntregaEnCD+total_gapFinPruebasCDProducc); 
 			
 			// bloque de agregados del estudio
-			Collection<String> tiposPet = registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_86_TIPO_PETICIONES).getName()).getValues();
+			List<String> tiposPet = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_86_TIPO_PETICIONES).getName()).getValues());
 			StringBuffer tiposPets_ = new StringBuffer();
-			for (String tipo: tiposPet) {
+			for (int i=0;i<tiposPet.size();i++) {
+				String tipo = tiposPet.get(i);
 				FieldViewSet tipoPeticionBBDD = new FieldViewSet(tiposPeticionesEntidad);
 				tipoPeticionBBDD.setValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName(), Long.valueOf(tipo));
 				tipoPeticionBBDD = dataAccess.searchEntityByPk(tipoPeticionBBDD);
-				String tipoPet = (String) tipoPeticionBBDD.getValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName());
+				String tipoPet = (String) tipoPeticionBBDD.getValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName());
 				tiposPets_.append(tipoPet);
-				tiposPets_.append(" ");
+				if ( (i+1) < tiposPet.size()) {
+					tiposPets_.append(", ");
+				}
 			}
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_87_DESNORMALIZAR_TIPOPETIC).getName(), tiposPets_.toString());
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
