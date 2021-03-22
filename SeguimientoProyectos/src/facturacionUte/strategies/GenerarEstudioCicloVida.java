@@ -289,7 +289,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			jornadasAnalysis = CommonUtils.jornadasDuracion(fechaInicioAnalisis, fechaFinAnalisis);		
 		}		
 			
-		return jornadasAnalysis;
+		return CommonUtils.roundWith2Decimals(jornadasAnalysis);
 	
 	}	
 	
@@ -314,7 +314,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	protected FieldViewSet aplicarEstudioPorPeticion(final IDataAccess dataAccess, final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) {
 		
-		File f= new File("C:\\\\Users\\\\pedro.dulce\\\\OneDrive - BABEL\\\\Documents\\\\ESTUDIO SERVICIO MTO.2017-2021\\\\resources\\peticionesEstudio.log");
+		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
 		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
 		File datasetFile = new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datasetMLR.csv");
 		FileOutputStream out = null, modelo = null, dataset = null;
@@ -406,7 +406,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				Date fechaRealInicio = (Date)registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());					
 				Date fechaFinalizacion = (Date) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName());							
 				Date fechaRealFin = (Date) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
-				Double esfuerzoUts = CommonUtils.roundWith2Decimals((horasEstimadas==0.0?horasReales:horasEstimadas));
 				Double jornadasDesarrollo = CommonUtils.jornadasDuracion(fechaRealInicio, fechaRealFin);
 				
 				if (horasEstimadas == 0.0 && horasReales==0.0) {								
@@ -414,8 +413,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					horasEstimadas = horasReales;
 					registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName(), horasEstimadas);
 					registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), horasReales);								
-				}				
-				Double uts = (horasEstimadas==0.0?horasReales:horasEstimadas);
+				}
+				Double esfuerzoUts = CommonUtils.roundWith2Decimals((horasEstimadas==0.0?horasReales:horasEstimadas));
 								
 				Double jornadasDesfaseTramiteHastaInicioReal = CommonUtils.jornadasDuracion(fechaTramite, fechaRealInicio);
 				
@@ -468,7 +467,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					jornadasAnalysis = obtenerJornadasAnalysis(peticionBBDDAnalysis,  fechaTramite, jornadasDesarrollo);
 					// dataset para el modelo MLR
 					modelo.write(("data.push([" + jornadasDesarrollo + ", " + tipoP + ", " + (entorno-1) + ", " + jornadasAnalysis +"]);\n").getBytes());
-					dataset.write((peticionDG + ";" + esfuerzoUts + ";" + tipoP + ";" + (entorno-1) + ";" + jornadasAnalysis + "\n").getBytes());
+					dataset.write((peticionDG + ";" + jornadasDesarrollo + ";" + tipoP + ";" + (entorno-1) + ";" + jornadasAnalysis + "\n").getBytes());
 				}
 				esfuerzoAnalysis = obtenerEsfuerzoAnalysis(jornadasAnalysis, jornadasDesarrollo, tipoP, entorno, aplicativoBBDD, nombreTecnologia);
 										
@@ -503,7 +502,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				fechaRealInicioPruebas.setTime(fecFinPreparacionEntrega);
 				fechaRealInicioPruebas.add(Calendar.DAY_OF_MONTH, 2);
 				Double jornadasPruebasCD = obtenerJornadasPruebasCD(fechaRealFin, fechaFinalizacion, jornadasEntrega, jornadasDesfaseFinDesaSolicEntrega);
-				Double esfuerzoPruebasCD = obtenerEsfuerzoPruebasCD(jornadasPruebasCD, uts, getTotalUtsEntrega(dataAccess, miEntrega), aplicativoBBDD);
+				Double esfuerzoPruebasCD = obtenerEsfuerzoPruebasCD(jornadasPruebasCD, esfuerzoUts, getTotalUtsEntrega(dataAccess, miEntrega), aplicativoBBDD);
 				Calendar fechaRealFinPruebas = Calendar.getInstance();
 				fechaRealFinPruebas.setTime(fechaRealInicioPruebas.getTime());
 				fechaRealFinPruebas.add(Calendar.DAY_OF_MONTH, jornadasPruebasCD.intValue());
@@ -567,7 +566,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				} 
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fecInicioInstalacion.getTime());
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), uts);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), esfuerzoUts);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_ESFUERZO_ANALYSIS).getName(), esfuerzoAnalysis);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_PRUEBASCD).getName(), esfuerzoPruebasCD);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_31_TITULO).getName(), titulo);
@@ -584,7 +583,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				}
 				
 				numPeticionesEstudio++;
-				total_uts_estudio += uts;
+				total_uts_estudio += esfuerzoUts;
 				total_hrs_analysis_estudio += esfuerzoAnalysis;
 				total_hrs_pruebasCD_estudio += esfuerzoPruebasCD;
 				total_cicloVida_estudio += cicloVidaPeticion;
