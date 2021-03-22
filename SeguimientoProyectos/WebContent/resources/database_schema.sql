@@ -134,7 +134,8 @@ CREATE TABLE `estudiosPeticiones` (
   `esfuerzo_pruebas_perappmonth` double DEFAULT NULL,
   `esfuerzo_pruebas_perapp` double DEFAULT NULL,       
   `esfuerzo_pruebas_perpet` double DEFAULT NULL,
-  `tipo_peticiones` int(11) DEFAULT NULL
+  `tipo_peticiones` int(11) DEFAULT NULL,
+  `desnormalizadasTipoPet` varchar(500) DEFAULT NULL
 );  
 CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
 CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);

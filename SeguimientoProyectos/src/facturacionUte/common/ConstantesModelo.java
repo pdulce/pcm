@@ -189,10 +189,11 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_PETICIONES_84_ESFUERZO_PRUEBASCD_PERAPP = 84;
     public static final int ESTUDIOS_PETICIONES_85_ESFUERZO_PRUEBASCD_PERPET = 85;
     public static final int ESTUDIOS_PETICIONES_86_TIPO_PETICIONES = 86;
+    public static final int ESTUDIOS_PETICIONES_87_DESNORMALIZAR_TIPOPETIC = 87;
 	public static final String ESTUDIOS_PETICIONES_ENTIDAD = "estudiosPeticiones";	
 	
     public static final int TIPOS_PETICIONES_1_ID = 1;
-    public static final int TIPOS_PETICIONES_NOMBRE = 2;
+    public static final int TIPOS_PETICIONES_2_NOMBRE = 2;
 	public static final String TIPOS_PETICIONES_ENTIDAD = "tiposPeticiones";	
 	
     public static final int RESUMEN_PETICION_1_ID = 1;

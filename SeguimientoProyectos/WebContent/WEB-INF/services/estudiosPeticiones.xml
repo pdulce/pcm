@@ -241,7 +241,7 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="3">
 								</optionValues>
 							</fieldView>
-							<fieldView mappingTo="86" type="select" editable="true">
+							<fieldView mappingTo="86" type="select" size="7" editable="true">
 								<optionValues selectionMultiple="true" entitymodel="tiposPeticiones"
 									descrMappingTo="2">
 								</optionValues>
@@ -512,11 +512,14 @@ xmlns:service="http://pcm.framework.org/service"
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="56" type="select" size="3" editable="false">
-								<optionValues entitymodel="aplicativo"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
+							<optionValues entitymodel="aplicativo"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="2" editable="false" />
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="tecnologia"
 								descrMappingTo="2">
@@ -527,7 +530,9 @@ xmlns:service="http://pcm.framework.org/service"
 								descrMappingTo="3">
 							</optionValues>
 						</fieldView>
+						<fieldView mappingTo="87" editable="false" />
 						
+						<fieldView mappingTo="5" editable="false" />						
 						<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />

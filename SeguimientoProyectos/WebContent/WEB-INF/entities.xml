@@ -220,8 +220,9 @@
 	<field mappingTo="83" name="esfuerzo_pruebas_perappmonth" type="double" length="6" required="false"/>
 	<field mappingTo="84" name="esfuerzo_pruebas_perapp" type="double" length="6" required="false"/>
 	<field mappingTo="85" name="esfuerzo_pruebas_perpet" type="double" length="6" required="false"/>
-	<field mappingTo="86" name="tipo_peticiones" type="long" length="11" required="false" 
+	<field mappingTo="86" name="tipo_peticiones" type="long" length="11" required="true" 
 	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>	
+	<field mappingTo="87" name="desnormalizadasTipoPet" type="string" length="500" required="false"/>
   </entity>	
   
   
