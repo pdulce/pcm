@@ -56,10 +56,12 @@
 						<fieldView mappingTo="2" editable="true" size="30"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView mappingTo="10" editable="true" size="25"/>
-						<fieldView mappingTo="11" editable="true" size="25"/>
-						<fieldView mappingTo="12" editable="true" size="25"/>
-						<fieldView mappingTo="13" editable="true" size="25"/>						
+						<fieldView mappingTo="10" editable="true" size="60"/>
+						<fieldView mappingTo="11" editable="true" size="60"/>
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="12" editable="true" size="60"/>
+						<fieldView mappingTo="13" editable="true" size="60"/>						
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="3" editable="true" size="120" />
@@ -86,8 +88,6 @@
 						<fieldView mappingTo="14" editable="true" size="120" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView mappingTo="15" editable="true" size="120" />
-						<fieldView separator="br" />						
 					</fieldViewSet>
 				</form>
 			</viewComponent>
@@ -104,10 +104,12 @@
 						<fieldView mappingTo="2" editable="true" size="30"/>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView mappingTo="10" editable="true" size="25"/>
-						<fieldView mappingTo="11" editable="true" size="25"/>
-						<fieldView mappingTo="12" editable="true" size="25"/>
-						<fieldView mappingTo="13" editable="true" size="25"/>						
+						<fieldView mappingTo="10" editable="true" size="60"/>
+						<fieldView mappingTo="11" editable="true" size="60"/>
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="12" editable="true" size="60"/>
+						<fieldView mappingTo="13" editable="true" size="60"/>						
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="3" editable="true" size="120" />
@@ -133,8 +135,6 @@
 						<fieldView separator="br" />												
 						<fieldView mappingTo="14" editable="true" size="120" />
 						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="15" editable="true" size="120" />
 						<fieldView separator="br" />
 					</fieldViewSet>
 				</form>

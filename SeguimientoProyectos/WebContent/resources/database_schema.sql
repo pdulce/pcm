@@ -1,4 +1,4 @@
-
+DROP TABLE `peticiones`;
 CREATE TABLE `peticiones` (
   `id` varchar(10) primary key,
   `Titulo` varchar(500),
@@ -44,8 +44,22 @@ CREATE TABLE `peticiones` (
   `entorno` int(11) DEFAULT NULL,
   `Horas_estimadas_iniciales` double DEFAULT NULL
 );  
-CREATE INDEX index_search_gedeones_1 on peticiones (id);
-CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
+
+DROP TABLE `tareasPeticion`;
+CREATE TABLE `tareasPeticion` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_tareaGEDEON` varchar(20) DEFAULT NULL,
+  `id_peticion` varchar(10) DEFAULT NULL,
+  `id_tipotarea` int(11) DEFAULT NULL,
+  `nombre` varchar(200) DEFAULT NULL,
+  `horas_imputadas` double DEFAULT NULL,
+  `horas_previstas` double DEFAULT NULL,
+  `fecha_inicio_previsto` date DEFAULT NULL,
+  `fecha_fin_previsto` date DEFAULT NULL,
+  `fecha_inicio_real` date DEFAULT NULL,  
+  `fecha_fin_real` date DEFAULT NULL
+ );
+
 
 DROP TABLE `estudiosPeticiones`;
 CREATE TABLE `estudiosPeticiones` (
@@ -150,12 +164,11 @@ CREATE TABLE `configuradorEstudios` (
   `formula_jornadas_intervaloPlanifDG` varchar(600) DEFAULT NULL,
   `formula_jornadas_intervaloFinDG_SolicitudEntregaAT` varchar(600) DEFAULT NULL,
   `formula_jornadas_intervaloFinPruebasCD_InstalacProduc` varchar(600) DEFAULT NULL,
-  `formula_fecha_ini_analisis` varchar(600) DEFAULT NULL,
-  `formula_fecha_fin_analisis` varchar(600) DEFAULT NULL,
-  `formula_fecha_ini_pruebas_CD` varchar(600) DEFAULT NULL,
-  `formula_fecha_fin_pruebas_CD` varchar(600) DEFAULT NULL,  
+  `formula_fecha_ini_analisis` varchar(150) DEFAULT NULL,
+  `formula_fecha_fin_analisis` varchar(150) DEFAULT NULL,
+  `formula_fecha_ini_pruebas_CD` varchar(150) DEFAULT NULL,
+  `formula_fecha_fin_pruebas_CD` varchar(150) DEFAULT NULL,  
   `mlr_jornadas_analisis` varchar(600) DEFAULT NULL,
-  `mlr_jornadas_pruebasCD` varchar(600) DEFAULT NULL,  
   `alias_peticion_a_DG` varchar(50) DEFAULT NULL,
   `alias_peticion_AT` varchar(50) DEFAULT NULL,
   `alias_peticion_entrega` varchar(50) DEFAULT NULL,
@@ -163,16 +176,6 @@ CREATE TABLE `configuradorEstudios` (
   `alias_tarea_analisis` varchar(50) DEFAULT NULL,
   `alias_tarea_pruebas` varchar(50) DEFAULT NULL
 );
-
-
-CREATE TABLE `tiposPeticiones` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `nombre` varchar(30) NOT NULL
-);
-
-CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
-CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);
-
 
 DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (
@@ -208,23 +211,21 @@ CREATE TABLE `resumenPeticiones` (
   `esfuerzo_pruebas` double DEFAULT NULL,
   `titulo` varchar(500) DEFAULT NULL
 );  
-CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
 
-DROP TABLE `tareasPeticion`;
-CREATE TABLE `tareasPeticion` (
+
+
+CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
+CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
+CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
+CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);
+CREATE INDEX index_search_gedeones_1 on peticiones (id);
+CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
+
+
+CREATE TABLE `tiposPeticiones` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `id_tareaGEDEON` varchar(20) DEFAULT NULL,
-  `id_peticion` varchar(10) DEFAULT NULL,
-  `id_tipotarea` int(11) DEFAULT NULL,
-  `nombre` varchar(200) DEFAULT NULL,
-  `horas_imputadas` double DEFAULT NULL,
-  `horas_previstas` double DEFAULT NULL,
-  `fecha_inicio_previsto` date DEFAULT NULL,
-  `fecha_fin_previsto` date DEFAULT NULL,
-  `fecha_inicio_real` date DEFAULT NULL,  
-  `fecha_fin_real` date DEFAULT NULL
- );
- CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
+  `nombre` varchar(30) NOT NULL
+);
 
 
 DROP TABLE `tiposTareas`;

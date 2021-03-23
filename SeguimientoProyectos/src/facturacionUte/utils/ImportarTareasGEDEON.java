@@ -206,7 +206,11 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Versión análisis", Integer.valueOf(ConstantesModelo.PETICIONES_32_VERSION_ANALYSIS));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha estado actual", Integer.valueOf(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas iniciales",
-				Integer.valueOf(ConstantesModelo.PETICIONES_42_HORAS_ESTIMADAS_INICIALES));		
+				Integer.valueOf(ConstantesModelo.PETICIONES_42_HORAS_ESTIMADAS_INICIALES));
+		
+		COLUMNSET2ENTITYFIELDSET_MAP.put("F. primer Trabajo validado",
+				Integer.valueOf(ConstantesModelo.PETICIONES_43_FECHA_VALIDADA_EN_CD));
+		
 	}
 
 	private IDataAccess dataAccess;

@@ -391,39 +391,52 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			heuristicaBBDD = dataAccess.searchEntityByPk(heuristicaBBDD);
 			String heuristicaFormulaCalculoJornadas_Analysis = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_3_FORMULA_JORN_ANALYSIS).getName());
-			System.out.println ("Fórmula Cálculo Jornadas Análisis: " + heuristicaFormulaCalculoJornadas_Analysis);
+			System.out.println ("Fórmula Jornadas Análisis: " + heuristicaFormulaCalculoJornadas_Analysis);
 
 			String heuristicaFormulaCalculoJornadas_Desarrollo = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_4_FORMULA_JORN_DESARROLLO).getName());
-			System.out.println ("Fórmula Cálculo Jornadas Desarrollo: " + heuristicaFormulaCalculoJornadas_Desarrollo);
+			System.out.println ("Fórmula Jornadas Desarrollo: " + heuristicaFormulaCalculoJornadas_Desarrollo);
 
 			String heuristicaFormulaCalculoJornadas_Preparac_Entrega = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_5_FORMULA_JORN_PREPARAC_ENTREGA).getName());
-			System.out.println ("Fórmula Cálculo Jornadas Preparación Entrega: " + heuristicaFormulaCalculoJornadas_Preparac_Entrega);
+			System.out.println ("Fórmula Jornadas Preparación Entrega: " + heuristicaFormulaCalculoJornadas_Preparac_Entrega);
 
 			String heuristicaFormulaCalculoJornadas_PruebasCD = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_6_FORMULA_JORN_PRUEBASCD).getName());
-			System.out.println ("Fórmula Cálculo Jornadas Pruebas CD: " + heuristicaFormulaCalculoJornadas_PruebasCD);
+			System.out.println ("Fórmula Jornadas Pruebas CD: " + heuristicaFormulaCalculoJornadas_PruebasCD);
 
 			String heuristicaFormulaCalculoIntervalo_Planificacion_DG = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_7_FORMULA_JORN_INTERVAL_PLANIFICACION_DG).getName());
-			System.out.println ("Fórmula Cálculo Intervalo Planificación Comienzo Petición en DG: " + heuristicaFormulaCalculoIntervalo_Planificacion_DG);
+			System.out.println ("Fórmula Intervalo Planificación Comienzo Petición en DG: " + heuristicaFormulaCalculoIntervalo_Planificacion_DG);
 
 			String heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_8_FORMULA_JORN_INTERVAL_FINDG_SOLIC_ENTREGA_CD).getName());
-			System.out.println ("Fórmula Cálculo Intervalo Fin Desarrollo hasta solicitud Entrega: " + heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega);
+			System.out.println ("Fórmula Intervalo Fin Desarrollo hasta solicitud Entrega: " + heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega);
 
 			String heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_9_FORMULA_JORN_INTERVAL_FINPRUEBASCD_INSTALAC_PRODUC).getName());
-			System.out.println ("Fórmula Cálculo Intervalo FinPruebasCD hasta instalac. Produc. : " + heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc);
+			System.out.println ("Fórmula Intervalo FinPruebasCD hasta instalac. Produc. : " + heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc);
 
+			String heuristicaFormulaCalculo_FechaInicioAnalysis = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_10_FORMULA_CALCULO_FECINI_ANALYSIS).getName());
+			System.out.println ("Fórmula Fecha Inicio Análisis : " + heuristicaFormulaCalculo_FechaInicioAnalysis);
+
+			String heuristicaFormulaCalculo_FechaFinAnalysis = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_11_FORMULA_CALCULO_FECFIN_ANALYSIS).getName());
+			System.out.println ("Fórmula Fecha Fin Análisis: " + heuristicaFormulaCalculo_FechaFinAnalysis);
+
+			String heuristicaFormulaCalculo_FechaInicioPruebasCD = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_12_FORMULA_CALCULO_FECINI_PRUEBASCD).getName());
+			System.out.println ("Fórmula Fecha Inicio Pruebas CD: " + heuristicaFormulaCalculo_FechaInicioPruebasCD);
+
+			String heuristicaFormulaCalculo_FechaFinPruebasCD = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_13_FORMULA_CALCULO_FECFIN_PRUEBASCD).getName());
+			System.out.println ("Fórmula Fecha Fin Pruebas CD: " + heuristicaFormulaCalculo_FechaFinPruebasCD);
+			
 			String heuristicaMLRCalculoJornadas_Analysis = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_14_MLR_JORNADAS_ANALYSIS).getName());
-			System.out.println ("Fórmula Cálculo Hrs. Análisis: " + heuristicaMLRCalculoJornadas_Analysis);
+			System.out.println ("Modelo Inferencia para cálculo Jornadas de Análisis: " + heuristicaMLRCalculoJornadas_Analysis);
 
-			String heuristicaMLRCalculoJornadas_Desarrollo = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_15_MLR_JORNADAS_PRUEBASCD).getName());
-			System.out.println ("Fórmula Cálculo Hrs. Desarrollo: " + heuristicaMLRCalculoJornadas_Desarrollo);
 
 			for (final FieldViewSet registro : filas) {
 				

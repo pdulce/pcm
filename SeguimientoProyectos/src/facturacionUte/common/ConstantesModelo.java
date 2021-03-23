@@ -84,6 +84,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_40_ESTADO_INFORME = 40;
 	public static final int PETICIONES_41_ENTORNO_TECNOLOG = 41;
 	public static final int PETICIONES_42_HORAS_ESTIMADAS_INICIALES = 42;
+	public static final int PETICIONES_43_FECHA_VALIDADA_EN_CD = 43;
 	public static final String PETICIONES_ENTIDAD = "peticiones";
 
 	public static final int TIPOTAREA_1_ID = 1;
@@ -207,13 +208,12 @@ public abstract class ConstantesModelo {
 	public static final int HEURISTICAS_CALCULOS_12_FORMULA_CALCULO_FECINI_PRUEBASCD = 12;
 	public static final int HEURISTICAS_CALCULOS_13_FORMULA_CALCULO_FECFIN_PRUEBASCD = 13;
 	public static final int HEURISTICAS_CALCULOS_14_MLR_JORNADAS_ANALYSIS = 14;
-	public static final int HEURISTICAS_CALCULOS_15_MLR_JORNADAS_PRUEBASCD = 15;	
-	public static final int HEURISTICAS_CALCULOS_16_ALIAS_PETICION_DG = 16;
-	public static final int HEURISTICAS_CALCULOS_17_ALIAS_PETICION_AT = 17;
-	public static final int HEURISTICAS_CALCULOS_18_ALIAS_PETICION_ENTREGA = 18;
-	public static final int HEURISTICAS_CALCULOS_19_ALIAS_PETICION_PRUEBAS_CD = 19;
-	public static final int HEURISTICAS_CALCULOS_20_ALIAS_TAREA_ANALISIS = 20;
-	public static final int HEURISTICAS_CALCULOS_21_ALIAS_TAREA_PRUEBAS = 21;
+	public static final int HEURISTICAS_CALCULOS_15_ALIAS_PETICION_DG = 15;
+	public static final int HEURISTICAS_CALCULOS_16_ALIAS_PETICION_AT = 16;
+	public static final int HEURISTICAS_CALCULOS_17_ALIAS_PETICION_ENTREGA = 17;
+	public static final int HEURISTICAS_CALCULOS_18_ALIAS_PETICION_PRUEBAS_CD = 18;
+	public static final int HEURISTICAS_CALCULOS_19_ALIAS_TAREA_ANALISIS = 19;
+	public static final int HEURISTICAS_CALCULOS_20_ALIAS_TAREA_PRUEBAS = 20;
 	public static final String HEURISTICAS_CALCULOS_ENTIDAD = "id_configuradorEstudios";
 	
     public static final int TIPOS_PETICIONES_1_ID = 1;
