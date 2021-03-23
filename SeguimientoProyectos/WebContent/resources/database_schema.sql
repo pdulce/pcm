@@ -30,7 +30,7 @@ CREATE TABLE `peticiones` (
   `Horas_estimadas_actuales` double,
   `Horas_reales` double,
   `anyo_mes` VARCHAR2(7),
-  `fecha_export` DATE,
+  `fecha_export` DATE NULL,
   `version_analysis` varchar(20) DEFAULT NULL,
   `servicio_atiende_pet` varchar(20) DEFAULT 'SDG',
   `con_entrega` int(1) NOT NULL DEFAULT 0,
@@ -42,7 +42,8 @@ CREATE TABLE `peticiones` (
   `estado_informe` varchar(100) DEFAULT NULL, 
   `id_area` int(11) DEFAULT NULL, 
   `entorno` int(11) DEFAULT NULL,
-  `Horas_estimadas_iniciales` double DEFAULT NULL
+  `Horas_estimadas_iniciales` double DEFAULT NULL,
+  `fecha_validada_CD` DATE NULL
 );  
 
 DROP TABLE `tareasPeticion`;

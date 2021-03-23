@@ -681,7 +681,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 
 			FieldViewSet peticionRelacionada = new FieldViewSet(peticionesEntidad);
 			peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), idPet);
-			peticionRelacionada = this.dataAccess.searchEntityByPk(peticionRelacionada);						
+			peticionRelacionada = this.dataAccess.searchEntityByPk(peticionRelacionada);			
 			if (peticionRelacionada == null || 
 					peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName()) == null){				
 				continue;
