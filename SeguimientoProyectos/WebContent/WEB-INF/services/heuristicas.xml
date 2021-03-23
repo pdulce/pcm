@@ -53,41 +53,46 @@
 				<form columns="3" title="Heurísticas Cálculos para Estudios Peticiones">
 					<fieldViewSet entitymodel="configuradorEstudios"
 						nameSpace="configuradorEstudios">
-						<fieldView mappingTo="2" editable="true" size="30"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="10" editable="true" size="60"/>
-						<fieldView mappingTo="11" editable="true" size="60"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="12" editable="true" size="60"/>
-						<fieldView mappingTo="13" editable="true" size="60"/>						
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="3" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />						
-						<fieldView mappingTo="4" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="5" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />						
-						<fieldView mappingTo="6" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="7" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />						
-						<fieldView mappingTo="8" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="9" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />						
-						<fieldView mappingTo="14" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
+						<fieldset legend="Conjunto heurísticas para la aplicación de los cálculos de estudios peticiones">
+							<fieldView mappingTo="2" editable="true" size="30"/>
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
+						<fieldset legend="Fechas relevantes (cuando no hay petición/tarea de Análisis ni de Pruebas)">	
+							<fieldView mappingTo="10" editable="true" size="50"/>
+							<fieldView mappingTo="11" editable="true" size="50"/>
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="12" editable="true" size="50"/>
+							<fieldView mappingTo="13" editable="true" size="50"/>						
+							<fieldView separator="br" />
+						</fieldset>
+						<fieldset legend="Fórmulas de cálculo para las dimensiones (duraciones en jornadas) del estudio">
+							<fieldView mappingTo="3" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="4" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="5" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="6" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="7" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="8" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="9" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="14" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
 					</fieldViewSet>
 				</form>
 			</viewComponent>
@@ -100,42 +105,47 @@
 				<form columns="3" title="Heurísticas Cálculos para Estudios Peticiones">
 					<fieldViewSet entitymodel="configuradorEstudios"
 						nameSpace="configuradorEstudios">
-						<fieldView mappingTo="1" hidden="true" />
-						<fieldView mappingTo="2" editable="true" size="30"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="10" editable="true" size="60"/>
-						<fieldView mappingTo="11" editable="true" size="60"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="12" editable="true" size="60"/>
-						<fieldView mappingTo="13" editable="true" size="60"/>						
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="3" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />												
-						<fieldView mappingTo="4" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="5" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />												
-						<fieldView mappingTo="6" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="7" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />												
-						<fieldView mappingTo="8" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="9" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />												
-						<fieldView mappingTo="14" editable="true" size="120" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
+						<fieldset legend="Conjunto heurísticas para la aplicación de los cálculos de estudios peticiones">
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" editable="true" size="30"/>
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
+						<fieldset legend="Fechas relevantes (cuando no hay petición/tarea de Análisis ni de Pruebas)">	
+							<fieldView mappingTo="10" editable="true" size="50"/>
+							<fieldView mappingTo="11" editable="true" size="50"/>
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="12" editable="true" size="50"/>
+							<fieldView mappingTo="13" editable="true" size="50"/>						
+							<fieldView separator="br" />
+						</fieldset>
+						<fieldset legend="Fórmulas de cálculo para las dimensiones (duraciones en jornadas) del estudio">
+							<fieldView mappingTo="3" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="4" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="5" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="6" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="7" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="8" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="9" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />												
+							<fieldView mappingTo="14" editable="true" size="120" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
 					</fieldViewSet>
 				</form>
 			</viewComponent>
