@@ -67,10 +67,11 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			resumenesFilter.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
 			FieldViewSetCollection fsetColl = new FieldViewSetCollection();
 			fsetColl.getFieldViewSets().add(resumenesFilter);
-			int deleted = dataAccess.deleteEntities(fsetColl);
-			if (deleted <= 0) {
+			dataAccess.deleteEntities(fsetColl);
+			/*int deleted = 
+			 * if (deleted <= 0) {
 				throw new StrategyException("Error borrando resumen de estudio por petición");
-			}
+			}*/
 						
 		} catch (final StrategyException ecxx) {
 			throw ecxx;

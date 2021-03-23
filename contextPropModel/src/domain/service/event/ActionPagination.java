@@ -198,7 +198,7 @@ public class ActionPagination extends AbstractAction {
 							
 				if (paginationGrid.getMasterNamespace() != null && 
 						!paginationGrid.getFieldViewSetCollection().getFieldViewSets().isEmpty() && myForm != null) {					
-					pageSize = 100;
+					pageSize = 500;
 					detailGridElement = paginationGrid.getFieldViewSetCollection().getFieldViewSets().iterator().next();
 					detailGridElement.getNamedValues().clear();
 					IEntityLogic entidadDetail = detailGridElement.getEntityDef();

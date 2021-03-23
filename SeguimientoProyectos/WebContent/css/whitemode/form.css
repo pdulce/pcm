@@ -40,6 +40,8 @@ form.pcmForm fieldset fieldset {
   background: rgb(252, 252, 252);
   margin: 0;
   padding: 1px;
+  display:inline-block;
+  vertical-align:middle;
   font-size: 0.95em;
   font-family: Verdana, sans-serif;
   color: rgb(0, 0, 160);

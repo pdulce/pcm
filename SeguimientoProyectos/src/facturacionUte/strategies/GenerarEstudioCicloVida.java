@@ -36,14 +36,16 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " ¡OJO ya en entrega previa! ";
 	
-	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, 
+	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, heuristicasEntidad,
 				tipoPeriodo, tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad, tiposPeticionesEntidad;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudioPeticionesEntidad == null) {
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
+						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);				
+				heuristicasEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.HEURISTICAS_CALCULOS_ENTIDAD);
 				resumenPeticionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
 				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
@@ -266,15 +268,16 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	}
 	
 	
-	protected double obtenerJornadasAnalysis(FieldViewSet peticionBBDDAnalysis, Date fechaTramite,	double jornadasDesarrollo) {
+	protected double obtenerJornadasAnalysis(FieldViewSet peticionBBDDAnalysis, Date fechaTramite,	double jornadasDesarrollo,
+			int tipoP, int entorno) {
 		
 		double jornadasAnalysis = 0.0;
 		if (peticionBBDDAnalysis == null) {
-			jornadasAnalysis = CommonUtils.aplicarMLRSimple(jornadasDesarrollo);			
+			jornadasAnalysis = CommonUtils.aplicarMLR(jornadasDesarrollo, tipoP, entorno);			
 		}else{
 			Date fechaInicioAnalisis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());					
 			Date fechaFinAnalisis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
-			if (fechaFinAnalisis.compareTo(fechaTramite) > 0) {
+			if (fechaFinAnalisis== null || fechaFinAnalisis.compareTo(fechaTramite) > 0) {
 				Calendar fechaFinAnalysisCalendar = Calendar.getInstance();
 				fechaFinAnalysisCalendar.setTime(fechaTramite);
 				fechaFinAnalysisCalendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -293,14 +296,13 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	}	
 	
-	protected double obtenerEsfuerzoAnalysis(double jornadasAnalysis, double jornadasDesarrollo, int tipoP, int entorno, FieldViewSet aplicativo, String nombreTecnologia) {
-		
-		int tipoEntorno = nombreTecnologia.contains("HOST") ? 1 : 0;
+	protected double obtenerEsfuerzoAnalysis(double jornadasAnalysis, double jornadasDesarrollo, int tipoP, int entorno, FieldViewSet aplicativo) {
+				
 		boolean esAplicacionEnMto = (Boolean) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_7_MANTENIMIENTO_EN_PRODUC).getName());
 		if (esAplicacionEnMto) {
-			return CommonUtils.roundWith2Decimals(jornadasAnalysis*8.0*0.4*(tipoEntorno==1?0.3:1.0));
+			return CommonUtils.roundWith2Decimals(jornadasAnalysis*8.0*0.4*(tipoP==1?0.3:1.0));
 		}else {
-			return CommonUtils.roundWith2Decimals(jornadasAnalysis*8.0*0.7*(tipoEntorno==1?0.3:1.0));
+			return CommonUtils.roundWith2Decimals(jornadasAnalysis*8.0*0.7*(tipoP==1?0.3:1.0));
 		}
 	
 	}	
@@ -380,7 +382,49 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			tecnologiaBBDD = dataAccess.searchEntityByPk(tecnologiaBBDD);
 			String nombreTecnologia = (String) tecnologiaBBDD.getValue(tecnologiaEntidad.searchField(ConstantesModelo.TECHNOLOGY_2_NOMBRE).getName());
 			int entorno = nombreTecnologia.contains("HOST")?1:0;				
-						
+			
+			//lo primero casi es saber qué conjunto de heurísticas se van a aplicar a este estudio
+			Long idConjuntoHeuristicas = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(
+					ConstantesModelo.ESTUDIOS_PETICIONES_88_ID_HEURISTICAS_CALCULOS).getName());
+			FieldViewSet heuristicaBBDD = new FieldViewSet(heuristicasEntidad);
+			heuristicaBBDD.setValue(heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_1_ID).getName(), idConjuntoHeuristicas);
+			heuristicaBBDD = dataAccess.searchEntityByPk(heuristicaBBDD);
+			String heuristicaFormulaCalculoJornadas_Analysis = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_3_FORMULA_JORN_ANALYSIS).getName());
+			System.out.println ("Fórmula Cálculo Jornadas Análisis: " + heuristicaFormulaCalculoJornadas_Analysis);
+
+			String heuristicaFormulaCalculoJornadas_Desarrollo = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_4_FORMULA_JORN_DESARROLLO).getName());
+			System.out.println ("Fórmula Cálculo Jornadas Desarrollo: " + heuristicaFormulaCalculoJornadas_Desarrollo);
+
+			String heuristicaFormulaCalculoJornadas_Preparac_Entrega = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_5_FORMULA_JORN_PREPARAC_ENTREGA).getName());
+			System.out.println ("Fórmula Cálculo Jornadas Preparación Entrega: " + heuristicaFormulaCalculoJornadas_Preparac_Entrega);
+
+			String heuristicaFormulaCalculoJornadas_PruebasCD = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_6_FORMULA_JORN_PRUEBASCD).getName());
+			System.out.println ("Fórmula Cálculo Jornadas Pruebas CD: " + heuristicaFormulaCalculoJornadas_PruebasCD);
+
+			String heuristicaFormulaCalculoIntervalo_Planificacion_DG = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_7_FORMULA_JORN_INTERVAL_PLANIFICACION_DG).getName());
+			System.out.println ("Fórmula Cálculo Intervalo Planificación Comienzo Petición en DG: " + heuristicaFormulaCalculoIntervalo_Planificacion_DG);
+
+			String heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_8_FORMULA_JORN_INTERVAL_FINDG_SOLIC_ENTREGA_CD).getName());
+			System.out.println ("Fórmula Cálculo Intervalo Fin Desarrollo hasta solicitud Entrega: " + heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega);
+
+			String heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_9_FORMULA_JORN_INTERVAL_FINPRUEBASCD_INSTALAC_PRODUC).getName());
+			System.out.println ("Fórmula Cálculo Intervalo FinPruebasCD hasta instalac. Produc. : " + heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc);
+
+			String heuristicaMLRCalculoJornadas_Analysis = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_14_MLR_JORNADAS_ANALYSIS).getName());
+			System.out.println ("Fórmula Cálculo Hrs. Análisis: " + heuristicaMLRCalculoJornadas_Analysis);
+
+			String heuristicaMLRCalculoJornadas_Desarrollo = (String) heuristicaBBDD.getValue(
+					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_15_MLR_JORNADAS_PRUEBASCD).getName());
+			System.out.println ("Fórmula Cálculo Hrs. Desarrollo: " + heuristicaMLRCalculoJornadas_Desarrollo);
+
 			for (final FieldViewSet registro : filas) {
 				
 				String peticionDG = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());					
@@ -424,7 +468,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				int tipoP = (tipoPeticion.toString().indexOf("Peque") !=-1 || tipoPeticion.toString().indexOf("Mejora") !=-1)?0:1;
 				peticionBBDDAnalysis = obtenerPeticionAnalysis(dataAccess, registro);
 				if (peticionBBDDAnalysis == null) {
-					jornadasAnalysis = obtenerJornadasAnalysis(peticionBBDDAnalysis,  fechaTramite, jornadasDesarrollo);
+					jornadasAnalysis = obtenerJornadasAnalysis(peticionBBDDAnalysis,  fechaTramite, jornadasDesarrollo, tipoP, entorno);
 					Calendar fechaFinAnalysisCalendar = Calendar.getInstance();
 					fechaFinAnalysisCalendar.setTime(fechaTramite);
 					fechaFinAnalysisCalendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -452,7 +496,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					peticionGEDEON_Analysis = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());
 					fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
 					fechaFinRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
-					if (fechaFinRealAnalysis.compareTo(fechaTramite) > 0) {
+					if (fechaFinRealAnalysis == null || fechaFinRealAnalysis.compareTo(fechaTramite) > 0) {
 						Calendar fechaFinAnalysisCalendar = Calendar.getInstance();
 						fechaFinAnalysisCalendar.setTime(fechaTramite);
 						fechaFinAnalysisCalendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -464,12 +508,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						}
 						fechaFinRealAnalysis = fechaFinAnalysisCalendar.getTime();
 					}
-					jornadasAnalysis = obtenerJornadasAnalysis(peticionBBDDAnalysis,  fechaTramite, jornadasDesarrollo);
+					jornadasAnalysis = obtenerJornadasAnalysis(peticionBBDDAnalysis,  fechaTramite, jornadasDesarrollo, tipoP, entorno);
 					// dataset para el modelo MLR
-					modelo.write(("data.push([" + jornadasDesarrollo + ", " + tipoP + ", " + (entorno-1) + ", " + jornadasAnalysis +"]);\n").getBytes());
-					dataset.write((peticionDG + ";" + jornadasDesarrollo + ";" + tipoP + ";" + (entorno-1) + ";" + jornadasAnalysis + "\n").getBytes());
+					modelo.write(("data.push([" + jornadasDesarrollo + ", " + tipoP + ", " + entorno + ", " + jornadasAnalysis +"]);\n").getBytes());
+					dataset.write((peticionDG + ";" + jornadasDesarrollo + ";" + tipoP + ";" + entorno + ";" + jornadasAnalysis + "\n").getBytes());
 				}
-				esfuerzoAnalysis = obtenerEsfuerzoAnalysis(jornadasAnalysis, jornadasDesarrollo, tipoP, entorno, aplicativoBBDD, nombreTecnologia);
+				esfuerzoAnalysis = obtenerEsfuerzoAnalysis(jornadasAnalysis, jornadasDesarrollo, tipoP, entorno, aplicativoBBDD);
 										
 				String idEntregas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_ASOCIADA).getName());
 				if (idEntregas == null) {
@@ -485,6 +529,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") == -1) {						
 						continue;							
 					}
+				}else {
+					continue;
 				}				
 				String peticionEntregaGEDEON = (String) miEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());
 				Date fechaSolicitudEntrega = (Date) miEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
@@ -510,8 +556,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				Double jornadasDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(fechaRealFinPruebas.getTime(), fechaFinalizacion);
 				
 				/*******************************************************************************************************/						
-				
-				
+								
 				double totalDedicaciones = CommonUtils.roundWith2Decimals(jornadasAnalysis + jornadasDesarrollo + jornadasEntrega + jornadasPruebasCD);
 				double totalGaps = CommonUtils.roundWith2Decimals(jornadasDesfaseTramiteHastaInicioReal + jornadasDesfaseFinDesaSolicEntrega + jornadasDesdeFinPruebasHastaImplantacion);
 				Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(totalDedicaciones + totalGaps);

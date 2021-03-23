@@ -257,15 +257,16 @@ public final class CommonUtils {
 		return periodo;
 	}
 	
-	public static final double aplicarMLRSimple(double jornadasDesarrollo) {
+	public static final double aplicarMLRSimple_(double jornadasDesarrollo) {
 		return 3*jornadasDesarrollo;
 	}
 
-	/** para horas de análisis **/
-	public static double aplicarMLR(double uts, int tipoP, int entorno) {
-		//double coef_0 = 2.3, coef_1=0.4, coef_2 = 1.15, coef_3 = 0.5;
-		double coef_0 = 0.026317274149138484, coef_1=0.5537713743403643, coef_2 = 0.02565484760010635, coef_3 = 0.02222437943453308;
-		return coef_0 + coef_1*uts + coef_2*tipoP + coef_3*entorno;								
+	/** para jornadas de análisis **/
+	public static double aplicarMLR(double jornadas, int tipoP, int entorno) {
+		//0.005387878480433776,   0.12941935449869166,   0.00001395805068408151,
+		double coef_0 = 0.005387878480433776, coef_1=0.12941935449869166, coef_2 = 0.00001395805068408151,
+				coef_3 = 0.0;
+		return coef_0 + coef_1*jornadas + coef_2*tipoP + coef_3*entorno;
 	}
 	
 	public static final boolean filtroConCriteriosDeFechas(FieldViewSet filtro_) {
@@ -515,7 +516,7 @@ public final class CommonUtils {
 				calAux.add(Calendar.DAY_OF_MONTH, 1);
 			}
 		}
-		return diasLaborables;
+		return CommonUtils.roundWith2Decimals(diasLaborables);
     }
     
     public static boolean esFestivo(Calendar calAux) {

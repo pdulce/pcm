@@ -39,6 +39,8 @@ form.pcmForm fieldset fieldset {
   background-color: rgb(40, 74, 85);
   background:  rgb(40, 74, 85);
   margin: 0;
+  display:inline-block;
+  vertical-align:middle;
   padding: 1px;
   font-size: 0.95em;
   font-family: Verdana, sans-serif;
@@ -81,5 +83,4 @@ label.errorCls{
   font-size: 0.8em;
   font-family: Verdana, sans-serif;
 }
-
 

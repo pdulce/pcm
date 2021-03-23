@@ -14,7 +14,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 			<viewComponent>
 
-				<form columns="2" title="Estudios de Peticiones">
+				<form columns="2" title="Estudios Estadísticos de Peticiones (frase del dia: 'La estadística ')">
 				
 					<userbuttons>
 				
@@ -199,6 +199,12 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>
 							
+							<fieldView mappingTo="88" type="select" editable="false">
+								<optionValues entitymodel="configuradorEstudios"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							
 							<fieldView mappingTo="4" editable="false" />		
 							<fieldView separator="br" />
 									
@@ -246,6 +252,13 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
+							
+							<fieldView mappingTo="88" type="select" editable="true">
+								<optionValues entitymodel="configuradorEstudios"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							
 									
 							<fieldView separator="br" />
 									
@@ -531,6 +544,11 @@ xmlns:service="http://pcm.framework.org/service"
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="87" editable="false" />
+						<fieldView mappingTo="88" type="select" editable="false">
+							<optionValues entitymodel="configuradorEstudios"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 												
 						<fieldView separator="br" />
 						<fieldView separator="br" />

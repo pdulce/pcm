@@ -135,15 +135,44 @@ CREATE TABLE `estudiosPeticiones` (
   `esfuerzo_pruebas_perapp` double DEFAULT NULL,       
   `esfuerzo_pruebas_perpet` double DEFAULT NULL,
   `tipo_peticiones` int(11) DEFAULT NULL,
-  `desnormalizadasTipoPet` varchar(500) DEFAULT NULL
+  `desnormalizadasTipoPet` varchar(500) DEFAULT NULL,
+  `id_configuradorEstudios` int(11) DEFAULT NULL
 );  
-CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
-CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);
+
+DROP TABLE `configuradorEstudios`;
+CREATE TABLE `configuradorEstudios` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `configname` varchar(100) NULL,
+  `formula_jornadas_analisis` varchar(600) DEFAULT NULL,
+  `formula_jornadas_desarrollo` varchar(600) DEFAULT NULL,
+  `formula_jornadas_preparacionEntrega` varchar(600) DEFAULT NULL,
+  `formula_jornadas_pruebasCD` varchar(600) DEFAULT NULL,
+  `formula_jornadas_intervaloPlanifDG` varchar(600) DEFAULT NULL,
+  `formula_jornadas_intervaloFinDG_SolicitudEntregaAT` varchar(600) DEFAULT NULL,
+  `formula_jornadas_intervaloFinPruebasCD_InstalacProduc` varchar(600) DEFAULT NULL,
+  `formula_fecha_ini_analisis` varchar(600) DEFAULT NULL,
+  `formula_fecha_fin_analisis` varchar(600) DEFAULT NULL,
+  `formula_fecha_ini_pruebas_CD` varchar(600) DEFAULT NULL,
+  `formula_fecha_fin_pruebas_CD` varchar(600) DEFAULT NULL,  
+  `mlr_jornadas_analisis` varchar(600) DEFAULT NULL,
+  `mlr_jornadas_pruebasCD` varchar(600) DEFAULT NULL,  
+  `alias_peticion_a_DG` varchar(50) DEFAULT NULL,
+  `alias_peticion_AT` varchar(50) DEFAULT NULL,
+  `alias_peticion_entrega` varchar(50) DEFAULT NULL,
+  `alias_peticion_pruebas` varchar(50) DEFAULT NULL,
+  `alias_tarea_analisis` varchar(50) DEFAULT NULL,
+  `alias_tarea_pruebas` varchar(50) DEFAULT NULL
+);
+
 
 CREATE TABLE `tiposPeticiones` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `nombre` varchar(30) NOT NULL
 );
+
+CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
+CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);
+
 
 DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (
