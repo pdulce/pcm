@@ -383,9 +383,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	protected final Double procesarFormulaMLR(String formula, Map<String, Serializable> variables) throws Throwable{
 		Double acumulado = 0.0;
-		String[] operandosSuma = formula.split("+");
+		String[] operandosSuma = formula.split("\\+");
 		for (int i=0;i<operandosSuma.length;i++) {
-			String[] operandoMultiplicando = operandosSuma[i].trim().split("*");
+			String[] operandoMultiplicando = operandosSuma[i].trim().split("\\*");
 			Double coeficiente = Double.valueOf(operandoMultiplicando[0]);
 			String variable = operandoMultiplicando[1];
 			if (variables.get(variable) == null) {
@@ -395,7 +395,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			acumulado += multiplicacion;
 		}
 		
-		return 0.0;
+		return CommonUtils.roundWith2Decimals(acumulado);
 	}
 	
 	protected final Serializable procesarFormula(String formula, FieldViewSet peticionDG, FieldViewSet peticionAnalisis, FieldViewSet peticionPruebas,
