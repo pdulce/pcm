@@ -415,7 +415,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					Calendar newDate = Calendar.getInstance();
 					newDate.setTime(fechaFin);
 					newDate.add(Calendar.DAY_OF_MONTH, (int)(-1.0*((Double)valOfvariable)));						
-					return newDate;
+					return newDate.getTime();
 				}else {
 					if (fechaFin == null) {
 						fechaFin = (Date) valOfvariable;						
