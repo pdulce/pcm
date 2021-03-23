@@ -257,12 +257,12 @@ public final class CommonUtils {
 		return periodo;
 	}
 	
-	public static final double aplicarMLRSimple_(double jornadasDesarrollo) {
-		return 3*jornadasDesarrollo;
+	public static final double aplicarMLR(double jornadasDesarrollo, int tipoP, int entorno) {
+		return 0.55*jornadasDesarrollo;
 	}
 
 	/** para jornadas de análisis **/
-	public static double aplicarMLR(double jornadas, int tipoP, int entorno) {
+	public static double aplicarMLR_(double jornadas, int tipoP, int entorno) {
 		//0.005387878480433776,   0.12941935449869166,   0.00001395805068408151,
 		double coef_0 = 0.005387878480433776, coef_1=0.12941935449869166, coef_2 = 0.00001395805068408151,
 				coef_3 = 0.0;
@@ -1051,32 +1051,6 @@ public final class CommonUtils {
 		return valoresListaArr;
 	}
 	
-	public static void main (String[] args){
-		/*String longFormatted = CommonUtils.convertDateToLiteral(Calendar.getInstance().getTime());
-		System.out.println("longFormatted from now: " + longFormatted);
-		
-		Calendar fechaFinPrevistaTrabajo = Calendar.getInstance();
-		
-		Calendar hoyCal = Calendar.getInstance();
-		hoyCal.add(Calendar.DAY_OF_MONTH, -1);
-		Date hoy = hoyCal.getTime();
-		boolean b = hoy.after(fechaFinPrevistaTrabajo.getTime());
-		
-		System.out.println("resultado: " + b);*/
-		Calendar ini = Calendar.getInstance();
-		Calendar fin = Calendar.getInstance();
-		
-		/* ini.add(Calendar.MINUTE, -46);
-		double jornadas = CommonUtils.jornadasDuracion(ini.getTime(), fin.getTime());
-		System.out.println("jornadas: " + jornadas);
-		
-		double predicted = CommonUtils.aplicarMLR(10.35, 1, 0);
-		System.out.println("predicted: " + predicted);*/
-		
-		ini.add(Calendar.MONTH, -6);
-		
-		System.out.println("dif:" + CommonUtils.obtenerDifEnMeses(ini, fin));
-		
-	}
+	
 
 }

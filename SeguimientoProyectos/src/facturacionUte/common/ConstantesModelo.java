@@ -214,7 +214,7 @@ public abstract class ConstantesModelo {
 	public static final int HEURISTICAS_CALCULOS_18_ALIAS_PETICION_PRUEBAS_CD = 18;
 	public static final int HEURISTICAS_CALCULOS_19_ALIAS_TAREA_ANALISIS = 19;
 	public static final int HEURISTICAS_CALCULOS_20_ALIAS_TAREA_PRUEBAS = 20;
-	public static final String HEURISTICAS_CALCULOS_ENTIDAD = "id_configuradorEstudios";
+	public static final String HEURISTICAS_CALCULOS_ENTIDAD = "configuradorEstudios";
 	
     public static final int TIPOS_PETICIONES_1_ID = 1;
     public static final int TIPOS_PETICIONES_2_NOMBRE = 2;
