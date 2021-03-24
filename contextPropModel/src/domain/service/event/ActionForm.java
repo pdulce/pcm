@@ -661,7 +661,11 @@ public class ActionForm extends AbstractAction {
 					fieldViewSet.setValue(this.audits.get(Datamap.FEC_MOD), CommonUtils.getSystemDate());
 				}
 			}
-			dataAccess.modifyEntities(form_.getFieldViewSetCollection());
+			int updated= dataAccess.modifyEntities(form_.getFieldViewSetCollection());
+			if (updated== 0) {
+				//intentamos el insert: habría que añadir tb en la condición que viaje el field belongsPK como editable...
+				dataAccess.insertEntities(form_.getFieldViewSetCollection());
+			}
 		} else if (event_.startsWith(IEvent.DELETE)) {
 			if (isAuditOn && this.audits != null && this.audits.get(Datamap.USU_BAJA) != null) {
 				final Iterator<FieldViewSet> iterador = fs.iterator();

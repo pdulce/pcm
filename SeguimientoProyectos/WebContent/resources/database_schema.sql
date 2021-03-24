@@ -58,7 +58,10 @@ CREATE TABLE `tareasPeticion` (
   `fecha_inicio_previsto` date DEFAULT NULL,
   `fecha_fin_previsto` date DEFAULT NULL,
   `fecha_inicio_real` date DEFAULT NULL,  
-  `fecha_fin_real` date DEFAULT NULL
+  `fecha_fin_real` date DEFAULT NULL,
+  `Fecha_de_alta` dateDEFAULT NULL,
+  `Fecha_de_tramitacion` date DEFAULT NULL,
+  `anyo_mes` VARCHAR2(7) DEFAULT NULL
  );
 
 

@@ -390,7 +390,7 @@ public class Form extends AbstractComponent {
 					&& AbstractAction.isCreateEvent(action)) {
 				return;
 			} else if (!fieldView.isUserDefined() && fieldView.getEntityField().belongsPK() && AbstractAction.isUpdateEvent(action)) {
-				fieldView.setEditable(false);
+				//TODO: 24/03/2021 (pedro): fieldView.setEditable(false);
 			}
 			boolean validarFieldByModelDef = !fieldView.isUserDefined() && AbstractAction.isUniqueFormComposite(action)
 					&& fieldView.isEditable() && !fieldView.isHidden() && fieldView.getEntityField().isRequired();

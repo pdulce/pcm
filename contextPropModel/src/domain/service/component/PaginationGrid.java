@@ -28,6 +28,7 @@ import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.component.definitions.IFieldView;
 import domain.service.component.definitions.OptionsSelection;
 import domain.service.component.element.ICtrl;
+import domain.service.component.element.html.CheckButton;
 import domain.service.component.element.html.GenericHTMLElement;
 import domain.service.component.element.html.GenericInput;
 import domain.service.component.element.html.IHtmlElement;
@@ -831,6 +832,7 @@ public class PaginationGrid extends AbstractComponent {
 					}
 				}
 			}
+			
 			int headerLabelsCount = this.headerLabels.size();
 			for (int i = 0; i < headerLabelsCount; i++) {
 				try {
@@ -918,8 +920,16 @@ public class PaginationGrid extends AbstractComponent {
 								}
 							}
 						} else if (column.getEntityField().getAbstractField().isBoolean()) {
-							final String valueOfColumn_ = valueOfColumn != null ? valueOfColumn.toString() : PCMConstants.EMPTY_;
-							valueOfColumn = Translator.traducePCMDefined(lang, valueOfColumn_);
+							
+							final CheckButton input = new CheckButton();
+							input.setReadonly(true);
+							input.setDisabled(true);
+							input.setName(this.headerLabels.get(i).getName());
+							input.setId(this.headerLabels.get(i).getName());
+							final Collection<String> values_ = new ArrayList<String>();
+							input.setCheckedByDefault(valueOfColumn.equals("true"));
+							rowXML.append(input.toHTML(values_));
+							
 						} else if (column.getEntityField().isPassword()) {
 							valueOfColumn = PCMConstants.PASSWORD_MARK;
 						} else if (valueOfColumn != null && valueOfColumn.toString().startsWith("http:")) {
@@ -958,7 +968,7 @@ public class PaginationGrid extends AbstractComponent {
 							}									
 							XmlUtils.closeXmlNode(rowXML, "UL");
 							
-						} else{
+						} else if (!column.getEntityField().getAbstractField().isBoolean()){
 							
 							String value2Show = column.getEntityField() != null ? valueOfColumn.toString() : PCMConstants.EMPTY_;
 							if (value2Show.length() > 100){

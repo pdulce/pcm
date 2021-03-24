@@ -126,7 +126,10 @@
  	<field mappingTo="8" name="fecha_inicio_previsto" type="date" length="10" required="false"/>
  	<field mappingTo="9" name="fecha_fin_previsto" type="date" length="10" required="false"/>
     <field mappingTo="10" name="fecha_inicio_real" type="date" length="10" required="false"/>
-    <field mappingTo="11" name="fecha_fin_real" type="date" length="10" required="false"/>	
+    <field mappingTo="11" name="fecha_fin_real" type="date" length="10" required="false"/>
+    <field mappingTo="12" name="Fecha_de_alta" type="date" length="10" required="false"/>
+    <field mappingTo="13" name="Fecha_de_tramitacion" type="date" length="10" required="false"/>
+    <field mappingTo="14" name="anyo_mes" type="string" length="7" required="false"/>
 </entity>
 
 	

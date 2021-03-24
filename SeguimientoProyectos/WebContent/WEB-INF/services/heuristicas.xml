@@ -40,7 +40,7 @@
 					<fieldViewSet entitymodel="configuradorEstudios"
 						nameSpace="configuradorEstudios">
 						<fieldView mappingTo="1" editable="false" />
-						<fieldView mappingTo="2" editable="true" size="30"/>
+						<fieldView mappingTo="2" editable="true" size="50"/>
 					</fieldViewSet>
 				</form>
 			</viewComponent>
@@ -54,7 +54,7 @@
 					<fieldViewSet entitymodel="configuradorEstudios"
 						nameSpace="configuradorEstudios">
 						<fieldset legend="Conjunto heurísticas para la aplicación de los cálculos de estudios peticiones">
-							<fieldView mappingTo="2" editable="true" size="30"/>
+							<fieldView mappingTo="2" editable="true" size="50"/>
 							<fieldView separator="br" />
 							<fieldView separator="br" />													
 						</fieldset>
@@ -106,8 +106,8 @@
 					<fieldViewSet entitymodel="configuradorEstudios"
 						nameSpace="configuradorEstudios">
 						<fieldset legend="Conjunto heurísticas para la aplicación de los cálculos de estudios peticiones">
-							<fieldView mappingTo="1" hidden="true" />
-							<fieldView mappingTo="2" editable="true" size="30"/>
+							<fieldView mappingTo="1" editable="true" />
+							<fieldView mappingTo="2" editable="true" size="50"/>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="15" editable="false" size="12" />							

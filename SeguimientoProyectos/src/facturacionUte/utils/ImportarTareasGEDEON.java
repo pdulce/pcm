@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -43,44 +42,11 @@ import domain.service.dataccess.persistence.datasource.IPCMDataSource;
 import domain.service.dataccess.persistence.datasource.PCMDataSourceFactory;
 import facturacionUte.common.ConstantesModelo;
 
-/**
- * @author 99GU3997
- *         Esta clase, con cualquier número de columnas, leerá una Excel y cargaro al menos los
- *         siguientes campos en una tabla SQLite:
- *         ****************************
- *         Observaciones
- *         Usuario creador
- *         Solicitante
- *         Estado
- *         Entidad origen
- *         Unidad origen
- *         orea origen
- *         Centro destino
- *         orea destino
- *         Tipo
- *         Tipo inicial
- *         Fecha de alta
- *         Fecha de tramitacion
- *         Fecha de necesidad
- *         Fecha fin de desarrollo
- *         Fecha de finalizacion
- *         Urgente
- *         Prioridad
- *         Des: fecha prevista inicio
- *         Des: fecha prevista fin
- *         Des: fecha real inicio
- *         Des: fecha real fin
- *         *********************
- *         *********************
- *         *********************
- *         Excel resource file: C:\pcm\Big-Data_Analytics
- *         Usaremos la extension .xls, aunque para extensiones .xlsx se usa la libreroa:
- *         - org.apache.poi.xssf.usermodel.*;
- */
+
 public class ImportarTareasGEDEON extends AbstractExcelReader{
 	
-	private static Map<String,List<String>> alias = new HashMap<String, List<String>>();
-	protected static IEntityLogic agregadosEstudioPeticionesEntidad, peticionesEntidad, importacionEntidad, aplicacionEntidad, subdireccionEntidad, servicioEntidad;
+	//private static Map<String,List<String>> alias = new HashMap<String, List<String>>();
+	protected static IEntityLogic peticionesEntidad, importacionEntidad, aplicacionEntidad, subdireccionEntidad, servicioEntidad;
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String CDISM = "Centro de Desarrollo del ISM", CONTRATO_7201_17G_L2 = "7201 17G L2 ISM ATH Análisis Orientado a Objecto";
@@ -92,72 +58,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	private static final String AVISADOR_ANULADA_PREVIA = " ¡OJO anulada en entrega previa! ";
 
 	static {
-		//llenamos los alias:
 		
-		List<String> FMAR_alias = new ArrayList<String>();	
-		FMAR_alias.add("FORMAR");
-		alias.put("FMAR", FMAR_alias);
-		
-		List<String> AYFL_alias = new ArrayList<String>();
-		AYFL_alias.add("AFLO");
-		AYFL_alias.add("WSAY");
-		alias.put("AYFL", AYFL_alias);
-		
-		alias.put("FAM2", new ArrayList<String>());
-		alias.put("FOM2", new ArrayList<String>());
-		alias.put("GFOA", new ArrayList<String>());
-		alias.put("SBOT", new ArrayList<String>());
-		alias.put("SANI", new ArrayList<String>());
-		alias.put("FRMA", new ArrayList<String>());
-		alias.put("FOMA", new ArrayList<String>());
-		alias.put("BISM", new ArrayList<String>());
-		alias.put("OBIS", new ArrayList<String>());
-		alias.put("MOVI", new ArrayList<String>());
-		alias.put("ISMW", new ArrayList<String>());
-		alias.put("BIRT", new ArrayList<String>());	
-
-		List<String> WISM_WBOF_alias = new ArrayList<String>();
-		WISM_WBOF_alias.add("SCMS");//Cosas de servicios Web
-		WISM_WBOF_alias.add("WSMB");
-		WISM_WBOF_alias.add("INSP");
-		WISM_WBOF_alias.add("GARM");
-		WISM_WBOF_alias.add("WISM");
-		alias.put("WISM-WBOF", WISM_WBOF_alias);
-		
-		List<String> FAMA_alias = new ArrayList<String>();
-		FAMA_alias.add("FARM");
-		alias.put("FAMA", FAMA_alias);
-		
-		alias.put("INCM", new ArrayList<String>());
-		alias.put("SIEB", new ArrayList<String>());
-		alias.put("PRES", new ArrayList<String>());
-		alias.put("PAGO", new ArrayList<String>());
-		alias.put("APRO", new ArrayList<String>());
-		alias.put("CTMA", new ArrayList<String>());
-		alias.put("TASA", new ArrayList<String>());
-		alias.put("INVE", new ArrayList<String>());
-		alias.put("ANTE", new ArrayList<String>());
-		alias.put("GFOA", new ArrayList<String>());
-		alias.put("MGEN", new ArrayList<String>());
-		alias.put("MIND", new ArrayList<String>());
-		alias.put("MEJP", new ArrayList<String>());
-		alias.put("EXTR", new ArrayList<String>());
-		alias.put("ESTA", new ArrayList<String>());
-		alias.put("INBU", new ArrayList<String>());
-		alias.put("WSCR", new ArrayList<String>());
-		alias.put("PSRP", new ArrayList<String>());
-		alias.put("WSRT", new ArrayList<String>());
-		
-		List<String> COMMON_alias = new ArrayList<String>();
-		COMMON_alias.add("ISM.");
-		COMMON_alias.add("CDIS");
-		COMMON_alias.add("UFT:");
-		COMMON_alias.add("UFT");		
-		COMMON_alias.add("GEDEON");
-		COMMON_alias.add("ARTEMIS");
-		COMMON_alias.add("IMAG");
-		COMMON_alias.add("MGEN");
-		alias.put("COMM", COMMON_alias);
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_1_ID));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas|Pets. relacionadas", Integer.valueOf(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS));
@@ -218,7 +119,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	protected void initEntities(final String entitiesDictionary) {
 		if (peticionesEntidad == null) {
 			try {
-				agregadosEstudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
 				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.PETICIONES_ENTIDAD);
 				importacionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.IMPORTACIONESGEDEON_ENTIDAD);
 				aplicacionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.PROYECTO_ENTIDAD);
@@ -231,29 +131,13 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		}
 	}
 	
-	private static String obtenerRochadeRegistradoEnBBDD(String possibleAlias){
+	private static String obtenerRochadeAplicacion(String title){
 		
-		if (possibleAlias == null){
+		if (title == null){
 			return "Desconocido";
 		}
-			
-		if (alias.get(possibleAlias) != null && alias.get(possibleAlias).isEmpty()){
-			return possibleAlias;
-		}
-	
-		Iterator<Map.Entry<String, List<String>>> iteradorEntradas = alias.entrySet().iterator();
-		while (iteradorEntradas.hasNext()){			
-			Map.Entry<String, List<String>> entrada = iteradorEntradas.next();
-			String claveEntrada = entrada.getKey();
-			if (possibleAlias.toUpperCase().trim().equals(claveEntrada.toUpperCase())){
-				return claveEntrada;
-			}
-			List<String> valuesOfAliases = entrada.getValue();
-			if (valuesOfAliases.contains(possibleAlias)){
-				return claveEntrada;
-			}
-		}		
-		return possibleAlias;		
+		
+		return title.substring(0,4);
 	}
 	
 
@@ -450,20 +334,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_3_DESCRIPCION)
 										.getName()));
 					}
-					String rochadeCode = "COMM";//la comon para recoger todo aquello que no conseguimos CATALOGAR
-					if (nombreAplicacionDePeticion != null && nombreAplicacionDePeticion.length() > 3){
-						rochadeCode = nombreAplicacionDePeticion.substring(0, 4).toUpperCase();
-					} else if ((nombreAplicacionDePeticion == null || nombreAplicacionDePeticion.length() < 4) &&
-							(title!=null && title.length() > 4)){
-						rochadeCode = title.substring(0, 4).toUpperCase();
-						if ("FORM".equals(rochadeCode)){
-							rochadeCode = "FOMA";
-						}
-						if (!rochadeSuspect.contains(rochadeCode)){
-							rochadeSuspect.add(rochadeCode);
-						}
-					}
-					rochadeCode = obtenerRochadeRegistradoEnBBDD(rochadeCode);
+					String rochadeCode = obtenerRochadeAplicacion(title);
 					
 					registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(),
 							rochadeCode);

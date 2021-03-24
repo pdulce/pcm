@@ -1424,11 +1424,11 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 									pstmt_.setObject(((contadorArgumentos + 1) + nArgs_), val_);
 								}
 							} else if (fieldAbstract.isBoolean()) {//OJO: que puede venir un 1...
-								Boolean bool_ = "true".equals(val_.toString().toLowerCase()) || "1".equals(val_.toString()) ? Boolean.TRUE : Boolean.FALSE;
+								pstmt_.setInt(contadorArgumentos + 1, Integer.valueOf(val_).intValue());
 								if (!hasCounterSQLEmbbeded() && offset_ != -1) {
-									pstmt_.setBoolean(contadorArgumentos + 1, bool_);
+									pstmt_.setInt(contadorArgumentos + 1, Integer.valueOf(val_).intValue());
 								} else if (hasCounterSQLEmbbeded() && hasDuplicatedCriteriaInEmbbededCounterSQL() && offset_ != -1) {
-									pstmt_.setBoolean(((contadorArgumentos + 1) + nArgs_), bool_);
+									pstmt_.setInt(((contadorArgumentos + 1) + nArgs_), Integer.valueOf(val_).intValue());
 								}								
 								
 							} else if (fieldAbstract.isDate() || fieldAbstract.isTimestamp()) {

@@ -102,6 +102,9 @@ public abstract class ConstantesModelo {
 	public static final int TAREA_PETICION_9_FECHA_FIN_PREVISTO = 9;
 	public static final int TAREA_PETICION_10_FECHA_INICIO_REAL = 10;
 	public static final int TAREA_PETICION_11_FECHA_FIN_REAL = 11;
+	public static final int TAREA_PETICION_12_FECHA_ALTA = 12;
+	public static final int TAREA_PETICION_13_FECHA_TRAMITE = 13;
+	public static final int TAREA_PETICION_14_ANYO_MES = 14;	
 	public static final String TAREA_PETICION_ENTIDAD = "tareasPeticion";
 	
     public static final int ESTUDIOS_PETICIONES_1_ID = 1;
