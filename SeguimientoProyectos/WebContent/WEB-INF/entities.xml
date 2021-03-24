@@ -104,7 +104,7 @@
        fkParentEntities="tipoAplicacion" fkParentFields="1"/>
     <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
     <field mappingTo="43" name="fecha_validada_CD" type="date" length="10" required="false"/>    
-  </entity>
+</entity>
 
 <entity>
     <entityname>tiposTareas</entityname>
@@ -226,6 +226,7 @@
 	<field mappingTo="87" name="desnormalizadasTipoPet" type="string" length="500" required="false"/>
 	<field mappingTo="88" name="id_configuradorEstudios" type="long" length="11" required="true" 
 	   fkParentEntities="configuradorEstudios" fkParentFields="1"/>
+	<field mappingTo="89" name="fec_lanzado_estudio" type="date" length="10" required="false"/>
   </entity>	
   
   <entity>

@@ -151,7 +151,8 @@ CREATE TABLE `estudiosPeticiones` (
   `esfuerzo_pruebas_perpet` double DEFAULT NULL,
   `tipo_peticiones` int(11) DEFAULT NULL,
   `desnormalizadasTipoPet` varchar(500) DEFAULT NULL,
-  `id_configuradorEstudios` int(11) DEFAULT NULL
+  `id_configuradorEstudios` int(11) DEFAULT NULL,
+  `fec_lanzado_estudio` date NULL
 );  
 
 DROP TABLE `configuradorEstudios`;

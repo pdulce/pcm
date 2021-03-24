@@ -257,17 +257,15 @@ public final class CommonUtils {
 		return periodo;
 	}
 	
-	public static final double aplicarMLR(double jornadasDesarrollo, int tipoP, int entorno) {
+	/*public static final double aplicarMLR(double jornadasDesarrollo, int tipoP, int entorno) {
+		
 		return 0.55*jornadasDesarrollo;
 	}
-
-	/** para jornadas de análisis **/
 	public static double aplicarMLR_(double jornadas, int tipoP, int entorno) {
-		//0.005387878480433776,   0.12941935449869166,   0.00001395805068408151,
 		double coef_0 = 0.005387878480433776, coef_1=0.12941935449869166, coef_2 = 0.00001395805068408151,
 				coef_3 = 0.0;
 		return coef_0 + coef_1*jornadas + coef_2*tipoP + coef_3*entorno;
-	}
+	}*/
 	
 	public static final boolean filtroConCriteriosDeFechas(FieldViewSet filtro_) {
 		// recorremos cada field para ver si tiene value
@@ -582,7 +580,7 @@ public final class CommonUtils {
 	public static boolean isNumeric(final String s) {
 		char[] cadenaAux = s.toCharArray();		
 		for (final char cadenaAuxI : cadenaAux) {		
-			if (!Character.isDigit(cadenaAuxI)) {
+			if (!Character.isDigit(cadenaAuxI) && cadenaAuxI!='.') {
 				return false;
 			}
 		}

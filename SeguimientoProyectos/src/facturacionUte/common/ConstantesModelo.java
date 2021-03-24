@@ -192,6 +192,7 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_PETICIONES_86_TIPO_PETICIONES = 86;
     public static final int ESTUDIOS_PETICIONES_87_DESNORMALIZAR_TIPOPETIC = 87;
     public static final int ESTUDIOS_PETICIONES_88_ID_HEURISTICAS_CALCULOS = 88;
+    public static final int ESTUDIOS_PETICIONES_89_FECHA_EJECUTADO = 89;
 	public static final String ESTUDIOS_PETICIONES_ENTIDAD = "estudiosPeticiones";	
 	
 	public static final int HEURISTICAS_CALCULOS_1_ID = 1;

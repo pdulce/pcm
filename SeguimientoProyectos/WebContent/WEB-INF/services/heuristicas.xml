@@ -56,7 +56,7 @@
 						<fieldset legend="Conjunto heurísticas para la aplicación de los cálculos de estudios peticiones">
 							<fieldView mappingTo="2" editable="true" size="30"/>
 							<fieldView separator="br" />
-							<fieldView separator="br" />
+							<fieldView separator="br" />													
 						</fieldset>
 						<fieldset legend="Fechas relevantes (cuando no hay petición/tarea de Análisis ni de Pruebas)">	
 							<fieldView mappingTo="10" editable="true" size="50"/>
@@ -110,6 +110,14 @@
 							<fieldView mappingTo="2" editable="true" size="30"/>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							<fieldView mappingTo="15" editable="false" size="12" />							
+							<fieldView mappingTo="16" editable="false" size="12" />
+							<fieldView mappingTo="17" editable="false" size="12" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="18" editable="false" size="12" />
+							<fieldView mappingTo="19" editable="false" size="12" />
+							<fieldView mappingTo="20" editable="false" size="12" />
+							<fieldView separator="br" />
 						</fieldset>
 						<fieldset legend="Fechas relevantes (cuando no hay petición/tarea de Análisis ni de Pruebas)">	
 							<fieldView mappingTo="10" editable="true" size="50"/>
@@ -122,14 +130,10 @@
 						</fieldset>
 						<fieldset legend="Fórmulas de cálculo para las dimensiones (duraciones en jornadas) del estudio">
 							<fieldView mappingTo="3" editable="true" size="120" />
-							<fieldView separator="br" />
-							<fieldView separator="br" />												
 							<fieldView mappingTo="4" editable="true" size="120" />
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="5" editable="true" size="120" />
-							<fieldView separator="br" />
-							<fieldView separator="br" />												
 							<fieldView mappingTo="6" editable="true" size="120" />
 							<fieldView separator="br" />
 							<fieldView separator="br" />
