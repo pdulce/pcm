@@ -580,7 +580,7 @@ public final class CommonUtils {
 	public static boolean isNumeric(final String s) {
 		char[] cadenaAux = s.toCharArray();		
 		for (final char cadenaAuxI : cadenaAux) {		
-			if (!Character.isDigit(cadenaAuxI) && cadenaAuxI!='.') {
+			if (!Character.isDigit(cadenaAuxI) && cadenaAuxI!='.' && cadenaAuxI!='-' && cadenaAuxI!='+') {
 				return false;
 			}
 		}

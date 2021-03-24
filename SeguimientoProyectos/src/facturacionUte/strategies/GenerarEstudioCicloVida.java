@@ -110,6 +110,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			FieldViewSet estudioFSet = dataAccess.searchLastInserted(estudioFSet_);
 			Long idPeriodicidad = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_50_ID_TIPOPERIODO).getName());
 			Double utsMaximas = (Double) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_9_TOTALUTS).getName());
+			if (utsMaximas ==null || utsMaximas ==0.0) {
+				utsMaximas = null;
+			}
 			
 			Date fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
 					ConstantesModelo.ESTUDIOS_PETICIONES_5_FECHA_INIESTUDIO).getName());
@@ -120,31 +123,31 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			}
 						
 			final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
-
-			//metemos el filtro de uts como máximo
-			final IFieldLogic fieldUts = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES);
-			IFieldView fViewEsfuerzoUts =  new FieldViewSet(peticionesEntidad).getFieldView(fieldUts);
-			
-			final IFieldView fViewMaxUts = fViewEsfuerzoUts.copyOf();
-			final Rank rankHastaUts = new Rank(fViewEsfuerzoUts.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
-			fViewMaxUts.setRankField(rankHastaUts);			
-			fieldViews4Filter.add(fViewMaxUts);
+			IFieldView fViewMaxUts = null;
 			
 			final IFieldLogic fieldDesde = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
-			IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldDesde);
-			
+			IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldDesde);			
 			final IFieldView fViewMinorFecTram = fViewEntradaEnDG.copyOf();
 			final Rank rankDesde = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
-			fViewMinorFecTram.setRankField(rankDesde);
-			
+			fViewMinorFecTram.setRankField(rankDesde);			
 			final Rank rankHasta = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
 			final IFieldView fViewMayorFecTram = fViewEntradaEnDG.copyOf();
-			fViewMayorFecTram.setRankField(rankHasta);
+			if (utsMaximas != null) {
+				//metemos el filtro de uts como máximo
+				final IFieldLogic fieldUts = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES);
+				fViewMaxUts = new FieldViewSet(peticionesEntidad).getFieldView(fieldUts).copyOf();
+				final Rank rankHastaUts = new Rank(fViewMaxUts.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
+				fViewMaxUts.setRankField(rankHastaUts);			
+				fieldViews4Filter.add(fViewMaxUts);
+				fViewMayorFecTram.setRankField(rankHasta);
+			}
 			fieldViews4Filter.add(fViewMinorFecTram);
 			fieldViews4Filter.add(fViewMayorFecTram);
 			
 			FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4Filter);
-			filterPeticiones.setValue(fViewMaxUts.getQualifiedContextName(), utsMaximas);
+			if (utsMaximas != null) {
+				filterPeticiones.setValue(fViewMaxUts.getQualifiedContextName(), utsMaximas);
+			}
 			filterPeticiones.setValue(fViewMinorFecTram.getQualifiedContextName(), fecIniEstudio);
 			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
 			
@@ -158,11 +161,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);					
 			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
 			if (servicioId == null || servicioId == 0) {
-				Long idAplicativo = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
-				FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
-				aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
-				aplicacion = dataAccess.searchEntityByPk(aplicacion);
-				valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
+				Collection<String> aplicativos	= estudioFSet.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName()).getValues();
+				Iterator<String> iteAplicativos = aplicativos.iterator();
+				while (iteAplicativos.hasNext()) {
+					Long idAplicativo = Long.valueOf(iteAplicativos.next());
+					FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
+					aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
+					aplicacion = dataAccess.searchEntityByPk(aplicacion);
+					valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
+				}
 			}else {
 				filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
 				List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
@@ -174,7 +181,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), valuesPrjs);
 						
 			final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
-							
+			if (listadoPeticiones.isEmpty()) {
+				return;
+			}
 			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
 			
 			int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);				
@@ -341,13 +350,18 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		String[] operandosSuma = formula.split("\\+");
 		for (int i=0;i<operandosSuma.length;i++) {
 			String[] operandoMultiplicando = operandosSuma[i].trim().split("\\*");
-			Double coeficiente = Double.valueOf(operandoMultiplicando[0]);
-			String variable = operandoMultiplicando[1];
-			if (variables.get(variable) == null) {
-				throw new Throwable("Error: la variable " + variable + " no figura en el mapa de variables pasadas a este MLR: " + formula);
+			Double coeficiente = Double.valueOf(operandoMultiplicando[0]);			
+			if (operandoMultiplicando.length==2) {
+				String variable = operandoMultiplicando[1];
+				if (variables.get(variable) == null) {
+					throw new Throwable("Error: la variable " + variable + " no figura en el mapa de variables pasadas a este MLR: " + formula);
+				}
+				Double multiplicacion = ((Double)variables.get(variable))*coeficiente;
+				acumulado += multiplicacion;
+			}else {
+				acumulado += coeficiente;
 			}
-			Double multiplicacion = ((Double)variables.get(variable))*coeficiente; 
-			acumulado += multiplicacion;
+
 		}
 		
 		return CommonUtils.roundWith2Decimals(acumulado);
@@ -362,9 +376,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		if (formula.indexOf("-") != -1) {
 			multiplicadorOperador = -1.0;
 			formulaCompuesta = formula.split("-");
-		}else if (formula.indexOf("\\+") != -1) {
+		}else if (formula.indexOf("+") != -1) {
 			multiplicadorOperador = 1.0;
-			formulaCompuesta = formula.split("+");
+			formulaCompuesta = formula.split("\\+");
 		}else {
 			multiplicadorOperador = 1.0;
 			formulaCompuesta = formula.split(" ");			
@@ -523,14 +537,20 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			Long servicioId = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());			
 			StringBuffer textoAplicaciones = new StringBuffer();					
 			if (servicioId == null || servicioId==0) {
-				Long idAplicativo = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
-				FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
-				aplicativo.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
-				aplicativo = dataAccess.searchEntityByPk(aplicativo);
-				title = (String) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName());
-				idTecnologia = (Long) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
-				textoAplicaciones.append(title);
-				numApps = 1;
+				List<String> aplicativos = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName()).getValues());
+				for (int i=0;i<aplicativos.size();i++) {
+					Long idAplicativo = Long.valueOf(aplicativos.get(i));
+					FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
+					aplicativo.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
+					aplicativo = dataAccess.searchEntityByPk(aplicativo);
+					title = (String) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName());
+					idTecnologia = (Long) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
+					textoAplicaciones.append((String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_ROCHADE).getName()));
+					if (i < (aplicativos.size()-1)) {
+						textoAplicaciones.append(", ");
+					}
+					numApps++;
+				}
 			}else {
 				FieldViewSet servicioEnBBDD = new FieldViewSet(servicioUTEEntidad);
 				servicioEnBBDD.setValue(servicioUTEEntidad.searchField(ConstantesModelo.SERVICIOUTE_1_ID).getName(), servicioId);				
@@ -539,17 +559,17 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				title = servicio;
 				FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
 				filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
-				List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
-				for (int i=0;i<aplicaciones.size();i++) {
-					FieldViewSet aplicativo = aplicaciones.get(i);
+				List<FieldViewSet> aplicativos = dataAccess.searchByCriteria(filtroApps);
+				for (int i=0;i<aplicativos.size();i++) {
+					FieldViewSet aplicativo = aplicativos.get(i);
 					if (idTecnologia ==0) {
 						idTecnologia = (Long) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
-					}
-					numApps++;
+					}					
 					textoAplicaciones.append((String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_ROCHADE).getName()));
-					if (i < (aplicaciones.size()-1)) {
+					if (i < (aplicativos.size()-1)) {
 						textoAplicaciones.append(", ");
 					}
+					numApps++;
 				}
 			}			
 			
@@ -962,7 +982,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			String newTitle = title.replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND.Pros@[" + periodo + "]");
 			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "Mto.Pros@[" + periodo + "]");
 			newTitle = newTitle.replaceFirst("Servicio Mto. HOST", "Mto.HOST[" + periodo + "]");		
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);	
+			//new Times
 			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_89_FECHA_EJECUTADO).getName(), Calendar.getInstance().getTime());
 			
 			int ok = dataAccess.modifyEntity(registroMtoProsa);

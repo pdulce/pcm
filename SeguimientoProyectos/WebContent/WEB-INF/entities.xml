@@ -226,7 +226,7 @@
 	<field mappingTo="87" name="desnormalizadasTipoPet" type="string" length="500" required="false"/>
 	<field mappingTo="88" name="id_configuradorEstudios" type="long" length="11" required="true" 
 	   fkParentEntities="configuradorEstudios" fkParentFields="1"/>
-	<field mappingTo="89" name="fec_lanzado_estudio" type="date" length="10" required="false"/>
+	<field mappingTo="89" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>
   </entity>	
   
   <entity>

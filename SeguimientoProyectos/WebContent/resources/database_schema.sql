@@ -152,7 +152,7 @@ CREATE TABLE `estudiosPeticiones` (
   `tipo_peticiones` int(11) DEFAULT NULL,
   `desnormalizadasTipoPet` varchar(500) DEFAULT NULL,
   `id_configuradorEstudios` int(11) DEFAULT NULL,
-  `fec_lanzado_estudio` date NULL
+  `fec_lanzado_estudio` TIMESTAMP NULL
 );  
 
 DROP TABLE `configuradorEstudios`;

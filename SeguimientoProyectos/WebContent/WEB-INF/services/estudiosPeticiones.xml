@@ -139,7 +139,7 @@ xmlns:service="http://pcm.framework.org/service"
 																	
 					</fieldViewSet>
 				</form>
-				<grid title="Listado de Estudios realizados" orderDirection="asc" defaultOrderField="estudiosPeticiones.2"
+				<grid title="Listado de Estudios realizados" orderDirection="desc" defaultOrderField="estudiosPeticiones.89"
 					eventsRegistered="detail, create, delete">
 					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">
 						<fieldView mappingTo="1" hidden="true"/>
