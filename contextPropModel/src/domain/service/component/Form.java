@@ -880,7 +880,7 @@ public class Form extends AbstractComponent {
 	}
 
 	private final List<LinkButton> initButtonsWithRequest(final Datamap data_, boolean submitted) {
-		
+				
 		List<LinkButton> buttons = new ArrayList<LinkButton>();
 		final String event_ = AbstractAction.isFormularyEntryEvent(this.event) ? 
 				AbstractAction.getInherentEvent(this.event) : this.event;
@@ -906,21 +906,11 @@ public class Form extends AbstractComponent {
 			buttons.add(this.paintSubmitButtonWithoutReturn(PCMConstants.RESET_EVENT, IViewComponent.RESET_FUNC));
 		}
 		
-		if (!AbstractAction.isQueryEvent(this.event)){
-			StringBuilder javascrReturn = new StringBuilder();
-			final String backEvent = AbstractAction.isDeleteEvent(this.event) ? IEvent.CANCEL : IEvent.RETURN_BACK;			
-			javascrReturn.append("document.getElementById('" + "miPadre" + "').value='");
-			javascrReturn.append(IEvent.VOLVER);
-			javascrReturn.append("';");
-			if (IEvent.CANCEL.equals(data_.getEvent())){
-				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ "padre.anterior" + "';");
-			}else{
-				javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ "padre.anterior" + "';");
-			}
-			javascrReturn.append("document.getElementById('" + PaginationGrid.ORDENACION + "').value='';");
-			javascrReturn.append("document.getElementById('" + "padre.anterior" + "').value='"+ "padre.anterior" + "';");
-			javascrReturn.append(IViewComponent.SUBMIT_SENTENCE).append(IViewComponent.RETURN_SENTENCE);
-			buttons.add(this.paintSubmitButtonWithoutReturn(backEvent, javascrReturn.toString()));
+		if (!AbstractAction.isQueryEvent(this.event) && !this.service.contentEquals("Authentication")){
+			StringBuilder javascrReturn = new StringBuilder();			
+			javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ this.service.concat(".query") + "';");
+			javascrReturn.append("document.forms[0].action='" + this.uri + "';");
+			buttons.add(this.paintSubmitButtonWithReturn(IEvent.RETURN_BACK, javascrReturn.toString()));
 		}
 		return buttons;
 	}
