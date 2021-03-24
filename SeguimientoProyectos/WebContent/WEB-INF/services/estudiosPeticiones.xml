@@ -255,7 +255,7 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>
 							
-							<fieldView mappingTo="9" editable="true" size="10"/>
+							<fieldView mappingTo="55" editable="true" size="10"/>
 							
 							<fieldView mappingTo="88" type="select" editable="true">
 								<optionValues entitymodel="configuradorEstudios"
@@ -530,12 +530,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
 							</optionValues>
-						</fieldView>
-						<!-- <fieldView mappingTo="56" type="select" size="3" editable="false">
-							<optionValues entitymodel="aplicativo"
-								descrMappingTo="2">
-							</optionValues>
-						</fieldView>-->
+						</fieldView>						
 						<fieldView mappingTo="2" editable="false" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />

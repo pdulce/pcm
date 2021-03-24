@@ -109,7 +109,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			//obtenemos el id que es secuencial
 			FieldViewSet estudioFSet = dataAccess.searchLastInserted(estudioFSet_);
 			Long idPeriodicidad = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_50_ID_TIPOPERIODO).getName());
-			Double utsMaximas = (Double) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_9_TOTALUTS).getName());
+			Double utsMaximas = (Double) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_55_UTS_PERPET).getName());
 			if (utsMaximas ==null || utsMaximas ==0.0) {
 				utsMaximas = new Double(999999);
 			}
@@ -511,8 +511,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		
 		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
 		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
-		File datasetFile = new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datasetMLR.csv");
-		FileOutputStream out = null, modelo = null, dataset = null;
+		FileOutputStream out = null, dataset4MLR = null;
 		
 		// inicializamos los agregados de cada tecnología-servicio a estudiar:
 		int numPeticionesEstudio = 0;
@@ -530,8 +529,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		
 		try {
 			out = new FileOutputStream(f);
-			modelo = new FileOutputStream(fModelo);
-			dataset= new FileOutputStream(datasetFile);
+			dataset4MLR = new FileOutputStream(fModelo);
 			
 			dataAccess.setAutocommit(false);
 			
@@ -780,9 +778,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					variables.put("#Jornadas_Analisis#", jornadasAnalysis);
 					
 					// dataset para el modelo MLR
-					modelo.write(("data.push([" + jornadasDesarrollo + ", " + jornadasPruebasCD + ", " + jornadasAnalysis +"]);\n").getBytes());
-					dataset.write((peticionDG + ";" + jornadasDesarrollo + ";" + jornadasPruebasCD + ";" + ";" + jornadasAnalysis + "\n").getBytes());
-
+					dataset4MLR.write(("data.push([" + jornadasDesarrollo + ", " + jornadasPruebasCD + ", " + jornadasAnalysis +"]);\n").getBytes());
 				}
 												
 				Double jornadasDesfaseTramiteHastaInicioReal = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_Planificacion_DG, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
@@ -835,10 +831,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				if (ok != 1) {
 					out.flush();
 					out.close();
-					modelo.flush();
-					modelo.close();
-					dataset.flush();
-					dataset.close();
+					dataset4MLR.flush();
+					dataset4MLR.close();
 					throw new Throwable("Error actualizando registro de petición");
 				}
 				
@@ -1005,10 +999,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			try {
 				out.flush();
 				out.close();
-				modelo.flush();
-				modelo.close();
-				dataset.flush();
-				dataset.close();
+				dataset4MLR.flush();
+				dataset4MLR.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}			
