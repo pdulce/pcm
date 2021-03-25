@@ -255,6 +255,7 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS = 29;
 	public static final int RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD = 30;	
 	public static final int RESUMEN_PETICION_31_TITULO = 31;
+	public static final int RESUMEN_PETICION_32_ANYO_MES = 32;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
 	
 	public static final int TIPO_PERIODO_1_ID = 1;

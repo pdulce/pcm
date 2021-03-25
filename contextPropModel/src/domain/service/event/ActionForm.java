@@ -536,7 +536,7 @@ public class ActionForm extends AbstractAction {
 							executeStrategyPre(dataAccess, fCollectionIesimo);
 							form_.getFieldViewSetCollection();
 						} catch (final StrategyException stratExc) {
-							if (this.isTransactional()) {
+							if (this.isTransactional() && stratExc.getNivelError() == MessageException.ERROR) {
 								dataAccess.rollback();
 							}
 							throw stratExc;
@@ -552,7 +552,9 @@ public class ActionForm extends AbstractAction {
 								this.executeStrategyPost(dataAccess, fCollectionIesimo);
 								dataAccess.commit();
 							} catch (final StrategyException stratPostExc) {
-								dataAccess.rollback();
+								if (stratPostExc.getNivelError() == MessageException.ERROR) {
+									dataAccess.rollback();
+								}
 								throw stratPostExc;
 							}
 						}
@@ -607,7 +609,7 @@ public class ActionForm extends AbstractAction {
 				res.setSuccess(Boolean.FALSE);
 			} catch (final StrategyException stratExc) {
 				boolean defaultStrategy = stratExc.getMessage().indexOf("_STRATEGY_") != -1;
-				final MessageException errorMsg = new MessageException(stratExc.getMessage(), !defaultStrategy/*si es default strategy no es app rule***/, MessageException.ERROR);
+				final MessageException errorMsg = new MessageException(stratExc.getMessage(), !defaultStrategy/*si es default strategy no es app rule***/, stratExc.getNivelError());
 				final Collection<Object> params = stratExc.getParams();
 				if (params != null) {
 					final Iterator<Object> iteParams = params.iterator();
@@ -617,7 +619,7 @@ public class ActionForm extends AbstractAction {
 					}
 				}
 				msgs.add(errorMsg);
-				res.setSuccess(Boolean.FALSE);
+				res.setSuccess(stratExc.getNivelError()==MessageException.ERROR?Boolean.FALSE:Boolean.TRUE);
 			} catch (final SQLException parqExc) {
 				final MessageException errorMsg = new MessageException(IAction.ERROR_GRABANDO_REGISTRO_MSG_CODE);
 				errorMsg.addParameter(new Parameter(IAction.INSTANCE_PARAM, parqExc.getMessage()));

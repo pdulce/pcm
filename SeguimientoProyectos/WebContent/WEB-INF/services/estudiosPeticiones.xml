@@ -18,9 +18,9 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 				
-						<button	link="prjManager" id="lineseries01" name="Comparativas Estudios (promedios/petic.)" >
-							<fieldViewSet nameSpace="lineseries01">
-								<fieldView name="highchart" hidden="true" value="lineseries"/>
+						<button	link="prjManager" id="histog01" name="Comparativas Estudios (promedios/petic.)" >
+							<fieldViewSet nameSpace="histog01">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
 								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
 								<fieldView name="orderBy" hidden="true" value="1"/>								
 								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
@@ -244,12 +244,12 @@ xmlns:service="http://pcm.framework.org/service"
 							
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="50" type="select" editable="true">
+							<!-- fieldView mappingTo="50" type="select" editable="false">
 								<optionValues entitymodel="tiposPeriodos"
 									descrMappingTo="3">
 								</optionValues>
-							</fieldView>
-							<fieldView mappingTo="86" type="select" size="7" editable="true">
+							</fieldView> -->
+							<fieldView mappingTo="86" type="select" size="9" editable="true">
 								<optionValues selectionMultiple="true" entitymodel="tiposPeticiones"
 									descrMappingTo="2">
 								</optionValues>
@@ -257,7 +257,7 @@ xmlns:service="http://pcm.framework.org/service"
 							
 							<fieldView mappingTo="55" editable="true" size="10"/>
 							
-							<fieldView mappingTo="88" type="select" editable="true">
+							<fieldView mappingTo="88" type="select" size="8" editable="true">
 								<optionValues entitymodel="configuradorEstudios"
 									descrMappingTo="2">
 								</optionValues>
@@ -290,22 +290,15 @@ xmlns:service="http://pcm.framework.org/service"
 				
 				<userbuttons>
 				
-					<button	link="prjManager" id="histog2" name="Histogram" >
-						<fieldViewSet nameSpace="histog2">
-							<fieldView name="highchart" hidden="true" value="histogram3D"/>
+					<button	link="prjManager" id="lineseries01" name="Line series" >
+						<fieldViewSet nameSpace="lineseries01">
+							<fieldView name="highchart" hidden="true" value="lineseries"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
-							<fieldView name="fieldForGroupBy" type="select" size="1">
-								<optionValues>
-									<option code="-1" title="periodos" selected="true"></option>
-									<option code="3" title="aplicacion"></option>
-									<option code="4" title="tipo"></option>
-								</optionValues>
-							</fieldView>
+							<fieldView name="fieldForGroupBy" hidden="true" value="32"/>
 							<fieldView name="agregado" type="select" size="1">
-								<optionValues>
-									<option code="-1" title="comparativa"></option>
+								<optionValues>									
 									<option code="28" title="uts"></option>
 									<!-- <option code="29" title="hrs.análisis"></option> -->
 									<option code="8" title="CicloVida" selected="true"></option>
@@ -386,7 +379,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
-							<fieldView name="fieldForGroupBy" type="select" size="2">
+							<fieldView name="fieldForGroupBy" type="select" size="3">
 								<optionValues selectionMultiple="true">
 									<option code="3" title="aplicacion" selected="true"></option>
 									<option code="4" title="tipo" selected="true"></option>

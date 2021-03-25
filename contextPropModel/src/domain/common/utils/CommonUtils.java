@@ -578,11 +578,14 @@ public final class CommonUtils {
 	}
 
 	public static boolean isNumeric(final String s) {
-		char[] cadenaAux = s.toCharArray();		
+		char[] cadenaAux = s.toCharArray();
+		int pos = 0;
 		for (final char cadenaAuxI : cadenaAux) {		
-			if (!Character.isDigit(cadenaAuxI) && cadenaAuxI!='.' && cadenaAuxI!='-' && cadenaAuxI!='+') {
+			if (!Character.isDigit(cadenaAuxI) && cadenaAuxI!='.' && 
+					!(pos==0 && (cadenaAuxI!='-' || cadenaAuxI!='+'))) {
 				return false;
 			}
+			pos++;
 		}
 		return true;
 	}
@@ -1049,6 +1052,11 @@ public final class CommonUtils {
 		return valoresListaArr;
 	}
 	
-	
+	public static void main(String[] args) {
+		System.out.println("es numeric: " + CommonUtils.isNumeric("2810"));
+		System.out.println("es numeric: " + CommonUtils.isNumeric("+23"));
+		System.out.println("es numeric: " + CommonUtils.isNumeric("-340"));
+		System.out.println("es numeric: " + CommonUtils.isNumeric("2810-09"));
+	}
 
 }

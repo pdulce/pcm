@@ -420,9 +420,9 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Dualhistogram();
 			}else if (highchartStats.equals("scatter")) {
 				genericHCModel = new Scatter();
-			}else if (highchartsParam.equals("timeseries")) {
+			}else if (highchartStats.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
-			}else if (highchartsParam.equals("lineseries")) {
+			}else if (highchartStats.equals("lineseries")) {
 				genericHCModel = new LineSeries();
 			}
 			try {

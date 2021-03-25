@@ -214,7 +214,8 @@ CREATE TABLE `resumenPeticiones` (
   `uts` double DEFAULT NULL,
   `esfuerzo_analysis` double DEFAULT NULL,
   `esfuerzo_pruebas` double DEFAULT NULL,
-  `titulo` varchar(500) DEFAULT NULL
+  `titulo` varchar(500) DEFAULT NULL,
+  `anyo_mes` VARCHAR2(7) DEfAULT NULL
 );  
 
 
@@ -328,6 +329,8 @@ CREATE TABLE `categoria_profesional` (
   `DESCRIPCION` varchar(50) NOT NULL,
   `IMPORTE_HORA` double NOT NULL
 );
+
+
 CREATE TABLE sqlite_sequence(name,seq);
 CREATE TABLE `concurso` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,

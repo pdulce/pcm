@@ -311,7 +311,7 @@ public class Histogram3D extends GenericHighchartModel {
 								|| agrupacionInterna.getAbstractField().isLong()) {
 							positionClaveAgregacion = Integer.valueOf(((Number) valorIntrinseco).intValue());
 						} else {
-							if (Character.isDigit(valorParaCategoria1EnEsteRegistroAgregado.charAt(0))) {
+							if (CommonUtils.isNumeric(valorParaCategoria1EnEsteRegistroAgregado)) {
 								positionClaveAgregacion = Integer.valueOf(
 										valorParaCategoria1EnEsteRegistroAgregado.split(PCMConstants.REGEXP_POINT)[0]);
 								valorParaCategoria1EnEsteRegistroAgregado = valorParaCategoria1EnEsteRegistroAgregado
