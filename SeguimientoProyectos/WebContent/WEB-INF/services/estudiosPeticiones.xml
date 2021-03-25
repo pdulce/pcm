@@ -18,9 +18,9 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 				
-						<button	link="prjManager" id="histog01" name="Comparativas Estudios (promedios/petic.)" >
-							<fieldViewSet nameSpace="histog01">
-								<fieldView name="highchart" hidden="true" value="histogram3D"/>
+						<button	link="prjManager" id="lineseries01" name="Comparativas Estudios (promedios/petic.)" >
+							<fieldViewSet nameSpace="lineseries01">
+								<fieldView name="highchart" hidden="true" value="lineseries"/>
 								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
 								<fieldView name="orderBy" hidden="true" value="1"/>								
 								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							

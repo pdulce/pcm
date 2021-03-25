@@ -15,48 +15,20 @@
 	            text: '<%=request.getAttribute("subtitle")%>'
 	        },
 	        xAxis: {
-	            title: {
-	                enabled: true,
+	            title: {	                
 	                text: '<%=request.getAttribute("titulo_EJE_X")%>'
-	            },
-	            startOnTick: true,
-	            endOnTick: true,
-	            showLastLabel: true
+	            }
 	        },
 	        yAxis: {
 	            title: {
 	                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
 	            }
 	        },
-	        legend: {		            	
-	            width: 900,
-	            floating: true,
-	            align: 'left',
-	            x: 60,
-	            y: 14,
-	            itemWidth: 178,
-	            itemStyle: {'color': 'black', 'font-weight': 'bold', 'font-size': '9px'},
-	            itemDistance: 80,
-	            borderWidth: 0
-	        },
 	        plotOptions: {
 	            scatter: {
 	                marker: {
-	                    radius: 3,
-	                    states: {
-	                        hover: {
-	                            enabled: true,
-	                            lineColor: 'rgb(100,100,100)'
-	                        }
-	                    }
-	                },
-	                states: {
-	                    hover: {
-	                        marker: {
-	                            enabled: false
-	                        }
-	                    }
-	                },
+	                    radius: 2
+	                },	                
 	                tooltip: {
 	                    headerFormat: '<b>{series.name}</b><br>',
 	                    pointFormat: '{point.x} <%=request.getAttribute("tooltip_X")%>, {point.y} <%=request.getAttribute("tooltip_Y")%>'

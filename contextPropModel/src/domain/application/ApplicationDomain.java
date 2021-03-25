@@ -56,6 +56,7 @@ import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.Dualhistogram;
 import domain.service.highcharts.Histogram3D;
+import domain.service.highcharts.LineSeries;
 import domain.service.highcharts.MapEurope;
 import domain.service.highcharts.MapSpain;
 import domain.service.highcharts.MapWorld;
@@ -421,6 +422,8 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Scatter();
 			}else if (highchartsParam.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
+			}else if (highchartsParam.equals("lineseries")) {
+				genericHCModel = new LineSeries();
 			}
 			try {
 				DomainService domainService = getDomainService(datamap.getService());
