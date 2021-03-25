@@ -43,7 +43,8 @@ CREATE TABLE `peticiones` (
   `id_area` int(11) DEFAULT NULL, 
   `entorno` int(11) DEFAULT NULL,
   `Horas_estimadas_iniciales` double DEFAULT NULL,
-  `fecha_validada_CD` DATE NULL
+  `fecha_validada_CD` DATE NULL,
+  `ult_modificacion` DATE NULL
 );  
 
 DROP TABLE `tareasPeticion`;
@@ -188,8 +189,8 @@ CREATE TABLE `resumenPeticiones` (
   `id_estudio` int(11) NOT NULL,
   `aplicacion` varchar(150) DEFAULT NULL,
   `tipo` varchar(50) DEFAULT NULL,
-  `gedeon_DG` varchar(10) DEFAULT NULL,
-  `gedeon_AT` varchar(10) DEFAULT NULL,
+  `gedeon_DG` varchar(150) DEFAULT NULL,
+  `gedeon_AT` varchar(150) DEFAULT NULL,
   `gedeon_Entrega` varchar(10) DEFAULT NULL,
   `ciclo_vida` double DEFAULT NULL,  
   `duracion_analysis` double DEFAULT NULL,

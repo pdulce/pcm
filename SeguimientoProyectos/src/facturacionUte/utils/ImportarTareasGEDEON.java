@@ -45,8 +45,7 @@ import facturacionUte.common.ConstantesModelo;
 
 public class ImportarTareasGEDEON extends AbstractExcelReader{
 	
-	//private static Map<String,List<String>> alias = new HashMap<String, List<String>>();
-	protected static IEntityLogic peticionesEntidad, importacionEntidad, aplicacionEntidad, subdireccionEntidad, servicioEntidad;
+	protected static IEntityLogic peticionesEntidad, subdireccionEntidad, servicioEntidad, aplicativoEntidad;
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String CDISM = "Centro de Desarrollo del ISM", CONTRATO_7201_17G_L2 = "7201 17G L2 ISM ATH Análisis Orientado a Objecto";
@@ -58,37 +57,28 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	private static final String AVISADOR_ANULADA_PREVIA = " ¡OJO anulada en entrega previa! ";
 
 	static {
-		
-		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_1_ID));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas|Pets. relacionadas", Integer.valueOf(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS));
-		
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas|Pets. relacionadas", Integer.valueOf(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS));		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID", Integer.valueOf(ConstantesModelo.PETICIONES_1_ID));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.PETICIONES_2_TITULO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Descripción", Integer.valueOf(ConstantesModelo.PETICIONES_3_DESCRIPCION));
-		COLUMNSET2ENTITYFIELDSET_MAP
-				.put("Observaciones|Ult. observación", Integer.valueOf(ConstantesModelo.PETICIONES_4_OBSERVACIONES));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Observaciones|Ult. observación", Integer.valueOf(ConstantesModelo.PETICIONES_4_OBSERVACIONES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Usuario creador", Integer.valueOf(ConstantesModelo.PETICIONES_5_USUARIO_CREADOR));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Solicitante|Peticionario", Integer.valueOf(ConstantesModelo.PETICIONES_6_SOLICITANTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Estado", Integer.valueOf(ConstantesModelo.PETICIONES_7_ESTADO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Entidad origen", Integer.valueOf(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_AREA_ORIGEN));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",
-				Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área destino|Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_13_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.PETICIONES_16_PRIORIDAD));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de alta", Integer.valueOf(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de tramitación",
-				Integer.valueOf(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de necesidad|F. necesidad",
-				Integer.valueOf(ConstantesModelo.PETICIONES_19_FECHA_DE_NECESIDAD));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha fin de desarrollo",
-				Integer.valueOf(ConstantesModelo.PETICIONES_20_FECHA_FIN_DE_DESARROLLO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de finalización",
-				Integer.valueOf(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de tramitación",Integer.valueOf(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de necesidad|F. necesidad",	Integer.valueOf(ConstantesModelo.PETICIONES_19_FECHA_DE_NECESIDAD));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha fin de desarrollo",	Integer.valueOf(ConstantesModelo.PETICIONES_20_FECHA_FIN_DE_DESARROLLO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de finalización",Integer.valueOf(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha prevista inicio|Fecha prevista de inicio",
 				Integer.valueOf(ConstantesModelo.PETICIONES_22_DES_FECHA_PREVISTA_INICIO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha prevista fin|Fecha prevista de fin",
@@ -112,6 +102,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("F. primer Trabajo validado",
 				Integer.valueOf(ConstantesModelo.PETICIONES_43_FECHA_VALIDADA_EN_CD));
 		
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Ult Modif",
+				Integer.valueOf(ConstantesModelo.PETICIONES_44_FECHA_ULTIMA_MODIFCACION));
+		
 	}
 
 	private IDataAccess dataAccess;
@@ -120,24 +113,23 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		if (peticionesEntidad == null) {
 			try {
 				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.PETICIONES_ENTIDAD);
-				importacionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.IMPORTACIONESGEDEON_ENTIDAD);
-				aplicacionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.PROYECTO_ENTIDAD);
+				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.APLICATIVO_ENTIDAD);
 				subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.SUBDIRECCION_ENTIDAD);				
 				servicioEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.SERVICIO_ENTIDAD);				
 			} catch (Throwable exc) {
 				throw new RuntimeException("Error in initEntities method: ", exc);
 			}
-						
 		}
 	}
 	
-	private static String obtenerRochadeAplicacion(String title){
+	private static String obtenerRochadeAplicacion(String titleApp, String titlePeticion){
 		
-		if (title == null){
-			return "Desconocido";
+		if (titleApp != null){
+			return titleApp.substring(0,4);
+		}else {
+			return titlePeticion.substring(0,4);
 		}
 		
-		return title.substring(0,4);
 	}
 	
 
@@ -216,19 +208,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     }
 	
     
-    
-    /*private int getNumPeticionesEntrega(FieldViewSet miEntrega) throws Throwable{
-    	int numpeticionesEntrega = 0;
-    	String peticiones = (String) miEntrega.getValue(peticionesEntidad.searchField(
-				ConstantesModelo.INCIDENCIASPROYECTO_36_PETS_RELACIONADAS).getName());
-		if (peticiones != null && !"".contentEquals(peticiones)) {				
-			List<Long> codigosPeticiones = obtenerCodigos(peticiones);
-			return (codigosPeticiones == null ? 0 : codigospeticionesEntidad.size());			
-		}
-    	return numpeticionesEntrega;
-    }*/
-        
-	public Map<Integer, String> importarExcel2BBDD(final String path, final FieldViewSet importacionFSet) throws Throwable {
+	public Map<Integer, String> importarExcel2BBDD(final String path) throws Throwable {
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
 		
 			// leer de un path
@@ -266,10 +246,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
 			}
-			Date fecExportacion = (Date) importacionFSet.getValue(importacionEntidad.searchField(
-					ConstantesModelo.IMPORTACIONESGEDEON_4_FECHAIMPORTACION).getName());
 
-			return importarInterno(fecExportacion, filas);
+			return importarInterno(Calendar.getInstance().getTime(), filas);
 		}
 
 
@@ -331,23 +309,22 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					
 					if (title == null) {
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName(),
-								registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_3_DESCRIPCION)
-										.getName()));
+							registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_3_DESCRIPCION).getName()));
 					}
-					String rochadeCode = obtenerRochadeAplicacion(title);
+					String aplicac = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
+					String titlePet = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
+					String rochadeCode = obtenerRochadeAplicacion(aplicac, titlePet);
 					
-					registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(),
-							rochadeCode);
+					registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), rochadeCode);
 					//si este rochade no esto en la tabla proyectos, miramos si es entorno Natural para encajarlo
-					FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicacionEntidad);
-					existeProyectoDadoDeAlta.setValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_2_CODIGO).getName(),
-							rochadeCode);
+					FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicativoEntidad);
+					existeProyectoDadoDeAlta.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName(), aplicac);
 					List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
 					if (apps.isEmpty()){
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"
 					}else{
-						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(),
-								apps.get(0).getValue(aplicacionEntidad.searchField(ConstantesModelo.PROYECTO_TIPOAPP).getName()));		
+						Long idTecnologia = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
+						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), idTecnologia);		
 					}
 				
 					Date fec_Alta = (Date) registro.getValue(peticionesEntidad.searchField(
@@ -835,8 +812,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			
 			final ImportarTareasGEDEON importadorGEDEONes = new ImportarTareasGEDEON(dataAccess_);
 			
-			final FieldViewSet importacionFSet = new FieldViewSet(importacionEntidad);
-			
 			File[] filesScanned = dir_importacion.listFiles();
 			List<File> listaOrdenada = new ArrayList<File>();
 			for (int i=0;i<filesScanned.length;i++){
@@ -850,7 +825,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					continue;
 				}
 				System.out.println("Comenzando importacion del fichero " + fileScanned.getName() + " ...");
-				importadorGEDEONes.importarExcel2BBDD(fileScanned.getAbsolutePath(), importacionFSet /*, servicioAtencion*/);
+				importadorGEDEONes.importarExcel2BBDD(fileScanned.getAbsolutePath());
 				System.out.println("...Importacion realizada con exito del fichero " + fileScanned.getName() + ".");
 			}
 			

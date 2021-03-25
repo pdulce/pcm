@@ -234,7 +234,7 @@
 						<!-- tercera fila -->
 						
 						<fieldView mappingTo="41" type="checkbox">
-							<optionValues selectionMultiple="true" entitymodel="tipoAplicacion"
+							<optionValues selectionMultiple="true" entitymodel="tecnologia"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>

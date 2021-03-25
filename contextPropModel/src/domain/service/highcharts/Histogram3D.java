@@ -92,7 +92,7 @@ public class Histogram3D extends GenericHighchartModel {
 								if (belongsPK) {
 									FieldViewSet recordBBDD = this._dataAccess.searchEntityByPk(record);
 									title = (String) recordBBDD.getValue(fieldName);
-									double valorAgregado = (Double) recordBBDD.getValue(agregados[0].getName());
+									double valorAgregado = CommonUtils.roundWith2Decimals((Double) recordBBDD.getValue(agregados[0].getName()));
 									valoresPorEje.add(valorAgregado);
 								} else {
 									List<FieldViewSet> recordsBBDD = this._dataAccess.searchByCriteria(record);
@@ -140,9 +140,9 @@ public class Histogram3D extends GenericHighchartModel {
 						FieldViewSet filtroPorRangoFecha = HistogramUtils.getRangofechasFiltro(
 								inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
 								agrupacionInterna.getMappingTo());
-						subTotal = this._dataAccess.selectWithAggregateFunction(filtroPorRangoFecha,
+						subTotal = CommonUtils.roundWith2Decimals(this._dataAccess.selectWithAggregateFunction(filtroPorRangoFecha,
 								(sinAgregado) ? "COUNT" : aggregateFunction,
-								(sinAgregado) ? -1 : agregados[0].getMappingTo());
+								(sinAgregado) ? -1 : agregados[0].getMappingTo()));
 					} else {
 						subTotal = valoresPorEje.get(period_i);
 					}
@@ -156,8 +156,8 @@ public class Histogram3D extends GenericHighchartModel {
 					total_ = Long.valueOf(Double.valueOf(subTotal).longValue() + total_.longValue());
 					totalizacionColumnas[period_i] = Long.valueOf(Double.valueOf(subTotal).longValue());
 				} else {
-					total_ = Double.valueOf(subTotal + total_.doubleValue());
-					totalizacionColumnas[period_i] = Double.valueOf(subTotal);
+					total_ = CommonUtils.roundWith2Decimals(Double.valueOf(subTotal + total_.doubleValue()));
+					totalizacionColumnas[period_i] = CommonUtils.roundWith2Decimals(Double.valueOf(subTotal));
 				}
 
 				if (subTotal == 0) {// miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
@@ -171,7 +171,7 @@ public class Histogram3D extends GenericHighchartModel {
 						String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
 						if (agregadosDecimal) {
 							subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
-									Double.valueOf(subTotal));
+									CommonUtils.roundWith2Decimals(Double.valueOf(subTotal)));
 						} else {
 							subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
 									Long.valueOf(Double.valueOf(subTotal).longValue()));
@@ -182,7 +182,7 @@ public class Histogram3D extends GenericHighchartModel {
 					String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
 					if (agregadosDecimal) {
 						subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
-								(subTotal == 0) ? null : Double.valueOf(subTotal));
+								(subTotal == 0) ? null : CommonUtils.roundWith2Decimals(Double.valueOf(subTotal)));
 					} else {
 						subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
 								(subTotal == 0) ? null : Long.valueOf(Double.valueOf(subTotal).longValue()));
@@ -216,7 +216,7 @@ public class Histogram3D extends GenericHighchartModel {
 					Number valorAgregadoIesimo = sinAgregado ? Long.valueOf(entry.getValue().longValue())
 							: entry.getValue();
 
-					minimal = valorAgregadoIesimo.doubleValue() < minimal ? valorAgregadoIesimo.doubleValue() : minimal;
+					minimal = CommonUtils.roundWith2Decimals(valorAgregadoIesimo.doubleValue() < minimal ? valorAgregadoIesimo.doubleValue() : minimal);
 
 					String entidadName = (sinAgregado) ? filtro_.getEntityDef().getName()
 							: agregados[agg].getEntityDef().getName();
@@ -228,9 +228,9 @@ public class Histogram3D extends GenericHighchartModel {
 						totalizacionColumnas[countRecord] = Long.valueOf(
 								valorAgregadoIesimo.longValue() + totalizacionColumnas[countRecord].longValue());
 					} else {
-						total_ = Double.valueOf(valorAgregadoIesimo.doubleValue() + total_.doubleValue());
-						totalizacionColumnas[countRecord] = Double.valueOf(
-								valorAgregadoIesimo.doubleValue() + totalizacionColumnas[countRecord].doubleValue());
+						total_ = CommonUtils.roundWith2Decimals(Double.valueOf(valorAgregadoIesimo.doubleValue() + total_.doubleValue()));
+						totalizacionColumnas[countRecord] = CommonUtils.roundWith2Decimals(Double.valueOf(
+								valorAgregadoIesimo.doubleValue() + totalizacionColumnas[countRecord].doubleValue()));
 					}
 
 					String valorParaCategoria1EnEsteRegistroAgregado = registroPorCategoria

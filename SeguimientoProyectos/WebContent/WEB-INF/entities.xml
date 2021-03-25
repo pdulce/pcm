@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <ent:entities xmlns:ent="http://pcm.framework.org/ent"
 			  xmlns:xs="http://www.w3.org/2001/XMLSchema"
 			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			  xsi:schemaLocation="http://pcm.framework.org/ent entities.xsd">
-  
-  <entity>
-    <entityname>rol</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="nombre" type="string" length="25" required="true"/>
-  </entity>
-    
-   <entity>
-    <entityname>administrador</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="login_name" type="string" length="20" required="true"/>
-    <field mappingTo="3" name="password" type="string" length="20" required="true" passwordType="true"/>
-    <field mappingTo="4" name="profile" type="long" length="11" required="true"
-    	fkParentEntities="rol" fkParentFields="1"/>
-    <field mappingTo="5" name="nombreCompleto" type="string" length="100" required="true"/>
-  </entity>
   
   <entity>
     <entityname>peticiones</entityname>
@@ -66,9 +49,10 @@
     <field mappingTo="39" name="fecha_informe" type="date" length="10" required="false"/>
     <field mappingTo="40" name="estado_informe" type="string" length="100" required="false"/>
     <field mappingTo="41" name="entorno" type="long" length="11" required="false" 
-       fkParentEntities="tipoAplicacion" fkParentFields="1"/>
+       fkParentEntities="tecnologia" fkParentFields="1"/>
     <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
-    <field mappingTo="43" name="fecha_validada_CD" type="date" length="10" required="false"/>    
+    <field mappingTo="43" name="fecha_validada_CD" type="date" length="10" required="false"/>  
+    <field mappingTo="44" name="ult_modificacion" type="date" length="10" required="false"/>    
 </entity>
 
 <entity>
@@ -229,8 +213,8 @@
     <field mappingTo="3" name="aplicacion" type="string" length="150" required="false"/>    	
 	<field mappingTo="4" name="tipo" type="string" length="50" required="false"/>
     <field mappingTo="5" name="gedeon_DG" type="string" length="10" required="false"/>
-    <field mappingTo="6" name="gedeon_AT" type="string" length="10" required="false"/>
-    <field mappingTo="7" name="gedeon_Entrega" type="string" length="10" required="false"/>    
+    <field mappingTo="6" name="gedeon_AT" type="string" length="150" required="false"/>
+    <field mappingTo="7" name="gedeon_Entrega" type="string" length="150" required="false"/>    
     <field mappingTo="8" name="ciclo_vida" type="double" length="6" required="false"/>
     <field mappingTo="9" name="duracion_analysis" type="double" length="6" required="false"/>
     <field mappingTo="10" name="duracion_desarrollo" type="double" length="6" required="false"/>
@@ -323,14 +307,7 @@
 	    <field mappingTo="4" name="subdireccion" type="long" length="11" required="false"
 	    	   fkParentEntities="subdireccion" fkParentFields="1"/>
     </entity>
-       
-    <entity>
-    	<entityname>departamento</entityname>
-	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-	    <field mappingTo="2" name="nombre" type="string" length="50" required="true"/>    
-	    <field mappingTo="3" name="servicio" type="long" length="11" required="true"
-	    	   fkParentEntities="servicio" fkParentFields="1"/>
-    </entity>
+   
    
    <entity>
     <entityname>tipoAplicacion</entityname>
@@ -338,35 +315,6 @@
     <field mappingTo="2" name="descripcion" type="string" length="60" required="true"/>
    </entity>
    
-   <entity>
-    <entityname>proyecto</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="codigo" type="string" length="40" required="true"/>
-    <field mappingTo="3" name="nombreProyecto" type="string" length="100" required="true"/>
-    <field mappingTo="4" name="responsable" type="long" length="11" required="false" 
-    	   fkParentEntities="colaborador" fkParentFields="1"/>
-    <field mappingTo="5" name="id_concurso" type="long" length="11" required="true"
-           fkParentEntities="concurso" fkParentFields="1"/>
-    <field mappingTo="6" name="responsableCentro" type="long" length="11" required="false"
-    	   fkParentEntities="responsableCentro" fkParentFields="1"/>
-    <field mappingTo="7" name="departamento" type="long" length="11" required="true"
-    	   fkParentEntities="departamento" fkParentFields="1"/>    
-    <field mappingTo="8" name="RET_en_DG" type="long" length="11" required="false" 
-    	   fkParentEntities="colaborador" fkParentFields="1"/>
-    <field mappingTo="9" name="Plan_FILE" type="blob" length="45" required="false"/>
-    <field mappingTo="10" name="FILE_1" type="blob" length="45" required="false"/>
-    <field mappingTo="11" name="FILE_2" type="blob" length="45" required="false"/>
-    <field mappingTo="12" name="FILE_3" type="blob" length="45" required="false"/>
-    <field mappingTo="13" name="observaciones" type="string" length="10000" required="true"/>
-    <field mappingTo="14" name="tipoApp" type="long" length="11" required="true" 
-    	   fkParentEntities="tipoAplicacion" fkParentFields="1"/>
-    <field mappingTo="15" name="fecha_update" type="timestamp" length="19" required="true"/>   
-    <field mappingTo="16" name="id_subdireccion" type="long" length="11" required="true"
-           fkParentEntities="subdireccion" fkParentFields="1"/>    
-   </entity>
-   
-
-   <!-- fin nuevas entidades -->
    <entity>
     <entityname>ejercicio</entityname>
     <field mappingTo="1" name="ejercicio" type="int" length="4" belongsPK="true" required="true"/>
@@ -380,6 +328,22 @@
     <field mappingTo="3" name="numero" type="int" length="2" required="true"/>
    </entity>
    
+   <entity>
+    <entityname>rol</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="25" required="true"/>
+  </entity>
+    
+   <entity>
+    <entityname>administrador</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="login_name" type="string" length="20" required="true"/>
+    <field mappingTo="3" name="password" type="string" length="20" required="true" passwordType="true"/>
+    <field mappingTo="4" name="profile" type="long" length="11" required="true"
+    	fkParentEntities="rol" fkParentFields="1"/>
+    <field mappingTo="5" name="nombreCompleto" type="string" length="100" required="true"/>
+  </entity>
+  
     
      
 </ent:entities>

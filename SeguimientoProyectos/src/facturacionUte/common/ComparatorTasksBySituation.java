@@ -5,7 +5,6 @@ import java.util.Comparator;
 
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IEntityLogic;
-import facturacionUte.utils.GeneradorPresentaciones;
 
 
 public final class ComparatorTasksBySituation implements Comparator<FieldViewSet>, Serializable {
@@ -52,12 +51,7 @@ public final class ComparatorTasksBySituation implements Comparator<FieldViewSet
 			return -1; 
 		}
 		
-		for (int i=0;i<GeneradorPresentaciones.ESTADOS_POSIBLES_TRABAJOS.length;i++){
-			if (GeneradorPresentaciones.ESTADOS_POSIBLES_TRABAJOS[i].indexOf(situac_1) != -1){
-				situa1 = i;
-				break;
-			}
-		}
+		
 		if (situa1 == -1){
 			if (situac_1.toLowerCase().indexOf("en curso") != -1){
 				situa1 = 2;
@@ -69,12 +63,7 @@ public final class ComparatorTasksBySituation implements Comparator<FieldViewSet
 		}
 		
 		
-		for (int i=0;i<GeneradorPresentaciones.ESTADOS_POSIBLES_TRABAJOS.length;i++){
-			if (GeneradorPresentaciones.ESTADOS_POSIBLES_TRABAJOS[i].indexOf(situac_2) != -1){
-				situa2 = i;
-				break;
-			}
-		}
+		
 		if (situa2 == -1){
 			if (situac_2.toLowerCase().indexOf("en curso") != -1){
 				situa2 = 2;

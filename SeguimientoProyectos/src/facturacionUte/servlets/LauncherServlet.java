@@ -4,19 +4,14 @@
 package facturacionUte.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.application.ApplicationDomain;
 import domain.common.PCMConstants;
-import domain.common.exceptions.PCMConfigurationException;
-import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.event.SceneResult;
-import facturacionUte.utils.bolsa.ValoresActuales;
 import webservlet.CDDWebController;
 
 /**
@@ -93,13 +88,6 @@ public class LauncherServlet extends CDDWebController {
 	@Override
 	protected String renderRequest(final Datamap data_) {
 		
-		IDataAccess dataAccess = null;
-		try {
-			dataAccess = contextApp.getDataAccess(contextApp.getDomainService(data_.getService()), 
-					new ArrayList<String>(), new ArrayList<String>());
-		} catch (PCMConfigurationException e) {
-			throw new RuntimeException("Error creating DataAccess object", e);
-		}
 		final String event = data_.getEvent();
 		StringBuilder htmlOutput = new StringBuilder();
 		htmlOutput.append("<form class=\"pcmForm\" enctype=\"multipart/form-datamap\" method=\"POST\" name=\"enviarDatos\" action=\""
@@ -109,10 +97,6 @@ public class LauncherServlet extends CDDWebController {
 		
 		if (data_.getParameter(ApplicationDomain.EXEC_PARAM) == null){
 			return new SceneResult().getXhtml();
-		}else if (data_.getParameter(ApplicationDomain.EXEC_PARAM).startsWith(EVENTO_ALL_INFO_BOLSA_VALORES)) {
-			htmlOutput.append(new ValoresActuales().refrescarIndicesBursatiles(data_, dataAccess));						
-		}else if (data_.getParameter(ApplicationDomain.EXEC_PARAM).startsWith(EVENTO_MY_INFO_BOLSA_VALORES)) {
-			htmlOutput.append(new ValoresActuales().refreshMiCartera(data_, dataAccess));
 		}
 		htmlOutput.append("</form>");
 		SceneResult scene = new SceneResult();
