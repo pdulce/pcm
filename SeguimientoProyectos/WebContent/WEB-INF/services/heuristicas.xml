@@ -110,13 +110,13 @@
 							<fieldView mappingTo="2" editable="true" size="50"/>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="15" editable="false" size="12" />							
-							<fieldView mappingTo="16" editable="false" size="12" />
-							<fieldView mappingTo="17" editable="false" size="12" />
+							<fieldView mappingTo="15" editable="false" size="16" />							
+							<fieldView mappingTo="16" editable="false" size="16" />
+							<fieldView mappingTo="17" editable="false" size="16" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="18" editable="false" size="12" />
-							<fieldView mappingTo="19" editable="false" size="12" />
-							<fieldView mappingTo="20" editable="false" size="12" />
+							<fieldView mappingTo="18" editable="false" size="16" />
+							<fieldView mappingTo="19" editable="false" size="16" />
+							<fieldView mappingTo="20" editable="false" size="16" />
 							<fieldView separator="br" />
 						</fieldset>
 						<fieldset legend="Fechas relevantes (cuando no hay petición/tarea de Análisis ni de Pruebas)">	

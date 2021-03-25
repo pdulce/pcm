@@ -297,8 +297,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				if (reglaCompuesta.length == 1) {
 					String formula = reglaCompuesta[0].trim();
 					if (formula.startsWith("SUM(")) {
-						formula = formula.replaceAll("SUM(", "");
-						formula = formula.substring(0, formula.length()-1);//eliminamos el ')'
+						formula = formula.replaceAll("SUM", "");
+						formula = formula.substring(1, formula.length()-1);//eliminamos el ')'
 						//iteramos por el objeto lista que tenemos, la entrega
 						Double acumuladoJornadas = 0.0;
 						for (int e=0;e<peticionesEntrega.size();e++) {
@@ -307,9 +307,25 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						}
 						return acumuladoJornadas;
 					}else {
-						FieldViewSet peticionEntrega = peticionesEntrega==null || peticionesEntrega.isEmpty()?null:peticionesEntrega.get(0);			
-						return procesarFormula(formula, peticionDG, peticionAnalisis, peticionPruebas, peticionEntrega, 
-							tareaAnalisis, tareaPruebasCD, variables);
+						FieldViewSet peticionEntrega = peticionesEntrega==null || peticionesEntrega.isEmpty()?null:peticionesEntrega.get(0);
+						if (formula.contains(" OR ")) {
+							String[] operandos = formula.split(" OR ");
+							//devolvemos el primero que no sea null
+							for (int k=0;k<operandos.length;k++) {
+								Serializable resultOperandoDeFormula = procesarFormula(operandos[k], peticionDG, peticionAnalisis, 
+										peticionPruebas, peticionEntrega, tareaAnalisis, tareaPruebasCD, variables);
+								if (resultOperandoDeFormula != null) {
+									/*if (k>0) {
+										System.out.println("Ha retornado la formula como :" + operandos[k]);
+									}*/
+									return resultOperandoDeFormula;
+								}
+							}
+							return null;
+						}else {
+							return procesarFormula(formula, peticionDG, peticionAnalisis, 
+									peticionPruebas, peticionEntrega, tareaAnalisis, tareaPruebasCD, variables);
+						}						
 					}
 				}else {
 					String condition = reglaCompuesta[0].trim();
@@ -319,8 +335,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					FieldViewSet peticionEntrega = peticionesEntrega==null || peticionesEntrega.isEmpty()?null:peticionesEntrega.get(0);
 					if (evalCondition(condition, peticionDG, peticionAnalisis, peticionPruebas, peticionEntrega, tareaAnalisis, tareaPruebasCD)) {
 						if (formula.startsWith("SUM(")) {
-							formula = formula.replaceAll("SUM(", "");
-							formula = formula.substring(0, formula.length()-1);//eliminamos el ')'
+							formula = formula.replaceAll("SUM", "");
+							formula = formula.substring(1, formula.length()-1);//eliminamos el ')'
 							//iteramos por el objeto lista que tenemos, la entrega
 							Double acumuladoJornadas = 0.0;
 							for (int e=0;e<peticionesEntrega.size();e++) {
@@ -328,9 +344,22 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 										tareaAnalisis, tareaPruebasCD, variables);
 							}
 							return acumuladoJornadas;
-						}else {						
-							return procesarFormula(formula, peticionDG, peticionAnalisis, 
-								peticionPruebas, peticionEntrega, tareaAnalisis, tareaPruebasCD, variables);
+						}else {	
+							if (formula.contains(" OR ")) {
+								String[] operandos = formula.split(" OR ");
+								//devolvemos el primero que no sea null
+								for (int k=0;k<operandos.length;k++) {
+									Serializable resultOperandoDeFormula = procesarFormula(operandos[k], peticionDG, peticionAnalisis, 
+											peticionPruebas, peticionEntrega, tareaAnalisis, tareaPruebasCD, variables);
+									if (resultOperandoDeFormula != null) {										
+										return resultOperandoDeFormula;
+									}
+								}
+								return null;
+							}else {
+								return procesarFormula(formula, peticionDG, peticionAnalisis, 
+										peticionPruebas, peticionEntrega, tareaAnalisis, tareaPruebasCD, variables);
+							}
 						}
 					}
 				}
@@ -508,7 +537,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			}else{
 				return fechaFin;
 			}		
-		}catch (Throwable excc) {
+		}catch (Throwable excc1) {
 			final Collection<Object> messageArguments = new ArrayList<Object>();
 			messageArguments.add(formula);
 			throw new StrategyException("ERR_FORMULA_ERR", messageArguments);
@@ -735,9 +764,10 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					entrega = dataAccess.searchEntityByPk(entrega);
 					if (entrega != null){
 						String tipoPeticionEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
-						String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-						if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") == -1 ||
-								"Entrega anulada".contentEquals(estadoEntrega) || "Entrega no conforme".contentEquals(estadoEntrega)) {
+						//String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+						Date fechaEntregada = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
+						if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") == -1 || fechaEntregada == null) { 
+								//no tenemos en cuenta entregas que no se han llegado a entregar en CD
 							continue;
 						}						
 						String peticionEntregaGEDEON = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());
@@ -747,10 +777,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						}
 						entregasSerializadas.append(peticionEntregaGEDEON);
 						entregasTramitadas.add(entrega);
-					}else {
-						continue;
-					}					
+					}				
 				}
+				
+				if (entregasTramitadas.isEmpty()) {
+					continue;
+				}	
 								
 				/*******************************************************************************************************/						
 												
@@ -776,19 +808,11 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				
 				Date _fechaInicioPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, 
 						/*peticionPruebasCD*/null, entregasTramitadas, null, null, variables);
-				/*if (_fechaInicioPruebasCD == null) {					
-					String estadoEntrega = (String) miEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-					System.out.println("_fechaInicioPruebasCD  es null para entrega " +  (String) miEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName()));					
-				}*/
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
 				variables.put("#Fecha_ini_pruebas_CD#", _fechaInicioPruebasCD);
 				
 				Date _fechaFinPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, entregasTramitadas, null, 
 						null, variables);
-				/*if (_fechaFinPruebasCD == null) {					
-					String estadoEntrega = (String) miEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-					System.out.println("_fechaFinPruebasCD  es null para entrega " +  (String) miEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName()));					
-				}*/
 			
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
 				variables.put("#Fecha_fin_pruebas_CD#", _fechaFinPruebasCD);
@@ -800,9 +824,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						entregasTramitadas, null, null, variables);			
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
 				variables.put("#Jornadas_Desarrollo#", jornadasDesarrollo);
-				/*if (jornadasDesarrollo == null) {
-					System.out.println("jornadasDesarrollo: " + jornadasDesarrollo);
-				}*/
 				
 				Double jornadasPruebasCD = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_PruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, null, null, variables);
@@ -844,9 +865,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					}else {						
 						variables.put("#Fecha_fin_analisis#", fechaFinRealAnalysis);
 						variables.put("#Fecha_ini_analisis#", fechaInicioRealAnalysis);
-						/*if (peticionDG.contentEquals("982920")) {
-							System.out.println("peticionDG: " + peticionDG);
-						}*/
 						jornadasAnalysis = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Analysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 								entregasTramitadas, null, null, variables);
 						
@@ -859,10 +877,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					dataset4MLR.write(("data.push([" + jornadasDesarrollo + ", " + jornadasPruebasCD + ", " + jornadasAnalysis +"]);\n").getBytes());
 				}
 				
-				/*if (jornadasAnalysis == null) {
-					System.out.println("jornadasAnalysis: " + jornadasAnalysis);
-				}*/
-												
 				Double jornadasDesfaseTramiteHastaInicioReal = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_Planificacion_DG, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, null, null, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName(), jornadasDesfaseTramiteHastaInicioReal);
@@ -878,8 +892,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, null, null, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
-				
-				
+								
 				if (horasEstimadas == 0.0 && horasReales==0.0) {								
 					horasReales = CommonUtils.roundDouble(jornadasDesarrollo*8.0*(1.0/0.75),2);//ratio de 0.75 horas equivale a 1 ut
 					horasEstimadas = horasReales;
