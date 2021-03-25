@@ -125,9 +125,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	private static String obtenerRochadeAplicacion(String titleApp, String titlePeticion){
 		
 		if (titleApp != null){
-			return titleApp.substring(0,4);
+			return titleApp.length()> 4 ? titleApp.substring(0,4): titleApp;
 		}else {
-			return titlePeticion.substring(0,4);
+			return titlePeticion.length()>4?titlePeticion.substring(0,4): titlePeticion;
 		}
 		
 	}
@@ -323,8 +323,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					if (apps.isEmpty()){
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"
 					}else{
+						Long idApp = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
+						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), idApp);
 						Long idTecnologia = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
-						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), idTecnologia);		
+						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), idTecnologia);
 					}
 				
 					Date fec_Alta = (Date) registro.getValue(peticionesEntidad.searchField(
