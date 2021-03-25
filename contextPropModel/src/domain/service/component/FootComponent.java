@@ -73,7 +73,7 @@ public class FootComponent extends AbstractComponent {
 	 * 
 	 * @see contextmodel.framework.context.viewmodel.components.AbstractComponent#copyOf() */
 	@Override
-	public IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException {
+	public IViewComponent copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, ClonePcmException {
 		final FootComponent m = new FootComponent();
 		m.uri = this.uri;
 		m.xhtml = this.xhtml;

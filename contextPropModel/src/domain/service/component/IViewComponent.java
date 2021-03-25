@@ -135,7 +135,7 @@ public interface IViewComponent {
 
 	public boolean isGrid();
 
-	public IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException;
+	public IViewComponent copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, ClonePcmException;
 
 	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 

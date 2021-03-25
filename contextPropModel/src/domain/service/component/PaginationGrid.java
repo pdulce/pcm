@@ -278,7 +278,7 @@ public class PaginationGrid extends AbstractComponent {
 	}
 
 	@Override
-	public IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException {
+	public IViewComponent copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, ClonePcmException {
 
 		final PaginationGrid newV = new PaginationGrid();
 

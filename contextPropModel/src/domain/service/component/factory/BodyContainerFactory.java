@@ -43,7 +43,7 @@ public class BodyContainerFactory {
 		if (this.viewcomponents.get(strName) == null) {
 			this.viewcomponents.put(strName, new BodyContainer(domainService, dataAccess, datamap));
 		}
-		return this.viewcomponents.get(strName).copyOf();
+		return this.viewcomponents.get(strName).copyOf(dataAccess);
 	}
 
 }

@@ -25,7 +25,7 @@ public interface IBodyContainer {
 
 	public List<IViewComponent> getGrids();
 
-	public IBodyContainer copyOf() throws PCMConfigurationException, DatabaseException;
+	public IBodyContainer copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, DatabaseException;
 
 	public void refresh(IViewComponent cloneCmp, HashMap<String, IFieldValue> values);
 

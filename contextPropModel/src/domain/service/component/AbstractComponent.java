@@ -80,7 +80,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 	public abstract String getName();
 
 	@Override
-	public abstract IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException;
+	public abstract IViewComponent copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, ClonePcmException;
 
 	@Override
 	public abstract String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;

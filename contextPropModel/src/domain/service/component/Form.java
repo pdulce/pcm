@@ -145,7 +145,7 @@ public class Form extends AbstractComponent {
 	}
 
 	@Override
-	public final IViewComponent copyOf() throws PCMConfigurationException, ClonePcmException {
+	public final IViewComponent copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, ClonePcmException {
 		final Form newV = new Form();
 		newV.uri = this.uri;
 		newV.title = this.title;
@@ -158,7 +158,7 @@ public class Form extends AbstractComponent {
 		newV.event = this.event;
 		newV.editableForm = this.editableForm;
 		newV.entityName = this.entityName;
-		newV.visibleControls = copyAllExceptCombos(this.visibleControls);
+		newV.visibleControls = copyNewValuesFromBBDD(this.visibleControls, dataAccess);
 		newV.hiddenControls = this.hiddenControls;
 		newV.numberOfElements = this.numberOfElements;
 		newV.userButtons = new HashMap<LinkButton, FieldViewSet>();
@@ -427,15 +427,29 @@ public class Form extends AbstractComponent {
 		}
 	}
 	
-	private Map<ICtrl, List<ICtrl>> copyAllExceptCombos(final Map<ICtrl, List<ICtrl>> visibleControls){
+	private Map<ICtrl, List<ICtrl>> copyNewValuesFromBBDD(final Map<ICtrl, List<ICtrl>> visibleControls, IDataAccess dataAccess_){
 		Map<ICtrl, List<ICtrl>> newVisibleGroup = new HashMap<ICtrl, List<ICtrl>>();
 		Iterator<ICtrl> iteratorKeys = visibleControls.keySet().iterator();
 		while (iteratorKeys.hasNext()){
 			ICtrl keyCtrl = iteratorKeys.next();
-			if (keyCtrl.isCheckBoxGroup() || keyCtrl.isRadioButtonGroup() || keyCtrl.isSelection()){
-				continue;
+			List<ICtrl> newControls = new ArrayList<ICtrl>();
+			List<ICtrl> controles = visibleControls.get(keyCtrl);
+			for (int c=0;c<controles.size();c++) {
+				ICtrl _control = controles.get(c);
+				if ((_control.isCheckBoxGroup() || _control.isRadioButtonGroup() || _control.isSelection()) &&
+						!_control.getFieldView().isUserDefined()){
+					try {
+						fillCheckAndSelection(dataAccess_, _control.getFieldView(), null, null /*valoresPorDef, firstOptionValue_*/);
+						newControls.add(AbstractCtrl.getInstance(_control.getFieldView()));
+					} catch (PCMConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
+				}else {
+					newControls.add(_control);
+				}
 			}
-			newVisibleGroup.put(keyCtrl, visibleControls.get(keyCtrl));
+			newVisibleGroup.put(keyCtrl, newControls);
 		}
 		return newVisibleGroup;
 	}

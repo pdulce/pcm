@@ -146,7 +146,7 @@ public class BodyContainer implements IBodyContainer {
 	}
 
 	@Override
-	public final IBodyContainer copyOf() throws PCMConfigurationException, DatabaseException {
+	public final IBodyContainer copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, DatabaseException {
 		final BodyContainer newV = new BodyContainer();
 		Collection<IViewComponent> colOfForms = new ArrayList<IViewComponent>();
 		Collection<IViewComponent> colOfGrids = new ArrayList<IViewComponent>();
@@ -157,9 +157,9 @@ public class BodyContainer implements IBodyContainer {
 			while (ite.hasNext()) {
 				final IViewComponent comp = ite.next();
 				if (comp.isForm()){
-					colOfForms.add(comp.copyOf());
+					colOfForms.add(comp.copyOf(dataAccess));
 				}else{
-					colOfGrids.add(comp.copyOf());
+					colOfGrids.add(comp.copyOf(dataAccess));
 				}
 			}
 		}
