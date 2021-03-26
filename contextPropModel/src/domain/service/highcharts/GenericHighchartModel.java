@@ -436,7 +436,7 @@ public abstract class GenericHighchartModel implements IStats {
 				if (!_jsArrayEjeAbcisas.contains(claveForEjeX)) {
 					_jsArrayEjeAbcisas.add(claveForEjeX);
 				}
-				Number valorEnEjeYClaveNM = numOcurrenciasDeClaveIesima.get(claveNMPosicion);
+				Number valorEnEjeYClaveNM = CommonUtils.roundWith2Decimals((Double)numOcurrenciasDeClaveIesima.get(claveNMPosicion));
 				listaOcurrencias.add(valorEnEjeYClaveNM);
 			}
 			
