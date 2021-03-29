@@ -257,13 +257,14 @@ xmlns:service="http://pcm.framework.org/service"
 				
 				<userbuttons>
 				
-					<button	link="prjManager" id="timeseries05" name="Line series" >
-						<fieldViewSet nameSpace="timeseries05">
+					<button	link="prjManager" id="timeseries02" name="Time series" >
+						<fieldViewSet nameSpace="timeseries02">
 							<fieldView name="highchart" hidden="true" value="timeseries"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+							<!-- fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/> -->
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
-							<fieldView name="fieldForGroupBy" hidden="true" value="32"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
 							<fieldView name="agregado" type="select" size="1">
 								<optionValues>									
 									<option code="28" title="uts"></option>
@@ -291,7 +292,13 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="automatic" title="Automatico"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" hidden="true" value="AVG"/>							
+							<fieldView name="operation" type="select">
+								<optionValues>																	
+									<option code="AVG" title="Promediar" selected="true"></option>
+									<option code="SUM" title="Agregación"></option>
+								</optionValues>
+							</fieldView>
+						
 						</fieldViewSet>
 					</button>
 								

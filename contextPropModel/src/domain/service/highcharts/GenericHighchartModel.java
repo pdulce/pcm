@@ -333,7 +333,9 @@ public abstract class GenericHighchartModel implements IStats {
 				.intValue()) : CommonUtils.numberFormatter.format(total);
 		String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
 		
-		title +=  (aggregateFunction.contentEquals(OPERATION_AVERAGE)?" -> promedio: ": " -> total: ") + resumenToalizadoOpromediado;
+		if (groupByField.length == 1) {
+			title +=  ((aggregateFunction.contentEquals(OPERATION_AVERAGE))?" -> promedio: ": " -> total: ") + resumenToalizadoOpromediado;	
+		}		
 		
 		data_.setAttribute(TITLE_ATTR, title);
 

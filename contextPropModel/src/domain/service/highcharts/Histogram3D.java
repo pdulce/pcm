@@ -14,7 +14,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import domain.common.utils.CommonUtils;
-import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.comparator.ComparatorOrderKeyInXAxis;
 import domain.service.dataccess.definitions.IFieldLogic;
@@ -34,9 +33,7 @@ public class Histogram3D extends GenericHighchartModel {
 			final IFieldLogic[] fieldsGROUPBY, final IFieldLogic orderByField, final String aggregateFunction) throws Throwable{
 
 		double minimal = 0.0;
-		String lang = data_.getLanguage();
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-		String itemGrafico = entidadTraslated;
+		double total = 0.0;
 
 		int numRegistros = valoresAgregados.size();
 		FieldViewSet antiguo = valoresAgregados.get(0).keySet().iterator().next();
@@ -72,10 +69,7 @@ public class Histogram3D extends GenericHighchartModel {
 				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
 				FieldViewSet registroBBDD = registroEnCrudo.keySet().iterator().next();
 				if (idSerie == null) {
-					idSerie = (Date) registroBBDD.getValue(registroBBDD.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
-					if (idSerie == null) {
-						//un rollo
-					}
+					idSerie = (Date) registroBBDD.getValue(registroBBDD.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());					
 				}
 				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
 				while (iteradorSerie.hasNext()) {
@@ -83,6 +77,7 @@ public class Histogram3D extends GenericHighchartModel {
 					System.out.println("coordenada resuelta para esta serie: (" + CommonUtils.convertDateToShortFormatted(idSerie) + ","
 					+ CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
 					serieValues.put(idSerie, CommonUtils.roundWith2Decimals(entry_.getValue()));
+					total +=  CommonUtils.roundWith2Decimals(entry_.getValue());
 				}
 			}//for
 			
@@ -183,7 +178,7 @@ public class Histogram3D extends GenericHighchartModel {
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
 		
-		return 0.0;
+		return total;
 	}
 	
 	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {
