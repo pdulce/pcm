@@ -92,7 +92,20 @@ public class Histogram3D extends GenericHighchartModel {
 				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
 				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();				
 				//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
-				Serializable firstGroupBY =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
+				Serializable firstGroupBY_ =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
+				String firstGroupBY = firstGroupBY_.toString();
+				if (firstGroupBY_ instanceof Long) {
+					if (fieldsGROUPBY[0].getParentFieldEntities() != null && !fieldsGROUPBY[0].getParentFieldEntities().isEmpty()) {
+						IFieldLogic fieldLogic = fieldsGROUPBY[0].getParentFieldEntities().iterator().next();
+						FieldViewSet recordparent = new FieldViewSet(fieldLogic.getEntityDef());
+						recordparent.setValue(fieldLogic.getEntityDef().searchField(fieldLogic.getMappingTo()).getName(), firstGroupBY_);
+						recordparent = this._dataAccess.searchEntityByPk(recordparent);						
+						firstGroupBY = (String) recordparent.getValue(fieldLogic.getEntityDef().searchField(recordparent.getDescriptionField().getMappingTo()).getName());
+						
+					}
+				}
+				
+				
 				if (firstGroupBYAux == null) {
 					firstGroupBYAux = firstGroupBY;
 				}else if (!firstGroupBYAux.toString().contentEquals(firstGroupBY.toString())) {
@@ -119,6 +132,7 @@ public class Histogram3D extends GenericHighchartModel {
 					serieValues.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
 				}
 			}//
+			
 			series.put("serie_" + firstGroupBYAux.toString(), serieValues);
 				
 		}
