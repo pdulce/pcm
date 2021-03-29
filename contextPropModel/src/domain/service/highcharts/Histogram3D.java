@@ -93,7 +93,7 @@ public class Histogram3D extends GenericHighchartModel {
 				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();				
 				//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
 				Serializable firstGroupBY_ =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
-				String firstGroupBY = firstGroupBY_.toString();
+				String firstGroupBY = "serie_" + firstGroupBY_.toString();
 				if (firstGroupBY_ instanceof Long) {
 					if (fieldsGROUPBY[0].getParentFieldEntities() != null && !fieldsGROUPBY[0].getParentFieldEntities().isEmpty()) {
 						IFieldLogic fieldLogic = fieldsGROUPBY[0].getParentFieldEntities().iterator().next();
@@ -103,23 +103,22 @@ public class Histogram3D extends GenericHighchartModel {
 						firstGroupBY = (String) recordparent.getValue(fieldLogic.getEntityDef().searchField(recordparent.getDescriptionField().getMappingTo()).getName());
 						
 					}
-				}
-				
+				}				
 				
 				if (firstGroupBYAux == null) {
 					firstGroupBYAux = firstGroupBY;
 				}else if (!firstGroupBYAux.toString().contentEquals(firstGroupBY.toString())) {
 					
-					Map<Date, Number> volcarSeriesvalues = series.get("serie_"+ firstGroupBYAux.toString());
+					Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBYAux.toString());
 					if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
 						volcarSeriesvalues = new HashMap<Date, Number>();						
 					}
 					volcarSeriesvalues.putAll(serieValues);
-					series.put("serie_"+ firstGroupBYAux.toString(), volcarSeriesvalues);
+					series.put(firstGroupBYAux.toString(), volcarSeriesvalues);
 					
 					//inicializo para el siguiente valor de GROUP BY
 					serieValues = new HashMap<Date, Number>();	
-					firstGroupBYAux = firstGroupBY + "";
+					firstGroupBYAux = firstGroupBY;
 				}
 				Date secondGroupBY =  (Date) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[1].getMappingTo()).getName());					
 								
@@ -133,7 +132,7 @@ public class Histogram3D extends GenericHighchartModel {
 				}
 			}//
 			
-			series.put("serie_" + firstGroupBYAux.toString(), serieValues);
+			series.put(firstGroupBYAux.toString(), serieValues);
 				
 		}
 		

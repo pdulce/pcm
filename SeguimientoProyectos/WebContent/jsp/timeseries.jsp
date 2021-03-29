@@ -40,11 +40,11 @@
             width: 1080,
             floating: true,
             align: 'center',
-            x: 95, // = marginLeft - default spacingLeft
+            x: 80, // = marginLeft - default spacingLeft
             y: 9,
-            itemWidth: 220,
+            itemWidth: 260,
             itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
-            itemDistance: 85,
+            itemDistance: 20,
             borderWidth: 0
         },
         
