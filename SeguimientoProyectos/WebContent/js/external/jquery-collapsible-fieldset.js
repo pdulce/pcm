@@ -91,7 +91,8 @@
 			}else if (textoDiagrama.lastIndexOf("Diagramas Estudios de Peticiones") > -1 ){
 				isCollapsed = false;
 			}else if (textoDiagrama.lastIndexOf("Agregados en Periodo Estudio") > -1 ||
-					textoDiagrama.lastIndexOf("Promedios Mensuales") > -1){
+					textoDiagrama.lastIndexOf("Promedios Mensuales") > -1 ||
+					textoDiagrama.lastIndexOf("Promedios Por Aplicación") > -1){
 				isCollapsed = true;
 			}
 			

@@ -10,16 +10,18 @@
             backgroundColor: 'transparent'
         },
         title: {
-            text: '<%=request.getAttribute("title")%>'
+            text: '<%=request.getAttribute("title")%>',
+            style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         subtitle: {
-            text: '<%=request.getAttribute("subtitle")%>'
+            text: '<%=request.getAttribute("subtitle")%>',
+            style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         xAxis: {
             categories: <%=request.getAttribute("abscisas")%>,
             labels: {
                 style: {
-                    color: '#6E6E6E',
+                    color: 'orange',
                     fontSize:'xx-small'
                 }
             }
@@ -27,8 +29,10 @@
         yAxis: {
             min:  <%=request.getAttribute("minEjeRef")%>,
             allowDecimals: true,
+            style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'},
             title: {
-                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
+                text: '<%=request.getAttribute("titulo_EJE_Y")%>',
+                style: {'color': 'orange', 'font-weight': 'lighter'}
             }
         },
         
@@ -39,20 +43,21 @@
             x: 95, // = marginLeft - default spacingLeft
             y: 9,
             itemWidth: 220,
-            itemStyle: {'color': 'black', 'font-weight': 'normal', 'font-size': '12px'},
+            itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
             itemDistance: 85,
             borderWidth: 0
         },
         
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '<span style="font-size: xx-small; color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
+            pointFormat: '<span style="font-size: xx-small; color: #3f4c6b">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
         },
         				       
         plotOptions: {
         	line: {
                 dataLabels: {
-                    enabled: true
+                    enabled: true,
+                    style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'}
                 },
                 enableMouseTracking: false
             },
@@ -60,12 +65,13 @@
                 borderWidth: 2,
                 dataLabels: {
                     enabled: true,
-                    style: {'color': '#e6e6ff', 'font-weight': 'lighter', 'font-size': 'xx-small'},
+                    style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'},
                     format: '{point.y:<%=request.getAttribute("decimals")%>}'
                 }
             },
             column: {
                 depth: 25,
+                style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'},
                 stacking: true,
                 grouping: false,
                 groupZPadding: 10

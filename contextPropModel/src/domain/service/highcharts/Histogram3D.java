@@ -62,27 +62,27 @@ public class Histogram3D extends GenericHighchartModel {
 		Map<String, Map<Date, Number>> series = new HashMap<String, Map<Date, Number>>();		
 		
 		if (fieldsGROUPBY.length == 1) {
-			Date idSerie = null;
-			Map<Date, Number> serieValues = new HashMap<Date, Number>();
 			//genero aqui todas las series que hay diferentes, y luego agrupo por unidad de periodo
 			for (int j=0;j<valoresAgregados.size();j++) {
 				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
 				FieldViewSet registroBBDD = registroEnCrudo.keySet().iterator().next();
-				if (idSerie == null) {
-					idSerie = (Date) registroBBDD.getValue(registroBBDD.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());					
+				Date idSerie = (Date) registroBBDD.getValue(registroBBDD.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());					
+				Map<Date, Number> volcarSeriesvalues = series.get("serie_1");
+				if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+					volcarSeriesvalues = new HashMap<Date, Number>();						
 				}
 				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
 				while (iteradorSerie.hasNext()) {
 					Map.Entry<String, Double> entry_ = iteradorSerie.next();
-					System.out.println("coordenada resuelta para esta serie: (" + CommonUtils.convertDateToShortFormatted(idSerie) + ","
-					+ CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
-					serieValues.put(idSerie, CommonUtils.roundWith2Decimals(entry_.getValue()));
+					//System.out.println("coordenada resuelta para esta serie: (" + CommonUtils.convertDateToShortFormatted(idSerie) + ","
+					//+ CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
+					volcarSeriesvalues.put(idSerie, CommonUtils.roundWith2Decimals(entry_.getValue()));
 					total +=  CommonUtils.roundWith2Decimals(entry_.getValue());
 				}
+				series.put("serie_1", volcarSeriesvalues);
 			}//for
+						
 			
-			series.put("serie_" + idSerie.toString(), serieValues);
-		
 		}else {//2 fieldGroupBy--> N series
 			
 			Map<Date, Number> serieValues = new HashMap<Date, Number>();
@@ -108,16 +108,14 @@ public class Histogram3D extends GenericHighchartModel {
 					serieValues = new HashMap<Date, Number>();	
 					firstGroupBYAux = firstGroupBY + "";
 				}
-				
-				
 				Date secondGroupBY =  (Date) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[1].getMappingTo()).getName());					
 								
 				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
 				while (iteradorSerie.hasNext()) {
 					Map.Entry<String, Double> entry_ = iteradorSerie.next();
-					System.out.println("coordenada resuelta para la serie " + firstGroupBYAux + 
-							": (" + CommonUtils.convertDateToShortFormatted(secondGroupBY) + "," + 
-							CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
+					//System.out.println("coordenada resuelta para la serie " + firstGroupBYAux + 
+					//		": (" + CommonUtils.convertDateToShortFormatted(secondGroupBY) + "," + 
+					//		CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
 					serieValues.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
 				}
 			}//
@@ -172,13 +170,13 @@ public class Histogram3D extends GenericHighchartModel {
 				
 		String serieJson = regenerarListasSucesos(newSeries, is3D());
 		
-		data_.setAttribute(CHART_TITLE, "Comparativa ");
+		data_.setAttribute(CHART_TITLE, fieldsGROUPBY.length == 2?"Comparativa ": "Time series ");
 		data_.setAttribute(JSON_OBJECT, serieJson);		
 		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toString());
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
 		
-		return total;
+		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? total/periodos.size(): total;
 	}
 	
 	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {
