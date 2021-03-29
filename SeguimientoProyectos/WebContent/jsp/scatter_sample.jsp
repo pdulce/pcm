@@ -20,6 +20,7 @@ Highcharts.chart('container', {
     series: [{
         type: 'line',
         name: 'Regression Line',
+        backgroundColor: 'transparent',
         data: [[0, 1.11], [5, 4.51]],
         marker: {
             enabled: false

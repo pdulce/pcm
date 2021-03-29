@@ -6,7 +6,8 @@
  		Highcharts.chart('container', {
 	        chart: {
 	        	type: 'column',
-	            zoomType: 'xy'
+	            zoomType: 'xy',
+	            backgroundColor: 'transparent'
 	        },
 	        title: {
 	            text: '<%=request.getAttribute("title")%>'

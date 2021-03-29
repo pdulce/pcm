@@ -6,6 +6,7 @@
 		Highcharts.chart('container', {
 	        chart: {
 	            type: 'scatter',
+	            backgroundColor: 'transparent'
 	            zoomType: 'xy'
 	        },
 	        title: {

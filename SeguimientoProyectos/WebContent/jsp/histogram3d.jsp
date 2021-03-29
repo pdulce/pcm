@@ -8,6 +8,7 @@
 	    chart: {
 	        renderTo: 'container',
 	        type: 'column',
+            backgroundColor: 'transparent'
 	        options3d: {
 	            enabled: true,
 	            alpha: 15,

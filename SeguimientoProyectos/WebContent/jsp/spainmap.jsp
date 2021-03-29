@@ -5,7 +5,8 @@
 	 
 	   Highcharts.mapChart('container', {
 		    chart: {
-		        map: 'countries/es/es-all'
+		        map: 'countries/es/es-all',
+	            backgroundColor: 'transparent'
 		    },
 	
 		   title : {

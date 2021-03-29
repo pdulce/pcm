@@ -5,7 +5,8 @@
 			
 			Highcharts.chart('container', {
 			    chart: {
-			        type: 'bar'
+			        type: 'bar',
+		            backgroundColor: 'transparent'
 			    },
 			    title: {
 			        text: '<%=request.getAttribute("title")%>'

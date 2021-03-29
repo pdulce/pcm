@@ -5,7 +5,8 @@
 <script type="text/javascript">
 	   
   Highcharts.chart('container', {
-   chart: {
+   chart: {	   
+         backgroundColor: 'transparent'
          plotBackgroundColor: null,
          plotBorderWidth: null,
          plotShadow: true,

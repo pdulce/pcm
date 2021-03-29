@@ -6,7 +6,8 @@
 	Highcharts.chart('container', {
 	    chart: {     	
             type: 'line',
-            margin: 75				           
+            margin: 75,
+            backgroundColor: 'transparent'
         },
         title: {
             text: '<%=request.getAttribute("title")%>'

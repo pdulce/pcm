@@ -5,7 +5,8 @@
 	 
 	   Highcharts.mapChart('container', {
 		    chart: {
-		        map: 'custom/europe'
+		        map: 'custom/europe',
+	            backgroundColor: 'transparent'
 		    },
 	
 		   title : {

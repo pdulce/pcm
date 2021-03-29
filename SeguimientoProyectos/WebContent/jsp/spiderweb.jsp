@@ -7,7 +7,8 @@
   	Highcharts.chart('container', {
    		chart: {
 	        polar: true,
-	        type: 'line'
+	        type: 'line',
+            backgroundColor: 'transparent'
 	    },
         title: {
         	text : '<%=request.getAttribute("title")%>',
