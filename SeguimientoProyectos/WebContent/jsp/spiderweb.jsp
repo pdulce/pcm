@@ -12,23 +12,37 @@
 	    },
         title: {
         	text : '<%=request.getAttribute("title")%>',
+        	style: {'color': 'orange', 'font-weight': 'lighter'},
             x: -80
         },
         pane: {
             size: '80%'
         },
         subtitle: {
-            text: '<%=request.getAttribute("subtitle")%>'
+            text: '<%=request.getAttribute("subtitle")%>',
+            style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         xAxis : {
 			categories : <%=request.getAttribute("categories")%>,
 			tickmarkPlacement: 'on',
-		    lineWidth: 0
+		    lineWidth: 0,
+		    labels: {
+                style: {
+                    color: 'orange',
+                    fontSize:'small'
+                }
+            }
 	    },
 	    yAxis: {
 	        gridLineInterpolation: 'polygon',
 	        lineWidth: 0,
-	        min: 0
+	        min: 0,
+	        labels: {
+                style: {
+                    color: 'orange',
+                    fontSize:'small'
+                }
+            }
 	    },
 
 	    tooltip: {
@@ -39,7 +53,8 @@
 	    legend: {
 	        align: 'right',
 	        verticalAlign: 'middle',
-	        layout: 'vertical'
+	        layout: 'vertical',
+	        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
 	    },
 		series : <%=request.getAttribute("series")%>,
 		responsive: {

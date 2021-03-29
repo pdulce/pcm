@@ -9,26 +9,44 @@
 		            backgroundColor: 'transparent'
 			    },
 			    title: {
-			        text: '<%=request.getAttribute("title")%>'
+			        text: '<%=request.getAttribute("title")%>',
+			        style: {'color': 'orange', 'font-weight': 'lighter'}
 			    },
 			    subtitle: {
-		            text: '<%=request.getAttribute("subtitle")%>'
+		            text: '<%=request.getAttribute("subtitle")%>',
+		            style: {'color': 'orange', 'font-weight': 'lighter'}
 		        },
 			    xAxis: {
-			        categories: <%=request.getAttribute("categories")%>
+			        categories: <%=request.getAttribute("categories")%>,
+			        labels: {
+		                style: {
+		                    color: 'orange',
+		                    fontSize:'small'
+		                }
+		            }
 			    },
 			    yAxis: {
 			        min: 0,
+			        itemStyle: {'color': 'orange', 'font-weight': 'lighter'},
 			        title: {
-			            text: '<%=request.getAttribute("titulo_EJE_X")%>'
-			        }
+			            text: '<%=request.getAttribute("titulo_EJE_X")%>',
+			            itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+			        },
+			        labels: {
+		                style: {
+		                    color: 'orange',
+		                    fontSize:'small'
+		                }
+		            }
 			    },
 			    legend: {
-			        reversed: true
+			        reversed: true,
+			        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
 			    },
 			    plotOptions: {
 			        series: {
-			            stacking: 'normal'
+			            stacking: 'normal',
+			            style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'}
 			        }
 			    },
 				  series: <%=request.getAttribute("series")%>

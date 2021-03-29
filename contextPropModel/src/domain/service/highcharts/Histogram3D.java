@@ -50,7 +50,7 @@ public class Histogram3D extends GenericHighchartModel {
 		/**
 		 * Un ejemplo con dos dimensiones para el group by
 		 * 56.3518181818182|54|2020-05|Mto.HOST[01/01/2018-31/03/2021]
-			75.2805882352941|54|2020-06|Mto.HOST[01/01/2018-31/03/2021]
+			75.2805882352941|57|2020-06|Mto.HOST[01/01/2018-31/03/2021]
 			41.7428571428571|54|2020-07|Mto.HOST[01/01/2018-31/03/2021]
 			426.341666666667|55|2018-04|ND.Pros@[01/01/2018-31/03/2021]
 			240.544285714286|55|2018-05|ND.Pros@[01/01/2018-31/03/2021]
@@ -123,8 +123,6 @@ public class Histogram3D extends GenericHighchartModel {
 				
 		}
 		
-		System.out.println("Debemos de tener tantas series como groupby con valores distintos para el campo : " + fieldsGROUPBY[0].getName());
-		
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
 		
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
@@ -136,7 +134,7 @@ public class Histogram3D extends GenericHighchartModel {
 			String valorPeriodoEjeX = periodos.get(i);
 			jsArrayEjeAbcisas.add(valorPeriodoEjeX);
 			
-			System.out.println("Valor en EjeAbcisas: " +  valorPeriodoEjeX);
+			//System.out.println("Valor en EjeAbcisas: " +  valorPeriodoEjeX);
 			Iterator<Map.Entry<String, Map<Date, Number>>> iteSeries = series.entrySet().iterator();
 			while (iteSeries.hasNext()) {
 				Map.Entry<String, Map<Date, Number>> serie = iteSeries.next();

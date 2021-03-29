@@ -6,17 +6,19 @@
 	   
   Highcharts.chart('container', {
    chart: {	   
-         backgroundColor: 'transparent'
+         backgroundColor: 'transparent',
          plotBackgroundColor: null,
          plotBorderWidth: null,
          plotShadow: true,
          type: 'pie'
      },
      title: {
-         text: '<%=request.getAttribute("title")%>'
+         text: '<%=request.getAttribute("title")%>',
+         style: {'color': 'orange', 'font-weight': 'lighter'}
     },
     subtitle: {
-        text: '<%=request.getAttribute("subtitle")%>'
+        text: '<%=request.getAttribute("subtitle")%>',
+        style: {'color': 'orange', 'font-weight': 'lighter'}
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.2f} %</b>'
@@ -34,7 +36,7 @@
                 	operator: '>',
                 	value: '4'},
                 style: {
-                    color: 'black',
+                    color: 'orange',
                     fontSize: '14px',                        
                     fontStyle: 'normal'                                      
                 },
@@ -48,7 +50,7 @@
         	title: {
                text: '<%=request.getAttribute("units")%> <%=request.getAttribute("entidadGrafico")%>',
                style: {
-               color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+               color: (Highcharts.theme && Highcharts.theme.textColor) || 'orange'
                 }
          },
         width: 840,

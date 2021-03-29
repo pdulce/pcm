@@ -10,16 +10,18 @@
 	            backgroundColor: 'transparent'
 	        },
 	        title: {
-	            text: '<%=request.getAttribute("title")%>'
+	            text: '<%=request.getAttribute("title")%>',
+	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        subtitle: {
-	            text: '<%=request.getAttribute("subtitle")%>'
+	            text: '<%=request.getAttribute("subtitle")%>',
+	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        xAxis: [{
 	            categories: <%=request.getAttribute("series")%>,
 	            labels: {
 	                style: {
-	                    color: '#6E6E6E',
+	                    color: 'orange',
 	                    fontSize:'small'
 	                }
 	            },
@@ -59,19 +61,19 @@
 	            shared: true
 	        },
 	        legend: {		            	
-	            width: 560,
+	            width: 580,
 	            floating: true,
 	            align: 'left',
-	            x: 170, // = marginLeft - default spacingLeft
+	            x: 110, // = marginLeft - default spacingLeft
 	            y: 17,
-	            itemWidth: 180,
-	            itemStyle: {'color': 'black', 'font-weight': 'bold', 'font-size': '12px'},
+	            itemWidth: 220,
+	            itemStyle: {'color': 'orange', 'font-weight': 'light', 'font-size': '12px'},
 	            itemDistance: 80,
 	            borderWidth: 0
 	        },
 
 	        series: [{
-	        	name: 'Frecuencia relativa',
+	        	name: 'Relative freq.',
 	            type: 'column',
 	            data: <%=request.getAttribute("frecAbsoluta")%>,
 	            tooltip: {
@@ -79,9 +81,10 @@
 	            }
 
 	        }, {
-	            name: 'Frecuencia acumulada',
+	            name: 'Cumulative freq.',
 	            type: 'spline',
 	            yAxis: 1,
+	            style: {'color': 'blue', 'font-weight': 'lighter'},
 	            data: <%=request.getAttribute("frecAcum")%>,
 	            tooltip: {
 	                valueSuffix: '%'
