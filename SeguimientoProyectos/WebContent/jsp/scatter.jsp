@@ -6,23 +6,38 @@
 		Highcharts.chart('container', {
 	        chart: {
 	            type: 'scatter',
-	            backgroundColor: 'transparent'
+	            backgroundColor: 'transparent',
 	            zoomType: 'xy'
 	        },
 	        title: {
-	            text: '<%=request.getAttribute("title")%>'
+	            text: '<%=request.getAttribute("title")%>',
+	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        subtitle: {
-	            text: '<%=request.getAttribute("subtitle")%>'
+	            text: '<%=request.getAttribute("subtitle")%>',
+	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        xAxis: {
 	            title: {	                
-	                text: '<%=request.getAttribute("titulo_EJE_X")%>'
+	                text: '<%=request.getAttribute("titulo_EJE_X")%>'	                
+	            },
+	            labels: {
+	                style: {
+	                    color: 'orange',
+	                    fontSize:'small'
+	                }
 	            }
 	        },
 	        yAxis: {
 	            title: {
-	                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
+	                text: '<%=request.getAttribute("titulo_EJE_Y")%>',
+	                itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+	            },
+	            labels: {
+	                style: {
+	                    color: 'orange',
+	                    fontSize:'small'
+	                }
 	            }
 	        },
 	        plotOptions: {
