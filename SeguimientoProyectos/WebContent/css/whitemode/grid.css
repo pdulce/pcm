@@ -1,14 +1,14 @@
 /*.blueC{
 	font-weight: bold;
 	color: black;
-	background: #eef2f3;
+	background: rgb(254, 254, 254);
 }
 */
 
 .pcmTDLeft {
 	font: normal 0.8em Verdana, sans-serif;
 	color: black;
-	background-color: #eef2f3;
+	background-color: rgb(254, 254, 254);
 	text-align: left;
 	border: 1.1px solid #C9DCA6;
 	width: 8%;
@@ -19,7 +19,7 @@
 .pcmTDRight {
 	font: normal 0.8em Verdana, sans-serif;
 	color: black;
-	background-color: #eef2f3;
+	background-color: rgb(254, 254, 254);
 	text-align: left;
 	border: 1.1px solid #C9DCA6;
 	width: 92%;
@@ -32,7 +32,7 @@
 	border: 0;
 	font-size: 0.8em;
 	width: 95.9%;
-	background-color: #eef2f3;
+	background-color: rgb(254, 254, 254);
 }
 
 TH {
@@ -47,13 +47,13 @@ TD {
 }
 
 .trImpaired{
-    background: rgb(223, 234, 238);/*30515f*/
+    background: rgb(237, 254, 254);/*30515f*/
     color: black;
     border: 0;
 }
 
 .trPaired{
-    background: rgb(236, 242, 244);
+    background: rgb(255, 255, 255);
     color: black;
     border: 0;
 }

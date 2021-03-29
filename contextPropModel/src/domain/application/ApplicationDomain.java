@@ -420,10 +420,10 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Dualhistogram();
 			}else if (highchartStats.equals("scatter")) {
 				genericHCModel = new Scatter();
+			//}else if (highchartStats.equals("timeseries")) {
+				//	genericHCModel = new TimeSeries();
 			}else if (highchartStats.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
-			}else if (highchartStats.equals("lineseries")) {
-				genericHCModel = new LineSeries();
 			}
 			try {
 				DomainService domainService = getDomainService(datamap.getService());

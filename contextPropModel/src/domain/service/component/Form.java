@@ -801,7 +801,7 @@ public class Form extends AbstractComponent {
 						
 						if (j> 0 && j % salto == 0) {
 							XmlUtils.closeXmlNode(buttonsStrBuilder, IViewComponent.UL_LABEL_ID);
-							buttonsStrBuilder.append("<BR/><BR/><BR/><BR/><BR/><BR/>");	
+							buttonsStrBuilder.append("<BR/><BR/>");	
 							XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.UL_LABEL_ID);
 						}
 

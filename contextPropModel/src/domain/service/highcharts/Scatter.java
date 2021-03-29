@@ -55,7 +55,7 @@ public class Scatter extends GenericHighchartModel {
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet userFilter, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
-			final String aggregateFunction) {
+			final IFieldLogic orderBy, final String aggregateFunction) {
 
 		return 0.0;
 	}

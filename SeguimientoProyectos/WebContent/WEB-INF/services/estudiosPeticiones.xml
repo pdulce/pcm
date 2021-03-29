@@ -18,37 +18,14 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 				
-						<!-- button	link="prjManager" id="histog01" name="Comparativas Estudios (promedios/petic.)" >
-							<fieldViewSet nameSpace="histog01">
-								<fieldView name="highchart" hidden="true" value="histogram3D"/>
-								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
-								<fieldView name="orderBy" hidden="true" value="1"/>								
-								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
-								<fieldView name="agregado" type="select" size="1">
-									<optionValues>
-										<option code="30" title="Promedio Ciclo Vida" selected="true"></option>
-										<option code="31" title="Promedio Análisis(Jornadas)"></option>
-										<option code="32" title="Desarrollo (Jornadas)"></option>
-										<option code="33" title="Promedio Preparación Entrega"></option>
-										<option code="34" title="Promedio Pruebas en CD"></option>
-										<option code="35" title="Promedio Intervalo Trámite e Inicio Desarrollo"></option>
-										<option code="36" title="Promedio Intervalo Fin Desarr. y Solicitud Entrega en CD"></option>
-										<option code="37" title="Promedio Intervalo Fin PruebasCD e Instal.Producc."></option>
-										<option code="38" title="Promedio Dedicaciones Efectivas"></option>
-										<option code="39" title="Promedio Intervalos sin Dedicación AT-DG"></option>
-									</optionValues>
-								</fieldView>
-								<fieldView name="escalado" hidden="true" value="automatic"/>
-								<fieldView name="operation" hidden="true" value="AVG"/>
-							</fieldViewSet>
-						</button>-->
-						<button	link="prjManager" id="lineseries01" name="Line series" >
-							<fieldViewSet nameSpace="lineseries01">
-								<fieldView name="highchart" hidden="true" value="lineseries"/>
+						
+						<button	link="prjManager" id="timeseries01" name="Time series" >
+							<fieldViewSet nameSpace="timeseries01">
+								<fieldView name="highchart" hidden="true" value="timeseries"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-								<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+								<!-- fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/> -->
 								<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
-								<fieldView name="fieldForGroupBy" hidden="true" value="32"/>
+								<fieldView name="fieldForGroupBy" hidden="true" value="2,20"/> <!-- by estudio y anyo-mes -->
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
 										<option code="28" title="uts"></option>
@@ -76,63 +53,17 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="automatic" title="Automatico"></option>
 									</optionValues>
 								</fieldView>
-								<fieldView name="operation" hidden="true" value="AVG"/>							
+								<fieldView name="operation" type="select">
+									<optionValues>																	
+										<option code="AVG" title="Promediar" selected="true"></option>
+										<option code="SUM" title="Agregación"></option>
+									</optionValues>
+								</fieldView>
+							
 							</fieldViewSet>
 						</button>
 						
-						<button	link="prjManager" id="histog02" name="Comparativas (promedios mes/aplicación)" >
-							<fieldViewSet nameSpace="histog02">
-								<fieldView name="highchart" hidden="true" value="histogram3D"/>
-								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
-								<fieldView name="orderBy" hidden="true" value="1"/>								
-								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
-								<fieldView name="agregado" type="select" size="1">
-									<optionValues>
-										<option code="57" title="Promedio Ciclo Vida" selected="true"></option>
-										<option code="58" title="Promedio Análisis (Jornadas)"></option>
-										<option code="59" title="Desarrollo (Jornadas)"></option>
-										<option code="60" title="Promedio Preparación Entrega"></option>
-										<option code="61" title="Promedio Pruebas en CD"></option>
-										<option code="62" title="Promedio Intervalo Trámite e Inicio Desarrollo"></option>
-										<option code="63" title="Promedio Intervalo Fin Desarr. y Solicitud Entrega en CD"></option>
-										<option code="64" title="Promedio Intervalo Fin PruebasCD e Instal.Producc."></option>
-										<option code="65" title="Promedio Dedicaciones Efectivas"></option>
-										<option code="66" title="Promedio Intervalos sin Dedicación AT-DG"></option>
-									</optionValues>
-								</fieldView>
-								<fieldView name="escalado" hidden="true" value="automatic"/>
-								<fieldView name="operation" hidden="true" value="AVG"/>
-							</fieldViewSet>
-						</button>
 						
-						<button	link="prjManager" id="histog03" name="Comparativa Estudios (totales)" >
-							<fieldViewSet nameSpace="histog03">
-								<fieldView name="highchart" hidden="true" value="histogram3D"/>
-								<fieldView name="entidadGrafico" hidden="true" value="estudiosPeticiones"/>
-								<fieldView name="orderBy" hidden="true" value="1"/>								
-								<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>							
-								<fieldView name="agregado" type="select" size="1">
-									<optionValues>
-										<option code="51" title="Horas análisis estudio" selected="true"></option>
-										<option code="67" title="Horas análisis aplicación/mes" selected="true"></option>
-										<option code="9" title="Total uts" selected="true"></option>
-										<option code="68" title="Uts aplicación/mes" selected="true"></option>										
-										<option code="10" title="Ciclo Vida (Jornadas)"></option>
-										<option code="11" title="Análisis (Jornadas)"></option>
-										<option code="12" title="Desarrollo (Jornadas)"></option>
-										<option code="13" title="Preparación Entregas (Jornadas)"></option>
-										<option code="14" title="Pruebas en CD (Jornadas)"></option>
-										<option code="15" title="Intervalo Trámite e Inicio Desarrollo (Jornadas)"></option>
-										<option code="16" title="Intervalo Fin Desarr. y Solicitud Entrega en CD (Jornadas)"></option>
-										<option code="17" title="Intervalo Fin PruebasCD e Instal.Producc.(Jornadas)"></option>
-										<option code="18" title="Dedicaciones Efectivas (Jornadas)"></option>
-										<option code="19" title="Intervalos sin Dedicación AT-DG (Jornadas)"></option>
-									</optionValues>
-								</fieldView>
-								<fieldView name="escalado" hidden="true" value="automatic"/>
-								<fieldView name="operation" hidden="true" value="SUM"/>
-							</fieldViewSet>
-						</button>						
 						
 					</userbuttons>
 					
@@ -159,12 +90,6 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>
 							
-							<fieldView mappingTo="50" type="select">
-								<optionValues entitymodel="tiposPeriodos"
-									descrMappingTo="3" selectionMultiple="true">
-								</optionValues>
-							</fieldView>
-							
 							<fieldView separator="br" />
 							
 						</fieldset>
@@ -172,6 +97,11 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldset legend="Filtrar por Fechas del estudio">
 							<fieldView mappingTo="5" editable="true" />
 							<fieldView mappingTo="6" editable="true" />
+							<fieldView mappingTo="50" type="select">
+								<optionValues entitymodel="tiposPeriodos"
+									descrMappingTo="3" selectionMultiple="true">
+								</optionValues>
+							</fieldView>
 						</fieldset>
 																	
 					</fieldViewSet>
@@ -327,9 +257,9 @@ xmlns:service="http://pcm.framework.org/service"
 				
 				<userbuttons>
 				
-					<button	link="prjManager" id="lineseries05" name="Line series" >
-						<fieldViewSet nameSpace="lineseries05">
-							<fieldView name="highchart" hidden="true" value="lineseries"/>
+					<button	link="prjManager" id="timeseries05" name="Line series" >
+						<fieldViewSet nameSpace="timeseries05">
+							<fieldView name="highchart" hidden="true" value="timeseries"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->

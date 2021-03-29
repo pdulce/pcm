@@ -25,7 +25,7 @@ public class Pie extends GenericHighchartModel {
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
-			final String aggregateFunction) {
+			final IFieldLogic orderBy, final String aggregateFunction) {
 		
 		boolean sinAgregado = agregados == null || agregados[0]==null;
 		String lang = data_.getLanguage();

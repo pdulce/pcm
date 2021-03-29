@@ -905,18 +905,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(totalDedicaciones + totalGaps);
 				
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), esfuerzoUts);
-				
-				// el mes y aoo para poder explotarlo en Histogramas con selectGroupBy
-				Date fecAlta = (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG).getName());
-				Calendar dateFec = Calendar.getInstance();
-				dateFec.setTime(fecAlta);
-				String year = String.valueOf(dateFec.get(Calendar.YEAR));
-				String month = String.valueOf(dateFec.get(Calendar.MONTH) + 1);
-				if (month.length() == 1) {
-					month = "0".concat(month);
-				}
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_32_ANYO_MES).getName(), year + "-" + month);
-				
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName(), cicloVidaPeticion);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES).getName(), totalDedicaciones);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_GAPS).getName(), totalGaps);								

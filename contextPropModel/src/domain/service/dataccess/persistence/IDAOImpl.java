@@ -63,7 +63,7 @@ public interface IDAOImpl {
 
 	public List<Map<FieldViewSet, Map<String,Double>>> selectWithAggregateFuncAndGroupBy(final FieldViewSet fieldViewSet,
 			final List<IEntityLogic> joinFViewSet, final List<IFieldLogic> joinFView, final String aggregateFunction_,
-			final IFieldLogic[] fieldsToAggregate, final IFieldLogic[] fieldsForGroupBy, final String order, final DAOConnection conn)
+			final IFieldLogic[] fieldsToAggregate, final IFieldLogic[] fieldsForGroupBy, final IFieldLogic orderByField, final String order, final DAOConnection conn)
 			throws DatabaseException;
 
 	public List<FieldViewSet> selectWithDistinct(final FieldViewSet fieldViewSet, final int fieldForDistinct, final String order,

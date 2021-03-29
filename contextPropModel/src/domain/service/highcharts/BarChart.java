@@ -40,7 +40,7 @@ public class BarChart extends GenericHighchartModel {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
-			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
+			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion, final IFieldLogic orderBy,
 			final String aggregateFunction) {
 		
 		boolean sinAgregado = agregados == null || agregados[0]==null;

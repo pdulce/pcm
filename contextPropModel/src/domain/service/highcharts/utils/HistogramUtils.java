@@ -4,19 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
-import domain.common.PCMConstants;
-import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.component.definitions.IRank;
 import domain.service.component.definitions.Rank;
-import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.event.IAction;
 
 /**
  * @author 99GU3997
@@ -253,44 +247,6 @@ public class HistogramUtils {
 		return filtroPorTareaApp;
 	}
 	
-	private static final List<String> obtenerPeriodosPorAnyo(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_)
-			throws DatabaseException {
-		
-		Integer anyo = Calendar.getInstance().get(Calendar.YEAR);
-		List<String> inicio_fin_Periodo = new ArrayList<String>();
-		
-		if (orderField_.getAbstractField().isDate()) {
-			Date fechaOrdenacion = (Date) filtro_.getValue(orderField_.getName());
-			Calendar calFecOrdenacion = Calendar.getInstance();
-			calFecOrdenacion.setTime(fechaOrdenacion);
-			anyo = calFecOrdenacion.get(Calendar.YEAR);
-		}else if (orderField_.getAbstractField().isInteger() && orderField_.getAbstractField().getMaxLength() == 4) {
-			anyo = (Integer) filtro_.getValue(orderField_.getName());
-		}
-		
-		if (anyo != null) {
-			List<FieldViewSet> lexs = dataAccess.selectWithDistinct(filtro_, orderField_.getMappingTo(), "desc");
-			if (lexs.size() > 0) {
-				FieldViewSet mayorEjercicio = lexs.get(0);
-				Number ejercicio = (Number) mayorEjercicio.getValue(orderField_.getName());
-				String period_fin = "31-dic-".concat(ejercicio.toString());
-				String period_ini = "";
-				if (lexs.size() > 1) {
-					FieldViewSet menorEjercicio = lexs.get(lexs.size() - 1);
-					Number ejercicioMenor = (Number) menorEjercicio.getValue(orderField_.getName());
-					period_ini = "01-ene-".concat(ejercicioMenor.toString());
-				} else {
-					period_ini = "01-ene-".concat(ejercicio.toString());
-				}
-
-				inicio_fin_Periodo.add(period_ini);
-				inicio_fin_Periodo.add(period_fin);
-			}
-		}
-	
-		return inicio_fin_Periodo;
-	}
-	
 	
 	/*** Values for this select
 	 *automatic
@@ -302,27 +258,17 @@ public class HistogramUtils {
 	 *anualy
 	**/
 	
-	public static List<String> obtenerPeriodosEjeXConEscalado(final IDataAccess dataAccess, IFieldLogic orderField_, final FieldViewSet filtro_, final String escalado)
-			throws DatabaseException {
-		if (!orderField_.getAbstractField().isDate() && !CommonUtils.filtroConCriteriosDeFechas(filtro_)) {
-			return obtenerPeriodosPorAnyo(dataAccess, orderField_, filtro_);
-		}
+	public static List<String> obtenerPeriodosEjeXConEscalado(final Date fechaCalMasReciente_, final Date fechaCalMasAntigua_, final String escalado){
+		
+		
+		final Calendar fechaCalMasReciente = Calendar.getInstance(), fechaCalMasAntigua= Calendar.getInstance();
+		fechaCalMasAntigua.setTime(fechaCalMasAntigua_);
+		fechaCalMasReciente.setTime(fechaCalMasReciente_);
+		
 		List<String> periodos = new ArrayList<String>();
-		String orderField = filtro_.getContextName().concat(PCMConstants.POINT).concat(orderField_.getName());
+		
 		Calendar fechaCalAux = null;
 		String inicioPeriodoTotal = "", finPeriodoTotal = "";
-		Calendar fechaCalMasReciente = CommonUtils.getClientFilterUntilEndDate(filtro_, orderField_);
-		Calendar fechaCalMasAntigua = CommonUtils.getClientFilterFromInitialDate(filtro_, orderField_);
-		if (fechaCalMasAntigua == null){
-			Map<Integer, FieldViewSet> petFirstAndLast = dataAccess.searchFirstAndLast(filtro_, new String[]{orderField}, IAction.ORDEN_ASCENDENTE);
-			if (petFirstAndLast == null) {
-				return periodos;
-			}
-			fechaCalMasAntigua = Calendar.getInstance();
-			fechaCalMasAntigua.setTime((Date) petFirstAndLast.get(1).getValue(orderField_.getName()));
-			fechaCalMasReciente= Calendar.getInstance();
-			fechaCalMasReciente.setTime((Date) petFirstAndLast.get(2).getValue(orderField_.getName()));
-		}
 		
 		// veamos cuantos doas hay, que es la unidad bosica para nuestro eje X:		
 		long fechaInicial = 0, fechaFinal=0;

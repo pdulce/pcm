@@ -23,23 +23,14 @@
 							<fieldView name="highchart" hidden="true" value="histogram3D"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="fieldForGroupBy" type="select">
-								<optionValues>
-									<option code="-1" title="periodos" selected="true"></option>
-									<option code="26" title="aplicacion"></option>
-									<option code="7" title="situacion"></option>
-									<option code="13" title="tipo"></option>
-									<option code="12" title="area destino"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
+							<fieldView name="fieldForGroupBy" hidden="true" value="17"/>
 							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="-1" title="peticiones" selected="true"></option>								
 									<option code="28" title="UTs Estimadas"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="escalado" type="select">
+							<fieldView name="escalado" type="select" size="1">
 								<optionValues>
 									<option code="dayly" title="Diario"></option>
 									<option code="weekly" title="Semanal"></option>
@@ -50,7 +41,12 @@
 									<option code="automatic" title="Automatico"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" hidden="true" value="SUM"/>							
+							<fieldView name="operation" type="select">
+								<optionValues>
+									<option code="SUM" title="Agregación" selected="true"></option>								
+									<option code="AVG" title="Promediar"></option>
+								</optionValues>
+							</fieldView>
 						</fieldViewSet>
 					</button>
 					
@@ -60,7 +56,7 @@
 							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>							
-							<fieldView name="fieldForGroupBy" type="select">
+							<fieldView name="fieldForGroupBy" type="select" size="1">
 								<optionValues>
 									<option code="-1" title="periodos" selected="true"></option>
 									<option code="26" title="aplicacion"></option>
@@ -71,14 +67,14 @@
 									<option code="6" title="solicitante"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="agregado" type="select">
+							<fieldView name="agregado" type="select"  size="1">
 								<optionValues>
 									<option code="-1" title="peticiones"></option>
 									<option code="28" title="UTs estimadas" selected="true"></option>
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="escalado" type="select">
+							<fieldView name="escalado" type="select"  size="1">
 								<optionValues>
 									<option code="dayly" title="Diario"></option>
 									<option code="weekly" title="Semanal"></option>
@@ -89,7 +85,12 @@
 									<option code="automatic" title="Automatico"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" hidden="true" value="SUM"/>							
+							<fieldView name="operation" type="select">
+								<optionValues>
+									<option code="SUM" title="Agregación" selected="true"></option>								
+									<option code="AVG" title="Promediar"></option>
+								</optionValues>
+							</fieldView>						
 						</fieldViewSet>
 					</button>
 										
@@ -99,7 +100,7 @@
 							<fieldView name="highchart" hidden="true" value="spiderweb"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>							
-							<fieldView name="fieldForGroupBy" type="select">
+							<fieldView name="fieldForGroupBy" type="select"  size="1">
 								<optionValues>
 									<option code="26" title="aplicacion" selected="true"></option>
 									<option code="7" title="situacion"></option>
@@ -109,7 +110,7 @@
 									<option code="6" title="solicitante"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="agregado" type="select">
+							<fieldView name="agregado" type="select"  size="1">
 								<optionValues>
 									<option code="-1" title="peticiones"></option>
 									<option code="28" title="UTs estimadas" selected="true"></option>
@@ -119,36 +120,14 @@
 							<fieldView name="operation" hidden="true" value="SUM"/>
 						</fieldViewSet>
 					</button>
-													
-					<!-- button link="prjManager" id="scatter1"
-						name="Correlation">
-						<fieldViewSet nameSpace="scatter1">
-							<fieldView name="highchart" hidden="true" value="scatter"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="filteredByField" hidden="true" value="7=peticiones.7"/>
-							<fieldView name="filteredByFieldValues" hidden="true" value="%finalizad%, %Cerrada%"/>
-							<fieldView name="fieldForGroupBy" hidden="true" value="26"/>		
-							<fieldView name="ejeX" type="select" editable="false">
-								<optionValues>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="ejeY" type="select" editable="false">
-								<optionValues>
-									<option code="29" title="UTs reales" selected="true"></option>
-								</optionValues>
-							</fieldView>
-						</fieldViewSet>
-					</button>-->
-					
+																		
 					<button link="prjManager" id="barchart1"
 						name="Barchart">
 						<fieldViewSet nameSpace="barchart1">
 							<fieldView name="highchart" hidden="true" value="barchart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="fieldForGroupBy" type="select">
+							<fieldView name="fieldForGroupBy" type="select" size="3">
 								<optionValues selectionMultiple="true">
 									<option code="26" title="aplicacion" selected="true"></option>
 									<option code="7" title="situacion" selected="true"></option>
@@ -158,17 +137,17 @@
 									<option code="6" title="solicitante"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="agregado" type="select">
+							<fieldView name="agregado" type="select" size="1">
 								<optionValues>
 									<option code="-1" title="peticiones"></option>
 									<option code="28" title="UTs estimadas" selected="true"></option>
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="select">
+							<fieldView name="operation" type="select" size="1">
 								<optionValues>
-									<option code="SUM" title="agregados" selected="true"></option>
-									<option code="AVG" title="medias"></option>
+									<option code="SUM" title="agregar" selected="true"></option>
+									<option code="AVG" title="promediar"></option>
 								</optionValues>
 							</fieldView>
 						</fieldViewSet>
@@ -180,7 +159,7 @@
 							<fieldView name="highchart" hidden="true" value="piechart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="fieldForGroupBy" type="select">
+							<fieldView name="fieldForGroupBy" type="select" size="1">
 								<optionValues selectionMultiple="true">
 									<option code="26" title="aplicacion"></option>									
 									<option code="13" title="tipo"></option>
@@ -190,14 +169,19 @@
 									<option code="6" title="solicitante"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="agregado" type="select">
+							<fieldView name="agregado" type="select" size="1">
 								<optionValues>
 									<option code="-1" title="peticiones"></option>
 									<option code="28" title="UTs estimadas" selected="true"></option>
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>				
-							<fieldView name="operation" hidden="true" value="SUM"/>
+							<fieldView name="operation" type="select" size="1">
+								<optionValues>
+									<option code="SUM" title="agregar" selected="true"></option>
+									<option code="AVG" title="promediar"></option>
+								</optionValues>
+							</fieldView>
 						</fieldViewSet>
 					</button>
 					

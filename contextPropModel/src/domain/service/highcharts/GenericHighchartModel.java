@@ -50,7 +50,7 @@ public abstract class GenericHighchartModel implements IStats {
 	
 	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
-			final String aggregateFunction);
+			final IFieldLogic orderByField, final String aggregateFunction) throws Throwable;
 	
 	protected boolean isJsonResult(){
 		return true;
@@ -97,7 +97,7 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 	
 	public String generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap data_) {
-
+		
 		//long mills1 = Calendar.getInstance().getTimeInMillis();
 		SceneResult scene = new SceneResult();
 		try {
@@ -136,17 +136,15 @@ public abstract class GenericHighchartModel implements IStats {
 				userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
 			}
 			
-			String[] categoriasAgrupacion = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
-			if (categoriasAgrupacion == null || categoriasAgrupacion.length==0){
-				String categoriaAgrupacion = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
-				categoriasAgrupacion = new String[]{categoriaAgrupacion};
-			}
+			String orderByField_ = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
+			IFieldLogic orderByField = entidadGrafico.searchField(Integer.valueOf(orderByField_));
+			String[] categoriasAgrupacion = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY)).split(",");
 			String[] agregadosPor = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
 			if ((categoriasAgrupacion==null || categoriasAgrupacion.length == 0) && (agregadosPor ==null || agregadosPor.length == 0)){
-				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agrupación y/o de agregación para generar este diagrama estadístico");
+				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agregación para generar este diagrama estadístico");
 			}
 			
-			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
+			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));
 			if (fieldForFilter != null){
 				
 				String[] fields4Filter = fieldForFilter.split(";");
@@ -229,24 +227,6 @@ public abstract class GenericHighchartModel implements IStats {
 								.getName()
 								.concat(".")
 								.concat((fieldForAgrupacionPor != null ? fieldForAgrupacionPor.getName() : userFilter.getEntityDef().getName())));
-				if (fieldForAgrupacionPor != null && fieldForAgrupacionPor.getParentFieldEntities() != null
-						&& fieldForAgrupacionPor.getParentFieldEntities().size() == 1) {
-					// busco la referencia del campo clave, y luego, le sumo 1 al mapping, y si es string, lo tomo, sino, busco el siguiente
-					IFieldLogic parentFieldPK = fieldForAgrupacionPor.getParentFieldEntities().iterator().next();
-					IEntityLogic parentEntity = parentFieldPK.getEntityDef();
-					boolean found = false;
-					int f = parentFieldPK.getMappingTo() + 1;
-					while (!found && f < parentEntity.getFieldSet().size()) {
-						IFieldLogic descFieldCandidate = parentEntity.searchField(f);
-						if (descFieldCandidate.getAbstractField().isString()  || descFieldCandidate.getAbstractField().isInteger()) {
-							found = true;
-							joinFView.add(descFieldCandidate);
-							joinFieldViewSet.add(EntityLogicFactory.getFactoryInstance().getEntityDef(parentEntity.getDictionaryName(),
-									parentEntity.getName()));
-						}
-						f++;
-					}// while
-				}
 			}
 				
 						
@@ -254,13 +234,14 @@ public abstract class GenericHighchartModel implements IStats {
 			List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados = null;
 			if (fieldsForAgrupacionesPor.length > 0){				
 				listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
-					joinFView, units.indexOf("%")==-1 ? aggregateFunction: OPERATION_AVERAGE, fieldsForAgregadoPor, fieldsForAgrupacionesPor, IAction.ORDEN_ASCENDENTE);
+					joinFView, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, IAction.ORDEN_ASCENDENTE);
 			}
+			
 			if (listaValoresAgregados == null || listaValoresAgregados.isEmpty()){
 				throw new Throwable("NO HAY DATOS");
 			}
 
-			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction);			
+			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, aggregateFunction);			
 			
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
@@ -388,7 +369,7 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
+	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
 			boolean stack_Z, final Datamap data_) {
 
 		JSONArray seriesJSON = new JSONArray();
@@ -432,6 +413,18 @@ public abstract class GenericHighchartModel implements IStats {
 					//elimino el anyo
 					claveForEjeX = claveForEjeX.substring(0, claveForEjeX.length() - 5);
 					claveForEjeX = Integer.parseInt(claveForEjeX.substring(0,2)) + "" + (CommonUtils.translateMonthToSpanish(Integer.parseInt(claveForEjeX.substring(3,claveForEjeX.length())))).substring(0,3);
+				}
+				boolean notFound = true;
+				for (int i1=2010;i1<2040 & notFound;i1++) {
+					for (int j=1;j<=12;j++) {
+						String expres= String.valueOf(i1).concat("-").concat(j<10?("0"+j):j+"");
+						String traduc = CommonUtils.translateMonthToSpanish(j).substring(0,3).concat("'").concat(String.valueOf(i1%2000));
+						if (claveForEjeX.indexOf(expres)!=-1) {
+							claveForEjeX = claveForEjeX.replaceFirst(expres, traduc);
+							notFound = false;
+							break;
+						}
+					}
 				}
 				if (!_jsArrayEjeAbcisas.contains(claveForEjeX)) {
 					_jsArrayEjeAbcisas.add(claveForEjeX);

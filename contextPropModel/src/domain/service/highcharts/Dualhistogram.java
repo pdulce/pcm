@@ -2,6 +2,7 @@ package domain.service.highcharts;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,7 @@ public class Dualhistogram extends GenericHighchartModel {
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
-			final String aggregateFunction) {
+			final IFieldLogic orderByField, final String aggregateFunction) throws Throwable{
 
 		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
 		if (escalado == null){
@@ -50,17 +51,15 @@ public class Dualhistogram extends GenericHighchartModel {
 			fieldForAgrupacion = getUserFilterWithDateType(filtro_) == null ? filtro_.getEntityDef().searchField(
 					Integer.parseInt(data_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
 					: getUserFilterWithDateType(filtro_);
-			List<String> periodos = new ArrayList<String>();
-			try {
-				periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, fieldForAgrupacion, filtro_, escalado);
-				if (periodos.size() == 0){
-					data_.setAttribute(CHART_TITLE, "No hay datos: revise que la fecha final del rango especificado es posterior a la inicial");
-					return 0;
-				}
-			}
-			catch (DatabaseException e) {
-				e.printStackTrace();
-			}
+			
+			int numRegistros = valoresAgregados.size();
+			FieldViewSet antiguo = valoresAgregados.get(0).keySet().iterator().next();
+			FieldViewSet reciente =valoresAgregados.get(numRegistros-1).keySet().iterator().next();
+			Date fechaCalMasAntigua = (Date) antiguo.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
+			Date fechaCalMasReciente = (Date) reciente.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
+			
+			List<String> periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(fechaCalMasReciente, fechaCalMasAntigua, escalado);
+			
 
 			int posicionAgrupacion = 1;
 			for (int i=0;i<periodos.size(); i++) {//pueden ser aoos, meses o doas

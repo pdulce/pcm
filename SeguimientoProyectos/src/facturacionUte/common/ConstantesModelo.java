@@ -43,7 +43,6 @@ public abstract class ConstantesModelo {
 	public static final String IMPORTACIONESGEDEON_ENTIDAD = "importacionesGEDEON";*/
 	
 	public static final int PETICIONES_10_AREA_ORIGEN = 10;
-	public static final int PETICIONES_30_ANYO_MES = 30;
 	public static final int PETICIONES_4_OBSERVACIONES = 4;
 	public static final int PETICIONES_12_AREA_DESTINO = 12;
 	public static final int PETICIONES_5_USUARIO_CREADOR = 5;
@@ -105,7 +104,6 @@ public abstract class ConstantesModelo {
 	public static final int TAREA_PETICION_11_FECHA_FIN_REAL = 11;
 	public static final int TAREA_PETICION_12_FECHA_ALTA = 12;
 	public static final int TAREA_PETICION_13_FECHA_TRAMITE = 13;
-	public static final int TAREA_PETICION_14_ANYO_MES = 14;	
 	public static final String TAREA_PETICION_ENTIDAD = "tareasPeticion";
 	
     public static final int ESTUDIOS_PETICIONES_1_ID = 1;
@@ -256,7 +254,6 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS = 29;
 	public static final int RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD = 30;	
 	public static final int RESUMEN_PETICION_31_TITULO = 31;
-	public static final int RESUMEN_PETICION_32_ANYO_MES = 32;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
 	
 	public static final int TIPO_PERIODO_1_ID = 1;

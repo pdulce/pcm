@@ -622,7 +622,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	@Override
 	public final List<Map<FieldViewSet, Map<String,Double>>> selectWithAggregateFuncAndGroupBy(final FieldViewSet fieldViewSet,
 			final List<IEntityLogic> joinFViewSet, final List<IFieldLogic> joinFView, final String aggregateFunction_,
-			final IFieldLogic[] fieldsToAggregate, final IFieldLogic[] fieldsForGroupBy, final String order, final DAOConnection conn)
+			final IFieldLogic[] fieldsToAggregate, final IFieldLogic[] fieldsForGroupBy, final IFieldLogic orderbyField, final String order, final DAOConnection conn)
 			throws DatabaseException {
 //n
 		List<IFieldLogic> fieldCollection = new ArrayList<IFieldLogic>();
@@ -639,6 +639,8 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
 		try {
+			
+			//"SELECT #AGGREGATE# #FIELD# #JOINFIELD# FROM #TABLE# #JOINTABLE# #FIELDSET# #JOIN# #GROUP_BY# ORDER BY #FIELDORDER# #ORDER#"
 			String sql = SQLUtils.replaceSelectByEntitySql(CONSULTA_WITH_AGGREGATE_FUNC_AND_GROUP_BY, fieldViewSet.getEntityDef().getName(), 
 					whereForEntity);
 			String tableAlias = SQLUtils.getAlias(fieldViewSet.getEntityDef().getName());
@@ -685,39 +687,27 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				sql = sql.replaceFirst("#JOINTABLE#", "");
 				sql = sql.replaceFirst("#JOIN#", "");
 			}
-			if (fieldsForGroupBy == null) {
-				sql = sql.replaceFirst("#GROUP_BY#", "");
-				sql = sql.replaceFirst("#FIELD#", "");
-				sql = sql.replaceFirst("#FIELDORDER#", "");
-				sql = sql.replaceFirst("#ORDER#", "");
-				sql = sql.replaceFirst("ORDER BY", "");
-			} else {
-
-				String groupByTogetInSelect = ", ", conAlias= "";
-				int fieldsCount = fieldsForGroupBy.length;
-				for (int i = 0; i < fieldsCount; i++) {
-					if (fieldsForGroupBy[i] == null){
-						sql = sql.replaceFirst("#GROUP_BY#", "");
-						sql = sql.replaceFirst("#FIELD#", "");
-						sql = sql.replaceFirst("#FIELDORDER#", "");
-						sql = sql.replaceFirst("#ORDER#", "");
-						sql = sql.replaceFirst("ORDER BY", "");
-						break;
-					}
-					groupByTogetInSelect += tableAlias.concat(".").concat(fieldsForGroupBy[i].getName());
-					conAlias += tableAlias.concat(".").concat(fieldsForGroupBy[i].getName());
-					if (i < (fieldsCount - 1)) {
-						groupByTogetInSelect += ", ";
-						conAlias += ", ";
-					}
+			
+			String groupByTogetInSelect = ", ", conAlias= "";
+			int fieldsCount = fieldsForGroupBy.length;
+			for (int i = 0; i < fieldsCount; i++) {
+				if (fieldsForGroupBy[i] == null){
+					throw new Throwable("Error: no hay filtro de agrupación definido");					
 				}
-				if (conAlias.length() > 1){
-					sql = sql.replaceFirst("#FIELD#", groupByTogetInSelect);
-					sql = sql.replaceFirst("#GROUP_BY#", fieldsForGroupBy.length == 0 ? "" : " GROUP BY ".concat(conAlias));
-					sql = sql.replaceFirst("#FIELDORDER#", conAlias);
-					sql = sql.replaceFirst("#ORDER#", order);
+				groupByTogetInSelect += tableAlias.concat(".").concat(fieldsForGroupBy[i].getName());
+				conAlias += tableAlias.concat(".").concat(fieldsForGroupBy[i].getName());
+				if (i < (fieldsCount - 1)) {
+					groupByTogetInSelect += ", ";
+					conAlias += ", ";
 				}
 			}
+			if (conAlias.length() > 1){
+				sql = sql.replaceFirst("#FIELD#", groupByTogetInSelect);
+				sql = sql.replaceFirst("#GROUP_BY#", fieldsForGroupBy.length == 0 ? "" : " GROUP BY ".concat(conAlias));
+				sql = sql.replaceFirst("#FIELDORDER#", tableAlias.concat(".").concat(orderbyField.getName()));
+				sql = sql.replaceFirst("#ORDER#", order);
+			}
+			
 			
 			int contador = 1;
 			pstmt = conn.prepareStatement(sql);

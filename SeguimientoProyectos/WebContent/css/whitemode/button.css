@@ -6,7 +6,7 @@ ul#pcmUl {
 	position: relative;
 	list-style: none;     
 	float: left;
-	background: #eef2f3;
+	background: rgb(254, 254, 254);
 	font-size: 1.0em;
     font-family: Verdana, sans-serif;
     color: blue;
@@ -51,7 +51,7 @@ ul#pcmUl li a.current, ul#pcmUl li a:hover {
 	position: relative;
 	float: center;
 	background: url('../../img/softBlue.PNG');/*no-repeat top left; */
-	color: #eef2f3;
+	color: rgb(254, 254, 254);
 	cursor: pointer;
     text-decoration: none;
 }

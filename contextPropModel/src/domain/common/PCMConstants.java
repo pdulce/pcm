@@ -52,5 +52,7 @@ public interface PCMConstants {
 	public static final String[] MESES = { "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre",
 		"octubre", "noviembre", "diciembre" };//
 
-	
+	public static final String[] MESES_ABBREVIATED = { "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep",
+			"oct", "nov", "dic" };//
+
 }

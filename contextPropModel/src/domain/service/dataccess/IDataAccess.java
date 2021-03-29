@@ -85,7 +85,7 @@ public interface IDataAccess {
 
 	public List<Map<FieldViewSet, Map<String,Double>>> selectWithAggregateFuncAndGroupBy(final FieldViewSet fieldViewSet,
 			final List<IEntityLogic> joinFViewSet, final List<IFieldLogic> joinFView, final String aggregateFunction, final IFieldLogic[] fieldsForAggregate,
-			final IFieldLogic[] fieldsForGroupBy, final String order) throws DatabaseException;
+			final IFieldLogic[] fieldsForGroupBy, final IFieldLogic orderByField, final String order) throws DatabaseException;
 
 	public FieldViewSet searchFirstByPK(final FieldViewSet entidad) throws DatabaseException;
 

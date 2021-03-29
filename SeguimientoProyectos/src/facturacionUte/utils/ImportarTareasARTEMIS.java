@@ -173,14 +173,6 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
 					if (peticionEnBBDD != null){
 						Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
-						Calendar dateFec = Calendar.getInstance();
-						dateFec.setTime(fecAlta);
-						String year = String.valueOf(dateFec.get(Calendar.YEAR));
-						String month = String.valueOf(dateFec.get(Calendar.MONTH) + 1);
-						if (month.length() == 1) {
-							month = "0".concat(month);
-						}
-						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_14_ANYO_MES).getName(), year + "-" + month);
 					}
 					
 					if (isUpdate) {

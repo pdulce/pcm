@@ -1,14 +1,14 @@
 
 .dhtmlgoodies_tree{
 	margin:3px;
-	background: #eef2f3;
+	background: rgb(254, 254, 254);
 	padding:0px;
 }
 
 .dhtmlgoodies_tree ul{	/* Sub menu groups */
 	margin-left:20px;	/* Left spacing */
 	padding-left:0px;
-	background: #eef2f3;
+	background: rgb(254, 254, 254);
 	display:none;	/* Initially hide sub nodes */
 }
 
@@ -24,7 +24,7 @@
 	text-decoration:none;
 	font-family: Verdana, sans-serif;
 	color: black;
-	background: #eef2f3;
+	background: rgb(254, 254, 254);
 	font-size:0.78em;
 	padding-left:2px;
 }

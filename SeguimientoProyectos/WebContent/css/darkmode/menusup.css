@@ -3,7 +3,7 @@
 #navcontainer
 {
 /*background: #E6EDE8;*/
-background: #203A43;
+background: rgb(26, 47, 53);
 width: 100%;
 margin: 0 auto;
 padding: 1em 0;
@@ -22,7 +22,7 @@ padding: 0;
 margin: 0 auto;
 width: 100%;
 color: white;
-background-color: #203A43;
+background-color: rgb(26, 47, 53);
 }
 
 ul#navlist li
@@ -31,7 +31,7 @@ display: block;
 margin: 0;
 padding: 0;
 color: white;
-background-color: #203A43;
+background-color: rgb(26, 47, 53);
 }
 
 ul#navlist li a
@@ -40,7 +40,7 @@ display: block;
 padding: 0.5em 0 0.5em 2em;
 border-width: 1px;
 /*border-color: #ffe #aaab9c #ccc #fff;*/
-background-color: #203A43;
+background-color: rgb(26, 47, 53);
 border-style: solid;
 /*color: #919191;*/
 color: white;

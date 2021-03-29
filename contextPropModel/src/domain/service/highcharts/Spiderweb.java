@@ -20,7 +20,7 @@ public class Spiderweb extends GenericHighchartModel {
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
-			final String aggregateFunction) {
+			final IFieldLogic orderBy, final String aggregateFunction) {
 		
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>();
 		Number total_ = Double.valueOf(0.0);

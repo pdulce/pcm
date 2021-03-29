@@ -2,21 +2,23 @@ package domain.service.highcharts;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import domain.common.PCMConstants;
-import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
 import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
+import domain.service.dataccess.comparator.ComparatorOrderKeyInXAxis;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import domain.service.event.IAction;
 import domain.service.highcharts.utils.HistogramUtils;
 
 public class Histogram3D extends GenericHighchartModel {
@@ -25,342 +27,183 @@ public class Histogram3D extends GenericHighchartModel {
 	 * El campo agregacion se coloca en el eje Z, los campos agregados son cada
 	 * columna (eje X)
 	 ***/
+	@SuppressWarnings("unchecked")
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String, Double>>> valoresAgregados,
 			final Datamap data_, final FieldViewSet filtro_, final IFieldLogic[] agregados,
-			final IFieldLogic[] fieldsCategoriaDeAgrupacion, final String aggregateFunction) {
+			final IFieldLogic[] fieldsGROUPBY, final IFieldLogic orderByField, final String aggregateFunction) throws Throwable{
 
-		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion == null || fieldsCategoriaDeAgrupacion[0] == null
-				? null
-				: fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];
-		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
-		if (escalado == null) {
-			escalado = "automatic";
-		}
-		Map<String, Map<String, Number>> registrosJSON = new HashMap<String, Map<String, Number>>();
-
-		boolean sinAgregado = agregados == null || agregados[0] == null;
 		double minimal = 0.0;
-		Number total_ = Double.valueOf(0);
-		Number[] totalizacionColumnas = null;
-		// el tamanyo de la totalizacion sero el nom. de valores distintos de
-		// categorias-agregado (eje X), y si hay mos de un agregado, como se sitouan en
-		// el ejz solo contabilizo el primero
-		String lang = data_.getLanguage(),
-				unidades_ = getUnitName(sinAgregado ? null : agregados[0], agrupacionInterna, aggregateFunction, data_);
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang,
-				filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-
-		boolean agregadosDecimal = agregados != null && agregados[0] != null
-				&& agregados[0].getAbstractField().isDecimal();
+		String lang = data_.getLanguage();
+		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
 
-		if (agrupacionInterna == null) {
-			agrupacionInterna = getUserFilterWithDateType(filtro_) == null
-					? filtro_.getEntityDef()
-							.searchField(Integer.parseInt(data_
-									.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
-					: getUserFilterWithDateType(filtro_);
-			List<FieldViewSet> petsAgrupadasPorCampoEjeX = new ArrayList<FieldViewSet>();
-			if (agrupacionInterna.getAbstractField().isDecimal() || agrupacionInterna.getAbstractField().isDate()) {
-				petsAgrupadasPorCampoEjeX.add(new FieldViewSet(filtro_.getEntityDef()));
-			} else {
-				try {
-					petsAgrupadasPorCampoEjeX = this._dataAccess.selectWithDistinct(filtro_,
-							agrupacionInterna.getMappingTo(), IAction.ORDEN_ASCENDENTE);
-				} catch (DatabaseException e) {
-					e.printStackTrace();
-				}
-			}
-			List<String> periodos = new ArrayList<String>();
-			String atributoFecha = filtro_.getEntityDef().searchField(agrupacionInterna.getMappingTo()).getName();
-			IFieldLogic fechaFieldLogic = filtro_.getEntityDef().searchByName(atributoFecha);
-			List<Double> valoresPorEje = new ArrayList<Double>();
-			try {
-				if (!fechaFieldLogic.getAbstractField().isDate() && !fechaFieldLogic.getAbstractField().isTimestamp()) {
-					String descField = filtro_.getEntityDef().getName();
-					boolean belongsPK = filtro_.getEntityDef().getFieldKey().contains(atributoFecha);
-					periodos = new ArrayList<String>(petsAgrupadasPorCampoEjeX.size());
-					for (int j = 0; j < petsAgrupadasPorCampoEjeX.size(); j++) {
-						String fieldName = petsAgrupadasPorCampoEjeX.get(j).getDescriptionField().getName();
-						String title = (String) petsAgrupadasPorCampoEjeX.get(j).getValue(fieldName);
-						if (title == null) {
-							// buscamos el registro en BBDD y obtenemos su title
-							FieldViewSet record = new FieldViewSet(filtro_.getEntityDef());
-							record.setValue(atributoFecha, petsAgrupadasPorCampoEjeX.get(j).getValue(atributoFecha));
-							try {
-								if (belongsPK) {
-									FieldViewSet recordBBDD = this._dataAccess.searchEntityByPk(record);
-									title = (String) recordBBDD.getValue(fieldName);
-									double valorAgregado = CommonUtils.roundWith2Decimals((Double) recordBBDD.getValue(agregados[0].getName()));
-									valoresPorEje.add(valorAgregado);
-								} else {
-									List<FieldViewSet> recordsBBDD = this._dataAccess.searchByCriteria(record);
-									if (recordsBBDD.isEmpty()) {
-										title = "registro_" + j;
-									} else {
-										title = (String) recordsBBDD.get(0).getValue(descField);
-									}
-								}
-							} catch (DatabaseException e) {
-								e.printStackTrace();
-							}
-						} // if title es null
-						periodos.add(title);
-					}
-				} else {
-					periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(this._dataAccess, agrupacionInterna,
-							filtro_, escalado);
-					if (periodos.size() == 0) {
-						data_.setAttribute(CHART_TITLE, "No hay datos; cambio los criterios de búsqueda");
-						return 0;
+		int numRegistros = valoresAgregados.size();
+		FieldViewSet antiguo = valoresAgregados.get(0).keySet().iterator().next();
+		FieldViewSet reciente =valoresAgregados.get(numRegistros-1).keySet().iterator().next();
+		Date fechaCalMasAntigua = (Date) antiguo.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
+		Date fechaCalMasReciente = (Date) reciente.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
+		
+		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
+		if (escalado == null){
+			escalado = "automatic";
+		}
+		List<String> periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(fechaCalMasReciente, fechaCalMasAntigua, escalado);
+		
+		/**
+		 * Un ejemplo con dos dimensiones para el group by
+		 * 56.3518181818182|54|2020-05|Mto.HOST[01/01/2018-31/03/2021]
+			75.2805882352941|54|2020-06|Mto.HOST[01/01/2018-31/03/2021]
+			41.7428571428571|54|2020-07|Mto.HOST[01/01/2018-31/03/2021]
+			426.341666666667|55|2018-04|ND.Pros@[01/01/2018-31/03/2021]
+			240.544285714286|55|2018-05|ND.Pros@[01/01/2018-31/03/2021]
+			205.433333333333|55|2018-06|ND.Pros@[01/01/2018-31/03/2021]
+			--> se generarían dos series JSON
+		 */
+		
+		// extraemos todas las series que haya: si hay un único fieldgroupby, solo habrá una serie, si hay dos, habrá N series
+		Map<String, Map<Date, Number>> series = new HashMap<String, Map<Date, Number>>();		
+		
+		if (fieldsGROUPBY.length == 1) {
+			Date idSerie = null;
+			Map<Date, Number> serieValues = new HashMap<Date, Number>();
+			//genero aqui todas las series que hay diferentes, y luego agrupo por unidad de periodo
+			for (int j=0;j<valoresAgregados.size();j++) {
+				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
+				FieldViewSet registroBBDD = registroEnCrudo.keySet().iterator().next();
+				if (idSerie == null) {
+					idSerie = (Date) registroBBDD.getValue(registroBBDD.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
+					if (idSerie == null) {
+						//un rollo
 					}
 				}
-			} catch (DatabaseException e) {
-				e.printStackTrace();
-			}
-
-			totalizacionColumnas = new Number[periodos.size()];
-
-			Map<String, Number> subtotalPorCategoriaDeEjeX = new HashMap<String, Number>();
-			int posicionAgrupacion = 1;
-			for (int period_i = 0; period_i < periodos.size(); period_i++) {// pueden ser aoos, meses o doas
-				String inicioPeriodoDeAgrupacion = periodos.get(period_i);
-				String finPeriodoDeAgrupacion = "";
-				if ((period_i + 1) == periodos.size()) {
-					finPeriodoDeAgrupacion = HistogramUtils.nextForPeriod(inicioPeriodoDeAgrupacion);
-				} else {
-					finPeriodoDeAgrupacion = periodos.get(period_i + 1);
+				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
+				while (iteradorSerie.hasNext()) {
+					Map.Entry<String, Double> entry_ = iteradorSerie.next();
+					System.out.println("coordenada resuelta para esta serie: (" + CommonUtils.convertDateToShortFormatted(idSerie) + ","
+					+ CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
+					serieValues.put(idSerie, CommonUtils.roundWith2Decimals(entry_.getValue()));
 				}
-
-				double subTotal = 0.00;
-				try {
-					if (fechaFieldLogic.getAbstractField().isDate()
-							|| fechaFieldLogic.getAbstractField().isTimestamp()) {
-						FieldViewSet filtroPorRangoFecha = HistogramUtils.getRangofechasFiltro(
-								inicioPeriodoDeAgrupacion, finPeriodoDeAgrupacion, filtro_,
-								agrupacionInterna.getMappingTo());
-						subTotal = CommonUtils.roundWith2Decimals(this._dataAccess.selectWithAggregateFunction(filtroPorRangoFecha,
-								(sinAgregado) ? "COUNT" : aggregateFunction,
-								(sinAgregado) ? -1 : agregados[0].getMappingTo()));
-					} else {
-						subTotal = valoresPorEje.get(period_i);
+			}//for
+			
+			series.put("serie_" + idSerie.toString(), serieValues);
+		
+		}else {//2 fieldGroupBy--> N series
+			
+			Map<Date, Number> serieValues = new HashMap<Date, Number>();
+			//genero aqui todas las series que hay diferentes
+			Serializable firstGroupBYAux = null;
+			for (int j=0;j<valoresAgregados.size();j++) {
+				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
+				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();				
+				//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
+				Serializable firstGroupBY =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
+				if (firstGroupBYAux == null) {
+					firstGroupBYAux = firstGroupBY;
+				}else if (!firstGroupBYAux.toString().contentEquals(firstGroupBY.toString())) {
+					
+					Map<Date, Number> volcarSeriesvalues = series.get("serie_"+ firstGroupBYAux.toString());
+					if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+						volcarSeriesvalues = new HashMap<Date, Number>();						
 					}
-				} catch (DatabaseException e) {
-					e.printStackTrace();
+					volcarSeriesvalues.putAll(serieValues);
+					series.put("serie_"+ firstGroupBYAux.toString(), volcarSeriesvalues);
+					
+					//inicializo para el siguiente valor de GROUP BY
+					serieValues = new HashMap<Date, Number>();	
+					firstGroupBYAux = firstGroupBY + "";
 				}
-
-				minimal = subTotal < minimal ? subTotal : minimal;
-
-				if (sinAgregado) {// Long al contar totales
-					total_ = Long.valueOf(Double.valueOf(subTotal).longValue() + total_.longValue());
-					totalizacionColumnas[period_i] = Long.valueOf(Double.valueOf(subTotal).longValue());
-				} else {
-					total_ = CommonUtils.roundWith2Decimals(Double.valueOf(subTotal + total_.doubleValue()));
-					totalizacionColumnas[period_i] = CommonUtils.roundWith2Decimals(Double.valueOf(subTotal));
+				
+				
+				Date secondGroupBY =  (Date) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[1].getMappingTo()).getName());					
+								
+				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
+				while (iteradorSerie.hasNext()) {
+					Map.Entry<String, Double> entry_ = iteradorSerie.next();
+					System.out.println("coordenada resuelta para la serie " + firstGroupBYAux + 
+							": (" + CommonUtils.convertDateToShortFormatted(secondGroupBY) + "," + 
+							CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
+					serieValues.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
 				}
-
-				if (subTotal == 0) {// miramos si en realidad no hay un valor en esa fecha, o lo hay y posee valor 0
-					long count4ThisPeriod = 0;
-					try {
-						count4ThisPeriod = this._dataAccess.countAll(filtro_);
-					} catch (DatabaseException e) {
-						e.printStackTrace();
-					}
-					if (count4ThisPeriod > 0) {
-						String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
-						if (agregadosDecimal) {
-							subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
-									CommonUtils.roundWith2Decimals(Double.valueOf(subTotal)));
-						} else {
-							subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
-									Long.valueOf(Double.valueOf(subTotal).longValue()));
-						}
-						posicionAgrupacion++;
-					}
-				} else {
-					String prefix = (posicionAgrupacion < 10) ? "0" + posicionAgrupacion : "" + posicionAgrupacion;
-					if (agregadosDecimal) {
-						subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
-								(subTotal == 0) ? null : CommonUtils.roundWith2Decimals(Double.valueOf(subTotal)));
-					} else {
-						subtotalPorCategoriaDeEjeX.put(prefix + ":" + inicioPeriodoDeAgrupacion,
-								(subTotal == 0) ? null : Long.valueOf(Double.valueOf(subTotal).longValue()));
-					}
-					posicionAgrupacion++;
-				}
-
-				if (agregados != null && agregados[0] != null) {
-					itemGrafico = Translator.traduceDictionaryModelDefined(lang,
-							filtro_.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
-				}
-				data_.setAttribute(CHART_TITLE, "Histograma de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
-				registrosJSON.put(itemGrafico, subtotalPorCategoriaDeEjeX);
-			}//FOR PERIODOS
-
-		} else {
-
-			totalizacionColumnas = new Number[valoresAgregados.size()];
-			int positionClaveAgregacion = 0;
-			for (int countRecord = 0; countRecord < valoresAgregados.size(); countRecord++) {
-				Map<FieldViewSet, Map<String, Double>> registroTotalizado = valoresAgregados.get(countRecord);
-				totalizacionColumnas[countRecord] = 0.0;
-				FieldViewSet registroPorCategoria = registroTotalizado.keySet().iterator().next();
-				int agg = 0;
-				Map<String, Double> mapOfFviewset = registroTotalizado.get(registroPorCategoria);
-				Iterator<Map.Entry<String, Double>> iteMapEntries = mapOfFviewset.entrySet().iterator();
-				while (iteMapEntries.hasNext()) {
-					Map.Entry<String, Double> entry = iteMapEntries.next();
-
-					String fieldNameOfAgregado = entry.getKey();
-					Number valorAgregadoIesimo = sinAgregado ? Long.valueOf(entry.getValue().longValue())
-							: entry.getValue();
-
-					minimal = CommonUtils.roundWith2Decimals(valorAgregadoIesimo.doubleValue() < minimal ? valorAgregadoIesimo.doubleValue() : minimal);
-
-					String entidadName = (sinAgregado) ? filtro_.getEntityDef().getName()
-							: agregados[agg].getEntityDef().getName();
-					String agregadoIesimoTraslated = Translator.traduceDictionaryModelDefined(lang,
-							entidadName.concat(".").concat(fieldNameOfAgregado));
-
-					if (sinAgregado) {// Long al contar totales
-						total_ = Long.valueOf(valorAgregadoIesimo.longValue() + total_.longValue());
-						totalizacionColumnas[countRecord] = Long.valueOf(
-								valorAgregadoIesimo.longValue() + totalizacionColumnas[countRecord].longValue());
-					} else {
-						total_ = CommonUtils.roundWith2Decimals(Double.valueOf(valorAgregadoIesimo.doubleValue() + total_.doubleValue()));
-						totalizacionColumnas[countRecord] = CommonUtils.roundWith2Decimals(Double.valueOf(
-								valorAgregadoIesimo.doubleValue() + totalizacionColumnas[countRecord].doubleValue()));
-					}
-
-					String valorParaCategoria1EnEsteRegistroAgregado = registroPorCategoria
-							.getValue(agrupacionInterna.getName()).toString();
-					if (agrupacionInterna.getParentFieldEntities() != null
-							&& !agrupacionInterna.getParentFieldEntities().isEmpty()) {
-						IFieldLogic fieldLogicAssociated = agrupacionInterna.getParentFieldEntities().get(0);
-						FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-						fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator()
-								.next().getName(), registroPorCategoria.getValue(agrupacionInterna.getName()));
-						try {
-							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-							IFieldLogic descField = fSetParent.getDescriptionField();
-							valorParaCategoria1EnEsteRegistroAgregado = fSetParent.getValue(descField.getName())
-									.toString();
-						} catch (DatabaseException e) {
-							e.printStackTrace();
-						}
-					} else if (agrupacionInterna.getAbstractField().isDecimal()
-							|| agrupacionInterna.getAbstractField().isTimestamp()
-							|| agrupacionInterna.getAbstractField().isDate()
-							|| agrupacionInterna.getAbstractField().isLong()) {
-						valorParaCategoria1EnEsteRegistroAgregado = unidades_;
-					}
-
-					/*** inicio parte comon con GenericPieChart ***/
-
-					Serializable valorIntrinseco = registroPorCategoria.getValue(agrupacionInterna.getName());
-					if (fieldsCategoriaDeAgrupacion.length > 1) {
-						IFieldLogic agrupacionPral = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length
-								- 2];
-						Serializable valorAgrupacionPral = registroPorCategoria.getFieldvalue(agrupacionPral)
-								.getValue();
-						if (agrupacionInterna.getAbstractField().isInteger()
-								|| agrupacionInterna.getAbstractField().isLong()) {
-							Number numberValueOfCategoriaInterna = (Number) valorIntrinseco;
-							// veo si tengo una agrupacion pral., y se lo concateno al nombre de la columna
-							// para que sepamos bien la coordenada
-							if (agrupacionPral.getAbstractField().isInteger()
-									|| agrupacionPral.getAbstractField().isLong()) {
-								Integer idAgrupacionPral = Integer.valueOf(valorAgrupacionPral.toString());
-								String operando_1 = CommonUtils.addLeftZeros(String.valueOf(idAgrupacionPral),
-										agrupacionPral.getAbstractField().getMaxLength() > 6 ? 6
-												: agrupacionPral.getAbstractField().getMaxLength());
-								String operando_2 = CommonUtils.addLeftZeros(
-										String.valueOf(numberValueOfCategoriaInterna),
-										agrupacionInterna.getAbstractField().getMaxLength() > 6 ? 6
-												: agrupacionInterna.getAbstractField().getMaxLength());
-								positionClaveAgregacion = Integer.valueOf(operando_1.concat(operando_2)).intValue();
-								valorParaCategoria1EnEsteRegistroAgregado = valorParaCategoria1EnEsteRegistroAgregado
-										.concat("-").concat(String.valueOf(idAgrupacionPral.intValue()));
-							} else {
-								if (Character.isDigit(valorAgrupacionPral.toString().charAt(0))) {
-									positionClaveAgregacion = Integer.valueOf(
-											valorAgrupacionPral.toString().split(PCMConstants.REGEXP_POINT)[0]);
-									valorAgrupacionPral = valorAgrupacionPral.toString()
-											.split(PCMConstants.REGEXP_POINT)[1];
-								} else {
-									positionClaveAgregacion++;
-								}
-								valorParaCategoria1EnEsteRegistroAgregado = valorParaCategoria1EnEsteRegistroAgregado
-										.concat("-").concat(valorAgrupacionPral.toString());
-							}
-						} else {// se trata de un tipo string, pero interesa concatenarlo
-							valorParaCategoria1EnEsteRegistroAgregado = valorParaCategoria1EnEsteRegistroAgregado
-									.concat("-").concat(valorAgrupacionPral.toString());
-							if (Character.isDigit(valorParaCategoria1EnEsteRegistroAgregado.charAt(0))) {
-								positionClaveAgregacion = Integer.valueOf(
-										valorParaCategoria1EnEsteRegistroAgregado.split(PCMConstants.REGEXP_POINT)[0]);
-								valorParaCategoria1EnEsteRegistroAgregado = valorParaCategoria1EnEsteRegistroAgregado
-										.split(PCMConstants.REGEXP_POINT)[1];
-							} else {
-								positionClaveAgregacion++;
-							}
-						}
-					} else {// obtenemos la posicion en base al valor de la agrupacion interna
-						if (agrupacionInterna.getAbstractField().isInteger()
-								|| agrupacionInterna.getAbstractField().isLong()) {
-							positionClaveAgregacion = Integer.valueOf(((Number) valorIntrinseco).intValue());
-						} else {
-							if (CommonUtils.isNumeric(valorParaCategoria1EnEsteRegistroAgregado)) {
-								positionClaveAgregacion = Integer.valueOf(
-										valorParaCategoria1EnEsteRegistroAgregado.split(PCMConstants.REGEXP_POINT)[0]);
-								valorParaCategoria1EnEsteRegistroAgregado = valorParaCategoria1EnEsteRegistroAgregado
-										.split(PCMConstants.REGEXP_POINT)[1];
-							} else {
-								positionClaveAgregacion++;
-							}
-						}
-					}
-					valorParaCategoria1EnEsteRegistroAgregado = ((positionClaveAgregacion) < 10
-							? "0" + (positionClaveAgregacion)
-							: "" + (positionClaveAgregacion)) + ":" + valorParaCategoria1EnEsteRegistroAgregado;
-					/*** fin parte comon con GenericPieChart ***/
-
-					Map<String, Number> agregadosDeEstaCategoria = new HashMap<String, Number>();
-					agregadosDeEstaCategoria.put(valorParaCategoria1EnEsteRegistroAgregado, valorAgregadoIesimo);
-
-					Map<String, Number> agregadosDeEstaCategoriaActuales = registrosJSON.get(agregadoIesimoTraslated);
-					if (agregadosDeEstaCategoriaActuales == null || agregadosDeEstaCategoriaActuales.isEmpty()) {
-						agregadosDeEstaCategoriaActuales = new HashMap<String, Number>();
-					}
-					agregadosDeEstaCategoriaActuales.putAll(agregadosDeEstaCategoria);
-					registrosJSON.put(agregadoIesimoTraslated, agregadosDeEstaCategoriaActuales);
-
-					agg++;
-				} // recorrido de agregados
-
-			} // por cada registro: OJO: si hay un agregado, entonces el valor del agregado es
-				// el valor en el eje y y eje Z=0, si hay dos agregados, entonces el valor de la
-				// segunda se monta sobre el eje Y y ejez Z=1
-
-			data_.setAttribute(CHART_TITLE, "Comparativa de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
-
-		} // else
-
+			}//
+			series.put("serie_" + firstGroupBYAux.toString(), serieValues);
+				
+		}
+		
+		System.out.println("Debemos de tener tantas series como groupby con valores distintos para el campo : " + fieldsGROUPBY[0].getName());
+		
+		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
+		
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
-		String serieJson = regenerarListasSucesos(registrosJSON, jsArrayEjeAbcisas, data_);
-		data_.setAttribute(JSON_OBJECT, serieJson);
-		JSONArray newArrayEjeAbcisas = new JSONArray();
-		data_.setAttribute("abscisas",
-				newArrayEjeAbcisas.isEmpty() ? jsArrayEjeAbcisas.toString() : newArrayEjeAbcisas.toJSONString());
+		
+		for (int i = 0; i < periodos.size(); i++) {// pueden ser anys, meses, semanas...
+			//imaginemos que solo tratamos el escalado por meses
+			//tratamos solo el escalado "monthly"
+						
+			String valorPeriodoEjeX = periodos.get(i);
+			jsArrayEjeAbcisas.add(valorPeriodoEjeX);
+			
+			System.out.println("Valor en EjeAbcisas: " +  valorPeriodoEjeX);
+			Iterator<Map.Entry<String, Map<Date, Number>>> iteSeries = series.entrySet().iterator();
+			while (iteSeries.hasNext()) {
+				Map.Entry<String, Map<Date, Number>> serie = iteSeries.next();
+				
+				Map<String, Number> newPoints = new HashMap<String, Number>();
+				
+				Double acumulador = new Double(0.0);
+				String newkey = serie.getKey();
+				Map<Date, Number> points = serie.getValue();
+				Iterator<Date> itePoints = points.keySet().iterator();
+				while (itePoints.hasNext()){
+					Date fechaOfPoint = itePoints.next();
+					Number valorEnFecha = points.get(fechaOfPoint);
+					if (estaIncluido(fechaOfPoint, valorPeriodoEjeX, escalado)) {
+						acumulador += valorEnFecha.doubleValue();
+					}
+				}
+				newPoints.put(valorPeriodoEjeX, acumulador);
+				
+				Map<String, Number> puntosResueltos = newSeries.get(newkey);
+				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
+					puntosResueltos = new HashMap<String, Number>();
+				}
+				puntosResueltos.putAll(newPoints);
+				
+				newSeries.put(newkey, puntosResueltos);
+				
+			}
+						
+		}//FOR PERIODOS
+				
+		String serieJson = regenerarListasSucesos(newSeries, is3D());
+		
+		data_.setAttribute(CHART_TITLE, "Comparativa ");
+		data_.setAttribute(JSON_OBJECT, serieJson);		
+		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toString());
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
-		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			total_ = total_.doubleValue()/totalizacionColumnas.length;
-		}
-		return total_.doubleValue();
+		
+		return 0.0;
 	}
-
+	
+	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {
+		//implementación solo para meses de cara a la demo
+		String[] splitter = valorPeriodoEjeX.split("'");
+		String mes_ = splitter[0];
+		int anyo2digits_ = Integer.valueOf(splitter[1]);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fechaOfPoint);
+		int year2digits = cal.get(Calendar.YEAR)%2000;
+		int month_ = cal.get(Calendar.MONTH) + 1;
+		String mesTrad = CommonUtils.translateMonthToSpanish(month_);
+		if (year2digits == anyo2digits_ &&
+				mesTrad.startsWith(mes_)) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	protected boolean is3D() {
 		return true;
@@ -371,5 +214,66 @@ public class Histogram3D extends GenericHighchartModel {
 
 		return "histogram3d";
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, boolean stack_Z) {
+
+		JSONArray seriesJSON = new JSONArray();
+
+		if (ocurrencias == null || ocurrencias.isEmpty()) {
+			JSONArray jsArray = new JSONArray();
+			jsArray.add("[0:0]");
+			JSONObject serie = new JSONObject();
+			serie.put("name", "No hay datos. Revise los criterios de la consulta");
+			serie.put("data", jsArray.get(0));
+			if (stack_Z) {
+				serie.put("stack", "0");
+			}
+			seriesJSON.add(serie);
+			return seriesJSON.toJSONString();
+		}
+		
+		// lo primero, ordenamos cada map que recibimos
+
+		List<String> listaClaves = new ArrayList<String>();
+		listaClaves.addAll(ocurrencias.keySet());
+		Collections.sort(listaClaves);
+		int claveIesima = 0;
+		
+		for (String clave : listaClaves) {
+			Map<String, Number> numOcurrenciasDeClaveIesima = ocurrencias.get(clave);
+			List<Number> listaOcurrencias = new ArrayList<Number>();
+			List<String> listaClavesInternas = new ArrayList<String>();
+			listaClavesInternas.addAll(numOcurrenciasDeClaveIesima.keySet());
+			try{
+				Collections.sort(listaClavesInternas, new ComparatorOrderKeyInXAxis());
+			}catch (Throwable exc12){
+				Collections.sort(listaClavesInternas);
+			}
+			int sizeOfListaKeys = listaClavesInternas.size();
+			for (int i = 0; i < sizeOfListaKeys; i++) {
+				String claveForEjeX = listaClavesInternas.get(i);							
+				Number valorEnEjeYClaveNM = CommonUtils.roundWith2Decimals((Double) numOcurrenciasDeClaveIesima.get(claveForEjeX));
+				listaOcurrencias.add(valorEnEjeYClaveNM);
+			}
+			
+			JSONArray jsArray = new JSONArray();
+			jsArray.add(listaOcurrencias);			
+			JSONObject serie = new JSONObject();
+						
+			serie.put("name", clave);
+			serie.put("data", jsArray.get(0));
+			if (stack_Z) {
+				serie.put("stack", String.valueOf(claveIesima));
+			}
+			serie.put("pointPlacement", "on");
+			claveIesima++;			
+			seriesJSON.add(serie);						
+		}//for claves
+		return seriesJSON.toJSONString();
+	}
+	
+	
 
 }

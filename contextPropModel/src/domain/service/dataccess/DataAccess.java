@@ -259,10 +259,10 @@ public class DataAccess implements IDataAccess {
 	@Override
 	public List<Map<FieldViewSet, Map<String,Double>>> selectWithAggregateFuncAndGroupBy(final FieldViewSet fieldViewSet,
 			final List<IEntityLogic> joinFViewSet, final List<IFieldLogic> joinFView, final String aggregateFunction, final IFieldLogic[] fieldsForAggregate,
-			final IFieldLogic[] fieldsForGroupBy, final String order) throws DatabaseException {
+			final IFieldLogic[] fieldsForGroupBy, final IFieldLogic orderByField, final String order) throws DatabaseException {
 		try {
 			return this.getDaoRef().selectWithAggregateFuncAndGroupBy(fieldViewSet, joinFViewSet, joinFView, aggregateFunction, fieldsForAggregate,
-					fieldsForGroupBy, order, this.conn);
+					fieldsForGroupBy, orderByField, order, this.conn);
 		}
 		catch (DatabaseException exc1) {
 			throw exc1;

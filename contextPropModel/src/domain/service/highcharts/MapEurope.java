@@ -34,7 +34,7 @@ public class MapEurope extends MapSpain {
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
-			final String aggregateFunction) {
+			final IFieldLogic orderBy, final String aggregateFunction) {
 
 		double sumarizadorTotal = 0.0;
        
