@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,7 +44,6 @@ public class Scatter extends GenericHighchartModel {
 	private static final String CONTAINER = "container";
 
 	protected static final String CATEGORIA_EJE_Y = "ejeY";
-	
 	private static final String TITULO_EJE_X = "titulo_EJE_X";
 	private static final String TITULO_EJE_Y = "titulo_EJE_Y";
 	private static final String TOOLTIP_EJE_X = "tooltip_X";
@@ -106,14 +104,6 @@ public class Scatter extends GenericHighchartModel {
 	}
 	
 	
-	private boolean esComparable(final FieldViewSet userFilter, final IFieldLogic fieldForCompareTwoGroups){
-		if (fieldForCompareTwoGroups.belongsPK()){
-			return true;
-		}
-		IFieldValue valuesOfFilter = userFilter.getFieldvalue(fieldForCompareTwoGroups);
-		return (valuesOfFilter.getAllValues().size() > 0);
-	}
-	
 	@Override
 	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet userFilter, final String aggregateFunction,
 			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo, final double coefCorrelacion, final String unidadesmedicion) {
@@ -150,7 +140,7 @@ public class Scatter extends GenericHighchartModel {
 	public String generateStatGraphModel(final IDataAccess dataAccess, DomainService domainService, final Datamap data_) {
 		
 		SceneResult scene = new SceneResult();
-		long mills1 = Calendar.getInstance().getTimeInMillis();
+		//long mills1 = Calendar.getInstance().getTimeInMillis();
 		FieldViewSet userFilter = null;
 		StringBuilder sbXml = new StringBuilder();
 		try {
@@ -194,25 +184,11 @@ public class Scatter extends GenericHighchartModel {
 				field4Clasify = attrDiferenciador;
 			}
 			
-			IFieldLogic fieldForCompareTwoGroups = entidadGrafico.searchField(Integer.parseInt(field4Clasify));
+			//IFieldLogic fieldForCompareTwoGroups = entidadGrafico.searchField(Integer.parseInt(field4Clasify));
 			IFieldLogic fieldForCategoryX = entidadGrafico.searchField(Integer.parseInt(categoriaX));
 			IFieldLogic fieldForCategoryY = entidadGrafico.searchField(Integer.parseInt(categoriaY));
 			
-			String lang = data_.getLanguage();
-			
-			if (!esComparable(userFilter, fieldForCompareTwoGroups)){
-				sbXml = new StringBuilder();
-				XmlUtils.openXmlNode(sbXml, IViewComponent.HTML_);
-				sbXml.append("<BR/><BR/><UL align=\"center\"  id=\"pcmUl\"><LI><a title=\"Volver\" href=\"#\" ");
-				String cat4Group = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(fieldForCompareTwoGroups.getName()));
-				sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI><LI>Seleccione al menos un elemento comparable bajo el campo-criterio " +  cat4Group + " para obtener el diagrama de correlacion</LI></UL>");				
-				XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
-				scene = new SceneResult();
-				scene.appendXhtml(sbXml.toString());
-				return scene.getXhtml();
-			}
-			
-			
+			String lang = data_.getLanguage();					
 			String titulo_EJE_X = Translator.traduceDictionaryModelDefined(lang,
 					entidadGrafico.getName().concat(".").concat(fieldForCategoryX.getName()));
 			titulo_EJE_X = CommonUtils.quitarTildes(titulo_EJE_X);
@@ -520,8 +496,8 @@ public class Scatter extends GenericHighchartModel {
 
 			data_.setAttribute(JSON_OBJECT, seriesJSON.toJSONString());
 
-			long mills2 = Calendar.getInstance().getTimeInMillis();
-			long segundosConsumidos = (mills2 - mills1) / 1000;
+			//long mills2 = Calendar.getInstance().getTimeInMillis();
+			//long segundosConsumidos = (mills2 - mills1) / 1000;
 
 			StringBuilder infoSumaryAndRegression = new StringBuilder();
 			infoSumaryAndRegression.append(htmlForHistograms(data_, fieldForCategoryX, userFilter));
@@ -569,8 +545,8 @@ public class Scatter extends GenericHighchartModel {
 			infoSumaryAndRegression.append("</TR>");
 			infoSumaryAndRegression.append("</TABLE>");
 
-			String criteriosConsulta = "Criterios de consulta: " + pintarCriterios(userFilter, data_);
-			String subtitle = criteriosConsulta + "(rendered in " + segundosConsumidos + " seconds)";
+			//String criteriosConsulta = "Criterios de consulta: " + pintarCriterios(userFilter, data_);
+			String subtitle = "";///*criteriosConsulta*/ "(rendered in " + segundosConsumidos + " seconds)";
 			data_.setAttribute(SUBTILE_ATTR, subtitle);
 
 			data_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());

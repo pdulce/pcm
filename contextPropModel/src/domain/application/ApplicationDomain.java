@@ -56,7 +56,6 @@ import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.Dualhistogram;
 import domain.service.highcharts.Histogram3D;
-import domain.service.highcharts.LineSeries;
 import domain.service.highcharts.MapEurope;
 import domain.service.highcharts.MapSpain;
 import domain.service.highcharts.MapWorld;
@@ -399,7 +398,7 @@ public class ApplicationDomain implements Serializable {
 		if (EVENTO_CONFIGURATION.equals(datamap.getParameter(EXEC_PARAM))) {	
 			return paintConfiguration(datamap);
 		}else if ((highchartsParam = getHighchartRequest(datamap)) != null) {	
-			//instanciamos la clase del gráfico que coesponda
+			//instanciamos la clase del gráfico que corresponda
 			final String highchartStats = datamap.getParameter(highchartsParam);
 			GenericHighchartModel genericHCModel = null;
 			if (highchartStats.equals("mapspain")){

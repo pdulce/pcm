@@ -103,10 +103,18 @@ public abstract class GenericHighchartModel implements IStats {
 			String nameSpaceOfButtonFieldSet = data_.getParameter("idPressed");
 			String paramGeneric4Entity = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM));
 			String orderByField_ = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
-						
+			String typeOfSeries = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat("seriesType")) == null? "line": data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat("seriesType"));
+
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(), paramGeneric4Entity);
 			IFieldLogic orderByField = entidadGrafico.searchField(Integer.valueOf(orderByField_));
-			String[] categoriasAgrupacion = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY)).split(",");
+			String[] categoriasAgrupacion = null;
+			String simpleParam = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));	
+			if (simpleParam.contains(",")) {
+				categoriasAgrupacion = simpleParam.split(",");
+			}else {
+				categoriasAgrupacion = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
+			}
+			
 			String[] agregadosPor = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
 			if ((categoriasAgrupacion==null || categoriasAgrupacion.length == 0) && (agregadosPor ==null || agregadosPor.length == 0)){
 				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agregación para generar este diagrama estadístico");
@@ -171,6 +179,7 @@ public abstract class GenericHighchartModel implements IStats {
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
 			data_.setAttribute(DECIMALES, decimals);
+			data_.setAttribute("typeOfSeries", typeOfSeries);
 			
 			scene.appendXhtml(htmlForHistograms(data_, fieldsForAgrupacionesPor != null ? fieldsForAgrupacionesPor[0] : null, userFilter));
 
@@ -244,7 +253,7 @@ public abstract class GenericHighchartModel implements IStats {
 		} else if (data_.getAttribute(CHART_TITLE) != null){
 			title = (String) data_.getAttribute(CHART_TITLE);
 		}
-		if (groupByField.length>0 && agregados.length> 0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null) {
+		if (groupByField.length>0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null) {
 			String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
 			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
 			title = title.concat(" agrupando por " + 

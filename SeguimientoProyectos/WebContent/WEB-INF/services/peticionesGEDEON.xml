@@ -20,7 +20,12 @@
 				
 					<button	link="prjManager" id="histog1" name="Histogram" >
 						<fieldViewSet nameSpace="histog1">
-							<fieldView name="highchart" hidden="true" value="histogram3D"/>
+							<fieldView name="highchart" type="select">
+								<optionValues>
+									<option code="histogram3D" title="Histogram-3D" selected="true"></option>								
+									<option code="dualhistogram" title="Freq.histogram"></option>
+								</optionValues>
+							</fieldView>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
 							<fieldView name="orderBy" hidden="true" value="17"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="17"/>
@@ -51,79 +56,7 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="histDual1"
-						name="Frequency">						
-						<fieldViewSet nameSpace="histDual1">
-							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>							
-							<fieldView name="fieldForGroupBy" type="select" size="1">
-								<optionValues>
-									<option code="-1" title="periodos" selected="true"></option>
-									<option code="26" title="aplicacion"></option>
-									<option code="13" title="tipo"></option>
-									<option code="7" title="situacion"></option>
-									<option code="12" title="area destino"></option>
-									<option code="16" title="prioridad"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="agregado" type="select"  size="1">
-								<optionValues>
-									<option code="-1" title="peticiones"></option>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="escalado" type="select"  size="1">
-								<optionValues>
-									<option code="dayly" title="Diario"></option>
-									<option code="weekly" title="Semanal"></option>
-									<option code="monthly" title="Mensual" selected="true"></option>
-									<option code="3monthly" title="Trimestral"></option>
-									<option code="6monthly" title="Semestral"></option>
-									<option code="anualy" title="Anual"></option>
-									<option code="automatic" title="Automatico"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="operation" type="select">
-								<optionValues>
-									<option code="SUM" title="Totalizar" selected="true"></option>								
-									<option code="AVG" title="Promediar"></option>
-								</optionValues>
-							</fieldView>						
-						</fieldViewSet>
-					</button>
-										
-					<button link="prjManager" id="spiderchart1"
-						name="Spiderwebchart">
-						<fieldViewSet nameSpace="spiderchart1">
-							<fieldView name="highchart" hidden="true" value="spiderweb"/>
-							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>							
-							<fieldView name="fieldForGroupBy" type="select"  size="1">
-								<optionValues>
-									<option code="26" title="aplicacion" selected="true"></option>
-									<option code="7" title="situacion"></option>
-									<option code="13" title="tipo"></option>
-									<option code="16" title="prioridad"></option>
-									<option code="12" title="area destino"></option>
-									<option code="6" title="solicitante"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="agregado" type="select"  size="1">
-								<optionValues>
-									<option code="-1" title="peticiones"></option>
-									<option code="28" title="UTs estimadas" selected="true"></option>
-									<option code="29" title="UTs reales"></option>
-								</optionValues>
-							</fieldView>
-							<fieldView name="operation" hidden="true" value="SUM"/>
-						</fieldViewSet>
-					</button>
-																		
-					<button link="prjManager" id="barchart1"
-						name="Barchart">
+					<button link="prjManager" id="barchart1" name="Barchart">
 						<fieldViewSet nameSpace="barchart1">
 							<fieldView name="highchart" hidden="true" value="barchart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
@@ -153,30 +86,35 @@
 							</fieldView>
 						</fieldViewSet>
 					</button>
-												
-					<button link="prjManager" id="piechart1"
-						name="Piechart">
-						<fieldViewSet nameSpace="piechart1">
-							<fieldView name="highchart" hidden="true" value="piechart"/>
+										
+					<button link="prjManager" id="Chart11"
+						name="Chart">
+						<fieldViewSet nameSpace="Chart11">
+							<fieldView name="highchart" type="select">
+								<optionValues>
+									<option code="spiderweb" title="Spiderweb" selected="true"></option>								
+									<option code="piechart" title="Pie chart"></option>
+								</optionValues>
+							</fieldView>							
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
-							<fieldView name="orderBy" hidden="true" value="17"/>
-							<fieldView name="fieldForGroupBy" type="select" size="1">
-								<optionValues selectionMultiple="true">
-									<option code="26" title="aplicacion"></option>									
+							<fieldView name="orderBy" hidden="true" value="17"/>							
+							<fieldView name="fieldForGroupBy" type="select"  size="1">
+								<optionValues>
+									<option code="26" title="aplicacion" selected="true"></option>
+									<option code="7" title="situacion"></option>
 									<option code="13" title="tipo"></option>
-									<option code="7" title="situacion" selected="true"></option>
 									<option code="16" title="prioridad"></option>
 									<option code="12" title="area destino"></option>
 									<option code="6" title="solicitante"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="agregado" type="select" size="1">
+							<fieldView name="agregado" type="select"  size="1">
 								<optionValues>
 									<option code="-1" title="peticiones"></option>
 									<option code="28" title="UTs estimadas" selected="true"></option>
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
-							</fieldView>				
+							</fieldView>
 							<fieldView name="operation" type="select" size="1">
 								<optionValues>
 									<option code="SUM" title="agregar" selected="true"></option>
@@ -185,7 +123,6 @@
 							</fieldView>
 						</fieldViewSet>
 					</button>
-					
 					
 				</userbuttons>
 			

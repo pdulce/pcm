@@ -8,7 +8,7 @@
 	    chart: {
 	        renderTo: 'container',
 	        type: 'column',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
 	        options3d: {
 	            enabled: true,
 	            alpha: 15,
@@ -18,19 +18,21 @@
 	        }
 	    },
         title: {
-            text: '<%=request.getAttribute("title")%>'
+            text: '<%=request.getAttribute("title")%>',
+            style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         
         subtitle: {
-            text: '<%=request.getAttribute("subtitle")%>'
+            text: '<%=request.getAttribute("subtitle")%>',
+            style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         
         xAxis: {
             categories: <%=request.getAttribute("abscisas")%>,
             labels: {
                 style: {
-                    color: 'red',/*'#6E6E6E',*/
-                    fontSize:'small'
+                    color: 'orange',
+                    fontSize:'xx-small'
                 }
             }
         },
@@ -39,7 +41,14 @@
             allowDecimals: true,
             min: <%=request.getAttribute("minEjeRef")%>,
             title: {
-                text: '<%=request.getAttribute("titulo_EJE_Y")%>'
+                text: '<%=request.getAttribute("titulo_EJE_Y")%>',
+                style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': 'xx-small'}
+            },
+            labels: {
+                style: {
+                    color: 'orange',
+                    fontSize:'small'
+                }
             }
         },    
         legend: {		            	

@@ -132,7 +132,7 @@ public class BarChart extends GenericHighchartModel {
 					}
 					registros.put(dimensionLabel, valoresDeDimensionParaAgrupacPral);
 				}
-			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupacion con mos de un campo
+			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupacion con mas de un campo
 
 				/** primero: obtenemos la primera dimension de los campos de agrupacion ***/
 				String dimensionNamePral = fieldsCategoriaDeAgrupacion[0].getName();

@@ -19,7 +19,8 @@
 	        },
 	        xAxis: {
 	            title: {	                
-	                text: '<%=request.getAttribute("titulo_EJE_X")%>'	                
+	                text: '<%=request.getAttribute("titulo_EJE_X")%>',
+	                style: {'color': 'orange', 'font-weight': 'lighter'}	                
 	            },
 	            labels: {
 	                style: {

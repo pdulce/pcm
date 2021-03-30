@@ -36,14 +36,11 @@ public class Histogram3D extends GenericHighchartModel {
 			final IFieldLogic[] fieldsGROUPBY, final IFieldLogic orderByField, final String aggregateFunction) throws Throwable{
 
 		double minimal = 0.0;
-		double total = 0.0;
-
 		int numRegistros = valoresAgregados.size();
 		FieldViewSet antiguo = valoresAgregados.get(0).keySet().iterator().next();
 		FieldViewSet reciente =valoresAgregados.get(numRegistros-1).keySet().iterator().next();
 		Date fechaCalMasAntigua = (Date) antiguo.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
 		Date fechaCalMasReciente = (Date) reciente.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
-		String typeOfSeries = data_.getParameter("seriesType") == null? "line": data_.getParameter("seriesType");
 		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
@@ -79,8 +76,7 @@ public class Histogram3D extends GenericHighchartModel {
 					Map.Entry<String, Double> entry_ = iteradorSerie.next();
 					//System.out.println("coordenada resuelta para esta serie: (" + CommonUtils.convertDateToShortFormatted(idSerie) + ","
 					//+ CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
-					volcarSeriesvalues.put(idSerie, CommonUtils.roundWith2Decimals(entry_.getValue()));
-					total +=  CommonUtils.roundWith2Decimals(entry_.getValue());
+					volcarSeriesvalues.put(idSerie, CommonUtils.roundWith2Decimals(entry_.getValue()));					
 				}
 				series.put("serie_1", volcarSeriesvalues);
 			}//for			
@@ -124,7 +120,7 @@ public class Histogram3D extends GenericHighchartModel {
 		}
 		
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
-		
+		double total = 0.0;
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 		Map<Long, String> nameSeries = new HashMap<Long, String>();
 		for (int i = 0; i < periodos.size(); i++) {
@@ -170,8 +166,10 @@ public class Histogram3D extends GenericHighchartModel {
 						count++;
 					}
 				}
-				newPoints.put(valorPeriodoEjeX, aggregateFunction.contentEquals(OPERATION_AVERAGE)? 
-						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador));
+				double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE)? 
+						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador);
+				newPoints.put(valorPeriodoEjeX, valor);
+				total += valor;
 				
 				Map<String, Number> puntosResueltos = newSeries.get(newkey);
 				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
@@ -194,7 +192,6 @@ public class Histogram3D extends GenericHighchartModel {
 		data_.setAttribute(CHART_TITLE, fieldsGROUPBY.length == 2 ? 
 				"Comparativa de " + CommonUtils.obtenerPlural(entidad) + " " + (aggregateFunction.contentEquals(OPERATION_AVERAGE)?"(promedios) ":"(totales) "): "Time series ");
 		data_.setAttribute(JSON_OBJECT, serieJson);
-		data_.setAttribute("typeOfSeries", typeOfSeries);
 		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toString());
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
