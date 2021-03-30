@@ -160,7 +160,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 		}
 	}
 	
-	public static final void refreshValues(final FieldViewSet fieldViewSet_, final Collection<FieldViewSet> fieldViewSetsForm,  final IDataAccess dataAccess, final Map<String, List<Object>> valuesMemo) {
+	public static final void refreshUserFilter(final FieldViewSet fieldViewSet_, final Collection<FieldViewSet> fieldViewSetsForm,  final IDataAccess dataAccess, final Map<String, List<Object>> valuesMemo) {
 			
 		try {
 			//obtenemos padres de esta entidad por si en el formulario vienen filtros de esa otra entidad padre:			

@@ -119,7 +119,7 @@ public abstract class GenericHighchartModel implements IStats {
 			if (listOfForms != null && !listOfForms.isEmpty()) {
 				Form formSubmitted = (Form) listOfForms.iterator().next();
 				//alimentar el user filter de los inputs del formulario
-				Form.refreshValues(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
+				Form.refreshUserFilter(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
 			}
 			
 			/*** TRATAMIENTO DE LAS AGREGACIONES ****/
