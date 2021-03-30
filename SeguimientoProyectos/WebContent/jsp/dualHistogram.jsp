@@ -65,7 +65,7 @@
 	            floating: true,
 	            align: 'left',
 	            x: 110, // = marginLeft - default spacingLeft
-	            y: 17,
+	            y: 22,
 	            itemWidth: 220,
 	            itemStyle: {'color': 'orange', 'font-weight': 'light', 'font-size': '12px'},
 	            itemDistance: 80,

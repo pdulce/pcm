@@ -43,7 +43,7 @@
 							</fieldView>
 							<fieldView name="operation" type="select">
 								<optionValues>
-									<option code="SUM" title="Agregación" selected="true"></option>								
+									<option code="SUM" title="Totalizar" selected="true"></option>								
 									<option code="AVG" title="Promediar"></option>
 								</optionValues>
 							</fieldView>
@@ -87,7 +87,7 @@
 							</fieldView>
 							<fieldView name="operation" type="select">
 								<optionValues>
-									<option code="SUM" title="Agregación" selected="true"></option>								
+									<option code="SUM" title="Totalizar" selected="true"></option>								
 									<option code="AVG" title="Promediar"></option>
 								</optionValues>
 							</fieldView>						

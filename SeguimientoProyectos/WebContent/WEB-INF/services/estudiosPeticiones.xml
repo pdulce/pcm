@@ -56,7 +56,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="operation" type="select">
 									<optionValues>																	
 										<option code="AVG" title="Promediar" selected="true"></option>
-										<option code="SUM" title="Agregación"></option>
+										<option code="SUM" title="Totalizar"></option>
 									</optionValues>
 								</fieldView>
 							
@@ -261,7 +261,6 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="timeseries02">
 							<fieldView name="highchart" hidden="true" value="timeseries"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<!-- fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/> -->
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
@@ -295,7 +294,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="operation" type="select">
 								<optionValues>																	
 									<option code="AVG" title="Promediar" selected="true"></option>
-									<option code="SUM" title="Agregación"></option>
+									<option code="SUM" title="Totalizar"></option>
 								</optionValues>
 							</fieldView>
 						
@@ -339,7 +338,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="operation" type="select">
 								<optionValues>																	
 									<option code="AVG" title="Promediar" selected="true"></option>
-									<option code="SUM" title="Agregación"></option>
+									<option code="SUM" title="Totalizar"></option>
 								</optionValues>
 							</fieldView>						
 						</fieldViewSet>

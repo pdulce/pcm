@@ -852,8 +852,8 @@ public class FieldView implements IFieldView, Serializable {
 	public final boolean checkDataType(final Datamap dataInBus, final String val_, final boolean validacionObligatoria,
 			final MessageException parqMensaje) {
 		try {
-			String name2Traduce = this.getQualifiedContextName().replaceAll("_HASTA", "");
-			name2Traduce = name2Traduce.replaceAll("_DESDE", "");
+			String name2Traduce = this.getQualifiedContextName().replaceAll(IRank.HASTA_SUFFIX, "");
+			name2Traduce = name2Traduce.replaceAll(IRank.DESDE_SUFFIX, "");
 			String traducedNombreQ_ = Translator.traduceDictionaryModelDefined(dataInBus.getLanguage(), name2Traduce);
 			String value = val_;
 			boolean esValido = true;

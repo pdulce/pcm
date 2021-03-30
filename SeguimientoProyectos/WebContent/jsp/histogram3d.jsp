@@ -47,7 +47,7 @@
             floating: true,
             align: 'center',
             x: 95, // = marginLeft - default spacingLeft
-            y: 9,
+            y: 22,
             itemWidth: 220,
             itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
             itemDistance: 85,

@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
@@ -102,41 +101,11 @@ public abstract class GenericHighchartModel implements IStats {
 		SceneResult scene = new SceneResult();
 		try {
 			this._dataAccess = dataAccess;
-			String idPressed = data_.getParameter("idPressed");
-			String nameSpaceOfButtonFieldSet = idPressed;
-			String paramGeneric4Entity = nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM);
-			paramGeneric4Entity = data_.getParameter(paramGeneric4Entity);
-			
-			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
-					paramGeneric4Entity);
-			Form formSubmitted = null;
-			List<IViewComponent> listOfForms = BodyContainer.getContainerOfView(data_, dataAccess, domainService).getForms();
-			if (listOfForms != null && !listOfForms.isEmpty()) {
-				formSubmitted = (Form) listOfForms.iterator().next();
-			}
-			
-			formSubmitted.refreshValues(paramGeneric4Entity, data_.getAllDataMap());
-			FieldViewSet userFilter = null;
-			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
-			for (FieldViewSet fSetItem: fSet) {
-				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {
-					userFilter = fSetItem;
-					userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
-					IFieldLogic pkField = userFilter.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
-					IFieldValue valuesOfPK = userFilter.getFieldvalue(pkField);
-					if (!valuesOfPK.isNull() && !valuesOfPK.isEmpty()){
-						userFilter.resetFieldValuesMap();
-						userFilter.setValues(pkField.getName(), valuesOfPK.getValues());
-					}
-					break;
-				}
-			}
-			if (userFilter == null /* userFilter.isEmpty()*/){
-				userFilter = new FieldViewSet(entidadGrafico);
-				userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
-			}
-			
+			String nameSpaceOfButtonFieldSet = data_.getParameter("idPressed");
+			String paramGeneric4Entity = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM));
 			String orderByField_ = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
+						
+			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(), paramGeneric4Entity);
 			IFieldLogic orderByField = entidadGrafico.searchField(Integer.valueOf(orderByField_));
 			String[] categoriasAgrupacion = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY)).split(",");
 			String[] agregadosPor = data_.getParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
@@ -144,51 +113,14 @@ public abstract class GenericHighchartModel implements IStats {
 				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agregación para generar este diagrama estadístico");
 			}
 			
-			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));
-			if (fieldForFilter != null){
-				
-				String[] fields4Filter = fieldForFilter.split(";");
-				for (int filter=0;filter<fields4Filter.length;filter++){
-					String field4Filter = fields4Filter[filter];
-					String[] splitter = field4Filter.split("=");
-					if (splitter.length< 2){
-						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato válido 1=<nameSpaceOfForm>.5)");
-					}
-					String leftPartOfEquals = splitter[0];
-					String rigthPartOfEquals = splitter[1];
-					
-					if (rigthPartOfEquals.indexOf(".") == -1){//es un valor fijo
-						userFilter.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), rigthPartOfEquals);
-					}else{
-						String[] entidadPointValue = rigthPartOfEquals.split(PCMConstants.REGEXP_POINT);
-						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(data_.getEntitiesDictionary(),
-								entidadPointValue[0]);
-						if (!esEntidad){//no es una entidad, sino un parometro
-							if (data_.getParameterValues(rigthPartOfEquals) != null){								
-								String[] valuesOfParamReq_ = data_.getParameterValues(rigthPartOfEquals);
-								Collection<String> serialValues = new ArrayList<String>();
-								for (int v=0;v<valuesOfParamReq_.length;v++){
-									serialValues.add(valuesOfParamReq_[v]);
-								}
-								userFilter.setValues(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), serialValues);
-							}
-							
-						}else{//tratamiento cuando es entidad.campo
-							EntityLogic entidad1ToGet = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
-									entidadPointValue[0]);
-							int fieldToGet = Integer.parseInt(entidadPointValue[1]);
-							for (FieldViewSet fSetItem: fSet) {
-								if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidad1ToGet.getName())) {
-									//busco en el form el fieldviewset de la entidad para la que obtener el dato
-									String value = data_.getParameter(fSetItem.getNameSpace().concat(".").concat(entidad1ToGet.searchField(fieldToGet).getName()));
-									userFilter.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), value);
-									break;
-								}
-							}
-						}
-					}
-				}
-			}//fin del establecimiento de un valor por defecto para el filtrado
+			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
+			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
+			List<IViewComponent> listOfForms = BodyContainer.getContainerOfView(data_, dataAccess, domainService).getForms();
+			if (listOfForms != null && !listOfForms.isEmpty()) {
+				Form formSubmitted = (Form) listOfForms.iterator().next();
+				//alimentar el user filter de los inputs del formulario
+				Form.refreshValues(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
+			}
 			
 			/*** TRATAMIENTO DE LAS AGREGACIONES ****/
 			String aggregateFunction = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
@@ -205,7 +137,7 @@ public abstract class GenericHighchartModel implements IStats {
 				IFieldLogic fieldForAgregadoPor = aggregateIndex >= 0 ? entidadGrafico.searchField(Integer.parseInt(agregadosPor[i])) : null;				
 				decimals = fieldForAgregadoPor != null && fieldForAgregadoPor.getAbstractField().isDecimal() ? ",.2f" : ",.0f";
 				if (aggregateIndex < 0) {
-					aggregateFunction = OPERATION_COUNT;// es un conteo con una onica agrupacion
+					aggregateFunction = OPERATION_COUNT;// es un conteo con una unica agrupacion
 					fieldsForAgregadoPor = null;
 					break;
 				}else{
@@ -221,16 +153,8 @@ public abstract class GenericHighchartModel implements IStats {
 			for (int i=0;i<categoriasAgrupacion.length;i++){
 				IFieldLogic fieldForAgrupacionPor = entidadGrafico.searchField(Integer.parseInt(categoriasAgrupacion[i]));	
 				fieldsForAgrupacionesPor[i] = fieldForAgrupacionPor;
-				nombreCatAgrupacion = Translator.traduceDictionaryModelDefined(
-						data_.getLanguage(),
-						userFilter.getEntityDef()
-								.getName()
-								.concat(".")
-								.concat((fieldForAgrupacionPor != null ? fieldForAgrupacionPor.getName() : userFilter.getEntityDef().getName())));
 			}
 				
-						
-			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
 			List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados = null;
 			if (fieldsForAgrupacionesPor.length > 0){				
 				listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
@@ -240,6 +164,8 @@ public abstract class GenericHighchartModel implements IStats {
 			if (listaValoresAgregados == null || listaValoresAgregados.isEmpty()){
 				throw new Throwable("NO HAY DATOS");
 			}
+			
+			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
 
 			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, aggregateFunction);			
 			

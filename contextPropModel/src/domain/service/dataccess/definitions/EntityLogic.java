@@ -100,12 +100,12 @@ public class EntityLogic implements IEntityLogic, Serializable {
 	 * @return
 	 */
 	@Override
-	public Collection<IFieldLogic> getFkFields(final IFieldLogic fkField) {
+	public Collection<IFieldLogic> getFkFields(final IFieldLogic fkFieldParent) {
 		final Collection<IFieldLogic> fkFields = new ArrayList<IFieldLogic>();
 		final Iterator<IFieldLogic> iterador = this.fieldDefSet.values().iterator();
 		while (iterador.hasNext()) {
 			final IFieldLogic fieldOfMe = iterador.next();
-			if (fieldOfMe.getParentFieldEntities() != null && fieldOfMe.getParentFieldEntities().contains(fkField)) {
+			if (fieldOfMe.getParentFieldEntities() != null && fieldOfMe.getParentFieldEntities().contains(fkFieldParent)) {
 				fkFields.add(fieldOfMe);
 			}
 		}

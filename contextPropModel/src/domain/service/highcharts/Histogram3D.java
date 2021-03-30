@@ -14,8 +14,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import domain.common.utils.CommonUtils;
+import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.comparator.ComparatorOrderKeyInXAxis;
+import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.highcharts.utils.HistogramUtils;
@@ -57,7 +59,7 @@ public class Histogram3D extends GenericHighchartModel {
 			205.433333333333|55|2018-06|ND.Pros@[01/01/2018-31/03/2021]
 			--> se generarían dos series JSON
 		 */
-		
+				
 		// extraemos todas las series que haya: si hay un único fieldgroupby, solo habrá una serie, si hay dos, habrá N series
 		Map<String, Map<Date, Number>> series = new HashMap<String, Map<Date, Number>>();		
 		
@@ -80,69 +82,51 @@ public class Histogram3D extends GenericHighchartModel {
 					total +=  CommonUtils.roundWith2Decimals(entry_.getValue());
 				}
 				series.put("serie_1", volcarSeriesvalues);
-			}//for
-						
+			}//for			
 			
 		}else {//2 fieldGroupBy--> N series
 			
 			Map<Date, Number> serieValues = new HashMap<Date, Number>();
 			//genero aqui todas las series que hay diferentes
-			Serializable firstGroupBYAux = null;
+			Serializable firstGroupBY_ID_Aux = null;
 			for (int j=0;j<valoresAgregados.size();j++) {
 				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
 				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();				
 				//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
-				Serializable firstGroupBY_ =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
-				String firstGroupBY = "serie_" + firstGroupBY_.toString();
-				if (firstGroupBY_ instanceof Long) {
-					if (fieldsGROUPBY[0].getParentFieldEntities() != null && !fieldsGROUPBY[0].getParentFieldEntities().isEmpty()) {
-						IFieldLogic fieldLogic = fieldsGROUPBY[0].getParentFieldEntities().iterator().next();
-						FieldViewSet recordparent = new FieldViewSet(fieldLogic.getEntityDef());
-						recordparent.setValue(fieldLogic.getEntityDef().searchField(fieldLogic.getMappingTo()).getName(), firstGroupBY_);
-						recordparent = this._dataAccess.searchEntityByPk(recordparent);						
-						firstGroupBY = (String) recordparent.getValue(fieldLogic.getEntityDef().searchField(recordparent.getDescriptionField().getMappingTo()).getName());
-						
-					}
-				}				
+				Serializable firstGroupBY_id =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
 				
-				if (firstGroupBYAux == null) {
-					firstGroupBYAux = firstGroupBY;
-				}else if (!firstGroupBYAux.toString().contentEquals(firstGroupBY.toString())) {
+				if (firstGroupBY_ID_Aux == null) {
+					firstGroupBY_ID_Aux = firstGroupBY_id;
+				}else if (!firstGroupBY_ID_Aux.toString().contentEquals(firstGroupBY_id.toString())) {
 					
-					Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBYAux.toString());
+					Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_id.toString());
 					if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
 						volcarSeriesvalues = new HashMap<Date, Number>();						
 					}
 					volcarSeriesvalues.putAll(serieValues);
-					series.put(firstGroupBYAux.toString(), volcarSeriesvalues);
+					series.put(firstGroupBY_id.toString(), volcarSeriesvalues);
 					
-					//inicializo para el siguiente valor de GROUP BY
-					serieValues = new HashMap<Date, Number>();	
-					firstGroupBYAux = firstGroupBY;
+					serieValues = new HashMap<Date, Number>();			
+					firstGroupBY_ID_Aux = firstGroupBY_id;
 				}
-				Date secondGroupBY =  (Date) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[1].getMappingTo()).getName());					
-								
+				
+				Date secondGroupBY =  (Date) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[1].getMappingTo()).getName());
 				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
 				while (iteradorSerie.hasNext()) {
 					Map.Entry<String, Double> entry_ = iteradorSerie.next();
-					//System.out.println("coordenada resuelta para la serie " + firstGroupBYAux + 
-					//		": (" + CommonUtils.convertDateToShortFormatted(secondGroupBY) + "," + 
-					//		CommonUtils.roundWith2Decimals(entry_.getValue()) + ")");
 					serieValues.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
 				}
 			}//
 			
-			series.put(firstGroupBYAux.toString(), serieValues);
+			series.put(firstGroupBY_ID_Aux.toString(), serieValues);
 				
 		}
 		
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
 		
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
-		
-		for (int i = 0; i < periodos.size(); i++) {// pueden ser anys, meses, semanas...
-			//imaginemos que solo tratamos el escalado por meses
-			//tratamos solo el escalado "monthly"
+		Map<Long, String> nameSeries = new HashMap<Long, String>();
+		for (int i = 0; i < periodos.size(); i++) {
 						
 			String valorPeriodoEjeX = periodos.get(i);
 			jsArrayEjeAbcisas.add(valorPeriodoEjeX);
@@ -156,23 +140,44 @@ public class Histogram3D extends GenericHighchartModel {
 				
 				Double acumulador = new Double(0.0);
 				String newkey = serie.getKey();
+				//vemos si podemos traducir la key
+				if (fieldsGROUPBY.length == 2 && CommonUtils.isNumeric(newkey)) {
+					if (fieldsGROUPBY[0].getParentFieldEntities() != null && !fieldsGROUPBY[0].getParentFieldEntities().isEmpty()) {						
+						if (!nameSeries.containsKey(Long.valueOf(newkey))){
+							IFieldLogic fieldLogic = fieldsGROUPBY[0].getParentFieldEntities().iterator().next();
+							FieldViewSet recordparent = new FieldViewSet(fieldLogic.getEntityDef());
+							recordparent.setValue(fieldLogic.getEntityDef().searchField(fieldLogic.getMappingTo()).getName(), Long.valueOf(newkey));
+							recordparent = this._dataAccess.searchEntityByPk(recordparent);						
+							String titleOfKey = (String) recordparent.getValue(fieldLogic.getEntityDef().searchField(recordparent.getDescriptionField().getMappingTo()).getName());
+							String newTitledKey = ("["+ newkey + "]").concat(titleOfKey);
+							nameSeries.put(Long.valueOf(newkey), newTitledKey);
+							newkey = newTitledKey;
+						}else {
+							newkey = nameSeries.get(Long.valueOf(newkey));
+						}
+					}
+				}
+				
 				Map<Date, Number> points = serie.getValue();
 				Iterator<Date> itePoints = points.keySet().iterator();
+				int count = 0;
 				while (itePoints.hasNext()){
 					Date fechaOfPoint = itePoints.next();
 					Number valorEnFecha = points.get(fechaOfPoint);
 					if (estaIncluido(fechaOfPoint, valorPeriodoEjeX, escalado)) {
 						acumulador += valorEnFecha.doubleValue();
+						count++;
 					}
 				}
-				newPoints.put(valorPeriodoEjeX, acumulador);
+				newPoints.put(valorPeriodoEjeX, aggregateFunction.contentEquals(OPERATION_AVERAGE)? 
+						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador));
 				
 				Map<String, Number> puntosResueltos = newSeries.get(newkey);
 				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
 					puntosResueltos = new HashMap<String, Number>();
 				}
 				puntosResueltos.putAll(newPoints);
-				
+								
 				newSeries.put(newkey, puntosResueltos);
 				
 			}
@@ -181,30 +186,48 @@ public class Histogram3D extends GenericHighchartModel {
 				
 		String serieJson = regenerarListasSucesos(newSeries, is3D());
 		
-		data_.setAttribute(CHART_TITLE, fieldsGROUPBY.length == 2?"Comparativa ": "Time series ");
+		IEntityLogic entidadGrafico = fieldsGROUPBY[0].getEntityDef();
+		String entidad = Translator.traduceDictionaryModelDefined(data_.getLanguage(), 
+				entidadGrafico.getName().concat(".").concat(entidadGrafico.getName()));
+		
+		data_.setAttribute(CHART_TITLE, fieldsGROUPBY.length == 2 ? 
+				"Comparativa entre " + nameSeries.keySet().size() + entidad +(aggregateFunction.contentEquals(OPERATION_AVERAGE)?"(promedios) ":"(totales) "): "Time series ");
 		data_.setAttribute(JSON_OBJECT, serieJson);		
 		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toString());
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
 		
-		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? total/periodos.size(): total;
+		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
 	}
 	
 	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {
-		//implementación solo para meses de cara a la demo
-		String[] splitter = valorPeriodoEjeX.split("'");
-		String mes_ = splitter[0];
-		int anyo2digits_ = Integer.valueOf(splitter[1]);
-		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(fechaOfPoint);
-		int year2digits = cal.get(Calendar.YEAR)%2000;
-		int month_ = cal.get(Calendar.MONTH) + 1;
-		String mesTrad = CommonUtils.translateMonthToSpanish(month_);
-		if (year2digits == anyo2digits_ &&
-				mesTrad.startsWith(mes_)) {
-			return true;
+		if (escalado.contentEquals("monthly")) {
+			//implementación solo para meses de cara a la demo
+			String[] splitter = valorPeriodoEjeX.split("'");
+			String mes_ = splitter[0];
+			int anyo2digits_ = Integer.valueOf(splitter[1]);
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(fechaOfPoint);
+			int year2digits = cal.get(Calendar.YEAR)%2000;
+			int month_ = cal.get(Calendar.MONTH) + 1;
+			String mesTrad = CommonUtils.translateMonthToSpanish(month_);
+			if (year2digits == anyo2digits_ &&
+					mesTrad.startsWith(mes_)) {
+				return true;
+			}
+		}else if (escalado.contentEquals("3monthly")) {
+			
+		}else if (escalado.contentEquals("6monthly")) {
+			
+		}else if (escalado.contentEquals("weekly")) {
+			
+		}else if (escalado.contentEquals("anualy")) {
+			
+		}else if (escalado.contentEquals("dayly")) {
+			
 		}
+				
 		return false;
 	}
 	

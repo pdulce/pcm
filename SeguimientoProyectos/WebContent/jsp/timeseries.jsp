@@ -29,10 +29,15 @@
         yAxis: {
             min:  <%=request.getAttribute("minEjeRef")%>,
             allowDecimals: true,
-            style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'},
             title: {
                 text: '<%=request.getAttribute("titulo_EJE_Y")%>',
-                style: {'color': 'orange', 'font-weight': 'lighter'}
+                style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': 'xx-small'}
+            },
+            labels: {
+                style: {
+                    color: 'orange',
+                    fontSize:'small'
+                }
             }
         },
         
@@ -41,7 +46,7 @@
             floating: true,
             align: 'center',
             x: 80, // = marginLeft - default spacingLeft
-            y: 9,
+            y: 22,
             itemWidth: 260,
             itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
             itemDistance: 20,
@@ -57,7 +62,7 @@
         	line: {
                 dataLabels: {
                     enabled: true,
-                    style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'}
+                    style: {'color': 'rgb(219, 202, 172)', 'font-weight': 'normal', 'font-size': 'xx-small'}
                 },
                 enableMouseTracking: false
             },
@@ -65,13 +70,13 @@
                 borderWidth: 2,
                 dataLabels: {
                     enabled: true,
-                    style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'},
+                    style: {'color': 'white', 'font-weight': 'lighter', 'font-size': 'xx-small'},
                     format: '{point.y:<%=request.getAttribute("decimals")%>}'
                 }
             },
             column: {
                 depth: 25,
-                style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'},
+                style: {'color': 'white', 'font-weight': 'lighter', 'font-size': 'xx-small'},
                 stacking: true,
                 grouping: false,
                 groupZPadding: 10
