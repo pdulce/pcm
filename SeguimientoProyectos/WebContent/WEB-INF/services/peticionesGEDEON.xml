@@ -27,7 +27,8 @@
 							<fieldView name="agregado" type="select">
 								<optionValues>
 									<option code="-1" title="peticiones" selected="true"></option>								
-									<option code="28" title="UTs Estimadas"></option>
+									<option code="28" title="uts estimadas"></option>
+									<option code="29" title="uts reales"></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="escalado" type="select" size="1">

@@ -99,7 +99,7 @@ public final class CommonUtils {
 		return diferencia;
 	}
 	
-	public static final String pluralOfterm(final String palabra_) {
+	private static final String pluralOfterm(final String palabra_) {
 		String palabra = palabra_;
 		String plural = "";
 		if (palabra.endsWith("n")) {
@@ -739,6 +739,16 @@ public final class CommonUtils {
 		int monthsCount = PCMConstants.MESES.length;
 		for (int i = 0; i < monthsCount; i++) {
 			if (PCMConstants.MESES[i].startsWith(mesTraducido)) {
+				return (i + 1);
+			}
+		}
+		return -99;
+	}
+	
+	public static final int getMonthOfAbbrTraslated(String mesAbbrTraducido) {
+		int monthsCount = PCMConstants.MESES.length;
+		for (int i = 0; i < monthsCount; i++) {
+			if (PCMConstants.MESES_ABBREVIATED[i].startsWith(mesAbbrTraducido)) {
 				return (i + 1);
 			}
 		}

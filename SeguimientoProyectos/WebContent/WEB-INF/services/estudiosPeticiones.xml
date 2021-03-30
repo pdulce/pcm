@@ -59,6 +59,12 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="SUM" title="Totalizar"></option>
 									</optionValues>
 								</fieldView>
+								<fieldView name="seriesType" type="select">
+									<optionValues>																	
+										<option code="line" title="Line" selected="true"></option>
+										<option code="area" title="Area"></option>
+									</optionValues>
+								</fieldView>
 							
 							</fieldViewSet>
 						</button>
@@ -91,17 +97,19 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							
 							<fieldView separator="br" />
-							
-						</fieldset>
-						
-						<fieldset legend="Filtrar por Fechas del estudio">
-							<fieldView mappingTo="5" editable="true" />
-							<fieldView mappingTo="6" editable="true" />
+							<fieldView separator="br" />
 							<fieldView mappingTo="50" type="select">
 								<optionValues entitymodel="tiposPeriodos"
 									descrMappingTo="3" selectionMultiple="true">
 								</optionValues>
 							</fieldView>
+							<fieldView separator="br" />
+							
+						</fieldset>
+						
+						<fieldset legend="Filtrar por Fechas del estudio">
+							<fieldView mappingTo="5" editable="true" />
+							<fieldView mappingTo="6" editable="true" />							
 						</fieldset>
 																	
 					</fieldViewSet>
@@ -297,7 +305,12 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="SUM" title="Totalizar"></option>
 								</optionValues>
 							</fieldView>
-						
+							<fieldView name="seriesType" type="select">
+									<optionValues>																	
+										<option code="line" title="Line" selected="true"></option>
+										<option code="area" title="Area"></option>
+									</optionValues>
+							</fieldView>						
 						</fieldViewSet>
 					</button>
 								

@@ -1,6 +1,7 @@
 package domain.service.highcharts;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -23,7 +24,7 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.highcharts.utils.HistogramUtils;
 
 public class Histogram3D extends GenericHighchartModel {
-
+	
 	/***
 	 * El campo agregacion se coloca en el eje Z, los campos agregados son cada
 	 * columna (eje X)
@@ -42,7 +43,7 @@ public class Histogram3D extends GenericHighchartModel {
 		FieldViewSet reciente =valoresAgregados.get(numRegistros-1).keySet().iterator().next();
 		Date fechaCalMasAntigua = (Date) antiguo.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
 		Date fechaCalMasReciente = (Date) reciente.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
-		
+		String typeOfSeries = data_.getParameter("seriesType") == null? "line": data_.getParameter("seriesType");
 		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));
 		if (escalado == null){
 			escalado = "automatic";
@@ -191,8 +192,9 @@ public class Histogram3D extends GenericHighchartModel {
 				entidadGrafico.getName().concat(".").concat(entidadGrafico.getName()));
 		
 		data_.setAttribute(CHART_TITLE, fieldsGROUPBY.length == 2 ? 
-				"Comparativa entre " + nameSeries.keySet().size() + entidad +(aggregateFunction.contentEquals(OPERATION_AVERAGE)?"(promedios) ":"(totales) "): "Time series ");
-		data_.setAttribute(JSON_OBJECT, serieJson);		
+				"Comparativa de " + CommonUtils.obtenerPlural(entidad) + " " + (aggregateFunction.contentEquals(OPERATION_AVERAGE)?"(promedios) ":"(totales) "): "Time series ");
+		data_.setAttribute(JSON_OBJECT, serieJson);
+		data_.setAttribute("typeOfSeries", typeOfSeries);
 		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toString());
 		data_.setAttribute("minEjeRef", minimal);
 		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
@@ -201,7 +203,32 @@ public class Histogram3D extends GenericHighchartModel {
 	}
 	
 	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {
-		if (escalado.contentEquals("monthly")) {
+		
+		if (escalado.contentEquals("dayly")) {
+			try {
+				Date fechaAbcisa = CommonUtils.myDateFormatter.parse(valorPeriodoEjeX);
+				return (fechaAbcisa.compareTo(fechaOfPoint) == 0);
+			} catch (ParseException e) {
+				return false;
+			}
+		}else if (escalado.contentEquals("weekly")) {//llega 1st ene'20, ..., 5th dic'19
+			String[] splitter = valorPeriodoEjeX.split("'");
+			String week_ = splitter[0];
+			int numOfWeekAbscisas = Integer.parseInt(week_.substring(0,1));//1,2,...,5
+			int monthAbcisas = CommonUtils.getMonthOfAbbrTraslated(week_.split(" ")[1]);
+			int year2digitAbcisas_ = Integer.valueOf(splitter[1]);
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(fechaOfPoint);
+			int year2digits = cal.get(Calendar.YEAR)%2000;
+			int month = cal.get(Calendar.MONTH) + 1;
+			int weekOfMonth = cal.get(Calendar.WEEK_OF_MONTH);
+			
+			return (year2digits == year2digitAbcisas_ && 
+						monthAbcisas == month &&
+							weekOfMonth == numOfWeekAbscisas);
+			
+		} else if (escalado.contentEquals("monthly")) {
 			//implementación solo para meses de cara a la demo
 			String[] splitter = valorPeriodoEjeX.split("'");
 			String mes_ = splitter[0];
@@ -212,20 +239,55 @@ public class Histogram3D extends GenericHighchartModel {
 			int year2digits = cal.get(Calendar.YEAR)%2000;
 			int month_ = cal.get(Calendar.MONTH) + 1;
 			String mesTrad = CommonUtils.translateMonthToSpanish(month_);
-			if (year2digits == anyo2digits_ &&
-					mesTrad.startsWith(mes_)) {
-				return true;
+			return (year2digits == anyo2digits_ && mesTrad.startsWith(mes_));
+			
+		}else if (escalado.contentEquals("3monthly")) {//llega formato Q1'20, Q2'18...Q4'22
+			String[] splitter = valorPeriodoEjeX.split("'");
+			String quarter_ = splitter[0];
+			int anyo2digits_ = Integer.valueOf(splitter[1]);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(fechaOfPoint);
+			int year2digits = cal.get(Calendar.YEAR)%2000;
+			int month_ = cal.get(Calendar.MONTH) + 1;
+			
+			int numOfQuarter = Integer.parseInt(quarter_.substring(1,2));
+			switch (numOfQuarter){
+				case 1:
+					return (year2digits == anyo2digits_) && (month_<=3);					
+				case 2:
+					return (year2digits == anyo2digits_) && (month_>3 && month_<=6);
+				case 3:
+					return (year2digits == anyo2digits_) && (month_>6 && month_<=9);
+				case 4:
+					return (year2digits == anyo2digits_) && (month_>9 && month_<=12);
+				default:
+					return false;
 			}
-		}else if (escalado.contentEquals("3monthly")) {
 			
-		}else if (escalado.contentEquals("6monthly")) {
+		}else if (escalado.contentEquals("6monthly")) {//llega 1st half'20, 2nd half'20...
+			String[] splitter = valorPeriodoEjeX.split("'");
+			String half_ = splitter[0];
+			int anyo2digits_ = Integer.valueOf(splitter[1]);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(fechaOfPoint);
+			int year2digits = cal.get(Calendar.YEAR)%2000;
+			int month_ = cal.get(Calendar.MONTH) + 1;
 			
-		}else if (escalado.contentEquals("weekly")) {
+			int numOfHalf = Integer.parseInt(half_.substring(0,1));
+			switch (numOfHalf){
+				case 1:
+					return (year2digits == anyo2digits_) && (month_<=6);					
+				case 2:
+					return (year2digits == anyo2digits_) && (month_>6 && month_<=12);
+				default:
+					return false;
+			}
 			
 		}else if (escalado.contentEquals("anualy")) {
-			
-		}else if (escalado.contentEquals("dayly")) {
-			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(fechaOfPoint);
+			int year4digits = cal.get(Calendar.YEAR);
+			return year4digits== Integer.parseInt(valorPeriodoEjeX.trim());			
 		}
 				
 		return false;

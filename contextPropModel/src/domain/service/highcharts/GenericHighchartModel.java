@@ -97,7 +97,6 @@ public abstract class GenericHighchartModel implements IStats {
 	
 	public String generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap data_) {
 		
-		//long mills1 = Calendar.getInstance().getTimeInMillis();
 		SceneResult scene = new SceneResult();
 		try {
 			this._dataAccess = dataAccess;
@@ -184,9 +183,7 @@ public abstract class GenericHighchartModel implements IStats {
 			scene.appendXhtml(sbXml.toString());
 		}
 
-		//long segundosConsumidos = (Calendar.getInstance().getTimeInMillis() - mills1) / 1000;
 		String subtitle_ = (data_.getAttribute(SUBTILE_ATTR) == null ? "" : ((String) data_.getAttribute(SUBTILE_ATTR)));
-				//+ " (rendered in " + segundosConsumidos + " seconds)";
 		data_.setAttribute(SUBTILE_ATTR, subtitle_);
 
 		return scene.getXhtml();
@@ -247,7 +244,7 @@ public abstract class GenericHighchartModel implements IStats {
 		} else if (data_.getAttribute(CHART_TITLE) != null){
 			title = (String) data_.getAttribute(CHART_TITLE);
 		}
-		if (groupByField.length>0 && agregados.length> 0 && groupByField[0] !=null && agregados[0]!=null) {
+		if (groupByField.length>0 && agregados.length> 0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null) {
 			String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
 			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
 			title = title.concat(" agrupando por " + 

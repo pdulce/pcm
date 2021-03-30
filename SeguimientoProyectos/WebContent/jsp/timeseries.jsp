@@ -5,7 +5,7 @@
 	
 	Highcharts.chart('container', {
 	    chart: {     	
-            type: 'line',
+            type: '<%=request.getAttribute("typeOfSeries")%>',
             margin: 75,
             backgroundColor: 'transparent'
         },
