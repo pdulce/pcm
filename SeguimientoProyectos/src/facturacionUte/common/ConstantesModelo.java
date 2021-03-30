@@ -48,7 +48,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_5_USUARIO_CREADOR = 5;
 	public static final int PETICIONES_16_PRIORIDAD = 16;
 	public static final int PETICIONES_25_DES_FECHA_REAL_FIN = 25;
-	public static final int PETICIONES_1_ID = 1;
+	public static final int PETICIONES_1_ID_NUMERIC= 1;
 	public static final int PETICIONES_23_DES_FECHA_PREVISTA_FIN = 23;
 	public static final int PETICIONES_20_FECHA_FIN_DE_DESARROLLO = 20;
 	public static final int PETICIONES_21_FECHA_DE_FINALIZACION = 21;

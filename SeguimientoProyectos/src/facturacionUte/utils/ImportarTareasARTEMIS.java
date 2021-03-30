@@ -167,9 +167,9 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 						}
 					}
 					// el mes y anyo para poder explotarlo en Histogramas con selectGroupBy
-					String idPeticionGEDEON = (String) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName());
+					Long idPeticionGEDEON = (Long) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName());
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionEntidad);
-					peticionEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), idPeticionGEDEON);
+					peticionEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticionGEDEON);
 					peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
 					if (peticionEnBBDD != null){
 						Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());

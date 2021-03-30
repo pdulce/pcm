@@ -228,7 +228,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			for (int i=0;i<codigosPeticiones.size();i++) {
 				Long codPeticionDG = codigosPeticiones.get(i);
 				FieldViewSet peticionDG = new FieldViewSet(estudioPeticionesEntidad);
-				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), codPeticionDG);									
+				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), codPeticionDG);									
 				peticionDG = dataAccess.searchEntityByPk(peticionDG);
 				if (peticionDG != null) {
 					 Double utsEstimadas = (Double) peticionDG.getValue(peticionesEntidad.searchField(
@@ -255,7 +255,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			for (int i=0;i<peticionesAnalisis.size();i++) {
 				Long candidataPeticionAT = peticionesAnalisis.get(i);
 				FieldViewSet peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
-				peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), candidataPeticionAT);									
+				peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), candidataPeticionAT);									
 				peticionBBDDAnalysis = dataAccess.searchEntityByPk(peticionBBDDAnalysis);
 				if (peticionBBDDAnalysis != null) {										
 					String areaDestino = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
@@ -703,7 +703,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 
 			for (final FieldViewSet peticionDG_BBDD : filas) {
 				
-				String peticionDG = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());					
+				Long peticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());					
 				String tipoPeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());					
 				Double horasEstimadas = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 				Double horasReales = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
@@ -727,11 +727,11 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				Date fechaRealFin = (Date) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
 				
 				Date fechaInicioRealAnalysis=null, fechaFinRealAnalysis=null;
-				String peticionGEDEON_Analysis = "";
+				Long peticionGEDEON_Analysis = null;
 				Double esfuerzoAnalysis = 0.0, esfuerzoPruebasCD =0.0;
 				peticionBBDDAnalysis = obtenerPeticionAnalysis(dataAccess, peticionDG_BBDD);
 				if (peticionBBDDAnalysis != null) {								
-					peticionGEDEON_Analysis = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());
+					peticionGEDEON_Analysis = (Long) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
 					fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
 					fechaFinRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
 					if (fechaFinRealAnalysis == null || fechaFinRealAnalysis.compareTo(fechaTramite) > 0) {
@@ -758,9 +758,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				idEntregas = idEntregas.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
 				String[] splitterEntregas = idEntregas.split(" ");
 				for (int e=0;e<splitterEntregas.length;e++) {
-					String peticionGEDEON_ent = splitterEntregas[e];//nos quedamos con la última que haya
+					Long peticionGEDEON_ent = new Long(splitterEntregas[e]);//nos quedamos con la última que haya
 					FieldViewSet entrega = new FieldViewSet(peticionesEntidad);
-					entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName(), peticionGEDEON_ent);						
+					entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), peticionGEDEON_ent);						
 					entrega = dataAccess.searchEntityByPk(entrega);
 					if (entrega != null){
 						String tipoPeticionEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
@@ -770,7 +770,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 								//no tenemos en cuenta entregas que no se han llegado a entregar en CD
 							continue;
 						}						
-						String peticionEntregaGEDEON = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID).getName());
+						Long peticionEntregaGEDEON = (Long) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
 						fechaSolicitudEntrega = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
 						if (!entregasSerializadas.toString().isEmpty()) {
 							entregasSerializadas.append(", ");

@@ -6,7 +6,7 @@
   
   <entity>
     <entityname>peticiones</entityname>
-    <field mappingTo="1" name="id" type="string" length="10" belongsPK="true" required="true"/>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true"/>
     <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
     <field mappingTo="3" name="Descripcion" type="string" length="1000" required="false"/>
     <field mappingTo="4" name="Observaciones" type="string" length="1000" required="false"/>
@@ -33,7 +33,8 @@
     <field mappingTo="23" name="Des_fecha_prevista_fin" type="date" length="10" required="false"/>
     <field mappingTo="24" name="Des_fecha_real_inicio" type="date" length="10" required="false"/>
     <field mappingTo="25" name="Des_fecha_real_fin" type="date" length="10" required="false"/>
-    <field mappingTo="26" name="Proyecto_ID" type="string" length="10" required="false"/>        
+    <field mappingTo="26" name="Proyecto_ID" type="string" length="10" required="false"
+    	fkParentEntities="aplicativo" fkParentFields="1"/>        
     <field mappingTo="27" name="Proyecto_Name" type="string" length="150" required="false"/>    
     <field mappingTo="28" name="Horas_estimadas_actuales" type="double" length="10" required="false"/>
     <field mappingTo="29" name="Horas_reales" type="double" length="10" required="false"/>
@@ -64,7 +65,7 @@
     <entityname>tareasPeticion</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true"/>
     <field mappingTo="2" name="id_tareaGEDEON" type="string" length="20" required="false"/>
-    <field mappingTo="3" name="id_peticion" type="string" length="10" required="false" 
+    <field mappingTo="3" name="id_peticion" type="long" length="11" required="false" 
        fkParentEntities="peticiones" fkParentFields="1"/>
     <field mappingTo="4" name="id_tipotarea" type="long" length="11" required="false" 
        fkParentEntities="tiposTareas" fkParentFields="1"/>

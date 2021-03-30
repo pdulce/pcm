@@ -167,9 +167,9 @@
 						
 					<fieldset legend="Por aplicativo">
 					
-						<fieldView mappingTo="27" type="checkbox" size="8">
+						<fieldView mappingTo="26" type="checkbox" size="8">
 							<optionValues selectionMultiple="true" entitymodel="aplicativo"
-								descrMappingTo="2" codeField="2">
+								descrMappingTo="5">
 							</optionValues>
 						</fieldView>
 						
@@ -242,7 +242,11 @@
 					<fieldView mappingTo="1" editable="false" styleCss="font-weight: bold;"/><!-- Peticion -->
 					<fieldView mappingTo="37" editable="false" />
 					<fieldView mappingTo="12" editable="false" styleCss="font-style: italic;"/>
-					<fieldView mappingTo="26" editable="false" styleCss="font-weight: bolder;"/>
+					<fieldView mappingTo="26" type="checkbox" size="1" editable="false">
+							<optionValues entitymodel="aplicativo"
+								descrMappingTo="5">
+							</optionValues>
+						</fieldView>
 					<fieldView mappingTo="13" editable="false" />
 					<fieldView mappingTo="7" editable="false" styleCss="font-weight: bold;"/><!-- Estado_peticion_originaria -->					
 					<fieldView mappingTo="42" editable="false" styleCss="font-weight: bold;color: orange;"/>

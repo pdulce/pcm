@@ -1,6 +1,6 @@
 DROP TABLE `peticiones`;
 CREATE TABLE `peticiones` (
-  `id` varchar(10) primary key,
+  `id` INTEGER PRIMARY KEY,
   `Titulo` varchar(500),
   `Descripcion` varchar(100),
   `Observaciones` varchar(1000),
@@ -51,7 +51,7 @@ DROP TABLE `tareasPeticion`;
 CREATE TABLE `tareasPeticion` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `id_tareaGEDEON` varchar(20) DEFAULT NULL,
-  `id_peticion` varchar(10) DEFAULT NULL,
+  `id_peticion` int(11) DEFAULT NULL,
   `id_tipotarea` int(11) DEFAULT NULL,
   `nombre` varchar(200) DEFAULT NULL,
   `horas_imputadas` double DEFAULT NULL,
