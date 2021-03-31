@@ -115,7 +115,13 @@ public class Histogram3D extends GenericHighchartModel {
 				}
 			}//for 
 			
-			series.put(firstGroupBY_ID_Aux.toString(), serieValuesAux);
+			//la ultima serie la grabas tomando lo previo:
+			Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
+			if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+				volcarSeriesvalues = new HashMap<Date, Number>();						
+			}
+			volcarSeriesvalues.putAll(serieValuesAux);
+			series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
 				
 		}
 		
