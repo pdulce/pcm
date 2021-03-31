@@ -131,14 +131,11 @@ public final class CommonUtils {
 		return pluralOf.toString();
 	}
 	
-	public static Long obtenerCodigo(String peticionId, final String avisador){
+	public static Long obtenerCodigo(String peticionId){
 		
 		Long numeroPeticion = Long.valueOf(-1);	
 		if (peticionId == null){
 			return numeroPeticion;
-		}
-		if (peticionId.indexOf(avisador) != -1){
-			return numeroPeticion;//no hago transformacion alguna
 		}
 		
 		StringBuilder str_ = new StringBuilder();		
@@ -164,14 +161,11 @@ public final class CommonUtils {
 		
 	}
 	
-	public static List<Long> obtenerCodigos(String pets, String avisador){
+	public static List<Long> obtenerCodigos(String pets){
 		
 		List<Long> arr = new ArrayList<Long>();	
 		if (pets == null){
 			return arr;
-		}
-		if (pets.indexOf(avisador) != -1){
-			return arr;//no hago transformacion alguna
 		}
 		
 		StringBuilder str_ = new StringBuilder();

@@ -1,14 +1,14 @@
 /*.blueC{
 	font-weight: bold;
 	color: white;
-	background: rgb(26, 47, 53);
+	background: rgb(7, 39, 46);
 }
 */
 
 .pcmTDLeft {
 	font: normal 0.8em Verdana, sans-serif;
 	color: white;
-	background-color: rgb(26, 47, 53);
+	background-color: rgb(7, 39, 46);
 	text-align: left;
 	border: 1.1px solid #C9DCA6;
 	width: 8%;
@@ -19,7 +19,7 @@
 .pcmTDRight {
 	font: normal 0.8em Verdana, sans-serif;
 	color: white;
-	background-color: rgb(26, 47, 53);
+	background-color: rgb(7, 39, 46);
 	text-align: left;
 	border: 1.1px solid #C9DCA6;
 	width: 92%;
@@ -32,7 +32,7 @@
 	border: 0;
 	font-size: 0.8em;
 	width: 95.9%;
-	background-color: rgb(26, 47, 53);
+	background-color: rgb(7, 39, 46);
 }
 
 TH {

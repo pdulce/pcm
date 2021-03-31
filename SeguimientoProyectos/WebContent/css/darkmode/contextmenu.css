@@ -20,7 +20,7 @@
 	/*color: #000;*/
 	text-decoration:none;
 	color: white;
-	background: rgb(26, 47, 53);
+	background: rgb(7, 39, 46);
 	line-height:25px;
 	height:28px;
 	/* Don't change these 3 values */
@@ -35,19 +35,19 @@
 	margin:1px;
 	cursor:pointer;	
 	color: white;
-	background: rgb(26, 47, 53);
+	background: rgb(7, 39, 46);
 	clear:both;
 }
 
 #contextMenu li div{	/* Dynamically created divs */
 	cursor:pointer;	
-	background-color: rgb(26, 47, 53);
+	background-color: rgb(7, 39, 46);
 }
 
 #contextMenu .contextMenuHighlighted{	/* Highlighted context menu item */
 	border:1px solid #000;
 	padding:0px;
-	background-color: rgb(26, 47, 53);
+	background-color: rgb(7, 39, 46);
 	color: white;
 }
 
@@ -57,7 +57,7 @@
 
 #contextMenu .imageBox{	/* Dynamically created divs for images in the menu */
 	color: white;
-	background-color: rgb(26, 47, 53);
+	background-color: rgb(7, 39, 46);
 	float:left;
 	padding-left:2px;
 	padding-top:3px;
@@ -69,5 +69,5 @@
 	float: left;		
 	width: 140px;		
 	color: white;
-	background-color: rgb(26, 47, 53);
+	background-color: rgb(7, 39, 46);
 }

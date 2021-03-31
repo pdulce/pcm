@@ -37,7 +37,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			FECHA_FIN_PARAM = "estudiosPeticiones.fecha_fin_estudio";
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
-	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " ¡OJO ya en entrega previa! ";
 	
 	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, heuristicasEntidad,
 				tipoPeriodo, tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad, tiposPeticionesEntidad;
@@ -224,7 +223,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		String peticiones = (String) miEntrega.getValue(peticionesEntidad.searchField(
 				ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
 		if (peticiones != null && !"".contentEquals(peticiones)) {				
-			List<Long> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+			List<Long> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
 			for (int i=0;i<codigosPeticiones.size();i++) {
 				Long codPeticionDG = codigosPeticiones.get(i);
 				FieldViewSet peticionDG = new FieldViewSet(estudioPeticionesEntidad);
@@ -251,7 +250,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				
 		String petsRelacionadas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());		
 		if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
-			List<Long> peticionesAnalisis = CommonUtils.obtenerCodigos(petsRelacionadas, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);			
+			List<Long> peticionesAnalisis = CommonUtils.obtenerCodigos(petsRelacionadas);			
 			for (int i=0;i<peticionesAnalisis.size();i++) {
 				Long candidataPeticionAT = peticionesAnalisis.get(i);
 				FieldViewSet peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
@@ -572,7 +571,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	
 	
-	protected FieldViewSet aplicarEstudioPorPeticion(final IDataAccess dataAccess, final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) {
+	protected FieldViewSet aplicarEstudioPorPeticion(final IDataAccess dataAccess, 
+			final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) {
 		
 		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
 		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
@@ -755,10 +755,13 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				Date fechaSolicitudEntrega = null;
 				StringBuffer entregasSerializadas = new StringBuffer();
 				List<FieldViewSet> entregasTramitadas = new ArrayList<FieldViewSet>();
-				idEntregas = idEntregas.replaceAll(" ¡OJO ya en entrega previa!", "").trim();
+				idEntregas = idEntregas.trim();
 				String[] splitterEntregas = idEntregas.split(" ");
 				for (int e=0;e<splitterEntregas.length;e++) {
-					Long peticionGEDEON_ent = new Long(splitterEntregas[e]);//nos quedamos con la última que haya
+					if (splitterEntregas[e]== null || "".contentEquals(splitterEntregas[e])) {
+						break;
+					}
+					Long peticionGEDEON_ent = new Long(splitterEntregas[e]);
 					FieldViewSet entrega = new FieldViewSet(peticionesEntidad);
 					entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), peticionGEDEON_ent);						
 					entrega = dataAccess.searchEntityByPk(entrega);

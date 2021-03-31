@@ -53,8 +53,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS",ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO",
 	ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
 	
-	private static final String AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS = " ¡OJO ya en entrega previa! ";
-	private static final String AVISADOR_ANULADA_PREVIA = " ¡OJO anulada en entrega previa! ";
 
 	static {
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID|Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_1_ID_NUMERIC));
@@ -150,7 +148,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}
 			
 			String idsRelacionadasEnHija = (String) peticionHija.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-			List<Long> idsRelacionadasEnHija_ = CommonUtils.obtenerCodigos(idsRelacionadasEnHija, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+			List<Long> idsRelacionadasEnHija_ = CommonUtils.obtenerCodigos(idsRelacionadasEnHija);
 			if (!idsRelacionadasEnHija_.contains(Long.valueOf(idPadreGestion))){
 				idsRelacionadasEnHija_.add(Long.valueOf(idPadreGestion));				
 			}
@@ -166,7 +164,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
     	int contador = 0;
     	for (Long idHija: idsHijas_){    		
     		String idsRelacionadasEnPadre = (String) peticionPadre.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-			List<Long> idsRelacionadasEnPadre_ = CommonUtils.obtenerCodigos(idsRelacionadasEnPadre, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+			List<Long> idsRelacionadasEnPadre_ = CommonUtils.obtenerCodigos(idsRelacionadasEnPadre);
 			if (!idsRelacionadasEnPadre_.contains(idHija)){
 				contador++;
 				idsRelacionadasEnPadre_.add(idHija);
@@ -277,7 +275,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
 						String centroDestinoPadre = (String) peticionEnBBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());
 						String idsHijas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-						List<Long> idsHijas_ = CommonUtils.obtenerCodigos(idsHijas, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+						List<Long> idsHijas_ = CommonUtils.obtenerCodigos(idsHijas);
 						if ( CDISM.equals(centroDestinoPadre)){
 							numImportadas += linkarPeticionesDeSGD_a_CDISM(peticionEnBBDD, idsHijas_);
 						}else if ( CONTRATO_7201_17G_L2.equals(centroDestinoPadre)){
@@ -448,7 +446,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}
 						formatearPetsRelacionadas(registro);
 						if (!filas.isEmpty() && rochadeCode != null) {					
-							idPeticion = CommonUtils.obtenerCodigo(idPeticion.toString(), AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+							idPeticion = CommonUtils.obtenerCodigo(idPeticion.toString());
 							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticion);
 							FieldViewSet registroExistente = new FieldViewSet(peticionesEntidad);
 							registroExistente.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC)
@@ -520,7 +518,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 		String peticionesRelacionadas = 
 				(String) peticionDeEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-		List<Long> peticionesRelacionadas_int = CommonUtils.obtenerCodigos(peticionesRelacionadas, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);		
+		List<Long> peticionesRelacionadas_int = CommonUtils.obtenerCodigos(peticionesRelacionadas);		
 		if (peticionesRelacionadas_int == null || peticionesRelacionadas_int.isEmpty()){	
 			return;
 		}
@@ -545,23 +543,12 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			
 			if (servicioDestinoRelacionada.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
 					
-				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(),	
-						true);
-				peticionesEntregaPrevias = peticionesEntregaPrevias.replaceAll(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS, ",");
-				peticionesEntregaPrevias = peticionesEntregaPrevias.replaceAll("@P", ",");
-				peticionesEntregaPrevias = peticionesEntregaPrevias.replaceAll(AVISADOR_ANULADA_PREVIA, ",");
-				List<Long> entregasPrevias = peticionesEntregaPrevias == null || "".equals(peticionesEntregaPrevias) ? new ArrayList<Long>() : CommonUtils.obtenerCodigos(peticionesEntregaPrevias, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(), true);
+				List<Long> entregasPrevias = peticionesEntregaPrevias == null || "".equals(peticionesEntregaPrevias) ? new ArrayList<Long>() : CommonUtils.obtenerCodigos(peticionesEntregaPrevias);
 				String literalEntregasPrevias = idGEDEONPeticionEntrega.toString();
-				
-				//if(!entregasPrevias.contains(new Long(idGEDEONPeticionEntrega))){
-				literalEntregasPrevias = literalEntregasPrevias.concat(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
-				//}
-				
+								
 				for (int ent_=0;ent_<entregasPrevias.size();ent_++){				
 					final String id_Entrega = String.valueOf(entregasPrevias.get(ent_));
-					/*if (new Long(id_Entrega) == new Long(idGEDEONPeticionEntrega)) {
-						continue;
-					}*/
 					literalEntregasPrevias = literalEntregasPrevias.concat(id_Entrega);
 					
 					FieldViewSet entregaPeticion = new FieldViewSet(peticionesEntidad);
@@ -569,11 +556,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					entregaPeticion = this.dataAccess.searchEntityByPk(entregaPeticion);						
 					if (entregaPeticion == null){ 
 						continue;
-					}
-					final String tipoEntrega =  (String) 
-							entregaPeticion.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
-					if (tipoEntrega.toLowerCase().indexOf("parcial") != -1){
-						literalEntregasPrevias = literalEntregasPrevias.concat("@P");//entrega parcial
 					}
 					if (ent_<entregasPrevias.size() - 1){
 						literalEntregasPrevias = literalEntregasPrevias.concat(",");
@@ -648,10 +630,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 		String peticionesRelacionadas_ = (String) 
 				registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-		if (peticionesRelacionadas_ == null || peticionesRelacionadas_.indexOf(AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS) != -1){
+		if (peticionesRelacionadas_ == null){
 			return;//no hago transformacion alguna
 		}
-		List<Long> codigos = CommonUtils.obtenerCodigos(peticionesRelacionadas_, AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+		List<Long> codigos = CommonUtils.obtenerCodigos(peticionesRelacionadas_);
 		
 		StringBuilder strPeticiones = new StringBuilder();
 		strPeticiones.append("<P><UL>");
@@ -754,7 +736,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					valueCell =	areaOrigenFs.getValue(servicioEntidad.searchField(ConstantesModelo.SERVICIO_1_ID).getName());
 				}
 			}
-			valueCell = valueCell.equals("") ? null : CommonUtils.obtenerCodigo(valueCell.toString(), AVISADOR_YA_INCLUIDO_EN_ENTREGAS_PREVIAS);
+			valueCell = valueCell.equals("") ? null : CommonUtils.obtenerCodigo(valueCell.toString());
 		} else if (fLogic.getAbstractField().isDecimal()) {
 			valueCell = valueCell.equals("") ? null : CommonUtils.numberFormatter.parse(valueCell);
 		}
