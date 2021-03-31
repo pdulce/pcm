@@ -1002,7 +1002,7 @@ public class PaginationGrid extends AbstractComponent {
 		if (value.toString().contentEquals("undefined") ||
 				value.toString().contentEquals("no enlazada") || value.toString().contentEquals("not found")) {
 			return true;
-		}else if (fieldLogic.getAbstractField().isNumeric() && 
+		}else if (fieldLogic.getAbstractField().isNumeric() && !value.toString().isEmpty() && 
 				Double.valueOf(value.toString()) < 0.00) {
 			return true;
 		}

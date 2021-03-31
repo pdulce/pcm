@@ -250,10 +250,10 @@ public final class CommonUtils {
 				periodo = String.valueOf(year).concat("-").concat(String.valueOf(yearAbbr+3));
 				break;
 			case 10:
-				periodo = (CommonUtils.translateMonthAbbrToSpanish(mes) + "'" + yearAbbr + "-"+ CommonUtils.translateMonthAbbrToSpanish(mesFin) + "'" + yearAbbrFin);
+				periodo = (CommonUtils.translateMonthAbbrToSpanish(mes) + yearAbbr + "-"+ CommonUtils.translateMonthAbbrToSpanish(mesFin) + yearAbbrFin);
 				break;
 			default:
-				periodo = (CommonUtils.translateMonthAbbrToSpanish(mes) + "'" + yearAbbr + "-"+ CommonUtils.translateMonthAbbrToSpanish(mesFin) + "'" + yearAbbrFin);
+				periodo = (CommonUtils.translateMonthAbbrToSpanish(mes) + yearAbbr + "-"+ CommonUtils.translateMonthAbbrToSpanish(mesFin) + yearAbbrFin);
 		}
 		return periodo;
 	}

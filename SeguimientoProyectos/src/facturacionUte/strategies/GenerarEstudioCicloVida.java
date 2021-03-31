@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -14,8 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 import domain.common.PCMConstants;
+import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.common.exceptions.StrategyException;
+import domain.common.exceptions.TransactionException;
 import domain.common.utils.CommonUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
@@ -246,7 +249,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
     }
 	
 	
-	protected FieldViewSet obtenerPeticionAnalysis(IDataAccess dataAccess, FieldViewSet registro) throws Throwable{
+	protected FieldViewSet obtenerPeticionAnalysis(IDataAccess dataAccess, FieldViewSet registro) throws DatabaseException{
 				
 		String petsRelacionadas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());		
 		if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
@@ -364,7 +367,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				}
 			}
 			return 0.0;
-		}catch (Throwable excc) {
+		}catch (Throwable excc1) {
 			final Collection<Object> messageArguments = new ArrayList<Object>();
 			messageArguments.add(heuristica);
 			throw new StrategyException("ERR_FORMULA_ERR", messageArguments);
@@ -543,36 +546,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		}
 	}
 	
-	
-	public static void main (String[] args){
-		
-		/*GenerarEstudioCicloVida gen = new GenerarEstudioCicloVida();
-		
-		gen.procesarReglas("1.Si hay pet_analisis AND hay tarea_analisis Then\r\n" + 
-				"tarea_analisis.fecha_fin_real - tarea_analisis.fecha_inicio_real\r\n" + 
-				"\r\n" + 
-				"2.Si hay pet_analisis AND hay pet_analisis.Des_fecha_real_fin Then\r\n" + 
-				"pet_analisis.Des_fecha_real_fin - pet_analisis.Des_fecha_real_inicio\r\n" + 
-				"\r\n" + 
-				"3.Si hay pet_entrega AND hay pet_analisis Then\r\n" + 
-				"#Fecha_fin_analisis# - pet_analisis.Des_fecha_real_inicio\r\n" + 
-				"\r\n" + 
-				"4.Si hay pet_entrega Then \r\n" + 
-				"#Fecha_fin_analisis# - #Fecha_ini_analisis#", null, null,null, null,null, null);
-		
-		System.out.println("reglas procesadas para expresión conmpleja");
-		
-		
-		gen.procesarReglas("pet_entrega.fecha_validada_CD - pet_entrega.Fecha_de_finalizacion",
-				null, null,null, null,null, null);//sin conditions
-		System.out.println("reglas procesadas para expresión simple");*/
-				
-	}
-	
-	
-	
 	protected FieldViewSet aplicarEstudioPorPeticion(final IDataAccess dataAccess, 
-			final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) {
+			final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) 
+					throws StrategyException{
 		
 		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
 		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
@@ -767,20 +743,30 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					entrega = dataAccess.searchEntityByPk(entrega);
 					if (entrega != null){
 						String tipoPeticionEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
-						//String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-						Date fechaEntregada = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
-						if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") == -1 || fechaEntregada == null) { 
-								//no tenemos en cuenta entregas que no se han llegado a entregar en CD
+						if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") == -1) {
 							continue;
-						}						
+						}
+						Date fechaEntregada = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
+						if (fechaEntregada == null) { 
+								//no tenemos en cuenta entregas que no se han llegado a entregar en CD
+							//String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+							//entrega = null;
+							continue;
+						}
+						
 						Long peticionEntregaGEDEON = (Long) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
 						fechaSolicitudEntrega = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
+						String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+						if (estadoEntrega.contentEquals("Entrega no conforme")) {
+							entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName(),
+									peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName()));
+						}
 						if (!entregasSerializadas.toString().isEmpty()) {
 							entregasSerializadas.append(", ");
 						}
 						entregasSerializadas.append(peticionEntregaGEDEON);
 						entregasTramitadas.add(entrega);
-					}				
+					}
 				}
 				
 				if (entregasTramitadas.isEmpty()) {
@@ -816,7 +802,9 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				
 				Date _fechaFinPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, entregasTramitadas, null, 
 						null, variables);
-			
+				/*if (_fechaFinPruebasCD == null) {
+					throw new StrategyException("fechaFinPruebasCD es nula");					
+				}*/
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
 				variables.put("#Fecha_fin_pruebas_CD#", _fechaFinPruebasCD);
 				
@@ -892,8 +880,14 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						entregasTramitadas, null, null, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName(), jornadasDesfaseFinDesaSolicEntrega);
 				
-				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
+				Serializable jornadasDesdeFinPruebasHastaImplantacion_serialized= procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, null, null, variables);
+				if (jornadasDesdeFinPruebasHastaImplantacion_serialized instanceof Date) {
+					jornadasDesdeFinPruebasHastaImplantacion_serialized= procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
+							entregasTramitadas, null, null, variables);
+				}
+				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) jornadasDesdeFinPruebasHastaImplantacion_serialized;
+				
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
 								
 				if (horasEstimadas == 0.0 && horasReales==0.0) {								
@@ -932,7 +926,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					out.close();
 					dataset4MLR.flush();
 					dataset4MLR.close();
-					throw new Throwable("Error actualizando registro de petición");
+					throw new StrategyException("Error actualizando registro de petición");
 				}
 				
 				numPeticionesEstudio++;
@@ -1088,12 +1082,20 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			int ok = dataAccess.modifyEntity(registroMtoProsa);
 			if (ok != 1) {
-				throw new Throwable("Error grabando registro del Estudio del Ciclo de Vida de las peticiones Mto. Pros@");
+				throw new StrategyException("Error actualizando los resúmenes de las peticiones para este Estudio");
 			}
 			dataAccess.commit();
 			
-		}catch (Throwable exc) {
-			exc.printStackTrace();
+		}catch (StrategyException excSt) {
+			throw excSt;
+		}catch (TransactionException tracSt) {
+			throw new StrategyException(tracSt.getCause());
+		}catch (IOException excGral) {
+			throw new StrategyException(excGral.getCause());
+		}catch ( SQLException sqlExc) {
+			throw new StrategyException(sqlExc.getCause());
+		}catch (DatabaseException dataBBDDExc) {
+			throw new StrategyException(dataBBDDExc.getCause());
 		}finally {
 			try {
 				out.flush();

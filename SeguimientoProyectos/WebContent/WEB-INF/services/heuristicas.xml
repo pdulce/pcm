@@ -59,12 +59,12 @@
 							<fieldView separator="br" />													
 						</fieldset>
 						<fieldset legend="Fechas relevantes (cuando no hay petición/tarea de Análisis ni de Pruebas)">	
-							<fieldView mappingTo="10" editable="true" size="50"/>
-							<fieldView mappingTo="11" editable="true" size="50"/>
+							<fieldView mappingTo="10" editable="true" size="60"/>
+							<fieldView mappingTo="11" editable="true" size="60"/>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="12" editable="true" size="50"/>
-							<fieldView mappingTo="13" editable="true" size="50"/>						
+							<fieldView mappingTo="12" editable="true" size="60"/>
+							<fieldView mappingTo="13" editable="true" size="60"/>						
 							<fieldView separator="br" />
 						</fieldset>
 						<fieldset legend="Fórmulas de cálculo para las dimensiones (duraciones en jornadas) del estudio">
@@ -120,12 +120,12 @@
 							<fieldView separator="br" />
 						</fieldset>
 						<fieldset legend="Fechas relevantes (cuando no hay petición/tarea de Análisis ni de Pruebas)">	
-							<fieldView mappingTo="10" editable="true" size="50"/>
-							<fieldView mappingTo="11" editable="true" size="50"/>
+							<fieldView mappingTo="10" editable="true" size="60"/>
+							<fieldView mappingTo="11" editable="true" size="60"/>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="12" editable="true" size="50"/>
-							<fieldView mappingTo="13" editable="true" size="50"/>						
+							<fieldView mappingTo="12" editable="true" size="60"/>
+							<fieldView mappingTo="13" editable="true" size="60"/>						
 							<fieldView separator="br" />
 						</fieldset>
 						<fieldset legend="Fórmulas de cálculo para las dimensiones (duraciones en jornadas) del estudio">

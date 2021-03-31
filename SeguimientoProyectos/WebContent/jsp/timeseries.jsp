@@ -40,17 +40,11 @@
                 }
             }
         },
-        
-        legend: {		            	
-            width: 1080,
-            floating: true,
-            align: 'center',
-            x: 80, // = marginLeft - default spacingLeft
-            y: 22,
-            itemWidth: 240,
+        legend: {
+            layout: 'vertical',
+            align: 'right',
             itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
-            itemDistance: 5,
-            borderWidth: 0
+            verticalAlign: 'middle'
         },
         
         tooltip: {				        	

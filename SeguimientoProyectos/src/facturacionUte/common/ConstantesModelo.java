@@ -259,7 +259,7 @@ public abstract class ConstantesModelo {
 	public static final int TIPO_PERIODO_1_ID = 1;
 	public static final int TIPO_PERIODO_2_NUM_MESES = 2;
 	public static final int TIPO_PERIODO_3_PERIODO = 3;
-	public static final int TIPO_PERIODO_INDETERMINADO = 99;
+	public static final int TIPO_PERIODO_INDETERMINADO = 10;
 	public static final String TIPO_PERIODO_ENTIDAD = "tiposPeriodos";	
 	
 	public static final int TECHNOLOGY_1_ID = 1;
