@@ -67,10 +67,10 @@
 	            enableMouseTracking: false
 	        }, {
 	            type: 'scatter',
-	            name: 'Observaciones',
+	            name: 'Observations',
 	            data: <%=request.getAttribute("observations")%>,
 	            marker: {
-	                radius: 4
+	                radius: 3
 	            }
 	        }]
 	    });
