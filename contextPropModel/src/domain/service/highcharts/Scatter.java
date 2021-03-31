@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
@@ -140,7 +139,6 @@ public class Scatter extends GenericHighchartModel {
 	public String generateStatGraphModel(final IDataAccess dataAccess, DomainService domainService, final Datamap data_) {
 		
 		SceneResult scene = new SceneResult();
-		//long mills1 = Calendar.getInstance().getTimeInMillis();
 		FieldViewSet userFilter = null;
 		StringBuilder sbXml = new StringBuilder();
 		try {
@@ -360,18 +358,14 @@ public class Scatter extends GenericHighchartModel {
 				}
 			}
 
-			// revisar aqui los acumulados de cada valor de clasificacion
-			JSONArray seriesJSON = new JSONArray();
+
+			JSONArray seriesJSON_observations = new JSONArray();
+			
 			List<Double> datos_EJE_X_coll_con_Atipicos = new ArrayList<Double>(), datos_EJE_Y_coll_con_Atipicos = new ArrayList<Double>();
 			Iterator<Map.Entry<String, List<Map<Double, Double>>>> iteEntriesOfMapaPuntos = mapaDePuntos.entrySet().iterator();
 			while (iteEntriesOfMapaPuntos.hasNext()) {
-				JSONObject serie = new JSONObject();
-				JSONArray jsArrayAsig = new JSONArray();
+				
 				Map.Entry<String, List<Map<Double, Double>>> mapaEntry = iteEntriesOfMapaPuntos.next();
-				String claveValordeAgrupacion = mapaEntry.getKey();
-
-				serie.put("name", Translator.traduceDictionaryModelDefined(lang, claveValordeAgrupacion));
-								
 				List<Map<Double, Double>> puntosConEsteValordeAgrupacion = mapaEntry.getValue();
 				for (Map<Double, Double> punto: puntosConEsteValordeAgrupacion) {
 					try {						
@@ -383,10 +377,13 @@ public class Scatter extends GenericHighchartModel {
 							Map.Entry<Double, Double> coordenadas = iteCoordenadas.next();
 							datos_EJE_X_coll_con_Atipicos.add(coordenadas.getKey());
 							datos_EJE_Y_coll_con_Atipicos.add(coordenadas.getValue());
+							
 							JSONArray jsArrayPoint = new JSONArray();
 							jsArrayPoint.add(coordenadas.getKey());// eje X
 							jsArrayPoint.add(coordenadas.getValue());// eje Y
-							jsArrayAsig.add(jsArrayPoint);
+							
+							seriesJSON_observations.add(jsArrayPoint);
+							
 						} else {
 							break;
 						}
@@ -395,22 +392,17 @@ public class Scatter extends GenericHighchartModel {
 						excc.printStackTrace();
 					}
 				}
-				serie.put("data", jsArrayAsig);
-				seriesJSON.add(serie);
 			}
-
-			// Procedemos a eliminar los datos atopicos, que siempre vamos a buscarlos en la lista de los valores del eje Y:
-			// De no hacer esta eliminacion, el modelo de regresion quedaro intoxicado por estos pocos datos que no son representativos.
-			// Para ello, hallamos el límite inferior y el límite superior de referencia para localizar los datos atípicos, y descartarlos.
 
 			data_.setAttribute(TITULO_EJE_X, titulo_EJE_X);
 			data_.setAttribute(TITULO_EJE_Y, titulo_EJE_Y);
 			data_.setAttribute(TOOLTIP_EJE_X, titulo_EJE_X);
 			data_.setAttribute(TOOLTIP_EJE_Y, titulo_EJE_Y);
 
-			Double coordenada_X_Mayor = Collections.max(datos_EJE_X_coll_con_Atipicos), coordenada_Y_Mayor = Collections
-					.max(datos_EJE_Y_coll_con_Atipicos), coordenada_X_Menor = Collections.min(datos_EJE_X_coll_con_Atipicos), coordenada_Y_Menor = Collections
-					.min(datos_EJE_Y_coll_con_Atipicos);
+			Double coordenada_X_Mayor = Collections.max(datos_EJE_X_coll_con_Atipicos);
+			Double coordenada_Y_Mayor = Collections.max(datos_EJE_Y_coll_con_Atipicos); 
+			Double coordenada_X_Menor = Collections.min(datos_EJE_X_coll_con_Atipicos);			
+			Double 	coordenada_Y_Menor = Collections.min(datos_EJE_Y_coll_con_Atipicos);
 			data_.setAttribute("min_EJE_X", Integer.valueOf(coordenada_X_Menor.intValue()));
 			data_.setAttribute("max_EJE_X", Integer.valueOf(coordenada_X_Mayor.intValue()));
 			data_.setAttribute("min_EJE_Y", Integer.valueOf(coordenada_Y_Menor.intValue()));
@@ -435,31 +427,8 @@ public class Scatter extends GenericHighchartModel {
 			tupla_Destino_En_X_igualA_N.add(Double.valueOf(CommonUtils.roundWith2Decimals(coordenadaY_cuando_X_es_N)));
 			jsArrayRegressionLine.add(tupla_Destino_En_X_igualA_N);
 
-			// pintamos la recta de regresión
-			JSONObject serieRegressionLine = new JSONObject();
-			JSONObject shadow = new JSONObject();
-			shadow.put("color", "olive");
-			shadow.put("width", 3);
-			shadow.put("offsetX", 0);
-			shadow.put("offsetY", 0);
-			serieRegressionLine.put("shadow", shadow);
-
-			JSONObject marker = new JSONObject();
-			marker.put("enabled", false);
-			serieRegressionLine.put("marker", marker);
-
-			JSONObject hover = new JSONObject();
-			hover.put("lineWidth", 0);
-			JSONObject states = new JSONObject();
-			states.put("hover", hover);
-			serieRegressionLine.put("states", states);
-
-			serieRegressionLine.put("type", "line");
-			serieRegressionLine.put("name", "Regression Line");
-			serieRegressionLine.put("enableMouseTracking", false);
-			serieRegressionLine.put("data", jsArrayRegressionLine);
-
-			seriesJSON.add(serieRegressionLine);
+			data_.setAttribute("line", jsArrayRegressionLine.toString());//"[[0, 1.11], [5, 4.51]]"
+			data_.setAttribute("observations", seriesJSON_observations.toString());//"[1, 1.5, 2.8, 3.5, 3.9, 4.2]"
 
 			double coeficiente_R_deCorrelacion = varStatsForRegressionLine.obtenerCoeficienteR_deCorrelacion();
 
@@ -494,10 +463,6 @@ public class Scatter extends GenericHighchartModel {
 					+ CommonUtils.numberFormatter.formatBigData(paramBeta_Correlacion < 0.001?paramBeta_Correlacion*10000.0:(paramBeta_Correlacion < 0.01?paramBeta_Correlacion*1000.0:paramBeta_Correlacion))
 					+ "*(" + titulo_EJE_X + (paramBeta_Correlacion < 0.001?"/10000":(paramBeta_Correlacion < 0.01?"/1000":"")) + ") </I>";
 
-			data_.setAttribute(JSON_OBJECT, seriesJSON.toJSONString());
-
-			//long mills2 = Calendar.getInstance().getTimeInMillis();
-			//long segundosConsumidos = (mills2 - mills1) / 1000;
 
 			StringBuilder infoSumaryAndRegression = new StringBuilder();
 			infoSumaryAndRegression.append(htmlForHistograms(data_, fieldForCategoryX, userFilter));
@@ -550,7 +515,7 @@ public class Scatter extends GenericHighchartModel {
 			data_.setAttribute(SUBTILE_ATTR, subtitle);
 
 			data_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());
-
+						
 			return scene.getXhtml();
 
 		}

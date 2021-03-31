@@ -55,7 +55,7 @@
 	        series: [{
 	            type: 'line',
 	            name: 'Regression Line',
-	            data: [[0, 1.11], [5, 4.51]],
+	            data: <%=request.getAttribute("line")%>,
 	            marker: {
 	                enabled: false
 	            },
@@ -67,8 +67,8 @@
 	            enableMouseTracking: false
 	        }, {
 	            type: 'scatter',
-	            name: 'Observations',
-	            data: [1, 1.5, 2.8, 3.5, 3.9, 4.2],
+	            name: 'Observaciones',
+	            data: <%=request.getAttribute("observations")%>,
 	            marker: {
 	                radius: 4
 	            }

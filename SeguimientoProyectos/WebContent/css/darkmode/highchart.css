@@ -1,7 +1,7 @@
 /* PERSONALIZACION DE LOS MAPAS Y GRAPHICS DE HIGHCHARTS */
 
 #container {
-    height: 620px; 
+    height: 640px; 
     min-width: 310px; 
     max-width: 1260px; 
     margin: 0 auto; 
@@ -24,7 +24,7 @@
     color: rgb(159, 255, 255);
 }
 .highcharts-data-table th {
-	font-weight: 600;
+	font-weight: 640;
 	color: white;
     padding: 0.5em;
     background: rgb(7, 39, 46);
