@@ -49,7 +49,7 @@
             y: 22,
             itemWidth: 240,
             itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
-            itemDistance: 20,
+            itemDistance: 5,
             borderWidth: 0
         },
         

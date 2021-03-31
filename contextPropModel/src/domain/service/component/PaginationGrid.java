@@ -837,107 +837,75 @@ public class PaginationGrid extends AbstractComponent {
 			for (int i = 0; i < headerLabelsCount; i++) {
 				try {
 					IFieldView column = this.searchFieldView(this.headerLabels.get(i).getName());
-					if (column == null) {
+					if (column == null || column.isHidden()) {
 						continue;
 					}
 					Serializable valueOfColumn = !this.getValueOfField(this.headerLabels.get(i).getName(), rowCounter).isNull() ? this
 							.getValueOfField(this.headerLabels.get(i).getName(), rowCounter).getValue() : PCMConstants.EMPTY_;
 
-					if (!column.isHidden()) {
-						final StringBuilder columna = new StringBuilder(IViewComponent.TABLE_COLUMN);
-						columna.append(IViewComponent.STYLE_ATTR);
-						if (column.getStyleCss() != null && !"".equals(column.getStyleCss())) {
-							if (column.getStyleCss().indexOf("color: NRPG;") != -1 && !column.isUserDefined()
-									&& column.getEntityField().getAbstractField().isNumeric() && valueOfColumn != null
-									&& !"".equals(valueOfColumn)) {
-								Double valorNumerico = CommonUtils.numberFormatter.parse(valueOfColumn);
-								String newStyle = column.getStyleCss().replaceFirst(
-										"color: NRPG;",
-										"color: "
-												+ (valorNumerico.compareTo(Double.valueOf(0)) > 0 ? "#298A08" : (valorNumerico
-														.compareTo(Double.valueOf(0)) == 0 ? "#240B3B" : "red")) + ";");
-								columna.append(newStyle);
-							} else if (column.getStyleCss().indexOf("color: NBPR;") != -1 && !column.isUserDefined()
-									&& column.getEntityField().getAbstractField().isNumeric() && valueOfColumn != null
-									&& !"".equals(valueOfColumn)) {
-								Double valorNumerico = CommonUtils.numberFormatter.parse(valueOfColumn);
-								String newStyle = column.getStyleCss().replaceFirst("color: NBPR;",
-										"color: " + (valorNumerico.compareTo(Double.valueOf(0)) > 0 ? "#DF0101" : "#240B3B") + ";");
-								columna.append(newStyle);
-							} else if (column.getStyleCss().indexOf("color: NRPB;") != -1 && !column.isUserDefined()
-									&& column.getEntityField().getAbstractField().isNumeric() && valueOfColumn != null
-									&& !"".equals(valueOfColumn)) {
-								Double valorNumerico = CommonUtils.numberFormatter.parse(valueOfColumn);
-								String newStyle = column.getStyleCss().replaceFirst("color: NRPB;",
-										"color: " + (valorNumerico.compareTo(Double.valueOf(0)) > 0 ? "white" : "#DF0101") + ";");
-								columna.append(newStyle);
-							} else {
-								columna.append(column.getStyleCss());
+					if (column.getFieldAndEntityForThisOption() != null
+						&& !column.getFieldAndEntityForThisOption().getEntityFromCharge().equals(column.getEntityField().getEntityDef().getName())) {						
+						valueOfColumn = procesarFkCruzado(dict, valueOfColumn, row, column);						
+					} 
+							
+					StringBuilder columna = new StringBuilder(IViewComponent.TABLE_COLUMN);
+					
+					columna.append(IViewComponent.STYLE_ATTR);
+					if (column.getStyleCss() != null && !"".equals(column.getStyleCss())) {
+						columna.append(column.getStyleCss());						
+					}
+					
+					columna.append(IViewComponent.CSS_TEXT_ALIGN);
+					columna.append(column.getEntityField().getAbstractField().isString() ? IViewComponent.LEFT_VALUE : IViewComponent.CENTER_VALUE);					
+					columna.append(PCMConstants.POINT_COMMA);
+					//miramos ahora el valor de esa columna-fila para darle un color vivo si lo consideramos warning
+					if (valorWarning(column.getEntityField(), valueOfColumn)) {
+						//quito posibles colores de estilo por defecto:
+						//TD style="color: orange;text-align: left;"
+						String[] splitterCssStyles = columna.toString().split("\"");
+						String[] splitterEstilos = splitterCssStyles[1].split(";");
+						for (int s=0;s<splitterEstilos.length;s++) {
+							if (splitterEstilos[s].contains("color:")) {
+								//buscamos la parte derecha del estilo CSS de color
+								String[] splitterCssColor = splitterEstilos[s].split(":");
+								String cssExpression2Replace = splitterCssColor[0] + ":" + splitterCssColor[1]+";";
+								columna = new StringBuilder(columna.toString().replaceFirst(cssExpression2Replace, ""));
+								break;
 							}
+							
 						}
-
-						columna.append(IViewComponent.CSS_TEXT_ALIGN);
-						columna.append(column.getEntityField().getAbstractField().isNumeric()
-								|| column.getEntityField().getAbstractField().isBoolean()
-								|| column.getEntityField().getAbstractField().isDate() ? IViewComponent.CENTER_VALUE
-								: IViewComponent.LEFT_VALUE);
-						columna.append(PCMConstants.END_COMILLAS);
-						XmlUtils.openXmlNode(rowXML, columna.toString());
+						columna.append("color: red");
+						columna.append(PCMConstants.POINT_COMMA);
+					}					
+					//cerramos el estilo
+					columna.append(PCMConstants.END_COMILLAS);
+					XmlUtils.openXmlNode(rowXML, columna.toString());
+					
+					//pintamos el control
+					if (column.getEntityField().getAbstractField().isBoolean()) {
 						
-						if (column.getFieldAndEntityForThisOption() != null
-								&& !column.getFieldAndEntityForThisOption().getEntityFromCharge()
-										.equals(column.getEntityField().getEntityDef().getName())) {
-							
-							Serializable fkValueOfColumn = valueOfColumn;
-							
-							// localizamos el pk-valor (valueOfColumn) del childEntity en los pk-valor(es) del resto de entidades padre de cada campo
-							OptionsSelection options = column.getFieldAndEntityForThisOption();
-							IEntityLogic parentEntity = EntityLogicFactory.getFactoryInstance().getEntityDef(dict,
-									options.getEntityFromCharge());
-							IFieldLogic pkOfEntity = parentEntity.getFieldKey().getPkFieldSet().iterator().next();
-							String columnNameOfPk = parentEntity.getName().concat(".").concat(pkOfEntity.getName());
-							FieldViewSet fieldViewSetOfThisFK = row.getFieldViewSet(columnNameOfPk, fkValueOfColumn);
-							
-							if (fieldViewSetOfThisFK == null){
-							
-								valueOfColumn = "not found";
-							
-							}else{
-							
-								valueOfColumn = "";
-								int[] descrMappings = options.getFieldDescrMappingTo();
-								int descrMappingsCount = descrMappings.length;
-								for (int desc = 0; desc < descrMappingsCount; desc++) {
-									int descMapping = descrMappings[desc];
-									IFieldLogic campoClaveDesplegable = parentEntity.searchField(descMapping);
-									String columnName = parentEntity.getName().concat(".").concat(campoClaveDesplegable.getName());
-									
-									Serializable valueOfColumn_ = fieldViewSetOfThisFK.getValue(columnName);									
-									valueOfColumn = valueOfColumn.toString().concat(valueOfColumn_.toString());
-									if (desc < descrMappings.length - 1) {
-										valueOfColumn = valueOfColumn.toString().concat(", ");
-									}
-								}
-							}
-						} else if (column.getEntityField().getAbstractField().isBoolean()) {
-							
-							final CheckButton input = new CheckButton();
-							input.setReadonly(true);
-							input.setDisabled(true);
-							input.setName(this.headerLabels.get(i).getName());
-							input.setId(this.headerLabels.get(i).getName());
-							final Collection<String> values_ = new ArrayList<String>();
-							input.setCheckedByDefault(valueOfColumn.equals("true"));
-							rowXML.append(input.toHTML(values_));
-							
-						} else if (column.getEntityField().isPassword()) {
-							valueOfColumn = PCMConstants.PASSWORD_MARK;
-						} else if (valueOfColumn != null && valueOfColumn.toString().startsWith("http:")) {
+						final CheckButton input = new CheckButton();
+						input.setReadonly(true);
+						input.setDisabled(true);
+						input.setName(this.headerLabels.get(i).getName());
+						input.setId(this.headerLabels.get(i).getName());
+						final Collection<String> values_ = new ArrayList<String>();
+						input.setCheckedByDefault(valueOfColumn.equals("true"));
+						rowXML.append(input.toHTML(values_));
+						
+					} else if (column.getEntityField().isPassword()) {
+						
+						valueOfColumn = PCMConstants.PASSWORD_MARK;
+						
+					} else if (valueOfColumn != null) {
+						
+						if (valueOfColumn.toString().startsWith("http:")) {
 							XmlUtils.openXmlNodeWithAttr(rowXML, "a target=\"blank_\"", "href", valueOfColumn.toString());
 							rowXML.append(Translator.traduceDictionaryModelDefined(lang, column.getQualifiedContextName()));
 							XmlUtils.closeXmlNode(rowXML, "a");
 							valueOfColumn = PCMConstants.EMPTY_;
 						}
+						
 						valueOfColumn = column.hasNOptionsToChoose() ? valueOfColumn : column.formatToString(valueOfColumn);						
 						if (column.getEntityField().getAbstractField().getMaxLength() > 100){
 							valueOfColumn = valueOfColumn.toString().replaceAll("\r", "");
@@ -949,9 +917,10 @@ public class PaginationGrid extends AbstractComponent {
 								valueOfColumn = valueOfColumn.toString().replaceFirst(toReplaceWith_Negr, "<B>".concat(toReplaceWith_Negr).concat("</B><HR>"));
 							}
 						}
+						
 						if (valueOfColumn != null && valueOfColumn.toString().startsWith("&lt;P&gt;&lt;UL&gt;")){
-							XmlUtils.openXmlNode(rowXML, "UL");
 							
+							XmlUtils.openXmlNode(rowXML, "UL");
 							valueOfColumn = valueOfColumn.toString().replaceAll("&lt;P&gt;&lt;UL&gt;", "");
 							valueOfColumn = valueOfColumn.toString().replaceAll("&lt;/UL&gt;&lt;/P&gt;", "");
 							valueOfColumn = valueOfColumn.toString().replaceAll("&lt;/LI&gt;", "");
@@ -968,7 +937,7 @@ public class PaginationGrid extends AbstractComponent {
 							}									
 							XmlUtils.closeXmlNode(rowXML, "UL");
 							
-						} else if (!column.getEntityField().getAbstractField().isBoolean()){
+						} else {
 							
 							String value2Show = column.getEntityField() != null ? valueOfColumn.toString() : PCMConstants.EMPTY_;
 							if (value2Show.length() > 100){
@@ -981,8 +950,10 @@ public class PaginationGrid extends AbstractComponent {
 								XmlUtils.closeXmlNode(rowXML, "P");
 							}
 						}
-						XmlUtils.closeXmlNode(rowXML, IViewComponent.TABLE_COLUMN);
-					}					
+					}
+					
+					XmlUtils.closeXmlNode(rowXML, IViewComponent.TABLE_COLUMN);
+										
 				}catch (Throwable excc) {
 					excc.printStackTrace();
 					return;
@@ -993,7 +964,52 @@ public class PaginationGrid extends AbstractComponent {
 		}// for each TR
 		parentXML.append(rows);
 	}
-
+	
+	private Serializable procesarFkCruzado(final String dict, final Serializable valueOfColumn, final FieldViewSetCollection row, final IFieldView column) throws PCMConfigurationException {
+		
+		Serializable newValue4Column = valueOfColumn;
+		Serializable fkValueOfColumn = valueOfColumn;
+		
+		// localizamos el pk-valor (valueOfColumn) del childEntity en los pk-valor(es) del resto de entidades padre de cada campo
+		OptionsSelection options = column.getFieldAndEntityForThisOption();
+		IEntityLogic parentEntity = EntityLogicFactory.getFactoryInstance().getEntityDef(dict, options.getEntityFromCharge());
+		IFieldLogic pkOfEntity = parentEntity.getFieldKey().getPkFieldSet().iterator().next();
+		String columnNameOfPk = parentEntity.getName().concat(".").concat(pkOfEntity.getName());
+		FieldViewSet fieldViewSetOfThisFK = row.getFieldViewSet(columnNameOfPk, fkValueOfColumn);
+		
+		if (fieldViewSetOfThisFK == null){
+			newValue4Column = "not found master record in " + parentEntity.getName();
+		}else{
+			newValue4Column = "";
+			int[] descrMappings = options.getFieldDescrMappingTo();
+			int descrMappingsCount = descrMappings.length;
+			for (int desc = 0; desc < descrMappingsCount; desc++) {
+				int descMapping = descrMappings[desc];
+				IFieldLogic campoClaveDesplegable = parentEntity.searchField(descMapping);
+				String columnName = parentEntity.getName().concat(".").concat(campoClaveDesplegable.getName());
+				
+				Serializable valueOfColumn_ = fieldViewSetOfThisFK.getValue(columnName);									
+				newValue4Column = valueOfColumn.toString().concat(valueOfColumn_.toString());
+				if (desc < descrMappings.length - 1) {
+					newValue4Column = valueOfColumn.toString().concat(", ");
+				}
+			}
+		}
+		return newValue4Column;
+	}
+	
+	private boolean valorWarning(IFieldLogic fieldLogic, Serializable value) {
+		if (value.toString().contentEquals("undefined") ||
+				value.toString().contentEquals("no enlazada") || value.toString().contentEquals("not found")) {
+			return true;
+		}else if (fieldLogic.getAbstractField().isNumeric() && 
+				Double.valueOf(value.toString()) < 0.00) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	private int getTotalWidth() {
 		if (this.totalWidth == 0) {
 			final Iterator<IFieldView> iteViews = this.getAllFieldViewDefs().iterator();

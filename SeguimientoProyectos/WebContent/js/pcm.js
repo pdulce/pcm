@@ -7,6 +7,14 @@ var useAjaxToLoadNodesDynamically = true;
 var ajaxRequestFile = 'writeNodes.php'; 
 
 
+function changeColor(fieldId){
+    var negNum = document.getElementById(fieldId);
+    if (negNum < 0){
+        document.getElementById(fieldId).style.color="red";
+    }
+}
+
+
 function checkSelection(event_, name){
 	replaceEvent(event_, 0);
 	var radioSelec = document.getElementsByName(name);

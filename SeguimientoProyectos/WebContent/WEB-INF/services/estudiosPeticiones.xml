@@ -125,7 +125,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="8" />
 						<fieldView mappingTo="5" />
 						<fieldView mappingTo="6" />						
-						<fieldView mappingTo="30" />
+						<fieldView mappingTo="30" styleCss="font-weight: bold;"/>
 						
 						<fieldView mappingTo="38" styleCss="font-weight: bold;color: #38ef7d;"/>						
 						<fieldView mappingTo="31" styleCss="font-weight: bold;color: #38ef7d;"/>
@@ -256,7 +256,7 @@ xmlns:service="http://pcm.framework.org/service"
 		</action>
 		
 		<action event="detail" submitError="EstudioPeticiones.detail"
-		submitSucces="EstudioPeticiones.detail">
+			submitSucces="EstudioPeticiones.detail">
 
 		<viewComponent>
 		
@@ -304,26 +304,30 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="SUM" title="Totalizar"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="seriesType" type="select">
+							<fieldView name="seriesType" type="select" size="1">
 									<optionValues>																	
-										<option code="line" title="Line" selected="true"></option>
-										<option code="area" title="Area"></option>
+										<option code="area" title="Area" selected="true"></option>
+										<option code="line" title="Line"></option>										
 									</optionValues>
 							</fieldView>						
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="barchart2" name="Barchart">
-						<fieldViewSet nameSpace="barchart2">
-							<fieldView name="highchart" hidden="true" value="barchart"/>
+					<button link="prjManager" id="Chart222"	name="Chart">
+						<fieldViewSet nameSpace="Chart222">
+							<fieldView name="highchart" type="select">
+								<optionValues>
+									<option code="spiderweb" title="Spiderweb" selected="true"></option>								
+									<option code="piechart" title="Pie chart"></option>
+								</optionValues>
+							</fieldView>							
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
-							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
-							<fieldView name="fieldForGroupBy" type="select" size="3">
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="fieldForGroupBy" type="select" size="2">
 								<optionValues selectionMultiple="true">
 									<option code="3" title="aplicacion" selected="true"></option>
-									<option code="4" title="tipo" selected="true"></option>
-									<option code="3" title="aplicacion"></option>
+									<option code="4" title="tipo"></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="agregado" type="select" size="1">
@@ -341,11 +345,12 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="16" title="Total dedicaciones"></option>
 									<option code="17" title="Total Intervalos sin dedicación"></option>
 								</optionValues>
-							</fieldView>
-							<fieldView name="operation" hidden="true" value="AVG"/>	
+							</fieldView>				
+							<fieldView name="operation" hidden="true" value="AVG"/>
 						</fieldViewSet>
 					</button>
-								
+					
+					
 					<button link="prjManager" id="histDual2" name="Histogram">						
 						<fieldViewSet nameSpace="histDual2">
 							<fieldView name="highchart" type="select">
@@ -437,22 +442,17 @@ xmlns:service="http://pcm.framework.org/service"
 						</fieldViewSet>
 					</button>					
 					
-					
-					<button link="prjManager" id="Chart222"	name="Chart">
-						<fieldViewSet nameSpace="Chart222">
-							<fieldView name="highchart" type="select">
-								<optionValues>
-									<option code="spiderweb" title="Spiderweb" selected="true"></option>								
-									<option code="piechart" title="Pie chart"></option>
-								</optionValues>
-							</fieldView>							
+					<button link="prjManager" id="barchart2" name="Barchart">
+						<fieldViewSet nameSpace="barchart2">
+							<fieldView name="highchart" hidden="true" value="barchart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
-							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
-							<fieldView name="fieldForGroupBy" type="select" size="1">
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="fieldForGroupBy" type="select" size="3">
 								<optionValues selectionMultiple="true">
 									<option code="3" title="aplicacion" selected="true"></option>
-									<option code="4" title="tipo"></option>
+									<option code="4" title="tipo" selected="true"></option>
+									<option code="3" title="aplicacion"></option>
 								</optionValues>
 							</fieldView>
 							<fieldView name="agregado" type="select" size="1">
@@ -470,10 +470,11 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="16" title="Total dedicaciones"></option>
 									<option code="17" title="Total Intervalos sin dedicación"></option>
 								</optionValues>
-							</fieldView>				
-							<fieldView name="operation" hidden="true" value="AVG"/>
+							</fieldView>
+							<fieldView name="operation" hidden="true" value="AVG"/>	
 						</fieldViewSet>
 					</button>
+					
 					
 					
 				</userbuttons>
@@ -642,13 +643,13 @@ xmlns:service="http://pcm.framework.org/service"
 					<fieldView mappingTo="3" editable="false"  />
 					<fieldView mappingTo="4" editable="false"  />
 					<fieldView mappingTo="28" editable="false"  />
-					<fieldView mappingTo="5" editable="false" styleCss="color: orange;" />
+					<fieldView mappingTo="5" editable="false" styleCss="color: #38ef7d;" />
 					<!-- fieldView mappingTo="29" editable="false"  /> -->
-					<fieldView mappingTo="6" editable="false" styleCss="color: orange;" />
-					<fieldView mappingTo="7" editable="false" styleCss="color: orange;" />					
+					<fieldView mappingTo="6" editable="false" styleCss="color: #38ef7d;" />
+					<fieldView mappingTo="7" editable="false" styleCss="color: #38ef7d;" />					
 					<fieldView mappingTo="16" editable="false"  />
-					<fieldView mappingTo="17" editable="false"  />
-					<fieldView mappingTo="8" editable="false" styleCss="color: #38ef7d;" />
+					<fieldView mappingTo="17" editable="false" styleCss="color: orange;" />	
+					<fieldView mappingTo="8" editable="false" />
 				</fieldViewSet>
 			</grid>
 		

@@ -92,6 +92,7 @@
 				isCollapsed = false;
 			}else if (textoDiagrama.lastIndexOf("Agregados en Periodo Estudio") > -1 ||
 					textoDiagrama.lastIndexOf("Promedios Mensuales") > -1 ||
+					textoDiagrama.lastIndexOf("Promedios Por Petic") > -1 ||
 					textoDiagrama.lastIndexOf("Promedios Por Aplicaci") > -1){
 				isCollapsed = true;
 			}

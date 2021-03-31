@@ -258,7 +258,7 @@ public abstract class GenericHighchartModel implements IStats {
 			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
 			title = title.concat(" agrupando por " + 
 					Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgrupacion) + 
-					" para obtener " + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado));
+					" de " + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado));
 		}
 		
 		String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
