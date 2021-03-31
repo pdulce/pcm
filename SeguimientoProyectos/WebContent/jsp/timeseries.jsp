@@ -47,7 +47,7 @@
             align: 'center',
             x: 80, // = marginLeft - default spacingLeft
             y: 22,
-            itemWidth: 260,
+            itemWidth: 240,
             itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
             itemDistance: 20,
             borderWidth: 0
@@ -72,6 +72,9 @@
                     enabled: true,
                     style: {'color': 'white', 'font-weight': 'lighter', 'font-size': 'xx-small'},
                     format: '{point.y:<%=request.getAttribute("decimals")%>}'
+                },
+                label: {
+                    connectorAllowed: false
                 }
             },
             column: {
@@ -82,8 +85,23 @@
                 groupZPadding: 10
             }
         },
-        				      
-        series: <%=request.getAttribute("series")%>
+        
+        series: <%=request.getAttribute("series")%>,
+        
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
 	 
 	});						
 				 				   

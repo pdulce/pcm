@@ -83,12 +83,12 @@ public class Histogram3D extends GenericHighchartModel {
 			
 		}else {//2 fieldGroupBy--> N series
 			
-			Map<Date, Number> serieValues = new HashMap<Date, Number>();
+			Map<Date, Number> serieValuesAux = new HashMap<Date, Number>();
 			//genero aqui todas las series que hay diferentes
 			Serializable firstGroupBY_ID_Aux = null;
 			for (int j=0;j<valoresAgregados.size();j++) {
 				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
-				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();				
+				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();
 				//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
 				Serializable firstGroupBY_id =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
 				
@@ -96,14 +96,14 @@ public class Histogram3D extends GenericHighchartModel {
 					firstGroupBY_ID_Aux = firstGroupBY_id;
 				}else if (!firstGroupBY_ID_Aux.toString().contentEquals(firstGroupBY_id.toString())) {
 					
-					Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_id.toString());
+					Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
 					if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
 						volcarSeriesvalues = new HashMap<Date, Number>();						
 					}
-					volcarSeriesvalues.putAll(serieValues);
-					series.put(firstGroupBY_id.toString(), volcarSeriesvalues);
+					volcarSeriesvalues.putAll(serieValuesAux);
+					series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
 					
-					serieValues = new HashMap<Date, Number>();			
+					serieValuesAux = new HashMap<Date, Number>();			
 					firstGroupBY_ID_Aux = firstGroupBY_id;
 				}
 				
@@ -111,11 +111,11 @@ public class Histogram3D extends GenericHighchartModel {
 				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
 				while (iteradorSerie.hasNext()) {
 					Map.Entry<String, Double> entry_ = iteradorSerie.next();
-					serieValues.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
+					serieValuesAux.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
 				}
-			}//
+			}//for 
 			
-			series.put(firstGroupBY_ID_Aux.toString(), serieValues);
+			series.put(firstGroupBY_ID_Aux.toString(), serieValuesAux);
 				
 		}
 		
@@ -183,7 +183,7 @@ public class Histogram3D extends GenericHighchartModel {
 						
 		}//FOR PERIODOS
 				
-		String serieJson = regenerarListasSucesos(newSeries, is3D());
+		String serieJson = regenerarListasSucesos(newSeries, is3D(), ((agregados!=null && agregados[0].getAbstractField().isDecimal())?true:false));
 		
 		IEntityLogic entidadGrafico = fieldsGROUPBY[0].getEntityDef();
 		String entidad = Translator.traduceDictionaryModelDefined(data_.getLanguage(), 
@@ -303,7 +303,7 @@ public class Histogram3D extends GenericHighchartModel {
 	
 	
 	@SuppressWarnings("unchecked")
-	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, boolean stack_Z) {
+	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, boolean stack_Z, boolean pointPlacementOn) {
 
 		JSONArray seriesJSON = new JSONArray();
 
@@ -353,7 +353,9 @@ public class Histogram3D extends GenericHighchartModel {
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}
-			serie.put("pointPlacement", "on");
+			if (pointPlacementOn) {
+				serie.put("pointPlacement", "on");
+			}
 			claveIesima++;			
 			seriesJSON.add(serie);						
 		}//for claves
