@@ -24,7 +24,7 @@ public class FiltrarConsultaEstudios extends DefaultStrategyRequest {
 		if (estudioPeticionesEntidad == null) {
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
+						ConstantesModelo.ESTUDIOS_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -49,13 +49,13 @@ public class FiltrarConsultaEstudios extends DefaultStrategyRequest {
 				throw new PCMConfigurationException("Error: Objeto Estudio recibido del datamap es nulo ", new Exception("null object"));
 			}
 									
-			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
-			Long aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
+			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_49_ID_SERVICIO).getName());
+			Long aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_56_ID_APLICATIVO).getName());
 			
 			if (servicioId != null &&  aplicativoId !=null) {
 				//hay que hacer un OR
-				estudioFSet.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
-				estudioFSet.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
+				estudioFSet.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_49_ID_SERVICIO).getName());
+				estudioFSet.setNull(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_56_ID_APLICATIVO).getName());
 								
 			}
 			

@@ -3,7 +3,7 @@
 	xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>Business Intelligence for ONGs</display-name>
+	<display-name>bi</display-name>
 	<servlet>
 		<servlet-name>PrincipalServlet</servlet-name>
 		<servlet-class>webservlet.CDDWebController</servlet-class>

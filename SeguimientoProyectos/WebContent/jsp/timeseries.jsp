@@ -64,7 +64,7 @@
                 borderWidth: 2,
                 dataLabels: {
                     enabled: true,
-                    style: {'color': 'white', 'font-weight': 'lighter', 'font-size': 'xx-small'},
+                    style: {'color': 'white', 'font-size': 'xx-small'},
                     format: '{point.y:<%=request.getAttribute("decimals")%>}'
                 },
                 label: {
@@ -73,7 +73,7 @@
             },
             column: {
                 depth: 25,
-                style: {'color': 'white', 'font-weight': 'lighter', 'font-size': 'xx-small'},
+                style: {'color': 'white', 'font-size': 'xx-small'},
                 stacking: true,
                 grouping: false,
                 groupZPadding: 10

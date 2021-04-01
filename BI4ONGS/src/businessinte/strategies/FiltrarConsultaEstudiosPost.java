@@ -26,7 +26,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 		if (estudioPeticionesEntidad == null) {
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
+						ConstantesModelo.ESTUDIOS_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -50,7 +50,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 					List<FieldViewSetCollection> newCollectionResults = new ArrayList<FieldViewSetCollection>();
 					for (FieldViewSetCollection record:fieldCollectionResults) {
 						FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();					
-						Long idServiceFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
+						Long idServiceFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_49_ID_SERVICIO).getName());
 						int i = 0;
 						for (i=0;i<idService_.length;i++) {
 							if (idServiceFound.longValue() == new Long(new FieldValue(idService_[i]).getValue()).longValue()) {
@@ -63,7 +63,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 						if (i < (idService_.length)) {
 							continue;
 						}
-						Long idAplicativoFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
+						Long idAplicativoFound = (Long) registroBuscado.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_56_ID_APLICATIVO).getName());
 						i = 0;
 						for (i=0;i<idService_.length;i++) {
 							if (idAplicativoFound.longValue() == new Long(new FieldValue(idAplicativo_[i]).getValue()).longValue()) {

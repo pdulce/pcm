@@ -33,6 +33,59 @@
     <field mappingTo="5" name="nombreCompleto" type="string" length="100" required="true"/>
   </entity> 
 
+
+
+ <entity>
+	    <entityname>cliente</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="nombre" type="string" length="150" required="true"/>
+	    <field mappingTo="3" name="alias" type="string" length="50" required="false"/>
+	    <field mappingTo="4" name="email" type="string" length="100" required="false"/>
+	    <field mappingTo="5" name="tfno1" type="long" length="9" required="false"/>
+	    <field mappingTo="6" name="tfno2" type="long" length="9" required="false"/>
+   </entity>
+
+<entity>
+    <entityname>prestacionServicio</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true"/>
+    <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
+    <field mappingTo="3" name="Descripcion" type="string" length="1000" required="false"/>
+    <field mappingTo="4" name="Observaciones" type="string" length="1000" required="false"/>
+    <field mappingTo="5" name="Usuario_creador" type="string" length="80" required="false"/>
+    <field mappingTo="6" name="Solicitante" type="string" length="200" required="false"/>
+    <field mappingTo="7" name="Estado" type="string" length="50" required="false"/>        
+    <field mappingTo="8" name="Entidad_receptora" type="long" length="11" required="false"
+    	fkParentEntities="cliente" fkParentFields="1"/>
+    <field mappingTo="9" name="Unidad_receptora" type="long" length="11" required="false"
+    	fkParentEntities="subdireccion" fkParentFields="1"/>
+    <field mappingTo="10" name="Area_receptora" type="long" length="11" required="false"
+    	fkParentEntities="servicio" fkParentFields="1"/>
+    <field mappingTo="11" name="Tipo" type="string" length="50" required="false"/>        
+    <field mappingTo="12" name="Urgente" type="string" length="25" required="false"/>
+    <field mappingTo="14" name="Prioridad" type="string" length="25" required="false"/>
+    <field mappingTo="15" name="Fecha_de_alta" type="date" length="10" required="false"/>
+    <field mappingTo="16" name="Fecha_de_tramitacion" type="date" length="10" required="false"/>
+    <field mappingTo="17" name="Fecha_de_necesidad" type="date" length="10" required="false"/>     
+    <field mappingTo="18" name="Fecha_fin_de_desarrollo" type="date" length="10" required="false"/>
+    <field mappingTo="19" name="Fecha_de_finalizacion" type="date" length="10" required="false"/>
+    <field mappingTo="20" name="Des_fecha_prevista_inicio" type="date" length="10" required="false"/>
+    <field mappingTo="21" name="Des_fecha_prevista_fin" type="date" length="10" required="false"/>
+    <field mappingTo="22" name="Des_fecha_real_inicio" type="date" length="10" required="false"/>
+    <field mappingTo="23" name="Des_fecha_real_fin" type="date" length="10" required="false"/>
+    <field mappingTo="24" name="Proyecto_Name" type="string" length="150" required="false"/>    
+    <field mappingTo="25" name="Horas_estimadas_actuales" type="double" length="10" required="false"/>
+    <field mappingTo="26" name="Horas_reales" type="double" length="10" required="false"/>
+    <field mappingTo="27" name="fecha_export" type="date" length="10" required="false"/>
+    <field mappingTo="28" name="version_analysis" type="string" length="20" required="false"/>
+    <field mappingTo="29" name="servicio_atiende_pet" type="string" length="20" required="false"/>
+    <field mappingTo="30" name="con_entrega" type="boolean" length="1" required="false"/>
+    <field mappingTo="31" name="id_entrega_asociada" type="string" length="10" required="false"/>
+    <field mappingTo="32" name="pets_relacionadas" type="string" length="250" required="false"/>
+    <field mappingTo="33" name="fecha_estado_modif" type="timestamp" length="19" required="false"/>    
+    <field mappingTo="34" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
+    <field mappingTo="35" name="ult_modificacion" type="date" length="10" required="false"/>    
+</entity>
+
 <entity>
     <entityname>estudios</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
@@ -222,7 +275,7 @@
     <entity>
 	    <entityname>factura</entityname>
 	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-	    <field mappingTo="2" name="concepto" type="string" length="50" required="true"/>
+	    <field mappingTo="2" name="concepto" type="string" length="250" required="true"/>
 	    <field mappingTo="3" name="id_mes" type="int" length="2" required="true"
 	    	fkParentEntities="mes" fkParentFields="1"/>
 	    <field mappingTo="4" name="id_ejercicio" type="long" length="1" required="true"
@@ -231,8 +284,6 @@
 	    <field mappingTo="6" name="total_con_iva" type="double" length="12" required="false"/>
 	    <field mappingTo="7" name="id_cliente" type="long" length="11" required="false"
 	    	   fkParentEntities="cliente" fkParentFields="1"/>
-   	    <field mappingTo="7" name="id_cliente" type="long" length="11" required="false"
-	    	   fkParentEntities="cliente" fkParentFields="1"/>	    	   
    </entity>
    
    <entity>
@@ -259,14 +310,7 @@
 	    <field mappingTo="5" name="importe_servicio_sin_IVA" type="double" length="12" required="false"/>
    </entity>
    
-   <entity>
-	    <entityname>cliente</entityname>
-	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-	    <field mappingTo="2" name="nombre" type="string" length="150" required="true"/>
-	    <field mappingTo="3" name="alias" type="string" length="50" required="false"/>
-	    <field mappingTo="4" name="email" type="string" length="100" required="false"/>
-	    <field mappingTo="5" name="tfno" type="long" length="9" required="false"/>
-   </entity>
+  
   
     
      

@@ -75,6 +75,43 @@ CREATE TABLE `configuradorEstudios` (
   `alias_tarea_pruebas` varchar(50) DEFAULT NULL
 );
 
+DROP TABLE `prestacionServicio`;
+CREATE TABLE `prestacionServicio` (
+  `id` INTEGER PRIMARY KEY,
+  `Titulo` varchar(500),
+  `Descripcion` varchar(100),
+  `Observaciones` varchar(1000),
+  `Usuario_creador` varchar(80),
+  `Solicitante` varchar(200),
+  `Estado` varchar(50),
+  `Entidad_receptora` varchar(100),
+  `Unidad_receptora` int(11),
+  `Area_receptora` varchar(100),
+  `Tipo` varchar(50),
+  `Urgente` varchar(25),
+  `Prioridad` varchar(25),
+  `Fecha_de_alta` date,
+  `Fecha_de_tramitacion` date,
+  `Fecha_de_necesidad` date,
+  `Fecha_fin_de_desarrollo` date,
+  `Fecha_de_finalizacion` date,
+  `Des_fecha_prevista_inicio` date,
+  `Des_fecha_prevista_fin` date,
+  `Des_fecha_real_inicio` date,
+  `Des_fecha_real_fin` date,
+  `Proyecto_Name` varchar(150),
+  `Horas_estimadas_actuales` double,
+  `Horas_reales` double,
+  `version_analysis` varchar(20) DEFAULT NULL,
+  `servicio_atiende_pet` varchar(20) DEFAULT NULL,
+  `con_entrega` int(1) NOT NULL DEFAULT 0,
+  `id_entrega_asociada` varchar(10) DEFAULT NULL,
+  `pets_relacionadas` varchar(250) DEFAULT NULL,  
+  `fecha_estado_modif` TIMESTAMP DEFAULT NULL,
+  `Horas_estimadas_iniciales` double DEFAULT NULL,
+  `ult_modificacion` DATE NULL
+);  
+
 DROP TABLE `estudios`;
 CREATE TABLE `estudiosPeticiones` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
@@ -202,3 +239,52 @@ CREATE TABLE `resumenesEstudio` (
   `esfuerzo_pruebas` double DEFAULT NULL,
   `titulo` varchar(500) DEFAULT NULL
 );
+
+DROP TABLE iva;
+CREATE TABLE `iva` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `fecha_vigencia_desde` date DEFAULT NULL,
+  `fecha_vigencia_hasta` date DEFAULT NULL,
+  `porcentaje` double NOT NULL
+);
+
+DROP TABLE `factura`;
+CREATE TABLE `factura` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `concepto` varchar(250) NOT NULL,
+  `id_mes` int(11) NOT NULL,
+  `id_ejercicio` int(11) NOT NULL,
+  `total_sin_iva` double DEFAULT NULL,
+  `total_con_iva` double DEFAULT NULL,
+  `id_cliente` int(11) NOT NULL
+);
+
+DROP TABLE `cabecerafactura`;
+CREATE TABLE `cabecerafactura` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_factura` int(11) NOT NULL,
+  `header` varchar(250) NULL
+);
+   
+
+
+DROP TABLE `lineafactura`;
+CREATE TABLE `lineafactura` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_factura` int(11) NOT NULL,
+  `importe_servicio_sin_IVA` double DEFAULT NULL
+);
+   
+
+
+DROP TABLE `cliente`;
+CREATE TABLE `cliente` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_factura` int(11) NOT NULL,
+  `nombre` varchar(150) DEFAULT NULL,
+  `alias` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `tfno1` int(9) DEFAULT NULL,
+  `tfno2` int(9) DEFAULT NULL
+);
+   

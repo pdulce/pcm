@@ -41,36 +41,22 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	
-	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, heuristicasEntidad, tareaEntidad,
-	tiposTareas, tipoPeriodo, tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad, tiposPeticionesEntidad;
+	public static IEntityLogic estudioEntidad, resumenEstudioEntidad, prestacionesEntidad, heuristicasEntidad,
+	tipoPeriodo;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
-		if (estudioPeticionesEntidad == null) {
+		if (estudioEntidad == null) {
 			try {
-				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);				
+				estudioEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.ESTUDIOS_ENTIDAD);				
 				heuristicasEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.HEURISTICAS_CALCULOS_ENTIDAD);
-				resumenPeticionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
-				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.PETICIONES_ENTIDAD);
-				tareaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.TAREA_PETICION_ENTIDAD);				
-				tiposTareas = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.TIPOTAREA_ENTIDAD);
-				subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.SUBDIRECCION_ENTIDAD);
-				tecnologiaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.TECHNOLOGY_ENTIDAD);
-				servicioUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.SERVICIOUTE_ENTIDAD);
-				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.APLICATIVO_ENTIDAD);				
+						ConstantesModelo.CONFIGURADORESTUDIOS_ENTIDAD);
+				resumenEstudioEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.RESUMENESESTUDIO_ENTIDAD);
+				prestacionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.PRESTACIONSERVICIO_ENTIDAD);
 				tipoPeriodo = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.TIPO_PERIODO_ENTIDAD);
-				tiposPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.TIPOS_PETICIONES_ENTIDAD);
+						ConstantesModelo.TIPOSPERIODOS_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -101,7 +87,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			}
 			//recoger los values de la select de tipos de peticiones que viene cargada en pantalla
 			
-			IFieldValue fieldValue = estudioFSet_.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_86_TIPO_PETICIONES).getName());
+			IFieldValue fieldValue = estudioFSet_.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_86_TIPO_PETICIONES).getName());
 			Collection<String> values_TiposPeticiones = new ArrayList<String>();
 			Collection<String> values_TiposSelected = fieldValue.getValues();
 			for (String val_:values_TiposSelected) {
@@ -114,15 +100,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			//obtenemos el id que es secuencial
 			FieldViewSet estudioFSet = dataAccess.searchLastInserted(estudioFSet_);			
-			Double utsMaximas = (Double) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_55_UTS_PERPET).getName());
+			Double utsMaximas = (Double) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_55_UTS_PERPET).getName());
 			if (utsMaximas ==null || utsMaximas ==0.0) {
 				utsMaximas = new Double(999999);
 			}
 			
 			Date fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.ESTUDIOS_PETICIONES_5_FECHA_INIESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_5_FECHA_INIESTUDIO).getName());
 			Date fecFinEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.ESTUDIOS_PETICIONES_6_FECHA_FINESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_6_FECHA_FINESTUDIO).getName());
 			if(fecFinEstudio== null) {
 				fecFinEstudio = Calendar.getInstance().getTime();
 			}
@@ -130,7 +116,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
 			IFieldView fViewMaxUts = null;
 			
-			final IFieldLogic fieldDesde = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
+			final IFieldLogic fieldDesde = peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_18_FECHA_DE_TRAMITACION);
 			IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldDesde);			
 			final IFieldView fViewMinorFecTram = fViewEntradaEnDG.copyOf();
 			final Rank rankDesde = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
@@ -139,7 +125,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			final IFieldView fViewMayorFecTram = fViewEntradaEnDG.copyOf();
 			
 			//metemos el filtro de uts como máximo
-			final IFieldLogic fieldUts = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES);
+			final IFieldLogic fieldUts = peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_29_HORAS_REALES);
 			fViewMaxUts = new FieldViewSet(peticionesEntidad).getFieldView(fieldUts).copyOf();
 			final Rank rankHastaUts = new Rank(fViewMaxUts.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
 			fViewMaxUts.setRankField(rankHastaUts);			
@@ -155,16 +141,16 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
 			
 			//añadimos los tipos de peticiones que queremos filtrar
-			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(), values_TiposPeticiones);
-			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
-			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), "FACTDG07");				
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_13_TIPO).getName(), values_TiposPeticiones);
+			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
+			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_11_CENTRO_DESTINO).getName(), "FACTDG07");				
 			
 			Collection<String> valuesPrjs =  new ArrayList<String>();
 			//obtenemos todas las aplicaciones de este estudio
 			FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);					
-			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
+			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_49_ID_SERVICIO).getName());
 			if (servicioId == null || servicioId == 0) {
-				Collection<String> aplicativos	= estudioFSet.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName()).getValues();
+				Collection<String> aplicativos	= estudioFSet.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_56_ID_APLICATIVO).getName()).getValues();
 				Iterator<String> iteAplicativos = aplicativos.iterator();
 				while (iteAplicativos.hasNext()) {
 					Long idAplicativo = Long.valueOf(iteAplicativos.next());
@@ -181,7 +167,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				}
 			}
 			
-			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName(), valuesPrjs);
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_27_PROYECTO_NAME).getName(), valuesPrjs);
 						
 			final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 			if (listadoPeticiones.isEmpty()) {
@@ -208,7 +194,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						
 			String periodicidadInferida = (String) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
 			Long idPeriodicidadInferida = (Long) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName());
-			estudioFSet.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodicidadInferida);
+			estudioFSet.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_50_ID_TIPOPERIODO).getName(), idPeriodicidadInferida);
 			
 			final Collection<Object> messageArguments = new ArrayList<Object>();
 			messageArguments.add(periodicidadInferida);
@@ -228,20 +214,20 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	private double getTotalUtsEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega) throws Throwable{
     	double numUtsEntrega = 0;
 		String peticiones = (String) miEntrega.getValue(peticionesEntidad.searchField(
-				ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
+				ConstantesModelo.PRESTACIONSERVICIO_36_PETS_RELACIONADAS).getName());
 		if (peticiones != null && !"".contentEquals(peticiones)) {				
 			List<Long> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
 			for (int i=0;i<codigosPeticiones.size();i++) {
 				Long codPeticionDG = codigosPeticiones.get(i);
 				FieldViewSet peticionDG = new FieldViewSet(estudioPeticionesEntidad);
-				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), codPeticionDG);									
+				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_1_ID_NUMERIC).getName(), codPeticionDG);									
 				peticionDG = dataAccess.searchEntityByPk(peticionDG);
 				if (peticionDG != null) {
 					 Double utsEstimadas = (Double) peticionDG.getValue(peticionesEntidad.searchField(
-								ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
+								ConstantesModelo.PRESTACIONSERVICIO_28_HORAS_ESTIMADAS_ACTUALES).getName());
 					 if (utsEstimadas == 0) {
 						 Double utsReales = (Double) peticionDG.getValue(peticionesEntidad.searchField(
-								ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
+								ConstantesModelo.PRESTACIONSERVICIO_29_HORAS_REALES).getName());
 						 numUtsEntrega += utsReales;
 					 }else {
 						 numUtsEntrega += utsEstimadas;
@@ -255,16 +241,16 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	protected FieldViewSet obtenerPeticionAnalysis(IDataAccess dataAccess, FieldViewSet registro) throws DatabaseException{
 				
-		String petsRelacionadas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());		
+		String petsRelacionadas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_36_PETS_RELACIONADAS).getName());		
 		if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
 			List<Long> peticionesAnalisis = CommonUtils.obtenerCodigos(petsRelacionadas);			
 			for (int i=0;i<peticionesAnalisis.size();i++) {
 				Long candidataPeticionAT = peticionesAnalisis.get(i);
 				FieldViewSet peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
-				peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), candidataPeticionAT);									
+				peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_1_ID_NUMERIC).getName(), candidataPeticionAT);									
 				peticionBBDDAnalysis = dataAccess.searchEntityByPk(peticionBBDDAnalysis);
 				if (peticionBBDDAnalysis != null) {										
-					String areaDestino = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
+					String areaDestino = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_12_AREA_DESTINO).getName());
 					if (areaDestino.indexOf("ATH Análisis") != -1) {
 						return peticionBBDDAnalysis;
 					}
@@ -580,10 +566,10 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			int numApps = 0;
 			StringBuffer title = new StringBuffer();
 			long idTecnologia = 0;
-			Long servicioId = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());			
+			Long servicioId = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_49_ID_SERVICIO).getName());			
 			StringBuffer textoAplicaciones = new StringBuffer();					
 			if (servicioId == null || servicioId==0) {
-				List<String> aplicativos = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName()).getValues());
+				List<String> aplicativos = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_56_ID_APLICATIVO).getName()).getValues());
 				for (int i=0;i<aplicativos.size();i++) {
 					Long idAplicativo = Long.valueOf(aplicativos.get(i));
 					FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
@@ -596,7 +582,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						textoAplicaciones.append(", ");
 						title.append(", ");
 					}else {
-						registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName(), idAplicativo);
+						registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_56_ID_APLICATIVO).getName(), idAplicativo);
 					}
 					numApps++;
 				}
@@ -624,70 +610,70 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			
 			//lo primero casi es saber qué conjunto de heurísticas se van a aplicar a este estudio
 			Long idConjuntoHeuristicas = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.ESTUDIOS_PETICIONES_88_ID_HEURISTICAS_CALCULOS).getName());
+					ConstantesModelo.ESTUDIOS_88_ID_HEURISTICAS_CALCULOS).getName());
 			FieldViewSet heuristicaBBDD = new FieldViewSet(heuristicasEntidad);
-			heuristicaBBDD.setValue(heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_1_ID).getName(), idConjuntoHeuristicas);
+			heuristicaBBDD.setValue(heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_1_ID).getName(), idConjuntoHeuristicas);
 			heuristicaBBDD = dataAccess.searchEntityByPk(heuristicaBBDD);
 			
 			/********** ***********/
 			 
 			String heuristicaFormulaCalculoJornadas_Analysis = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_3_FORMULA_JORN_ANALYSIS).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_3_FORMULA_JORN_ANALYSIS).getName());
 			//System.out.println ("\nFórmula Jornadas Análisis: " + heuristicaFormulaCalculoJornadas_Analysis.trim());
 
 			String heuristicaFormulaCalculoJornadas_Desarrollo = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_4_FORMULA_JORN_DESARROLLO).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_4_FORMULA_JORN_DESARROLLO).getName());
 			//System.out.println ("\nFórmula Jornadas Desarrollo: " + heuristicaFormulaCalculoJornadas_Desarrollo.trim());
 
 			String heuristicaFormulaCalculoJornadas_Preparac_Entrega = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_5_FORMULA_JORN_PREPARAC_ENTREGA).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_5_FORMULA_JORN_PREPARAC_ENTREGA).getName());
 			//System.out.println ("\nFórmula Jornadas Preparación Entrega: " + heuristicaFormulaCalculoJornadas_Preparac_Entrega.trim());
 
 			String heuristicaFormulaCalculoJornadas_PruebasCD = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_6_FORMULA_JORN_PRUEBASCD).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_6_FORMULA_JORN_PRUEBASCD).getName());
 			//System.out.println ("\nFórmula Jornadas Pruebas CD: " + heuristicaFormulaCalculoJornadas_PruebasCD.trim());
 			
 			String heuristicaFormulaCalculoIntervalo_Planificacion_DG = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_7_FORMULA_JORN_INTERVAL_PLANIFICACION_DG).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_7_FORMULA_JORN_INTERVAL_PLANIFICACION_DG).getName());
 			//System.out.println ("\nFórmula Intervalo Planificación Comienzo Petición en DG: " + heuristicaFormulaCalculoIntervalo_Planificacion_DG.trim());
 
 			String heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_8_FORMULA_JORN_INTERVAL_FINDG_SOLIC_ENTREGA_CD).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_8_FORMULA_JORN_INTERVAL_FINDG_SOLIC_ENTREGA_CD).getName());
 			//System.out.println ("\nFórmula Intervalo Fin Desarrollo hasta solicitud Entrega: " + heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega.trim());
 
 			String heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_9_FORMULA_JORN_INTERVAL_FINPRUEBASCD_INSTALAC_PRODUC).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_9_FORMULA_JORN_INTERVAL_FINPRUEBASCD_INSTALAC_PRODUC).getName());
 			//System.out.println ("\nFórmula Intervalo FinPruebasCD hasta instalac. Produc. : " + heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc.trim());
 
 			String heuristicaFormulaCalculo_FechaInicioAnalysis = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_10_FORMULA_CALCULO_FECINI_ANALYSIS).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_10_FORMULA_CALCULO_FECINI_ANALYSIS).getName());
 			//System.out.println ("\nFórmula Fecha Inicio Análisis : " + heuristicaFormulaCalculo_FechaInicioAnalysis.trim());
 
 			String heuristicaFormulaCalculo_FechaFinAnalysis = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_11_FORMULA_CALCULO_FECFIN_ANALYSIS).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_11_FORMULA_CALCULO_FECFIN_ANALYSIS).getName());
 			//System.out.println ("\nFórmula Fecha Fin Análisis: " + heuristicaFormulaCalculo_FechaFinAnalysis.trim());
 
 			String heuristicaFormulaCalculo_FechaInicioPruebasCD = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_12_FORMULA_CALCULO_FECINI_PRUEBASCD).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_12_FORMULA_CALCULO_FECINI_PRUEBASCD).getName());
 			//System.out.println ("\nFórmula Fecha Inicio Pruebas CD: " + heuristicaFormulaCalculo_FechaInicioPruebasCD.trim());
 
 			String heuristicaFormulaCalculo_FechaFinPruebasCD = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_13_FORMULA_CALCULO_FECFIN_PRUEBASCD).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_13_FORMULA_CALCULO_FECFIN_PRUEBASCD).getName());
 			//System.out.println ("\nFórmula Fecha Fin Pruebas CD: " + heuristicaFormulaCalculo_FechaFinPruebasCD.trim());
 			
 			String heuristicaMLRCalculoJornadas_Analysis = (String) heuristicaBBDD.getValue(
-					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_14_MLR_JORNADAS_ANALYSIS).getName());
+					heuristicasEntidad.searchField(ConstantesModelo.CONFIGURADORESTUDIOS_14_MLR_JORNADAS_ANALYSIS).getName());
 			//System.out.println ("\nModelo Inferencia para cálculo Jornadas de Análisis: " + heuristicaMLRCalculoJornadas_Analysis.trim());
 
 
 			for (final FieldViewSet peticionDG_BBDD : filas) {
 				
-				Long peticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());					
-				String tipoPeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());					
-				Double horasEstimadas = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
-				Double horasReales = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
-				String titulo = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
-				String nombreAplicacionDePeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
+				Long peticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_1_ID_NUMERIC).getName());					
+				String tipoPeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_13_TIPO).getName());					
+				Double horasEstimadas = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_28_HORAS_ESTIMADAS_ACTUALES).getName());
+				Double horasReales = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_29_HORAS_REALES).getName());
+				String titulo = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_2_TITULO).getName());
+				String nombreAplicacionDePeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_27_PROYECTO_NAME).getName());
 				
 				FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
 				aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName(), nombreAplicacionDePeticion);
@@ -702,19 +688,19 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				FieldViewSet tareaBBDD_analysis = null;
 				FieldViewSet tareaBBDD_pruebas= null;				
 				
-				Date fechaTramite = (Date)peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
-				Date fechaRealInicio = (Date)peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());					
-				Date fechaFinalizacion = (Date) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName());							
-				Date fechaRealFin = (Date) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
+				Date fechaTramite = (Date)peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_18_FECHA_DE_TRAMITACION).getName());
+				Date fechaRealInicio = (Date)peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_24_DES_FECHA_REAL_INICIO).getName());					
+				Date fechaFinalizacion = (Date) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_21_FECHA_DE_FINALIZACION).getName());							
+				Date fechaRealFin = (Date) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_25_DES_FECHA_REAL_FIN).getName());
 				
 				Date fechaInicioRealAnalysis=null, fechaFinRealAnalysis=null;
 				Long peticionGEDEON_Analysis = null;
 				Double esfuerzoAnalysis = 0.0, esfuerzoPruebasCD =0.0;
 				peticionBBDDAnalysis = obtenerPeticionAnalysis(dataAccess, peticionDG_BBDD);
 				if (peticionBBDDAnalysis != null) {								
-					peticionGEDEON_Analysis = (Long) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
-					fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
-					fechaFinRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
+					peticionGEDEON_Analysis = (Long) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_1_ID_NUMERIC).getName());
+					fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_24_DES_FECHA_REAL_INICIO).getName());
+					fechaFinRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_25_DES_FECHA_REAL_FIN).getName());
 					if (fechaFinRealAnalysis == null || fechaFinRealAnalysis.compareTo(fechaTramite) > 0) {
 						Calendar fechaFinAnalysisCalendar = Calendar.getInstance();
 						fechaFinAnalysisCalendar.setTime(fechaTramite);
@@ -726,12 +712,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 							fechaFinAnalysisCalendar.add(Calendar.DAY_OF_MONTH, -2);
 						}
 						fechaFinRealAnalysis = fechaFinAnalysisCalendar.getTime();
-						peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName(), fechaFinRealAnalysis);	
+						peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_25_DES_FECHA_REAL_FIN).getName(), fechaFinRealAnalysis);	
 					}
 					//extraemos las tareas de esta petición de análisis
 					FieldViewSet tareasFilter = new FieldViewSet(tareaEntidad);
 					tareasFilter.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName(), 
-							peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName()));
+							peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_1_ID_NUMERIC).getName()));
 					Collection<FieldViewSet> tareas = dataAccess.searchByCriteria(tareasFilter);
 					Iterator<FieldViewSet> iteTareas = tareas.iterator();
 					while (iteTareas.hasNext()) {
@@ -748,7 +734,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						}
 					}
 				}
-				String idEntregas = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_ASOCIADA).getName());
+				String idEntregas = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_35_ID_ENTREGA_ASOCIADA).getName());
 				if (idEntregas == null) {
 					continue;
 				}
@@ -763,27 +749,27 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					}
 					Long peticionGEDEON_ent = new Long(splitterEntregas[e]);
 					FieldViewSet entrega = new FieldViewSet(peticionesEntidad);
-					entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), peticionGEDEON_ent);						
+					entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_1_ID_NUMERIC).getName(), peticionGEDEON_ent);						
 					entrega = dataAccess.searchEntityByPk(entrega);
 					if (entrega != null){
-						String tipoPeticionEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
+						String tipoPeticionEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_13_TIPO).getName());
 						if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") == -1) {
 							continue;
 						}
-						Date fechaEntregada = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
+						Date fechaEntregada = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_25_DES_FECHA_REAL_FIN).getName());
 						if (fechaEntregada == null) { 
 								//no tenemos en cuenta entregas que no se han llegado a entregar en CD
-							//String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+							//String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_7_ESTADO).getName());
 							//entrega = null;
 							continue;
 						}
 						
-						Long peticionEntregaGEDEON = (Long) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
-						fechaSolicitudEntrega = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
-						String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+						Long peticionEntregaGEDEON = (Long) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_1_ID_NUMERIC).getName());
+						fechaSolicitudEntrega = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_18_FECHA_DE_TRAMITACION).getName());
+						String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_7_ESTADO).getName());
 						if (estadoEntrega.contentEquals("Entrega no conforme")) {
-							entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName(),
-									peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName()));
+							entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_21_FECHA_DE_FINALIZACION).getName(),
+									peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PRESTACIONSERVICIO_21_FECHA_DE_FINALIZACION).getName()));
 						}
 						if (!entregasSerializadas.toString().isEmpty()) {
 							entregasSerializadas.append(", ");
@@ -799,47 +785,47 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 								
 				/*******************************************************************************************************/						
 												
-				Long idEstudio = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_1_ID).getName());
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_3_APLICACION).getName(), nombreAplicacionDePeticion);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_4_TIPO).getName(), tipoPeticion);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PET_DG).getName(), peticionDG);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_6_IDS_PETS_AT).getName(), (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis));				
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_7_IDS_PET_ENTREGAS).getName(), entregasSerializadas.toString());
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_19_FECHA_FIN_ANALYSIS).getName(), fechaFinRealAnalysis);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG).getName(), fechaTramite);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_21_FECHA_INICIO_DESA).getName(), fechaRealInicio);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_22_FECHA_FIN_DESA).getName(), fechaRealFin);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_23_FECHA_SOLICITUD_ENTREGA).getName(), fechaSolicitudEntrega);
-				//resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
-				//resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), esfuerzoPruebasCD);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_31_TITULO).getName(), titulo);
+				Long idEstudio = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_2_ID_ESTUDIO).getName(), idEstudio);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_3_APLICACION).getName(), nombreAplicacionDePeticion);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_4_TIPO).getName(), tipoPeticion);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_5_ID_PET_DG).getName(), peticionDG);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_6_IDS_PETS_AT).getName(), (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis));				
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_7_IDS_PET_ENTREGAS).getName(), entregasSerializadas.toString());
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_19_FECHA_FIN_ANALYSIS).getName(), fechaFinRealAnalysis);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_20_FECHA_TRAMITE_A_DG).getName(), fechaTramite);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_21_FECHA_INICIO_DESA).getName(), fechaRealInicio);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_22_FECHA_FIN_DESA).getName(), fechaRealFin);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_23_FECHA_SOLICITUD_ENTREGA).getName(), fechaSolicitudEntrega);
+				//resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
+				//resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_30_ESFUERZO_HRS_PRUEBASCD).getName(), esfuerzoPruebasCD);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_31_TITULO).getName(), titulo);
 								
 				/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/
 				Map<String, Serializable> variables = new HashMap<String, Serializable>();
 				
 				Date _fechaInicioPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, 
 						/*peticionPruebasCD*/null, entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_24_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
 				variables.put("#Fecha_ini_pruebas_CD#", _fechaInicioPruebasCD);
 				
 				Date _fechaFinPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas,	tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_25_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
 				variables.put("#Fecha_fin_pruebas_CD#", _fechaFinPruebasCD);
 				
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), _fechaFinPruebasCD);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_26_FECHA_INI_INSTALAC_PROD).getName(), _fechaFinPruebasCD);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
 				
 				Double jornadasDesarrollo = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Desarrollo,	peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);			
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
 				variables.put("#Jornadas_Desarrollo#", jornadasDesarrollo);
 				
 				Double jornadasPruebasCD = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_PruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
 				variables.put("#Jornadas_Pruebas_CD#", jornadasPruebasCD);
 				if (jornadasPruebasCD == null) {
 					System.out.println("jornadasPruebasCD: " + jornadasPruebasCD);
@@ -849,18 +835,18 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				if (peticionBBDDAnalysis == null) {
 					
 					jornadasAnalysis = (Double) procesarFormulaMLR(heuristicaMLRCalculoJornadas_Analysis, variables);
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
 					variables.put("#Jornadas_Analisis#", jornadasAnalysis);
 
 					Date _fechaFinAnalysis= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinAnalysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 							entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 					_fechaFinAnalysis = _fechaFinAnalysis.compareTo(fechaTramite) > 0 ? fechaTramite : _fechaFinAnalysis;					
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_19_FECHA_FIN_ANALYSIS).getName(), _fechaFinAnalysis);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_19_FECHA_FIN_ANALYSIS).getName(), _fechaFinAnalysis);
 					
 					variables.put("#Fecha_fin_analisis#", _fechaFinAnalysis);
 					Date _fechaInicioAnalysis= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioAnalysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null,
 							entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName(), _fechaInicioAnalysis);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_18_FECHA_INI_ANALYSIS).getName(), _fechaInicioAnalysis);
 					variables.put("#Fecha_ini_analisis#", _fechaInicioAnalysis);
 				}else {
 					//tomo de la petición de análisis los datos
@@ -868,11 +854,11 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						fechaFinRealAnalysis = fechaFinRealAnalysis.compareTo(fechaTramite) > 0 ? fechaTramite : fechaFinRealAnalysis;
 						variables.put("#Fecha_fin_analisis#", fechaFinRealAnalysis);
 						jornadasAnalysis = (Double) procesarFormulaMLR(heuristicaMLRCalculoJornadas_Analysis, variables);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
 						variables.put("#Jornadas_Analisis#", jornadasAnalysis);
 						fechaInicioRealAnalysis= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioAnalysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null,
 								entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
 						variables.put("#Fecha_ini_analisis#", fechaInicioRealAnalysis);
 					}else {						
 						variables.put("#Fecha_fin_analisis#", fechaFinRealAnalysis);
@@ -880,7 +866,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						jornadasAnalysis = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Analysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 								entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
 						variables.put("#Jornadas_Analisis#", jornadasAnalysis);						
 					}
 															
@@ -890,36 +876,36 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				
 				Double jornadasDesfaseTramiteHastaInicioReal = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_Planificacion_DG, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName(), jornadasDesfaseTramiteHastaInicioReal);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_13_GAP_TRAMITE_INIREALDESA).getName(), jornadasDesfaseTramiteHastaInicioReal);
 				
 				Double jornadasEntrega = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Preparac_Entrega, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName(), jornadasEntrega);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_11_DURACION_ENTREGA_EN_DG).getName(), jornadasEntrega);
 				
 				Double jornadasDesfaseFinDesaSolicEntrega = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName(), jornadasDesfaseFinDesaSolicEntrega);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_14_GAP_FINDESA_SOLIC_ENTREGACD).getName(), jornadasDesfaseFinDesaSolicEntrega);
 				
 				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
 								
 				if (horasEstimadas == 0.0 && horasReales==0.0) {								
 					horasReales = CommonUtils.roundDouble(jornadasDesarrollo*8.0*(1.0/0.75),2);//ratio de 0.75 horas equivale a 1 ut
 					horasEstimadas = horasReales;
 				}
 				Double esfuerzoUts = CommonUtils.roundWith2Decimals((horasEstimadas==0.0?horasReales:horasEstimadas));
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), esfuerzoUts);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_28_UTS).getName(), esfuerzoUts);
 				
 				double totalDedicaciones = CommonUtils.roundWith2Decimals(jornadasAnalysis + jornadasDesarrollo + jornadasEntrega + jornadasPruebasCD);
 				double totalGaps = CommonUtils.roundWith2Decimals(jornadasDesfaseTramiteHastaInicioReal + jornadasDesfaseFinDesaSolicEntrega + jornadasDesdeFinPruebasHastaImplantacion);
 				Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(totalDedicaciones + totalGaps);
 				
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), esfuerzoUts);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName(), cicloVidaPeticion);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES).getName(), totalDedicaciones);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_GAPS).getName(), totalGaps);								
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_28_UTS).getName(), esfuerzoUts);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_8_CICLO_VIDA).getName(), cicloVidaPeticion);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_16_TOTAL_DEDICACIONES).getName(), totalDedicaciones);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENESESTUDIO_17_TOTAL_GAPS).getName(), totalGaps);								
 				
 				out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + peticionDG + " aplicación: " + nombreAplicacionDePeticion + " ******\n").getBytes());
 				out.write(("****** Petición Análisis a OO/Estructurado en AT: " + (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis) + " ******\n").getBytes());
@@ -963,8 +949,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			out.write(("\n**** TOTAL PETICIONES ESTUDIO: "+ (numPeticionesEstudio) + "  *******\n").getBytes());
 			out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
 			
-			Date fecIniEstudio = (Date) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_5_FECHA_INIESTUDIO).getName());
-			Date fecFinEstudio = (Date) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_6_FECHA_FINESTUDIO).getName());
+			Date fecIniEstudio = (Date) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_5_FECHA_INIESTUDIO).getName());
+			Date fecFinEstudio = (Date) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_6_FECHA_FINESTUDIO).getName());
 			if(fecFinEstudio== null) {
 				fecFinEstudio = Calendar.getInstance().getTime();
 			}
@@ -974,7 +960,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			double totalGaps = (total_gapPlanificacion+total_gapFinDesaIniSolicitudEntregaEnCD+total_gapFinPruebasCDProducc); 
 			
 			// bloque de agregados del estudio
-			List<String> tiposPet = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_86_TIPO_PETICIONES).getName()).getValues());
+			List<String> tiposPet = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_86_TIPO_PETICIONES).getName()).getValues());
 			StringBuffer tiposPets_ = new StringBuffer();
 			for (int i=0;i<tiposPet.size();i++) {
 				String tipo = tiposPet.get(i);
@@ -987,95 +973,95 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					tiposPets_.append(", ");
 				}
 			}
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_87_DESNORMALIZAR_TIPOPETIC).getName(), tiposPets_.toString());
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_8_NUMMESES).getName(), mesesEstudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_3_ID_ENTORNO).getName(), idTecnologia);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_7_NUMPETICIONES).getName(), numPeticionesEstudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_9_TOTALUTS).getName(), total_uts_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_4_APLICACIONES).getName(), textoAplicaciones);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_10_CICLOVIDA).getName(), total_cicloVida_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_11_DURACIONANALYS).getName(), total_analisis_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_12_DURACIONDESARR).getName(), total_implement_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_13_DURACIONENTREGA).getName(), total_preparacion_entregas_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_14_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_15_GAPTRAMIINIDESA).getName(), total_gapPlanificacion);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_16_GAPFINDESASOLICENTREGA).getName(), total_gapFinDesaIniSolicitudEntregaEnCD);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_17_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_18_TOTALDEDICACIONES).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_19_TOTALGAPS).getName(), CommonUtils.roundWith2Decimals(totalGaps));
-		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_51_ESFUERZO_ANALYSIS_HRS_TOTAL).getName(),CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio));
-			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_81_ESFUERZO_PRUEBASCD_HRS_ESTUDIO).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_87_DESNORMALIZAR_TIPOPETIC).getName(), tiposPets_.toString());
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_8_NUMMESES).getName(), mesesEstudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_ENTORNO).getName(), idTecnologia);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_7_NUMPETICIONES).getName(), numPeticionesEstudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_9_TOTALUTS).getName(), total_uts_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_4_APLICACIONES).getName(), textoAplicaciones);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_10_CICLOVIDA).getName(), total_cicloVida_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_11_DURACIONANALYS).getName(), total_analisis_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_12_DURACIONDESARR).getName(), total_implement_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_13_DURACIONENTREGA).getName(), total_preparacion_entregas_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_14_DURACIONPRUEBASCD).getName(), total_pruebasCD_estudio);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_15_GAPTRAMIINIDESA).getName(), total_gapPlanificacion);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_16_GAPFINDESASOLICENTREGA).getName(), total_gapFinDesaIniSolicitudEntregaEnCD);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_17_GAPFINPRUEBASCDHASTAPRODUC).getName(), total_gapFinPruebasCDProducc);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_18_TOTALDEDICACIONES).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_19_TOTALGAPS).getName(), CommonUtils.roundWith2Decimals(totalGaps));
+		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_51_ESFUERZO_ANALYSIS_HRS_TOTAL).getName(),CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio));
+			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_81_ESFUERZO_PRUEBASCD_HRS_ESTUDIO).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio));
 		    
 			//bloque mensual
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_20_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_21_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_22_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/mesesEstudio));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_23_DURACIONPREPENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_24_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/mesesEstudio));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_25_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_26_GAPFINDESASOLICENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_27_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_28_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/mesesEstudio));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_29_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalGaps/mesesEstudio));
-		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_52_ESFUERZO_ANALYSIS_HRS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio/mesesEstudio));
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_54_UTS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_uts_estudio/mesesEstudio));
-		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_82_ESFUERZO_PRUEBASCD_HRS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_20_CICLOVIDA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_21_DURACIONANALYS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_22_DURACIONDESARR_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/mesesEstudio));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_23_DURACIONPREPENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_24_DURACIONPRUEBASCD_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/mesesEstudio));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_25_GAPTRAMIINIDESA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_26_GAPFINDESASOLICENTREGA_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_27_GAPFINPRUEBASCDHASTAPRODUC_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_28_TOTALDEDICACIONES_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/mesesEstudio));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_29_TOTALGAPS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(totalGaps/mesesEstudio));
+		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_52_ESFUERZO_ANALYSIS_HRS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio/mesesEstudio));
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_54_UTS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_uts_estudio/mesesEstudio));
+		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_82_ESFUERZO_PRUEBASCD_HRS_PERMONTH).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(mesesEstudio)));
 
 			//bloque por petición
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_30_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_31_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_32_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(numPeticionesEstudio)));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_33_DURACIONENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_34_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numPeticionesEstudio)));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_35_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_36_GAPFINDESASOLICENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_37_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/(numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_38_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalDedicaciones)/(numPeticionesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_39_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalGaps)/(numPeticionesEstudio)));
-		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_53_ESFUERZO_ANALYSIS_HRS_PERPET).getName(),	CommonUtils.roundWith2Decimals((total_hrs_analysis_estudio/numPeticionesEstudio)));
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_55_UTS_PERPET).getName(), CommonUtils.roundWith2Decimals((total_uts_estudio/numPeticionesEstudio)));
-			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_85_ESFUERZO_PRUEBASCD_HRS_PERPET).getName(),CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_30_CICLOVIDA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_31_DURACIONANALYS_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_32_DURACIONDESARR_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(numPeticionesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_33_DURACIONENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_34_DURACIONPRUEBASCD_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numPeticionesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_35_GAPTRAMIINIDESA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_36_GAPFINDESASOLICENTREGA_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_37_GAPFINPRUEBASCDHASTAPRODUC_PERPETICION).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_38_TOTALDEDICACIONES_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalDedicaciones)/(numPeticionesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_39_TOTALGAPS_PERPETICION).getName(), CommonUtils.roundWith2Decimals((totalGaps)/(numPeticionesEstudio)));
+		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_53_ESFUERZO_ANALYSIS_HRS_PERPET).getName(),	CommonUtils.roundWith2Decimals((total_hrs_analysis_estudio/numPeticionesEstudio)));
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_55_UTS_PERPET).getName(), CommonUtils.roundWith2Decimals((total_uts_estudio/numPeticionesEstudio)));
+			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_85_ESFUERZO_PRUEBASCD_HRS_PERPET).getName(),CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(numPeticionesEstudio)));
 
 			//por aplicación y mes
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_57_CICLOVIDA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(numApps*mesesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_58_DURACIONANALYS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(numApps*mesesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_59_DURACIONDESARR_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(numApps*mesesEstudio)));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_60_DURACIONENTREGA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(numApps*mesesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_61_DURACIONPRUEBASCD_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numApps*mesesEstudio)));			
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_62_GAPTRAMIINIDESA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(numApps*mesesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_63_GAPFINDESASOLICENTREGA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(numApps*mesesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_64_GAPFINPRUEBASCDHASTAPRODUC_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/(numApps*mesesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_65_TOTALDEDICACIONES_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/(numApps*mesesEstudio)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_66_TOTALGAPS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(totalGaps/(numApps*mesesEstudio)));
-		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_67_ESFUERZO_ANALYSIS_HRS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals((total_hrs_analysis_estudio/(numApps*mesesEstudio))));
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_68_UTS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals((total_uts_estudio/(numApps*mesesEstudio))));
-			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_83_ESFUERZO_PRUEBASCD_HRS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_57_CICLOVIDA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_58_DURACIONANALYS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_59_DURACIONDESARR_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(numApps*mesesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_60_DURACIONENTREGA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_61_DURACIONPRUEBASCD_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numApps*mesesEstudio)));			
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_62_GAPTRAMIINIDESA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_63_GAPFINDESASOLICENTREGA_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_64_GAPFINPRUEBASCDHASTAPRODUC_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_65_TOTALDEDICACIONES_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/(numApps*mesesEstudio)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_66_TOTALGAPS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(totalGaps/(numApps*mesesEstudio)));
+		    //registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_67_ESFUERZO_ANALYSIS_HRS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals((total_hrs_analysis_estudio/(numApps*mesesEstudio))));
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_68_UTS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals((total_uts_estudio/(numApps*mesesEstudio))));
+			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_83_ESFUERZO_PRUEBASCD_HRS_PERAPPMONTH).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(numApps*mesesEstudio)));
 			
 		    //por aplicación
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_69_CICLOVIDA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_70_DURACIONANALYS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_71_DURACIONDESARR_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_72_DURACIONENTREGA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_73_DURACIONPRUEBASCD_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_74_GAPTRAMIINIDESA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_75_GAPFINDESASOLICENTREGA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_76_GAPFINPRUEBASCDHASTAPRODUC_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_77_TOTALDEDICACIONES_PERAPP).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_78_TOTALGAPS_PERAPP).getName(), CommonUtils.roundWith2Decimals(totalGaps/(numApps)));
-			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_79_ESFUERZO_ANALYSIS_HRS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio/(numApps)));
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_80_UTS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_uts_estudio/(numApps)));
-			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_84_ESFUERZO_PRUEBASCD_HRS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_69_CICLOVIDA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_cicloVida_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_70_DURACIONANALYS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_analisis_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_71_DURACIONDESARR_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_implement_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_72_DURACIONENTREGA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_73_DURACIONPRUEBASCD_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_74_GAPTRAMIINIDESA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_gapPlanificacion/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_75_GAPFINDESASOLICENTREGA_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_gapFinDesaIniSolicitudEntregaEnCD/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_76_GAPFINPRUEBASCDHASTAPRODUC_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_77_TOTALDEDICACIONES_PERAPP).getName(), CommonUtils.roundWith2Decimals(totalDedicaciones/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_78_TOTALGAPS_PERAPP).getName(), CommonUtils.roundWith2Decimals(totalGaps/(numApps)));
+			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_79_ESFUERZO_ANALYSIS_HRS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_hrs_analysis_estudio/(numApps)));
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_80_UTS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_uts_estudio/(numApps)));
+			//registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_84_ESFUERZO_PRUEBASCD_HRS_PERAPP).getName(), CommonUtils.roundWith2Decimals(total_hrs_pruebasCD_estudio/(numApps)));
 			
 			// %
-		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_40_PORC_DURACIONANALYS).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_41_PORC_DURACIONDESARR).getName(), CommonUtils.roundWith2Decimals((total_implement_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_42_PORC_DURACIONENTREGA).getName(),	CommonUtils.roundWith2Decimals((total_preparacion_entregas_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_43_PORC_DURACIONPRUEBASCD).getName(), CommonUtils.roundWith2Decimals((total_pruebasCD_estudio/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_44_PORC_GAPTRAMIINIDESA).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_45_PORC_GAPFINDESASOLICENTREGA).getName(), CommonUtils.roundWith2Decimals((total_gapFinDesaIniSolicitudEntregaEnCD/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_46_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), CommonUtils.roundWith2Decimals((total_gapFinPruebasCDProducc/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_47_PORC_TOTALDEDICACIONES).getName(), CommonUtils.roundWith2Decimals((totalDedicaciones/total_cicloVida_estudio))*100.00);
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_48_PORC_TOTALGAP).getName(), CommonUtils.roundWith2Decimals((totalGaps/total_cicloVida_estudio))*100.00);
+		    registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_40_PORC_DURACIONANALYS).getName(), CommonUtils.roundWith2Decimals((total_analisis_estudio/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_41_PORC_DURACIONDESARR).getName(), CommonUtils.roundWith2Decimals((total_implement_estudio/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_42_PORC_DURACIONENTREGA).getName(),	CommonUtils.roundWith2Decimals((total_preparacion_entregas_estudio/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_43_PORC_DURACIONPRUEBASCD).getName(), CommonUtils.roundWith2Decimals((total_pruebasCD_estudio/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_44_PORC_GAPTRAMIINIDESA).getName(), CommonUtils.roundWith2Decimals((total_gapPlanificacion/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_45_PORC_GAPFINDESASOLICENTREGA).getName(), CommonUtils.roundWith2Decimals((total_gapFinDesaIniSolicitudEntregaEnCD/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_46_PORC_GAPFINPRUEBASCDHASTAPRODUC).getName(), CommonUtils.roundWith2Decimals((total_gapFinPruebasCDProducc/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_47_PORC_TOTALDEDICACIONES).getName(), CommonUtils.roundWith2Decimals((totalDedicaciones/total_cicloVida_estudio))*100.00);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_48_PORC_TOTALGAP).getName(), CommonUtils.roundWith2Decimals((totalGaps/total_cicloVida_estudio))*100.00);
 						
 			FieldViewSet tipoperiodo = new FieldViewSet(tipoPeriodo);
 			tipoperiodo.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesEstudio);
@@ -1084,15 +1070,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 			if (tiposperiodo != null && !tiposperiodo.isEmpty()) {
 				idPeriodo = ((Long) tiposperiodo.get(0).getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName())).intValue();
 			}
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_50_ID_TIPOPERIODO).getName(), idPeriodo);
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_50_ID_TIPOPERIODO).getName(), idPeriodo);
 
 			String periodo = CommonUtils.obtenerPeriodo(idPeriodo, fecIniEstudio, fecFinEstudio);
 			String newTitle = title.toString().replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND.Pros@[" + periodo + "]");
 			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "Mto.Pros@[" + periodo + "]");
 			newTitle = newTitle.replaceFirst("Servicio Mto. HOST", "Mto.HOST[" + periodo + "]");		
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_2_TITULOESTUDIO).getName(), newTitle);	
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_2_TITULOESTUDIO).getName(), newTitle);	
 			//new Times
-			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_89_FECHA_EJECUTADO).getName(), Calendar.getInstance().getTime());
+			registroMtoProsa.setValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_89_FECHA_EJECUTADO).getName(), Calendar.getInstance().getTime());
 			
 			int ok = dataAccess.modifyEntity(registroMtoProsa);
 			if (ok != 1) {

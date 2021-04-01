@@ -1,6 +1,8 @@
 package domain.common.render;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Date;
 
 import com.itextpdf.text.Anchor;
@@ -20,6 +22,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+
 
 public class RenderToPDF {
     
@@ -30,13 +35,28 @@ public class RenderToPDF {
 
     public static void main(String[] args) {
         try {
-            Document document = new Document();
+            Document document = new Document(PageSize.A4, 35, 30, 50, 50);
             PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\ESDU\\FirstSampleiText.pdf"));
             document.open();
             addMetaData(document);
             addTitlePage(document);
             addContent(document);
             document.close();
+            
+            //si soy un servlet; lanzo esto para descargar directamente la factura generada:
+            /***
+             * 
+             * // 6, establece el tipo de devolución de solicitud
+				response.setContentType("application/pdf");
+				response.setHeader("Content-Disposition", "attachment; filename=onetouchExchangeAccount.pdf");
+				response.setContentLength(baos.size());
+				OutputStream out = response.getOutputStream();
+				baos.writeTo(out);
+				out.flush();
+				out.close();
+				
+				//guardar la factura en campo BLOB de la base de datos antes de mandarla por correo
+             */
             
             System.out.println("Creado el pdf: C:\\\\Users\\\\ESDU\\\\FirstSampleiText.pdf");
         } catch (Exception e) {
@@ -85,14 +105,33 @@ public class RenderToPDF {
     }
 
     private static void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
+        
+    	// Obtenemos el logo de datojava
+    	Image image;
+		try {
+			image = Image.getInstance("fotoDJ.png");
+			image.scaleAbsolute(80f, 60f);
+		} catch (BadElementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	Anchor anchor = new Anchor("First Chapter", catFont);
         anchor.setName("First Chapter");
-
+        
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
         Paragraph subPara = new Paragraph("Subcategory 1", subFont);
-        Section subCatPart = catPart.addSection(subPara);
+        Section subCatPart = catPart.addSection(subPara);       
+        
         subCatPart.add(new Paragraph("Hello"));
 
         subPara = new Paragraph("Subcategory 2", subFont);

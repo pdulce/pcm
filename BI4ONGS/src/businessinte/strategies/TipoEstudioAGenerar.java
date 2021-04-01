@@ -29,7 +29,7 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 		if (estudioPeticionesEntidad == null) {
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
+						ConstantesModelo.ESTUDIOS_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -60,9 +60,9 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 			}
 			
 			Date fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.ESTUDIOS_PETICIONES_5_FECHA_INIESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_5_FECHA_INICIO_ESTUDIO).getName());
 			Date fecFinEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
-					ConstantesModelo.ESTUDIOS_PETICIONES_6_FECHA_FINESTUDIO).getName());
+					ConstantesModelo.ESTUDIOS_6_FECHA_FIN_ESTUDIO).getName());
 			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
 			if (fecIniEstudio.compareTo(fecFinEstudio)>0) {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
@@ -74,8 +74,8 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 				throw new StrategyException("ERR_ESTUDIO_MESES_MENOR_QUE_1", messageArguments);
 			}
 						
-			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
-			Long aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
+			Long servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_49_ID_SERVICIO).getName());
+			Long aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_56_ID_APLICATIVO).getName());
 			
 			if (servicioId != null &&  aplicativoId !=null) {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
