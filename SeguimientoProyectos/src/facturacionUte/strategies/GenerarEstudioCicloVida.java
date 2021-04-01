@@ -41,8 +41,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	
-	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, heuristicasEntidad,
-				tipoPeriodo, tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad, tiposPeticionesEntidad;
+	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad, peticionesEntidad, heuristicasEntidad, tareaEntidad,
+	tiposTareas, tipoPeriodo, tecnologiaEntidad, servicioUTEEntidad, aplicativoEntidad, subdireccionEntidad, tiposPeticionesEntidad;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudioPeticionesEntidad == null) {
@@ -55,6 +55,10 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
 				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.PETICIONES_ENTIDAD);
+				tareaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.TAREA_PETICION_ENTIDAD);				
+				tiposTareas = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.TIPOTAREA_ENTIDAD);
 				subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
 				tecnologiaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
@@ -547,8 +551,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 	}
 	
 	protected FieldViewSet aplicarEstudioPorPeticion(final IDataAccess dataAccess, 
-			final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) 
-					throws StrategyException{
+			final FieldViewSet registroMtoProsa, final Collection<FieldViewSet> filas) throws StrategyException{
 		
 		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
 		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
@@ -696,6 +699,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				/*** creamos la instancia para cada resumen por peticion del estudio ***/
 				FieldViewSet resumenPorPeticion = new FieldViewSet(resumenPeticionEntidad);
 				FieldViewSet peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
+				FieldViewSet tareaBBDD_analysis = null;
+				FieldViewSet tareaBBDD_pruebas= null;				
 				
 				Date fechaTramite = (Date)peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
 				Date fechaRealInicio = (Date)peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());					
@@ -722,6 +727,25 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						}
 						fechaFinRealAnalysis = fechaFinAnalysisCalendar.getTime();
 						peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName(), fechaFinRealAnalysis);	
+					}
+					//extraemos las tareas de esta petición de análisis
+					FieldViewSet tareasFilter = new FieldViewSet(tareaEntidad);
+					tareasFilter.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName(), 
+							peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName()));
+					Collection<FieldViewSet> tareas = dataAccess.searchByCriteria(tareasFilter);
+					Iterator<FieldViewSet> iteTareas = tareas.iterator();
+					while (iteTareas.hasNext()) {
+						FieldViewSet tarea = iteTareas.next();
+						Long idTipotarea = (Long) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_4_ID_TIPOTAREA).getName());
+						FieldViewSet tipoTarea = new FieldViewSet(tiposTareas);
+						tipoTarea.setValue(tiposTareas.searchField(ConstantesModelo.TIPOTAREA_1_ID).getName(), idTipotarea);
+						tipoTarea = dataAccess.searchEntityByPk(tipoTarea);
+						Serializable tipotareaName = tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TIPOTAREA_2_NOMBRE).getName());
+						if (tipotareaName != null && tipotareaName.toString().contentEquals("Análisis")) {
+							tareaBBDD_analysis = tarea;
+						}else if (tipotareaName != null && tipotareaName.toString().contentEquals("Pruebas")) {
+							tareaBBDD_pruebas = tarea;
+						}
 					}
 				}
 				String idEntregas = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_ASOCIADA).getName());
@@ -793,18 +817,15 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_31_TITULO).getName(), titulo);
 								
 				/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/
-				Map<String, Serializable> variables = new HashMap<String, Serializable>();				
+				Map<String, Serializable> variables = new HashMap<String, Serializable>();
 				
 				Date _fechaInicioPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, 
-						/*peticionPruebasCD*/null, entregasTramitadas, null, null, variables);
+						/*peticionPruebasCD*/null, entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
 				variables.put("#Fecha_ini_pruebas_CD#", _fechaInicioPruebasCD);
 				
-				Date _fechaFinPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, entregasTramitadas, null, 
-						null, variables);
-				/*if (_fechaFinPruebasCD == null) {
-					throw new StrategyException("fechaFinPruebasCD es nula");					
-				}*/
+				Date _fechaFinPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
+						entregasTramitadas,	tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
 				variables.put("#Fecha_fin_pruebas_CD#", _fechaFinPruebasCD);
 				
@@ -812,12 +833,12 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
 				
 				Double jornadasDesarrollo = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Desarrollo,	peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-						entregasTramitadas, null, null, variables);			
+						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);			
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
 				variables.put("#Jornadas_Desarrollo#", jornadasDesarrollo);
 				
 				Double jornadasPruebasCD = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_PruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-						entregasTramitadas, null, null, variables);
+						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
 				variables.put("#Jornadas_Pruebas_CD#", jornadasPruebasCD);
 				if (jornadasPruebasCD == null) {
@@ -832,13 +853,13 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					variables.put("#Jornadas_Analisis#", jornadasAnalysis);
 
 					Date _fechaFinAnalysis= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinAnalysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-							entregasTramitadas, null, null, variables);
+							entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 					_fechaFinAnalysis = _fechaFinAnalysis.compareTo(fechaTramite) > 0 ? fechaTramite : _fechaFinAnalysis;					
 					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_19_FECHA_FIN_ANALYSIS).getName(), _fechaFinAnalysis);
 					
 					variables.put("#Fecha_fin_analisis#", _fechaFinAnalysis);
 					Date _fechaInicioAnalysis= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioAnalysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null,
-							entregasTramitadas, null, null, variables);
+							entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName(), _fechaInicioAnalysis);
 					variables.put("#Fecha_ini_analisis#", _fechaInicioAnalysis);
 				}else {
@@ -850,43 +871,37 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
 						variables.put("#Jornadas_Analisis#", jornadasAnalysis);
 						fechaInicioRealAnalysis= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioAnalysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null,
-								entregasTramitadas, null, null, variables);
+								entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
 						variables.put("#Fecha_ini_analisis#", fechaInicioRealAnalysis);
 					}else {						
 						variables.put("#Fecha_fin_analisis#", fechaFinRealAnalysis);
 						variables.put("#Fecha_ini_analisis#", fechaInicioRealAnalysis);
 						jornadasAnalysis = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Analysis, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-								entregasTramitadas, null, null, variables);
+								entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 						
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
 						variables.put("#Jornadas_Analisis#", jornadasAnalysis);						
 					}
-										
-					
+															
 					// dataset para el modelo MLR
 					dataset4MLR.write(("data.push([" + jornadasDesarrollo + ", " + jornadasPruebasCD + ", " + jornadasAnalysis +"]);\n").getBytes());
 				}
 				
 				Double jornadasDesfaseTramiteHastaInicioReal = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_Planificacion_DG, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-						entregasTramitadas, null, null, variables);
+						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName(), jornadasDesfaseTramiteHastaInicioReal);
 				
 				Double jornadasEntrega = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Preparac_Entrega, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-						entregasTramitadas, null, null, variables);
+						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName(), jornadasEntrega);
 				
 				Double jornadasDesfaseFinDesaSolicEntrega = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinDesarrollo_SolicitudEntrega, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-						entregasTramitadas, null, null, variables);
+						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName(), jornadasDesfaseFinDesaSolicEntrega);
 				
-				Serializable jornadasDesdeFinPruebasHastaImplantacion_serialized= procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-						entregasTramitadas, null, null, variables);
-				if (jornadasDesdeFinPruebasHastaImplantacion_serialized instanceof Date) {
-					jornadasDesdeFinPruebasHastaImplantacion_serialized= procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
-							entregasTramitadas, null, null, variables);
-				}
-				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) jornadasDesdeFinPruebasHastaImplantacion_serialized;
+				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
+						entregasTramitadas, tareaBBDD_analysis, tareaBBDD_pruebas, variables);
 				
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
 								
@@ -918,7 +933,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(jornadasPruebasCD,2) + "\n").getBytes());
 				out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantación Producción: " + CommonUtils.roundDouble(jornadasDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
 				out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());
-
 				
 				int ok = dataAccess.insertEntity(resumenPorPeticion);
 				if (ok != 1) {
