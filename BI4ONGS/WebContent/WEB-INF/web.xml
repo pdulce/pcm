@@ -11,7 +11,7 @@
 
 	<servlet>
 		<servlet-name>LauncherServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.LauncherServlet</servlet-class>
+		<servlet-class>businessinte.servlets.LauncherServlet</servlet-class>
 	</servlet>
 
 

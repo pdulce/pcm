@@ -78,7 +78,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 		<action event="delete" submitError="GestionServicios.delete"
 			submitSucces="GestionServicios.query"
-			strategy="facturacionUte.strategies.concursos.StrategyBorrarAgregadosMesesServicio">
+			strategy="businessinte.strategies.concursos.StrategyBorrarAgregadosMesesServicio">
 
 			<viewComponent>
 				<form columns="53" title="Borrado servicio">
