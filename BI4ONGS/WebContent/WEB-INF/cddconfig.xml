@@ -6,11 +6,11 @@
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
 	<entry key="datasourceImpl" value="domain.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
-	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//entities.xml"></entry>
+	value="file:///C://Users//ESDU//git//pcm//BI4ONGS//WebContent//WEB-INF//entities.xml"></entry>
 	<entry key="navigationApp" 
-	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//navigationWebModel.xml"></entry>			
+	value="file:///C://Users//ESDU//git//pcm//BI4ONGS//WebContent//WEB-INF//navigationWebModel.xml"></entry>			
 	<entry key="serviceDirectory" 
-	value="C:\\Users\\ESDU\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\services"></entry>
+	value="C:\\Users\\ESDU\\git\\pcm\\BI4ONGS\\WebContent\\WEB-INF\\services"></entry>
 	<entry key="driver-class" value="org.sqlite.JDBC"></entry>
 	<entry key="url-connection" value="jdbc:sqlite:"></entry>
 	<entry key="dbPort" value="-1"></entry><!-- SQLite no requiere puerto -->

@@ -1,5 +1,8 @@
 package domain.service.dataccess.factory;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
@@ -176,17 +179,38 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 			}
 		}// while
 		
-		/*try{
-			new FileOutputStream(new File("constantes.java")).write(constantes.toString().getBytes());
+		FileOutputStream fout = null;
+		try{
+			fout = new FileOutputStream(new File("constantes.java"));
+			fout.write(constantes.toString().getBytes());
 		}catch (Throwable excdd){
 			excdd.printStackTrace();
+		}finally {
+			try {
+				fout.flush();
+				fout.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 		
+		FileOutputStream fout2 = null;
 		try{
-			new FileOutputStream(new File ("dicc.txt")).write(diccionario.toString().getBytes());
+			fout2 = new FileOutputStream(new File("dicc.txt"));
+			fout2.write(diccionario.toString().getBytes());
 		}catch (Throwable excdd){
 			excdd.printStackTrace();
-		}*/
+		}finally {
+			try {
+				fout2.flush();
+				fout2.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

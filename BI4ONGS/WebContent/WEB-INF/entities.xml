@@ -231,6 +231,32 @@
 	    <field mappingTo="6" name="total_con_iva" type="double" length="12" required="false"/>
 	    <field mappingTo="7" name="id_cliente" type="long" length="11" required="false"
 	    	   fkParentEntities="cliente" fkParentFields="1"/>
+   	    <field mappingTo="7" name="id_cliente" type="long" length="11" required="false"
+	    	   fkParentEntities="cliente" fkParentFields="1"/>	    	   
+   </entity>
+   
+   <entity>
+	    <entityname>iva</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="fecha_vigencia_desde" type="date" length="10" required="true"/>
+	    <field mappingTo="3" name="fecha_vigencia_hasta" type="date" length="10" required="false"/>
+	    <field mappingTo="4" name="porcentaje" type="double" length="4" required="true"/>
+   </entity>
+  
+   <entity>
+	    <entityname>cabecerafactura</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="id_factura" type="long" length="11" required="true"
+			fkParentEntities="factura" fkParentFields="1"/>
+		<field mappingTo="3" name="header" type="string" length="150" required="false"/>
+   </entity>
+   
+   <entity>
+	    <entityname>lineafactura</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="id_factura" type="long" length="11" required="true"
+			fkParentEntities="factura" fkParentFields="1"/>
+	    <field mappingTo="5" name="importe_servicio_sin_IVA" type="double" length="12" required="false"/>
    </entity>
    
    <entity>
@@ -239,7 +265,7 @@
 	    <field mappingTo="2" name="nombre" type="string" length="150" required="true"/>
 	    <field mappingTo="3" name="alias" type="string" length="50" required="false"/>
 	    <field mappingTo="4" name="email" type="string" length="100" required="false"/>
-	    <field mappingTo="5" name="email" type="string" length="100" required="false"/>
+	    <field mappingTo="5" name="tfno" type="long" length="9" required="false"/>
    </entity>
   
     
