@@ -1,0 +1,59 @@
+/*.blueC{
+	font-weight: bold;
+	color: black;
+	background: rgb(254, 254, 254);
+}
+*/
+
+.pcmTDLeft {
+	font: normal 0.8em Verdana, sans-serif;
+	color: black;
+	background-color: rgb(254, 254, 254);
+	text-align: left;
+	border: 1.1px solid #C9DCA6;
+	width: 8%;
+	border-top: none;	
+	border: 0;
+}
+	
+.pcmTDRight {
+	font: normal 0.8em Verdana, sans-serif;
+	color: black;
+	background-color: rgb(254, 254, 254);
+	text-align: left;
+	border: 1.1px solid #C9DCA6;
+	width: 92%;
+	border-top: none;
+	border: 0;
+}
+
+.pcmTable {
+	display: table;
+	border: 0;
+	font-size: 0.8em;
+	width: 95.9%;
+	background-color: rgb(254, 254, 254);
+}
+
+TH {
+    background-color: #a1d0ee;
+    color: #19185e;
+    font-size: 0.8em;
+    border: 0;
+}
+
+TD {
+    border: 0;
+}
+
+.trImpaired{
+    background: rgb(237, 254, 254);/*30515f*/
+    color: black;
+    border: 0;
+}
+
+.trPaired{
+    background: rgb(255, 255, 255);
+    color: black;
+    border: 0;
+}

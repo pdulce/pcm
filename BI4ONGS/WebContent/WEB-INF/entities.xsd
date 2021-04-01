@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pcm.framework.org/ent" xmlns="http://pcm.framework.org/ent">
+            
+    <xs:element name="entities" type="EntitiesType"/>
+  
+	<xs:complexType name="EntitiesType">
+	  	<xs:sequence>
+     		<xs:element maxOccurs="unbounded" name="entity" nillable="false" type="EntityType"/>
+   		</xs:sequence>
+	</xs:complexType>
+   	
+   	
+   	<xs:complexType name="EntityType">
+		<xs:sequence>
+			<xs:element name="entityname" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" name="field" nillable="true" type="FieldType"/>
+		</xs:sequence>	     
+	</xs:complexType>
+  
+  <xs:complexType name="FieldType">
+  	<xs:attribute name="mappingTo" type="xs:integer"/>
+   	<xs:attribute name="name" type="xs:string"/>
+   	<xs:attribute name="default" type="xs:string"/>
+   	<xs:attribute name="type" type="xs:string"/>
+   	<xs:attribute name="length" type="xs:integer"/>
+   	<xs:attribute name="belongsPK" type="xs:boolean"/>
+   	<xs:attribute name="passwordType" type="xs:boolean"/>
+   	<xs:attribute name="autoinc" type="xs:boolean"/>   	
+   	<xs:attribute name="required" type="xs:boolean"/>
+   	<xs:attribute name="minvalue" type="xs:integer"/>
+   	<xs:attribute name="maxvalue" type="xs:integer"/>
+   	<xs:attribute name="fkParentEntities" type="xs:string"/>
+   	<xs:attribute name="fkParentFields" type="xs:integer"/>
+  </xs:complexType>
+   	
+  
+</xs:schema>

@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+	<service name="GestionConcursos" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="GestionConcursos.query"
+			submitSucces="GestionConcursos.query">
+
+			<viewComponent>
+
+				<form columns="4" title="Listado de contratos/concursos">
+				
+					<fieldViewSet entitymodel="concurso" nameSpace="concurso">
+						<fieldset legend="Resumen Concurso">
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" size="35" />
+							<fieldView mappingTo="5" size="50" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="3" />
+							<fieldView mappingTo="4" />
+							<fieldView separator="br" />
+						</fieldset>
+						<fieldset legend="Categorias profesionales">							
+							<fieldView mappingTo="7" />
+							<fieldView mappingTo="8" />
+							<fieldView mappingTo="9" />
+							<fieldView mappingTo="10" />
+							<fieldView separator="br" />
+						</fieldset>
+						<fieldset legend="Horas por categoria">
+							<fieldView separator="br" />
+							<fieldView mappingTo="12" size="10" />
+							<fieldView mappingTo="13" size="10" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />					
+							<fieldView mappingTo="14" size="10" />
+							<fieldView mappingTo="15" size="10" />
+						</fieldset>
+						<fieldset legend="Importes por categoria">
+							<fieldView separator="br" />
+							<fieldView mappingTo="17" size="11" />
+							<fieldView mappingTo="18" size="11" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />				
+							<fieldView mappingTo="19" size="11" />
+							<fieldView mappingTo="20" size="11" />
+						</fieldset>						
+						<fieldset legend="Importes totales">
+							<fieldView separator="br" />
+							<fieldView mappingTo="21" size="11" />
+						</fieldset>						
+					</fieldViewSet>
+				</form>
+
+				<grid title="Listado de contratos" orderDirection="asc" eventsRegistered="update,delete,create">
+					<fieldViewSet entitymodel="concurso" nameSpace="concurso">						
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="2" />
+						<fieldView mappingTo="5" />
+						<fieldView mappingTo="3" />
+						<fieldView mappingTo="4" />
+						<fieldView mappingTo="7" />
+						<fieldView mappingTo="8" />
+						<fieldView mappingTo="9" />
+						<fieldView mappingTo="10" />
+						<fieldView mappingTo="11" />
+						<fieldView mappingTo="16" styleCss="font-weight: bold;color: black;" />
+						<fieldView mappingTo="21" styleCss="font-weight: bold;color: #0404B4;" />
+					</fieldViewSet>
+				</grid>
+
+			</viewComponent>
+		</action>
+		
+		<action event="delete" submitError="GestionConcursos.delete"
+			submitSucces="GestionConcursos.query"
+			strategy="facturacionUte.strategies.concursos.StrategyBorrarAgregadosMesesConcurso">
+
+			<viewComponent>
+				<form columns="577" title="Concurso">
+					<fieldViewSet entitymodel="concurso" nameSpace="concurso">
+						<fieldset legend="Resumen Concurso">
+							<fieldView mappingTo="1" size="4" editable="false" />
+							<fieldView mappingTo="2" size="35" editable="false" />
+							<fieldView mappingTo="5" size="50" editable="false" />
+							<fieldView mappingTo="3" editable="false" />
+							<fieldView mappingTo="4" editable="false" />
+						</fieldset>
+						<fieldset legend="Categorias profesionales">
+							<fieldView mappingTo="7" editable="false" />
+							<fieldView mappingTo="8" editable="false" />
+							<fieldView mappingTo="9" editable="false" />
+							<fieldView mappingTo="10" editable="false" />
+						</fieldset>
+						<fieldset legend="Horas por categoria">
+							<fieldView mappingTo="12" editable="false" />
+							<fieldView mappingTo="13" editable="false" />
+							<fieldView mappingTo="14" editable="false" />
+							<fieldView mappingTo="15" editable="false" />
+						</fieldset>
+						<fieldset legend="Importes por categoria">
+							<fieldView mappingTo="17" editable="false" />
+							<fieldView mappingTo="18" editable="false" />
+							<fieldView mappingTo="19" editable="false" />
+							<fieldView mappingTo="20" editable="false" />
+						</fieldset>
+						<fieldset legend="Importes totales">
+							<fieldView mappingTo="21" editable="false"
+								labelStyle="font-weight: bold;color: #0404B4;" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+		
+		<action event="create" submitError="GestionConcursos.create"
+			submitSucces="GestionConcursos.query"
+			strategy="facturacionUte.strategies.concursos.StrategyUpdateAgregadosMesesConcurso">
+
+			<viewComponent>
+				<form columns="58" title="Concurso">
+					<fieldViewSet entitymodel="concurso" nameSpace="concurso">
+						<fieldset legend="Resumen Concurso">
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" size="35" />
+							<fieldView mappingTo="5" size="50" />
+							<fieldView mappingTo="3" />
+							<fieldView mappingTo="4" />
+						</fieldset>
+						<fieldset legend="Categorias profesionales">
+							<fieldView mappingTo="7" />
+							<fieldView mappingTo="8" />
+							<fieldView mappingTo="9" />
+							<fieldView mappingTo="10" />
+							<fieldView mappingTo="11" />
+						</fieldset>
+						<fieldset legend="Horas por categoria">
+							<fieldView mappingTo="12" size="7" />
+							<fieldView mappingTo="13" size="7" />
+							<fieldView mappingTo="14" size="7" />
+							<fieldView mappingTo="15" size="7" />
+							<fieldView mappingTo="16" size="7" />
+						</fieldset>
+						<fieldset legend="Importes por categoria">
+							<fieldView mappingTo="17" size="9" />
+							<fieldView mappingTo="18" size="9" />
+							<fieldView mappingTo="19" size="9" />
+							<fieldView mappingTo="20" size="9" />
+						</fieldset>
+						<fieldset legend="Importes totales">
+							<fieldView mappingTo="21" size="11"
+								labelStyle="font-weight: bold;color: #0404B4;" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+		
+		<action event="update" submitError="GestionConcursos.update"
+			submitSucces="GestionConcursos.update"
+			strategy="facturacionUte.strategies.concursos.StrategyUpdateAgregadosMesesConcurso">
+
+			<viewComponent>
+				<form columns="58" title="Concurso">
+				
+					<userbuttons>
+
+						<button link="prjManager" id="barchartParam1"
+							name="Barchart">
+							<fieldViewSet nameSpace="barchartParam1">
+								<fieldView name="highchart" hidden="true" value="barchart"/>
+								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorConcurso"/>
+								<fieldView name="filteredByField" hidden="true" value="4=concurso.1;2=filtroStats.anyo;3=filtroStats.mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues selectionMultiple="true">
+										<option code="2" title="anualidades"></option>
+										<option code="3" title="meses"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="5" title="presupuestado"></option>
+										<option code="6" title="facturado"></option>
+										<option code="7" title="% facturado respecto a presupuestado"></option>
+										<option code="8" title="desviacion"></option>
+										<option code="9" title="UTs realizadas"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>								
+							</fieldViewSet>
+						</button>
+						
+						<button	link="Histogram3DStatsServlet" id="histParam2" 
+							name="Histogram" >
+							<fieldViewSet nameSpace="histParam2">
+								<fieldView name="highchart" hidden="true" value="histogram3D"/>
+								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorConcurso"/>
+								<fieldView name="filteredByField" hidden="true" value="4=concurso.1;2=filtroStats.anyo;3=filtroStats.mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues selectionMultiple="true">
+										<option code="2" title="anualidades"></option>
+										<option code="3" title="meses"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="5" title="presupuestado"></option>
+										<option code="6" title="facturado"></option>
+										<!-- <option code="7" title="% facturado respecto a presupuestado"></option> -->
+										<option code="8" title="desviacion"></option>
+										<!-- <option code="9" title="UTs realizadas"></option> -->
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" hidden="true" value="automatic"/>
+								<fieldView name="operation" hidden="true" value="SUM"/>								
+							</fieldViewSet>
+						</button>
+						
+						<button link="prjManager" id="piechartParam3"
+							name="Piechart">
+							<fieldViewSet nameSpace="piechartParam3">
+								<fieldView name="highchart" hidden="true" value="piechart"/>
+								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorConcurso"/>
+								<fieldView name="filteredByField" hidden="true" value="4=concurso.1;2=filtroStats.anyo;3=filtroStats.mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues selectionMultiple="true">
+										<option code="2" title="anualidades"></option>
+										<option code="3" title="meses"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="5" title="presupuestado"></option>
+										<option code="6" title="facturado"></option>
+										<option code="7" title="% facturado respecto a presupuestado"></option>
+										<option code="8" title="desviacion"></option>
+										<option code="9" title="UTs realizadas"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" hidden="true" value="SUM"/>								
+							</fieldViewSet>
+						</button>
+						
+						<button link="prjManager" id="histDualParam"
+							name="Frequency">						
+							<fieldViewSet nameSpace="histDualParam">
+								<fieldView name="highchart" hidden="true" value="dualhistogram"/>
+								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorConcurso"/>
+								<fieldView name="filteredByField" hidden="true" value="4=concurso.1;2=filtroStats.anyo;3=filtroStats.mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>							
+								<fieldView name="fieldForGroupBy" type="select">
+									<optionValues>
+										<option code="-1" title="periodos" selected="true"></option>										
+										<option code="2" title="anualidades"></option>
+										<option code="3" title="meses"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="agregado" type="select">
+									<optionValues>
+										<option code="5" title="presupuestado"></option>
+										<option code="6" title="facturado"></option>
+										<option code="7" title="% facturado respecto a presupuestado"></option>
+										<option code="8" title="desviacion"></option>
+										<option code="9" title="UTs realizadas"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" type="select">
+									<optionValues>
+										<option code="automatic" title="Automático"></option>
+										<option code="dayly" title="Diario"></option>
+										<option code="weekly" title="Semanal" selected="true"></option>
+										<option code="monthly" title="Mensual"></option>
+										<option code="3monthly" title="Trimestral"></option>
+										<option code="6monthly" title="Semestral"></option>
+										<option code="anualy" title="Anual"></option>
+									</optionValues>
+								</fieldView>								
+								<fieldView name="operation" hidden="true" value="SUM"/>												
+						</fieldViewSet>
+					</button>
+										
+						<button link="prjManager" id="scatterParam"
+							name="Correlation">
+							<fieldViewSet nameSpace="scatterParam">
+								<fieldView name="highchart" hidden="true" value="scatter"/>
+								<fieldView name="entidadGrafico" hidden="true" value="facturacionMesPorConcurso"/>
+								<fieldView name="filteredByField" hidden="true" value="4=concurso.1;2=filtroStats.anyo;3=filtroStats.mes"/>
+								<fieldView name="orderBy" hidden="true" value="3"/>
+								<fieldView name="filteredByFieldValues" hidden="true" value=""/>
+								<fieldView name="fieldForGroupBy" hidden="true" value="1"/><!-- eligiendo el id(1), sabemos que con que haya datos en la consulta ya podemos sacar el gráfico-->
+								<fieldView name="ejeX" type="select">
+									<optionValues>
+										<option code="9" title="UTs realizadas" selected="true"></option>
+										<option code="5" title="presupuestado"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="ejeY" type="select">
+									<optionValues>
+										<option code="6" title="facturado" selected="true"></option>
+										<option code="8" title="desviacion"></option>
+									</optionValues>
+								</fieldView>							
+							</fieldViewSet>
+						</button>
+					
+					</userbuttons>
+					
+					<fieldViewSet entitymodel="concurso" nameSpace="concurso">			
+						<fieldset legend="Resumen Concurso">
+							<fieldView mappingTo="1" size="4" editable="false" />
+							<fieldView mappingTo="2" size="35" />
+							<fieldView mappingTo="5" size="50" />
+							<fieldView mappingTo="3" />
+							<fieldView mappingTo="4" />
+						</fieldset>
+						<fieldset legend="Categorias profesionales">
+							<fieldView mappingTo="7" />
+							<fieldView mappingTo="8" />
+							<fieldView mappingTo="9" />
+							<fieldView mappingTo="10" />
+							<fieldView mappingTo="11" />
+						</fieldset>
+						<fieldset legend="Horas por categoria">
+							<fieldView mappingTo="12" size="7" />
+							<fieldView mappingTo="13" size="7" />
+							<fieldView mappingTo="14" size="7" />
+							<fieldView mappingTo="15" size="7" />
+							<fieldView mappingTo="16" size="7" />
+						</fieldset>
+						<fieldset legend="Importes por categoria">
+							<fieldView mappingTo="17" size="9" />
+							<fieldView mappingTo="18" size="9" />
+							<fieldView mappingTo="19" size="9" />
+							<fieldView mappingTo="20" size="9" />
+						</fieldset>
+						<fieldset legend="Importes totales">
+							<fieldView mappingTo="21" size="11"
+								labelStyle="font-weight: bold;color: #0404B4;" />
+						</fieldset>						
+					</fieldViewSet>
+					
+					<fieldViewSet nameSpace="filtroStats">
+						<fieldView name="mes" type="select">
+							<optionValues selectionMultiple="true">
+								<option code="1" title="ene"></option>
+								<option code="2" title="feb"></option>
+								<option code="3" title="marzo"></option>
+								<option code="4" title="abril"></option>
+								<option code="5" title="mayo"></option>
+								<option code="6" title="junio"></option>
+								<option code="7" title="julio"></option>
+								<option code="8" title="ago"></option>
+								<option code="9" title="sept"></option>
+								<option code="10" title="oct"></option>
+								<option code="11" title="nov"></option>
+								<option code="12" title="dic"></option>
+							</optionValues>
+						</fieldView>
+						<fieldView name="anyo" type="select">
+							<optionValues selectionMultiple="true">
+								<option code="2017" title="2017"></option>
+								<option code="2018" title="2018"></option>
+								<option code="2019" title="2019"></option>
+							</optionValues>
+						</fieldView>
+					</fieldViewSet>
+					
+				</form>
+				
+				<grid title="Prevision y simulaciones de este contrato" dependsOf="concurso" orderDirection="asc"
+					defaultOrderField="datos_prevision_contrato.1" eventsRegistered="update,delete,create"
+					serviceRef="GestionPrevisiones">
+					<fieldViewSet entitymodel="datos_prevision_contrato"
+						nameSpace="datos_prevision_contrato">
+						<fieldView mappingTo="33" styleCss="font-weight: bold;color: black;" />
+						<fieldView mappingTo="35" styleCss="font-weight: bold;color: black;" />
+						<fieldView mappingTo="1" />						
+						<fieldView mappingTo="3" />
+						<fieldView mappingTo="4" />
+						<fieldView mappingTo="5" />
+						<fieldView mappingTo="6" />
+						<fieldView mappingTo="7" />
+						<fieldView mappingTo="8" />
+						<fieldView mappingTo="31" styleCss="font-weight: bold;color: blue;" />
+						<fieldView mappingTo="32" styleCss="font-weight: bold;color: red;" />
+						<fieldView mappingTo="34" styleCss="font-weight: bold;color: green;" />			
+					</fieldViewSet>
+				</grid>
+				
+				<grid title="Aplicaciones de este contrato" dependsOf="concurso" orderDirection="asc"
+					defaultOrderField="proyecto.2" eventsRegistered="update,delete,create"
+					serviceRef="GestionProyectos">
+					<fieldViewSet entitymodel="proyecto" nameSpace="proyecto">
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="2" size="10" styleCss="font-weight: bold;color: blue;" />
+						<fieldView mappingTo="3" size="15" />
+						<fieldView mappingTo="4" type="select" styleCss="font-weight: bold;color: black;" >
+							<optionValues entitymodel="colaborador"
+								descrMappingTo="2,3">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="6" type="select">
+							<optionValues entitymodel="responsableCentro"
+								descrMappingTo="2, 3">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="7" type="select">
+							<optionValues entitymodel="departamento" descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="8" type="select">
+							<optionValues entitymodel="colaborador"
+								descrMappingTo="2, 3">
+							</optionValues>
+						</fieldView>
+					</fieldViewSet>
+				</grid>
+				
+				<grid title="Mensualidades de facturacion de este contrato" dependsOf="concurso" orderDirection="asc"
+					defaultOrderField="facturacionMesPorConcurso.1" eventsRegistered="detail"
+					serviceRef="GestionAgregadosMesConcurso">
+					<fieldViewSet entitymodel="facturacionMesPorConcurso"
+						nameSpace="facturacionMesPorConcurso">
+						<fieldView mappingTo="1" hidden="true" />
+						<fieldView mappingTo="2" />
+						<fieldView mappingTo="3" type="select">
+							<optionValues entitymodel="mes"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="5" />
+						<fieldView mappingTo="6" styleCss="font-weight: bold;color: black;" />
+						<fieldView mappingTo="7" styleCss="font-weight: bold;color: black;" />
+						<fieldView mappingTo="8" styleCss="font-weight: bold;color: blue;" />
+						<fieldView mappingTo="9" styleCss="font-weight: bold;color: black;" />
+					</fieldViewSet>
+				</grid>
+
+			</viewComponent>
+		</action>
+
+	</service>
+
+	
+</service:service-group>

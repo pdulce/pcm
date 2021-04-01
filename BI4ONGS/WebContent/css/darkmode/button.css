@@ -1,0 +1,68 @@
+/***** UL para botones de submitado  *****/
+
+ul#pcmUl {	
+	margin: 0 5px 0 5px;
+	padding: 1px 2px 2px 1px;     
+	position: relative;
+	list-style: none;     
+	float: left;
+	background: rgb(7, 39, 46);
+	font-size: 1.0em;
+    font-family: Verdana, sans-serif;
+    color: blue;
+}   
+
+ul#pcmUl li {     
+	margin: 0 5px 0 5px;
+	padding: 1px 2px 2px 1px;     
+	position: relative;
+	background: url('../../img/blue.PNG');
+	display: inline; 
+	font-size: 1.0em;
+	margin: 0 9px; 
+    font-family: Verdana, sans-serif;
+} 
+
+ul#pcmUl li span {    
+	margin: 0 5px 0 5px;
+	padding: 1px 2px 2px 1px;     
+	position: relative;
+	background: url('../../img/blue.PNG');
+	font-size: 1.0em;
+	float: center; 
+    font-family: Verdana, sans-serif;
+    color: blue;
+}
+
+ul#pcmUl li a {    
+	margin: 0 5px 0 5px;
+	padding: 1px 2px 2px 1px;     
+	position: relative;
+	background: url('../../img/blue.PNG');
+	float: center; 
+    font-family: Verdana, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+}
+	
+ul#pcmUl li a.current, ul#pcmUl li a:hover {     
+	margin: 0 5px 0 5px;
+	padding: 1px 2px 2px 1px;     
+	position: relative;
+	float: center;
+	background: url('../../img/softBlue.PNG');/*no-repeat top left; */
+	color: rgb(7, 39, 46);
+	cursor: pointer;
+    text-decoration: none;
+}
+
+ul#pcmUl li a.current span, ul#pcmUl li a:hover span {     
+	margin: 0 5px 0 5px;
+	padding: 1px 2px 2px 1px;
+	position: relative;
+	float: center; 
+	background: url('../../img/softBlue.PNG');/*no-repeat top left; */
+	color: #ae5905;
+}
+
+ /*****  END of UL para botones de submitado  *****/

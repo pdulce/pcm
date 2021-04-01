@@ -1,0 +1,266 @@
+<service:service-group 
+	xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+	
+	<service
+		name="ConsultaPeticionesDatosInvertia"	profile="ADMINISTRADOR, CONSULTOR_UTE">
+	
+	<action event="query" submitError="ConsultaPeticionesDatosInvertia.query"
+		submitSucces="ConsultaPeticionesDatosInvertia.query">
+
+		<viewComponent>
+
+			<form columns="6" title="Peticiones DatosInvertia importadas">
+				
+				<userbuttons>
+					<button
+						link="Histogram3DStatsServlet"
+						id="hist1" name="Histogram" onClick="if (document.getElementById('histParam.agregado').selectedIndex ==2){ document.getElementById('histParam.operation').value='SUM';}else{document.getElementById('histParam.operation').value='AVG';}">
+						<fieldViewSet nameSpace="hist1">
+							<fieldView name="highchart" hidden="true" value="histogram3D"/>
+							<fieldView name="fieldForGroupBy" type="select">
+								<optionValues>
+									<option code="-1" title="tiempo" selected="true"></option><!-- 30 -->
+									<option code="2" title="grupo"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="4" title="cotizac. med." selected="true"></option>
+									<option code="9" title="volumen med."></option>
+									<option code="6" title="% rentab. acum."></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" type="select">
+								<optionValues>
+									<option code="automatic" title="Automatico"></option>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal" selected="true"></option>
+									<option code="monthly" title="Mensual"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+								</optionValues>
+							</fieldView>							
+							<fieldView name="entidadGrafico" hidden="true" value="invertia_data"/>
+							<fieldView name="orderBy" hidden="true" value="3"/><!-- fecha -->
+							<fieldView name="operation" hidden="true" value="AVG"/>
+						</fieldViewSet>
+					</button>
+					
+					
+					<button
+						link="TimeSeriesServlet"
+						id="timeSeries1" name="TimeSeries" onClick="if (document.getElementById('timeSeries.agregado').selectedIndex ==2){ document.getElementById('timeSeries.operation').value='SUM';}else{document.getElementById('timeSeries.operation').value='AVG';}">
+						<fieldViewSet nameSpace="timeSeries1">
+							<fieldView name="highchart" hidden="true" value="timeseries"/>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="4" title="cotizac. med." selected="true"></option>
+									<option code="9" title="volumen med."></option>
+									<option code="6" title="% rentab. acum."></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" type="select">
+								<optionValues>
+									<option code="automatic" title="Automatico"></option>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal" selected="true"></option>
+									<option code="monthly" title="Mensual"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="numericScale" type="select">
+								<optionValues>
+									<option code="ARIT" title="arit." selected="true"></option>
+									<option code="LOG" title="log."></option>
+								</optionValues>
+							</fieldView>				
+							<fieldView name="entidadGrafico" hidden="true" value="invertia_data"/>
+							<fieldView name="orderBy" hidden="true" value="3"/><!-- fecha -->							
+							<fieldView name="fieldForGroupBy" hidden="true" value="-1"/><!-- usar periodo -->
+							<fieldView name="fieldVerticalForGroupBy" hidden="true" value="2"/><!--  GRUPO field -->
+							<fieldView name="operation" hidden="true" value="AVG"/>
+						</fieldViewSet>
+					</button>
+					
+					
+					<button link="prjManager" id="barchart12"
+						name="Barchart" onClick="if (document.getElementById('barchartParam.agregado').selectedIndex ==2){ document.getElementById('barchartParam.operation').value='SUM';}else{document.getElementById('barchartParam.operation').value='AVG';}">
+						<fieldViewSet nameSpace="barchart12">
+							<fieldView name="highchart" hidden="true" value="barchart"/>
+							<fieldView name="fieldForGroupBy" type="select">
+								<optionValues>
+									<option code="2" title="grupo" selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="4" title="cotizac. med."></option>
+									<option code="9" title="volumen med."></option>
+									<option code="6" title="% rentab. acum." selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="entidadGrafico" hidden="true" value="invertia_data"/>
+							<fieldView name="orderBy" hidden="true" value="3"/><!-- fecha -->
+							<fieldView name="operation" hidden="true" value="AVG"/>
+						</fieldViewSet>
+					</button>
+										
+					<button link="prjManager" id="histDualParam"
+						name="Frequency">						
+						<fieldViewSet nameSpace="histDualParam">
+							<fieldView name="highchart" hidden="true" value="dualhistogram"/>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="4" title="cotizac. med." selected="true"></option>									
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" type="select">
+								<optionValues>
+									<option code="automatic" title="Automatico"></option>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal" selected="true"></option>
+									<option code="monthly" title="Mensual"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="entidadGrafico" hidden="true" value="invertia_data"/>
+							<fieldView name="orderBy" hidden="true" value="3"/>						
+							<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>
+							<fieldView name="operation" hidden="true" value="AVG"/>
+						</fieldViewSet>
+					</button>
+										
+					<button link="prjManager" id="scatterParam"
+						name="Correlation">
+						<fieldViewSet nameSpace="scatterParam">
+							<fieldView name="highchart" hidden="true" value="scatter"/>
+							<fieldView name="fieldForGroupBy" hidden="true" value="-1"/>
+							<fieldView name="ejeX" type="select">
+								<optionValues>
+									<option code="4" title="Cotiz.Indice Burstatil" selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="ejeY" type="select">
+								<optionValues>
+									<option code="4" title="Cotiz. IBEX35" selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="atrDiferenciador" hidden="true" value="2"/><!-- atributo grupo es el diferenciador -->
+							<fieldView name="entidadGrafico" hidden="true" value="invertia_data"/>
+							<fieldView name="orderBy" hidden="true" value="3"/><!-- fecha-->
+							<fieldView name="defaultEjeX" hidden="true" value="IBEX35"/><!-- fecha-->
+						</fieldViewSet>
+					</button>
+
+				</userbuttons>
+				
+				
+				<fieldViewSet entitymodel="invertia_data"
+					nameSpace="invertia_data">
+					
+					<!-- primera fila -->
+					
+					<fieldView mappingTo="2" type="select" firstOption="IBEX35" value="IBEX35">
+						<optionValues selectionMultiple="true" entitymodel="invertia_data"
+							descrMappingTo="2" codeField="2">
+						</optionValues>
+					</fieldView>					
+					
+					<fieldView mappingTo="1" editable="true" size="8" />
+					
+					<fieldView mappingTo="3" editable="true"/>		
+					
+										
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					
+					<!-- segunda fila -->
+								
+					<fieldView mappingTo="5" editable="true" />			
+					
+					<fieldView mappingTo="4" editable="true" />
+					
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					
+					<!-- tercera fila -->
+					
+					<fieldView mappingTo="6" editable="true" />
+					<fieldView mappingTo="9" editable="true" />
+					
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					
+					<!-- cuarta fila -->
+					<fieldView mappingTo="8" editable="true" />
+					
+					<fieldView mappingTo="7" editable="true" />		
+					
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+										
+				</fieldViewSet>
+			</form>
+			
+			<grid orderDirection="desc" defaultOrderField="invertia_data.3"
+				eventsRegistered="detail"><!-- detail -->
+
+				<fieldViewSet entitymodel="invertia_data"
+					nameSpace="invertia_data">
+					<fieldView mappingTo="1" hidden="true" />
+					<fieldView mappingTo="2" editable="false" styleCss="font-weight: bold;color: black;"/>
+					<fieldView mappingTo="3" editable="false" styleCss="font-weight: bolder;color: black;"/>
+					<fieldView mappingTo="5" editable="false" styleCss="font-weight: bold;color: #0404B4;"/>
+					<fieldView mappingTo="4" editable="false" styleCss="font-weight: bold;color: #088804;"/>
+					<fieldView mappingTo="6" editable="false" styleCss="font-weight: bold;color: black;"/>										
+					<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;color: red;"/>
+					<fieldView mappingTo="7" editable="false" styleCss="font-weight: bold;color: blue;"/>
+					<fieldView mappingTo="9" editable="false" styleCss="font-style: italic;color: black;"/>
+					<!-- <fieldView mappingTo="10" editable="false" />	-->
+				</fieldViewSet>
+			</grid>
+		</viewComponent>
+	</action>
+
+	<action event="detail" submitError="ConsultaPeticionesDatosInvertia.detail"
+		submitSucces="ConsultaPeticionesDatosInvertia.detail">
+
+		<viewComponent>
+			<form columns="4" title="Detalle Tarea DatosInvertia">
+				<fieldViewSet entitymodel="invertia_data"
+					nameSpace="invertia_data">
+					<fieldView mappingTo="1" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="2" editable="false" />
+					<fieldView mappingTo="3" editable="false" />
+					<fieldView mappingTo="4" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="5" editable="false" />
+					<fieldView mappingTo="6" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="7" editable="false" />
+					<fieldView mappingTo="8" editable="false" />
+					<fieldView mappingTo="9" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="10" editable="false" />
+				</fieldViewSet>
+			</form>
+		</viewComponent>
+	</action>
+
+
+</service>
+
+</service:service-group>

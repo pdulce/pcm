@@ -1,0 +1,86 @@
+
+form.pcmForm {
+	width: 100%;
+	border: none;
+	color: white;
+	background-color: rgb(7, 39, 46);
+    font-family: Verdana, sans-serif;
+    font-size: 0.9em;
+	margin: 0;
+	padding: 0;
+}
+	
+form.pcmForm legend { 
+	padding-left: 0; 
+	background-color: rgb(7, 39, 46);
+	font-size: 0.9em;
+    font-family: Verdana, sans-serif;
+	color: white;
+}
+	
+form.pcmForm fieldset fieldset { 	
+	border: none;
+	color: white;
+	background-color: rgb(7, 39, 46);
+	border-top: 0.1em solid #FCFFF7;
+	font-size: 0.9em;
+    font-family: Verdana, sans-serif;
+	margin: 2px;
+	padding: 0;
+}
+
+.redAst{
+	color: #d3cf06;
+	background: rgb(7, 39, 46);
+}
+
+
+.textInput{ 
+  background-color: rgb(40, 74, 85);
+  background:  rgb(40, 74, 85);
+  margin: 0;
+  display:inline-block;
+  vertical-align:middle;
+  padding: 1px;
+  font-size: 0.95em;
+  font-family: Verdana, sans-serif;
+  color: rgb(2, 208, 208);
+  border:1px solid #000;
+}
+
+.imgCalendar{
+  position: relative;
+  vertical-align: bottom;	
+  height: 17px;
+  width: 19px;
+}
+
+
+label.order{
+	font-size: 0.9em;
+    font-family: Verdana, sans-serif;
+	color: white;
+	background: rgb(7, 39, 46);
+}
+
+label.infoCls{
+  background: rgb(7, 39, 46);
+  color: #91e0de;
+  font-size: 105%;
+  font-family: Verdana, sans-serif;
+}
+
+label.warningCls{
+  background: rgb(7, 39, 46);
+  color: #d3cf06;
+  font-size: 0.8em;
+  font-family: Verdana, sans-serif;
+}
+
+label.errorCls{
+  background: rgb(7, 39, 46);
+  color: rgb(250, 157, 126);
+  font-size: 0.8em;
+  font-family: Verdana, sans-serif;
+}
+

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group 
+	xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+	
+	<service
+		name="GestionTarifasInternas" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="GestionTarifasInternas.query"
+			submitSucces="GestionTarifasInternas.query">
+
+			<viewComponent>
+
+				<form columns="54" title="Gestion Tarifas Internas">
+
+					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
+						<fieldView mappingTo="1" />
+						<fieldView mappingTo="2" type="select">
+							<optionValues selectionMultiple="true" entitymodel="categoria_profesional"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="3" />
+					</fieldViewSet>
+				</form>
+
+				<grid title="Listado de tarifas" orderDirection="asc" defaultOrderField="tarifa_interna.2"
+					eventsRegistered="detail,update,delete,create">
+
+					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
+						<fieldView mappingTo="1" />
+						<fieldView mappingTo="2" type="select">
+							<optionValues entitymodel="categoria_profesional"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="3" />
+					</fieldViewSet>
+
+				</grid>
+
+			</viewComponent>
+
+		</action>
+
+		<action event="delete" submitError="GestionTarifasInternas.delete"
+			submitSucces="GestionTarifasInternas.query">
+
+			<viewComponent>
+				<form columns="52" title="Borrado Tarifa Interna">
+
+					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
+						<fieldView mappingTo="1" editable="false" />
+						<fieldView mappingTo="2" type="select" editable="false">
+							<optionValues entitymodel="categoria_profesional"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="3" editable="false" />
+					</fieldViewSet>
+
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="detail" submitError="GestionTarifasInternas.query"
+			submitSucces="GestionTarifasInternas.detail">
+
+			<viewComponent>
+				<form columns="53" title="Detalle Tarifa Interna">
+					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
+						<fieldView mappingTo="1" editable="false" />
+						<fieldView mappingTo="2" type="select" editable="false">
+							<optionValues entitymodel="categoria_profesional"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>						
+						<fieldView mappingTo="3" editable="false" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="create" submitError="GestionTarifasInternas.create"
+			submitSucces="GestionTarifasInternas.query">
+
+			<viewComponent>
+				<form columns="53" title="Alta Formulario Tarifa Interna">
+					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
+						<fieldView mappingTo="1" editable="true" />
+						<fieldView mappingTo="2" type="select" editable="true">
+							<optionValues entitymodel="categoria_profesional"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="3" editable="true" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+
+		<action event="update" submitError="GestionTarifasInternas.update"
+			submitSucces="GestionTarifasInternas.update">
+
+			<viewComponent>
+				<form columns="53" title="Edicion Tarifa Interna">
+					<fieldViewSet entitymodel="tarifa_interna" nameSpace="tarifa_interna">
+						<fieldView mappingTo="1" editable="false" />
+						<fieldView mappingTo="2" type="select" editable="true">
+							<optionValues entitymodel="categoria_profesional"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="3" editable="true" />
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+		
+	</service>
+	
+</service:service-group>
