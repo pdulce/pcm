@@ -21,20 +21,9 @@
 
 		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="Mapa organizativo CDISM">
 			<LEAF link="event=GestionEntidades.query#entityName=unidadOrg" name="Organismos" />
-			<LEAF link="event=GestionEntidades.query#entityName=edificio" name="Centros" />			
 			<LEAF link="event=GestionEntidades.query#entityName=subdireccion" name="Subdirecciones" />
-			<!-- <LEAF link="event=GestionResponsablesCentros.query" name="Responsables" /> -->
-			<!--<LEAF link="event=GestionServicios.query" name="Servicios CDISM" />-->
-			<!--<LEAF link="event=GestionColaboradores.query" name="Colaboradores" /> -->
 		</FOLDER>
 		
-		<!-- -FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="UTEs">
-			<LEAF link="event=GestionConcursos.query" name="Contratos/Lotes" />
-			<LEAF link="event=GestionEmpresasUTE.query" name="Empresas" />
-			<LEAF link="event=GestionEntidades.query#entityName=categoria_profesional" name="Tarifas por perfil" />
-			<LEAF link="event=GestionEntidades.query#entityName=responsabilidad" name="Atribuciones" />
-		</FOLDER>-->
-
 		<FOLDER profile="ANALISIS_TEAM,CONSULTOR_UTE, ADMINISTRADOR"
 			name="Seguimiento CD">
 			<LEAF link="event=GestionTech.query" name="Tecnologías" />
@@ -54,7 +43,6 @@
 		
 		<FOLDER profile="INVITADO"
 			name="Seguimiento CD">
-			<!-- LEAF link="event=GestionApps.query" name="Aplicativos" /> -->
 			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
 			<LEAF link="event=EstudioPeticionesInvi.query" name="Estudios Peticiones" />			
 		</FOLDER>
@@ -68,15 +56,6 @@
 			<LEAF link="event=GestionEntidades.query#entityName=tiposPeticiones" name="Tipos Peticiones" />
 		</FOLDER>
 		
-					
-		<!-- <FOLDER profile="ADMINISTRADOR"	name="Cotizaciones Bolsa">
-			<LEAF link="event=ConsultaPeticionesDatosInvertia.query" name="Consultas/estad." />
-			<LEAF link="LauncherUtility?exec=allInfoBolsa" name="Actualizar autom. Valores" />
-		</FOLDER>
-		<FOLDER profile="ADMINISTRADOR"	name="Bolsa Cartera Valores">
-			<LEAF link="LauncherUtility?exec=myInfoBolsa" name="Valores actuales en Mi Cartera" />
-		</FOLDER>-->
-
 	</tree>
 	
 	
