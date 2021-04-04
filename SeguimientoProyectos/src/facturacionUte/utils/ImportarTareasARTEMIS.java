@@ -31,7 +31,6 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.DataAccess;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.comparator.ComparatorByFilename;
-import domain.service.dataccess.comparator.ComparatorFieldViewSet;
 import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.factory.EntityLogicFactory;
@@ -50,22 +49,9 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 			ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO",
 			ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
 	
-	//TAREA_	Total AT	Consume	PETICION DG	Tramitada	UTS
-
 	static {		
-		//COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_1_ID));
-		//COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("PETICION DG", Integer.valueOf(ConstantesModelo.TAREA_PETICION_3_ID_PETICION));
-		//COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_4_ID_TIPOTAREA));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("TAREA_", Integer.valueOf(ConstantesModelo.TAREA_PETICION_5_NOMBRE));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Total AT", Integer.valueOf(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS));
-		/*COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_7_HRS_PREVISTAS));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_8_FECHA_INICIO_PREVISTO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_9_FECHA_FIN_PREVISTO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_10_FECHA_INICIO_REAL));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_11_FECHA_FIN_REAL));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_12_FECHA_ALTA));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("", Integer.valueOf(ConstantesModelo.TAREA_PETICION_13_FECHA_TRAMITE));*/		
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Etiquetas de fila", Integer.valueOf(ConstantesModelo.TAREA_PETICION_5_NOMBRE));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("HORAS.", Integer.valueOf(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS));
 	}
 
 	private IDataAccess dataAccess;
@@ -128,31 +114,28 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 				}
 			}			
 
-			return importarInterno(Calendar.getInstance().getTime(), filas);
+			return filtradoInterno(Calendar.getInstance().getTime(), filas);
 		}
 
 
 			
-		public Map<Integer, String> importarInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
+		public Map<Integer, String> filtradoInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
 			
 			int numImportadas = 0;
-			
-			List<String> IDs_changed = new ArrayList<String>();
-			Map<Integer, String> mapEntradas = new HashMap<Integer, String>();
-						
 			try {
 			
-				Collections.sort(filas, new ComparatorFieldViewSet());
-
 				this.dataAccess.setAutocommit(false);
 				
 				for (final FieldViewSet tareaFilaExcel : filas) {
 
-					String title = (String) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_5_NOMBRE).getName());
+					String etiquetaCelda = (String) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_5_NOMBRE).getName());
+					if (etiquetaCelda == null || !Character.isDigit(etiquetaCelda.charAt(0))) {
+						continue;
+					}
 
 					boolean isUpdate = false;
 					String idTarea = "";
-					String[] splitter = title.split("-");
+					String[] splitter = etiquetaCelda.split("-");
 					if (splitter.length > 1) {
 						//999806_1 - INVE-ANA - INMUEBLES. Revisión del informe de movimientos de inmuebles en el cálculo y visualización de la amortización.
 						idTarea = splitter[0].trim();
@@ -166,22 +149,24 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 							isUpdate = true;
 						}
 					}
-					// el mes y anyo para poder explotarlo en Histogramas con selectGroupBy
-					Long idPeticionGEDEON = (Long) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName());
+					String[] splitter2 = splitter[0].trim().split("_");
+					Long idPeticionGEDEON = Long.valueOf(splitter2[0]);
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionEntidad);
 					peticionEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticionGEDEON);
 					peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
-					if (peticionEnBBDD != null){
-						Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
+					if (peticionEnBBDD == null){
+						continue;//no añadimos esta tarea porque no tiene padre
 					}
 					
+					//Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
+					//System.out.println("La petición fue dada de alta el día: " + CommonUtils.convertDateToLongFormatted(fecAlta));
+										
 					if (isUpdate) {
 						int ok = this.dataAccess.modifyEntity(tareaFilaExcel);
 						if (ok != 1) {
 							throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
 						}
 					}else{
-						IDs_changed.add(idTarea);
 						int ok = this.dataAccess.insertEntity(tareaFilaExcel);
 						if (ok != 1) {
 							throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
@@ -195,20 +180,15 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 				}//for: fin recorrido de filas
 				
 				this.dataAccess.commit();
-				
-				mapEntradas.put(Integer.valueOf(numImportadas), String.valueOf(filas.size()));
-				//metemos el resto de IDs que han cambiado
-				int i = numImportadas+1;
-				for (String idpeticion : IDs_changed){
-					mapEntradas.put(Integer.valueOf(i++), idpeticion);
-				}
-				
+		
 				System.out.println("Se han importado " + numImportadas + " tareas");
 				
 			}catch (Throwable err) {
 				err.printStackTrace();
 			}
 			
+			Map<Integer, String> mapEntradas = new HashMap<Integer, String>();
+			mapEntradas.put(numImportadas, "entradas importadas");
 			return mapEntradas;
 	}
 	
@@ -294,7 +274,8 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 			long millsInicio = Calendar.getInstance().getTimeInMillis();
 			for (int i=0;i<listaOrdenada.size();i++){
 				File fileScanned = listaOrdenada.get(i);
-				if (!fileScanned.getName().endsWith(".xlsx") || !fileScanned.getName().contains("Artemis")){
+				if (!fileScanned.getName().endsWith(".xlsx") && 
+						!fileScanned.getName().endsWith(".xlsm")){
 					continue;
 				}
 				System.out.println("Comenzando importacion del fichero " + fileScanned.getName() + " ...");

@@ -743,16 +743,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		return valueCell;
 	}
 
-	
-    public static void main2(String[] args){
-    	 Calendar fechaInicio = Calendar.getInstance();
-    	 Calendar fin = Calendar.getInstance();
-    	 fin.add(Calendar.DAY_OF_MONTH, 17);
-
-    	 Double dias = CommonUtils.jornadasDuracion(fechaInicio.getTime(), fin.getTime());
-    	 System.out.println("Dias duración: " +  dias);
-    }
-    
 	public static void main(String[] args){
 		try{
 			if (args.length < 3){

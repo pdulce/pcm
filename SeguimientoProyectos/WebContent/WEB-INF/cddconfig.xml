@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>	
-<!--configuration serverPath="/usr/apache-tomcat-9.0.30/tmp0">-->
+
 <configuration serverPath="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0">
 	<entry key="appTitle" value="Seguimiento de Proyectos Lote GISS"></entry>
 	<entry key="auditActivated" value="false"></entry>
