@@ -75,6 +75,18 @@ public abstract class AbstractExcelReader {
 						continue;
 					}
 					columnName = columnTitle.getStringCellValue();
+					Integer positionOfEntityField = null;
+					Iterator<String> iteMapeos = COLUMNSET2ENTITYFIELDSET_MAP.keySet().iterator();
+					while (iteMapeos.hasNext()) {
+						String clave = iteMapeos.next();
+						if (clave.contains(columnName)) {
+							positionOfEntityField = COLUMNSET2ENTITYFIELDSET_MAP.get(clave);
+							break;
+						}
+					}
+					if (positionOfEntityField == null) {
+						continue;
+					}
 
 					final Cell cell = rowIEsima.getCell(nColum);
 					Serializable valueCell = null;
@@ -88,24 +100,11 @@ public abstract class AbstractExcelReader {
 						valueCell = cell.getStringCellValue();
 					}
 
-					Integer positionOfEntityField = null;
-					Iterator<String> iteMapeos = COLUMNSET2ENTITYFIELDSET_MAP.keySet().iterator();
-					while (iteMapeos.hasNext()) {
-						String clave = iteMapeos.next();
-						if (clave.contains(columnName)) {
-							positionOfEntityField = COLUMNSET2ENTITYFIELDSET_MAP.get(clave);
-							break;
-						}
-					}
-					if (positionOfEntityField == null) {
-						continue;
-					}
-					
 					valueCell = getFieldOfColumnValue(entidad, positionOfEntityField, cell, valueCell);
 					Serializable val = fila.getValue(entidad.searchField(positionOfEntityField.intValue()).getName());
 					if (val == null || "".equals(val.toString().trim())){					
 						fila.setValue(entidad.searchField(positionOfEntityField.intValue()).getName(), valueCell);
-					}///else: ya tiene valor. Asi tratamos que varias columnas de la Excel vayan a la misma columna de la entidad del modelo
+					}
 					
 				}
 				catch (Throwable excc) {

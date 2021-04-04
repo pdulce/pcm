@@ -742,20 +742,19 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						//tipoTarea = dataAccess.searchEntityByPk(tipoTarea);
 						Serializable tipotareaName = tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TIPOTAREA_2_NOMBRE).getName());						
 						if (tipotareaName != null && tipotareaName.toString().indexOf("PRU") != -1) {
-							if (tareasBBDD_pruebas == null) {
+							/*if (tareasBBDD_pruebas == null) {
 								tareasBBDD_pruebas = new ArrayList<FieldViewSet>();
 							}
-							esfuerzoAnalysis += (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS).getName());
 							tareasBBDD_pruebas.add(tarea);
+							*/
+							esfuerzoAnalysis += (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS).getName());
 						}else {
 							//if (tipotareaName != null && tipotareaName.toString().indexOf("ANA") != -1) {
-							if (tareasBBDD_analysis == null) {
+							/*if (tareasBBDD_analysis == null) {
 								tareasBBDD_analysis = new ArrayList<FieldViewSet>();
 							}
+							tareasBBDD_analysis.add(tarea);*/
 							esfuerzoPruebasCD += (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS).getName()); 
-							tareasBBDD_analysis.add(tarea);
-							
-							
 						}
 					}
 				}
