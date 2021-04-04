@@ -1,4 +1,4 @@
-package facturacionUte.utils.bolsa;
+package facturacionUte.utils;
 
 public class SeparadorApellidos {
 

@@ -965,10 +965,10 @@ public class PaginationGrid extends AbstractComponent {
 		parentXML.append(rows);
 	}
 	
-	private Serializable procesarFkCruzado(final String dict, final Serializable valueOfColumn, final FieldViewSetCollection row, final IFieldView column) throws PCMConfigurationException {
+	private Serializable procesarFkCruzado(final String dict, final Serializable valueOfColumn_, final FieldViewSetCollection row, final IFieldView column) throws PCMConfigurationException {
 		
-		Serializable newValue4Column = valueOfColumn;
-		Serializable fkValueOfColumn = valueOfColumn;
+		Serializable newValue4Column = "";
+		Serializable fkValueOfColumn = valueOfColumn_;				
 		
 		// localizamos el pk-valor (valueOfColumn) del childEntity en los pk-valor(es) del resto de entidades padre de cada campo
 		OptionsSelection options = column.getFieldAndEntityForThisOption();
@@ -988,10 +988,10 @@ public class PaginationGrid extends AbstractComponent {
 				IFieldLogic campoClaveDesplegable = parentEntity.searchField(descMapping);
 				String columnName = parentEntity.getName().concat(".").concat(campoClaveDesplegable.getName());
 				
-				Serializable valueOfColumn_ = fieldViewSetOfThisFK.getValue(columnName);									
-				newValue4Column = valueOfColumn.toString().concat(valueOfColumn_.toString());
+				Serializable _valueOfColumn = fieldViewSetOfThisFK.getValue(columnName);									
+				newValue4Column = _valueOfColumn;//.toString().concat(valueOfColumn_.toString());
 				if (desc < descrMappings.length - 1) {
-					newValue4Column = valueOfColumn.toString().concat(", ");
+					newValue4Column = newValue4Column.toString().concat(", ");
 				}
 			}
 		}
@@ -1003,7 +1003,7 @@ public class PaginationGrid extends AbstractComponent {
 				value.toString().contentEquals("no enlazada") || value.toString().contentEquals("not found")) {
 			return true;
 		}else if (fieldLogic.getAbstractField().isNumeric() && !value.toString().isEmpty() && 
-				Double.valueOf(value.toString()) < 0.00) {
+				CommonUtils.isNumeric(value.toString()) && Double.valueOf(value.toString()) < 0.00) {
 			return true;
 		}
 		
