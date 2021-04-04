@@ -736,11 +736,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					Iterator<FieldViewSet> iteTareas = tareas.iterator();
 					while (iteTareas.hasNext()) {
 						FieldViewSet tarea = iteTareas.next();
-						//Long idTipotarea = (Long) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_4_ID_TIPOTAREA).getName());
-						//FieldViewSet tipoTarea = new FieldViewSet(tiposTareas);
-						//tipoTarea.setValue(tiposTareas.searchField(ConstantesModelo.TIPOTAREA_1_ID).getName(), idTipotarea);
-						//tipoTarea = dataAccess.searchEntityByPk(tipoTarea);
-						Serializable tipotareaName = tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TIPOTAREA_2_NOMBRE).getName());						
+						Serializable tipotareaName = tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_5_NOMBRE).getName());						
 						if (tipotareaName != null && tipotareaName.toString().indexOf("PRU") != -1) {
 							/*if (tareasBBDD_pruebas == null) {
 								tareasBBDD_pruebas = new ArrayList<FieldViewSet>();
