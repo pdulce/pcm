@@ -15,7 +15,6 @@ import java.util.Map;
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.json.simple.JSONArray;
 
-import domain.common.PCMConstants;
 import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
 import domain.service.DomainService;
@@ -129,8 +128,10 @@ public class Scatter extends GenericHighchartModel {
 		String catX = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		String catY = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[1].getName()));
 		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
+		String criteria = pintarCriterios(userFilter, data_);
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
+		data_.setAttribute(SUBTILE_ATTR, "<br/> " + criteria);
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}
 
@@ -139,7 +140,6 @@ public class Scatter extends GenericHighchartModel {
 	public String generateStatGraphModel(final IDataAccess dataAccess, DomainService domainService, final Datamap data_) {
 		
 		SceneResult scene = new SceneResult();
-		FieldViewSet userFilter = null;
 		StringBuilder sbXml = new StringBuilder();
 		try {
 			this._dataAccess = dataAccess;
@@ -150,25 +150,13 @@ public class Scatter extends GenericHighchartModel {
 			
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 					paramGeneric4Entity);
-			
-			Form formSubmitted = (Form) BodyContainer.getContainerOfView(data_, dataAccess, domainService).getForms().iterator().next();
-			List<FieldViewSet> fSet = formSubmitted.getFieldViewSets();
-			for (FieldViewSet fSetItem: fSet) {
-				if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidadGrafico.getName())) {
-					userFilter = fSetItem;
-					userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
-					IFieldLogic pkField = userFilter.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
-					IFieldValue valuesOfPK = userFilter.getFieldvalue(pkField);
-					if (!valuesOfPK.isNull() && !valuesOfPK.isEmpty()){
-						userFilter.resetFieldValuesMap();
-						userFilter.setValues(pkField.getName(), valuesOfPK.getValues());
-					}
-					break;
-				}
-			}
-			if (userFilter == null){
-				userFilter = new FieldViewSet(entidadGrafico);
-				userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
+			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
+			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
+			List<IViewComponent> listOfForms = BodyContainer.getContainerOfView(data_, dataAccess, domainService).getForms();
+			if (listOfForms != null && !listOfForms.isEmpty()) {
+				Form formSubmitted = (Form) listOfForms.iterator().next();
+				//alimentar el user filter de los inputs del formulario
+				Form.refreshUserFilter(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
 			}
 			
 			String categoriaX = data_.getParameter(userFilter.getNameSpace().concat(".").concat(CATEGORIA_EJE_X));
@@ -187,60 +175,11 @@ public class Scatter extends GenericHighchartModel {
 			IFieldLogic fieldForCategoryY = entidadGrafico.searchField(Integer.parseInt(categoriaY));
 			
 			String lang = data_.getLanguage();					
-			String titulo_EJE_X = Translator.traduceDictionaryModelDefined(lang,
-					entidadGrafico.getName().concat(".").concat(fieldForCategoryX.getName()));
+			String titulo_EJE_X = Translator.traduceDictionaryModelDefined(lang, entidadGrafico.getName().concat(".").concat(fieldForCategoryX.getName()));
 			titulo_EJE_X = CommonUtils.quitarTildes(titulo_EJE_X);
-			String titulo_EJE_Y = Translator.traduceDictionaryModelDefined(lang,
-					entidadGrafico.getName().concat(".").concat(fieldForCategoryY.getName()));
+			String titulo_EJE_Y = Translator.traduceDictionaryModelDefined(lang, entidadGrafico.getName().concat(".").concat(fieldForCategoryY.getName()));
 			titulo_EJE_Y = CommonUtils.quitarTildes(titulo_EJE_Y);
 			
-			String fieldForFilter = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_FOR_FILTER));//este, aoadir al pintado de criterios de bosqueda
-			if (fieldForFilter != null){
-				
-				String[] fields4Filter = fieldForFilter.split(";");
-				for (int filter=0;filter<fields4Filter.length;filter++){
-					String field4Filter = fields4Filter[filter];
-					String[] splitter = field4Filter.split("=");
-					if (splitter.length< 2){
-						throw new Exception("MAL DEFINIDO EL CAMPO " + FIELD_FOR_FILTER + " en este diagrama (formato válido 1=<nameSpaceOfForm>.5)");
-					}
-					String leftPartOfEquals = splitter[0];
-					String rigthPartOfEquals = splitter[1];
-					
-					if (rigthPartOfEquals.indexOf(".") == -1){//es un valor fijo
-						userFilter.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), rigthPartOfEquals);
-					}else{
-						String[] entidadPointValue = rigthPartOfEquals.split(PCMConstants.REGEXP_POINT);
-						boolean esEntidad = EntityLogicFactory.getFactoryInstance().existsInDictionaryMap(data_.getEntitiesDictionary(),
-								entidadPointValue[0]);
-						if (!esEntidad){//no es una entidad, sino un parometro
-							if (data_.getParameterValues(rigthPartOfEquals) != null){								
-								String[] valuesOfParamReq_ = data_.getParameterValues(rigthPartOfEquals);
-								Collection<String> serialValues = new ArrayList<String>();
-								for (int v=0;v<valuesOfParamReq_.length;v++){
-									serialValues.add(valuesOfParamReq_[v]);
-								}
-								userFilter.setValues(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), serialValues);
-							}
-							
-						}else{//tratamiento cuando es entidad.campo
-							EntityLogic entidad1ToGet = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
-									entidadPointValue[0]);
-							int fieldToGet = Integer.parseInt(entidadPointValue[1]);
-							for (FieldViewSet fSetItem: fSet) {
-								if (!fSetItem.isUserDefined() && fSetItem.getEntityDef().getName().equals(entidad1ToGet.getName())) {
-									//busco en el form el fieldviewset de la entidad para la que obtener el dato
-									String value = data_.getParameter(fSetItem.getNameSpace().concat(".").concat(entidad1ToGet.searchField(fieldToGet).getName()));
-									userFilter.setValue(entidadGrafico.searchField(Integer.parseInt(leftPartOfEquals)).getName(), value);
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			/*** fin del establecimiento de un valor por defecto para el filtrado ***/
 
 			String orderFieldParam = data_.getParameter(userFilter.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM));
 			IFieldLogic orderField_ = entidadGrafico.searchField(Integer.parseInt(orderFieldParam));
@@ -509,10 +448,6 @@ public class Scatter extends GenericHighchartModel {
 			infoSumaryAndRegression.append("</TD>");
 			infoSumaryAndRegression.append("</TR>");
 			infoSumaryAndRegression.append("</TABLE>");
-
-			//String criteriosConsulta = "Criterios de consulta: " + pintarCriterios(userFilter, data_);
-			String subtitle = "";///*criteriosConsulta*/ "(rendered in " + segundosConsumidos + " seconds)";
-			data_.setAttribute(SUBTILE_ATTR, subtitle);
 
 			data_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());
 						

@@ -389,9 +389,10 @@ public abstract class GenericHighchartModel implements IStats {
 	
 	protected final String pintarCriterios(FieldViewSet filtro_, final Datamap data_) {
 		StringBuilder strBuffer = new StringBuilder();
+		boolean parentFound = false;
 		// recorremos cada field, si tiene value, pintamos en el stringbuffer su valor, y aso...
 		Iterator<IFieldView> iteFieldViews = filtro_.getFieldViews().iterator();
-		while (iteFieldViews.hasNext()) {
+		while (iteFieldViews.hasNext() && !parentFound) {
 			IFieldView fView = iteFieldViews.next();
 			List<IFieldLogic> descFields = new ArrayList<IFieldLogic>();			
 			IFieldValue fValues = filtro_.getFieldvalue(fView.getQualifiedContextName());
@@ -413,6 +414,7 @@ public abstract class GenericHighchartModel implements IStats {
 					fValues = filtro_.getFieldvalue(descField.getName());
 					nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName().concat(".").concat(descField.getName())));
 				}else if (fView.getEntityField().getParentFieldEntities() != null && !fView.getEntityField().getParentFieldEntities().isEmpty()){
+					parentFound = true;
 					IFieldLogic fieldLogicAssociated = fView.getEntityField().getParentFieldEntities().get(0);
 					FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
 					Collection<Map<String,Boolean>> valoresRealesFValue = filtro_.getFieldvalue(fView.getEntityField().getName()).getAllValues();
@@ -445,7 +447,7 @@ public abstract class GenericHighchartModel implements IStats {
 							e.printStackTrace();
 						}
 					}//end of while
-					fValues.setValues(valoresDescriptivos);
+					fValues.setValues(valoresDescriptivos);					
 				}
 				if (!nombreCampoTraducido.toString().equals("")){
 					strBuffer.append(nombreCampoTraducido);
@@ -481,7 +483,11 @@ public abstract class GenericHighchartModel implements IStats {
 						strBuffer.append(" ");
 					}
 				}
-			}//if				
+			}//if
+			if (parentFound) {
+				break;
+			}
+			
 		}//while		
 		return strBuffer.toString();
 	}
