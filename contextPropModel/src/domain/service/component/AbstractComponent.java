@@ -164,7 +164,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			
 		try {
 			//obtenemos padres de esta entidad por si en el formulario vienen filtros de esa otra entidad padre:			
-			final String namespace = fieldViewSet_.getNameSpace();
+			//final String namespace = fieldViewSet_.getNameSpace();
 			IEntityLogic entidadARefrescar = fieldViewSet_.getEntityDef();
 			
 			IEntityLogic padre = null;
@@ -182,8 +182,10 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 				while (keysIteMemorized.hasNext()) {
 					final Map.Entry<String, List<Object>> entry = keysIteMemorized.next();
 					String keyMemorized = entry.getKey();
+					String field_ =  keyMemorized.contains(".")? keyMemorized.split(PCMConstants.REGEXP_POINT)[1]: keyMemorized;
 					final List<Object> values = entry.getValue();
-					if ( keyMemorized.startsWith(namespace) && values != null && !values.isEmpty()) {
+					if (entidadARefrescar.getName().contentEquals(fSetOfForm.getEntityDef().getName()) 
+							&& values != null && !values.isEmpty()) {
 						List<String> stringVals = new ArrayList<String>();
 						for (Object val: values) {
 							if (!"".equals(val.toString())){
@@ -193,8 +195,8 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 						if (!stringVals.isEmpty()) {
 							fSetOfForm.setValues(keyMemorized, stringVals);
 						}
-					}else if (padre!= null && keyMemorized.indexOf(".") != -1 &&							
-							keyMemorized.toLowerCase().substring(0, keyMemorized.indexOf(".")).contentEquals(padre.getName().toLowerCase())) {
+					}else if (padre!= null && padre.getName().contentEquals(fSetOfForm.getEntityDef().getName()) &&							
+							padre.searchByName(field_) != null) {
 						List<String> stringVals = new ArrayList<String>();
 						for (Object val: values) {
 							if (!"".equals(val.toString())){
@@ -204,12 +206,16 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 						if (!stringVals.isEmpty()) {
 							//imagina que llega la fecha con un valor			
 							keyMemorized = keyMemorized.replace(IRank.DESDE_SUFFIX, "");
-							keyMemorized = keyMemorized.replace(IRank.HASTA_SUFFIX, "");
-							IFieldLogic fieldWithCriteria = padre.searchByName(keyMemorized);
+							keyMemorized = keyMemorized.replace(IRank.HASTA_SUFFIX, "");							
 							if (recordparent == null) {
 								recordparent = new FieldViewSet(padre);
 							}
-							recordparent.setValues(fieldWithCriteria.getName(), stringVals);													
+							recordparent.setValues(field_, stringVals);													
+						}
+						if (padre.getFieldKey().contains(field_)) {
+							recordparent = new FieldViewSet(padre);
+							recordparent.setValues(field_, stringVals);
+							break;
 						}
 					}
 				}
