@@ -555,7 +555,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 		
 		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
 		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
-		FileOutputStream out = null, dataset4MLR = null;
+		FileOutputStream out = null, dataset4MLR = null;//, dataset4MLR_Ana = null, dataset4MLR_Pru = null;
 		
 		// inicializamos los agregados de cada tecnología-servicio a estudiar:
 		int numPeticionesEstudio = 0;
@@ -744,13 +744,17 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 							tareasBBDD_pruebas.add(tarea);
 							*/
 							esfuerzoAnalysis += (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS).getName());
+							// dataset para el modelo MLR
+							//dataset4MLR_Ana.write(("data.push([" + jornadasDesarrollo + ", " + jornadasPruebasCD + ", " + jornadasAnalysis +"]);\n").getBytes());
+
 						}else {
 							//if (tipotareaName != null && tipotareaName.toString().indexOf("ANA") != -1) {
 							/*if (tareasBBDD_analysis == null) {
 								tareasBBDD_analysis = new ArrayList<FieldViewSet>();
 							}
 							tareasBBDD_analysis.add(tarea);*/
-							esfuerzoPruebasCD += (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS).getName()); 
+							esfuerzoPruebasCD += (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS).getName());
+							//dataset4MLR_Pru.write(("data.push([" + jornadasDesarrollo + ", " + jornadasPruebasCD + ", " + jornadasAnalysis +"]);\n").getBytes());
 						}
 					}
 				}
