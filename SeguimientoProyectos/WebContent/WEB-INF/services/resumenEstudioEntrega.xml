@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+<service name="ResumenEstudioEntrega" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="detail" submitError="ResumenEstudioEntrega.detail"
+			submitSucces="ResumenEstudioEntrega.detail">
+				
+				<viewComponent>
+				
+				<form columns="4" title="Detalle del Estudio">
+					<fieldViewSet entitymodel="resumenEntregas" nameSpace="resumenEntregas">
+						
+						<fieldset legend="Información Petición">						
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" type="select" editable="false">
+								<optionValues entitymodel="estudiosEntregas"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" type="select" editable="false">
+								<optionValues entitymodel="aplicativo"
+									descrMappingTo="5">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="4" type="select" editable="false">
+								<optionValues entitymodel="peticiones"
+									descrMappingTo="1">
+								</optionValues>
+							</fieldView>							
+							<fieldView mappingTo="5" editable="false"  />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							
+							<fieldView mappingTo="6" editable="false"  />
+							<fieldView mappingTo="7" editable="false"  />
+							<fieldView mappingTo="8" editable="false"  />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
+						
+						<fieldset legend="Fechas significativas">
+							<fieldView mappingTo="9" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="10" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="11" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="12" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="13" editable="false" styleCss="font-weight: bold;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
+						
+						<fieldset legend="Dedicaciones efectivas e intervalos entre dedicaciones">							
+							<fieldView mappingTo="14" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="15" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="16" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="17" editable="false" styleCss="font-weight: bold;" />							
+							<fieldView separator="br" />
+						</fieldset>
+					
+					</fieldViewSet>
+				</form>						   
+    				
+				</viewComponent>
+		</action>
+	
+	</service>
+		
+</service:service-group>
+

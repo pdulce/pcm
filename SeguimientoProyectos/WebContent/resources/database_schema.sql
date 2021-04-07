@@ -62,7 +62,6 @@ CREATE TABLE `tareasPeticion` (
   `fecha_fin_real` date DEFAULT NULL,
   `Fecha_de_alta` dateDEFAULT NULL,
   `Fecha_de_tramitacion` date DEFAULT NULL,
-  `anyo_mes` VARCHAR2(7) DEFAULT NULL
  );
 
 
@@ -216,8 +215,67 @@ CREATE TABLE `resumenPeticiones` (
   `esfuerzo_analysis` double DEFAULT NULL,
   `esfuerzo_pruebas` double DEFAULT NULL,
   `titulo` varchar(500) DEFAULT NULL,
-  `anyo_mes` VARCHAR2(7) DEfAULT NULL
 );  
+
+
+DROP TABLE `estudiosEntregas`;
+CREATE TABLE `estudiosEntregas` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `tituloEstudio` varchar(250) NULL,
+  `id_entorno` int(11) DEFAULT NULL,
+  `id_servicio` int(11) DEFAULT NULL,
+  `aplicaciones` varchar(500) DEFAULT NULL,
+  `fecha_inicio_estudio` date NOT NULL,
+  `fecha_fin_estudio` date NOT NULL,
+  `num_entregas_total` int(6) DEFAULT NULL,
+  `num_meses` int(4) DEFAULT NULL,  
+  `tipo_periodo`  int(11) DEFAULT NULL,
+  `num_peticiones_total` int(6) DEFAULT NULL,
+  `volumen_uts_total` double DEFAULT NULL,
+  `num_rechazos_total` int(4) DEFAULT NULL,
+  `ciclo_vida_entrega` double DEFAULT NULL,
+  `tiempo_prepacion_en_DG` double DEFAULT NULL,
+  `tiempo_validacion_en_CD` double DEFAULT NULL,
+  `tiempo_desdeValidacion_hastaImplantacion` double DEFAULT NULL,  
+  `num_peticiones_porentrega` int(6) DEFAULT NULL,
+  `volumen_uts_porentrega` double DEFAULT NULL,
+  `num_rechazos_porentrega` int(4) DEFAULT NULL,
+  `ciclo_vida_porentrega` double DEFAULT NULL,
+  `tiempo_prepacion_en_DG_porentrega` double DEFAULT NULL,
+  `tiempo_validacion_en_CD_porentrega` double DEFAULT NULL,
+  `tiempo_fromValidac_toImplantac_porentrega` double DEFAULT NULL,    
+  `ciclo_vida_porcent` double DEFAULT NULL,
+  `tiempo_prepacion_en_DG_porcent` double DEFAULT NULL,
+  `tiempo_validacion_en_CD_porcent` double DEFAULT NULL,
+  `tiempo_fromValidac_toImplantac_porcent` double DEFAULT NULL,
+  `id_configuradorEstudios` int(11) DEFAULT NULL,
+  `id_aplicativo` int(11) DEFAULT NULL,
+  `tipo_entregas` int(11) DEFAULT NULL,
+  `desnormalizadasTipoPet` varchar(500) DEFAULT NULL,
+  `fec_lanzado_estudio` TIMESTAMP NULL
+);
+
+DROP TABLE `resumenEntregas`;
+CREATE TABLE `resumenEntregas` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_estudio` int(11) NOT NULL,  
+  `id_aplicacion` int(11) NOT NULL,
+  `id_gedeon_Entrega` int(11) NOT NULL,
+  `num_peticiones` int(6) DEFAULT NULL,
+  `volumen_uts` double DEFAULT NULL,
+  `tipo_entrega` varchar(50) DEFAULT NULL,
+  `num_rechazos` int(2) DEFAULT NULL,
+  `ciclo_vida_entrega` double DEFAULT NULL,
+  `fecha_solicitud_entrega` date DEFAULT NULL,
+  `fecha_inicio_pruebasCD` date DEFAULT NULL,
+  `fecha_fin_pruebasCD` date DEFAULT NULL,
+  `fecha_inicio_instalacion_Prod` date DEFAULT NULL,
+  `fecha_fin_instalacion_Prod` date DEFAULT NULL,  
+  `tiempo_prepacion_en_DG` double DEFAULT NULL,
+  `tiempo_validacion_en_CD` double DEFAULT NULL,
+  `tiempo_desdeValidacion_hastaImplantacion` double DEFAULT NULL  
+);  
+
 
 
 

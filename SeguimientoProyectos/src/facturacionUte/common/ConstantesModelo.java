@@ -13,35 +13,6 @@ public abstract class ConstantesModelo {
 	public static final int ADMINISTRADOR_4_PROFILE = 4;
 	public static final String ADMINISTRADOR_ENTIDAD = "administrador";
 	
-	/*public static final int INVERTIA_IMPORT_5_EXCEL_FILE = 5;
-	public static final int INVERTIA_IMPORT_6_FILENAME = 6;
-	public static final int INVERTIA_IMPORT_4_FEC_IMPORTACION = 4;
-	public static final int INVERTIA_IMPORT_3_NUM_ENTRADAS = 3;
-	public static final int INVERTIA_IMPORT_2_GRUPO = 2;
-	public static final int INVERTIA_IMPORT_1_IDENTIFICADOR = 1;
-	public static final String INVERTIA_IMPORT_ENTIDAD = "invertia_import";
-	
-	public static final int INVERTIA_DATA_5_INICIAL_PUNTAJE = 5;
-	public static final int INVERTIA_DATA_3_FECHA = 3;
-	public static final int INVERTIA_DATA_9_VOLUMEN = 9;
-	public static final int INVERTIA_DATA_6_PORCENTAJE_DIF = 6;
-	public static final int INVERTIA_DATA_7_MAX_PUNTAJE = 7;
-	public static final int INVERTIA_DATA_4_LAST_PUNTAJE = 4;
-	public static final int INVERTIA_DATA_11_ANYO_MES = 11;
-	public static final int INVERTIA_DATA_8_MIN_PUNTAJE = 8;
-	public static final int INVERTIA_DATA_10_FEC_IMPORTACION = 10;
-	public static final int INVERTIA_DATA_2_GRUPO = 2;
-	public static final int INVERTIA_DATA_1_IDENTIFICADOR = 1;
-	public static final String INVERTIA_DATA_ENTIDAD = "invertia_data";
-	
-	public static final int IMPORTACIONESGEDEON_1_ROCHADE = 1;
-	public static final int IMPORTACIONESGEDEON_2_FILENAME = 2;
-	public static final int IMPORTACIONESGEDEON_3_NUMENTRADAS = 3;
-	public static final int IMPORTACIONESGEDEON_4_FECHAIMPORTACION = 4;
-	public static final int IMPORTACIONESGEDEON_5_EXCELFILE = 5;
-	public static final int IMPORTACIONESGEDEON_6_SERVICIO_DESTINO = 6;
-	public static final String IMPORTACIONESGEDEON_ENTIDAD = "importacionesGEDEON";*/
-	
 	public static final int PETICIONES_10_AREA_ORIGEN = 10;
 	public static final int PETICIONES_4_OBSERVACIONES = 4;
 	public static final int PETICIONES_12_AREA_DESTINO = 12;
@@ -255,6 +226,63 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD = 30;	
 	public static final int RESUMEN_PETICION_31_TITULO = 31;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
+	
+
+	public static final int ESTUDIOSENTREGAS_12_VOLUMEN_UTS_TOTAL = 12;
+	public static final int ESTUDIOSENTREGAS_15_TIEMPO_PREPACION_EN_DG = 15;
+	public static final int ESTUDIOSENTREGAS_28_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORCENT = 28;
+	public static final int ESTUDIOSENTREGAS_6_FECHA_INICIO_ESTUDIO = 6;
+	public static final int ESTUDIOSENTREGAS_13_NUM_RECHAZOS_TOTAL = 13;
+	public static final int ESTUDIOSENTREGAS_19_VOLUMEN_UTS_PORENTREGA = 19;
+	public static final int ESTUDIOSENTREGAS_26_TIEMPO_PREPACION_EN_DG_PORCENT = 26;
+	public static final int ESTUDIOSENTREGAS_2_TITULOESTUDIO = 2;
+	public static final int ESTUDIOSENTREGAS_14_CICLO_VIDA_ENTREGA = 14;
+	public static final int ESTUDIOSENTREGAS_20_NUM_RECHAZOS_PORENTREGA = 20;
+	public static final int ESTUDIOSENTREGAS_33_DESNORMALIZADASTIPOPET = 33;
+	public static final int ESTUDIOSENTREGAS_32_TIPO_ENTREGAS = 32;
+	public static final int ESTUDIOSENTREGAS_21_CICLO_VIDA_PORENTREGA = 21;
+	public static final int ESTUDIOSENTREGAS_5_APLICACIONES = 5;
+	public static final int ESTUDIOSENTREGAS_1_ID = 1;
+	public static final int ESTUDIOSENTREGAS_22_TIEMPO_PREPACION_EN_DG_PORENTREGA = 22;
+	public static final int ESTUDIOSENTREGAS_25_CICLO_VIDA_PORCENT = 25;
+	public static final int ESTUDIOSENTREGAS_11_NUM_PETICIONES_TOTAL = 11;
+	public static final int ESTUDIOSENTREGAS_29_FEC_LANZADO_ESTUDIO = 29;
+	public static final int ESTUDIOSENTREGAS_3_ID_ENTORNO = 3;
+	public static final int ESTUDIOSENTREGAS_27_TIEMPO_VALIDACION_EN_CD_PORCENT = 27;
+	public static final int ESTUDIOSENTREGAS_18_NUM_PETICIONES_PORENTREGA = 18;
+	public static final int ESTUDIOSENTREGAS_30_ID_CONFIGURADORESTUDIOS = 30;
+	public static final int ESTUDIOSENTREGAS_7_FECHA_FIN_ESTUDIO = 7;
+	public static final int ESTUDIOSENTREGAS_8_NUM_ENTREGAS_TOTAL = 8;
+	public static final int ESTUDIOSENTREGAS_24_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORENTREGA = 24;
+	public static final int ESTUDIOSENTREGAS_4_ID_SERVICIO = 4;
+	public static final int ESTUDIOSENTREGAS_16_TIEMPO_VALIDACION_EN_CD = 16;
+	public static final int ESTUDIOSENTREGAS_31_ID_APLICATIVO = 31;
+	public static final int ESTUDIOSENTREGAS_9_NUM_MESES = 9;
+	public static final int ESTUDIOSENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION = 17;
+	public static final int ESTUDIOSENTREGAS_10_TIPO_PERIODO = 10;
+	public static final int ESTUDIOSENTREGAS_23_TIEMPO_VALIDACION_EN_CD_PORENTREGA = 23;
+	public static final String ESTUDIOSENTREGAS_ENTIDAD = "estudiosEntregas";
+
+	public static final int RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA = 9;
+	public static final int RESUMENENTREGAS_2_ID_ESTUDIO = 2;
+	public static final int RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG = 15;
+	public static final int RESUMENENTREGAS_5_NUM_PETICIONES = 5;
+	public static final int RESUMENENTREGAS_11_FECHA_FIN_PRUEBASCD = 11;
+	public static final int RESUMENENTREGAS_7_TIPO_ENTREGA = 7;
+	public static final int RESUMENENTREGAS_3_APLICACION = 3;
+	public static final int RESUMENENTREGAS_4_ID_GEDEON_ENTREGA = 4;
+	public static final int RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD = 10;
+	public static final int RESUMENENTREGAS_12_FECHA_INICIO_INSTALACION_PROD = 12;
+	public static final int RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD = 16;
+	public static final int RESUMENENTREGAS_6_VOLUMEN_UTS = 6;
+	public static final int RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA = 14;
+	public static final int RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION = 17;
+	public static final int RESUMENENTREGAS_13_FECHA_FIN_INSTALACION_PROD = 13;
+	public static final int RESUMENENTREGAS_8_NUM_RECHAZOS = 8;
+	public static final int RESUMENENTREGAS_1_ID = 1;
+	public static final String RESUMENENTREGAS_ENTIDAD = "resumenEntregas";
+
+	
 	
 	public static final int TIPO_PERIODO_1_ID = 1;
 	public static final int TIPO_PERIODO_2_NUM_MESES = 2;
