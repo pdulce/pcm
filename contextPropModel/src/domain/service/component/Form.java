@@ -463,8 +463,7 @@ public class Form extends AbstractComponent {
 			List<Option> listaOpciones = new ArrayList<Option>();
 			if (valoresPorDef != null) {
 				valoresPorDefecto_.addAll(valoresPorDef);
-			}
-			
+			}			
 			if (fieldView.getFieldAndEntityForThisOption().getEntityFromCharge() != null){
 				final EntityLogic entidadCharger = EntityLogicFactory.getFactoryInstance().getEntityDef(
 						dataAccess.getDictionaryName(), fieldView.getFieldAndEntityForThisOption().getEntityFromCharge());

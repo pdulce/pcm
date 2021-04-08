@@ -231,14 +231,14 @@ public class FieldViewSet implements Serializable {
 			newFieldSet.dictionaryName = this.dictionaryName;
 			newFieldSet.fieldViews = new ArrayList<IFieldView>();
 			newFieldSet.fieldViewsValues = new HashMap<String, IFieldValue>();
-			final Iterator<IFieldView> iteFields = this.fieldViews.iterator();
-			while (iteFields.hasNext()) {
-				final IFieldView fView = iteFields.next();
-				newFieldSet.fieldViews.add(fView.copyOf());
+			final List<IFieldView> _listOfFields = new ArrayList<IFieldView>(this.fieldViews);
+			for (int i=0;i<_listOfFields.size();i++) {
+				final IFieldView fView = _listOfFields.get(i);
 				final IFieldValue fValue = this.fieldViewsValues.get(fView.getQualifiedContextName());
 				final IFieldValue newFValue = new FieldValue();
 				newFValue.setValues(fValue == null ? new ArrayList<String>() : fValue.getValues());
 				newFieldSet.fieldViewsValues.put(fView.getQualifiedContextName(), newFValue);
+				newFieldSet.fieldViews.add(fView.copyOf());
 			}
 			if (newFieldSet.fieldViewsValues.isEmpty()) {
 				newFieldSet.initValuesMap();

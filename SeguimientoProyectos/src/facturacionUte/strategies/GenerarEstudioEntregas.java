@@ -102,7 +102,6 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			}
 						
 			final Collection<IFieldView> fieldViews4Filter = new ArrayList<IFieldView>();
-			IFieldView fViewMaxUts = null;
 			
 			final IFieldLogic fieldDesde = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
 			IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldDesde);			
@@ -112,13 +111,6 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			final Rank rankHasta = new Rank(fViewEntradaEnDG.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
 			final IFieldView fViewMayorFecTram = fViewEntradaEnDG.copyOf();
 			
-			//metemos el filtro de que el tipo de las peticiones sea entrega
-			final IFieldLogic fieldUts = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES);
-			fViewMaxUts = new FieldViewSet(peticionesEntidad).getFieldView(fieldUts).copyOf();
-			final Rank rankHastaUts = new Rank(fViewMaxUts.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
-			fViewMaxUts.setRankField(rankHastaUts);			
-			fieldViews4Filter.add(fViewMaxUts);
-			
 			fViewMayorFecTram.setRankField(rankHasta);
 			fieldViews4Filter.add(fViewMinorFecTram);
 			fieldViews4Filter.add(fViewMayorFecTram);
@@ -127,7 +119,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			filterPeticiones.setValue(fViewMinorFecTram.getQualifiedContextName(), fecIniEstudio);
 			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
 			
-			IFieldValue fieldValue = estudioFSet_.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_86_TIPO_PETICIONES).getName());
+			IFieldValue fieldValue = estudioFSet_.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_31_TIPO_ENTREGAS).getName());
 			Collection<String> values_TiposPeticiones = new ArrayList<String>();
 			Collection<String> values_TiposSelected = fieldValue.getValues();
 			for (String val_:values_TiposSelected) {
@@ -139,7 +131,11 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			}
 			//añadimos los tipos de peticiones que queremos filtrar
 			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(), values_TiposPeticiones);
-			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Petición de trabajo finalizado"); 
+			List<String> situaciones = new ArrayList<String>();
+			situaciones.add("Entrega no conforme");
+			situaciones.add("Petición finalizada");
+			situaciones.add("Petición de Entrega finalizada");
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), situaciones); 
 			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), "FACTDG07");				
 			
 			Collection<String> valuesPrjs =  new ArrayList<String>();
@@ -183,7 +179,8 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName(), mesesInferidoPorfechas);
 				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesInferidoPorfechas);
 				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName(), mesesInferidoPorfechas+ " meses");
-				dataAccess.insertEntity(tipoperiodoInferido);				
+				dataAccess.insertEntity(tipoperiodoInferido);			
+				dataAccess.commit();
 			}
 						
 			String periodicidadInferida = (String) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
@@ -213,7 +210,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			List<Long> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
 			for (int i=0;i<codigosPeticiones.size();i++) {
 				Long codPeticionDG = codigosPeticiones.get(i);
-				FieldViewSet peticionDG = new FieldViewSet(estudioEntregasEntidad);
+				FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
 				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), codPeticionDG);									
 				try {
 					peticionDG = dataAccess.searchEntityByPk(peticionDG);

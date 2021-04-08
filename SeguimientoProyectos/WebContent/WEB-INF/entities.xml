@@ -254,8 +254,8 @@
 	<field mappingTo="7" name="fecha_fin_estudio" type="date" length="10" required="false"/>
 	<field mappingTo="8" name="num_entregas_total" type="int" length="6" required="false"/>
 	<field mappingTo="9" name="num_meses" type="int" length="4" required="false"/>
-	<field mappingTo="10" name="tipo_periodo" type="long" length="11" required="false" 
-	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>
+	<field mappingTo="10" name="tipo_periodo" type="long" length="11" required="true" 
+	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>	
 	<field mappingTo="11" name="num_peticiones_total" type="int" length="6" required="false"/>
 	<field mappingTo="12" name="volumen_uts_total" type="double" length="10" required="false"/>	
 	<field mappingTo="13" name="num_rechazos_total" type="int" length="6" required="false"/>
@@ -288,7 +288,7 @@
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="false" 
 	    fkParentEntities="estudiosPeticiones" fkParentFields="1"/>
-    <field mappingTo="3" name="aplicacion" type="long" length="11" required="false" 
+    <field mappingTo="3" name="id_aplicacion" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>
     <field mappingTo="4" name="id_gedeon_entrega" type="long" length="11" required="false" 
 	    fkParentEntities="peticiones" fkParentFields="1"/>
