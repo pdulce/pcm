@@ -244,7 +244,6 @@ CREATE TABLE `estudiosEntregas` (
   `tiempo_prepacion_en_DG_porentrega` double DEFAULT NULL,
   `tiempo_validacion_en_CD_porentrega` double DEFAULT NULL,
   `tiempo_fromValidac_toImplantac_porentrega` double DEFAULT NULL,    
-  `ciclo_vida_porcent` double DEFAULT NULL,
   `tiempo_prepacion_en_DG_porcent` double DEFAULT NULL,
   `tiempo_validacion_en_CD_porcent` double DEFAULT NULL,
   `tiempo_fromValidac_toImplantac_porcent` double DEFAULT NULL,

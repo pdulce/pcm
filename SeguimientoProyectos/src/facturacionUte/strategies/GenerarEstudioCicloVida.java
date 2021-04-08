@@ -795,8 +795,8 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_21_FECHA_INICIO_DESA).getName(), fechaRealInicio);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_22_FECHA_FIN_DESA).getName(), fechaRealFin);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_23_FECHA_SOLICITUD_ENTREGA).getName(), fechaSolicitudEntrega);
-				//resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
-				//resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), esfuerzoPruebasCD);
+				//resumenPorPeticion.setValue(resumenEntregasEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
+				//resumenPorPeticion.setValue(resumenEntregasEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), esfuerzoPruebasCD);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_31_TITULO).getName(), titulo);
 								
 				/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/

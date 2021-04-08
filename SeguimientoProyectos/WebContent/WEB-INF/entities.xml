@@ -270,18 +270,17 @@
     <field mappingTo="22" name="tiempo_prepacion_en_DG_porentrega" type="double" length="10" required="false"/>
     <field mappingTo="23" name="tiempo_validacion_en_CD_porentrega" type="double" length="10" required="false"/>
     <field mappingTo="24" name="tiempo_fromValidac_toImplantac_porentrega" type="double" length="10" required="false"/>
-    <field mappingTo="25" name="ciclo_vida_porcent" type="double" length="10" required="false"/>    
-    <field mappingTo="26" name="tiempo_prepacion_en_DG_porcent" type="double" length="10" required="false"/>
-    <field mappingTo="27" name="tiempo_validacion_en_CD_porcent" type="double" length="10" required="false"/>
-    <field mappingTo="28" name="tiempo_fromValidac_toImplantac_porcent" type="double" length="10" required="false"/>
-    <field mappingTo="29" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>
-    <field mappingTo="30" name="id_configuradorEstudios" type="long" length="11" required="true" 
+    <field mappingTo="25" name="tiempo_prepacion_en_DG_porcent" type="double" length="10" required="false"/>
+    <field mappingTo="26" name="tiempo_validacion_en_CD_porcent" type="double" length="10" required="false"/>
+    <field mappingTo="27" name="tiempo_fromValidac_toImplantac_porcent" type="double" length="10" required="false"/>
+    <field mappingTo="28" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>
+    <field mappingTo="29" name="id_configuradorEstudios" type="long" length="11" required="true" 
 	   fkParentEntities="configuradorEstudios" fkParentFields="1"/>    
-    <field mappingTo="31" name="id_aplicativo" type="long" length="11" required="false" 
+    <field mappingTo="30" name="id_aplicativo" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>
-	<field mappingTo="32" name="tipo_entregas" type="long" length="11" required="false" 
+	<field mappingTo="31" name="tipo_entregas" type="long" length="11" required="false" 
 	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>
-	<field mappingTo="33" name="desnormalizadasTipoPet" type="string" length="500" required="false"/>
+	<field mappingTo="32" name="desnormalizadasTipoPet" type="string" length="500" required="false"/>
   </entity>
    
   <entity>

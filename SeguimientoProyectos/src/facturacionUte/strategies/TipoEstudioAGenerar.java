@@ -22,13 +22,15 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 	public static final String PARAM_ID_APLICATIVO = "estudiosPeticiones.id_aplicativo", 
 			PARAM_ID_SERVICIO = "estudiosPeticiones.id_servicio";
 		
-	public static IEntityLogic estudioPeticionesEntidad;
+	public static IEntityLogic estudioPeticionesEntidad, estudioEntregasEntidad;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudioPeticionesEntidad == null) {
 			try {
 				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
+				estudioEntregasEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.ESTUDIOSENTREGAS_ENTIDAD);
 
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -62,12 +64,12 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 			Long servicioId = null, aplicativoId = null;
 
 			if (estudioFSet.getEntityDef().getName().contentEquals(ConstantesModelo.ESTUDIOSENTREGAS_ENTIDAD)) {
-				fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
+				fecIniEstudio = (Date) estudioFSet.getValue(estudioEntregasEntidad.searchField(
 						ConstantesModelo.ESTUDIOSENTREGAS_6_FECHA_INICIO_ESTUDIO).getName());
-				fecFinEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
+				fecFinEstudio = (Date) estudioFSet.getValue(estudioEntregasEntidad.searchField(
 						ConstantesModelo.ESTUDIOSENTREGAS_7_FECHA_FIN_ESTUDIO).getName());
-				servicioId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_49_ID_SERVICIO).getName());
-				aplicativoId = (Long) estudioFSet.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_56_ID_APLICATIVO).getName());
+				servicioId = (Long) estudioFSet.getValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_4_ID_SERVICIO).getName());
+				aplicativoId = (Long) estudioFSet.getValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_30_ID_APLICATIVO).getName());
 
 			}else {
 				fecIniEstudio = (Date) estudioFSet.getValue(estudioPeticionesEntidad.searchField(
@@ -88,7 +90,7 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
 				throw new StrategyException("ERR_ESTUDIO_MESES_MENOR_QUE_1", messageArguments);
 			}
-						
+
 			
 			if (servicioId != null &&  aplicativoId !=null) {
 				final Collection<Object> messageArguments = new ArrayList<Object>();

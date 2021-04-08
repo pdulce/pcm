@@ -147,7 +147,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);					
 			Long servicioId = (Long) estudioFSet.getValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_4_ID_SERVICIO).getName());
 			if (servicioId == null || servicioId == 0) {
-				Collection<String> aplicativos	= estudioFSet.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_31_ID_APLICATIVO).getName()).getValues();
+				Collection<String> aplicativos	= estudioFSet.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_30_ID_APLICATIVO).getName()).getValues();
 				Iterator<String> iteAplicativos = aplicativos.iterator();
 				while (iteAplicativos.hasNext()) {
 					Long idAplicativo = Long.valueOf(iteAplicativos.next());
@@ -286,7 +286,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			Long servicioId = (Long) registroMtoProsa.getValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_4_ID_SERVICIO).getName());			
 			StringBuffer textoAplicaciones = new StringBuffer();					
 			if (servicioId == null || servicioId==0) {
-				List<String> aplicativos = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_31_ID_APLICATIVO).getName()).getValues());
+				List<String> aplicativos = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_30_ID_APLICATIVO).getName()).getValues());
 				for (int i=0;i<aplicativos.size();i++) {
 					Long idAplicativo = Long.valueOf(aplicativos.get(i));
 					FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
@@ -300,7 +300,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 						textoAplicaciones.append(", ");
 						title.append(", ");
 					}else {
-						registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_31_ID_APLICATIVO).getName(), idAplicativo);
+						registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_30_ID_APLICATIVO).getName(), idAplicativo);
 					}
 				}
 			}else {
@@ -326,7 +326,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			
 			//lo primero casi es saber qué conjunto de heurísticas se van a aplicar a este estudio
 			Long idConjuntoHeuristicas = (Long) registroMtoProsa.getValue(estudioEntregasEntidad.searchField(
-					ConstantesModelo.ESTUDIOSENTREGAS_30_ID_CONFIGURADORESTUDIOS).getName());
+					ConstantesModelo.ESTUDIOSENTREGAS_29_ID_CONFIGURADORESTUDIOS).getName());
 			FieldViewSet heuristicaBBDD = new FieldViewSet(heuristicasEntidad);
 			heuristicaBBDD.setValue(heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_1_ID).getName(), idConjuntoHeuristicas);
 			heuristicaBBDD = dataAccess.searchEntityByPk(heuristicaBBDD);
@@ -472,7 +472,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
 			
 			// bloque de agregados del estudio
-			List<String> tiposPet = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_32_TIPO_ENTREGAS).getName()).getValues());
+			List<String> tiposPet = new ArrayList<String>(registroMtoProsa.getFieldvalue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_31_TIPO_ENTREGAS).getName()).getValues());
 			StringBuffer tiposPets_ = new StringBuffer();
 			for (int i=0;i<tiposPet.size();i++) {
 				String tipo = tiposPet.get(i);
@@ -527,16 +527,15 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_23_TIEMPO_VALIDACION_EN_CD_PORENTREGA).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/numEntregasEstudio));
 			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_24_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORENTREGA).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/numEntregasEstudio));
 
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_25_CICLO_VIDA_PORCENT).getName(), 100.00);
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_26_TIEMPO_PREPACION_EN_DG_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/total_cicloVida_estudio));
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_27_TIEMPO_VALIDACION_EN_CD_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/total_cicloVida_estudio));
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_28_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/total_cicloVida_estudio));
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_25_TIEMPO_PREPACION_EN_DG_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/total_cicloVida_estudio));
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_26_TIEMPO_VALIDACION_EN_CD_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/total_cicloVida_estudio));
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_27_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/total_cicloVida_estudio));
 
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_29_FEC_LANZADO_ESTUDIO).getName(), Calendar.getInstance().getTime());
-			//registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_30_ID_CONFIGURADORESTUDIOS).getName(), Calendar.getInstance().getTime());
-			//registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_32_TIPO_ENTREGAS).getName(), Calendar.getInstance().getTime());
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_28_FEC_LANZADO_ESTUDIO).getName(), Calendar.getInstance().getTime());
+			//registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_29_ID_CONFIGURADORESTUDIOS).getName(), Calendar.getInstance().getTime());
+			//registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_31_TIPO_ENTREGAS).getName(), Calendar.getInstance().getTime());
 			
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_33_DESNORMALIZADASTIPOPET).getName(), tiposPets_.toString());
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_32_DESNORMALIZADASTIPOPET).getName(), tiposPets_.toString());
 			
 			int ok = dataAccess.modifyEntity(registroMtoProsa);
 			if (ok != 1) {
