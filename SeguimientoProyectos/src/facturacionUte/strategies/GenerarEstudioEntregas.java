@@ -242,7 +242,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			List<Long> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
 			for (int i=0;i<codigosPeticiones.size();i++) {
 				Long codPeticionDG = codigosPeticiones.get(i);
-				FieldViewSet peticionDG = new FieldViewSet(estudioEntregasEntidad);
+				FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
 				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), codPeticionDG);									
 				try {
 					peticionDG = dataAccess.searchEntityByPk(peticionDG);

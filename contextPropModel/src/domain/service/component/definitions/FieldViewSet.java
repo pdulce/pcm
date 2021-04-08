@@ -220,7 +220,23 @@ public class FieldViewSet implements Serializable {
 	public String getDictionaryName() {
 		return this.dictionaryName;
 	}
-
+	
+	private boolean isFieldViewRepeteated(Collection<IFieldView> col_, IFieldView candidate) {
+		int nveces = 0;
+		final List<IFieldView> _listOfFields = new ArrayList<IFieldView>(this.fieldViews);
+		for (int i=0;i<_listOfFields.size();i++) {
+			final IFieldView fView = _listOfFields.get(i);
+			if (fView.getQualifiedContextName().contentEquals(candidate.getQualifiedContextName())) {
+				nveces++;
+			}
+		}
+		if (nveces > 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public FieldViewSet copyOf() {
 		try {
 			final FieldViewSet newFieldSet = new FieldViewSet(this.dictionaryName, this.contextName);
@@ -234,10 +250,15 @@ public class FieldViewSet implements Serializable {
 			final List<IFieldView> _listOfFields = new ArrayList<IFieldView>(this.fieldViews);
 			for (int i=0;i<_listOfFields.size();i++) {
 				final IFieldView fView = _listOfFields.get(i);
+				
+				if (isFieldViewRepeteated(newFieldSet.fieldViews, fView)) {
+					throw new Throwable("Error: fieldview repetido: "+ fView.getQualifiedContextName());
+				}
+				
 				final IFieldValue fValue = this.fieldViewsValues.get(fView.getQualifiedContextName());
 				final IFieldValue newFValue = new FieldValue();
 				newFValue.setValues(fValue == null ? new ArrayList<String>() : fValue.getValues());
-				newFieldSet.fieldViewsValues.put(fView.getQualifiedContextName(), newFValue);
+				newFieldSet.fieldViewsValues.put(fView.getQualifiedContextName(), newFValue);				
 				newFieldSet.fieldViews.add(fView.copyOf());
 			}
 			if (newFieldSet.fieldViewsValues.isEmpty()) {

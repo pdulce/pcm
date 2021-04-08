@@ -287,7 +287,7 @@
     <entityname>resumenEntregas</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="false" 
-	    fkParentEntities="estudiosPeticiones" fkParentFields="1"/>
+	    fkParentEntities="estudiosEntregas" fkParentFields="1"/>
     <field mappingTo="3" name="id_aplicacion" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>
     <field mappingTo="4" name="id_gedeon_entrega" type="long" length="11" required="false" 

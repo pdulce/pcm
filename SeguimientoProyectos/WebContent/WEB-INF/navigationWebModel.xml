@@ -29,7 +29,7 @@
 			<LEAF link="event=GestionTech.query" name="Tecnologías" />
 			<LEAF link="event=GestionServiciosUTE.query" name="Servicios UTE" />
 			<LEAF link="event=GestionApps.query" name="Aplicativos" />
-			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
+			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="Peticiones importadas" />
 			<LEAF link="event=EstudioPeticiones.query" name="Estudios Peticiones" />
 			<LEAF link="event=EstudioEntregas.query" name="Estudios Entregas" />
 			<LEAF link="event=GestionHeuristicas.query" name="Heurísticas estudios" />

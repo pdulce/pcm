@@ -57,20 +57,24 @@ public abstract class GenericHighchartModel implements IStats {
 	
 	protected String getUnitName(IFieldLogic aggregateField, IFieldLogic fieldForCategoriaDeAgrupacion,
 			String aggregateFunction, Datamap data_) {
+		
+		String name = "";
 		if (aggregateField != null) {
-			String name = aggregateField.getName();
+			name = aggregateField.getName();
 			if (name.indexOf("peticiones")!=-1) {
-				return "peticiones";
+				name = "peticiones";
 			}else if (name.indexOf("uts")!=-1 || name.indexOf("Horas_estimadas")!=-1 || name.indexOf("Horas_reales")!=-1) {
-				return "uts";
+				name = "uts";
 			}else if (name.indexOf("ciclo_vida")!=-1 || name.indexOf("duracion_")!=-1 || name.indexOf("gap_")!=-1 ||
 					name.indexOf("dedicaciones")!=-1 || name.indexOf("_gaps")!=-1) {
-				return "jornadas";
+				name = "jornadas";
 			}else if (name.indexOf("porc_")!=-1) {
-				return "%";
+				name = "%";
+			}else {
+				name = name.replaceAll("_", " ");
 			}
 		}
-		return "units";
+		return name;
 	}
 	
 	public abstract String getScreenRendername();
@@ -199,7 +203,7 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 	
 	private String getUnits(final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String aggregateFunction, final Datamap data_){
-		String units = "";
+		String units = "-";
 		String nombreConceptoRecuento = " ", lang = data_.getLanguage();
 		if (agregados == null){
 			//tomo el nombre de la entidad
