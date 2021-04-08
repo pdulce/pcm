@@ -209,7 +209,8 @@
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="true" 
 	    fkParentEntities="estudiosPeticiones" fkParentFields="1"/>    
-    <field mappingTo="3" name="aplicacion" type="string" length="150" required="false"/>    	
+    <field mappingTo="3" name="id_aplicativo" type="long" length="11" required="false" 
+	    fkParentEntities="aplicativo" fkParentFields="1"/>
 	<field mappingTo="4" name="tipo" type="string" length="50" required="false"/>
     <field mappingTo="5" name="gedeon_DG" type="string" length="10" required="false"/>
     <field mappingTo="6" name="gedeon_AT" type="string" length="150" required="false"/>

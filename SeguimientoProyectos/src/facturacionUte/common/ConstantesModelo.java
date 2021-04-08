@@ -196,7 +196,7 @@ public abstract class ConstantesModelo {
 	
     public static final int RESUMEN_PETICION_1_ID = 1;
     public static final int RESUMEN_PETICION_2_ID_ESTUDIO = 2;
-	public static final int RESUMEN_PETICION_3_APLICACION = 3;	
+	public static final int RESUMEN_PETICION_3_ID_APLICATIVO = 3;	
 	public static final int RESUMEN_PETICION_4_TIPO = 4;
     public static final int RESUMEN_PETICION_5_ID_PET_DG = 5;
     public static final int RESUMEN_PETICION_6_IDS_PETS_AT = 6;

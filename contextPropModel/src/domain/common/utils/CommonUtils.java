@@ -168,33 +168,19 @@ public final class CommonUtils {
 			return arr;
 		}
 		
-		StringBuilder str_ = new StringBuilder();
-		if ( pets.indexOf(">") != -1 ){
-			int length_ = pets.length();
-			for (int i=0;i<length_;i++){
-				char c_ = pets.charAt(i);
-				if (Character.isDigit(c_)){
-					str_.append(String.valueOf(c_));
-				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
-					Long num = Long.valueOf(str_.toString().trim());
+		String[] splitter = pets.split(",");
+		int length_ = splitter.length;
+		for (int i=0;i<length_;i++){
+			try {
+				if (splitter[i] != null && !splitter[i].trim().contentEquals("")) {
+					Long num = Long.valueOf(splitter[i]);
 					arr.add(num);
-					str_ = new StringBuilder();
 				}
+			}catch (Throwable excx) {
+				excx.printStackTrace();
 			}
-		}else{			
-			String[] splitter = pets.split(",");
-			int length_ = splitter.length;
-			for (int i=0;i<length_;i++){
-				 if (splitter[i].length() > 0 && Character.isDigit(splitter[i].charAt(0))){
-					try {
-						Long num = Long.valueOf(splitter[i]);
-						arr.add(num);
-					}catch (Throwable excx) {
-						excx.printStackTrace();
-					}
-				}
-			}
-		}		
+		}
+			
 		return arr;
 	}
 	

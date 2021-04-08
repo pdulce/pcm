@@ -662,11 +662,13 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				String titulo = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
 				String nombreAplicacionDePeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
 				
+				Long idAplicativo = null;
 				FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
 				aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName(), nombreAplicacionDePeticion);
 				List<FieldViewSet> aplicativosByName = dataAccess.searchByCriteria(aplicativoBBDD);
 				if (aplicativosByName != null && !aplicativosByName.isEmpty()) {
 					aplicativoBBDD = aplicativosByName.get(0);
+					idAplicativo = (Long) aplicativoBBDD.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
 				}
 				
 				/*** creamos la instancia para cada resumen por peticion del estudio ***/
@@ -739,11 +741,11 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				StringBuffer entregasSerializadas = new StringBuffer();
 				List<FieldViewSet> entregasTramitadas = new ArrayList<FieldViewSet>();
 				idEntregas = idEntregas.trim();
-				String[] splitterEntregas = idEntregas.split(" ");
+				String[] splitterEntregas = idEntregas.split(",");
 				for (int e=0;e<splitterEntregas.length;e++) {
 					if (splitterEntregas[e]== null || "".contentEquals(splitterEntregas[e])) {
 						break;
-					}
+					}				
 					Long peticionGEDEON_ent = new Long(splitterEntregas[e]);
 					FieldViewSet entrega = new FieldViewSet(peticionesEntidad);
 					entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), peticionGEDEON_ent);						
@@ -784,7 +786,7 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 												
 				Long idEstudio = (Long) registroMtoProsa.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_1_ID).getName());
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_3_APLICACION).getName(), nombreAplicacionDePeticion);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_3_ID_APLICATIVO).getName(), idAplicativo);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_4_TIPO).getName(), tipoPeticion);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PET_DG).getName(), peticionDG);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_6_IDS_PETS_AT).getName(), (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis));				

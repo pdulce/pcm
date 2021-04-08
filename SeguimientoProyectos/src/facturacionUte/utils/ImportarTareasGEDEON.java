@@ -444,7 +444,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							}
 							linkarPeticionesAEntrega(registro);
 						}
-						formatearPetsRelacionadas(registro);
+						
 						if (!filas.isEmpty() && rochadeCode != null) {					
 							idPeticion = CommonUtils.obtenerCodigo(idPeticion.toString());
 							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticion);
@@ -549,7 +549,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								
 				for (int ent_=0;ent_<entregasPrevias.size();ent_++){				
 					final String id_Entrega = String.valueOf(entregasPrevias.get(ent_));
-					literalEntregasPrevias = literalEntregasPrevias.concat(id_Entrega);
+					literalEntregasPrevias = literalEntregasPrevias.concat(",").concat(id_Entrega);
 					
 					FieldViewSet entregaPeticion = new FieldViewSet(peticionesEntidad);
 					entregaPeticion.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), id_Entrega);
@@ -612,8 +612,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				}					
 			}
 			
-			formatearPetsRelacionadas(peticionRelacionada);
-								
 			int updatedHija = this.dataAccess.modifyEntity(peticionRelacionada);
 			if (updatedHija != 1) {
 				throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
@@ -625,59 +623,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 	}
 
-	
-	private void formatearPetsRelacionadas(final FieldViewSet registro) throws DatabaseException{
-		
-		String peticionesRelacionadas_ = (String) 
-				registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-		if (peticionesRelacionadas_ == null){
-			return;//no hago transformacion alguna
-		}
-		List<Long> codigos = CommonUtils.obtenerCodigos(peticionesRelacionadas_);
-		
-		StringBuilder strPeticiones = new StringBuilder();
-		strPeticiones.append("<P><UL>");
-		//guardamos a modo de <UL><LI>...
-		
-		for (int iPet=0;iPet < codigos.size();iPet++){
-			Long idPetRelacionada = codigos.get(iPet);
-			FieldViewSet petRelacionada = new FieldViewSet(peticionesEntidad);
-			petRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPetRelacionada);
-			petRelacionada = this.dataAccess.searchEntityByPk(petRelacionada);
-			String servicioDestinoPet = "";
-			if (petRelacionada != null){
-				servicioDestinoPet = "(".concat(
-					(String) petRelacionada.getValue(peticionesEntidad.
-							searchField(ConstantesModelo.PETICIONES_33_SERVICIO_ATIENDE_PETICION).getName())).
-							concat(")");
-				if (servicioDestinoPet.indexOf(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)!= -1){
-					servicioDestinoPet = "";
-				}
-			}
-			/** aoadir si es DG o AT; si no se sabe porque no esto en BBDD, ponemos '?' **/
-			strPeticiones.append("<LI>");
-			strPeticiones.append(idPetRelacionada); 
-			strPeticiones.append(servicioDestinoPet);
-			strPeticiones.append("</LI>");
-			
-			//linkamos del trabajo a la entrega:
-			final String typeOfParent = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
-			if (petRelacionada!=null && typeOfParent.toString().toUpperCase().indexOf("ENTREGA") == -1){	
-				Long idEntrega = (Long) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
-				petRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_ASOCIADA).getName(), idEntrega);
-				petRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(), 1);
-				try {
-					this.dataAccess.modifyEntity(petRelacionada);
-				} catch (TransactionException eModif) {
-					eModif.printStackTrace();
-				}
-			}
-		}//for each peticion in lista
-		
-		strPeticiones.append("</UL></P>");
-		
-		registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName(), strPeticiones.toString());
-	}
 	
 	private String serialize(List<Long> codigos){
 		final StringBuilder strB = new StringBuilder();

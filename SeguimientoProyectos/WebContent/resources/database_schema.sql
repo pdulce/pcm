@@ -186,7 +186,7 @@ DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `id_estudio` int(11) NOT NULL,
-  `aplicacion` varchar(150) DEFAULT NULL,
+  `id_aplicativo` int(11) NOT NULL,
   `tipo` varchar(50) DEFAULT NULL,
   `gedeon_DG` varchar(150) DEFAULT NULL,
   `gedeon_AT` varchar(150) DEFAULT NULL,
@@ -214,7 +214,7 @@ CREATE TABLE `resumenPeticiones` (
   `uts` double DEFAULT NULL,
   `esfuerzo_analysis` double DEFAULT NULL,
   `esfuerzo_pruebas` double DEFAULT NULL,
-  `titulo` varchar(500) DEFAULT NULL,
+  `titulo` varchar(500) DEFAULT NULL
 );  
 
 
