@@ -391,7 +391,12 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS).getName(), numRechazos);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA).getName(), fechaTramite);
 				
-				List<FieldViewSet> entregasTramitadas = new ArrayList<FieldViewSet>();
+				List<FieldViewSet> entregasTramitadas = new ArrayList<FieldViewSet>();				
+				String estadoEntrega = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+				if (estadoEntrega.contentEquals("Entrega no conforme")) {
+					peticionEntrega_BBDD.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName(),
+							peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_44_FECHA_ULTIMA_MODIFCACION).getName()));
+				}
 				entregasTramitadas.add(peticionEntrega_BBDD);
 				
 				/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/
@@ -420,8 +425,9 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				if (jornadasPruebasCD == null) {
 					System.out.println("jornadasPruebasCD: " + jornadasPruebasCD);
 				}
-				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionEntrega_BBDD, null, /*peticionPruebasCD*/null, 
-						entregasTramitadas, null, null, variables);				
+			
+				Double jornadasDesdeFinPruebasHastaImplantacion =  (Double)  procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionEntrega_BBDD, null, /*peticionPruebasCD*/null,
+						entregasTramitadas, null, null, variables);
 				Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(jornadasEntrega + jornadasPruebasCD + jornadasDesdeFinPruebasHastaImplantacion);
 								
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA).getName(), cicloVidaPeticion);
@@ -524,9 +530,9 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_23_TIEMPO_VALIDACION_EN_CD_PORENTREGA).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/numEntregasEstudio));
 			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_24_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORENTREGA).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/numEntregasEstudio));
 
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_25_TIEMPO_PREPACION_EN_DG_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_preparacion_entregas_estudio/total_cicloVida_estudio));
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_26_TIEMPO_VALIDACION_EN_CD_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_pruebasCD_estudio/total_cicloVida_estudio));
-			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_27_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORCENT).getName(), CommonUtils.roundWith2Decimals(total_gapFinPruebasCDProducc/total_cicloVida_estudio));
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_25_TIEMPO_PREPACION_EN_DG_PORCENT).getName(), CommonUtils.roundWith2Decimals(100.0*(total_preparacion_entregas_estudio/total_cicloVida_estudio)));
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_26_TIEMPO_VALIDACION_EN_CD_PORCENT).getName(), CommonUtils.roundWith2Decimals(100.0*(total_pruebasCD_estudio/total_cicloVida_estudio)));
+			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_27_TIEMPO_FROMVALIDAC_TOIMPLANTAC_PORCENT).getName(), CommonUtils.roundWith2Decimals(100.0*(total_gapFinPruebasCDProducc/total_cicloVida_estudio)));
 
 			registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_28_FEC_LANZADO_ESTUDIO).getName(), Calendar.getInstance().getTime());
 			//registroMtoProsa.setValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_29_ID_CONFIGURADORESTUDIOS).getName(), Calendar.getInstance().getTime());

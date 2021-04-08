@@ -257,8 +257,8 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="fieldForGroupBy" hidden="true" value="9"/> 
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
-										<option code="5" title="Núm.Rechazos"></option>
-										<option code="8" title="Núm.Peticiones" selected="true"></option>
+										<option code="5" title="Núm.Peticiones" selected="true"></option>
+										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
 										<option code="14" title="Ciclo Vida Entrega"></option>
 										<option code="15" title="Tiempo Preparación Entrega"></option>
@@ -311,8 +311,8 @@ xmlns:service="http://pcm.framework.org/service"
 								</fieldView>
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
-										<option code="5" title="Núm.Rechazos"></option>
-										<option code="8" title="Núm.Peticiones" selected="true"></option>
+										<option code="5" title="Núm.Peticiones" selected="true"></option>
+										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
 										<option code="14" title="Ciclo Vida Entrega"></option>
 										<option code="15" title="Tiempo Preparación Entrega"></option>
@@ -340,8 +340,8 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="fieldForGroupBy" hidden="true" value="9"/> 
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
-										<option code="5" title="Núm.Rechazos"></option>
-										<option code="8" title="Núm.Peticiones" selected="true"></option>
+										<option code="5" title="Núm.Peticiones" selected="true"></option>
+										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
 										<option code="14" title="Ciclo Vida Entrega"></option>
 										<option code="15" title="Tiempo Preparación Entrega"></option>
@@ -384,8 +384,8 @@ xmlns:service="http://pcm.framework.org/service"
 								</fieldView>
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
-										<option code="5" title="Núm.Rechazos"></option>
-										<option code="8" title="Núm.Peticiones" selected="true"></option>
+										<option code="5" title="Núm.Peticiones" selected="true"></option>
+										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
 										<option code="14" title="Ciclo Vida Entrega"></option>
 										<option code="15" title="Tiempo Preparación Entrega"></option>
@@ -406,8 +406,8 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="orderBy" hidden="true" value="20"/>							
 								<fieldView name="ejeX" type="select" size="1">
 									<optionValues>									
-										<option code="5" title="Núm.Rechazos"></option>
-										<option code="8" title="Núm.Peticiones" selected="true"></option>
+										<option code="5" title="Núm.Peticiones" selected="true"></option>
+										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
 										<option code="14" title="Ciclo Vida Entrega"></option>
 										<option code="15" title="Tiempo Preparación Entrega"></option>
@@ -417,10 +417,10 @@ xmlns:service="http://pcm.framework.org/service"
 								</fieldView>
 								<fieldView name="ejeY" type="select" size="1">
 									<optionValues>
-										<option code="5" title="Núm.Rechazos"></option>
-										<option code="8" title="Núm.Peticiones"></option>
+										<option code="5" title="Núm.Peticiones"></option>
+										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
-										<option code="14" title="Ciclo Vida Entrega"  selected="true"></option>
+										<option code="14" title="Ciclo Vida Entrega" selected="true"></option>
 										<option code="15" title="Tiempo Preparación Entrega"></option>
 										<option code="16" title="Tiempo Validación Entrega"></option>
 										<option code="17" title="Tiempo Planific. Instalac. Producc."></option>
@@ -435,42 +435,38 @@ xmlns:service="http://pcm.framework.org/service"
 						nameSpace="estudiosEntregasForm">
 						<fieldset legend="Resumen Estudio">
 							<fieldView mappingTo="1" hidden="true" />
-							<fieldView mappingTo="4" type="select" editable="false">
-								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>						
+							
 							<fieldView mappingTo="2" editable="false" />
 							<fieldView mappingTo="3" type="select" editable="false">
 								<optionValues entitymodel="tecnologia"
 									descrMappingTo="2">
 								</optionValues>
-							</fieldView> 
+							</fieldView>							
+							<fieldView mappingTo="4" type="select" editable="false">
+								<optionValues entitymodel="servicioUTE"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="5" editable="false" />
+							<fieldView mappingTo="32" editable="false" />
+										
+							<fieldView separator="br" />
+							 
+							<fieldView mappingTo="6" editable="false" />
+							<fieldView mappingTo="7" editable="false" />											
+							<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;"/>
+							<fieldView mappingTo="9" editable="false" />
+							<fieldView mappingTo="10" type="select" editable="false">
+								<optionValues entitymodel="tiposPeriodos"
+									descrMappingTo="3">
+								</optionValues>
+							</fieldView>							 
 							<fieldView mappingTo="29" type="select" editable="false">
 								<optionValues entitymodel="configuradorEstudios"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							
-							<fieldView mappingTo="32" editable="false" />
-								
-							<fieldView separator="br" />
-							<fieldView separator="br" />
-							
-							<fieldView mappingTo="10" type="select" editable="false">
-								<optionValues entitymodel="tiposPeriodos"
-									descrMappingTo="3">
-								</optionValues>
-							</fieldView>
-							<fieldView mappingTo="5" editable="false" />
-							
-							<fieldView separator="br" />
-							<fieldView separator="br" />
-													
-							<fieldView mappingTo="6" editable="false" />
-							<fieldView mappingTo="7" editable="false" />											
-							<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;"/>
-							<fieldView mappingTo="9" editable="false" />
 							<fieldView separator="br" />
 						</fieldset>
 						<fieldset legend="Agregados en Periodo Estudio">
@@ -502,7 +498,6 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="25" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
 							<fieldView mappingTo="26" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
 							<fieldView mappingTo="27" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
 				</form>
