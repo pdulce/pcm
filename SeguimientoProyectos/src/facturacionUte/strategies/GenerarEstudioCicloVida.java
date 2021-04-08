@@ -185,7 +185,10 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						
 			final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 			if (listadoPeticiones.isEmpty()) {
-				return;
+				dataAccess.deleteEntity(estudioFSet);
+				dataAccess.commit();
+				final Collection<Object> messageArguments = new ArrayList<Object>();
+				throw new StrategyException("INFO_ESTUDIO_SIN_PETICIONES", false, true, messageArguments);				
 			}
 			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
 			
@@ -927,7 +930,16 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 					dataset4MLR.close();
 					throw new StrategyException("Error actualizando registro de petición");
 				}
-				
+				if (jornadasDesfaseTramiteHastaInicioReal < 0.0) {
+					jornadasDesfaseTramiteHastaInicioReal = -1.0 * jornadasDesfaseTramiteHastaInicioReal;
+				}
+				if (jornadasDesdeFinPruebasHastaImplantacion < 0.0) {
+					jornadasDesdeFinPruebasHastaImplantacion = -1.0 * jornadasDesdeFinPruebasHastaImplantacion;
+				}
+				if (jornadasDesfaseFinDesaSolicEntrega < 0.0) {
+					jornadasDesfaseFinDesaSolicEntrega = -1.0 * jornadasDesfaseFinDesaSolicEntrega;
+				}
+
 				numPeticionesEstudio++;
 				total_uts_estudio += esfuerzoUts;
 				total_hrs_analysis_estudio += esfuerzoAnalysis;

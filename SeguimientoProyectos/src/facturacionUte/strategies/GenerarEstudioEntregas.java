@@ -164,7 +164,12 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 						
 			final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 			if (listadoPeticiones.isEmpty()) {
-				return;
+				if (listadoPeticiones.isEmpty()) {
+					dataAccess.deleteEntity(estudioFSet);
+					dataAccess.commit();
+					final Collection<Object> messageArguments = new ArrayList<Object>();
+					throw new StrategyException("INFO_ESTUDIO_SIN_PETICIONES", false, true, messageArguments);				
+				}
 			}
 			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
 			
@@ -452,6 +457,10 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				numEntregasEstudio++;
 				numRechazosTotal += numRechazos;
 				total_peticiones_en_entregas += numPeticionesEntrega;
+				
+				if (total_gapFinPruebasCDProducc < 0) {
+					total_gapFinPruebasCDProducc = -1.0 * total_gapFinPruebasCDProducc;
+				}
 				
 				total_uts_estudio += utsEntrega;
 				total_cicloVida_estudio += cicloVidaPeticion;
