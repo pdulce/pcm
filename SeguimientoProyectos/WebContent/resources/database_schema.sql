@@ -29,7 +29,6 @@ CREATE TABLE `peticiones` (
   `Proyecto_Name` varchar(150),
   `Horas_estimadas_actuales` double,
   `Horas_reales` double,
-  `anyo_mes` VARCHAR2(7),
   `fecha_export` DATE NULL,
   `version_analysis` varchar(20) DEFAULT NULL,
   `servicio_atiende_pet` varchar(20) DEFAULT 'SDG',
