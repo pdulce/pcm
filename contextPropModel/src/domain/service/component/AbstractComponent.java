@@ -160,60 +160,65 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 		}
 	}
 	
-	public static final void refreshUserFilter(final FieldViewSet fieldViewSet_, final Collection<FieldViewSet> fieldViewSetsForm,  final IDataAccess dataAccess, final Map<String, List<Object>> valuesMemo) {
+	public static final void refreshUserFilter(final FieldViewSet fieldViewSet_, final Collection<FieldViewSet> fieldViewSetsForm,  final IDataAccess dataAccess, final Map<String, List<Object>> valuesMemo_) {
 			
 		try {
 			//obtenemos padres de esta entidad por si en el formulario vienen filtros de esa otra entidad padre:			
 			//final String namespace = fieldViewSet_.getNameSpace();
 			IEntityLogic entidadARefrescar = fieldViewSet_.getEntityDef();
 			
-			IEntityLogic padre = null;
+			IEntityLogic padreDeEntidadARefrescar = null;
 			FieldViewSet recordparent = null;
 			Collection<IEntityLogic> padres = entidadARefrescar.getParentEntities();
 			// de momento, solo me quedo con un padre para probar el algoritmo, y luego extenderemos
 			if (padres != null && !padres.isEmpty()) {
-				padre = padres.iterator().next();				
+				padreDeEntidadARefrescar = padres.iterator().next();				
 			}
 			
+			final List<Map.Entry<String, List<Object>>> listOfRequestParams = new ArrayList<Map.Entry<String, List<Object>>>(valuesMemo_.entrySet());
 			Iterator<FieldViewSet> iteFieldViewSetsOfForm = fieldViewSetsForm.iterator();
 			while (iteFieldViewSetsOfForm.hasNext()) {
 				FieldViewSet fSetOfForm = iteFieldViewSetsOfForm.next();
-				final Iterator<Map.Entry<String, List<Object>>> keysIteMemorized = valuesMemo.entrySet().iterator();
-				while (keysIteMemorized.hasNext()) {
-					final Map.Entry<String, List<Object>> entry = keysIteMemorized.next();
+				
+				for (int i=0;i<listOfRequestParams.size();i++) {
+					final Map.Entry<String, List<Object>> entry = listOfRequestParams.get(i);
 					String keyMemorized = entry.getKey();
-					String field_ =  keyMemorized.contains(".")? keyMemorized.split(PCMConstants.REGEXP_POINT)[1]: keyMemorized;
+					String[] fieldInRequest = keyMemorized.split(PCMConstants.REGEXP_POINT);
+					String entityInRequest = fieldInRequest[0];
+					String field_ =  keyMemorized.contains(".")? fieldInRequest[1]: keyMemorized;
 					final List<Object> values = entry.getValue();
-					if (entidadARefrescar.getName().contentEquals(fSetOfForm.getEntityDef().getName()) 
-							&& values != null && !values.isEmpty()) {
-						List<String> stringVals = new ArrayList<String>();
-						for (Object val: values) {
-							if (!"".equals(val.toString())){
-								stringVals.add(val.toString());
-							}
+					if ((values == null || values.isEmpty() || "".contentEquals(values.get(0).toString()))
+							|| fieldInRequest.length == 1) {
+						continue;
+					}
+					List<String> stringVals = new ArrayList<String>();
+					for (Object val: values) {
+						if (!"".equals(val.toString())){
+							stringVals.add(val.toString());
 						}
+					}
+					
+					if (entityInRequest.contentEquals(entidadARefrescar.getName()) && 
+							entidadARefrescar.getName().contentEquals(fSetOfForm.getEntityDef().getName())) {
+												
 						if (!stringVals.isEmpty()) {
 							fSetOfForm.setValues(keyMemorized, stringVals);
 						}
-					}else if (padre!= null && padre.getName().contentEquals(fSetOfForm.getEntityDef().getName()) &&							
-							padre.searchByName(field_) != null) {
-						List<String> stringVals = new ArrayList<String>();
-						for (Object val: values) {
-							if (!"".equals(val.toString())){
-								stringVals.add(val.toString());
-							}
-						}
+						
+					}else if (padreDeEntidadARefrescar != null && entityInRequest.contentEquals(padreDeEntidadARefrescar.getName()) &&
+							padreDeEntidadARefrescar.getName().contentEquals(fSetOfForm.getEntityDef().getName())) {
+						
 						if (!stringVals.isEmpty()) {
 							//imagina que llega la fecha con un valor			
 							keyMemorized = keyMemorized.replace(IRank.DESDE_SUFFIX, "");
 							keyMemorized = keyMemorized.replace(IRank.HASTA_SUFFIX, "");							
 							if (recordparent == null) {
-								recordparent = new FieldViewSet(padre);
+								recordparent = new FieldViewSet(padreDeEntidadARefrescar);
 							}
 							recordparent.setValues(field_, stringVals);													
 						}
-						if (padre.getFieldKey().contains(field_)) {
-							recordparent = new FieldViewSet(padre);
+						if (padreDeEntidadARefrescar.getFieldKey().contains(field_)) {
+							recordparent = new FieldViewSet(padreDeEntidadARefrescar);
 							recordparent.setValues(field_, stringVals);
 							break;
 						}

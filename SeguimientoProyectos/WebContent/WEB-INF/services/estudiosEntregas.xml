@@ -80,7 +80,7 @@ xmlns:service="http://pcm.framework.org/service"
 						
 						<fieldView mappingTo="4" type="select" size="3" editable="true">
 							<optionValues entitymodel="servicioUTE"
-								descrMappingTo="2">
+								descrMappingTo="2" selectionMultiple="true">
 							</optionValues>
 						</fieldView>		
 						
@@ -92,7 +92,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 						<fieldView mappingTo="10" type="select" editable="true">
 							<optionValues entitymodel="tiposPeriodos"
-								descrMappingTo="3">
+								descrMappingTo="3" selectionMultiple="true">
 							</optionValues>
 						</fieldView>
 							<fieldView separator="br" />
