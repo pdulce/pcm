@@ -32,6 +32,7 @@
 			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="Peticiones importadas" />
 			<LEAF link="event=EstudioPeticiones.query" name="Estudios Peticiones" />
 			<LEAF link="event=EstudioEntregas.query" name="Estudios Entregas" />
+			<LEAF link="exec=dashboard" name="Dahsboard" />
 			<LEAF link="event=GestionHeuristicas.query" name="Heurísticas estudios" />
 			<FOLDER profile="ADMINISTRADOR,ANALISIS_TEAM,CONSULTOR_UTE"	name="Importaciones Gedeon/Artemis">
 				<LEAF link="event=GestionarImportacionesGEDEON.query" name="Gedeones" />

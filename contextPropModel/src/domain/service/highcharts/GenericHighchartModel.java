@@ -43,8 +43,6 @@ import domain.service.highcharts.utils.HistogramUtils;
  */
 public abstract class GenericHighchartModel implements IStats {
 		
-	private static final String CONTAINER = "container";
-
 	protected IDataAccess _dataAccess;
 	
 	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
@@ -182,8 +180,8 @@ public abstract class GenericHighchartModel implements IStats {
 			
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
-			data_.setAttribute(DECIMALES, decimals);
-			data_.setAttribute("typeOfSeries", typeOfSeries);
+			data_.setAttribute(getScreenRendername().concat(DECIMALES), decimals);
+			data_.setAttribute(getScreenRendername().concat("typeOfSeries"), typeOfSeries);
 			
 			scene.appendXhtml(htmlForHistograms(data_, fieldsForAgrupacionesPor != null ? fieldsForAgrupacionesPor[0] : null, userFilter));
 
@@ -196,8 +194,8 @@ public abstract class GenericHighchartModel implements IStats {
 			scene.appendXhtml(sbXml.toString());
 		}
 
-		String subtitle_ = (data_.getAttribute(SUBTILE_ATTR) == null ? "" : ((String) data_.getAttribute(SUBTILE_ATTR)));
-		data_.setAttribute(SUBTILE_ATTR, subtitle_);
+		String subtitle_ = (data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR)) == null ? "" : ((String) data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR))));
+		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), subtitle_);
 
 		return scene.getXhtml();
 	}
@@ -236,7 +234,7 @@ public abstract class GenericHighchartModel implements IStats {
 		final String lang = data_.getLanguage();
 		String nombreConceptoRecuento = (agregados != null && agregados.length > 0) ? 
 				Translator.traduceDictionaryModelDefined(lang, agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName())) : " ";			
-		data_.setAttribute(ENTIDAD_GRAFICO_PARAM, nombreConceptoRecuento);
+		data_.setAttribute(getScreenRendername().concat(ENTIDAD_GRAFICO_PARAM), nombreConceptoRecuento);
 		
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
@@ -245,10 +243,10 @@ public abstract class GenericHighchartModel implements IStats {
 		if (groupByField != null && groupByField.length > 1){
 			newNombreCategoriaOPeriodo = units;
 		}
-		data_.setAttribute(TEXT_Y_AXIS, "" + (!"".equals(units) ? units : 
+		data_.setAttribute(getScreenRendername().concat(TEXT_Y_AXIS), "" + (!"".equals(units) ? units : 
 			(entidadTraslated + (newNombreCategoriaOPeriodo.equals(entidadTraslated) ? "" : " por " + newNombreCategoriaOPeriodo))));
-		data_.setAttribute(TEXT_X_AXIS, ("".equals(units) ? entidadTraslated : units));
-		data_.setAttribute(UNITS_ATTR, units);
+		data_.setAttribute(getScreenRendername().concat(TEXT_X_AXIS), ("".equals(units) ? entidadTraslated : units));
+		data_.setAttribute(getScreenRendername().concat(UNITS_ATTR), units);
 
 		String title = "", subTitle = "";
 		if (data_.getAttribute(TITLE_ATTR) != null) {
@@ -273,28 +271,22 @@ public abstract class GenericHighchartModel implements IStats {
 			title +=  ((aggregateFunction.contentEquals(OPERATION_AVERAGE))?" -> promedio: ": " -> total: ") + resumenToalizadoOpromediado;	
 		}		
 		
-		data_.setAttribute(TITLE_ATTR, title);
+		data_.setAttribute(getScreenRendername().concat(TITLE_ATTR), title);
 
-		if (data_.getAttribute(SUBTILE_ATTR) != null) {
+		if (data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR)) != null) {
 			subTitle = (String) data_.getAttribute(SUBTILE_ATTR);
 			subTitle = subTitle.replaceAll("#", units);
 		}
 		String criteria = pintarCriterios(filtro_, data_);
 		String crit = criteria.equals("")?"No filtered": criteria;
-		data_.setAttribute(SUBTILE_ATTR, subTitle + "<br/> " + crit);
-		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
+		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), subTitle + "<br/> " + crit);
+		data_.setAttribute("container", getScreenRendername().concat(".jsp"));
 	}
 
-	protected boolean is3D() {
-		return false;
-	}
 
 	protected final String htmlForHistograms(final Datamap data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
 		data_.setAttribute("width-container", 1000);
 		data_.setAttribute("height-container", 950);
-		if (is3D()) {
-			data_.setAttribute("is3D", "3D");
-		}
 		return "";
 	}
 

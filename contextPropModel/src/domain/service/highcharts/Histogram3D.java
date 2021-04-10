@@ -189,18 +189,19 @@ public class Histogram3D extends GenericHighchartModel {
 						
 		}//FOR PERIODOS
 				
-		String serieJson = regenerarListasSucesos(newSeries, is3D(), ((agregados!=null && agregados[0].getAbstractField().isDecimal())?true:false));
+		String serieJson = regenerarListasSucesos(newSeries, ((agregados!=null && agregados[0].getAbstractField().isDecimal())?true:false));
 		
 		IEntityLogic entidadGrafico = fieldsGROUPBY[0].getEntityDef();
 		String entidad = Translator.traduceDictionaryModelDefined(data_.getLanguage(), 
 				entidadGrafico.getName().concat(".").concat(entidadGrafico.getName()));
 		
-		data_.setAttribute(CHART_TITLE, fieldsGROUPBY.length == 2 ? 
+		data_.setAttribute(getScreenRendername().concat(CHART_TITLE), fieldsGROUPBY.length == 2 ? 
 				"Comparativa de " + CommonUtils.obtenerPlural(entidad) + " " + (aggregateFunction.contentEquals(OPERATION_AVERAGE)?"(promedios) ":"(totales) "): "Time series ");
-		data_.setAttribute(JSON_OBJECT, serieJson);
-		data_.setAttribute("abscisas", jsArrayEjeAbcisas.toString());
-		data_.setAttribute("minEjeRef", minimal);
-		data_.setAttribute("profundidad", agregados == null ? 15 : 10 + 5 * (agregados.length));
+		data_.setAttribute(getScreenRendername().concat(JSON_OBJECT), serieJson);
+		data_.setAttribute(getScreenRendername().concat("abscisas"), jsArrayEjeAbcisas.toString());
+		data_.setAttribute(getScreenRendername().concat("minEjeRef"), minimal);
+		data_.setAttribute(getScreenRendername().concat("profundidad"), agregados == null ? 15 : 10 + 5 * (agregados.length));
+		data_.setAttribute(getScreenRendername().concat("is3D"), "3D");
 		
 		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
 	}
@@ -297,11 +298,6 @@ public class Histogram3D extends GenericHighchartModel {
 	}
 	
 	@Override
-	protected boolean is3D() {
-		return true;
-	}
-
-	@Override
 	public String getScreenRendername() {
 
 		return "histogram3d";
@@ -309,8 +305,9 @@ public class Histogram3D extends GenericHighchartModel {
 	
 	
 	@SuppressWarnings("unchecked")
-	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, boolean stack_Z, boolean pointPlacementOn) {
+	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, boolean pointPlacementOn) {
 
+		boolean stack_Z = true;
 		JSONArray seriesJSON = new JSONArray();
 
 		if (ocurrencias == null || ocurrencias.isEmpty()) {

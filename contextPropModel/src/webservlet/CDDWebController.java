@@ -176,7 +176,7 @@ public class CDDWebController extends HttpServlet {
 			for (final String val:arrvalues){
 				vals_.add(val);
 			}
-			datamap.setParameters(key, vals_);
+			datamap.setParameterValues(key, vals_);
 		}
 		if (httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE) != null) {
 			datamap.setAttribute(PCMConstants.APP_PROFILE, (String) httpRequest.getSession().getAttribute(PCMConstants.APP_PROFILE));

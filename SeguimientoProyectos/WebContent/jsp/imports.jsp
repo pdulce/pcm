@@ -39,9 +39,11 @@ String defaultMode = (String)request.getAttribute("style");
 	<script src="https://code.highcharts.com/maps/highmaps.js"></script>
 	<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 	<script src="<%=request.getAttribute("mapa")%>"></script>
+	
 <%
 	}else {
 %>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/highcharts-more.js"></script>
 	<script src="https://code.highcharts.com/highcharts-3d.js"></script>

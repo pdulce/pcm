@@ -2,16 +2,18 @@
     pageEncoding="UTF-8"%>
 
 
+<div id="spiderweb"></div>
+
 <script type="text/javascript">
 	   
-  	Highcharts.chart('container', {
+  	Highcharts.chart('spiderweb', {
    		chart: {
 	        polar: true,
 	        type: 'line',
             backgroundColor: 'transparent'
 	    },
         title: {
-        	text : '<%=request.getAttribute("title")%>',
+        	text : '<%=request.getAttribute("spiderwebtitle")%>',
         	style: {'color': 'orange', 'font-weight': 'lighter'},
             x: -80
         },
@@ -19,11 +21,11 @@
             size: '80%'
         },
         subtitle: {
-            text: '<%=request.getAttribute("subtitle")%>',
+            text: '<%=request.getAttribute("spiderwebsubtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         xAxis : {
-			categories : <%=request.getAttribute("categories")%>,
+			categories : <%=request.getAttribute("spiderwebcategories")%>,
 			tickmarkPlacement: 'on',
 		    lineWidth: 0,
 		    labels: {
@@ -47,7 +49,7 @@
 
 	    tooltip: {
 	        shared: true,
-	        pointFormat: '<span style="color:{series.color}">{series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
+	        pointFormat: '<span style="color:{series.color}">{series.name}: {point.y:<%=request.getAttribute("spiderwebdecimals")%>}'
 	    },
 
 	    legend: {
@@ -56,7 +58,7 @@
 	        layout: 'vertical',
 	        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
 	    },
-		series : <%=request.getAttribute("series")%>,
+		series : <%=request.getAttribute("spiderwebseries")%>,
 		responsive: {
 	        rules: [{
 	            condition: {

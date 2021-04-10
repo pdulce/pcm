@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
+ 
+ 
+ <div id="worldmap"></div>
    
  <script type="text/javascript">
 	 
@@ -13,19 +16,19 @@
 	    });
 	   
 	    // Initiate the chart
-	    $('#container').highcharts('Map', {
+	    Highcharts.mapChart('worldmap', {
 
 	    	title : {
-				text : '<%=request.getAttribute("title")%>'
+				text : '<%=request.getAttribute("worldmaptitle")%>'
 			},
 					
 			subtitle : {
-				text : '<%=request.getAttribute("subtitle")%>'
+				text : '<%=request.getAttribute("worldmapsubtitle")%>'
 			},
 	        
 	        legend: {
             	title: {
-                    text: '<%=request.getAttribute("units")%> <%=request.getAttribute("entidadGrafico")%>',
+                    text: '<%=request.getAttribute("worldmapunits")%> <%=request.getAttribute("worldmapentidadGrafico")%>',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.textColor) || 'blue'
                     }
@@ -51,10 +54,10 @@
 	        },
 
 	        series : [{
-	        	data : <%=request.getAttribute("series")%>,
+	        	data : <%=request.getAttribute("worldmapseries")%>,
 	            mapData: Highcharts.maps['custom/world'],
 	            joinBy: 'hc-key',
-	            name: '<%=request.getAttribute("entidadGrafico")%>',
+	            name: '<%=request.getAttribute("worldmapentidadGrafico")%>',
 	            states: {
 	                hover: {
 	                    color: '#BADA55'
@@ -62,7 +65,7 @@
 	            },
 	            dataLabels: {
 	                enabled: true,
-	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("decimals")%>}'
+	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("worldmapdecimals")%>}'
 	            }
 	        }]
 	    });

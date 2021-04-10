@@ -48,16 +48,16 @@ public class MapWorld extends MapEurope {
 				.format(total.doubleValue()) : CommonUtils.numberFormatter.format(Double.valueOf(total.doubleValue()).intValue());
 		promedioPorRegion = sumarizadorTotal / valoresAgregados.size();
 	
-		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
-		data_.setAttribute(DARK_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
+		data_.setAttribute(getScreenRendername().concat(LIGHT_COLOR_FIELD_PARAM), data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
+		data_.setAttribute(getScreenRendername().concat(DARK_COLOR_FIELD_PARAM), data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
 
 		String title = "Distribucion por Paises en el mundo #";
 		String subtitle = "<h4>Paises: <b>" + unidadesEnRegion_formated + "#</b> [<b>"
 				+ CommonUtils.numberFormatter.format(promedioPorRegion) + "#/pais</b>]</h4>";
 		subtitle = subtitle.concat("<h4>, total: <b>" + unidadesTotales_formated + "#</b></h4>");
 		
-		data_.setAttribute(TITLE_ATTR, title);
-		data_.setAttribute(SUBTILE_ATTR, subtitle);
+		data_.setAttribute(getScreenRendername().concat(TITLE_ATTR), title);
+		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), subtitle);
 		data_.setAttribute("mapa", "http://code.highcharts.com/mapdata/custom/world.js");
 		
 		return total;

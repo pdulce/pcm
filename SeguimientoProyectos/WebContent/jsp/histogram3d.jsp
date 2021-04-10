@@ -1,12 +1,32 @@
-
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
+
+
+<div id="histogram3d"></div>
+
+ <%if (request.getAttribute("is3D") != null) { %>
+			<div id="sliders">
+		        <table>
+		            <tr>
+		                <td><label for="alpha">Alpha Angle</label></td>
+		                <td><input id="alpha" type="range" min="0" max="45" value="15"/> <span id="alpha-value" class="value"></span></td>
+		            </tr>
+		            <tr>
+		                <td><label for="beta">Beta Angle</label></td>
+		                <td><input id="beta" type="range" min="-45" max="45" value="15"/> <span id="beta-value" class="value"></span></td>
+		            </tr>
+		            <tr>
+		                <td><label for="depth">Depth</label></td>
+		                <td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
+		            </tr>
+		        </table>
+   			</div>
+    <%} %>
 
 <script type="text/javascript">
 	var chart = new Highcharts.Chart({
 	    chart: {
-	        renderTo: 'container',
+	        renderTo: 'histogram3d',
 	        type: 'column',
             backgroundColor: 'transparent',
 	        options3d: {
@@ -18,17 +38,17 @@
 	        }
 	    },
         title: {
-            text: '<%=request.getAttribute("title")%>',
+            text: '<%=request.getAttribute("histogram3dtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         
         subtitle: {
-            text: '<%=request.getAttribute("subtitle")%>',
+            text: '<%=request.getAttribute("histogram3dsubtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         
         xAxis: {
-            categories: <%=request.getAttribute("abscisas")%>,
+            categories: <%=request.getAttribute("histogram3dabscisas")%>,
             labels: {
                 style: {
                     color: 'orange',
@@ -39,9 +59,9 @@
         
         yAxis: {
             allowDecimals: true,
-            min: <%=request.getAttribute("minEjeRef")%>,
+            min: <%=request.getAttribute("histogram3dminEjeRef")%>,
             title: {
-                text: '<%=request.getAttribute("titulo_EJE_Y")%>',
+                text: '<%=request.getAttribute("histogram3dtitulo_EJE_Y")%>',
                 style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': 'xx-small'}
             },
             labels: {
@@ -73,7 +93,7 @@
             }
         },
         				      
-        series: <%=request.getAttribute("series")%>
+        series: <%=request.getAttribute("histogram3dseries")%>
 	});
 	
 	function showValues() {

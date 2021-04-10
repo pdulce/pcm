@@ -54,6 +54,7 @@ import domain.service.event.IAction;
 import domain.service.event.IEvent;
 import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
+import domain.service.highcharts.Dashboard;
 import domain.service.highcharts.Dualhistogram;
 import domain.service.highcharts.Histogram3D;
 import domain.service.highcharts.MapEurope;
@@ -69,7 +70,7 @@ public class ApplicationDomain implements Serializable {
 
 	private static final long serialVersionUID = 55669998888190L;
 	public static final String PROFILE_ELEMENT = "profile", PROFILES_ELEMENT = "profiles", 
-			EVENTO_CONFIGURATION = "Configuration", EXEC_PARAM = "exec", APP_ELEMENT = "aplication", 
+			CONFIGURATION = "Configuration", DASHBOARD="dashboard", EXEC_PARAM = "exec", APP_ELEMENT = "aplication", 
 			CONFIG_NODE = "configuration", VAR_SERVERPATH= "#serverPath#",	ENTRY_CONFIG_NODE = "entry", 
 			ATTR_SERVER_PATH = "serverPath"; 
 	
@@ -395,12 +396,16 @@ public class ApplicationDomain implements Serializable {
 	public String launch(final Datamap datamap, final boolean eventSubmitted, final String escenarioTraducido) 
 			throws PcmException {
 		String highchartsParam = "";
-		if (EVENTO_CONFIGURATION.equals(datamap.getParameter(EXEC_PARAM))) {	
+		if (CONFIGURATION.equals(datamap.getParameter(EXEC_PARAM))) {
 			return paintConfiguration(datamap);
+		}
+		
+		GenericHighchartModel genericHCModel = null;
+		if (DASHBOARD.equals(datamap.getParameter(EXEC_PARAM))) {
+			genericHCModel = new Dashboard();
 		}else if ((highchartsParam = getHighchartRequest(datamap)) != null) {	
 			//instanciamos la clase del gráfico que corresponda
-			final String highchartStats = datamap.getParameter(highchartsParam);
-			GenericHighchartModel genericHCModel = null;
+			final String highchartStats = datamap.getParameter(highchartsParam);			
 			if (highchartStats.equals("mapspain")){
 				genericHCModel = new MapSpain();
 			}else if (highchartStats.equals("mapeurope")){
@@ -419,11 +424,14 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Dualhistogram();
 			}else if (highchartStats.equals("scatter")) {
 				genericHCModel = new Scatter();
-			//}else if (highchartStats.equals("timeseries")) {
-				//	genericHCModel = new TimeSeries();
 			}else if (highchartStats.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
+			}else if (highchartStats.equals("dashboard")) {
+				
 			}
+		}
+		
+		if (genericHCModel != null) {
 			try {
 				DomainService domainService = getDomainService(datamap.getService());
 				Collection<String> conditions = domainService.extractStrategiesElementByAction(datamap.getEvent()); ;
@@ -435,6 +443,7 @@ public class ApplicationDomain implements Serializable {
 			}
 		}
 		
+		
 		IDataAccess dataAccess_ = null;
 		try {
 			StringBuilder innerContent_ = new StringBuilder();
@@ -442,7 +451,7 @@ public class ApplicationDomain implements Serializable {
 			if (event == null){
 				List<String> valueList = new ArrayList<String>();
 				valueList.add(datamap.getService().concat(".").concat(datamap.getEvent()));
-				datamap.setParameters(PCMConstants.EVENT, valueList);
+				datamap.setParameterValues(PCMConstants.EVENT, valueList);
 			}						
 			DomainService domainService = getDomainService(datamap.getService());
 			Collection<String> conditions = null, preconditions = null;

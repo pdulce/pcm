@@ -1,25 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
+
+<div id="scatter"></div>
+
 <script type="text/javascript">
 	
-		Highcharts.chart('container', {
+		Highcharts.chart('scatter', {
 	        chart: {
 	            type: 'scatter',
 	            backgroundColor: 'transparent',
 	            zoomType: 'xy'
 	        },
 	        title: {
-	            text: '<%=request.getAttribute("title")%>',
+	            text: '<%=request.getAttribute("scattertitle")%>',
 	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        subtitle: {
-	            text: '<%=request.getAttribute("subtitle")%>',
+	            text: '<%=request.getAttribute("scattersubtitle")%>',
 	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        xAxis: {
 	            title: {	                
-	                text: '<%=request.getAttribute("titulo_EJE_X")%>',
+	                text: '<%=request.getAttribute("scattertitulo_EJE_X")%>',
 	                style: {'color': 'orange', 'font-weight': 'lighter'}	                
 	            },
 	            labels: {
@@ -31,7 +34,7 @@
 	        },
 	        yAxis: {
 	            title: {
-	                text: '<%=request.getAttribute("titulo_EJE_Y")%>',
+	                text: '<%=request.getAttribute("scattertitulo_EJE_Y")%>',
 	                itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
 	            },
 	            labels: {
@@ -48,14 +51,14 @@
 	                },	                
 	                tooltip: {
 	                    headerFormat: '<b>{series.name}</b><br>',
-	                    pointFormat: '{point.x} <%=request.getAttribute("tooltip_X")%>, {point.y} <%=request.getAttribute("tooltip_Y")%>'
+	                    pointFormat: '{point.x} <%=request.getAttribute("scattertooltip_X")%>, {point.y} <%=request.getAttribute("scattertooltip_Y")%>'
 	                }
 	            }
 	        },
 	        series: [{
 	            type: 'line',
 	            name: 'Regression Line',
-	            data: <%=request.getAttribute("line")%>,
+	            data: <%=request.getAttribute("scatterline")%>,
 	            marker: {
 	                enabled: false
 	            },
@@ -68,7 +71,7 @@
 	        }, {
 	            type: 'scatter',
 	            name: 'Observations',
-	            data: <%=request.getAttribute("observations")%>,
+	            data: <%=request.getAttribute("scatterobservations")%>,
 	            marker: {
 	                radius: 3
 	            }

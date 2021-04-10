@@ -97,6 +97,8 @@ public class LauncherServlet extends CDDWebController {
 		
 		if (data_.getParameter(ApplicationDomain.EXEC_PARAM) == null){
 			return new SceneResult().getXhtml();
+		}else if ("dashboard".contentEquals(data_.getParameter(ApplicationDomain.EXEC_PARAM))) {
+			
 		}
 		htmlOutput.append("</form>");
 		SceneResult scene = new SceneResult();

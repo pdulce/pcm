@@ -1,24 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
+
+<div id="timeseries"></div>
+
 <script type="text/javascript">
 	
-	Highcharts.chart('container', {
+	Highcharts.chart('timeseries', {
 	    chart: {     	
-            type: '<%=request.getAttribute("typeOfSeries")%>',
+            type: '<%=request.getAttribute("timeseriestypeOfSeries")%>',
             margin: 75,
             backgroundColor: 'transparent'
         },
         title: {
-            text: '<%=request.getAttribute("title")%>',
+            text: '<%=request.getAttribute("timeseriestitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         subtitle: {
-            text: '<%=request.getAttribute("subtitle")%>',
+            text: '<%=request.getAttribute("timeseriessubtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         xAxis: {
-            categories: <%=request.getAttribute("abscisas")%>,
+            categories: <%=request.getAttribute("timeseriesabscisas")%>,
             labels: {
                 style: {
                     color: 'orange',
@@ -27,10 +30,10 @@
             }
         },
         yAxis: {
-            min:  <%=request.getAttribute("minEjeRef")%>,
+            min:  <%=request.getAttribute("timeseriesminEjeRef")%>,
             allowDecimals: true,
             title: {
-                text: '<%=request.getAttribute("titulo_EJE_Y")%>',
+                text: '<%=request.getAttribute("timeseriestitulo_EJE_Y")%>',
                 style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': 'xx-small'}
             },
             labels: {
@@ -49,7 +52,7 @@
         
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '<span style="font-size: xx-small; color: #3f4c6b">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
+            pointFormat: '<span style="font-size: xx-small; color: #3f4c6b">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("timeseriesdecimals")%>}'
         },
         				       
         plotOptions: {
@@ -65,7 +68,7 @@
                 dataLabels: {
                     enabled: true,
                     style: {'color': 'white', 'font-size': 'xx-small'},
-                    format: '{point.y:<%=request.getAttribute("decimals")%>}'
+                    format: '{point.y:<%=request.getAttribute("timeseriesdecimals")%>}'
                 },
                 label: {
                     connectorAllowed: false
@@ -80,7 +83,7 @@
             }
         },
         
-        series: <%=request.getAttribute("series")%>,
+        series: <%=request.getAttribute("timeseriesseries")%>,
         
         responsive: {
             rules: [{

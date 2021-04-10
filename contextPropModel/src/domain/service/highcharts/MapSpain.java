@@ -69,7 +69,7 @@ public class MapSpain extends GenericHighchartModel {
 		
 		/**********************/
 		
-		data_.setAttribute(JSON_OBJECT, generarMapa(agregadosPorRegion));
+		data_.setAttribute(getScreenRendername().concat(JSON_OBJECT), generarMapa(agregadosPorRegion));
 				
 		Number total = setMapAttributes(valoresAgregados, data_, filtro_, fieldsForAgregadoPor, fieldsForCategoriaDeAgrupacion, 
 				aggregateFunction, sumarizadorTotal, contabilizadasSSCC);
@@ -107,8 +107,8 @@ public class MapSpain extends GenericHighchartModel {
 				.format(total.doubleValue()) : CommonUtils.numberFormatter.format(Double.valueOf(total.doubleValue()).intValue());
 		promedioPorProvincia = sumarizadorTotal / (valoresAgregados.size() - (contabilizadasSSCC == 0 ? 0 : 1));
 		
-		data_.setAttribute(LIGHT_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
-		data_.setAttribute(DARK_COLOR_FIELD_PARAM, data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
+		data_.setAttribute(getScreenRendername().concat(LIGHT_COLOR_FIELD_PARAM), data_.getParameter(filtro_.getNameSpace().concat(".").concat(LIGHT_COLOR_FIELD_PARAM)));
+		data_.setAttribute(getScreenRendername().concat(DARK_COLOR_FIELD_PARAM), data_.getParameter(filtro_.getNameSpace().concat(".").concat(DARK_COLOR_FIELD_PARAM)));
 
 		String title = "Distribucion Provincial de #";
 		String subtitle = "<h4>Provincias: <b>" + unidadesEnProvincias_formated + "#</b> [<b>"
@@ -119,8 +119,8 @@ public class MapSpain extends GenericHighchartModel {
 		}else {
 			subtitle = subtitle.concat("<h4>, total: <b>" + unidadesTotales_formated + "#</b></h4>");
 		}
-		data_.setAttribute(TITLE_ATTR, title);
-		data_.setAttribute(SUBTILE_ATTR, subtitle);
+		data_.setAttribute(getScreenRendername().concat(TITLE_ATTR), title);
+		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), subtitle);
 		data_.setAttribute("mapa", "https://code.highcharts.com/mapdata/countries/es/es-all.js");
 		
 		return total;

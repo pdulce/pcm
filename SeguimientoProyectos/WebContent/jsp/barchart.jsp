@@ -1,23 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
+<div id="barchart"></div>
+
 <script type="text/javascript">
 			
-			Highcharts.chart('container', {
+			Highcharts.chart('barchart', {
 			    chart: {
 			        type: 'bar',
 		            backgroundColor: 'transparent'
 			    },
 			    title: {
-			        text: '<%=request.getAttribute("title")%>',
+			        text: '<%=request.getAttribute("barcharttitle")%>',
 			        style: {'color': 'orange', 'font-weight': 'lighter'}
 			    },
 			    subtitle: {
-		            text: '<%=request.getAttribute("subtitle")%>',
+		            text: '<%=request.getAttribute("barchartsubtitle")%>',
 		            style: {'color': 'orange', 'font-weight': 'lighter'}
 		        },
 			    xAxis: {
-			        categories: <%=request.getAttribute("categories")%>,
+			        categories: <%=request.getAttribute("barchartcategories")%>,
 			        labels: {
 		                style: {
 		                    color: 'orange',
@@ -29,7 +31,7 @@
 			        min: 0,
 			        itemStyle: {'color': 'orange', 'font-weight': 'lighter'},
 			        title: {
-			            text: '<%=request.getAttribute("titulo_EJE_X")%>',
+			            text: '<%=request.getAttribute("barcharttitulo_EJE_X")%>',
 			            itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
 			        },
 			        labels: {
@@ -49,7 +51,7 @@
 			            style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'}
 			        }
 			    },
-				  series: <%=request.getAttribute("series")%>
+				  series: <%=request.getAttribute("barchartseries")%>
 			    
 			});
 			

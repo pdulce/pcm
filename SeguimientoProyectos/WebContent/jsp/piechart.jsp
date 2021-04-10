@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
+<div id="piechart"></div>
 
 <script type="text/javascript">
 	   
-  Highcharts.chart('container', {
+  Highcharts.chart('piechart', {
    chart: {	   
          backgroundColor: 'transparent',
          plotBackgroundColor: null,
@@ -13,11 +14,11 @@
          type: 'pie'
      },
      title: {
-         text: '<%=request.getAttribute("title")%>',
+         text: '<%=request.getAttribute("piecharttitle")%>',
          style: {'color': 'orange', 'font-weight': 'lighter'}
     },
     subtitle: {
-        text: '<%=request.getAttribute("subtitle")%>',
+        text: '<%=request.getAttribute("piechartsubtitle")%>',
         style: {'color': 'orange', 'font-weight': 'lighter'}
     },
     tooltip: {
@@ -44,11 +45,11 @@
             }
         }
     },
-    series: <%=request.getAttribute("series")%>,        
+    series: <%=request.getAttribute("piechartseries")%>,        
  	legend: {
 	 	enabled: true,
         	title: {
-               text: '<%=request.getAttribute("units")%> <%=request.getAttribute("entidadGrafico")%>',
+               text: '<%=request.getAttribute("piechartunits")%> <%=request.getAttribute("piechartentidadGrafico")%>',
                style: {
                color: (Highcharts.theme && Highcharts.theme.textColor) || 'orange'
                 }

@@ -130,8 +130,8 @@ public class Scatter extends GenericHighchartModel {
 		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
 		String criteria = pintarCriterios(userFilter, data_);
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
-		data_.setAttribute(TITLE_ATTR, "<h4>".concat(title).concat("</h4>"));
-		data_.setAttribute(SUBTILE_ATTR, "<br/> " + criteria);
+		data_.setAttribute(getScreenRendername().concat(TITLE_ATTR), "<h4>".concat(title).concat("</h4>"));
+		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), "<br/> " + criteria);
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}
 

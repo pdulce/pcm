@@ -1,25 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
+
+
+<div id="europemap"></div>
    
-   <script type="text/javascript">
+<script type="text/javascript">
 	 
-	   Highcharts.mapChart('container', {
+	   Highcharts.mapChart('europemap', {
 		    chart: {
 		        map: 'custom/europe',
 	            backgroundColor: 'transparent'
 		    },
 	
 		   title : {
-			   text : '<%=request.getAttribute("title")%>'
+			   text : '<%=request.getAttribute("europemaptitle")%>'
 		   },
 				
 		   subtitle : {
-			   text : '<%=request.getAttribute("subtitle")%>'
+			   text : '<%=request.getAttribute("europemapsubtitle")%>'
 		   },
 		        			        
            legend: {
             	title: {
-                    text: '<%=request.getAttribute("units")%> <%=request.getAttribute("entidadGrafico")%>',
+                    text: '<%=request.getAttribute("europemapunits")%> <%=request.getAttribute("europemapentidadGrafico")%>',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.textColor) || 'blue'
                     }
@@ -45,8 +48,8 @@
 	        },
 	        
 	        series: [{
-	        	data : <%=request.getAttribute("series")%>,
-	        	name: '<%=request.getAttribute("entidadGrafico")%>',
+	        	data : <%=request.getAttribute("europemapseries")%>,
+	        	name: '<%=request.getAttribute("europemapentidadGrafico")%>',
 	        	 states: {
 	                 hover: {
 	                     color: '#BADA55'

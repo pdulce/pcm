@@ -136,11 +136,11 @@ public class Dualhistogram extends GenericHighchartModel {
 			frecuenciasAcumuladasPorPeriodos.put(key, porcentuado);
 			seriesJSONFrecAcumuladas.add(CommonUtils.roundWith2Decimals(porcentuado));
 		}
-		data_.setAttribute(CHART_TITLE, "Histograma de frecuencia");
-		data_.setAttribute(JSON_OBJECT, jsArrayEjeAbcisas.toJSONString());
-		data_.setAttribute(FREQ_ABSOLUTE, seriesJSONFrecAbsolutas.toJSONString());
-		data_.setAttribute(FREQ_ACUMULATED, seriesJSONFrecAcumuladas.toJSONString());
-		data_.setAttribute("minEjeRef", minimal);
+		data_.setAttribute(getScreenRendername().concat(CHART_TITLE), "Histograma de frecuencia");
+		data_.setAttribute(getScreenRendername().concat(JSON_OBJECT), jsArrayEjeAbcisas.toJSONString());
+		data_.setAttribute(getScreenRendername().concat(FREQ_ABSOLUTE), seriesJSONFrecAbsolutas.toJSONString());
+		data_.setAttribute(getScreenRendername().concat(FREQ_ACUMULATED), seriesJSONFrecAcumuladas.toJSONString());
+		data_.setAttribute(getScreenRendername().concat("minEjeRef"), minimal);
 		
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
 			frecuenciaAcumulada = frecuenciaAcumulada/jsArrayEjeAbcisas.size();

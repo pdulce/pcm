@@ -1,24 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
+
+<div id="dualHistogram"></div>
+
 <script type="text/javascript">
 	 		
- 		Highcharts.chart('container', {
+ 		Highcharts.chart('dualHistogram', {
 	        chart: {
 	        	type: 'column',
 	            zoomType: 'xy',
 	            backgroundColor: 'transparent'
 	        },
 	        title: {
-	            text: '<%=request.getAttribute("title")%>',
+	            text: '<%=request.getAttribute("dualHistogramtitle")%>',
 	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        subtitle: {
-	            text: '<%=request.getAttribute("subtitle")%>',
+	            text: '<%=request.getAttribute("dualHistogramsubtitle")%>',
 	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        xAxis: [{
-	            categories: <%=request.getAttribute("series")%>,
+	            categories: <%=request.getAttribute("dualHistogramseries")%>,
 	            labels: {
 	                style: {
 	                    color: 'orange',
@@ -35,7 +38,7 @@
 	                }
 	            },
 	            allowDecimals: true,
-	            min: <%=request.getAttribute("minEjeRef")%>,
+	            min: <%=request.getAttribute("dualHistogramminEjeRef")%>,
 	            title: {
 	                text: 'Frecuencia relativa',
 	                style: {
@@ -75,9 +78,9 @@
 	        series: [{
 	        	name: 'Relative freq.',
 	            type: 'column',
-	            data: <%=request.getAttribute("frecAbsoluta")%>,
+	            data: <%=request.getAttribute("dualHistogramfrecAbsoluta")%>,
 	            tooltip: {
-	                valueSuffix: ' <%=request.getAttribute("units")%>'
+	                valueSuffix: ' <%=request.getAttribute("dualHistogramunits")%>'
 	            }
 
 	        }, {
@@ -85,7 +88,7 @@
 	            type: 'spline',
 	            yAxis: 1,
 	            style: {'color': 'blue', 'font-weight': 'lighter'},
-	            data: <%=request.getAttribute("frecAcum")%>,
+	            data: <%=request.getAttribute("dualHistogramfrecAcum")%>,
 	            tooltip: {
 	                valueSuffix: '%'
 	            }

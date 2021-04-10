@@ -240,7 +240,7 @@ public class BarChart extends GenericHighchartModel {
 		/**********************/
 		boolean stack_Z = false;
 		
-		data_.setAttribute(JSON_OBJECT, regenerarListasSucesos(registros, jsArrayEjeAbcisas, stack_Z, data_));
+		data_.setAttribute(getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(registros, jsArrayEjeAbcisas, stack_Z, data_));
 		JSONArray newArrayEjeAbcisas = new JSONArray();
 		for (int ejeX=0;ejeX<jsArrayEjeAbcisas.size();ejeX++){
 			String columnaTotalizada = "";
@@ -258,16 +258,16 @@ public class BarChart extends GenericHighchartModel {
 			newArrayEjeAbcisas.add(ejeX_totalizado);
 		}		
 		String categories_UTF8 = CommonUtils.quitarTildes(newArrayEjeAbcisas.toJSONString());
-		data_.setAttribute(CATEGORIES, categories_UTF8);
+		data_.setAttribute(getScreenRendername().concat(CATEGORIES), categories_UTF8);
 		
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
 		
-		data_.setAttribute(CHART_TITLE, "Barchart de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
+		data_.setAttribute(getScreenRendername().concat(CHART_TITLE), "Barchart de " + CommonUtils.obtenerPlural(itemGrafico) + " ");
 		
-		data_.setAttribute(IS_BAR_INTERNAL_LABELED, "false");
+		data_.setAttribute(getScreenRendername().concat(IS_BAR_INTERNAL_LABELED), "false");
 		
-		data_.setAttribute("minEjeRef", CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
+		data_.setAttribute(getScreenRendername().concat("minEjeRef"), CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
 			double median = total_.doubleValue()/listaValoresAgregados.size();
 			total_ = median;

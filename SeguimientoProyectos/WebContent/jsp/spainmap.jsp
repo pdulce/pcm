@@ -1,25 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
+
+
+<div id="spainmap"></div>
    
-   <script type="text/javascript">
+<script type="text/javascript">
 	 
-	   Highcharts.mapChart('container', {
+	   Highcharts.mapChart('spainmap', {
 		    chart: {
 		        map: 'countries/es/es-all',
 	            backgroundColor: 'transparent'
 		    },
 	
 		   title : {
-			   text : '<%=request.getAttribute("title")%>'
+			   text : '<%=request.getAttribute("spainmaptitle")%>'
 		   },
 				
 		   subtitle : {
-			   text : '<%=request.getAttribute("subtitle")%>'
+			   text : '<%=request.getAttribute("spainmapsubtitle")%>'
 		   },
 		        			        
            legend: {
             	title: {
-                    text: '<%=request.getAttribute("units")%> <%=request.getAttribute("entidadGrafico")%>',
+                    text: '<%=request.getAttribute("spainmapunits")%> <%=request.getAttribute("spainmapentidadGrafico")%>',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.textColor) || 'blue'
                     }
@@ -45,8 +48,8 @@
 	        },
 	        
 	        series: [{
-	        	data : <%=request.getAttribute("series")%>,
-	        	name: '<%=request.getAttribute("entidadGrafico")%>',
+	        	data : <%=request.getAttribute("spainmapseries")%>,
+	        	name: '<%=request.getAttribute("spainmapentidadGrafico")%>',
 	            states: {
 	                hover: {
 	                    color: '#BADA55'
@@ -54,7 +57,7 @@
 	            },
 	            dataLabels: {
 	                enabled: true,
-	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("decimals")%>}'
+	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("spainmapdecimals")%>}'
 	            }
 	        }, {
 	            name: 'Separators',

@@ -18,7 +18,7 @@ public class Datamap {
 	private Collection<String> attributeNames = new ArrayList<>();
 	private Collection<String> parameterNames = new ArrayList<>();
 	private Collection<String> appProfileSet = new ArrayList<>();
-	private String service;
+	private String service, uri;
 	private String event;
 	private String language;
 	private String entitiesDictionary;
@@ -32,6 +32,7 @@ public class Datamap {
 		this.language = PCMConstants.DEFAULT_LANG;
 		this.entitiesDictionary = entitiesDictionary_;
 		this.setAttribute(PCMConstants.APP_DICTIONARY, entitiesDictionary_);
+		this.uri = uri_;
 		this.setAttribute(PCMConstants.APPURI_, uri_);
 	}
 	
@@ -58,12 +59,17 @@ public class Datamap {
 	public String getEvent() {
 		return this.event;
 	}
+	
+	public String getUri() {
+		return this.uri;
+	}
+
 
 	public void setEvent(String event_) {
 		this.event = event_;
 		List<String> val_List = new ArrayList<String>();
 		val_List.add(getService().concat(".").concat(event_));
-		this.setParameters(PCMConstants.EVENT, val_List);
+		this.setParameterValues(PCMConstants.EVENT, val_List);
 	}
 		
 	public void setPageSize(final int page_size){
@@ -173,10 +179,10 @@ public class Datamap {
 	public void setParameter(final String param, String value){
 		List<String> values = new ArrayList<String>();
 		values.add(value);
-		setParameters(param, values);
+		setParameterValues(param, values);
 	}
 	
-	public void setParameters(final String param, final List<String> values){
+	public void setParameterValues(final String param, final List<String> values){
 		List<Object> dataValues = null;
 		if (this.data.containsKey(param)){
 			dataValues = this.data.get(param);
