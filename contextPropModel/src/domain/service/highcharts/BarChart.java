@@ -59,7 +59,7 @@ public class BarChart extends GenericHighchartModel {
 				Iterator<String> iteratorOfDimensionNames = entryMap.keySet().iterator();
 				while (iteratorOfDimensionNames.hasNext()){
 					String dimensionName = iteratorOfDimensionNames.next();
-					String dimensionLabel = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef()
+					Serializable dimensionLabel = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef()
 							.getName().concat(".").concat(dimensionName));
 					int positionClaveAgregacion = 0;					
 					Map<String, Number> valoresDeDimensionParaAgrupacPral = new HashMap<String, Number>();
@@ -130,7 +130,20 @@ public class BarChart extends GenericHighchartModel {
 							}												
 						}
 					}
-					registros.put(dimensionLabel, valoresDeDimensionParaAgrupacPral);
+					//miro si este valor de agrupacion es un FK contra otra tabla, para obtener el valor correcto, descField
+					if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
+						IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
+						FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
+						fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), dimensionLabel);
+						try {
+							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
+							IFieldLogic descField = fSetParent.getDescriptionField();
+							dimensionLabel = fSetParent.getValue(descField.getName());
+						} catch (DatabaseException e) {
+							e.printStackTrace();
+						}									
+					}
+					registros.put(dimensionLabel.toString(), valoresDeDimensionParaAgrupacPral);
 				}
 			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupacion con mas de un campo
 
@@ -181,8 +194,8 @@ public class BarChart extends GenericHighchartModel {
 					while (iteradorEntrysDeValorAgrupacion.hasNext()){
 						Map.Entry<FieldViewSet, Map<String,Double>> entryDeValorAgrupacion = iteradorEntrysDeValorAgrupacion.next();
 						FieldViewSet filtroConValorAgrupacion = entryDeValorAgrupacion.getKey();
-						String valorAgrupacionPral = filtroConValorAgrupacion.getValue(dimensionNamePral).toString();						
-						if (registros.get(valorAgrupacionPral)!=null){
+						Serializable valorAgrupacionPralCandidato = filtroConValorAgrupacion.getValue(dimensionNamePral);						
+						if (registros.get(valorAgrupacionPralCandidato.toString())!=null){
 							continue;
 						}
 						Map<String, Number> valoresDeDimensionParaAgrupacPral = new HashMap<String, Number>();
@@ -196,12 +209,11 @@ public class BarChart extends GenericHighchartModel {
 							while (iteradorEntrysDeValorAgrupacionResto.hasNext()){
 								Map.Entry<FieldViewSet, Map<String,Double>> entry = iteradorEntrysDeValorAgrupacionResto.next();
 								FieldViewSet filtroConValorAgrupacionPral = entry.getKey();
-								String valorAgrupacionPralCandidato = filtroConValorAgrupacionPral.getValue(dimensionNamePral).toString();
+								Serializable valorAgrupacionPral = filtroConValorAgrupacionPral.getValue(dimensionNamePral);
 								if (valorAgrupacionPralCandidato.equals(valorAgrupacionPral)){
 									Double valorParaEstaCombinacion = CommonUtils.roundWith2Decimals(entry.getValue().values().iterator().next());
-									//saco el valor de la segunda dimension
+									//saco el valor de la segunda dimension																	
 									Serializable valorAgrupacionSecundaria = filtroConValorAgrupacionPral.getValue(dimensionNameSecundario);
-									//miro si este valor de agrupacion es un FK contra otra tabla, para obtener el valor correcto, descField
 									if (fieldsCategoriaDeAgrupacion[1].getParentFieldEntities() != null){
 										IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[1].getParentFieldEntities().get(0);
 										FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
@@ -227,7 +239,20 @@ public class BarChart extends GenericHighchartModel {
 								}
 							}
 						}
-						registros.put(valorAgrupacionPral, valoresDeDimensionParaAgrupacPral);
+						//miro si este valor de agrupacion es un FK contra otra tabla, para obtener el valor correcto, descField
+						if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
+							IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
+							FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
+							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), valorAgrupacionPralCandidato);
+							try {
+								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
+								IFieldLogic descField = fSetParent.getDescriptionField();
+								valorAgrupacionPralCandidato = fSetParent.getValue(descField.getName());
+							} catch (DatabaseException e) {
+								e.printStackTrace();
+							}									
+						}
+						registros.put(valorAgrupacionPralCandidato.toString(), valoresDeDimensionParaAgrupacPral);
 					}
 				}
 				

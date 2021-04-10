@@ -20,7 +20,7 @@
 				
 					<button	link="prjManager" id="histog1" name="Histogram" >
 						<fieldViewSet nameSpace="histog1">
-							<fieldView name="highchart" type="select">
+							<fieldView name="highchart" type="select" size="2">
 								<optionValues>
 									<option code="histogram3D" title="Histogram-3D" selected="true"></option>								
 									<option code="dualhistogram" title="Freq.histogram"></option>
@@ -47,7 +47,7 @@
 									<option code="automatic" title="Automatico"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="select">
+							<fieldView name="operation" type="select" size="2">
 								<optionValues>
 									<option code="SUM" title="Totalizar" selected="true"></option>								
 									<option code="AVG" title="Promediar"></option>
@@ -78,10 +78,10 @@
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="select" size="1">
+							<fieldView name="operation" type="select" size="2">
 								<optionValues>
-									<option code="SUM" title="agregar" selected="true"></option>
-									<option code="AVG" title="promediar"></option>
+									<option code="SUM" title="Totalizar" selected="true"></option>								
+									<option code="AVG" title="Promediar"></option>
 								</optionValues>
 							</fieldView>
 						</fieldViewSet>
@@ -90,10 +90,10 @@
 					<button link="prjManager" id="Chart11"
 						name="Chart">
 						<fieldViewSet nameSpace="Chart11">
-							<fieldView name="highchart" type="select">
+							<fieldView name="highchart" type="select" size="2">
 								<optionValues>
-									<option code="spiderweb" title="Spiderweb" selected="true"></option>								
-									<option code="piechart" title="Pie chart"></option>
+									<option code="piechart" title="Pie chart" selected="true"></option>
+									<option code="spiderweb" title="Spiderweb"></option>								
 								</optionValues>
 							</fieldView>							
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
@@ -115,10 +115,10 @@
 									<option code="29" title="UTs reales"></option>
 								</optionValues>
 							</fieldView>
-							<fieldView name="operation" type="select" size="1">
+							<fieldView name="operation" type="select" size="2">
 								<optionValues>
-									<option code="SUM" title="agregar" selected="true"></option>
-									<option code="AVG" title="promediar"></option>
+									<option code="SUM" title="Totalizar" selected="true"></option>								
+									<option code="AVG" title="Promediar"></option>
 								</optionValues>
 							</fieldView>
 						</fieldViewSet>
@@ -167,7 +167,7 @@
 						
 					<fieldset legend="Por aplicativo">
 					
-						<fieldView mappingTo="26" type="checkbox" size="14">
+						<fieldView mappingTo="26" type="checkbox" size="19">
 							<optionValues selectionMultiple="true" entitymodel="aplicativo"
 								descrMappingTo="5">
 							</optionValues>
@@ -250,36 +250,20 @@
 					<fieldView mappingTo="13" editable="false" />
 					<fieldView mappingTo="7" editable="false" styleCss="font-weight: bold;"/><!-- Estado_peticion_originaria -->					
 					<fieldView mappingTo="42" editable="false" styleCss="font-weight: bold;color: orange;"/>
-					<fieldView mappingTo="28" editable="false" styleCss="font-weight: bold;color: green;"/>
-					<fieldView mappingTo="29" editable="false" styleCss="font-weight: bold;"/>
-					
-					<!-- INICIO datos para Excel del Informe quincenal a Subdirecciones de Gestion -->
 					
 					<fieldView mappingTo="9" type="select"><!-- Subdireccion Origen de la peticion -->
 						<optionValues entitymodel="subdireccion" descrMappingTo="3">
 						</optionValues>
 					</fieldView>
-					
-					<fieldView mappingTo="10" type="select"><!-- Area: Subdireccion Origen de la peticion -->
-						<optionValues entitymodel="servicio" descrMappingTo="2">
-						</optionValues>
-					</fieldView>
-										
+											
 					<fieldView mappingTo="2" editable="false" /><!-- Titulo -->
 					<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/><!-- Fecha_de_tramitacion -->
 					<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/><!-- Fecha_de_necesidad -->
 					
-					<fieldView mappingTo="16" editable="false" /><!-- Prioridad -->
-					
-					<!-- FIN datos para Excel del Informe quincenal a Subdirecciones de Gestion -->
-															
 					<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_prevista_inicio-->
-					<fieldView mappingTo="24" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_real_inicio -->
 					<fieldView mappingTo="23" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_prevista_fin-->
-					<fieldView mappingTo="25" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_real_fin -->
 				     
 					<fieldView mappingTo="35" editable="false" styleCss="font-weight: normal;color: #00B4DB;"/><!-- ID entrega -->
-					<fieldView mappingTo="36" editable="false" styleCss="font-weight: normal;color: #00B4DB;"/><!--  Peticiones relacionadas -->
 										
 				</fieldViewSet>
 			</grid>

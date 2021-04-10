@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-
-<div id="timeseries" style="width: 1080px; height: 700px; margin: 0 auto;float:left;"></div>
+<div id="timeseries" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
 	

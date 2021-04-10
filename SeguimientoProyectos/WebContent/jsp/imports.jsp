@@ -11,9 +11,6 @@
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/highchart.css"></link>
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/navigationtree.css"></link>
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/jquery-collapsible-fieldset.css"></link>
-<%if (defaultMode.contentEquals("darkmode")){%>
-<script type="text/javascript" src="https://code.highcharts.com/themes/dark-unica.js"></script>	
-<%}%>
 
 <script type="text/javascript" src="js/pcm.js"></script>
 <script type="text/javascript" src="js/PCMGeneral.js"></script>
@@ -43,4 +40,7 @@
 <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="https://code.highcharts.com/modules/export-data.js"></script>
 <script type="text/javascript" src="https://code.highcharts.com/modules/accessibility.js"></script>
+<%}%>
+<%if (defaultMode.contentEquals("darkmode")){%>
+<script type="text/javascript" src="https://code.highcharts.com/themes/dark-unica.js"></script>	
 <%}%>

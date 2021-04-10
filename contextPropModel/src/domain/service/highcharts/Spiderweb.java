@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 
+import domain.common.exceptions.DatabaseException;
 import domain.common.utils.CommonUtils;
 import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
@@ -57,9 +58,21 @@ public class Spiderweb extends GenericHighchartModel {
 			}
 			
 			String agrupacion = valueEntidadMaster.concat(valueForEntidadFiltro).concat(valueEntidadMaster.equals("") ? "" : ")");
+			if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
+				IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
+				FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
+				fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), agrupacion);
+				try {
+					fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
+					IFieldLogic descField = fSetParent.getDescriptionField();
+					agrupacion = (String) fSetParent.getValue(descField.getName());
+				} catch (DatabaseException e) {
+					e.printStackTrace();
+				}									
+			}
 			if (agregados == null){//Long al contar totales
-				total_ = Long.valueOf(total_.longValue() + subTotalPorCategoria.longValue());
-				subtotalesPorCategoria.put(agrupacion, subTotalPorCategoria.longValue());
+				total_ = Double.valueOf(total_.doubleValue() + subTotalPorCategoria.doubleValue());
+				subtotalesPorCategoria.put(agrupacion, subTotalPorCategoria.doubleValue());
 			}else{
 				total_ = Double.valueOf(total_.doubleValue() + subTotalPorCategoria.doubleValue());
 				subtotalesPorCategoria.put(agrupacion, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorCategoria.doubleValue())));

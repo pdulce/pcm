@@ -1,27 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
+<div id="histogram3d" style="width: 1180px; height: 660px; margin: 0 auto;float:left;"></div>
 
-<div id="histogram3d" style="width: 1080px; height: 700px; margin: 0 auto;float:left;"></div>
-
- <%if (request.getAttribute("is3D") != null) { %>
-			<div id="sliders">
-		        <table>
-		            <tr>
-		                <td><label for="alpha">Alpha Angle</label></td>
-		                <td><input id="alpha" type="range" min="0" max="45" value="15"/> <span id="alpha-value" class="value"></span></td>
-		            </tr>
-		            <tr>
-		                <td><label for="beta">Beta Angle</label></td>
-		                <td><input id="beta" type="range" min="-45" max="45" value="15"/> <span id="beta-value" class="value"></span></td>
-		            </tr>
-		            <tr>
-		                <td><label for="depth">Depth</label></td>
-		                <td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
-		            </tr>
-		        </table>
-   			</div>
-    <%} %>
+<div id="sliders">
+       <table>
+           <tr>
+               <td><label for="alpha">Alpha Angle</label></td>
+               <td><input id="alpha" type="range" min="0" max="45" value="15"/> <span id="alpha-value" class="value"></span></td>
+           </tr>
+           <tr>
+               <td><label for="beta">Beta Angle</label></td>
+               <td><input id="beta" type="range" min="-45" max="45" value="15"/> <span id="beta-value" class="value"></span></td>
+           </tr>
+           <tr>
+               <td><label for="depth">Depth</label></td>
+               <td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
+           </tr>
+       </table>
+</div>
 
 <script type="text/javascript">
 	var chart = new Highcharts.Chart({
@@ -84,7 +81,7 @@
         },
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("decimals")%>}'
+            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("histogram3ddecimals")%>}'
         },
         				       
         plotOptions: {
