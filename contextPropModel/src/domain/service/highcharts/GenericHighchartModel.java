@@ -258,6 +258,7 @@ public abstract class GenericHighchartModel implements IStats {
 		data_.setAttribute(data_.getParameter("idPressed")+"container", getScreenRendername().concat(".jsp"));
 		data_.setAttribute("width", "1180px");
 		data_.setAttribute("height", "690px");
+		data_.setAttribute("idseries", data_.getParameter("idPressed"));
 	}
 
 

@@ -134,6 +134,7 @@ public class Scatter extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "<br/> " + criteria);
 		data_.setAttribute("width", "1180px");
 		data_.setAttribute("height", "690px");
+		data_.setAttribute("idseries", data_.getParameter("idPressed"));
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}
 

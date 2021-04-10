@@ -16,8 +16,6 @@ import domain.service.event.SceneResult;
 import domain.service.highcharts.utils.HistogramUtils;
 
 public class Dashboard extends GenericHighchartModel {
-
-
 	
 	public Datamap createMap(final Datamap _data, final String nameSpaceOfButtonFieldSet, final String entity, final String orderBy, final String firstGroupBy, final String graphType, final String agregado) {
 
@@ -59,14 +57,14 @@ public class Dashboard extends GenericHighchartModel {
 			Pie piePeticiones = new Pie();		
 			BarChart barPeticiones = new BarChart();
 						
-			Datamap dataMapEntregas = createMap(_data, "timeseries01", "resumenEntregas", "9", "2", "line", "5");
+			Datamap dataMapEntregas = createMap(_data, "_serie01", "resumenEntregas", "9", "2", "line", "5");
 			histogram3DEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			pieEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			seriesEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			_data.copyMap(dataMapEntregas);
 			
-			Datamap dataMapPeticiones =  createMap(_data, "timeseries02", "resumenPeticiones", "20", "2", "area", "8");
+			Datamap dataMapPeticiones =  createMap(_data, "_serie02", "resumenPeticiones", "20", "2", "area", "8");
 			histogram3DPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
 			piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
 			seriesPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
@@ -84,8 +82,7 @@ public class Dashboard extends GenericHighchartModel {
 			_data.setAttribute("containerJSP_41", seriesPeticiones.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
 			
-			_data.setAttribute("width", "620px");
-			_data.setAttribute("height", "320px");
+			_data.setAttribute("idseries", "_serie");
 			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();

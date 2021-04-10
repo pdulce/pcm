@@ -143,7 +143,7 @@ public class Pie extends GenericHighchartModel {
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
 			
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), "Piechart de " + CommonUtils.obtenerPlural(itemGrafico) + " "); 
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), CommonUtils.obtenerPlural(itemGrafico) + " "); 
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, itemGrafico.substring(3)));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {

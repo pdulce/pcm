@@ -1,15 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<% String idseries = (String)request.getAttribute("idseries");
-String width = (String)request.getAttribute("width");
-String height = (String)request.getAttribute("height");
+<% 
+String idseries = (String)request.getAttribute("idseries");
+String serieNumber= request.getParameter("series");
+if (serieNumber!= null && !"".contentEquals(serieNumber)){
+	idseries = idseries.concat(serieNumber);
+}
+String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
+String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 %>
-<div id="europemap" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+<div id="<%=idseries%>europemap" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
    
 <script type="text/javascript">
 	 
-	   Highcharts.mapChart('europemap', {
+	   Highcharts.mapChart('<%=idseries%>europemap', {
 		    chart: {
 		        map: 'custom/europe',
 	            backgroundColor: 'transparent'

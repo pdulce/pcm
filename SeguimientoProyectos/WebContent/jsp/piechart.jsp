@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<% String idseries = (String)request.getAttribute("idseries");
-String width = (String)request.getAttribute("width");
-String height = (String)request.getAttribute("height");
+<% 
+String idseries = (String)request.getAttribute("idseries");
+String serieNumber= request.getParameter("series");
+if (serieNumber!= null && !"".contentEquals(serieNumber)){
+	idseries = idseries.concat(serieNumber);
+}
+String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
+String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 %>
-<div id="piechart" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+<div id="<%=idseries%>piechart" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 
 <script type="text/javascript">
 	   
-  Highcharts.chart('piechart', {
+  Highcharts.chart('<%=idseries%>piechart', {
    chart: {	   
          backgroundColor: 'transparent',
          plotBackgroundColor: null,
@@ -54,7 +59,7 @@ String height = (String)request.getAttribute("height");
  	legend: {
 	 	enabled: true,
         	title: {
-               text: '<%=request.getAttribute(idseries+"piechartunits")%> <%=request.getAttribute(idseries+"piechartentidadGrafico")%>',
+               text: '<%=request.getAttribute(idseries+"piechartentidadGrafico")%>',
                style: {
                color: (Highcharts.theme && Highcharts.theme.textColor) || 'orange'
                 }
@@ -63,7 +68,7 @@ String height = (String)request.getAttribute("height");
         floating: true,
         align: 'left',
         x: 90,
-        y: 2,
+        y: 52,
         itemWidth: 50,
         borderWidth: 1
     }  			
