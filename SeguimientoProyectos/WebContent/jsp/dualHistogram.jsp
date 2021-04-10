@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 
-<div id="dualHistogram"></div>
+<div id="dualHistogram" style="width: 1080px; height: 700px; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
 	 		

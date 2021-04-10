@@ -81,9 +81,6 @@ public class Dashboard extends GenericHighchartModel {
 			scene.appendXhtml(serie41);
 			scene.appendXhtml(serie42);			
 								
-			scene.appendXhtml(htmlForHistograms(_data, null, null));
-			
-			
 			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", histogram3DPeticiones.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_12", pieEntregas.getScreenRendername().concat(".jsp"));

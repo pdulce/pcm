@@ -183,8 +183,6 @@ public abstract class GenericHighchartModel implements IStats {
 			data_.setAttribute(getScreenRendername().concat(DECIMALES), decimals);
 			data_.setAttribute(getScreenRendername().concat("typeOfSeries"), typeOfSeries);
 			
-			scene.appendXhtml(htmlForHistograms(data_, fieldsForAgrupacionesPor != null ? fieldsForAgrupacionesPor[0] : null, userFilter));
-
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();
 			sbXml.append("<BR/><BR/><font>" + exc0.getMessage()+ "</font>");
@@ -283,15 +281,6 @@ public abstract class GenericHighchartModel implements IStats {
 		data_.setAttribute("container", getScreenRendername().concat(".jsp"));
 	}
 
-
-	protected final String htmlForHistograms(final Datamap data_, final IFieldLogic field4Agrupacion, final FieldViewSet filtro_) {
-		data_.setAttribute("width-container", 1000);
-		data_.setAttribute("height-container", 950);
-		return "";
-	}
-
-	
-	
 
 	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray jsArrayEjeAbcisas,
 			final Datamap data_) {

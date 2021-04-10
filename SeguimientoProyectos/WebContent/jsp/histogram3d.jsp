@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 
-<div id="histogram3d"></div>
+<div id="histogram3d" style="width: 1080px; height: 700px; margin: 0 auto;float:left;"></div>
 
  <%if (request.getAttribute("is3D") != null) { %>
 			<div id="sliders">

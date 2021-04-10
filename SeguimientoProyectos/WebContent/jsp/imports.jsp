@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%
-String defaultMode = (String)request.getAttribute("style");
-%>
-
+<%String defaultMode = (String)request.getAttribute("style");%>
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/body.css"></link>
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/form.css"></link>
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/button.css"></link>
@@ -14,7 +11,9 @@ String defaultMode = (String)request.getAttribute("style");
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/highchart.css"></link>
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/navigationtree.css"></link>
 <link rel="stylesheet" type="text/css" href="css/<%=defaultMode%>/jquery-collapsible-fieldset.css"></link>
-
+<%if (defaultMode.contentEquals("darkmode")){%>
+<script type="text/javascript" src="https://code.highcharts.com/themes/dark-unica.js"></script>	
+<%}%>
 
 <script type="text/javascript" src="js/pcm.js"></script>
 <script type="text/javascript" src="js/PCMGeneral.js"></script>
@@ -33,30 +32,15 @@ String defaultMode = (String)request.getAttribute("style");
 <script type="text/javascript" src="js/folder-tree-static.js"></script>
 <script type="text/javascript" src="js/external/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/external/jquery-collapsible-fieldset.js"></script>
-
-<%	if (request.getAttribute("mapa") != null) {	%>
-		
-	<script src="https://code.highcharts.com/maps/highmaps.js"></script>
-	<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
-	<script src="<%=request.getAttribute("mapa")%>"></script>
-	
-<%
-	}else {
-%>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/highcharts-more.js"></script>
-	<script src="https://code.highcharts.com/highcharts-3d.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
-	<script src="https://code.highcharts.com/modules/export-data.js"></script>
-	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
-<%  }
-
-	if (defaultMode.contentEquals("darkmode")){
-%>
-	<script src="https://code.highcharts.com/themes/dark-unica.js"></script>
-		
-<%  }
-%>
-    
+<%	if (request.getAttribute("mapa") != null) {	%>		
+<script type="text/javascript" src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script type="text/javascript" src="<%=request.getAttribute("mapa")%>"></script>	
+<%}else {%>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/export-data.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/accessibility.js"></script>
+<%}%>

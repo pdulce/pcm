@@ -1,9 +1,9 @@
 /* PERSONALIZACION DE LOS MAPAS Y GRAPHICS DE HIGHCHARTS */
 
 #container {
-    height: 620px; 
+    height: 800px; 
     min-width: 310px; 
-    max-width: 800px; 
+    max-width: 1260px; 
     margin: 0 auto; 
 }
 

@@ -1,32 +1,3 @@
-/*.blueC{
-	font-weight: bold;
-	color: black;
-	background: rgb(254, 254, 254);
-}
-*/
-
-.pcmTDLeft {
-	font: normal 0.8em Verdana, sans-serif;
-	color: black;
-	background-color: rgb(254, 254, 254);
-	text-align: left;
-	border: 1.1px solid #C9DCA6;
-	width: 8%;
-	border-top: none;	
-	border: 0;
-}
-	
-.pcmTDRight {
-	font: normal 0.8em Verdana, sans-serif;
-	color: black;
-	background-color: rgb(254, 254, 254);
-	text-align: left;
-	border: 1.1px solid #C9DCA6;
-	width: 92%;
-	border-top: none;
-	border: 0;
-}
-
 .pcmTable {
 	display: table;
 	border: 0;

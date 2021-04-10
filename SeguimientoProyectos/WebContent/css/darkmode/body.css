@@ -31,6 +31,35 @@ Redefine aspecto de los elementos estandard de HTML
     width: 100%;
 }
 
+
+.pcmTDLeft {	
+	position: absolute; 
+	left: 10px; 
+	top: 25px; 
+	z-index: 1;
+	color: white;
+	font: normal 0.9em Verdana;
+	background-color: rgb(7, 39, 46);
+	text-align: left;
+	border: 1.1px solid #C9DCA6;	
+	border-top: none;	
+	border: 0;
+}
+	
+.pcmTDRight {
+	position: absolute; 
+	left: 240px; 
+	top: 18px; 
+	z-index: 2;
+	color: white;
+	font: normal 0.8em Verdana;
+	background-color: rgb(7, 39, 46);
+	text-align: left;
+	border: 1.1px solid #C9DCA6;
+	border-top: none;
+	border: 0;
+}
+
 /* Headers
 ------------------------------*/
 

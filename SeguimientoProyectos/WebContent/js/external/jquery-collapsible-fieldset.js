@@ -37,6 +37,8 @@
 			var conjuntoCritDetalles = ["1","35","2","3","16"];
 			var criteriaFilled = settings.valuesFilled;
 			
+			//alert('criteriaFilled: ' + criteriaFilled);
+			
 			//troceamos con split, y recorremos cada elemento, si esto en una lista, activamos su flag correspondiente
 			if (criteriaFilled != 'null'){
 				var listaFilled = criteriaFilled.split(",");

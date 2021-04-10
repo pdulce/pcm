@@ -403,8 +403,7 @@ public class Scatter extends GenericHighchartModel {
 					+ "*(" + titulo_EJE_X + (paramBeta_Correlacion < 0.001?"/10000":(paramBeta_Correlacion < 0.01?"/1000":"")) + ") </I>";
 
 
-			StringBuilder infoSumaryAndRegression = new StringBuilder();
-			infoSumaryAndRegression.append(htmlForHistograms(data_, fieldForCategoryX, userFilter));
+			StringBuilder infoSumaryAndRegression = new StringBuilder();			
 			infoSumaryAndRegression.append("<HR/><BR/><TABLE><TH>Summary <I>"
 					+ titulo_EJE_X
 					+ "</I></TH><TH>Summary <I>"
