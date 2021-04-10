@@ -401,8 +401,10 @@ public class ApplicationDomain implements Serializable {
 		}
 		
 		GenericHighchartModel genericHCModel = null;
-		if (DASHBOARD.equals(datamap.getParameter(EXEC_PARAM))) {
-			genericHCModel = new Dashboard();
+		if (datamap.getParameter(EXEC_PARAM) != null && 
+				datamap.getParameter(EXEC_PARAM).startsWith(DASHBOARD)) {
+			String[] entities = datamap.getParameter("entities").split("\\$");
+			genericHCModel = new Dashboard(entities);
 		}else if ((highchartsParam = getHighchartRequest(datamap)) != null) {	
 			//instanciamos la clase del gráfico que corresponda
 			final String highchartStats = datamap.getParameter(highchartsParam);			

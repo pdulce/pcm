@@ -17,6 +17,12 @@ import domain.service.highcharts.utils.HistogramUtils;
 
 public class Dashboard extends GenericHighchartModel {
 	
+	private String[] entities;
+	
+	public Dashboard(final String[] entities_) {
+		this.entities = entities_;
+	}
+	
 	public Datamap createMap(final Datamap _data, final String nameSpaceOfButtonFieldSet, final String entity, final String orderBy, final String firstGroupBy, final String graphType, final String agregado) {
 
 		Datamap dataMapPeticiones = new Datamap(_data.getEntitiesDictionary(), _data.getUri(), _data.getPageSize());		
@@ -57,30 +63,30 @@ public class Dashboard extends GenericHighchartModel {
 			Pie piePeticiones = new Pie();		
 			BarChart barPeticiones = new BarChart();
 						
-			Datamap dataMapEntregas = createMap(_data, "_serie01", "resumenEntregas", "9", "2", "line", "5");
+			Datamap dataMapEntregas = createMap(_data, "_serie01", entities[0], "9", "2", "line", "5");
 			histogram3DEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			pieEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			seriesEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			_data.copyMap(dataMapEntregas);
-			
-			Datamap dataMapPeticiones =  createMap(_data, "_serie02", "resumenPeticiones", "20", "2", "area", "8");
-			histogram3DPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
-			piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
-			seriesPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
-			barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);			
-			_data.copyMap(dataMapPeticiones);
-			
 			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", histogram3DEntregas.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_12", pieEntregas.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_21", seriesEntregas.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_22", barEntregas.getScreenRendername().concat(".jsp"));
 			
-			_data.setAttribute("containerJSP_31", histogram3DPeticiones.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_32", piePeticiones.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_41", seriesPeticiones.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
+			if (entities.length > 1) {			
+				Datamap dataMapPeticiones =  createMap(_data, "_serie02", entities[1], "20", "2", "area", "8");
+				histogram3DPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
+				piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
+				seriesPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
+				barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);			
+				_data.copyMap(dataMapPeticiones);						
+				_data.setAttribute("containerJSP_31", histogram3DPeticiones.getScreenRendername().concat(".jsp"));
+				_data.setAttribute("containerJSP_32", piePeticiones.getScreenRendername().concat(".jsp"));
+				_data.setAttribute("containerJSP_41", seriesPeticiones.getScreenRendername().concat(".jsp"));
+				_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
+			}
 			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();
