@@ -2,11 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <% 
-String idseries = (String)request.getAttribute("idseries");
-String serieNumber= request.getParameter("series");
-if (serieNumber!= null && !"".contentEquals(serieNumber)){
-	idseries = idseries.concat(serieNumber);
-}
+String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 %>

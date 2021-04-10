@@ -82,8 +82,6 @@ public class Dashboard extends GenericHighchartModel {
 			_data.setAttribute("containerJSP_41", seriesPeticiones.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
 			
-			_data.setAttribute("idseries", "_serie");
-			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();
 			sbXml.append("<BR/><BR/><font>" + exc0.getMessage()+ "</font>");
