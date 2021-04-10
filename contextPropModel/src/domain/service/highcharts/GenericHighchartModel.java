@@ -25,6 +25,7 @@ import domain.service.component.XmlUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.IFieldView;
 import domain.service.component.definitions.IRank;
+import domain.service.component.factory.IBodyContainer;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.comparator.ComparatorOrderKeyInXAxis;
 import domain.service.dataccess.definitions.EntityLogic;
@@ -35,7 +36,6 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
-import domain.service.event.SceneResult;
 import domain.service.highcharts.utils.HistogramUtils;
 
 /**
@@ -94,12 +94,11 @@ public abstract class GenericHighchartModel implements IStats {
 			posicionMasPosterior++;
 			huecoLibre = !posicionesOcupadas.contains(posicionMasPosterior);
 		}
-		return posicionMasPosterior;			
+		return posicionMasPosterior;
 	}
 	
-	public String generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap data_) {
-		
-		SceneResult scene = new SceneResult();
+	public void generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap data_) {
+				
 		try {
 			this._dataAccess = dataAccess;
 			String nameSpaceOfButtonFieldSet = data_.getParameter("idPressed");
@@ -124,9 +123,9 @@ public abstract class GenericHighchartModel implements IStats {
 			
 			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
 			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
-			List<IViewComponent> listOfForms = BodyContainer.getContainerOfView(data_, dataAccess, domainService).getForms();
-			if (listOfForms != null && !listOfForms.isEmpty()) {
-				Form formSubmitted = (Form) listOfForms.iterator().next();
+			IBodyContainer container = BodyContainer.getContainerOfView(data_, dataAccess, domainService);
+			if (container != null && !container.getForms().isEmpty()) {			
+				Form formSubmitted = (Form) container.getForms().get(0);
 				//alimentar el user filter de los inputs del formulario
 				Form.refreshUserFilter(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
 			}
@@ -189,13 +188,11 @@ public abstract class GenericHighchartModel implements IStats {
 			sbXml.append("<UL align=\"center\" id=\"pcmUl\">");
 			sbXml.append("<LI><a onClick=\"window.history.back();\"><span>Volver</span></a></LI></UL>");
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
-			scene.appendXhtml(sbXml.toString());
 		}
 
 		String subtitle_ = (data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR)) == null ? "" : ((String) data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR))));
 		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), subtitle_);
 
-		return scene.getXhtml();
 	}
 	
 	private String getUnits(final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String aggregateFunction, final Datamap data_){
@@ -247,11 +244,11 @@ public abstract class GenericHighchartModel implements IStats {
 		data_.setAttribute(getScreenRendername().concat(UNITS_ATTR), units);
 
 		String title = "", subTitle = "";
-		if (data_.getAttribute(TITLE_ATTR) != null) {
-			title = (String) data_.getAttribute(TITLE_ATTR);
+		if (data_.getAttribute(getScreenRendername().concat(TITLE_ATTR)) != null) {
+			title = (String) data_.getAttribute(getScreenRendername().concat(TITLE_ATTR));
 			title = title.replaceAll("#", nombreConceptoRecuento);
-		} else if (data_.getAttribute(CHART_TITLE) != null){
-			title = (String) data_.getAttribute(CHART_TITLE);
+		} else if (data_.getAttribute(getScreenRendername().concat(CHART_TITLE)) != null){
+			title = (String) data_.getAttribute(getScreenRendername().concat(CHART_TITLE));
 		}
 		if (groupByField.length>0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null) {
 			String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
@@ -272,7 +269,7 @@ public abstract class GenericHighchartModel implements IStats {
 		data_.setAttribute(getScreenRendername().concat(TITLE_ATTR), title);
 
 		if (data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR)) != null) {
-			subTitle = (String) data_.getAttribute(SUBTILE_ATTR);
+			subTitle = (String) data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR));
 			subTitle = subTitle.replaceAll("#", units);
 		}
 		String criteria = pintarCriterios(filtro_, data_);

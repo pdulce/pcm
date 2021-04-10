@@ -437,80 +437,82 @@ public class ApplicationDomain implements Serializable {
 				Collection<String> conditions = domainService.extractStrategiesElementByAction(datamap.getEvent()); ;
 				Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
 				IDataAccess dataAccess = getDataAccess(domainService, conditions, preconditions);
-				return genericHCModel.generateStatGraphModel(dataAccess, domainService, datamap);
+				genericHCModel.generateStatGraphModel(dataAccess, domainService, datamap);
+				return "";
 			} catch (PCMConfigurationException e) {
 				throw new RuntimeException("Error creating DataAccess object", e);
 			}
-		}
+		}else {
 		
-		
-		IDataAccess dataAccess_ = null;
-		try {
-			StringBuilder innerContent_ = new StringBuilder();
-			String event = datamap.getParameter(PCMConstants.EVENT);
-			if (event == null){
-				List<String> valueList = new ArrayList<String>();
-				valueList.add(datamap.getService().concat(".").concat(datamap.getEvent()));
-				datamap.setParameterValues(PCMConstants.EVENT, valueList);
-			}						
-			DomainService domainService = getDomainService(datamap.getService());
-			Collection<String> conditions = null, preconditions = null;
-			if (AbstractAction.isFormularyEntryEvent(datamap.getEvent()) && domainService.discoverAllEvents().
-					contains(AbstractAction.getInherentEvent(datamap.getEvent()))) {
-				final String event4DataAccess = AbstractAction.getInherentEvent(datamap.getEvent());
-				conditions = domainService.extractStrategiesElementByAction(event4DataAccess);
-				preconditions = domainService.extractStrategiesPreElementByAction(event4DataAccess);
-			} else {
-				conditions = domainService.extractStrategiesElementByAction(datamap.getEvent());
-				preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
-			}
-			dataAccess_ = getDataAccess(domainService, conditions, preconditions);
-			IBodyContainer container = BodyContainer.getContainerOfView(datamap, dataAccess_, domainService);
-			IAction	action = AbstractAction.getAction(container,
-					domainService.extractActionElementByService(datamap.getEvent()), 
-					datamap, domainService.discoverAllEvents());
-			List<MessageException> messages = new ArrayList<MessageException>();
-			SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, datamap.getEvent(), datamap, 
-					eventSubmitted, action, messages);
-			
-			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();			
-			DomainService domainRedirectingService = null;
-			if (eventSubmitted) {
-				final String serviceQName = new StringBuilder(datamap.getService()).append(PCMConstants.CHAR_POINT).append(datamap.getEvent()).toString();
-				if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {						
-					String serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
-					domainRedirectingService = getDomainService(serviceRedirect);
-				}
-			}
-			if (isInitService(datamap)) {
-				domainService.setInitial();
-			}
-			domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, 
-					datamap.getEvent(), datamap, eventSubmitted, action, messages);
-			
-			final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
-			htmFormElement_.append(IViewComponent.FORM_ATTRS);
-			htmFormElement_.append((String) datamap.getAttribute(PCMConstants.APPURI_));
-			htmFormElement_.append(IViewComponent.ENC_TYPE_FORM);
-			XmlUtils.openXmlNode(innerContent_, htmFormElement_.toString());
-			innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");			
-			innerContent_.append(sceneResult.getXhtml());
-			XmlUtils.closeXmlNode(innerContent_, IViewComponent.FORM_TYPE);
-			
-			return innerContent_.toString();
-			
-		} catch (final Throwable e2) {
-			throw new PcmException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, e2);		
-		} finally {
+			IDataAccess dataAccess_ = null;
 			try {
-				if (dataAccess_ != null && dataAccess_.getConn() != null){
-					this.resourcesConfiguration.getDataSourceFactoryImplObject().freeConnection(dataAccess_.getConn());
+				StringBuilder innerContent_ = new StringBuilder();
+				String event = datamap.getParameter(PCMConstants.EVENT);
+				if (event == null){
+					List<String> valueList = new ArrayList<String>();
+					valueList.add(datamap.getService().concat(".").concat(datamap.getEvent()));
+					datamap.setParameterValues(PCMConstants.EVENT, valueList);
+				}						
+				DomainService domainService = getDomainService(datamap.getService());
+				Collection<String> conditions = null, preconditions = null;
+				if (AbstractAction.isFormularyEntryEvent(datamap.getEvent()) && domainService.discoverAllEvents().
+						contains(AbstractAction.getInherentEvent(datamap.getEvent()))) {
+					final String event4DataAccess = AbstractAction.getInherentEvent(datamap.getEvent());
+					conditions = domainService.extractStrategiesElementByAction(event4DataAccess);
+					preconditions = domainService.extractStrategiesPreElementByAction(event4DataAccess);
+				} else {
+					conditions = domainService.extractStrategiesElementByAction(datamap.getEvent());
+					preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
 				}
-			} catch (final Throwable excSQL) {
-				ApplicationDomain.log.log(Level.SEVERE, "Error", excSQL);
-				throw new PcmException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, excSQL);
+				dataAccess_ = getDataAccess(domainService, conditions, preconditions);
+				IBodyContainer container = BodyContainer.getContainerOfView(datamap, dataAccess_, domainService);
+				IAction	action = AbstractAction.getAction(container,
+						domainService.extractActionElementByService(datamap.getEvent()), 
+						datamap, domainService.discoverAllEvents());
+				List<MessageException> messages = new ArrayList<MessageException>();
+				SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, datamap.getEvent(), datamap, 
+						eventSubmitted, action, messages);
+				
+				final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();			
+				DomainService domainRedirectingService = null;
+				if (eventSubmitted) {
+					final String serviceQName = new StringBuilder(datamap.getService()).append(PCMConstants.CHAR_POINT).append(datamap.getEvent()).toString();
+					if (!serviceQName.equals(sceneRedirect) && !serviceQName.contains(sceneRedirect.subSequence(0, sceneRedirect.length()))) {						
+						String serviceRedirect = sceneRedirect.substring(0, sceneRedirect.indexOf(PCMConstants.CHAR_POINT));
+						domainRedirectingService = getDomainService(serviceRedirect);
+					}
+				}
+				if (isInitService(datamap)) {
+					domainService.setInitial();
+				}
+				domainService.paintServiceCore(sceneResult, domainRedirectingService, dataAccess_, 
+						datamap.getEvent(), datamap, eventSubmitted, action, messages);
+				
+				final StringBuilder htmFormElement_ = new StringBuilder(IViewComponent.FORM_TYPE);
+				htmFormElement_.append(IViewComponent.FORM_ATTRS);
+				htmFormElement_.append((String) datamap.getAttribute(PCMConstants.APPURI_));
+				htmFormElement_.append(IViewComponent.ENC_TYPE_FORM);
+				XmlUtils.openXmlNode(innerContent_, htmFormElement_.toString());
+				innerContent_.append("<input type=\"hidden\" id=\"idPressed\" name=\"idPressed\" value=\"\" />");			
+				innerContent_.append(sceneResult.getXhtml());
+				XmlUtils.closeXmlNode(innerContent_, IViewComponent.FORM_TYPE);
+				
+				return innerContent_.toString();
+				
+			} catch (final Throwable e2) {
+				throw new PcmException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, e2);		
+			} finally {
+				try {
+					if (dataAccess_ != null && dataAccess_.getConn() != null){
+						this.resourcesConfiguration.getDataSourceFactoryImplObject().freeConnection(dataAccess_.getConn());
+					}
+				} catch (final Throwable excSQL) {
+					ApplicationDomain.log.log(Level.SEVERE, "Error", excSQL);
+					throw new PcmException(InternalErrorsConstants.BBDD_FREE_EXCEPTION, excSQL);
+				}
 			}
 		}
+		
 	}
 	
 }

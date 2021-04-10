@@ -3,6 +3,7 @@ package domain.service.dataccess.dto;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,29 @@ public class Datamap {
 		this.setAttribute(PCMConstants.APP_DICTIONARY, entitiesDictionary_);
 		this.uri = uri_;
 		this.setAttribute(PCMConstants.APPURI_, uri_);
+	}
+	
+	public void copyMap(final Datamap toCopy) {
+		Collection<String> attrsKeySet = toCopy.getAttributeNames();
+		Iterator<String> attrsKeysIte = attrsKeySet.iterator();
+		while (attrsKeysIte.hasNext()) {
+			String attrKey = attrsKeysIte.next();
+			Object attrValue = toCopy.getAttribute(attrKey);
+			this.setAttribute(attrKey, attrValue);
+		}
+		
+		Collection<String> paramKeySet = toCopy.getParameterNames();
+		Iterator<String> paramsKeysIte = paramKeySet.iterator();
+		while (paramsKeysIte.hasNext()) {
+			String paramKey = paramsKeysIte.next();
+			String[] paramValues = toCopy.getParameterValues(paramKey);
+			List<String> arr = new ArrayList<String>();
+			for (int i=0;i<paramValues.length;i++) {
+				arr.add(paramValues[i]);
+			}
+			this.setParameterValues(paramKey, arr);
+		}
+		
 	}
 	
 	public  Map<String, List<Object>> getAllDataMap(){

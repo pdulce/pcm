@@ -24,6 +24,7 @@ import domain.service.component.IViewComponent;
 import domain.service.component.Translator;
 import domain.service.component.XmlUtils;
 import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.factory.IBodyContainer;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.EntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
@@ -31,7 +32,6 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
-import domain.service.event.SceneResult;
 import domain.service.highcharts.utils.StatsUtils;
 
 
@@ -137,9 +137,8 @@ public class Scatter extends GenericHighchartModel {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String generateStatGraphModel(final IDataAccess dataAccess, DomainService domainService, final Datamap data_) {
+	public void generateStatGraphModel(final IDataAccess dataAccess, DomainService domainService, final Datamap data_) {
 		
-		SceneResult scene = new SceneResult();
 		StringBuilder sbXml = new StringBuilder();
 		try {
 			this._dataAccess = dataAccess;
@@ -152,9 +151,9 @@ public class Scatter extends GenericHighchartModel {
 					paramGeneric4Entity);
 			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
 			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
-			List<IViewComponent> listOfForms = BodyContainer.getContainerOfView(data_, dataAccess, domainService).getForms();
-			if (listOfForms != null && !listOfForms.isEmpty()) {
-				Form formSubmitted = (Form) listOfForms.iterator().next();
+			IBodyContainer container = BodyContainer.getContainerOfView(data_, dataAccess, domainService);
+			if (container != null && !container.getForms().isEmpty()) {			
+				Form formSubmitted = (Form) container.getForms().get(0);
 				//alimentar el user filter de los inputs del formulario
 				Form.refreshUserFilter(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
 			}
@@ -450,8 +449,6 @@ public class Scatter extends GenericHighchartModel {
 
 			data_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());
 						
-			return scene.getXhtml();
-
 		}
 		catch (Throwable exc2) {
 			sbXml = new StringBuilder();
@@ -459,8 +456,6 @@ public class Scatter extends GenericHighchartModel {
 			sbXml.append("<BR/><BR/><UL align=\"center\"  id=\"pcmUl\"><LI><a title=\"Volver\" href=\"#\" ");
 			sbXml.append("onClick=\"javascript:window.history.back();\"><span>Volver</span></a></LI><LI>" +  exc2.getMessage() + "</LI></UL>");
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
-			scene.appendXhtml(sbXml.toString());
-			return scene.getXhtml();
 		}
 	}
 	

@@ -32,7 +32,9 @@ public class BodyContainerFactory {
 	public IBodyContainer getViewComponent(final IDataAccess dataAccess,
 			final Datamap datamap, final DomainService domainService) throws PCMConfigurationException,
 			DatabaseException {
-		
+		if (datamap.getEvent() == null) {
+			return null;
+		}
 		String profile = datamap.getAppProfile();
 		profile = profile == null ? "" : profile;
 		final String entityNameParamValue = datamap.getParameter(IBodyContainer.ENTITYPARAM) == null ? PCMConstants.EMPTY_ : datamap
