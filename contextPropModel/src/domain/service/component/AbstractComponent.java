@@ -202,7 +202,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 							entidadARefrescar.getName().contentEquals(fSetOfForm.getEntityDef().getName())) {
 												
 						if (!stringVals.isEmpty()) {
-							fSetOfForm.setValues(keyMemorized, stringVals);
+							fieldViewSet_.setValues(keyMemorized, stringVals);
 						}
 						
 					}else if (padreDeEntidadARefrescar != null && entityInRequest.contentEquals(padreDeEntidadARefrescar.getName()) &&
@@ -242,7 +242,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 					//damos valor acumulativo en nuestra entidad
 					fieldViewSet_.setValues(fkOfThisParent.getName(), fkValues);
 				}
-			}//if
+			}
 				
 			
 		} catch (final Throwable exc) {
