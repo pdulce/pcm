@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<div id="europemap" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
+<% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="europemap" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
    
 <script type="text/javascript">
 	 
@@ -12,16 +16,16 @@
 		    },
 	
 		   title : {
-			   text : '<%=request.getAttribute("europemaptitle")%>'
+			   text : '<%=request.getAttribute(idseries+"europemaptitle")%>'
 		   },
 				
 		   subtitle : {
-			   text : '<%=request.getAttribute("europemapsubtitle")%>'
+			   text : '<%=request.getAttribute(idseries+"europemapsubtitle")%>'
 		   },
 		        			        
            legend: {
             	title: {
-                    text: '<%=request.getAttribute("europemapunits")%> <%=request.getAttribute("europemapentidadGrafico")%>',
+                    text: '<%=request.getAttribute(idseries+"europemapunits")%> <%=request.getAttribute(idseries+"europemapentidadGrafico")%>',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.textColor) || 'blue'
                     }
@@ -47,8 +51,8 @@
 	        },
 	        
 	        series: [{
-	        	data : <%=request.getAttribute("europemapseries")%>,
-	        	name: '<%=request.getAttribute("europemapentidadGrafico")%>',
+	        	data : <%=request.getAttribute(idseries+"europemapseries")%>,
+	        	name: '<%=request.getAttribute(idseries+"europemapentidadGrafico")%>',
 	        	 states: {
 	                 hover: {
 	                     color: '#BADA55'
@@ -56,7 +60,7 @@
 	             },
 	             dataLabels: {
 	                 enabled: true,
-	                 format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("decimals")%>}'
+	                 format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute(idseries+"decimals")%>}'
 	             }
 	         }]
 	            

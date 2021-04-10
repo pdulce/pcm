@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<div id="spiderweb" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
+<% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="spiderweb" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+
 
 <script type="text/javascript">
 	   
@@ -12,7 +17,7 @@
             backgroundColor: 'transparent'
 	    },
         title: {
-        	text : '<%=request.getAttribute("spiderwebtitle")%>',
+        	text : '<%=request.getAttribute(idseries+"spiderwebtitle")%>',
         	style: {'color': 'orange', 'font-weight': 'lighter'},
             x: -80
         },
@@ -20,11 +25,11 @@
             size: '80%'
         },
         subtitle: {
-            text: '<%=request.getAttribute("spiderwebsubtitle")%>',
+            text: '<%=request.getAttribute(idseries+"spiderwebsubtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         xAxis : {
-			categories : <%=request.getAttribute("spiderwebcategories")%>,
+			categories : <%=request.getAttribute(idseries+"spiderwebcategories")%>,
 			tickmarkPlacement: 'on',
 		    lineWidth: 0,
 		    labels: {
@@ -48,7 +53,7 @@
 
 	    tooltip: {
 	        shared: true,
-	        pointFormat: '<span style="color:{series.color}">{series.name}: {point.y:<%=request.getAttribute("spiderwebdecimals")%>}'
+	        pointFormat: '<span style="color:{series.color}">{series.name}: {point.y:<%=request.getAttribute(idseries+"spiderwebdecimals")%>}'
 	    },
 
 	    legend: {
@@ -57,7 +62,7 @@
 	        layout: 'vertical',
 	        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
 	    },
-		series : <%=request.getAttribute("spiderwebseries")%>,
+		series : <%=request.getAttribute(idseries+"spiderwebseries")%>,
 		responsive: {
 	        rules: [{
 	            condition: {

@@ -34,13 +34,10 @@ public class Dashboard extends GenericHighchartModel {
 		
 		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), fieldGroupBy);
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregado);//ciclo vida petición
-		
 		//"AVG", "SUM"
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), "AVG");
-		
 		//["dayly","weekly","monthly","3monthly","6monthly","anualy","automatic"]
-		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM), "monthly");
-		
+		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM), "monthly");		
 		return dataMapPeticiones;
 	}
 	
@@ -67,23 +64,28 @@ public class Dashboard extends GenericHighchartModel {
 			pieEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			seriesEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
 			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas);
-
-			/*Datamap dataMapPeticiones =  createMap(_data, "timeseries02", "resumenPeticiones", "20", "2", "area", "8");
+			_data.copyMap(dataMapEntregas);
+			
+			Datamap dataMapPeticiones =  createMap(_data, "timeseries02", "resumenPeticiones", "20", "2", "area", "8");
 			histogram3DPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
 			piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
 			seriesPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);
-			barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);*/
-			_data.copyMap(dataMapEntregas);								
+			barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones);			
+			_data.copyMap(dataMapPeticiones);
+			
 			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", histogram3DEntregas.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_12", pieEntregas.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_21", seriesEntregas.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_22", barEntregas.getScreenRendername().concat(".jsp"));
-			/*
+			
 			_data.setAttribute("containerJSP_31", histogram3DPeticiones.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_32", piePeticiones.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_41", seriesPeticiones.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp")*/
+			_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
+			
+			_data.setAttribute("width", "620px");
+			_data.setAttribute("height", "320px");
 			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();

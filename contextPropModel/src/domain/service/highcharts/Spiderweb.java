@@ -90,13 +90,13 @@ public class Spiderweb extends GenericHighchartModel {
 		
 		String itemGrafico = entidadTraslated;
 				
-		data_.setAttribute(getScreenRendername().concat(CHART_TITLE), "Spiderchart de " + CommonUtils.obtenerPlural(itemGrafico) + " "); 
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), "Spiderchart de " + CommonUtils.obtenerPlural(itemGrafico) + " "); 
 		
-		data_.setAttribute(getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
 
 		String categories_UTF8 = CommonUtils.quitarTildes(jsArrayEjeAbcisas.toJSONString());
 
-		data_.setAttribute(getScreenRendername().concat(CATEGORIES), categories_UTF8);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CATEGORIES), categories_UTF8);
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
 			double median = total_.doubleValue()/jsArrayEjeAbcisas.size();
 			total_ = median;

@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
  
- <div id="worldmap" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
-   
+ <% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="worldmap" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+ 
  <script type="text/javascript">
 	 
    $(function () {
@@ -18,16 +22,16 @@
 	    Highcharts.mapChart('worldmap', {
 
 	    	title : {
-				text : '<%=request.getAttribute("worldmaptitle")%>'
+				text : '<%=request.getAttribute(idseries+"worldmaptitle")%>'
 			},
 					
 			subtitle : {
-				text : '<%=request.getAttribute("worldmapsubtitle")%>'
+				text : '<%=request.getAttribute(idseries+"worldmapsubtitle")%>'
 			},
 	        
 	        legend: {
             	title: {
-                    text: '<%=request.getAttribute("worldmapunits")%> <%=request.getAttribute("worldmapentidadGrafico")%>',
+                    text: '<%=request.getAttribute(idseries+"worldmapunits")%> <%=request.getAttribute(idseries+"worldmapentidadGrafico")%>',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.textColor) || 'blue'
                     }
@@ -53,10 +57,10 @@
 	        },
 
 	        series : [{
-	        	data : <%=request.getAttribute("worldmapseries")%>,
+	        	data : <%=request.getAttribute(idseries+"worldmapseries")%>,
 	            mapData: Highcharts.maps['custom/world'],
 	            joinBy: 'hc-key',
-	            name: '<%=request.getAttribute("worldmapentidadGrafico")%>',
+	            name: '<%=request.getAttribute(idseries+"worldmapentidadGrafico")%>',
 	            states: {
 	                hover: {
 	                    color: '#BADA55'
@@ -64,7 +68,7 @@
 	            },
 	            dataLabels: {
 	                enabled: true,
-	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("worldmapdecimals")%>}'
+	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute(idseries+"worldmapdecimals")%>}'
 	            }
 	        }]
 	    });

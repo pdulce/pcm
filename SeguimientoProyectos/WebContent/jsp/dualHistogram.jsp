@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<div id="dualHistogram" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
+
+<% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="dualHistogram" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
 	 		
@@ -12,15 +17,15 @@
 	            backgroundColor: 'transparent'
 	        },
 	        title: {
-	            text: '<%=request.getAttribute("dualHistogramtitle")%>',
+	            text: '<%=request.getAttribute(idseries+"dualHistogramtitle")%>',
 	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        subtitle: {
-	            text: '<%=request.getAttribute("dualHistogramsubtitle")%>',
+	            text: '<%=request.getAttribute(idseries+"dualHistogramsubtitle")%>',
 	            style: {'color': 'orange', 'font-weight': 'lighter'}
 	        },
 	        xAxis: [{
-	            categories: <%=request.getAttribute("dualHistogramseries")%>,
+	            categories: <%=request.getAttribute(idseries+"dualHistogramseries")%>,
 	            labels: {
 	                style: {
 	                    color: 'orange',
@@ -37,7 +42,7 @@
 	                }
 	            },
 	            allowDecimals: true,
-	            min: <%=request.getAttribute("dualHistogramminEjeRef")%>,
+	            min: <%=request.getAttribute(idseries+"dualHistogramminEjeRef")%>,
 	            title: {
 	                text: 'Frecuencia relativa',
 	                style: {
@@ -77,9 +82,9 @@
 	        series: [{
 	        	name: 'Relative freq.',
 	            type: 'column',
-	            data: <%=request.getAttribute("dualHistogramfrecAbsoluta")%>,
+	            data: <%=request.getAttribute(idseries+"dualHistogramfrecAbsoluta")%>,
 	            tooltip: {
-	                valueSuffix: ' <%=request.getAttribute("dualHistogramunits")%>'
+	                valueSuffix: ' <%=request.getAttribute(idseries+"dualHistogramunits")%>'
 	            }
 
 	        }, {
@@ -87,7 +92,7 @@
 	            type: 'spline',
 	            yAxis: 1,
 	            style: {'color': 'blue', 'font-weight': 'lighter'},
-	            data: <%=request.getAttribute("dualHistogramfrecAcum")%>,
+	            data: <%=request.getAttribute(idseries+"dualHistogramfrecAcum")%>,
 	            tooltip: {
 	                valueSuffix: '%'
 	            }

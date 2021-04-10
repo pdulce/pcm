@@ -195,13 +195,13 @@ public class Histogram3D extends GenericHighchartModel {
 		String entidad = Translator.traduceDictionaryModelDefined(data_.getLanguage(), 
 				entidadGrafico.getName().concat(".").concat(entidadGrafico.getName()));
 		
-		data_.setAttribute(getScreenRendername().concat(CHART_TITLE), fieldsGROUPBY.length == 2 ? 
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), fieldsGROUPBY.length == 2 ? 
 				"Comparativa de " + CommonUtils.obtenerPlural(entidad) + " " + (aggregateFunction.contentEquals(OPERATION_AVERAGE)?"(promedios) ":"(totales) "): "Time series ");
-		data_.setAttribute(getScreenRendername().concat(JSON_OBJECT), serieJson);
-		data_.setAttribute(getScreenRendername().concat("abscisas"), jsArrayEjeAbcisas.toString());
-		data_.setAttribute(getScreenRendername().concat("minEjeRef"), minimal);
-		data_.setAttribute(getScreenRendername().concat("profundidad"), agregados == null ? 15 : 10 + 5 * (agregados.length));
-		data_.setAttribute(getScreenRendername().concat("is3D"), "3D");
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), serieJson);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("abscisas"), jsArrayEjeAbcisas.toString());
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), minimal);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("profundidad"), agregados == null ? 15 : 10 + 5 * (agregados.length));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("is3D"), "3D");
 		
 		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
 	}

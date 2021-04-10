@@ -1,26 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<div id="timeseries" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
+<% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="timeseries" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+
 
 <script type="text/javascript">
 	
 	Highcharts.chart('timeseries', {
 	    chart: {     	
-            type: '<%=request.getAttribute("timeseriestypeOfSeries")%>',
+            type: '<%=request.getAttribute(idseries+"timeseriestypeOfSeries")%>',
             margin: 75,
             backgroundColor: 'transparent'
         },
         title: {
-            text: '<%=request.getAttribute("timeseriestitle")%>',
+            text: '<%=request.getAttribute(idseries+"timeseriestitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         subtitle: {
-            text: '<%=request.getAttribute("timeseriessubtitle")%>',
+            text: '<%=request.getAttribute(idseries+"timeseriessubtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         xAxis: {
-            categories: <%=request.getAttribute("timeseriesabscisas")%>,
+            categories: <%=request.getAttribute(idseries+"timeseriesabscisas")%>,
             labels: {
                 style: {
                     color: 'orange',
@@ -29,10 +34,10 @@
             }
         },
         yAxis: {
-            min:  <%=request.getAttribute("timeseriesminEjeRef")%>,
+            min:  <%=request.getAttribute(idseries+"timeseriesminEjeRef")%>,
             allowDecimals: true,
             title: {
-                text: '<%=request.getAttribute("timeseriestitulo_EJE_Y")%>',
+                text: '<%=request.getAttribute(idseries+"timeseriestitulo_EJE_Y")%>',
                 style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': 'xx-small'}
             },
             labels: {
@@ -51,7 +56,7 @@
         
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '<span style="font-size: xx-small; color: #3f4c6b">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("timeseriesdecimals")%>}'
+            pointFormat: '<span style="font-size: xx-small; color: #3f4c6b">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"timeseriesdecimals")%>}'
         },
         				       
         plotOptions: {
@@ -67,7 +72,7 @@
                 dataLabels: {
                     enabled: true,
                     style: {'color': 'white', 'font-size': 'xx-small'},
-                    format: '{point.y:<%=request.getAttribute("timeseriesdecimals")%>}'
+                    format: '{point.y:<%=request.getAttribute(idseries+"timeseriesdecimals")%>}'
                 },
                 label: {
                     connectorAllowed: false
@@ -82,7 +87,7 @@
             }
         },
         
-        series: <%=request.getAttribute("timeseriesseries")%>,
+        series: <%=request.getAttribute(idseries+"timeseriesseries")%>,
         
         responsive: {
             rules: [{

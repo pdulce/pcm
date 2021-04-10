@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<div id="histogram3d" style="width: 1180px; height: 660px; margin: 0 auto;float:left;"></div>
+<% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="histogram3d" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+
 
 <div id="sliders">
        <table>
@@ -35,17 +40,17 @@
 	        }
 	    },
         title: {
-            text: '<%=request.getAttribute("histogram3dtitle")%>',
+            text: '<%=request.getAttribute(idseries+"histogram3dtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         
         subtitle: {
-            text: '<%=request.getAttribute("histogram3dsubtitle")%>',
+            text: '<%=request.getAttribute(idseries+"histogram3dsubtitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter'}
         },
         
         xAxis: {
-            categories: <%=request.getAttribute("histogram3dabscisas")%>,
+            categories: <%=request.getAttribute(idseries+"histogram3dabscisas")%>,
             labels: {
                 style: {
                     color: 'orange',
@@ -56,9 +61,9 @@
         
         yAxis: {
             allowDecimals: true,
-            min: <%=request.getAttribute("histogram3dminEjeRef")%>,
+            min: <%=request.getAttribute(idseries+"histogram3dminEjeRef")%>,
             title: {
-                text: '<%=request.getAttribute("histogram3dtitulo_EJE_Y")%>',
+                text: '<%=request.getAttribute(idseries+"histogram3dtitulo_EJE_Y")%>',
                 style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': 'xx-small'}
             },
             labels: {
@@ -81,7 +86,7 @@
         },
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute("histogram3ddecimals")%>}'
+            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"histogram3ddecimals")%>}'
         },
         				       
         plotOptions: {
@@ -90,7 +95,7 @@
             }
         },
         				      
-        series: <%=request.getAttribute("histogram3dseries")%>
+        series: <%=request.getAttribute(idseries+"histogram3dseries")%>
 	});
 	
 	function showValues() {

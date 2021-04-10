@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<div id="spainmap" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
-   
+<% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="spainmap" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+
 <script type="text/javascript">
 	 
 	   Highcharts.mapChart('spainmap', {
@@ -12,16 +16,16 @@
 		    },
 	
 		   title : {
-			   text : '<%=request.getAttribute("spainmaptitle")%>'
+			   text : '<%=request.getAttribute(idseries+"spainmaptitle")%>'
 		   },
 				
 		   subtitle : {
-			   text : '<%=request.getAttribute("spainmapsubtitle")%>'
+			   text : '<%=request.getAttribute(idseries+"spainmapsubtitle")%>'
 		   },
 		        			        
            legend: {
             	title: {
-                    text: '<%=request.getAttribute("spainmapunits")%> <%=request.getAttribute("spainmapentidadGrafico")%>',
+                    text: '<%=request.getAttribute(idseries+"spainmapunits")%> <%=request.getAttribute(idseries+"spainmapentidadGrafico")%>',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.textColor) || 'blue'
                     }
@@ -47,8 +51,8 @@
 	        },
 	        
 	        series: [{
-	        	data : <%=request.getAttribute("spainmapseries")%>,
-	        	name: '<%=request.getAttribute("spainmapentidadGrafico")%>',
+	        	data : <%=request.getAttribute(idseries+"spainmapseries")%>,
+	        	name: '<%=request.getAttribute(idseries+"spainmapentidadGrafico")%>',
 	            states: {
 	                hover: {
 	                    color: '#BADA55'
@@ -56,7 +60,7 @@
 	            },
 	            dataLabels: {
 	                enabled: true,
-	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute("spainmapdecimals")%>}'
+	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute(idseries+"spainmapdecimals")%>}'
 	            }
 	        }, {
 	            name: 'Separators',

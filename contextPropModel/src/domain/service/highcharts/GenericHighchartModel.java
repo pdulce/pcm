@@ -49,6 +49,8 @@ public abstract class GenericHighchartModel implements IStats {
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final IFieldLogic orderByField, final String aggregateFunction) throws Throwable;
 	
+	public abstract String getScreenRendername();
+	
 	protected boolean isJsonResult(){
 		return true;
 	}
@@ -73,28 +75,6 @@ public abstract class GenericHighchartModel implements IStats {
 			}
 		}
 		return name;
-	}
-	
-	public abstract String getScreenRendername();
-	
-	public Integer obtenerAnteriorLibre(List<Integer> posicionesOcupadas, int posicionActual){
-		int posicionMasAnterior = posicionActual;
-		boolean huecoLibre = false;
-		while (!huecoLibre){
-			posicionMasAnterior--;
-			huecoLibre = !posicionesOcupadas.contains(posicionMasAnterior);
-		}
-		return posicionMasAnterior;			
-	}
-	
-	public Integer obtenerPosteriorLibre(List<Integer> posicionesOcupadas, int posicionActual){
-		int posicionMasPosterior = posicionActual;
-		boolean huecoLibre = false;
-		while (!huecoLibre){
-			posicionMasPosterior++;
-			huecoLibre = !posicionesOcupadas.contains(posicionMasPosterior);
-		}
-		return posicionMasPosterior;
 	}
 	
 	public void generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap data_) {
@@ -179,8 +159,8 @@ public abstract class GenericHighchartModel implements IStats {
 			
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
 
-			data_.setAttribute(getScreenRendername().concat(DECIMALES), decimals);
-			data_.setAttribute(getScreenRendername().concat("typeOfSeries"), typeOfSeries);
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(DECIMALES), decimals);
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfSeries"), typeOfSeries);
 			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();
@@ -190,8 +170,8 @@ public abstract class GenericHighchartModel implements IStats {
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 		}
 
-		String subtitle_ = (data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR)) == null ? "" : ((String) data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR))));
-		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), subtitle_);
+		String subtitle_ = (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR)) == null ? "" : ((String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR))));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), subtitle_);
 
 	}
 	
@@ -229,7 +209,7 @@ public abstract class GenericHighchartModel implements IStats {
 		final String lang = data_.getLanguage();
 		String nombreConceptoRecuento = (agregados != null && agregados.length > 0) ? 
 				Translator.traduceDictionaryModelDefined(lang, agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName())) : " ";			
-		data_.setAttribute(getScreenRendername().concat(ENTIDAD_GRAFICO_PARAM), nombreConceptoRecuento);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(ENTIDAD_GRAFICO_PARAM), nombreConceptoRecuento);
 		
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName()
 				.concat(".").concat(filtro_.getEntityDef().getName()));
@@ -238,17 +218,17 @@ public abstract class GenericHighchartModel implements IStats {
 		if (groupByField != null && groupByField.length > 1){
 			newNombreCategoriaOPeriodo = units;
 		}
-		data_.setAttribute(getScreenRendername().concat(TEXT_Y_AXIS), "" + (!"".equals(units) ? units : 
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TEXT_Y_AXIS), "" + (!"".equals(units) ? units : 
 			(entidadTraslated + (newNombreCategoriaOPeriodo.equals(entidadTraslated) ? "" : " por " + newNombreCategoriaOPeriodo))));
-		data_.setAttribute(getScreenRendername().concat(TEXT_X_AXIS), ("".equals(units) ? entidadTraslated : units));
-		data_.setAttribute(getScreenRendername().concat(UNITS_ATTR), units);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TEXT_X_AXIS), ("".equals(units) ? entidadTraslated : units));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(UNITS_ATTR), units);
 
 		String title = "", subTitle = "";
-		if (data_.getAttribute(getScreenRendername().concat(TITLE_ATTR)) != null) {
-			title = (String) data_.getAttribute(getScreenRendername().concat(TITLE_ATTR));
+		if (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR)) != null) {
+			title = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR));
 			title = title.replaceAll("#", nombreConceptoRecuento);
-		} else if (data_.getAttribute(getScreenRendername().concat(CHART_TITLE)) != null){
-			title = (String) data_.getAttribute(getScreenRendername().concat(CHART_TITLE));
+		} else if (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE)) != null){
+			title = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE));
 		}
 		if (groupByField.length>0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null) {
 			String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
@@ -266,16 +246,18 @@ public abstract class GenericHighchartModel implements IStats {
 			title +=  ((aggregateFunction.contentEquals(OPERATION_AVERAGE))?" -> promedio: ": " -> total: ") + resumenToalizadoOpromediado;	
 		}		
 		
-		data_.setAttribute(getScreenRendername().concat(TITLE_ATTR), title);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), title);
 
-		if (data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR)) != null) {
-			subTitle = (String) data_.getAttribute(getScreenRendername().concat(SUBTILE_ATTR));
+		if (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR)) != null) {
+			subTitle = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR));
 			subTitle = subTitle.replaceAll("#", units);
 		}
 		String criteria = pintarCriterios(filtro_, data_);
 		String crit = criteria.equals("")?"No filtered": criteria;
-		data_.setAttribute(getScreenRendername().concat(SUBTILE_ATTR), subTitle + "<br/> " + crit);
-		data_.setAttribute("container", getScreenRendername().concat(".jsp"));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), subTitle + "<br/> " + crit);
+		data_.setAttribute(data_.getParameter("idPressed")+"container", getScreenRendername().concat(".jsp"));
+		data_.setAttribute("width", "1180px");
+		data_.setAttribute("height", "690px");
 	}
 
 

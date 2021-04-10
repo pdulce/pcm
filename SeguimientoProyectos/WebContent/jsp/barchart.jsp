@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
 
-<div id="barchart" style="width: 1180px; height: 690px; margin: 0 auto;float:left;"></div>
+<% String idseries = (String)request.getAttribute("idseries");
+String width = (String)request.getAttribute("width");
+String height = (String)request.getAttribute("height");
+%>
+<div id="barchart" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+
 
 <script type="text/javascript">
 			
@@ -11,15 +16,15 @@
 		            backgroundColor: 'transparent'
 			    },
 			    title: {
-			        text: '<%=request.getAttribute("barcharttitle")%>',
+			        text: '<%=request.getAttribute(idseries+"barcharttitle")%>',
 			        style: {'color': 'orange', 'font-weight': 'lighter'}
 			    },
 			    subtitle: {
-		            text: '<%=request.getAttribute("barchartsubtitle")%>',
+		            text: '<%=request.getAttribute(idseries+"barchartsubtitle")%>',
 		            style: {'color': 'orange', 'font-weight': 'lighter'}
 		        },
 			    xAxis: {
-			        categories: <%=request.getAttribute("barchartcategories")%>,
+			        categories: <%=request.getAttribute(idseries+"barchartcategories")%>,
 			        labels: {
 		                style: {
 		                    color: 'orange',
@@ -31,7 +36,7 @@
 			        min: 0,
 			        itemStyle: {'color': 'orange', 'font-weight': 'lighter'},
 			        title: {
-			            text: '<%=request.getAttribute("barcharttitulo_EJE_X")%>',
+			            text: '<%=request.getAttribute(idseries+"barcharttitulo_EJE_X")%>',
 			            itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
 			        },
 			        labels: {
@@ -51,7 +56,7 @@
 			            style: {'color': '#3f4c6b', 'font-weight': 'lighter', 'font-size': 'xx-small'}
 			        }
 			    },
-				  series: <%=request.getAttribute("barchartseries")%>
+				  series: <%=request.getAttribute(idseries+"barchartseries")%>
 			    
 			});
 			
