@@ -510,7 +510,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="2" hidden="true"/>
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="aplicativo"
-								descrMappingTo="5">
+								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="4" editable="false"  />

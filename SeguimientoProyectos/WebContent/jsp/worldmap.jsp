@@ -23,11 +23,13 @@
 	    Highcharts.mapChart('<%=idseries%>worldmap', {
 
 	    	title : {
-				text : '<%=request.getAttribute(idseries+"worldmaptitle")%>'
+				text : '<%=request.getAttribute(idseries+"worldmaptitle")%>',
+				style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
 			},
 					
 			subtitle : {
-				text : '<%=request.getAttribute(idseries+"worldmapsubtitle")%>'
+				text : '<%=request.getAttribute(idseries+"worldmapsubtitle")%>',
+				style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
 			},
 	        
 	        legend: {

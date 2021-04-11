@@ -150,13 +150,13 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 					FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
 					aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
 					aplicacion = dataAccess.searchEntityByPk(aplicacion);
-					valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
+					valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName()));
 				}
 			}else {
 				filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
 				List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
 				for (FieldViewSet aplicacion: aplicaciones) {
-					valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName()));
+					valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName()));
 				}
 			}
 			
@@ -294,7 +294,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 					FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
 					aplicativo.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
 					aplicativo = dataAccess.searchEntityByPk(aplicativo);
-					String rochade = (String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_ROCHADE).getName());
+					String rochade = (String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
 					title.append(rochade);
 					idTecnologia = (Long) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
 					textoAplicaciones.append(rochade);
@@ -319,7 +319,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 					if (idTecnologia ==0) {
 						idTecnologia = (Long) aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
 					}					
-					textoAplicaciones.append((String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_ROCHADE).getName()));
+					textoAplicaciones.append((String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName()));
 					if (i < (aplicativos.size()-1)) {
 						textoAplicaciones.append(", ");
 					}
@@ -363,7 +363,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				String nombreAplicacionDePeticion = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
 				
 				FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
-				aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName(), nombreAplicacionDePeticion);
+				aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), nombreAplicacionDePeticion);
 				List<FieldViewSet> aplicativosByName = dataAccess.searchByCriteria(aplicativoBBDD);
 				if (aplicativosByName != null && !aplicativosByName.isEmpty()) {
 					aplicativoBBDD = aplicativosByName.get(0);

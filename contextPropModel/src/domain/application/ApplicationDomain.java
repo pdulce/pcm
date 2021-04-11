@@ -184,10 +184,13 @@ public class ApplicationDomain implements Serializable {
 		return this.initEvent;
 	}
 	
-	public String getTitleOfAction(final String useCase, final String event){		
+	public String getTitleOfAction(final String service, final String event){
 		String serviceSceneTitle = "";
+		if (service.contentEquals("") || service.contentEquals("dashboard")) {
+			return serviceSceneTitle;
+		}
 		try {
-			Element actionElementNode = getDomainService(useCase).extractActionElementByService(event);
+			Element actionElementNode = getDomainService(service).extractActionElementByService(event);
 			NodeList nodes = actionElementNode.getElementsByTagName("form");
 			int n = nodes.getLength();
 			for (int nn=0;nn<n;nn++){
@@ -197,7 +200,7 @@ public class ApplicationDomain implements Serializable {
 				}
 			}
 		} catch (PCMConfigurationException e) {
-			ApplicationDomain.log.log(Level.INFO, "Error getting title of " + useCase + " event: " + event, e);
+			ApplicationDomain.log.log(Level.INFO, "Error getting title of " + service + " event: " + event, e);
 		}
 		return serviceSceneTitle;
 	}
@@ -295,8 +298,11 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	public IDataAccess getDataAccess(final DomainService domainService, 
-			final Collection<String> conditions, final Collection<String> preconditions) 
+	public IDataAccess getDataAccess() throws PCMConfigurationException {
+		return getDataAccess(new ArrayList<String>(), new ArrayList<String>());
+	}
+	
+	public IDataAccess getDataAccess(final Collection<String> conditions, final Collection<String> preconditions) 
 			throws PCMConfigurationException {
 		try {			
 			DAOConnection conn = this.resourcesConfiguration.getDataSourceFactoryImplObject().getConnection();
@@ -428,25 +434,30 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Scatter();
 			}else if (highchartStats.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
-			}else if (highchartStats.equals("dashboard")) {
-				
 			}
 		}
 		
+		IDataAccess dataAccess_ = null;
 		if (genericHCModel != null) {
 			try {
-				DomainService domainService = getDomainService(datamap.getService());
-				Collection<String> conditions = domainService.extractStrategiesElementByAction(datamap.getEvent()); ;
-				Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
-				IDataAccess dataAccess = getDataAccess(domainService, conditions, preconditions);
-				genericHCModel.generateStatGraphModel(dataAccess, domainService, datamap);
+				
+				if (!datamap.getService().contentEquals("dashboard")) {
+					DomainService domainService = getDomainService(datamap.getService());
+					Collection<String> conditions = domainService.extractStrategiesElementByAction(datamap.getEvent()); ;
+					Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
+					dataAccess_ = getDataAccess(conditions, preconditions);
+					genericHCModel.generateStatGraphModel(dataAccess_, domainService, datamap);
+				}else {
+					dataAccess_ = getDataAccess();
+					genericHCModel.generateStatGraphModel(dataAccess_, null, datamap);
+				}
+				
 				return "";
 			} catch (PCMConfigurationException e) {
 				throw new RuntimeException("Error creating DataAccess object", e);
 			}
 		}else {
 		
-			IDataAccess dataAccess_ = null;
 			try {
 				StringBuilder innerContent_ = new StringBuilder();
 				String event = datamap.getParameter(PCMConstants.EVENT);
@@ -466,7 +477,7 @@ public class ApplicationDomain implements Serializable {
 					conditions = domainService.extractStrategiesElementByAction(datamap.getEvent());
 					preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
 				}
-				dataAccess_ = getDataAccess(domainService, conditions, preconditions);
+				dataAccess_ = getDataAccess(conditions, preconditions);
 				IBodyContainer container = BodyContainer.getContainerOfView(datamap, dataAccess_, domainService);
 				IAction	action = AbstractAction.getAction(container,
 						domainService.extractActionElementByService(datamap.getEvent()), 

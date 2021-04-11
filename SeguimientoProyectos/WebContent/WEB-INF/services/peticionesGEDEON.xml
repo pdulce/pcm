@@ -169,7 +169,7 @@
 					
 						<fieldView mappingTo="26" type="checkbox" size="19">
 							<optionValues selectionMultiple="true" entitymodel="aplicativo"
-								descrMappingTo="5">
+								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
 						
@@ -244,7 +244,7 @@
 					<fieldView mappingTo="12" editable="false" styleCss="font-style: italic;"/>
 					<fieldView mappingTo="26" type="checkbox" size="1" editable="false">
 							<optionValues entitymodel="aplicativo"
-								descrMappingTo="5">
+								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
 					<fieldView mappingTo="13" editable="false" />

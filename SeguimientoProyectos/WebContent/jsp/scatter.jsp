@@ -19,11 +19,11 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        },
 	        title: {
 	            text: '<%=request.getAttribute(idseries+"scattertitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter'}
+	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
 	        },
 	        subtitle: {
 	            text: '<%=request.getAttribute(idseries+"scattersubtitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter'}
+	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
 	        },
 	        xAxis: {
 	            title: {	                

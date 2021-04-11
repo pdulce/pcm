@@ -152,14 +152,21 @@ public class Scatter extends GenericHighchartModel {
 			
 			EntityLogic entidadGrafico = EntityLogicFactory.getFactoryInstance().getEntityDef(data_.getEntitiesDictionary(),
 					paramGeneric4Entity);
+			
+			Collection<FieldViewSet> fieldViewSetsForm = new ArrayList<FieldViewSet>();
 			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
 			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
 			IBodyContainer container = BodyContainer.getContainerOfView(data_, dataAccess, domainService);
 			if (container != null && !container.getForms().isEmpty()) {			
 				Form formSubmitted = (Form) container.getForms().get(0);
 				//alimentar el user filter de los inputs del formulario
-				Form.refreshUserFilter(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
+				fieldViewSetsForm.addAll(formSubmitted.getFieldViewSets());
+			}else {
+				//filtramos cuando el filtro venga de campos de un dashboard
+				fieldViewSetsForm.add(userFilter);
 			}
+			
+			userFilter.refreshUserFilter(fieldViewSetsForm, dataAccess, data_.getAllDataMap());
 			
 			String categoriaX = data_.getParameter(userFilter.getNameSpace().concat(".").concat(CATEGORIA_EJE_X));
 			String categoriaY = data_.getParameter(userFilter.getNameSpace().concat(".").concat(CATEGORIA_EJE_Y));

@@ -92,8 +92,6 @@ public class CDDWebController extends HttpServlet {
 			final String serviceRec = event.substring(0, event.indexOf(PCMConstants.CHAR_POINT));
 			final String nameEventFromReq = event.substring(serviceRec.length() + 1, event.length());
 			escenario.put(serviceRec, nameEventFromReq);
-		}else{
-			throw new RuntimeException("Event " + event + " does not match the regular expression <service>.<event>");
 		}
 		return escenario;
 	}
@@ -256,7 +254,7 @@ public class CDDWebController extends HttpServlet {
 		final Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
 		
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);
-		datamap.getParameterValues("");
+		//datamap.getParameterValues("");
 		final String initService = this.contextApp.getInitService();
 		final String initEvent = this.contextApp.getInitEvent();
 		String service = "";
@@ -269,8 +267,8 @@ public class CDDWebController extends HttpServlet {
 		}else{
 			eventSubmitted = true;
 			Map<String,String> scene = this.getSceneQName(datamap, event);
-			service = scene.keySet().iterator().next();
-			event = scene.values().iterator().next();
+			service = scene.isEmpty() ? event : scene.keySet().iterator().next();
+			event = scene.isEmpty() ? event : scene.values().iterator().next();
 		}		
 		datamap.setService(service);
 		datamap.setEvent(event);

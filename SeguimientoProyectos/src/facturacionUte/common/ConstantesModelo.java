@@ -298,10 +298,10 @@ public abstract class ConstantesModelo {
 	public static final String SERVICIOUTE_ENTIDAD = "servicioUTE";
 
 	public static final int APLICATIVO_1_ID = 1;
-	public static final int APLICATIVO_2_NOMBRE = 2;
+	public static final int APLICATIVO_5_NOMBRE = 5;
 	public static final int APLICATIVO_3_ID_SERVICIO = 3;
 	public static final int APLICATIVO_4_DESCRIPC = 4;
-	public static final int APLICATIVO_5_ROCHADE = 5;
+	public static final int APLICATIVO_2_ROCHADE = 2;
 	public static final int APLICATIVO_6_ID_TECNOLOGHY = 6;
 	public static final int APLICATIVO_7_MANTENIMIENTO_EN_PRODUC = 7;
 	public static final String APLICATIVO_ENTIDAD = "aplicativo";

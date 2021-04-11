@@ -25,7 +25,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="false">
 								<optionValues entitymodel="aplicativo"
-									descrMappingTo="5">
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" type="select" editable="false">

@@ -101,19 +101,30 @@ public abstract class GenericHighchartModel implements IStats {
 				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agregación para generar este diagrama estadístico");
 			}
 			
+			Collection<FieldViewSet> fieldViewSetsForm = new ArrayList<FieldViewSet>();
 			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
 			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
-			IBodyContainer container = BodyContainer.getContainerOfView(data_, dataAccess, domainService);
-			if (container != null && !container.getForms().isEmpty()) {			
+			
+			if (domainService != null) {
+				IBodyContainer container = BodyContainer.getContainerOfView(data_, dataAccess, domainService);
 				Form formSubmitted = (Form) container.getForms().get(0);
-				//alimentar el user filter de los inputs del formulario
-				Form.refreshUserFilter(userFilter, formSubmitted.getFieldViewSets(), dataAccess, data_.getAllDataMap());
+				fieldViewSetsForm.addAll(formSubmitted.getFieldViewSets());
+			}else {
+				Collection<IEntityLogic> entityParents = entidadGrafico.getParentEntities();
+				// de momento, solo me quedo con un padre para probar el algoritmo, y luego extenderemos
+				if (entityParents != null && !entityParents.isEmpty()) {
+					IEntityLogic parentEntity = entityParents.iterator().next();	
+					fieldViewSetsForm.add(new FieldViewSet(parentEntity));							
+				}				
+				fieldViewSetsForm.add(userFilter);
 			}
+			
+			userFilter.refreshUserFilter(fieldViewSetsForm, dataAccess, data_.getAllDataMap());
 			
 			/*** TRATAMIENTO DE LAS AGREGACIONES ****/
 			String aggregateFunction = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
 			if (aggregateFunction == null){
-				throw new Exception("Error de entrada de datos: ha de seleccionar un tipo de operacion; agregacion, o promedio"); 
+				throw new Exception("Error de entrada de datos: ha de seleccionar un tipo de operación; totalización o promedio"); 
 			}
 			String decimals = ",.0f";
 			IFieldLogic[] fieldsForAgregadoPor = null;
@@ -252,8 +263,7 @@ public abstract class GenericHighchartModel implements IStats {
 			subTitle = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR));
 			subTitle = subTitle.replaceAll("#", units);
 		}
-		String criteria = pintarCriterios(filtro_, data_);
-		String crit = criteria.equals("")?"No filtered": criteria;
+		String crit = pintarCriterios(filtro_, data_);		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), subTitle + "<br/> " + crit);
 		data_.setAttribute(data_.getParameter("idPressed")+"container", getScreenRendername().concat(".jsp"));
 		data_.setAttribute("width", "1180px");

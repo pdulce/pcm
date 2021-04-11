@@ -315,7 +315,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), rochadeCode);
 					//si este rochade no esto en la tabla proyectos, miramos si es entorno Natural para encajarlo
 					FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicativoEntidad);
-					existeProyectoDadoDeAlta.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_NOMBRE).getName(), aplicac);
+					existeProyectoDadoDeAlta.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), aplicac);
 					List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
 					if (apps.isEmpty()){
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"

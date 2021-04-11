@@ -136,8 +136,8 @@
 				
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
 						<fieldView mappingTo="1" hidden="true" />					
-						<fieldView mappingTo="5" editable="false"  />
 						<fieldView mappingTo="2" editable="false"  />
+						<fieldView mappingTo="5" editable="false"  />
 						<fieldView mappingTo="3" hidden="true" />
 					</fieldViewSet>
 					

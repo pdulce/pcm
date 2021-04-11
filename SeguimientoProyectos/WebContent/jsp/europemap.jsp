@@ -17,11 +17,13 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 		    },
 	
 		   title : {
-			   text : '<%=request.getAttribute(idseries+"europemaptitle")%>'
+			   text : '<%=request.getAttribute(idseries+"europemaptitle")%>',
+			   style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
 		   },
 				
 		   subtitle : {
-			   text : '<%=request.getAttribute(idseries+"europemapsubtitle")%>'
+			   text : '<%=request.getAttribute(idseries+"europemapsubtitle")%>',
+			   style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
 		   },
 		        			        
            legend: {

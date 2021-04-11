@@ -19,11 +19,11 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        },
 	        title: {
 	            text: '<%=request.getAttribute(idseries+"dualHistogramtitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter'}
+	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
 	        },
 	        subtitle: {
 	            text: '<%=request.getAttribute(idseries+"dualHistogramsubtitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter'}
+	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
 	        },
 	        xAxis: [{
 	            categories: <%=request.getAttribute(idseries+"dualHistogramseries")%>,
