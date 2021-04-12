@@ -1192,6 +1192,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						Iterator<IFieldView> fieldsDeCandidatoIterator = fSetCandidate.getFieldViews().iterator();
 						while (fieldsDeCandidatoIterator.hasNext()) {
 							IFieldView fieldViewCandidate = fieldsDeCandidatoIterator.next();
+							if (fieldViewCandidate.getEntityField().isVolatile()) {
+								continue;
+							}
 							if (fSet.getFieldView(fieldViewCandidate.getEntityField().getName()) != null) {
 								Iterator<IFieldView> iteFieldViewsOfset = fSet.getFieldViews().iterator();
 								List<IFieldView> nuevaListaFViews = new ArrayList<IFieldView>();
@@ -1240,6 +1243,8 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					if (fieldView.getEntityField() == null) {
 						throw new DatabaseException(
 								"Este fieldView  ha sido manipulado y no trae relleno la informacion del modelo de persistencia entityField");
+					}else if (fieldView.getEntityField().isVolatile())  {
+						continue;
 					}
 					
 					String fieldNameOfEntity_ = fieldView.getEntityField().getName();					
@@ -1308,6 +1313,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						Map<String, String> entityFKAliases = new HashMap<String, String>();						
 						for (i = 0; i < descrMappings_.length; i++) {
 							IFieldLogic fieldFK = entityFK.searchField(descrMappings_[i]);
+							if (fieldFK.isVolatile())  {
+								continue;
+							}
 							String fieldNameFK = fieldFK.getName();
 							
 							String aliasForField_FK = new StringBuilder(ALIAS_).append(String.valueOf(counterAlias++)).toString();							
@@ -1440,6 +1448,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					if (conn.isResourceLocked(iSqlExc)) {
 						Thread.sleep(500);
 					} else {
+						iSqlExc.printStackTrace();
 						throw iSqlExc;
 					}
 				}
@@ -1703,7 +1712,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						fieldSet2Fill.setValue(fieldView.getQualifiedContextName(), finalresult == null ? "" : finalresult);
 					}
 				}
-				catch (SQLException sqlExcc) {
+				catch (Throwable sqlExcc) {
 					AnsiSQLAbstractDAOImpl.log.log(Level.SEVERE, "ERROR al obtener campo..." + fieldLogic.getName(), sqlExcc);
 					throw new DatabaseException("Error al obtener campo..." + fieldLogic.getName() + " de la query");
 				}

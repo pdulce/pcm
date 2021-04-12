@@ -760,9 +760,10 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						Long peticionEntregaGEDEON = (Long) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
 						fechaSolicitudEntrega = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
 						String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-						if (estadoEntrega.contentEquals("Entrega no conforme")) {
+						if (estadoEntrega.contentEquals("Entrega no conforme") || 
+								entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName()) == null) {
 							entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName(),
-									peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName()));
+									entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_44_FECHA_ULTIMA_MODIFCACION).getName()));
 						}
 						if (!entregasSerializadas.toString().isEmpty()) {
 							entregasSerializadas.append(", ");
@@ -879,8 +880,14 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 						entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName(), jornadasDesfaseFinDesaSolicEntrega);
 				
-				Double jornadasDesdeFinPruebasHastaImplantacion = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
+				Double jornadasDesdeFinPruebasHastaImplantacion = 0.0;
+				Serializable jornadasDesdeFinPruebasHastaImplantacion_ = procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 						entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);
+				if (jornadasDesdeFinPruebasHastaImplantacion_ instanceof Date) {
+					jornadasDesdeFinPruebasHastaImplantacion = (Double) procesarReglas(heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
+							entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);
+					throw new RuntimeException("Error: formula " + heuristicaFormulaCalculoIntervalo_FinPruebasCD_Instalac_Produc + " no debe retornar una fecha sino un double");
+				}
 				
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
 								

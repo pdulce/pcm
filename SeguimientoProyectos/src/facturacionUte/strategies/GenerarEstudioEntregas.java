@@ -359,14 +359,11 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				
 				Long idPeticionEntrega = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());					
 				String tipoPeticion = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());					
-				String nombreAplicacionDePeticion = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName());
+				Long idAplicativo = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName());
 				
 				FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
-				aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), nombreAplicacionDePeticion);
-				List<FieldViewSet> aplicativosByName = dataAccess.searchByCriteria(aplicativoBBDD);
-				if (aplicativosByName != null && !aplicativosByName.isEmpty()) {
-					aplicativoBBDD = aplicativosByName.get(0);
-				}
+				aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), idAplicativo);
+				aplicativoBBDD = dataAccess.searchEntityByPk(aplicativoBBDD);
 				
 				/*** creamos la instancia para cada resumen por peticion del estudio ***/
 				FieldViewSet resumenPorPeticion = new FieldViewSet(resumenEntregaEntidad);				
@@ -387,7 +384,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 												
 				Long idEstudio = (Long) registroMtoProsa.getValue(estudioEntregasEntidad.searchField(ConstantesModelo.ESTUDIOSENTREGAS_1_ID).getName());
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_2_ID_ESTUDIO).getName(), idEstudio);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_3_APLICACION).getName(), nombreAplicacionDePeticion);
+				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_3_APLICACION).getName(), idAplicativo);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_4_ID_GEDEON_ENTREGA).getName(), idPeticionEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUM_PETICIONES).getName(), numPeticionesEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName(), utsEntrega);
@@ -439,7 +436,7 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName(), jornadasPruebasCD);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName(), jornadasDesdeFinPruebasHastaImplantacion);
 				
-				out.write(("****** INICIO DATOS PETICION GEDEON ENTREGA: " + idPeticionEntrega + " aplicación: " + nombreAplicacionDePeticion + " ******\n").getBytes());
+				out.write(("****** INICIO DATOS PETICION GEDEON ENTREGA: " + idPeticionEntrega +  " ******\n").getBytes());
 				out.write(("Jornadas Duración total Entrega: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
 				out.write(("Jornadas Preparación Entrega: " + CommonUtils.roundDouble(jornadasEntrega,2) + "\n").getBytes());
 				out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(jornadasPruebasCD,2) + "\n").getBytes());

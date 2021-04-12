@@ -201,7 +201,9 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
-							<fieldView mappingTo="30" type="select" size="8" editable="true">
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="30" type="select" size="10" editable="true">
 								<optionValues selectionMultiple="true" entitymodel="aplicativo"
 									descrMappingTo="2">
 								</optionValues>							
