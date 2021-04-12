@@ -33,6 +33,11 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.copyMap(_data);
 		dataMapPeticiones.setAttribute(PCMConstants.APP_PROFILE,(String) _data.getAttribute(PCMConstants.APP_PROFILE));
 		
+		dataMapPeticiones.removeParameter("idPressed");
+		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM));
+		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat("seriesType"));
+		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM));
+		
 		dataMapPeticiones.setParameter("idPressed", nameSpaceOfButtonFieldSet);
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM), entity);
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat("seriesType") , graphType);//["area","line"]		
@@ -43,12 +48,18 @@ public class Dashboard extends GenericHighchartModel {
 			fieldGroupBy.add(orderBy);
 		}
 		
+		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
+		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
+		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
+		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM));	
+		
 		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), fieldGroupBy);
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregado);//ciclo vida petición
 		//"AVG", "SUM"
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), operation);
 		//["dayly","weekly","monthly","3monthly","6monthly","anualy","automatic"]
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM), "monthly");		
+		
 		return dataMapPeticiones;
 	}
 	
@@ -83,18 +94,6 @@ public class Dashboard extends GenericHighchartModel {
 			Datamap dataMapEntregas04 = createMap(_data, "_serie04", entities[0], "9", "2,7", "", "5", "SUM");
 			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas04);
 			
-			_data.copyMap(dataMapEntregas01);
-			_data.copyMap(dataMapEntregas021);
-			_data.copyMap(dataMapEntregas022);
-			_data.copyMap(dataMapEntregas03);
-			_data.copyMap(dataMapEntregas04);
-			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_11", seriesEntregas1.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_120", pieEntregas01.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_121", pieEntregas02.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_21", seriesEntregas2.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_22", barEntregas.getScreenRendername().concat(".jsp"));
-			
 			if (entities.length > 1) {
 				
 				//FieldViewSet detail2 = new FieldViewSet(EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(), entities[1]));
@@ -121,6 +120,19 @@ public class Dashboard extends GenericHighchartModel {
 				_data.setAttribute("containerJSP_41", seriesPeticiones4.getScreenRendername().concat(".jsp"));
 				_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
 			}
+			
+			_data.copyMap(dataMapEntregas01);
+			_data.copyMap(dataMapEntregas021);
+			_data.copyMap(dataMapEntregas022);
+			_data.copyMap(dataMapEntregas03);
+			_data.copyMap(dataMapEntregas04);
+			
+			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_11", seriesEntregas1.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_120", pieEntregas01.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_121", pieEntregas02.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_21", seriesEntregas2.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_22", barEntregas.getScreenRendername().concat(".jsp"));
 			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();

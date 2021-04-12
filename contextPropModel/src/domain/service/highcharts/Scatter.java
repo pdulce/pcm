@@ -39,8 +39,6 @@ public class Scatter extends GenericHighchartModel {
 
 	protected static final String CATEGORIA_EJE_X = "ejeX";
 	
-	private static final String CONTAINER = "container";
-
 	protected static final String CATEGORIA_EJE_Y = "ejeY";
 	private static final String TITULO_EJE_X = "titulo_EJE_X";
 	private static final String TITULO_EJE_Y = "titulo_EJE_Y";
@@ -128,10 +126,10 @@ public class Scatter extends GenericHighchartModel {
 		String catX = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		String catY = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[1].getName()));
 		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
-		String criteria = pintarCriterios(userFilter, data_);
+		//String criteria = pintarCriterios(userFilter, data_);
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), "<h4>".concat(title).concat("</h4>"));
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "<br/> " + criteria);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "");//"<br/> " + criteria);
 		data_.setAttribute("width", "1180px");
 		data_.setAttribute("height", "690px");
 		data_.setAttribute("idseries", data_.getParameter("idPressed"));

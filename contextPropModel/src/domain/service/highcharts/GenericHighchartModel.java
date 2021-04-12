@@ -42,7 +42,10 @@ import domain.service.highcharts.utils.HistogramUtils;
  * @author 99GU3997
  */
 public abstract class GenericHighchartModel implements IStats {
-		
+	
+	public static final String CONTAINER = "container";
+
+	
 	protected IDataAccess _dataAccess;
 	
 	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
@@ -181,8 +184,8 @@ public abstract class GenericHighchartModel implements IStats {
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 		}
 
-		String subtitle_ = (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR)) == null ? "" : ((String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR))));
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), subtitle_);
+		//String subtitle_ = (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR)) == null ? "" : ((String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR))));
+		//data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), subtitle_);
 
 	}
 	
@@ -246,7 +249,7 @@ public abstract class GenericHighchartModel implements IStats {
 			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
 			title = title.concat(" agrupando por [" + 
 					Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgrupacion) + 
-					"], dimensión de agregación: [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
+					"], agregado: [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
 		}
 		
 		String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
@@ -263,9 +266,9 @@ public abstract class GenericHighchartModel implements IStats {
 			subTitle = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR));
 			subTitle = subTitle.replaceAll("#", units);
 		}
-		String crit = pintarCriterios(filtro_, data_);		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), subTitle + "<br/> " + crit);
-		data_.setAttribute(data_.getParameter("idPressed")+"container", getScreenRendername().concat(".jsp"));
+		//String crit = pintarCriterios(filtro_, data_);		
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "");//subTitle + "<br/> " + crit);
+		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 		data_.setAttribute("width", "1180px");
 		data_.setAttribute("height", "690px");
 		data_.setAttribute("idseries", data_.getParameter("idPressed"));
