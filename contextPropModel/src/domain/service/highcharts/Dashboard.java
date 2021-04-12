@@ -24,7 +24,7 @@ public class Dashboard extends GenericHighchartModel {
 	}
 	
 	public Datamap createMap(final Datamap _data, final String nameSpaceOfButtonFieldSet, final String entity, 
-			final String orderBy, final String firstGroupBy, final String graphType, final String agregado, final String operation) {
+			final String orderBy, final String firstGroupBy, final String graphType, final String agregado) {
 
 		Datamap dataMapPeticiones = new Datamap(_data.getEntitiesDictionary(), _data.getUri(), _data.getPageSize());
 		dataMapPeticiones.copyMap(_data);
@@ -53,9 +53,19 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), fieldGroupBy);
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregado);//ciclo vida petición
 		//"AVG", "SUM"
-		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), operation);
+		if (_data.getParameter(OPERATION_FIELD_PARAM)== null) {
+			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), "AVG");
+		}else {
+			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), 
+					_data.getParameter(OPERATION_FIELD_PARAM));
+		}
 		//["dayly","weekly","monthly","3monthly","6monthly","anualy","automatic"]
-		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM), "monthly");		
+		if (_data.getParameter(HistogramUtils.ESCALADO_PARAM)== null) {
+			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM), "monthly");
+		}else {
+			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM), 
+					_data.getParameter(HistogramUtils.ESCALADO_PARAM));
+		}
 		
 		return dataMapPeticiones;
 	}
@@ -76,19 +86,19 @@ public class Dashboard extends GenericHighchartModel {
 			Pie pieEntregas01 = new Pie(), pieEntregas02 = new Pie();
 			BarChart barEntregas = new BarChart();
 			
-			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "3", "line", "6", "AVG");
+			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "3", "line", "6");
 			seriesEntregas1.generateStatGraphModel(dataAccess, domainService, dataMapEntregas01);
 			
-			Datamap dataMapEntregas021 = createMap(_data, "_serie021", entities[0], "3", "3", "", "5", "SUM");
+			Datamap dataMapEntregas021 = createMap(_data, "_serie021", entities[0], "3", "3", "", "5");
 			pieEntregas01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas021);
 			
-			Datamap dataMapEntregas022 = createMap(_data, "_serie022", entities[0], "2", "3", "", "8", "SUM");
+			Datamap dataMapEntregas022 = createMap(_data, "_serie022", entities[0], "2", "3", "", "8");
 			pieEntregas02.generateStatGraphModel(dataAccess, domainService, dataMapEntregas022);
 			
-			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", "3", "area", "5", "AVG");
+			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", "3", "area", "5");
 			seriesEntregas2.generateStatGraphModel(dataAccess, domainService, dataMapEntregas03);
 			
-			Datamap dataMapEntregas04 = createMap(_data, "_serie04", entities[0], "9", "3,7", "", "5", "SUM");
+			Datamap dataMapEntregas04 = createMap(_data, "_serie04", entities[0], "9", "3,7", "", "5");
 			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas04);
 			
 			if (entities.length > 1) {
@@ -99,13 +109,13 @@ public class Dashboard extends GenericHighchartModel {
 				Pie piePeticiones = new Pie();		
 				BarChart barPeticiones = new BarChart();
 
-				Datamap dataMapPeticiones05 =  createMap(_data, "_serie05", entities[1], "20", "3", "line", "8", "AVG");
+				Datamap dataMapPeticiones05 =  createMap(_data, "_serie05", entities[1], "20", "3", "line", "8");
 				seriesPeticiones3.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones05);
-				Datamap dataMapPeticiones06 =  createMap(_data, "_serie06", entities[1], "3", "3", "", "8", "SUM");
+				Datamap dataMapPeticiones06 =  createMap(_data, "_serie06", entities[1], "3", "3", "", "8");
 				piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones06);
-				Datamap dataMapPeticiones07 =  createMap(_data, "_serie07", entities[1], "20", "3", "area", "17", "AVG");
+				Datamap dataMapPeticiones07 =  createMap(_data, "_serie07", entities[1], "20", "3", "area", "17");
 				seriesPeticiones4.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones07);
-				Datamap dataMapPeticiones08 =  createMap(_data, "_serie08", entities[1], "20", "3,4", "", "8", "SUM");
+				Datamap dataMapPeticiones08 =  createMap(_data, "_serie08", entities[1], "20", "3,4", "", "8");
 				barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones08);
 				
 				_data.copyMap(dataMapPeticiones05);						

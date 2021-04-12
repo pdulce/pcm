@@ -119,12 +119,12 @@
 				<jsp:include page="${containerJSP_120}">
 					<jsp:param name="idseries" value="_serie021" />
 					<jsp:param name="width" value="500px" />
-					<jsp:param name="height" value="240px" />
+					<jsp:param name="height" value="340px" />
 				</jsp:include>
 				<jsp:include page="${containerJSP_121}">
 					<jsp:param name="idseries" value="_serie022" />
 					<jsp:param name="width" value="500px" />
-					<jsp:param name="height" value="240px" />
+					<jsp:param name="height" value="140px" />
 				</jsp:include>
 			</td>
 		</tr>	

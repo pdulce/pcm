@@ -7,13 +7,11 @@ var useAjaxToLoadNodesDynamically = true;
 var ajaxRequestFile = 'writeNodes.php'; 
 
 
-function submitDashboard(idMasterInput, idDependentInput){	
-	//alert('master:' + idMasterInput);
-	//alert('detail:' + idDependentInput);
-		
+function submitDashboard(idMasterInput, comboId){	
 	var valueOfMaster = document.getElementById(idMasterInput).value.split('=')[1];
-	document.getElementById(idDependentInput).value= valueOfMaster;
-	
+	document.getElementById(comboId).selectedIndex = document.getElementById(idMasterInput).selectedIndex;
+	document.getElementById(comboId).value= valueOfMaster;
+	//alert('selected:' + document.getElementById(comboId).selectedIndex);	
 	document.forms[0].submit();
 	return true;
 }
