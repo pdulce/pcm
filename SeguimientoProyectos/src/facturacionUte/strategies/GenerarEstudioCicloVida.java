@@ -187,8 +187,6 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
 				throw new StrategyException("INFO_ESTUDIO_SIN_PETICIONES", false, true, messageArguments);				
 			}
-			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
-			
 			int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);				
 			FieldViewSet tipoperiodoInferido = new FieldViewSet(tipoPeriodo);
 			tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesInferidoPorfechas);
@@ -200,11 +198,11 @@ public class GenerarEstudioCicloVida extends DefaultStrategyRequest {
 				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName(), mesesInferidoPorfechas);
 				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesInferidoPorfechas);
 				tipoperiodoInferido.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName(), mesesInferidoPorfechas+ " meses");
-				int ok= dataAccess.insertEntity(tipoperiodoInferido);
-				if (ok == 1) {
-					//
-				}
+				dataAccess.insertEntity(tipoperiodoInferido);
 			}
+
+			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
+			
 						
 			String periodicidadInferida = (String) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
 			Long idPeriodicidadInferida = (Long) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName());

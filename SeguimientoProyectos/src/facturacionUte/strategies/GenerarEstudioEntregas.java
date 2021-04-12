@@ -147,31 +147,25 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				Iterator<String> iteAplicativos = aplicativos.iterator();
 				while (iteAplicativos.hasNext()) {
 					Long idAplicativo = Long.valueOf(iteAplicativos.next());
-					FieldViewSet aplicacion = new FieldViewSet(aplicativoEntidad);
-					aplicacion.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
-					aplicacion = dataAccess.searchEntityByPk(aplicacion);
-					valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName()));
+					valuesPrjs.add(String.valueOf(idAplicativo));
 				}
 			}else {
 				filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
 				List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
 				for (FieldViewSet aplicacion: aplicaciones) {
-					valuesPrjs.add((String)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName()));
+					valuesPrjs.add(String.valueOf((Long)aplicacion.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName())));
 				}
 			}
 			
-			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName(), valuesPrjs);
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), valuesPrjs);
 						
 			final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 			if (listadoPeticiones.isEmpty()) {
-				if (listadoPeticiones.isEmpty()) {
-					dataAccess.deleteEntity(estudioFSet);
-					dataAccess.commit();
-					final Collection<Object> messageArguments = new ArrayList<Object>();
-					throw new StrategyException("INFO_ESTUDIO_SIN_PETICIONES", false, true, messageArguments);				
-				}
+				dataAccess.deleteEntity(estudioFSet);
+				dataAccess.commit();
+				final Collection<Object> messageArguments = new ArrayList<Object>();
+				throw new StrategyException("INFO_ESTUDIO_SIN_PETICIONES", false, true, messageArguments);				
 			}
-			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
 			
 			int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);				
 			FieldViewSet tipoperiodoInferido = new FieldViewSet(tipoPeriodo);
@@ -187,6 +181,8 @@ public class GenerarEstudioEntregas extends GenerarEstudioCicloVida {
 				dataAccess.insertEntity(tipoperiodoInferido);			
 				dataAccess.commit();
 			}
+			
+			aplicarEstudioPorPeticion(dataAccess, estudioFSet, listadoPeticiones);
 						
 			String periodicidadInferida = (String) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_3_PERIODO).getName());
 			Long idPeriodicidadInferida = (Long) tipoperiodoInferido.getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName());
