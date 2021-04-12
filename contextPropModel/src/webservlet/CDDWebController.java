@@ -204,7 +204,7 @@ public class CDDWebController extends HttpServlet {
 		Iterator<String> enumerationParams = datamap.getParameterNames().iterator();
 		while (enumerationParams.hasNext()){
 			String key = enumerationParams.next();
-			httpRequest.setAttribute(key, datamap.getParameter(key));
+			httpRequest.setAttribute(key, datamap.getParameterValues(key));
 		}
 		if (datamap.getAttribute(PCMConstants.APP_PROFILE) != null) {
 			httpRequest.getSession().setAttribute(PCMConstants.APP_PROFILE, datamap.getAttribute(PCMConstants.APP_PROFILE));

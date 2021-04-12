@@ -127,7 +127,7 @@ public abstract class GenericHighchartModel implements IStats {
 			/*** TRATAMIENTO DE LAS AGREGACIONES ****/
 			String aggregateFunction = data_.getParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
 			if (aggregateFunction == null){
-				throw new Exception("Error de entrada de datos: ha de seleccionar un tipo de operación; totalización o promedio"); 
+				throw new Exception("Error de entrada de datos: seleccione un tipo de operación; totalización o promedio"); 
 			}
 			String decimals = ",.0f";
 			IFieldLogic[] fieldsForAgregadoPor = null;
@@ -183,9 +183,6 @@ public abstract class GenericHighchartModel implements IStats {
 			sbXml.append("<LI><a onClick=\"window.history.back();\"><span>Volver</span></a></LI></UL>");
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
 		}
-
-		//String subtitle_ = (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR)) == null ? "" : ((String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR))));
-		//data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), subtitle_);
 
 	}
 	

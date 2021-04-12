@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.xmlbeans.impl.piccolo.xml.EntityManager;
-
 import domain.common.PCMConstants;
 import domain.service.DomainService;
 import domain.service.component.IViewComponent;
@@ -14,7 +12,6 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
-import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.SceneResult;
 import domain.service.highcharts.utils.HistogramUtils;
 
@@ -79,19 +76,19 @@ public class Dashboard extends GenericHighchartModel {
 			Pie pieEntregas01 = new Pie(), pieEntregas02 = new Pie();
 			BarChart barEntregas = new BarChart();
 			
-			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "2", "line", "6", "AVG");
+			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "3", "line", "6", "AVG");
 			seriesEntregas1.generateStatGraphModel(dataAccess, domainService, dataMapEntregas01);
 			
-			Datamap dataMapEntregas021 = createMap(_data, "_serie021", entities[0], "2", "2", "", "5", "SUM");
+			Datamap dataMapEntregas021 = createMap(_data, "_serie021", entities[0], "3", "3", "", "5", "SUM");
 			pieEntregas01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas021);
 			
-			Datamap dataMapEntregas022 = createMap(_data, "_serie022", entities[0], "2", "2", "", "8", "SUM");
+			Datamap dataMapEntregas022 = createMap(_data, "_serie022", entities[0], "2", "3", "", "8", "SUM");
 			pieEntregas02.generateStatGraphModel(dataAccess, domainService, dataMapEntregas022);
 			
-			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", "2", "area", "5", "AVG");
+			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", "3", "area", "5", "AVG");
 			seriesEntregas2.generateStatGraphModel(dataAccess, domainService, dataMapEntregas03);
 			
-			Datamap dataMapEntregas04 = createMap(_data, "_serie04", entities[0], "9", "2,7", "", "5", "SUM");
+			Datamap dataMapEntregas04 = createMap(_data, "_serie04", entities[0], "9", "3,7", "", "5", "SUM");
 			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas04);
 			
 			if (entities.length > 1) {
