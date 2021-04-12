@@ -1,6 +1,7 @@
 DROP TABLE `peticiones`;
 CREATE TABLE `peticiones` (
   `id` INTEGER PRIMARY KEY,
+  `id_aplicativo` int(11) NOT NULL,
   `Titulo` varchar(500),
   `Descripcion` varchar(100),
   `Observaciones` varchar(1000),
@@ -24,9 +25,7 @@ CREATE TABLE `peticiones` (
   `Des_fecha_prevista_inicio` date,
   `Des_fecha_prevista_fin` date,
   `Des_fecha_real_inicio` date,
-  `Des_fecha_real_fin` date,
-  `Proyecto_ID` varchar(10) DEFAULT NULL,
-  `Proyecto_Name` varchar(150),
+  `Des_fecha_real_fin` date,  
   `Horas_estimadas_actuales` double,
   `Horas_reales` double,
   `fecha_export` DATE NULL,

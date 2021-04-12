@@ -28,9 +28,7 @@ public class LogoComponent extends AbstractComponent {
 
 	private static final long serialVersionUID = 999991112222L;
 
-	private static final String CONTENT_ATTR = "content", 
-			INIT = "Inicio", WIDTH = "width", HEIGHT = "height", 
-			ALT = "alt";
+	private static final String CONTENT_ATTR = "content", INIT = "Inicio", WIDTH = "width", HEIGHT = "height", ALT = "alt";
 
 	private static Map<String, String> logosCached = new HashMap<String, String>();
 

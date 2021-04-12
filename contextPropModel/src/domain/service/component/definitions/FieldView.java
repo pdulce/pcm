@@ -93,7 +93,7 @@ public class FieldView implements IFieldView, Serializable {
 		try {
 			FieldView newV = null;
 			if (this.getEntityField() != null) {
-				newV = new FieldView(this.getEntityField());
+				newV = new FieldView(this.entityField);
 				newV.contextName = this.contextName;
 			} else {
 				newV = new FieldView(this.contextName);
@@ -118,7 +118,7 @@ public class FieldView implements IFieldView, Serializable {
 			newV.setFormatted(this.getFormatted());
 			newV.setStyleCss(this.styleCss);
 			newV.setType(this.type);
-			newV.entityField = this.entityField;
+			//newV.entityField = this.entityField;
 			newV.virtualField = this.virtualField;
 			newV.parentDiv = this.parentDiv;
 			newV.title = this.title;
@@ -170,7 +170,12 @@ public class FieldView implements IFieldView, Serializable {
 			return;
 		}
 		this.entityField = fieldLogic;
+		/*
 		this.required = fieldLogic.isRequired();
+		this.entityField.setAutoIncremental(fieldLogic.isAutoIncremental());
+		this.entityField.setBelongsPK(fieldLogic.belongsPK());
+		this.entityField.setRequired(fieldLogic.isRequired());
+		this.entityField.setVolatile(fieldLogic.isVolatile());*/
 		this.disabled = false;
 		this.hidden = false;
 		if (this.getEntityField().getAbstractField().isBoolean()) {

@@ -73,7 +73,7 @@
 			submitSucces="GestionApps.query">
 
 			<viewComponent>
-				<form columns="3" title="Servicio">
+				<form columns="3" title="Aplicativo">
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
 						<fieldset legend="Aplicativo">
 							<fieldView separator="br" />
@@ -111,7 +111,7 @@
 			submitSucces="GestionApps.create">
 
 			<viewComponent>
-				<form columns="3" title="Servicio">
+				<form columns="3" title="Aplicativo">
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
 						<fieldset legend="Aplicativo">
 							<fieldView separator="br" />
@@ -131,11 +131,11 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" size="30" editable="true" />
-							<fieldView mappingTo="7" type="check" editable="true">
+							<fieldView mappingTo="7" type="radio" editable="true">
 								<optionValues entitymodel="aplicativo"
 									descrMappingTo="7" codeField="7">
 								</optionValues>
-							</fieldView>							
+							</fieldView>
 
 							<fieldView separator="br" />
 							<fieldView separator="br" />
@@ -149,7 +149,7 @@
 			submitSucces="GestionApps.update">
 
 			<viewComponent>
-				<form columns="3" title="Servicio">
+				<form columns="3" title="Aplicativo">
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
 						<fieldset legend="Aplicativo">
 							<fieldView separator="br" />

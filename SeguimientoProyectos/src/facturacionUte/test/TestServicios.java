@@ -204,7 +204,7 @@ public class TestServicios extends TestCase {
 			datamap.setParameter("idPressed", "barchart1");
 			datamap.setParameter("barchart1.entidadGrafico", ConstantesModelo.PETICIONES_ENTIDAD);
 			datamap.setParameter("barchart1.orderBy", String.valueOf(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA));
-			datamap.setParameter("barchart1.fieldForGroupBy", String.valueOf(ConstantesModelo.PETICIONES_26_PROYECTO_ID));
+			datamap.setParameter("barchart1.fieldForGroupBy", String.valueOf(ConstantesModelo.PETICIONES_26_ID_APLICATIVO));
 			datamap.setParameter("barchart1.agregado", String.valueOf(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES));
 			datamap.setParameter("barchart1.operation", "SUM");
 			datamap.setParameter("barchart1".concat(".").concat(IEvent.SHOW_HIGHCHARTS), "barchart");

@@ -21,6 +21,10 @@ public interface IFieldLogic {
 
 	public static final String PK_COMPOSITE = "pk";
 
+	public boolean isVolatile();
+	
+	public void setVolatile(boolean vol_);
+	
 	public int getMappingTo();
 
 	public String getName();

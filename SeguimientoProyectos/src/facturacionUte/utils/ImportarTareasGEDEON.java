@@ -86,8 +86,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Des: fecha real fin|Fecha fin de desarrollo",
 				Integer.valueOf(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN));
 		
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación", Integer.valueOf(ConstantesModelo.PETICIONES_27_PROYECTO_NAME));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación sugerida", Integer.valueOf(ConstantesModelo.PETICIONES_27_PROYECTO_NAME));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Aplicación|Aplicación sugerida", ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME);
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas estimadas actuales",
 				Integer.valueOf(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Horas reales", Integer.valueOf(ConstantesModelo.PETICIONES_29_HORAS_REALES));
@@ -119,7 +118,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		}
 	}
 	
-	private static String obtenerRochadeAplicacion(String titleApp, String titlePeticion){
+	/*private static String obtenerRochadeAplicacion(String titleApp, String titlePeticion){
 		
 		if (titleApp != null){
 			return titleApp.length()> 4 ? titleApp.substring(0,4): titleApp;
@@ -127,7 +126,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			return titlePeticion.length()>4?titlePeticion.substring(0,4): titlePeticion;
 		}
 		
-	}
+	}*/
 	
 
 	public ImportarTareasGEDEON(IDataAccess dataAccess_) {
@@ -295,7 +294,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							ConstantesModelo.PETICIONES_7_ESTADO).getName());
 					
 					String nombreAplicacionDePeticion = (String) registro.getValue(peticionesEntidad.searchField(
-							ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
+							ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName());
 	
 					String title = (String) registro.getValue(peticionesEntidad.searchField(
 							ConstantesModelo.PETICIONES_2_TITULO).getName());
@@ -308,20 +307,19 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName(),
 							registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_3_DESCRIPCION).getName()));
 					}
-					String aplicac = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_27_PROYECTO_NAME).getName());
-					String titlePet = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
-					String rochadeCode = obtenerRochadeAplicacion(aplicac, titlePet);
 					
-					registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), rochadeCode);
 					//si este rochade no esto en la tabla proyectos, miramos si es entorno Natural para encajarlo
 					FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicativoEntidad);
-					existeProyectoDadoDeAlta.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), aplicac);
+					existeProyectoDadoDeAlta.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), nombreAplicacionDePeticion);
 					List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
 					if (apps.isEmpty()){
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"
+						//String aplicac = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName());
+						//String titlePet = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
+						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), 0);//no existe aplicación registrada para esta petición
 					}else{
 						Long idApp = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
-						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID).getName(), idApp);
+						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), idApp);
 						Long idTecnologia = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), idTecnologia);
 					}
@@ -334,8 +332,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								registro.getValue(peticionesEntidad.searchField(
 										ConstantesModelo.PETICIONES_22_DES_FECHA_PREVISTA_INICIO).getName()));
 					}
-					
-					
+										
 					try {
 							
 						Serializable tipoPeticion = registro.getValue(peticionesEntidad.searchField(
@@ -445,7 +442,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							linkarPeticionesAEntrega(registro);
 						}
 						
-						if (!filas.isEmpty() && rochadeCode != null) {					
+						if (!filas.isEmpty() && nombreAplicacionDePeticion != null) {
+							
+							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName(), null);
+							
 							idPeticion = CommonUtils.obtenerCodigo(idPeticion.toString());
 							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticion);
 							FieldViewSet registroExistente = new FieldViewSet(peticionesEntidad);
@@ -489,7 +489,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 											
 				FieldViewSet fieldViewSet = new FieldViewSet(peticionesEntidad);
 				for (final String rochadeSusp: rochadeSuspect) {			
-					fieldViewSet.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_PROYECTO_ID)
+					fieldViewSet.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO)
 							.getName(), rochadeSusp);
 					List<FieldViewSet> rochadeFSets = this.dataAccess.searchByCriteria(fieldViewSet);
 					if (rochadeFSets != null && rochadeFSets.size() == 1){

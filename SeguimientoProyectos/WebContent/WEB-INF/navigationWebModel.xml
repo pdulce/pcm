@@ -34,10 +34,10 @@
 			<LEAF link="event=EstudioEntregas.query" name="Estudios Entregas" />
 			<LEAF link="exec=dashboard#event=dashboard#entities=resumenEntregas$resumenPeticiones" name="Dahsboard" />
 			<LEAF link="event=GestionHeuristicas.query" name="Heurísticas estudios" />
-			<FOLDER profile="ADMINISTRADOR,ANALISIS_TEAM,CONSULTOR_UTE"	name="Importaciones Gedeon/Artemis">
+			<!-- FOLDER profile="ADMINISTRADOR,ANALISIS_TEAM,CONSULTOR_UTE"	name="Import datasets">
 				<LEAF link="event=GestionarImportacionesGEDEON.query" name="Gedeones" />
 				<LEAF link="event=GestionarImportacionesARTEMIS.query" name="Artemis" />
-			</FOLDER>
+			</FOLDER> -->
 			<FOLDER profile="ADMINISTRADOR,ANALISIS_TEAM,CONSULTOR_UTE"	name="Demos">
 				<LEAF link="event=Demos.query" name="Gráficos - mapas" />
 			</FOLDER>			

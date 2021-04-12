@@ -27,7 +27,7 @@ public class FieldLogic implements IFieldLogic, Serializable {
 
 	private int mappingTo;
 
-	private boolean belongsPK, required, passwordType, autoincremental;
+	private boolean belongsPK, required, passwordType, autoincremental, volatileField;
 
 	private IFieldAbstract abstractField;
 
@@ -37,7 +37,7 @@ public class FieldLogic implements IFieldLogic, Serializable {
 		this.abstractField = new FieldAbstract();
 		this.abstractField.setType(type_);
 	}
-
+	
 	/**
 	 * <field mappingTo=IViewComponent.ONE name="CODIGO" title="CODIGO" type=STRING length="2"
 	 * belongsPK="false" required="true" fkParentEntities="" fkParentFields=""></field>
@@ -66,7 +66,10 @@ public class FieldLogic implements IFieldLogic, Serializable {
 				throw new PCMConfigurationException(s);
 			}
 			this.setName(node.getAttribute(ContextProperties.NAME_ATTR));
-
+			if (this.name.toLowerCase().indexOf("volatile") != -1) {
+				this.volatileField = true;
+			}
+			
 			if (node.hasAttribute(ContextProperties.BELONGS_ATTR)) {
 				this.setBelongsPK(Boolean.parseBoolean(node.getAttribute(ContextProperties.BELONGS_ATTR)));
 			} else {
@@ -147,7 +150,15 @@ public class FieldLogic implements IFieldLogic, Serializable {
 			throw new PCMConfigurationException(exc.getMessage(), exc);
 		}
 	}
-
+	
+	public void setVolatile(boolean vol_) {
+		this.volatileField = vol_;
+	}
+	
+	public boolean isVolatile() {
+		return volatileField;
+	}
+	
 	@Override
 	public final boolean isAutoIncremental() {
 		return this.autoincremental;
@@ -157,7 +168,7 @@ public class FieldLogic implements IFieldLogic, Serializable {
 	public final void setAutoIncremental(boolean auto_) {
 		this.autoincremental = auto_;
 	}
-
+	
 	@Override
 	public final String getSequence() {
 		return this.sequence;

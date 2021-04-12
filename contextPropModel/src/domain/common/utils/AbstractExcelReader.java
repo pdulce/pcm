@@ -68,7 +68,7 @@ public abstract class AbstractExcelReader {
 			}
 			FieldViewSet fila = new FieldViewSet(entidad);
 			for (int nColum = 0; nColum < 60; nColum++) {
-				String columnName = "";
+				String columnName = null;
 				try {
 					columnTitle = rowTitle.getCell(nColum);
 					if (columnTitle == null) {

@@ -7,6 +7,23 @@ var useAjaxToLoadNodesDynamically = true;
 var ajaxRequestFile = 'writeNodes.php'; 
 
 
+function submitDashboard(idMasterInput, idDependentInput){	
+	//alert('master:' + idMasterInput);
+	//alert('detail:' + idDependentInput);
+		
+	var valueOfMaster = document.getElementById(idMasterInput).value.split('=')[1];
+	document.getElementById(idDependentInput).value= valueOfMaster;
+	
+	document.forms[0].submit();
+	return true;
+}
+
+function vaciarOnSubmit(comboId){	
+	//alert('vaciarOnSubmit: detailIDCombo:' + comboId);
+	document.getElementById(comboId).value= '';
+}
+
+
 function changeColor(fieldId){
     var negNum = document.getElementById(fieldId);
     if (negNum < 0){

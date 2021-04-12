@@ -281,8 +281,12 @@
 					<fieldView mappingTo="2" editable="true" />
 					<fieldView separator="br" />
 					<fieldView separator="br" />
-					<fieldView mappingTo="27" editable="false" />
-					<fieldView mappingTo="26" editable="false" />
+					<fieldView mappingTo="26" editable="false">
+						<optionValues entitymodel="aplicativo"
+								descrMappingTo="2">
+						</optionValues>
+					</fieldView>
+					
 					<fieldView separator="br" />
 					<fieldView separator="br" />					
 					<fieldView mappingTo="3" editable="true" />

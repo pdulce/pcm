@@ -35,7 +35,7 @@ Redefine aspecto de los elementos estandard de HTML
 .pcmTDLeft {	
 	position: absolute; 
 	left: 10px; 
-	top: 25px; 
+	top: 10px; 
 	z-index: 1;
 	color: white;
 	font: normal 0.9em Verdana;
@@ -48,8 +48,8 @@ Redefine aspecto de los elementos estandard de HTML
 	
 .pcmTDRight {
 	position: absolute; 
-	left: 240px; 
-	top: 18px; 
+	left: 200px; 
+	top: 10px; 
 	z-index: 2;
 	color: white;
 	font: normal 0.8em Verdana;

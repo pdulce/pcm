@@ -13,6 +13,8 @@ public abstract class ConstantesModelo {
 	public static final int ADMINISTRADOR_4_PROFILE = 4;
 	public static final String ADMINISTRADOR_ENTIDAD = "administrador";
 	
+	public static final int PETICIONES_VOLATILE_27_PROYECTO_NAME = 27;
+	public static final int PETICIONES_26_ID_APLICATIVO = 26;
 	public static final int PETICIONES_10_AREA_ORIGEN = 10;
 	public static final int PETICIONES_4_OBSERVACIONES = 4;
 	public static final int PETICIONES_12_AREA_DESTINO = 12;
@@ -26,7 +28,6 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_18_FECHA_DE_TRAMITACION = 18;
 	public static final int PETICIONES_17_FECHA_DE_ALTA = 17;
 	public static final int PETICIONES_14_TIPO_INICIAL = 14;
-	public static final int PETICIONES_27_PROYECTO_NAME = 27;
 	public static final int PETICIONES_8_ENTIDAD_ORIGEN = 8;
 	public static final int PETICIONES_32_VERSION_ANALYSIS = 32;
 	public static final int PETICIONES_19_FECHA_DE_NECESIDAD = 19;
@@ -39,7 +40,6 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_29_HORAS_REALES = 29;
 	public static final int PETICIONES_2_TITULO = 2;
 	public static final int PETICIONES_24_DES_FECHA_REAL_INICIO = 24;
-	public static final int PETICIONES_26_PROYECTO_ID = 26;
 	public static final int PETICIONES_6_SOLICITANTE = 6;
 	public static final int PETICIONES_31_FECHA_EXPORT = 31;
 	public static final int PETICIONES_9_UNIDAD_ORIGEN = 9;

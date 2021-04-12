@@ -67,6 +67,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		Iterator<IFieldLogic> iteratorCampos_ = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 		while (iteratorCampos_.hasNext()) {
 			final IFieldLogic field = iteratorCampos_.next();
+			if (field.isVolatile()) {
+				continue;
+			}
 			IFieldValue fieldV = fieldViewSet.getFieldvalue(field);
 			if (field.isAutoIncremental()) {
 				continue;
@@ -102,6 +105,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			int contador = 1;
 			while (iteratorCampos.hasNext()) {
 				final IFieldLogic field = iteratorCampos.next();
+				if (field.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(field).isNull() && field.isAutoIncremental() || (field.belongsPK() && field.isSequence())) {
 					continue;
 				}
@@ -189,6 +195,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		Iterator<IFieldLogic> iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 		while (iteratorCampos.hasNext()) {
 			final IFieldLogic field = iteratorCampos.next();
+			if (field.isVolatile()) {
+				continue;
+			}
 			IFieldValue fieldV = fieldViewSet.getFieldvalue(field);
 			Serializable value = fieldV.getValue();
 			if (field.belongsPK()){//si viene PK en el objeto, lo almaceno
@@ -222,6 +231,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 			for (int contadorArgs = 1; contadorArgs <= nArgs; contadorArgs++) {
 				final IFieldLogic field = fieldsWithVal.get(contadorArgs-1);
+				if (field.isVolatile()) {
+					continue;
+				}
 				Serializable value = valueObjects.get(contadorArgs-1);
 				if (value == null) {
 					pstmt.setObject(contadorArgs, value);
@@ -294,6 +306,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		Iterator<IFieldLogic> iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 		while (iteratorCampos.hasNext()) {
 			final IFieldLogic field = iteratorCampos.next();
+			if (field.isVolatile()) {
+				continue;
+			}
 			if (field.getAbstractField().isBlob() || fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 				continue;
 			}
@@ -316,6 +331,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 			while (iteratorCampos.hasNext()) {
 				final IFieldLogic field = iteratorCampos.next();
+				if (field.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 					continue;
 				}
@@ -368,6 +386,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			Iterator<IFieldLogic> iteratorCamposClave = fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator();
 			while (iteratorCamposClave.hasNext() && contador <= numberOfParams) {
 				final IFieldLogic fieldEntityDefPK = iteratorCamposClave.next();
+				if (fieldEntityDefPK.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(fieldEntityDefPK).isNull()
 						|| fieldEntityDefPK.getAbstractField().getDefaultValueObject() != null) {
 					continue;
@@ -384,6 +405,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			final Iterator<IFieldLogic> iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 			while (iteratorCampos.hasNext() && contador <= numberOfParams) {
 				final IFieldLogic fieldLogic = iteratorCampos.next();
+				if (fieldLogic.isVolatile()) {
+					continue;
+				}
 				if (!(fieldLogic.belongsPK())) {
 					continue;
 				}
@@ -412,6 +436,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				while (iteratorFields.hasNext()) {
 					final IFieldView fieldView = iteratorFields.next();
 					final IFieldLogic fieldLogic = fieldView.getEntityField();
+					if (fieldLogic.isVolatile()) {
+						continue;
+					}
 					if (fieldLogic.getAbstractField().isBlob() && resultSet.getObject(fieldLogic.getName()) != null) {
 						final byte[] bytesOfStream = resultSet.getBytes(fieldLogic.getName());
 						if (bytesOfStream != null && bytesOfStream.length > 0) {
@@ -501,6 +528,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		boolean first = true;
 		int contabilizados = 0;
 		for (final IFieldLogic field : fieldCollection) {
+			if (field.isVolatile()) {
+				continue;
+			}
 			if (fieldMappings.contains(Integer.valueOf(field.getMappingTo())) && contabilizados < fieldMappings.size()) {
 				if (!first) {
 					fieldSetValues.append(PCMConstants.COMMA);
@@ -537,7 +567,10 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			sql = (!groupBy.toString().equals(""))?sql.concat(" GROUP BY " + groupBy.toString()):sql;
 			pstmt = conn.prepareStatement(sql);
 			int contador = 1;
-			for (final IFieldLogic field : fieldCollection) {				
+			for (final IFieldLogic field : fieldCollection) {	
+				if (field.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 					continue;
 				}
@@ -572,6 +605,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				final Iterator<Integer> iteratorFields = fieldMappings.iterator();
 				while (iteratorFields.hasNext()) {
 					IFieldLogic fieldLogic = fieldViewSet.getEntityDef().searchField(iteratorFields.next().intValue());
+					if (fieldLogic.isVolatile()) {
+						continue;
+					}
 					try {
 						Serializable valueSerialized = (Serializable) resultSet.getObject(fieldLogic.getName());
 						IFieldAbstract fieldAbstract = fieldLogic.getAbstractField();
@@ -665,7 +701,10 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						", ".concat(joinFViewSet.get(0).getName()/* DELEGACION */).concat(" ").concat(aliasEntidadJoin));
 				StringBuilder join = new StringBuilder();
 				// buscamos el FK de la entidad filtro contra la joinEntity
-				for (IFieldLogic fieldLogic : fieldsForGroupBy) {				
+				for (IFieldLogic fieldLogic : fieldsForGroupBy) {	
+					if (fieldLogic.isVolatile()) {
+						continue;
+					}
 					if (fieldLogic.getParentFieldEntity(joinFViewSet.get(0).getName()) != null) {
 						join.append(aliasEntidadJoin);
 						join.append(".");
@@ -712,6 +751,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			int contador = 1;
 			pstmt = conn.prepareStatement(sql);
 			for (final IFieldLogic field : fieldCollection) {
+				if (field.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 					continue;
 				}
@@ -820,13 +862,16 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			int contador = 1;
 			pstmt = conn.prepareStatement(sql);
 			for (final IFieldLogic field : fieldCollection) {
+				if (field.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 					continue;
 				}
 				final IFieldValue fieldValue = fieldViewSet.getFieldvalue(field);
 				Iterator<String> iteValues = fieldValue.getValues().iterator();
 				while (iteValues.hasNext()) {
-					String value = iteValues.next();
+					String value = iteValues.next();					
 					if (!field.getAbstractField().isBlob()) {
 						if (field.getAbstractField().isNumeric() && value != null){
 							value = value.toString().replaceAll(PCMConstants.REGEXP_POINT, "");
@@ -884,6 +929,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		fieldCollection.addAll(fieldViewSet.getEntityDef().getFieldSet().values());
 		Collections.sort(fieldCollection, new FieldLogicComparator());
 		for (final IFieldLogic field : fieldCollection) {
+			if (field.isVolatile()) {
+				continue;
+			}
 			if (field.getAbstractField().isBlob() || fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 				continue;
 			}
@@ -910,7 +958,10 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			sql = sql.replaceFirst("#ORDER#", order_);
 			int contador = 1;
 			pstmt = conn.prepareStatement(sql);
-			for (final IFieldLogic field : fieldCollection) {				
+			for (final IFieldLogic field : fieldCollection) {
+				if (field.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 					continue;
 				}
@@ -978,6 +1029,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		fieldCollection.addAll(fieldViewSet.getEntityDef().getFieldSet().values());
 		Collections.sort(fieldCollection, new FieldLogicComparator());
 		for (final IFieldLogic field : fieldCollection) {
+			if (field.isVolatile()) {
+				continue;
+			}
 			if (field.getAbstractField().isBlob() || fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 				continue;
 			}
@@ -1002,7 +1056,10 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			pstmt = conn.prepareStatement(SQLUtils.replaceSelectByEntitySql(CONSULTA_COUNT_ALL, fieldViewSet.getEntityDef().getName(),
 					whereForEntity));
 			int contador = 1;			
-			for (final IFieldLogic field : fieldCollection) {				
+			for (final IFieldLogic field : fieldCollection) {
+				if (field.isVolatile()) {
+					continue;
+				}
 				if (fieldViewSet.getFieldvalue(field).isNull() || fieldViewSet.getFieldvalue(field).isEmpty()) {
 					continue;
 				}
@@ -1397,6 +1454,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					final String[] fieldTypeAndMaxLength = fieldTypeAndMaxLengthkey.split(",");
 					final String fieldType = fieldTypeAndMaxLength[0];
 					final int fieldMaxlength = Integer.parseInt(fieldTypeAndMaxLength[1]);
+					if (new FieldLogic(fieldType).isVolatile()) {
+						continue;
+					}
 					IFieldAbstract fieldAbstract = new FieldLogic(fieldType).getAbstractField();
 					String val_ = valueOfWhere.get(fieldTypeAndMaxLengthkey).toString();
 					if (!PCMConstants.EMPTY_.equals(val_) && !PCMConstants.CLASSIC_SEPARATOR.equals(val_)) {
@@ -1609,6 +1669,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				}
 				String fieldKey = entry.getKey();
 				IFieldLogic fieldLogic = fieldSet2Fill.getEntityDef().searchByName(fieldKey);
+				if (fieldLogic.isVolatile()) {
+					continue;
+				}
 				IFieldView fieldView = fieldSet2Fill.getFieldView(fieldLogic.getName());
 				if (fieldView == null || 
 						(fieldSet2Fill.getValue(fieldView.getQualifiedContextName()) != null && 

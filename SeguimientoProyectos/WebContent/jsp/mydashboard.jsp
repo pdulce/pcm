@@ -3,6 +3,10 @@
     
     
     <form action="prjManager" method="POST">
+    	<input id="exec" name="exec" type="hidden" value="dashboard"/>
+		<input id="event" name="event" type="hidden" value="dashboard"/>
+		<input id="entities" name="entities" type="hidden" value="resumenEntregas$resumenPeticiones"/>
+    	
     <table>
     	<tr>
     		<td>
@@ -10,30 +14,36 @@
     			&nbsp;&nbsp;Entorno&nbsp;
     			</label>
 				<select class="textInput" id="estudiosEntregas.id_entorno" name="estudiosEntregas.id_entorno"
-				onChange="javascript:document.forms[0].submit();return true;" size="5" multiple>
+				onChange="javascript:submitDashboard('estudiosEntregas.id_entorno', 'estudiosPeticiones.id_entorno');" size="7" multiple>
 					<option value="estudiosEntregas.id_entorno=1" id="estudiosEntregas.id_entorno=1" selected>HOST</option>
 					<option value="estudiosEntregas.id_entorno=2" id="estudiosEntregas.id_entorno=2" selected>Pros@</option>
 					<option value="estudiosEntregas.id_entorno=3" id="estudiosEntregas.id_entorno=3" selected>Web  Services</option>
 					<option value="estudiosEntregas.id_entorno=4" id="estudiosEntregas.id_entorno=4" selected>Servicios API Rest</option>
 					<option value="estudiosEntregas.id_entorno=5" id="estudiosEntregas.id_entorno=5" selected>Mobile Tech</option>
 				</select>
-				<input id="exec" name="exec" type="hidden" value="dashboard"/>
-				<input id="event" name="event" type="hidden" value="dashboard"/>
-				<input id="entities" name="entities" type="hidden" value="resumenEntregas$resumenPeticiones"/>
+				<input id="estudiosPeticiones.id_entorno" name="estudiosPeticiones.id_entorno" type="hidden" value=""/>
 			</td>
 			<td>
     			<label class="infoCls"  title="Servicio" id="estudiosEntregas.id_servicioLABEL" for="estudiosEntregas.id_servicio">
 				&nbsp;&nbsp;Servicio&nbsp;
 				</label>
-				<select class="textInput" size="3" id="estudiosEntregas.id_servicio" name="estudiosEntregas.id_servicio" multiple>
+				<select class="textInput" size="3" id="estudiosEntregas.id_servicio" name="estudiosEntregas.id_servicio" 
+				onChange="javascript:vaciarOnSubmit('estudiosEntregas.id_aplicativo');
+						vaciarOnSubmit('estudiosPeticiones.id_aplicativo');
+						submitDashboard('estudiosEntregas.id_servicio', 'estudiosPeticiones.id_servicio');"
+				 multiple>
 				<option value="estudiosEntregas.id_servicio=1"  id="estudiosEntregas.id_servicio=1" selected>Servicio Mto. HOST</option>
 				<option value="estudiosEntregas.id_servicio=2"  id="estudiosEntregas.id_servicio=2" selected>Servicio Nuevos Desarrollos Pros@</option>
 				<option value="estudiosEntregas.id_servicio=3"  id="estudiosEntregas.id_servicio=3" selected>Servicio Mto. Pros@</option>
 				</select>
+				<input id="estudiosPeticiones.id_servicio" name="estudiosPeticiones.id_servicio" type="hidden" value=""/>
 			</td>
 			<td>
 			<label class="infoCls"  title="Aplicativo" id="estudiosEntregas.id_aplicativoLABEL" for="estudiosEntregas.id_aplicativo">&nbsp;&nbsp;Aplicativo&nbsp;</label>
-				<select class="textInput" size="8" id="estudiosEntregas.id_aplicativo" name="estudiosEntregas.id_aplicativo" multiple>
+				<select class="textInput" size="7" id="estudiosEntregas.id_aplicativo" name="estudiosEntregas.id_aplicativo"
+				onChange="javascript:vaciarOnSubmit('estudiosEntregas.id_servicio');vaciarOnSubmit('estudiosPeticiones.id_servicio');
+						submitDashboard('estudiosEntregas.id_aplicativo', 'estudiosPeticiones.id_aplicativo');" 
+				multiple>
 				<option value="estudiosEntregas.id_aplicativo=1"  id="estudiosEntregas.id_aplicativo=1" selected>AFLO</option>
 				<option value="estudiosEntregas.id_aplicativo=2"  id="estudiosEntregas.id_aplicativo=2" selected>APRO</option>
 				<option value="estudiosEntregas.id_aplicativo=3"  id="estudiosEntregas.id_aplicativo=3" selected>AYFL</option>
@@ -72,23 +82,27 @@
 				<option value="estudiosEntregas.id_aplicativo=36"  id="estudiosEntregas.id_aplicativo=36" selected>WSPX</option>
 				<option value="estudiosEntregas.id_aplicativo=37"  id="estudiosEntregas.id_aplicativo=37" selected>WSRT</option>
 				</select>
+				<input id="estudiosPeticiones.id_aplicativo" name="estudiosPeticiones.id_aplicativo" type="hidden" value=""/>
 			</td>
 			<td>
-				<label class="infoCls"  title="Rango periodo" id="estudiosEntregas.tipo_periodoLABEL" for="estudiosEntregas.tipo_periodo">&nbsp;&nbsp;Rango periodo&nbsp;</label>
-				<select class="textInput" id="estudiosEntregas.tipo_periodo" name="estudiosEntregas.tipo_periodo" multiple>
-				<option value="estudiosEntregas.tipo_periodo=1"  id="estudiosEntregas.tipo_periodo=1" selected>mensual</option>
-				<option value="estudiosEntregas.tipo_periodo=2"  id="estudiosEntregas.tipo_periodo=2" selected>bimensual</option>
-				<option value="estudiosEntregas.tipo_periodo=3"  id="estudiosEntregas.tipo_periodo=3" selected>trimestre</option>
-				<option value="estudiosEntregas.tipo_periodo=4"  id="estudiosEntregas.tipo_periodo=4" selected>cuatrimestre</option>
-				<option value="estudiosEntregas.tipo_periodo=5"  id="estudiosEntregas.tipo_periodo=5" selected>semestre</option>
-				<option value="estudiosEntregas.tipo_periodo=6"  id="estudiosEntregas.tipo_periodo=6" selected>anual</option>
-				<option value="estudiosEntregas.tipo_periodo=7"  id="estudiosEntregas.tipo_periodo=7" selected>bienio</option>
-				<option value="estudiosEntregas.tipo_periodo=8"  id="estudiosEntregas.tipo_periodo=8" selected>trienio</option>
-				<option value="estudiosEntregas.tipo_periodo=9"  id="estudiosEntregas.tipo_periodo=9" selected>cuatrienio</option>
-				<option value="estudiosEntregas.tipo_periodo=10"  id="estudiosEntregas.tipo_periodo=10" selected>indeterminado</option>
-				<option value="estudiosEntregas.tipo_periodo=11"  id="estudiosEntregas.tipo_periodo=11" selected>39 meses</option>
-				<option value="estudiosEntregas.tipo_periodo=12"  id="estudiosEntregas.tipo_periodo=12" selected>41 meses</option>
+				<label class="infoCls"  title="Escala" id="escaladoLabel" for="escalado">&nbsp;&nbsp;Escala&nbsp;</label>
+				<select onChange="javascript:document.forms[0].submit();return true;" class="textInput" id="escalado" name="escalado" size="7">
+					<option value="dayly" id="dayly">Diario</option>
+					<option value="weekly" id="weekly">Semanal</option>
+					<option value="monthly" id="monthly" selected>Mensual</option>
+					<option value="3monthly" id="3monthly">Trimestral</option>
+					<option value="6monthly" id="6monthly">Semestral</option>
+					<option value="anualy" id="anualy">Anual</option>
+					<option value="automatic" id="automatic">Automatico</option>
 				</select>
+			</td>
+			<td>
+				<label class="infoCls"  title="Operación sobre datos" id="escaladoLabel" for="escalado">&nbsp;&nbsp;Escala&nbsp;</label>
+				<select onChange="javascript:document.forms[0].submit();return true;" class="textInput" 
+				id="operation" name="operation" size="2">
+					<option value="SUM" id="dayly">Totalizar</option>
+					<option value="AVG" id="weekly" selected="selected">Promediar</option>
+				</select>				
 			</td>
 		</tr>
     </table>
@@ -165,3 +179,7 @@
 			</td>
 		</tr>
 	</table>
+	
+	<script type="text/javascript">
+   		alert('cargando selectes por defecto...');
+	</script>

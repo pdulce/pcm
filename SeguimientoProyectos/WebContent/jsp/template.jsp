@@ -20,7 +20,26 @@
 	
   <div style="position: relative;">
      <div class="pcmTDLeft"> <%=request.getAttribute("#LOGO#")%><%=request.getAttribute("#TREE#")%> </div>
-     <div class="pcmTDRight"> <jsp:include page="scene.jsp"></jsp:include> </div>  
+     <div class="pcmTDRight">
+
+		<%if (request.getAttribute("container") != null) {
+		  	if (request.getAttribute("addedInfo") != null) { %>
+		 		 <%=request.getAttribute("addedInfo")%> 
+	      <%}%>
+		
+			<jsp:include page="${container}"></jsp:include>
+		
+		<%} else { %>
+			<div id="loadingdiv">
+				<p align="center">
+					<font class="small">Loading...please wait</font>
+				</p>
+			</div> 
+		 	<div id="principal"><%=request.getAttribute("#BODY#")%></div> 
+		 	
+	  	<%}%>
+
+	 </div>  
   </div>
 
 </body>
