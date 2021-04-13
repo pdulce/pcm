@@ -83,7 +83,8 @@ public class Dashboard extends GenericHighchartModel {
 			this._dataAccess = dataAccess;
 						
 			TimeSeries seriesEntregas1 = new TimeSeries(), seriesEntregas2 = new TimeSeries();			
-			Pie pieEntregas01 = new Pie(), pieEntregas02 = new Pie();
+			Pie pieEntregas01 = new Pie();
+			SpeedoMeter speedMeter01 = new SpeedoMeter();
 			BarChart barEntregas = new BarChart();
 			
 			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "3", "line", "6");
@@ -93,7 +94,7 @@ public class Dashboard extends GenericHighchartModel {
 			pieEntregas01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas021);
 			
 			Datamap dataMapEntregas022 = createMap(_data, "_serie022", entities[0], "2", "3", "", "8");
-			pieEntregas02.generateStatGraphModel(dataAccess, domainService, dataMapEntregas022);
+			speedMeter01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas022);
 			
 			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", "3", "area", "5");
 			seriesEntregas2.generateStatGraphModel(dataAccess, domainService, dataMapEntregas03);
@@ -137,7 +138,7 @@ public class Dashboard extends GenericHighchartModel {
 			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", seriesEntregas1.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_120", pieEntregas01.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_121", pieEntregas02.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_121", speedMeter01.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_21", seriesEntregas2.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_22", barEntregas.getScreenRendername().concat(".jsp"));
 			

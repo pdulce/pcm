@@ -62,6 +62,7 @@ import domain.service.highcharts.MapSpain;
 import domain.service.highcharts.MapWorld;
 import domain.service.highcharts.Pie;
 import domain.service.highcharts.Scatter;
+import domain.service.highcharts.SpeedoMeter;
 import domain.service.highcharts.Spiderweb;
 import domain.service.highcharts.TimeSeries;
 import domain.service.highcharts.GenericHighchartModel;
@@ -434,6 +435,8 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Scatter();
 			}else if (highchartStats.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
+			}else if (highchartStats.equals("speedometer")) {
+				genericHCModel = new SpeedoMeter();
 			}
 		}
 		
