@@ -36,7 +36,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_3_DESCRIPCION = 3;
 	public static final int PETICIONES_15_URGENTE = 15;
 	public static final int PETICIONES_7_ESTADO = 7;
-	public static final int PETICIONES_13_TIPO = 13;
+	public static final int PETICIONES_13_ID_TIPO = 13;
 	public static final int PETICIONES_29_HORAS_REALES = 29;
 	public static final int PETICIONES_2_TITULO = 2;
 	public static final int PETICIONES_24_DES_FECHA_REAL_INICIO = 24;
@@ -56,12 +56,14 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_42_HORAS_ESTIMADAS_INICIALES = 42;
 	public static final int PETICIONES_43_FECHA_VALIDADA_EN_CD = 43;
 	public static final int PETICIONES_44_FECHA_ULTIMA_MODIFCACION = 44;
+	public static final int PETICIONES_45_VOLATILE_TIPO = 45;
 	public static final String PETICIONES_ENTIDAD = "peticiones";
 
 	public static final int TIPOTAREA_1_ID = 1;
 	public static final int TIPOTAREA_2_NOMBRE = 2;
 	public static final String TIPOTAREA_ENTIDAD = "tiposTareas";
 
+	
 	public static final int TAREA_PETICION_1_ID = 1;
 	public static final int TAREA_PETICION_2_ID_TAREA_GEDEON = 2;
 	public static final int TAREA_PETICION_3_ID_PETICION = 3;
@@ -118,7 +120,7 @@ public abstract class ConstantesModelo {
     public static final int RESUMEN_PETICION_1_ID = 1;
     public static final int RESUMEN_PETICION_2_ID_ESTUDIO = 2;
 	public static final int RESUMEN_PETICION_3_ID_APLICATIVO = 3;	
-	public static final int RESUMEN_PETICION_4_TIPO = 4;
+	public static final int RESUMEN_PETICION_4_ID_TIPO = 4;
     public static final int RESUMEN_PETICION_5_ID_PET_DG = 5;
     public static final int RESUMEN_PETICION_6_IDS_PETS_AT = 6;
     public static final int RESUMEN_PETICION_7_IDS_PET_ENTREGAS = 7;    
@@ -153,7 +155,7 @@ public abstract class ConstantesModelo {
 	public static final int RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG = 15;
 	public static final int RESUMENENTREGAS_5_NUM_PETICIONES = 5;
 	public static final int RESUMENENTREGAS_11_FECHA_FIN_PRUEBASCD = 11;
-	public static final int RESUMENENTREGAS_7_TIPO_ENTREGA = 7;
+	public static final int RESUMENENTREGAS_7_ID_TIPO_ENTREGA = 7;
 	public static final int RESUMENENTREGAS_3_APLICACION = 3;
 	public static final int RESUMENENTREGAS_4_ID_GEDEON_ENTREGA = 4;
 	public static final int RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD = 10;

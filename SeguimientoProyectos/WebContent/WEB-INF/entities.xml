@@ -52,7 +52,8 @@
        fkParentEntities="tecnologia" fkParentFields="1"/>
     <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
     <field mappingTo="43" name="fecha_validada_CD" type="date" length="10" required="false"/>  
-    <field mappingTo="44" name="ult_modificacion" type="date" length="10" required="false"/>    
+    <field mappingTo="44" name="ult_modificacion" type="date" length="10" required="false"/>
+    <field mappingTo="45" name="volatile_tipo" type="string" length="50" required="false"/> 
 </entity>
 
 <entity>
@@ -129,7 +130,8 @@
 	    fkParentEntities="estudios" fkParentFields="1"/>    
     <field mappingTo="3" name="id_aplicativo" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>
-	<field mappingTo="4" name="tipo" type="string" length="50" required="false"/>
+	<field mappingTo="4" name="tipo" type="long" length="11" required="false"
+    	fkParentEntities="tiposPeticiones" fkParentFields="1"/>
     <field mappingTo="5" name="gedeon_DG" type="string" length="10" required="false"/>
     <field mappingTo="6" name="gedeon_AT" type="string" length="150" required="false"/>
     <field mappingTo="7" name="gedeon_Entrega" type="string" length="150" required="false"/>    
@@ -170,7 +172,8 @@
 	    fkParentEntities="peticiones" fkParentFields="1"/>
     <field mappingTo="5" name="num_peticiones" type="int" length="6" required="false"/>
     <field mappingTo="6" name="volumen_uts" type="double" length="10" required="false"/>    
-    <field mappingTo="7" name="tipo_entrega" type="string" length="50" required="false"/>
+    <field mappingTo="7" name="tipo" type="long" length="11" required="false"
+    	fkParentEntities="tiposPeticiones" fkParentFields="1"/>
     <field mappingTo="8" name="num_rechazos" type="int" length="6" required="false"/>
     <field mappingTo="9" name="fecha_solicitud_entrega" type="date" length="10" required="false"/>
     <field mappingTo="10" name="fecha_inicio_pruebasCD" type="date" length="10" required="false"/>

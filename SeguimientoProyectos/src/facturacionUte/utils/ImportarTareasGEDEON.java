@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ import facturacionUte.common.ConstantesModelo;
 
 public class ImportarTareasGEDEON extends AbstractExcelReader{
 	
-	protected static IEntityLogic peticionesEntidad, subdireccionEntidad, servicioEntidad, aplicativoEntidad;
+	protected static IEntityLogic peticionesEntidad, subdireccionEntidad, servicioEntidad, aplicativoEntidad, tiposPeticionEntidad;
 	
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String CDISM = "Centro de Desarrollo del ISM", CONTRATO_7201_17G_L2 = "7201 17G L2 ISM ATH Análisis Orientado a Objecto";
@@ -68,7 +69,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_AREA_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área destino|Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_13_TIPO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.PETICIONES_16_PRIORIDAD));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de alta", Integer.valueOf(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA));
@@ -108,6 +109,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	protected void initEntities(final String entitiesDictionary) {
 		if (peticionesEntidad == null) {
 			try {
+				tiposPeticionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.TIPOS_PETICIONES_ENTIDAD);
 				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.PETICIONES_ENTIDAD);
 				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.APLICATIVO_ENTIDAD);
 				subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary, ConstantesModelo.SUBDIRECCION_ENTIDAD);				
@@ -118,17 +120,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		}
 	}
 	
-	/*private static String obtenerRochadeAplicacion(String titleApp, String titlePeticion){
-		
-		if (titleApp != null){
-			return titleApp.length()> 4 ? titleApp.substring(0,4): titleApp;
-		}else {
-			return titlePeticion.length()>4?titlePeticion.substring(0,4): titlePeticion;
-		}
-		
-	}*/
-	
-
 	public ImportarTareasGEDEON(IDataAccess dataAccess_) {
 		this.dataAccess = dataAccess_;
 		initEntities(dataAccess.getDictionaryName());
@@ -334,14 +325,19 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					}
 										
 					try {
-							
-						Serializable tipoPeticion = registro.getValue(peticionesEntidad.searchField(
-								ConstantesModelo.PETICIONES_13_TIPO).getName());
+						FieldViewSet tipoPeticionFset = new FieldViewSet(tiposPeticionEntidad);
+						Serializable tipoPeticion = registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO).getName());
 						if (tipoPeticion == null || tipoPeticion.equals("")) {
-							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(),
+							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO).getName(),
 									"Mejora desarrollo");
 							tipoPeticion = "";
 						}
+						tipoPeticionFset.setValue(tiposPeticionEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName(), tipoPeticion);
+						Collection<FieldViewSet> tiposFound = dataAccess.searchByCriteria(tipoPeticionFset);
+						if (!tiposFound.isEmpty()) {
+							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName(), tiposFound.iterator().next());
+						}
+						
 						Date fecAlta = (Date) registro.getValue(peticionesEntidad.searchField(
 								ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA).getName());
 						Calendar dateFec = Calendar.getInstance();

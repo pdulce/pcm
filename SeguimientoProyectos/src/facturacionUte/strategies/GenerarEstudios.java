@@ -417,17 +417,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
 			
 			IFieldValue fieldValue = registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES).getName());
-			Collection<String> values_TiposPeticiones = new ArrayList<String>();
 			Collection<String> values_TiposSelected = fieldValue.getValues();
-			for (String val_:values_TiposSelected) {
-				Long id = Long.valueOf(val_);
-				FieldViewSet tipoPet = new FieldViewSet(tiposPeticionesEntidad);
-				tipoPet.setValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName(), id);
-				tipoPet = dataAccess.searchEntityByPk(tipoPet);
-				values_TiposPeticiones.add((String)tipoPet.getValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName()));
-			}
+			
 			//añadimos los tipos de peticiones que queremos filtrar
-			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName(), values_TiposPeticiones);
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName(), values_TiposSelected);
 			List<String> situaciones = new ArrayList<String>();
 			situaciones.add("Entrega no conforme");
 			situaciones.add("Petición finalizada");
@@ -435,21 +428,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), situaciones); 
 			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), "FACTDG07");				
 			
-			StringBuffer title = new StringBuffer();			
-			Collection<String> valuesPrjs =  new ArrayList<String>();				
-			Collection<String> aplicativos	= registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName()).getValues();
-			Iterator<String> iteAplicativos = aplicativos.iterator();
-			while (iteAplicativos.hasNext()) {
-				Long idAplicativo = Long.valueOf(iteAplicativos.next());
-				valuesPrjs.add(String.valueOf(idAplicativo));
-				FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
-				aplicativo.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
-				aplicativo = dataAccess.searchEntityByPk(aplicativo);
-				String rochade = (String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
-				title.append(rochade);
-				registroEstudio.setValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName(), idAplicativo);
-			}
-			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), valuesPrjs);
+			Collection<String> idAplicativos = registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName()).getValues();
+			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), idAplicativos);
 						
 			final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 			if (listadoPeticiones.isEmpty()) {
@@ -479,29 +459,16 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			
 			Long idConjuntoHeuristicas = (Long) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_9_ID_HEURISTICA).getName());
 			Long idEstudio = (Long) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+			
+			
 			Collection<String> idPeticionesEvolutivosEstudio = aplicarEstudioEntregas(dataAccess, idEstudio, idConjuntoHeuristicas, listadoPeticiones);
 			FieldViewSet filterEvolutivos = new FieldViewSet(peticionesEntidad);
 			filterEvolutivos.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticionesEvolutivosEstudio);
 			
 			Collection<FieldViewSet> peticionesEvolutivosEstudio = dataAccess.searchByCriteria(filterEvolutivos);
-			aplicarEstudioPorPeticion(dataAccess, registroEstudio, peticionesEvolutivosEstudio);
+			aplicarEstudioPorPeticion(dataAccess, idEstudio, idConjuntoHeuristicas, peticionesEvolutivosEstudio);
 			
 			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
-			
-			// bloque de agregados del estudio
-			List<String> tiposPet = new ArrayList<String>(registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES).getName()).getValues());
-			StringBuffer tiposPets_ = new StringBuffer();
-			for (int i=0;i<tiposPet.size();i++) {
-				String tipo = tiposPet.get(i);
-				FieldViewSet tipoPeticionBBDD = new FieldViewSet(tiposPeticionesEntidad);
-				tipoPeticionBBDD.setValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName(), Long.valueOf(tipo));
-				tipoPeticionBBDD = dataAccess.searchEntityByPk(tipoPeticionBBDD);
-				String tipoPet = (String) tipoPeticionBBDD.getValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName());
-				tiposPets_.append(tipoPet);
-				if ( (i+1) < tiposPet.size()) {
-					tiposPets_.append(", ");
-				}
-			}
 			
 			FieldViewSet tipoperiodo = new FieldViewSet(tipoPeriodo);
 			tipoperiodo.setValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_2_NUM_MESES).getName(), mesesEstudio);
@@ -511,11 +478,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				idPeriodo = ((Long) tiposperiodo.get(0).getValue(tipoPeriodo.searchField(ConstantesModelo.TIPO_PERIODO_1_ID).getName())).intValue();
 			}
 			
-			String newTitle = title.toString();
+			String newTitle = "";
 			String periodo = CommonUtils.obtenerPeriodo(idPeriodo, fecIniEstudio, fecFinEstudio);
-			newTitle = newTitle.replaceFirst("Servicio Nuevos Desarrollos Pros@", "ND.Pros@");
-			newTitle = newTitle.replaceFirst("Servicio Mto. Pros@", "Mto.Pros@");
-			newTitle = newTitle.replaceFirst("Servicio Mto. HOST", "Mto.HOST");			
 			newTitle = newTitle.concat("[" + periodo + "]");			
 			registroEstudio.setValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName(), newTitle);			
 			registroEstudio.setValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_6_NUM_MESES).getName(), mesesEstudio);
@@ -575,8 +539,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
     	return numUtsEntrega;
     }
 	
-	private int getNumPeticionesEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega){
-    	int numPetsEntrega = 0;
+	private Collection<String> obtenerPeticionesEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega){
+    	Collection<String> petsEntrega = new ArrayList<String>();
 		String peticiones = (String) miEntrega.getValue(peticionesEntidad.searchField(
 				ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
 		if (peticiones != null && !"".contentEquals(peticiones)) {				
@@ -589,14 +553,14 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					peticionDG = dataAccess.searchEntityByPk(peticionDG);
 				} catch (DatabaseException e) {					
 					e.printStackTrace();
-					return -1000000;
+					return null;
 				}
 				if (peticionDG != null) {
-					numPetsEntrega++;
+					petsEntrega.add(String.valueOf(codPeticionDG));
 				}
 			}
 		}    	
-    	return numPetsEntrega;
+    	return petsEntrega;
     }
 				
 	protected Collection<String> aplicarEstudioEntregas(final IDataAccess dataAccess, final Long idEstudio, final Long idConjuntoHeuristicas, final Collection<FieldViewSet> filas) throws StrategyException{
@@ -641,37 +605,34 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			for (final FieldViewSet peticionEntrega_BBDD : filas) {
 				
 				Long idPeticionEntrega = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());					
-				String tipoPeticion = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());					
+				Long tipoEntrega = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName());					
 				Long idAplicativo = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName());
 				
 				FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
 				aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), idAplicativo);
 				aplicativoBBDD = dataAccess.searchEntityByPk(aplicativoBBDD);
 				
-				/*** creamos la instancia para cada resumen por peticion del estudio ***/
+				/*** creamos la instancia para cada resumen por entrega del estudio ***/
 				FieldViewSet resumenPorPeticion = new FieldViewSet(resumenEntregaEntidad);				
 				
 				Date fechaTramite = (Date)peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
-				//Date fechaRealInicio = (Date)peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());					
 				Date fechaFinalizacion = (Date) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName());							
-				//Date fechaRealFin = (Date) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());											
 				
 				double utsEntrega = getTotalUtsEntrega(dataAccess, peticionEntrega_BBDD);
-				int numPeticionesEntrega= getNumPeticionesEntrega(dataAccess, peticionEntrega_BBDD);
+				Collection<String> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticionEntrega_BBDD);
+				int numPeticionesEntrega= peticionesEntrega.size();
 				int numRechazos = 0;				
 				if (peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_43_FECHA_VALIDADA_EN_CD).getName()) == null) {
 					numRechazos++;
 				}
 				
 				/*******************************************************************************************************/						
-												
-				
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_2_ID_ESTUDIO).getName(), idEstudio);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_3_APLICACION).getName(), idAplicativo);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_4_ID_GEDEON_ENTREGA).getName(), idPeticionEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUM_PETICIONES).getName(), numPeticionesEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName(), utsEntrega);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_7_TIPO_ENTREGA).getName(), tipoPeticion);
+				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA).getName(), tipoEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS).getName(), numRechazos);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA).getName(), fechaTramite);
 				
@@ -759,8 +720,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		return idPeticionesEvolutivosEstudio;
 	}
 
-	protected FieldViewSet aplicarEstudioPorPeticion(final IDataAccess dataAccess, 
-			final FieldViewSet registroEstudio, final Collection<FieldViewSet> filas) throws StrategyException{
+	protected void aplicarEstudioPorPeticion(final IDataAccess dataAccess, 
+			final Long idEstudio, final Long idConjuntoHeuristicas, final Collection<FieldViewSet> filas) throws StrategyException{
 		
 		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
 		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
@@ -772,21 +733,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			
 			dataAccess.setAutocommit(false);
 			
-			int numPeticionesEstudio = 0;
-			StringBuffer title = new StringBuffer();
-			List<String> aplicativos = new ArrayList<String>(registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName()).getValues());
-			for (int i=0;i<aplicativos.size();i++) {
-				Long idAplicativo = Long.valueOf(aplicativos.get(i));
-				FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
-				aplicativo.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
-				aplicativo = dataAccess.searchEntityByPk(aplicativo);
-				String rochade = (String)aplicativo.getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
-				title.append(rochade);
-				registroEstudio.setValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName(), idAplicativo);
-			}
-			
 			//lo primero casi es saber qué conjunto de heurísticas se van a aplicar a este estudio
-			Long idConjuntoHeuristicas = (Long) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_9_ID_HEURISTICA).getName());
 			FieldViewSet heuristicaBBDD = new FieldViewSet(heuristicasEntidad);
 			heuristicaBBDD.setValue(heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_1_ID).getName(), idConjuntoHeuristicas);
 			heuristicaBBDD = dataAccess.searchEntityByPk(heuristicaBBDD);
@@ -844,7 +791,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			for (final FieldViewSet peticionDG_BBDD : filas) {
 				
 				Long peticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());					
-				String tipoPeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());					
+				Long idTipoPeticion = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName());					
 				Double horasEstimadas = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 				Double horasReales = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
 				String titulo = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
@@ -933,8 +880,11 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					FieldViewSet entrega = new FieldViewSet(peticionesEntidad);
 					entrega.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), peticionGEDEON_ent);						
 					entrega = dataAccess.searchEntityByPk(entrega);
-					if (entrega != null){
-						String tipoPeticionEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_TIPO).getName());
+					if (entrega != null){//idPeticionesEvolutivosEstudio
+						FieldViewSet tipoPeticionBBDD = new FieldViewSet(tiposPeticionesEntidad);
+						tipoPeticionBBDD.setValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName(), idTipoPeticion);
+						tipoPeticionBBDD = dataAccess.searchEntityByPk(tipoPeticionBBDD);
+						String tipoPeticionEntrega = (String) entrega.getValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName());
 						if (tipoPeticionEntrega.toString().toUpperCase().indexOf("ENTREGA") == -1) {
 							continue;
 						}
@@ -965,11 +915,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}	
 								
 				/*******************************************************************************************************/						
-												
-				Long idEstudio = (Long) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_3_ID_APLICATIVO).getName(), idAplicativo);
-				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_4_TIPO).getName(), tipoPeticion);
+				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_4_ID_TIPO).getName(), idTipoPeticion);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PET_DG).getName(), peticionDG);
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_6_IDS_PETS_AT).getName(), (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis));				
 				resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_7_IDS_PET_ENTREGAS).getName(), entregasSerializadas.toString());
@@ -1123,35 +1072,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					jornadasDesfaseFinDesaSolicEntrega = -1.0 * jornadasDesfaseFinDesaSolicEntrega;
 				}
 
-				numPeticionesEstudio++;
-				
 			}//for
-			
-			//creamos el registro de agregados del estudio
-			
-			out.write(("\n**** TOTAL PETICIONES ESTUDIO: "+ (numPeticionesEstudio) + "  *******\n").getBytes());
-			out.write(("\n**** APLICACIONES DEL ESTUDIO  *******\n").getBytes());
-			
-			Date fecFinEstudio = (Date) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_5_FECHA_FIN).getName());
-			if(fecFinEstudio== null) {
-				fecFinEstudio = Calendar.getInstance().getTime();
-			}
-			
-			// bloque de agregados del estudio
-			List<String> tiposPet = new ArrayList<String>(registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES).getName()).getValues());
-			StringBuffer tiposPets_ = new StringBuffer();
-			for (int i=0;i<tiposPet.size();i++) {
-				String tipo = tiposPet.get(i);
-				FieldViewSet tipoPeticionBBDD = new FieldViewSet(tiposPeticionesEntidad);
-				tipoPeticionBBDD.setValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName(), Long.valueOf(tipo));
-				tipoPeticionBBDD = dataAccess.searchEntityByPk(tipoPeticionBBDD);
-				String tipoPet = (String) tipoPeticionBBDD.getValue(tiposPeticionesEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName());
-				tiposPets_.append(tipoPet);
-				if ( (i+1) < tiposPet.size()) {
-					tiposPets_.append(", ");
-				}
-			}
-					
+									
 		}catch (StrategyException excSt) {
 			throw excSt;
 		}catch (TransactionException tracSt) {
@@ -1173,8 +1095,6 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			}			
 		}
 		
-		//System.out.println("Importer: aplicado el estudio!! ");
-		return registroEstudio;
 	}
 
 	

@@ -13,7 +13,7 @@ CREATE TABLE `peticiones` (
   `Area_origen` varchar(100),
   `Centro_destino` varchar(100),
   `Area_destino` varchar(100),
-  `Tipo` varchar(50),
+  `Tipo` int(11) DEFAULT NULL,
   `Tipo_inicial` varchar(50),
   `Urgente` varchar(25),
   `Prioridad` varchar(25),
@@ -42,7 +42,8 @@ CREATE TABLE `peticiones` (
   `entorno` int(11) DEFAULT NULL,
   `Horas_estimadas_iniciales` double DEFAULT NULL,
   `fecha_validada_CD` DATE NULL,
-  `ult_modificacion` DATE NULL
+  `ult_modificacion` DATE NULL,
+  `volatile_tipo` varchar(50) DEFAULT NULL
 );  
 
 DROP TABLE `tareasPeticion`;
@@ -106,7 +107,7 @@ CREATE TABLE `resumenPeticiones` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `id_estudio` int(11) NOT NULL,
   `id_aplicativo` int(11) NOT NULL,
-  `tipo` varchar(50) DEFAULT NULL,
+  `tipo` int(11) DEFAULT NULL,
   `gedeon_DG` varchar(150) DEFAULT NULL,
   `gedeon_AT` varchar(150) DEFAULT NULL,
   `gedeon_Entrega` varchar(10) DEFAULT NULL,
@@ -144,7 +145,7 @@ CREATE TABLE `resumenEntregas` (
   `id_gedeon_Entrega` int(11) NOT NULL,
   `num_peticiones` int(6) DEFAULT NULL,
   `volumen_uts` double DEFAULT NULL,
-  `tipo_entrega` varchar(50) DEFAULT NULL,
+  `tipo` int(11) DEFAULT NULL,
   `num_rechazos` int(2) DEFAULT NULL,
   `ciclo_vida_entrega` double DEFAULT NULL,
   `fecha_solicitud_entrega` date DEFAULT NULL,
