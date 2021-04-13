@@ -84,10 +84,14 @@ public class Dashboard extends GenericHighchartModel {
 			TimeSeries seriesEntregas1 = new TimeSeries(), seriesEntregas2 = new TimeSeries();			
 			Pie pieEntregas01 = new Pie();
 			SpeedoMeter speedMeter01 = new SpeedoMeter();
-			BarChart barEntregas = new BarChart();
+			BarChart barEntregas01 = new BarChart(), barEntregas02 = new BarChart();
+			Histogram3D entregasHistogram = new Histogram3D();
 			
-			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "3", "line", "6");
+			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "3", "line", "6");//count ALL records, sin dimensión
 			seriesEntregas1.generateStatGraphModel(dataAccess, domainService, dataMapEntregas01);
+			
+			Datamap dataMapEntregas11 = createMap(_data, "_serie11", entities[0], "9", "3", "", "-1");
+			entregasHistogram.generateStatGraphModel(dataAccess, domainService, dataMapEntregas11);
 			
 			Datamap dataMapEntregas021 = createMap(_data, "_serie021", entities[0], "3", "3", "", "5");
 			pieEntregas01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas021);
@@ -98,14 +102,19 @@ public class Dashboard extends GenericHighchartModel {
 			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", "3", "area", "5");
 			seriesEntregas2.generateStatGraphModel(dataAccess, domainService, dataMapEntregas03);
 			
-			Datamap dataMapEntregas04 = createMap(_data, "_serie04", entities[0], "9", "3,7", "", "5");
-			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas04);
+			Datamap dataMapEntregas040 = createMap(_data, "_serie040", entities[0], "9", "3,7", "", "5");
+			barEntregas01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas040);
 			
+			Datamap dataMapEntregas041 = createMap(_data, "_serie041", entities[0], "9", "7,3", "", "6");
+			barEntregas02.generateStatGraphModel(dataAccess, domainService, dataMapEntregas041);
+
 			_data.copyMap(dataMapEntregas01);
+			_data.copyMap(dataMapEntregas11);
 			_data.copyMap(dataMapEntregas021);
 			_data.copyMap(dataMapEntregas022);
 			_data.copyMap(dataMapEntregas03);
-			_data.copyMap(dataMapEntregas04);
+			_data.copyMap(dataMapEntregas040);
+			_data.copyMap(dataMapEntregas041);
 			
 			if (entities.length > 1) {
 				
@@ -134,10 +143,12 @@ public class Dashboard extends GenericHighchartModel {
 			
 			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", seriesEntregas1.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_110", entregasHistogram.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_120", pieEntregas01.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_121", speedMeter01.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_21", seriesEntregas2.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_22", barEntregas.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_220", barEntregas01.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_221", barEntregas02.getScreenRendername().concat(".jsp"));
 			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();

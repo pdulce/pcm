@@ -9,7 +9,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <div id="<%=idseries%>histogram3d" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 
-<div id="sliders">
+<!--  div id="sliders">
        <table>
            <tr>
                <td><label for="alpha">Alpha Angle</label></td>
@@ -24,7 +24,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
                <td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
            </tr>
        </table>
-</div>
+</div>-->
 
 <script type="text/javascript">
 	var chart = new Highcharts.Chart({
@@ -40,14 +40,13 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	            viewDistance: 25
 	        }
 	    },
-        title: {
-            text: '<%=request.getAttribute(idseries+"histogram3dtitle")%>',
-            style: {'color': 'orange', 'font-weight': 'lighter'}
-        },
-        
-        subtitle: {
+	    title: {
+	        text: '<%=request.getAttribute(idseries+"histogram3dtitle")%>',
+	        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+	    },
+	    subtitle: {
             text: '<%=request.getAttribute(idseries+"histogram3dsubtitle")%>',
-            style: {'color': 'orange', 'font-weight': 'lighter'}
+            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
         },
         
         xAxis: {

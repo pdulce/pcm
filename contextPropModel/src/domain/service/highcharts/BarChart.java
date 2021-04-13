@@ -288,7 +288,7 @@ public class BarChart extends GenericHighchartModel {
 		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		String itemGrafico = entidadTraslated;
 		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), CommonUtils.obtenerPlural(itemGrafico) + " ");
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), CommonUtils.obtenerPlural(itemGrafico));
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(IS_BAR_INTERNAL_LABELED), "false");
 		

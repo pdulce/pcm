@@ -504,7 +504,7 @@ xmlns:service="http://pcm.framework.org/service"
 					</fieldViewSet>
 				</form>
 			
-				<grid title="Resumen Entregas del Estudio" dependsOf="estudiosEntregasForm" orderDirection="asc"
+				<grid title="Entregas del Estudio" dependsOf="estudiosEntregasForm" orderDirection="asc"
 						defaultOrderField="resumenEntregas.3" eventsRegistered="detail" serviceRef="ResumenEstudioEntrega">
 					
 					<fieldViewSet entitymodel="resumenEntregas" nameSpace="resumenEntregas">

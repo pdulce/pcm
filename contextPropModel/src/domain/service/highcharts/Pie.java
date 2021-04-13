@@ -144,7 +144,7 @@ public class Pie extends GenericHighchartModel {
 		String agregadoTraslated = agregados!= null ? CommonUtils.obtenerPlural(Translator.traduceDictionaryModelDefined(lang, agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName()))): "";
 		
 		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), entidadTraslated + " "); 
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), entidadTraslated); 
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, entidadTraslated, agregadoTraslated));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {

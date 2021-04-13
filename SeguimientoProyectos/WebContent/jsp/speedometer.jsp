@@ -24,12 +24,12 @@ Highcharts.chart('<%=idseries%>speedometer', {
     },
 
     title: {
-    	text: '<%=request.getAttribute(idseries+"speedometertitle")%>',
+    	text: '',
         style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
     
     subtitle: {
-        text: '<%=request.getAttribute(idseries+"speedometersubtitle")%>',
+        text: '',
         style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
     },
     

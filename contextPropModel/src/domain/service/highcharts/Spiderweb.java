@@ -90,7 +90,7 @@ public class Spiderweb extends GenericHighchartModel {
 		
 		String itemGrafico = entidadTraslated;
 				
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), "Spiderchart de " + CommonUtils.obtenerPlural(itemGrafico) + " "); 
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), "Spiderchart de " + CommonUtils.obtenerPlural(itemGrafico)); 
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
 
