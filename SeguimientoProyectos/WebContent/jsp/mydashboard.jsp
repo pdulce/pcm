@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
     
     
-    <form action="prjManager" method="POST">
+    <form class="pcmForm" action="prjManager" method="POST">
     
     	<input id="exec" name="exec" type="hidden" value="dashboard"/>
 		<input id="event" name="event" type="hidden" value="dashboard"/>
@@ -12,7 +12,7 @@
     <fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
     	<div>
     		<label class="infoCls" title="Entorno" id="aplicativo.id_tecnologiaLABEL" for="aplicativo.id_tecnologia">
-    			&nbsp;&nbsp;Entorno&nbsp;
+    		&nbsp;&nbsp;Entorno&nbsp;
     		</label>
 			<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
 				onChange="javascript:document.forms[0].submit();return true;" size="7" multiple>
@@ -34,7 +34,8 @@
 				<option value="aplicativo.id_servicio=3"  id="aplicativo.id_servicio=3">Servicio Mto. Pros@</option>
 			</select>
 
-			<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">&nbsp;&nbsp;Aplicativo&nbsp;</label>
+			<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
+			&nbsp;&nbsp;Aplicativo&nbsp;</label>
 			<select class="textInput" size="7" id="aplicativo.id" name="aplicativo.id"
 				onChange="javascript:document.forms[0].submit();return true;" 
 				multiple>
@@ -77,24 +78,59 @@
 				<option value="aplicativo.id=37"  id="aplicativo.id=37">WSRT</option>
 			</select>
 			
-			<label class="infoCls"  title="Escala" id="escaladoLabel" for="escalado">&nbsp;&nbsp;Escala&nbsp;</label>
-			<select onChange="javascript:document.forms[0].submit();return true;" class="textInput" id="escalado" name="escalado" size="7">
-					<option value="dayly" id="dayly">Diario</option>
-					<option value="weekly" id="weekly">Semanal</option>
-					<option value="monthly" id="monthly">Mensual</option>
-					<option value="3monthly" id="3monthly">Trimestral</option>
-					<option value="6monthly" id="6monthly">Semestral</option>
-					<option value="anualy" id="anualy">Anual</option>
-					<option value="automatic" id="automatic">Automatico</option>
-			</select>
+			
+			<div>
+				<br>
+				<label class="infoCls"  title="Escala">	&nbsp;&nbsp;Escala&nbsp;</label>
+				<label class="radiogroupcontainer">&nbsp;Diario&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" 
+							type="radio" class="checkmarkradio" value="dayly" id="escaladodayly" name="escalado">
+					<span class="checkmarkradio"></span>
+				</label>
+				<label class="radiogroupcontainer">&nbsp;Semanal&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" 
+							type="radio" class="checkmarkradio" value="weekly" id="escaladoweekly" name="escalado">
+					<span class="checkmarkradio"></span>
+				</label>
+				<label class="radiogroupcontainer">&nbsp;Mensual&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" 
+							type="radio" class="checkmarkradio" value="monthly" id="escaladomonthly" name="escalado">
+					<span class="checkmarkradio"></span>
+				</label>
+				<label class="radiogroupcontainer">&nbsp;Trimestral&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" 
+							type="radio" class="checkmarkradio" value="3monthly" id="escalado3monthly" name="escalado">
+					<span class="checkmarkradio"></span>
+				</label>
+				<label class="radiogroupcontainer">&nbsp;Semestral&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" 
+							type="radio" class="checkmarkradio" value="6monthly" id="escalado6monthly" name="escalado">
+					<span class="checkmarkradio"></span>
+				</label>
+				<label class="radiogroupcontainer">&nbsp;Anual&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" 
+							type="radio" class="checkmarkradio" value="anualy" id="escaladoanualy" name="escalado">
+					<span class="checkmarkradio"></span>
+				</label>
+				<label class="radiogroupcontainer">&nbsp;Autom&aacute;tico&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" 
+							type="radio" class="checkmarkradio" value="automatic" id="escaladoautomatic" name="escalado">
+					<span class="checkmarkradio"></span>
+				</label>
 
-			<label class="infoCls"  title="Operación sobre datos" id="escaladoLabel" for="escalado">&nbsp;&nbsp;Escala&nbsp;</label>
-			<select onChange="javascript:document.forms[0].submit();return true;" class="textInput" 
-				id="operation" name="operation" size="2">
-					<option value="AVG" id="AVG">Promediar</option>
-					<option value="SUM" id="SUM">Totalizar</option>					
-			</select>						
+				<label class="infoCls" title="Operación de agregación">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Operaci&oacute;n de agregaci&oacute;n&nbsp;</label>
+				<label class="radiogroupcontainer">&nbsp;Promediar&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" type="radio" class="checkmarkradio" value="AVG" id="operationAVG" name="operation">
+					<span class="checkmarkradio"></span>
+				</label>
+				<label class="radiogroupcontainer">Totalizar&nbsp;
+					<input onChange="javascript:document.forms[0].submit();return true;" type="radio" class="checkmarkradio" value="SUM" id="operationSUM" name="operation">
+					<span class="checkmarkradio"></span>
+				</label>
 			</div>
+
+			</div>
+			
 		</fieldset>
     </form>
     
@@ -177,24 +213,25 @@
 	if (escaladoParamValue != null){
 		String[] as= (String[]) escaladoParamValue;
 		for (int i=0;i<as.length;i++){
+			//System.out.println("value selected:" + as[i]);
 			if ("dayly".contentEquals(as[i])){%>
-			   	document.getElementById('escalado').options[0].selected= 'selected';
+			   	document.getElementById('escaladodayly').checked= 'checked';
 		  <%}else if ("weekly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado').options[1].selected= 'selected';
+		   		document.getElementById('escaladoweekly').checked= 'checked';
 		  <%}else if ("monthly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado').options[2].selected= 'selected';
+		   		document.getElementById('escaladomonthly').checked= 'checked';
 		  <%}else if ("3monthly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado').options[3].selected= 'selected';
+		   		document.getElementById('escalado3monthly').checked= 'checked';
 		  <%}else if ("6monthly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado').options[4].selected= 'selected';
+		   		document.getElementById('escalado6monthly').checked= 'checked';
 		  <%}else if ("anualy".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado').options[5].selected= 'selected';	
+		   		document.getElementById('escaladoanualy').checked= 'checked';	
 		  <%}else if ("automatic".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado').options[6].selected= 'selected';	
+		   		document.getElementById('escaladoautomatic').checked= 'checked';	
 		  <%}%>	
 		<%}//for values
 	}else{ %>
-		  	document.getElementById('escalado').options[2].selected = 'selected';		  
+		  	document.getElementById('escaladomonthly').checked= 'checked';		  
   <%} %>
   
   <% 	
@@ -202,15 +239,16 @@
 	if (operationParamValue != null){
 		String[] as= (String[]) operationParamValue;
 		for (int i=0;i<as.length;i++){
+			//System.out.println("value selected:" + as[i]);
 			if ("AVG".contentEquals(as[i])){%>
-			   	document.getElementById('operation').options[0].selected= 'selected';
+			   	document.getElementById('operationAVG').checked= 'checked';
 		  <%}else if ("SUM".contentEquals(as[i])){%>			  
-		   		document.getElementById('operation').options[1].selected= 'selected';
+		   		document.getElementById('operationSUM').checked= 'checked';
 		  <%}%>	
 		<%}//for values
 	}else{ %>
-		  	document.getElementById('operation').options[0].selected = 'selected';		  
-<%} %>
+		  	document.getElementById('operationAVG').checked= 'checked';  
+  <%} %>
 	
 	<% 	
 	Object entornoParamValues = request.getAttribute("aplicativo.id_tecnologia");
@@ -237,10 +275,7 @@
 			//System.out.println("value selected:" + selectedValue);
 		%>			
 			document.getElementById('aplicativo.id_servicio').options[<%=selectedValue%>].selected= 'selected';
-		<%}//si hay seleccionado un servicio, anular la selection de aplicaciones%>		
-		for (var j=0;j<37;j++){
-		  	document.getElementById('aplicativo.id').options[j].selected = '';
-		}
+		<%}%>				
 	<%}else{//if %>
 		   for (var j=0;j<3;j++){
 		  	document.getElementById('aplicativo.id_servicio').options[j].selected = '';
@@ -258,9 +293,7 @@
 		%>			
 			document.getElementById('aplicativo.id').options[<%=selectedValue%>].selected= 'selected';
 		<%}%>
-		for (var j=0;j<3;j++){
-		  	document.getElementById('aplicativo.id_servicio').options[j].selected = '';
-		}
+		
 	<%}else{//if %>
 		   for (var j=0;j<37;j++){
 		  	document.getElementById('aplicativo.id').options[j].selected = 'selected';

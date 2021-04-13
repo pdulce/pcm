@@ -342,17 +342,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 									"Mejora desarrollo");
 							tipoPeticion = "";
 						}
-						// el mes y aoo para poder explotarlo en Histogramas con selectGroupBy
 						Date fecAlta = (Date) registro.getValue(peticionesEntidad.searchField(
 								ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA).getName());
 						Calendar dateFec = Calendar.getInstance();
 						dateFec.setTime(fecAlta);
-						
-						String month = String.valueOf(dateFec.get(Calendar.MONTH) + 1);
-						if (month.length() == 1) {
-							month = "0".concat(month);
-						}
-
 	
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_31_FECHA_EXPORT)
 								.getName(), fecExportacion);

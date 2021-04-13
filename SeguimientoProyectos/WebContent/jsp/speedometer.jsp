@@ -3,6 +3,7 @@
 
 <% 
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
+//System.out.println("idseries:" + idseries);
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 %>
@@ -33,8 +34,8 @@ Highcharts.chart('<%=idseries%>speedometer', {
     },
     
     pane: {
-        startAngle: -150,
-        endAngle: 150,
+        startAngle: -90,
+        endAngle: 90,
         background: [{
             backgroundColor: {
                 linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
@@ -68,7 +69,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
     // the value axis
     yAxis: {
         min: 0,
-        max: 200,
+        max: 20,
 
         minorTickInterval: 'auto',
         minorTickWidth: 1,
@@ -86,30 +87,25 @@ Highcharts.chart('<%=idseries%>speedometer', {
             rotation: 'auto'
         },
         title: {
-            text: 'km/h'
+            text: 'rechazos',
+            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
         },
         plotBands: [{
             from: 0,
-            to: 120,
+            to: 5,
             color: '#55BF3B' // green
         }, {
-            from: 120,
-            to: 160,
+            from: 5,
+            to: 12,
             color: '#DDDF0D' // yellow
         }, {
-            from: 160,
-            to: 200,
+            from: 12,
+            to: 20,
             color: '#DF5353' // red
         }]
     },
-
-    series: [{
-        name: 'Speed',
-        data: [80],
-        tooltip: {
-            valueSuffix: ' km/h'
-        }
-    }]
+	
+    series:  [{"data":[1.23],"name":"núm. rechazos","tooltip":{"valueSuffix":" "}}]
 
 },
 // Add some life
@@ -118,7 +114,7 @@ function (chart) {
         setInterval(function () {
             var point = chart.series[0].points[0],
                 newVal,
-                inc = Math.round((Math.random() - 0.5) * 20);
+                inc = 0;//Math.round((Math.random() - 0.5) * 20);
 
             newVal = point.y + inc;
             if (newVal < 0 || newVal > 200) {
@@ -127,7 +123,7 @@ function (chart) {
 
             point.update(newVal);
 
-        }, 3000);
+        }, 30000);//ms de refresco
     }
 });
 

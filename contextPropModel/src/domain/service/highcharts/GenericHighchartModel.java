@@ -244,11 +244,9 @@ public abstract class GenericHighchartModel implements IStats {
 			title = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE));
 		}
 		if (groupByField.length>0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null) {
-			String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
+			//String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
 			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
-			title = title.concat(" agrupando por [" + 
-					Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgrupacion) + 
-					"], agregado: [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
+			title = title.concat(", dimensión [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
 		}
 		
 		String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)

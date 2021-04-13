@@ -78,7 +78,6 @@ public class Dashboard extends GenericHighchartModel {
 			//recoger filtros en pantalla; pueden ser de los master o de las detail, pero los mappings deben
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			//FieldViewSet detail1 = new FieldViewSet(EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(), entities[0]));
-			//tratamos por ejemplo: estudiosPeticiones.id_entorno
 			 
 			this._dataAccess = dataAccess;
 						
@@ -102,9 +101,13 @@ public class Dashboard extends GenericHighchartModel {
 			Datamap dataMapEntregas04 = createMap(_data, "_serie04", entities[0], "9", "3,7", "", "5");
 			barEntregas.generateStatGraphModel(dataAccess, domainService, dataMapEntregas04);
 			
+			_data.copyMap(dataMapEntregas01);
+			_data.copyMap(dataMapEntregas021);
+			_data.copyMap(dataMapEntregas022);
+			_data.copyMap(dataMapEntregas03);
+			_data.copyMap(dataMapEntregas04);
+			
 			if (entities.length > 1) {
-				
-				//FieldViewSet detail2 = new FieldViewSet(EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(), entities[1]));
 				
 				TimeSeries seriesPeticiones3 = new TimeSeries(), seriesPeticiones4 = new TimeSeries();
 				Pie piePeticiones = new Pie();		
@@ -128,12 +131,6 @@ public class Dashboard extends GenericHighchartModel {
 				_data.setAttribute("containerJSP_41", seriesPeticiones4.getScreenRendername().concat(".jsp"));
 				_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
 			}
-			
-			_data.copyMap(dataMapEntregas01);
-			_data.copyMap(dataMapEntregas021);
-			_data.copyMap(dataMapEntregas022);
-			_data.copyMap(dataMapEntregas03);
-			_data.copyMap(dataMapEntregas04);
 			
 			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", seriesEntregas1.getScreenRendername().concat(".jsp"));

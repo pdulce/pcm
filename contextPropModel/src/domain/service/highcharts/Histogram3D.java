@@ -196,7 +196,7 @@ public class Histogram3D extends GenericHighchartModel {
 				entidadGrafico.getName().concat(".").concat(entidadGrafico.getName()));
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), fieldsGROUPBY.length == 2 ? 
-				"Comparativa de " + CommonUtils.obtenerPlural(entidad) + " " + (aggregateFunction.contentEquals(OPERATION_AVERAGE)?"(promedios) ":"(totales) "): "Time series ");
+				"Comparativa de " + CommonUtils.obtenerPlural(entidad): "Time series ");
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), serieJson);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("abscisas"), jsArrayEjeAbcisas.toString());
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), minimal);

@@ -140,12 +140,13 @@ public class Pie extends GenericHighchartModel {
 						
 		}
 		
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-		String itemGrafico = entidadTraslated;
-			
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), CommonUtils.obtenerPlural(itemGrafico) + " "); 
+		String entidadTraslated = CommonUtils.obtenerPlural(Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName())));
+		String agregadoTraslated = agregados!= null ? CommonUtils.obtenerPlural(Translator.traduceDictionaryModelDefined(lang, agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName()))): "";
 		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, itemGrafico.substring(3)));
+		
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), entidadTraslated + " "); 
+		
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, entidadTraslated, agregadoTraslated));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
 			double median = total_.doubleValue()/subtotalesPorCategoria.size();
 			total_ = median;
@@ -165,7 +166,8 @@ public class Pie extends GenericHighchartModel {
 	 ***/
 
 	@SuppressWarnings("unchecked")
-	private String generarSeries(final Map<String, Number> subtotales, final double contabilizadas, final Datamap data_, final String itemGrafico) {
+	protected String generarSeries(final Map<String, Number> subtotales, final double contabilizadas, 
+			final Datamap data_, final String itemGrafico, final String agregado) {
 
 		JSONArray seriesJSON = new JSONArray();
 

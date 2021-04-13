@@ -298,7 +298,7 @@
     <field mappingTo="7" name="tipo_entrega" type="string" length="50" required="false"/>
     <field mappingTo="8" name="num_rechazos" type="int" length="6" required="false"/>
     <field mappingTo="9" name="fecha_solicitud_entrega" type="date" length="10" required="false"/>
-    <field mappingTo="10" name="fecha_inicio_pruebasCD" type="da te" length="10" required="false"/>
+    <field mappingTo="10" name="fecha_inicio_pruebasCD" type="date" length="10" required="false"/>
     <field mappingTo="11" name="fecha_fin_pruebasCD" type="date" length="10" required="false"/>
     <field mappingTo="12" name="fecha_inicio_instalacion_Prod" type="date" length="10" required="false"/>
     <field mappingTo="13" name="fecha_fin_instalacion_Prod" type="date" length="10" required="false"/>    
