@@ -27,6 +27,7 @@ import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.factory.IBodyContainer;
 import domain.service.dataccess.IDataAccess;
 import domain.service.dataccess.definitions.EntityLogic;
+import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
@@ -160,7 +161,14 @@ public class Scatter extends GenericHighchartModel {
 				//alimentar el user filter de los inputs del formulario
 				fieldViewSetsForm.addAll(formSubmitted.getFieldViewSets());
 			}else {
-				//filtramos cuando el filtro venga de campos de un dashboard
+				Collection<IEntityLogic> entityParents = entidadGrafico.getParentEntities();
+				if (entityParents != null && !entityParents.isEmpty()) {
+					Iterator<IEntityLogic> padresIterator = entityParents.iterator();
+					while (padresIterator.hasNext()) {
+						IEntityLogic parentEntity = padresIterator.next();
+						fieldViewSetsForm.add(new FieldViewSet(parentEntity));
+					}
+				}				
 				fieldViewSetsForm.add(userFilter);
 			}
 			

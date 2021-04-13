@@ -229,12 +229,16 @@ public class FieldViewSet implements Serializable {
 			//obtenemos padres de esta entidad por si en el formulario vienen filtros de esa otra entidad padre:			
 			IEntityLogic entidadARefrescar = this.getEntityDef();
 			
-			IEntityLogic padreDeEntidadARefrescar = null;
-			FieldViewSet recordparent = null;
+			Map<String, FieldViewSet> recordParentMap = new HashMap<String, FieldViewSet>();			
+			Map<String, IEntityLogic> parentEntitiesMap = new HashMap<String, IEntityLogic>();			
 			Collection<IEntityLogic> padres = entidadARefrescar.getParentEntities();
 			// de momento, solo me quedo con un padre para probar el algoritmo, y luego extenderemos
 			if (padres != null && !padres.isEmpty()) {
-				padreDeEntidadARefrescar = padres.iterator().next();				
+				 Iterator<IEntityLogic> padresIterator = padres.iterator();
+				 while (padresIterator.hasNext()) {					 
+					 IEntityLogic padreDeEntidadARefrescar = padresIterator.next();
+					 parentEntitiesMap.put(padreDeEntidadARefrescar.getName(), padreDeEntidadARefrescar);
+				 }
 			}
 			
 			final List<Map.Entry<String, List<Object>>> listOfRequestParams = new ArrayList<Map.Entry<String, List<Object>>>(valuesMemo_.entrySet());
@@ -267,30 +271,29 @@ public class FieldViewSet implements Serializable {
 							this.setValues(keyMemorized, stringVals);
 						}
 						
-					}else if (padreDeEntidadARefrescar != null && entityInRequest.contentEquals(padreDeEntidadARefrescar.getName())
-							&& padreDeEntidadARefrescar.getName().contentEquals(fSetOfForm.getEntityDef().getName())) {
+					}else if (!parentEntitiesMap.isEmpty() && parentEntitiesMap.keySet().contains(entityInRequest)
+							&& entityInRequest.contentEquals(fSetOfForm.getEntityDef().getName())) {
 						
 						if (!stringVals.isEmpty()) {
 							//imagina que llega la fecha con un valor			
 							keyMemorized = keyMemorized.replace(IRank.DESDE_SUFFIX, "");
-							keyMemorized = keyMemorized.replace(IRank.HASTA_SUFFIX, "");							
+							keyMemorized = keyMemorized.replace(IRank.HASTA_SUFFIX, "");
+							FieldViewSet recordparent = recordParentMap.get(entityInRequest);
 							if (recordparent == null) {
-								recordparent = new FieldViewSet(padreDeEntidadARefrescar);
-							}
-							recordparent.setValues(field_, stringVals);													
+								recordparent = new FieldViewSet(parentEntitiesMap.get(entityInRequest));
+								recordParentMap.put(entityInRequest, recordparent);
+							}														
+							recordparent.setValues(field_, stringVals);							
 						}
-						if (padreDeEntidadARefrescar.getFieldKey().contains(field_)) {
-							recordparent = new FieldViewSet(padreDeEntidadARefrescar);
-							recordparent.setValues(field_, stringVals);
-							break;
-						}
+						
 					}
-				}
+				}// fin del recorrrido de un fieldviewset
+				
 				//hacemos esto por cada fset localizado
-				if (recordparent != null) {
+				if (recordParentMap.get(fSetOfForm.getEntityDef().getName()) != null) {
 					
-					IFieldLogic keyOfParent = recordparent.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
-					Collection<FieldViewSet> parents = dataAccess.searchByCriteria(recordparent);
+					IFieldLogic keyOfParent = fSetOfForm.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
+					Collection<FieldViewSet> parents = dataAccess.searchByCriteria(recordParentMap.get(fSetOfForm.getEntityDef().getName()));
 					Iterator<FieldViewSet> iteParents = parents.iterator();
 					Collection<String> fkValues = new ArrayList<String>();
 					while (iteParents.hasNext()) {

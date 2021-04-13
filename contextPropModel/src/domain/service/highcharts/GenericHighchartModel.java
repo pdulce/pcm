@@ -114,10 +114,12 @@ public abstract class GenericHighchartModel implements IStats {
 				fieldViewSetsForm.addAll(formSubmitted.getFieldViewSets());
 			}else {
 				Collection<IEntityLogic> entityParents = entidadGrafico.getParentEntities();
-				// de momento, solo me quedo con un padre para probar el algoritmo, y luego extenderemos
 				if (entityParents != null && !entityParents.isEmpty()) {
-					IEntityLogic parentEntity = entityParents.iterator().next();	
-					fieldViewSetsForm.add(new FieldViewSet(parentEntity));							
+					Iterator<IEntityLogic> padresIterator = entityParents.iterator();
+					while (padresIterator.hasNext()) {
+						IEntityLogic parentEntity = padresIterator.next();
+						fieldViewSetsForm.add(new FieldViewSet(parentEntity));
+					}
 				}				
 				fieldViewSetsForm.add(userFilter);
 			}

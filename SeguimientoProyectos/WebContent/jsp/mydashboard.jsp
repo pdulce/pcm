@@ -4,88 +4,81 @@
     
     
     <form action="prjManager" method="POST">
+    
     	<input id="exec" name="exec" type="hidden" value="dashboard"/>
 		<input id="event" name="event" type="hidden" value="dashboard"/>
 		<input id="entities" name="entities" type="hidden" value="resumenEntregas$resumenPeticiones"/>
     
     <fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
     	<div>
-    		<label class="infoCls" title="Entorno" id="estudiosPeticiones.id_entornoLABEL" for="estudiosPeticiones.id_entorno">
+    		<label class="infoCls" title="Entorno" id="aplicativo.id_tecnologiaLABEL" for="aplicativo.id_tecnologia">
     			&nbsp;&nbsp;Entorno&nbsp;
     		</label>
-			<select class="textInput" id="estudiosEntregas.id_entorno" name="estudiosEntregas.id_entorno"
-				onChange="javascript:vaciarOnSubmit('estudiosEntregas.id_servicio');vaciarOnSubmit('estudiosPeticiones.id_servicio');
-						submitDashboard('estudiosEntregas.id_entorno','estudiosPeticiones.id_entorno');" size="7" multiple>
-					<option value="estudiosEntregas.id_entorno=1" id="estudiosEntregas.id_entorno=1">HOST</option>
-					<option value="estudiosEntregas.id_entorno=2" id="estudiosEntregas.id_entorno=2">Pros@</option>
-					<option value="estudiosEntregas.id_entorno=3" id="estudiosEntregas.id_entorno=3">Web Services</option>
-					<option value="estudiosEntregas.id_entorno=4" id="estudiosEntregas.id_entorno=4">Servicios API Rest</option>
-					<option value="estudiosEntregas.id_entorno=5" id="estudiosEntregas.id_entorno=5">Mobile Tech</option>
-				</select>
-				<input id="estudiosPeticiones.id_entorno" name="estudiosPeticiones.id_entorno" type="hidden" value=""/>
-	
-    			<label class="infoCls"  title="Servicio" id="estudiosEntregas.id_servicioLABEL" for="estudiosEntregas.id_servicio">
-				&nbsp;&nbsp;Servicio&nbsp;
-				</label>
-			<select class="textInput" size="3" id="estudiosEntregas.id_servicio" name="estudiosEntregas.id_servicio" 
-				onChange="javascript:vaciarOnSubmit('estudiosEntregas.id_aplicativo');
-						vaciarOnSubmit('estudiosPeticiones.id_aplicativo');
-						submitDashboard('estudiosEntregas.id_servicio', 'estudiosPeticiones.id_servicio');"
+			<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
+				onChange="javascript:document.forms[0].submit();return true;" size="7" multiple>
+					<option value="aplicativo.id_tecnologia=1" id="aplicativo.id_tecnologia=1">HOST</option>
+					<option value="aplicativo.id_tecnologia=2" id="aplicativo.id_tecnologia=2">Pros@</option>
+					<option value="aplicativo.id_tecnologia=3" id="aplicativo.id_tecnologia=3">Web Services</option>
+					<option value="aplicativo.id_tecnologia=4" id="aplicativo.id_tecnologia=4">Servicios API Rest</option>
+					<option value="aplicativo.id_tecnologia=5" id="aplicativo.id_tecnologia=5">Mobile Tech</option>
+			</select>
+
+   			<label class="infoCls"  title="Servicio" id="aplicativo.id_servicioLABEL" for="aplicativo.id_servicio">
+			&nbsp;&nbsp;Servicio&nbsp;
+			</label>
+			<select class="textInput" size="3" id="aplicativo.id_servicio" name="aplicativo.id_servicio" 
+				onChange="javascript:document.forms[0].submit();return true;"
 				 multiple>
-				<option value="estudiosEntregas.id_servicio=1"  id="estudiosEntregas.id_servicio=1">Servicio Mto. HOST</option>
-				<option value="estudiosEntregas.id_servicio=2"  id="estudiosEntregas.id_servicio=2">Servicio Nuevos Desarrollos Pros@</option>
-				<option value="estudiosEntregas.id_servicio=3"  id="estudiosEntregas.id_servicio=3">Servicio Mto. Pros@</option>
+				<option value="aplicativo.id_servicio=1"  id="aplicativo.id_servicio=1">Servicio Mto. HOST</option>
+				<option value="aplicativo.id_servicio=2"  id="aplicativo.id_servicio=2">Servicio Nuevos Desarrollos Pros@</option>
+				<option value="aplicativo.id_servicio=3"  id="aplicativo.id_servicio=3">Servicio Mto. Pros@</option>
 			</select>
-			<input id="estudiosPeticiones.id_servicio" name="estudiosPeticiones.id_servicio" type="hidden" value=""/>
 
-			<label class="infoCls"  title="Aplicativo" id="estudiosEntregas.id_aplicativoLABEL" for="estudiosEntregas.id_aplicativo">&nbsp;&nbsp;Aplicativo&nbsp;</label>
-			<select class="textInput" size="7" id="estudiosEntregas.id_aplicativo" name="estudiosEntregas.id_aplicativo"
-				onChange="javascript:vaciarOnSubmit('estudiosEntregas.id_servicio');vaciarOnSubmit('estudiosPeticiones.id_servicio');
-						submitDashboard('estudiosEntregas.id_aplicativo', 'estudiosPeticiones.id_aplicativo');" 
+			<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">&nbsp;&nbsp;Aplicativo&nbsp;</label>
+			<select class="textInput" size="7" id="aplicativo.id" name="aplicativo.id"
+				onChange="javascript:document.forms[0].submit();return true;" 
 				multiple>
-				<option value="estudiosEntregas.id_aplicativo=1"  id="estudiosEntregas.id_aplicativo=1">AFLO</option>
-				<option value="estudiosEntregas.id_aplicativo=2"  id="estudiosEntregas.id_aplicativo=2">APRO</option>
-				<option value="estudiosEntregas.id_aplicativo=3"  id="estudiosEntregas.id_aplicativo=3">AYFL</option>
-				<option value="estudiosEntregas.id_aplicativo=4"  id="estudiosEntregas.id_aplicativo=4">BISM</option>
-				<option value="estudiosEntregas.id_aplicativo=5"  id="estudiosEntregas.id_aplicativo=5">CMAR</option>
-				<option value="estudiosEntregas.id_aplicativo=6"  id="estudiosEntregas.id_aplicativo=6">CONT</option>
-				<option value="estudiosEntregas.id_aplicativo=7"  id="estudiosEntregas.id_aplicativo=7">FAM2</option>
-				<option value="estudiosEntregas.id_aplicativo=8"  id="estudiosEntregas.id_aplicativo=8">FAMA</option>
-				<option value="estudiosEntregas.id_aplicativo=9"  id="estudiosEntregas.id_aplicativo=9">FARM</option>
-				<option value="estudiosEntregas.id_aplicativo=10"  id="estudiosEntregas.id_aplicativo=10">FMAR</option>
-				<option value="estudiosEntregas.id_aplicativo=11"  id="estudiosEntregas.id_aplicativo=11">FOM2</option>
-				<option value="estudiosEntregas.id_aplicativo=12"  id="estudiosEntregas.id_aplicativo=12">FOMA</option>
-				<option value="estudiosEntregas.id_aplicativo=13"  id="estudiosEntregas.id_aplicativo=13">FRMA</option>
-				<option value="estudiosEntregas.id_aplicativo=14"  id="estudiosEntregas.id_aplicativo=14">GFOA</option>
-				<option value="estudiosEntregas.id_aplicativo=15"  id="estudiosEntregas.id_aplicativo=15">IMAG</option>
-				<option value="estudiosEntregas.id_aplicativo=16"  id="estudiosEntregas.id_aplicativo=16">INBU</option>
-				<option value="estudiosEntregas.id_aplicativo=17"  id="estudiosEntregas.id_aplicativo=17">INCA</option>
-				<option value="estudiosEntregas.id_aplicativo=18"  id="estudiosEntregas.id_aplicativo=18">INVE</option>
-				<option value="estudiosEntregas.id_aplicativo=19"  id="estudiosEntregas.id_aplicativo=19">ISMW</option>
-				<option value="estudiosEntregas.id_aplicativo=20"  id="estudiosEntregas.id_aplicativo=20">MEJP</option>
-				<option value="estudiosEntregas.id_aplicativo=21"  id="estudiosEntregas.id_aplicativo=21">MGEN</option>
-				<option value="estudiosEntregas.id_aplicativo=22"  id="estudiosEntregas.id_aplicativo=22">MIND</option>
-				<option value="estudiosEntregas.id_aplicativo=23"  id="estudiosEntregas.id_aplicativo=23">MOVI</option>
-				<option value="estudiosEntregas.id_aplicativo=24"  id="estudiosEntregas.id_aplicativo=24">OBIS</option>
-				<option value="estudiosEntregas.id_aplicativo=25"  id="estudiosEntregas.id_aplicativo=25">PAGO</option>
-				<option value="estudiosEntregas.id_aplicativo=26"  id="estudiosEntregas.id_aplicativo=26">PRES</option>
-				<option value="estudiosEntregas.id_aplicativo=27"  id="estudiosEntregas.id_aplicativo=27">SANI</option>
-				<option value="estudiosEntregas.id_aplicativo=28"  id="estudiosEntregas.id_aplicativo=28">SBOT</option>
-				<option value="estudiosEntregas.id_aplicativo=29"  id="estudiosEntregas.id_aplicativo=29">SIEB</option>
-				<option value="estudiosEntregas.id_aplicativo=30"  id="estudiosEntregas.id_aplicativo=30">TASA</option>
-				<option value="estudiosEntregas.id_aplicativo=31"  id="estudiosEntregas.id_aplicativo=31">TISM</option>
-				<option value="estudiosEntregas.id_aplicativo=32"  id="estudiosEntregas.id_aplicativo=32">WBOF</option>
-				<option value="estudiosEntregas.id_aplicativo=33"  id="estudiosEntregas.id_aplicativo=33">WISM</option>
-				<option value="estudiosEntregas.id_aplicativo=34"  id="estudiosEntregas.id_aplicativo=34">WSAO</option>
-				<option value="estudiosEntregas.id_aplicativo=35"  id="estudiosEntregas.id_aplicativo=35">WSCR</option>
-				<option value="estudiosEntregas.id_aplicativo=36"  id="estudiosEntregas.id_aplicativo=36">WSPX</option>
-				<option value="estudiosEntregas.id_aplicativo=37"  id="estudiosEntregas.id_aplicativo=37">WSRT</option>
+				<option value="aplicativo.id=1"  id="aplicativo.id=1">AFLO</option>
+				<option value="aplicativo.id=2"  id="aplicativo.id=2">APRO</option>
+				<option value="aplicativo.id=3"  id="aplicativo.id=3">AYFL</option>
+				<option value="aplicativo.id=4"  id="aplicativo.id=4">BISM</option>
+				<option value="aplicativo.id=5"  id="aplicativo.id=5">CMAR</option>
+				<option value="aplicativo.id=6"  id="aplicativo.id=6">CONT</option>
+				<option value="aplicativo.id=7"  id="aplicativo.id=7">FAM2</option>
+				<option value="aplicativo.id=8"  id="aplicativo.id=8">FAMA</option>
+				<option value="aplicativo.id=9"  id="aplicativo.id=9">FARM</option>
+				<option value="aplicativo.id=10"  id="aplicativo.id=10">FMAR</option>
+				<option value="aplicativo.id=11"  id="aplicativo.id=11">FOM2</option>
+				<option value="aplicativo.id=12"  id="aplicativo.id=12">FOMA</option>
+				<option value="aplicativo.id=13"  id="aplicativo.id=13">FRMA</option>
+				<option value="aplicativo.id=14"  id="aplicativo.id=14">GFOA</option>
+				<option value="aplicativo.id=15"  id="aplicativo.id=15">IMAG</option>
+				<option value="aplicativo.id=16"  id="aplicativo.id=16">INBU</option>
+				<option value="aplicativo.id=17"  id="aplicativo.id=17">INCA</option>
+				<option value="aplicativo.id=18"  id="aplicativo.id=18">INVE</option>
+				<option value="aplicativo.id=19"  id="aplicativo.id=19">ISMW</option>
+				<option value="aplicativo.id=20"  id="aplicativo.id=20">MEJP</option>
+				<option value="aplicativo.id=21"  id="aplicativo.id=21">MGEN</option>
+				<option value="aplicativo.id=22"  id="aplicativo.id=22">MIND</option>
+				<option value="aplicativo.id=23"  id="aplicativo.id=23">MOVI</option>
+				<option value="aplicativo.id=24"  id="aplicativo.id=24">OBIS</option>
+				<option value="aplicativo.id=25"  id="aplicativo.id=25">PAGO</option>
+				<option value="aplicativo.id=26"  id="aplicativo.id=26">PRES</option>
+				<option value="aplicativo.id=27"  id="aplicativo.id=27">SANI</option>
+				<option value="aplicativo.id=28"  id="aplicativo.id=28">SBOT</option>
+				<option value="aplicativo.id=29"  id="aplicativo.id=29">SIEB</option>
+				<option value="aplicativo.id=30"  id="aplicativo.id=30">TASA</option>
+				<option value="aplicativo.id=31"  id="aplicativo.id=31">TISM</option>
+				<option value="aplicativo.id=32"  id="aplicativo.id=32">WBOF</option>
+				<option value="aplicativo.id=33"  id="aplicativo.id=33">WISM</option>
+				<option value="aplicativo.id=34"  id="aplicativo.id=34">WSAO</option>
+				<option value="aplicativo.id=35"  id="aplicativo.id=35">WSCR</option>
+				<option value="aplicativo.id=36"  id="aplicativo.id=36">WSPX</option>
+				<option value="aplicativo.id=37"  id="aplicativo.id=37">WSRT</option>
 			</select>
-			<input id="estudiosPeticiones.id_aplicativo" name="estudiosPeticiones.id_aplicativo" type="hidden" value=""/>
-
+			
 			<label class="infoCls"  title="Escala" id="escaladoLabel" for="escalado">&nbsp;&nbsp;Escala&nbsp;</label>
-			<select onChange="javascript:vaciarOnSubmit('estudiosEntregas.id_servicio');vaciarOnSubmit('estudiosPeticiones.id_servicio');
-					document.forms[0].submit();return true;" class="textInput" id="escalado" name="escalado" size="7">
+			<select onChange="javascript:document.forms[0].submit();return true;" class="textInput" id="escalado" name="escalado" size="7">
 					<option value="dayly" id="dayly">Diario</option>
 					<option value="weekly" id="weekly">Semanal</option>
 					<option value="monthly" id="monthly">Mensual</option>
@@ -96,8 +89,7 @@
 			</select>
 
 			<label class="infoCls"  title="Operación sobre datos" id="escaladoLabel" for="escalado">&nbsp;&nbsp;Escala&nbsp;</label>
-			<select onChange="javascript:vaciarOnSubmit('estudiosEntregas.id_servicio');vaciarOnSubmit('estudiosPeticiones.id_servicio');
-				document.forms[0].submit();return true;" class="textInput" 
+			<select onChange="javascript:document.forms[0].submit();return true;" class="textInput" 
 				id="operation" name="operation" size="2">
 					<option value="AVG" id="AVG">Promediar</option>
 					<option value="SUM" id="SUM">Totalizar</option>					
@@ -119,12 +111,12 @@
 				<jsp:include page="${containerJSP_120}">
 					<jsp:param name="idseries" value="_serie021" />
 					<jsp:param name="width" value="500px" />
-					<jsp:param name="height" value="340px" />
+					<jsp:param name="height" value="320px" />
 				</jsp:include>
 				<jsp:include page="${containerJSP_121}">
 					<jsp:param name="idseries" value="_serie022" />
 					<jsp:param name="width" value="500px" />
-					<jsp:param name="height" value="140px" />
+					<jsp:param name="height" value="160px" />
 				</jsp:include>
 			</td>
 		</tr>	
@@ -221,57 +213,57 @@
 <%} %>
 	
 	<% 	
-	Object entornoParamValues = request.getAttribute("estudiosEntregas.id_entorno");
+	Object entornoParamValues = request.getAttribute("aplicativo.id_tecnologia");
 	if (entornoParamValues != null){
 		String[] as= (String[]) entornoParamValues;
 		for (int i=0;i<as.length;i++){
 			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
 			//System.out.println("value selected:" + selectedValue);
 		%>			
-			document.getElementById('estudiosEntregas.id_entorno').options[<%=selectedValue%>].selected= 'selected';
+			document.getElementById('aplicativo.id_tecnologia').options[<%=selectedValue%>].selected= 'selected';
 		<%}//for values
 	}else{//if %>
 		   for (var j=0;j<5;j++){
-		  	document.getElementById('estudiosEntregas.id_entorno').options[j].selected = 'selected';
+		  	document.getElementById('aplicativo.id_tecnologia').options[j].selected = 'selected';
 		   }
   <%} %>
   
   <% 	
-	Object servicioParamValues = request.getAttribute("estudiosEntregas.id_servicio");
+	Object servicioParamValues = request.getAttribute("aplicativo.id_servicio");
 	if (servicioParamValues != null){
 		String[] as= (String[]) servicioParamValues;
 		for (int i=0;i<as.length;i++){
 			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
 			//System.out.println("value selected:" + selectedValue);
 		%>			
-			document.getElementById('estudiosEntregas.id_servicio').options[<%=selectedValue%>].selected= 'selected';
+			document.getElementById('aplicativo.id_servicio').options[<%=selectedValue%>].selected= 'selected';
 		<%}//si hay seleccionado un servicio, anular la selection de aplicaciones%>		
 		for (var j=0;j<37;j++){
-		  	document.getElementById('estudiosEntregas.id_aplicativo').options[j].selected = '';
+		  	document.getElementById('aplicativo.id').options[j].selected = '';
 		}
 	<%}else{//if %>
 		   for (var j=0;j<3;j++){
-		  	document.getElementById('estudiosEntregas.id_servicio').options[j].selected = '';
+		  	document.getElementById('aplicativo.id_servicio').options[j].selected = '';
 		   }
   <%} %>
 
   	
 	<% 	
-	Object aplicativoParamValues = request.getAttribute("estudiosEntregas.id_aplicativo");
+	Object aplicativoParamValues = request.getAttribute("aplicativo.id");
 	if (aplicativoParamValues != null){
 		String[] as= (String[]) aplicativoParamValues;
 		for (int i=0;i<as.length;i++){
 			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
 			//System.out.println("value selected:" + selectedValue);
 		%>			
-			document.getElementById('estudiosEntregas.id_aplicativo').options[<%=selectedValue%>].selected= 'selected';
+			document.getElementById('aplicativo.id').options[<%=selectedValue%>].selected= 'selected';
 		<%}%>
 		for (var j=0;j<3;j++){
-		  	document.getElementById('estudiosEntregas.id_servicio').options[j].selected = '';
+		  	document.getElementById('aplicativo.id_servicio').options[j].selected = '';
 		}
 	<%}else{//if %>
 		   for (var j=0;j<37;j++){
-		  	document.getElementById('estudiosEntregas.id_aplicativo').options[j].selected = 'selected';
+		  	document.getElementById('aplicativo.id').options[j].selected = 'selected';
 		   }
 	<%} %>
 	
