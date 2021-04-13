@@ -18,15 +18,17 @@ import facturacionUte.common.ConstantesModelo;
 
 public class BorrarResumenes extends DefaultStrategyRequest{
 	
-	public static IEntityLogic estudioPeticionesEntidad, resumenPeticionEntidad;
+	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, resumenPeticionEntidad;
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
-		if (estudioPeticionesEntidad == null) {			
+		if (estudiosEntidad == null) {			
 			try {
-				estudioPeticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.ESTUDIOS_PETICIONES_ENTIDAD);
+				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.ESTUDIOS_ENTIDAD);
 				resumenPeticionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
+						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);				
+				resumenEntregaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.RESUMENENTREGAS_ENTIDAD);
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}			
@@ -62,17 +64,20 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			}
 			
 			//obtenemos el id que es secuencial
-			Long idEstudio = (Long) estudioFSet_.getValue(estudioPeticionesEntidad.searchField(ConstantesModelo.ESTUDIOS_PETICIONES_1_ID).getName());
-			FieldViewSet resumenesFilter = new FieldViewSet(resumenPeticionEntidad);
-			resumenesFilter.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
-			FieldViewSetCollection fsetColl = new FieldViewSetCollection();
-			fsetColl.getFieldViewSets().add(resumenesFilter);
-			dataAccess.deleteEntities(fsetColl);
-			/*int deleted = 
-			 * if (deleted <= 0) {
-				throw new StrategyException("Error borrando resumen de estudio por petición");
-			}*/
-						
+			Long idEstudio = (Long) estudioFSet_.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+			FieldViewSet resumenes1Filter = new FieldViewSet(resumenPeticionEntidad);
+			resumenes1Filter.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
+			FieldViewSetCollection fsetColl1 = new FieldViewSetCollection();
+			fsetColl1.getFieldViewSets().add(resumenes1Filter);
+			dataAccess.deleteEntities(fsetColl1);
+
+			FieldViewSet resumenes2Filter = new FieldViewSet(resumenEntregaEntidad);
+			resumenes2Filter.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_2_ID_ESTUDIO).getName(), idEstudio);
+			FieldViewSetCollection fsetColl2 = new FieldViewSetCollection();
+			fsetColl2.getFieldViewSets().add(resumenes2Filter);
+			dataAccess.deleteEntities(fsetColl2);
+
+			
 		} catch (final StrategyException ecxx) {
 			throw ecxx;
 		} catch (final Throwable exc2) {

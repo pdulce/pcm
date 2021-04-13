@@ -63,99 +63,6 @@ CREATE TABLE `tareasPeticion` (
  );
 
 
-DROP TABLE `estudiosPeticiones`;
-CREATE TABLE `estudiosPeticiones` (
-  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
-  `tituloEstudio` varchar(250) NULL,
-  `id_entorno` int(11) DEFAULT NULL,
-  `aplicaciones` varchar(500) DEFAULT NULL,
-  `fecha_inicio_estudio` date NOT NULL,
-  `fecha_fin_estudio` date NOT NULL,
-  `num_peticiones` int(6) DEFAULT NULL,
-  `num_meses` int(4) DEFAULT NULL,
-  `ciclo_vida` double DEFAULT NULL,  
-  `duracion_analysis` double DEFAULT NULL,
-  `duracion_desarrollo` double DEFAULT NULL,
-  `duracion_entregas` double DEFAULT NULL,
-  `duracion_pruebas` double DEFAULT NULL,
-  `gap_tram_iniRealDesa` double DEFAULT NULL,
-  `gap_finDesa_solicEntrega` double DEFAULT NULL,
-  `gap_finPrue_Producc` double DEFAULT NULL,
-  `total_dedicaciones` double DEFAULT NULL,
-  `total_gaps` double DEFAULT NULL,
-  `ciclo_vida_permonth` double DEFAULT NULL,  
-  `duracion_analysis_permonth` double DEFAULT NULL,
-  `duracion_desarrollo_permonth` double DEFAULT NULL,
-  `duracion_entregas_permonth` double DEFAULT NULL,
-  `duracion_pruebas_permonth` double DEFAULT NULL,
-  `gap_tram_iniRealDesa_permonth` double DEFAULT NULL,
-  `gap_finDesa_solicEntrega_permonth` double DEFAULT NULL,
-  `gap_finPrue_Producc_permonth` double DEFAULT NULL,
-  `total_dedicaciones_permonth` double DEFAULT NULL,
-  `total_gaps_permonth` double DEFAULT NULL,
-  `ciclo_vida_perpet` double DEFAULT NULL,  
-  `duracion_analysis_perpet` double DEFAULT NULL,
-  `duracion_desarrollo_perpet` double DEFAULT NULL,
-  `duracion_entregas_perpet` double DEFAULT NULL,
-  `duracion_pruebas_perpet` double DEFAULT NULL,
-  `gap_tram_iniRealDesa_perpet` double DEFAULT NULL,
-  `gap_finDesa_solicEntrega_perpet` double DEFAULT NULL,
-  `gap_finPrue_Producc_perpet` double DEFAULT NULL,
-  `total_dedicaciones_perpet` double DEFAULT NULL,
-  `total_gaps_perpet` double DEFAULT NULL,  
-  `porc_duracion_analysis` double DEFAULT NULL,
-  `porc_duracion_desarrollo` double DEFAULT NULL,
-  `porc_duracion_entrega` double DEFAULT NULL,
-  `porc_pruebas` double DEFAULT NULL,
-  `porc_gap_tram_iniRealDesa` double DEFAULT NULL,
-  `porc_gap_finDesa_solicEntrega` double DEFAULT NULL,
-  `porc_gap_finPrue_Producc` double DEFAULT NULL,
-  `porc_total_dedicaciones` double DEFAULT NULL,        
-  `porc_total_gaps` double DEFAULT NULL,
-  `id_servicio` int(11) DEFAULT NULL,
-  `tipo_periodo` int(11) DEFAULT NULL,  
-  `total_hrs_analisis` double DEFAULT NULL,
-  `hrs_analisis_permonth` double DEFAULT NULL,
-  `hrs_analisis_perpet` double DEFAULT NULL,
-  `total_uts` double DEFAULT NULL,
-  `uts_permonth` double DEFAULT NULL,
-  `uts_perpet` double DEFAULT NULL,
-  `id_aplicativo` int(11) DEFAULT NULL,
-  `ciclo_vida_perappmonth` double DEFAULT NULL,  
-  `duracion_analysis_perappmonth` double DEFAULT NULL,
-  `duracion_desarrollo_perappmonth` double DEFAULT NULL,
-  `duracion_entregas_perappmonth` double DEFAULT NULL,
-  `duracion_pruebas_perappmonth` double DEFAULT NULL,
-  `gap_tram_iniRealDesa_perappmonth` double DEFAULT NULL,
-  `gap_finDesa_solicEntrega_perappmonth` double DEFAULT NULL,
-  `gap_finPrue_Producc_perappmonth` double DEFAULT NULL,
-  `total_dedicaciones_perappmonth` double DEFAULT NULL,
-  `total_gaps_perappmonth` double DEFAULT NULL,   
-  `hrs_analisis_perappmonth` double DEFAULT NULL,
-  `uts_perappmonth` double DEFAULT NULL,      
-  `ciclo_vida_perapp` double DEFAULT NULL,  
-  `duracion_analysis_perapp` double DEFAULT NULL,
-  `duracion_desarrollo_perapp` double DEFAULT NULL,
-  `duracion_entregas_perapp` double DEFAULT NULL,
-  `duracion_pruebas_perapp` double DEFAULT NULL,
-  `gap_tram_iniRealDesa_perapp` double DEFAULT NULL,
-  `gap_finDesa_solicEntrega_perapp` double DEFAULT NULL,
-  `gap_finPrue_Producc_perapp` double DEFAULT NULL,
-  `total_dedicaciones_perapp` double DEFAULT NULL,
-  `total_gaps_perapp` double DEFAULT NULL,     
-  `hrs_analisis_perapp` double DEFAULT NULL,
-  `uts_perapp` double DEFAULT NULL,    
-  `esfuerzo_pruebas_estudio` double DEFAULT NULL,
-  `esfuerzo_pruebas_permonth` double DEFAULT NULL,    
-  `esfuerzo_pruebas_perappmonth` double DEFAULT NULL,
-  `esfuerzo_pruebas_perapp` double DEFAULT NULL,       
-  `esfuerzo_pruebas_perpet` double DEFAULT NULL,
-  `tipo_peticiones` int(11) DEFAULT NULL,
-  `desnormalizadasTipoPet` varchar(500) DEFAULT NULL,
-  `id_configuradorEstudios` int(11) DEFAULT NULL,
-  `fec_lanzado_estudio` TIMESTAMP NULL
-);  
-
 DROP TABLE `configuradorEstudios`;
 CREATE TABLE `configuradorEstudios` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
@@ -179,6 +86,20 @@ CREATE TABLE `configuradorEstudios` (
   `alias_tarea_analisis` varchar(50) DEFAULT NULL,
   `alias_tarea_pruebas` varchar(50) DEFAULT NULL
 );
+
+DROP TABLE `estudios`;
+CREATE TABLE `estudios` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `titulo` varchar(250) NULL,
+  `id_aplicativo` int(11) DEFAULT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `num_meses` int(4) DEFAULT NULL,  
+  `id_periodo` int(11) DEFAULT NULL,
+  `volatile_tipopeticiones` int(11) DEFAULT NULL,
+  `id_configuradorEstudios` int(11) DEFAULT NULL,
+  `fec_lanzado_estudio` TIMESTAMP NULL
+ );
 
 DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (
@@ -215,43 +136,6 @@ CREATE TABLE `resumenPeticiones` (
   `titulo` varchar(500) DEFAULT NULL
 );  
 
-
-DROP TABLE `estudiosEntregas`;
-CREATE TABLE `estudiosEntregas` (
-  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
-  `tituloEstudio` varchar(250) NULL,
-  `id_entorno` int(11) DEFAULT NULL,
-  `id_servicio` int(11) DEFAULT NULL,
-  `aplicaciones` varchar(500) DEFAULT NULL,
-  `fecha_inicio_estudio` date NOT NULL,
-  `fecha_fin_estudio` date NOT NULL,
-  `num_entregas_total` int(6) DEFAULT NULL,
-  `num_meses` int(4) DEFAULT NULL,  
-  `tipo_periodo`  int(11) DEFAULT NULL,
-  `num_peticiones_total` int(6) DEFAULT NULL,
-  `volumen_uts_total` double DEFAULT NULL,
-  `num_rechazos_total` int(4) DEFAULT NULL,
-  `ciclo_vida_entrega` double DEFAULT NULL,
-  `tiempo_prepacion_en_DG` double DEFAULT NULL,
-  `tiempo_validacion_en_CD` double DEFAULT NULL,
-  `tiempo_desdeValidacion_hastaImplantacion` double DEFAULT NULL,  
-  `num_peticiones_porentrega` int(6) DEFAULT NULL,
-  `volumen_uts_porentrega` double DEFAULT NULL,
-  `num_rechazos_porentrega` int(4) DEFAULT NULL,
-  `ciclo_vida_porentrega` double DEFAULT NULL,
-  `tiempo_prepacion_en_DG_porentrega` double DEFAULT NULL,
-  `tiempo_validacion_en_CD_porentrega` double DEFAULT NULL,
-  `tiempo_fromValidac_toImplantac_porentrega` double DEFAULT NULL,    
-  `tiempo_prepacion_en_DG_porcent` double DEFAULT NULL,
-  `tiempo_validacion_en_CD_porcent` double DEFAULT NULL,
-  `tiempo_fromValidac_toImplantac_porcent` double DEFAULT NULL,
-  `id_configuradorEstudios` int(11) DEFAULT NULL,
-  `id_aplicativo` int(11) DEFAULT NULL,
-  `tipo_entregas` int(11) DEFAULT NULL,
-  `desnormalizadasTipoPet` varchar(500) DEFAULT NULL,
-  `fec_lanzado_estudio` TIMESTAMP NULL
-);
-
 DROP TABLE `resumenEntregas`;
 CREATE TABLE `resumenEntregas` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -273,13 +157,12 @@ CREATE TABLE `resumenEntregas` (
   `tiempo_desdeValidacion_hastaImplantacion` double DEFAULT NULL  
 );  
 
-
-
+ 
 
 CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
-CREATE INDEX index_Estudios_sr ON estudiosPeticiones (id_servicio);
-CREATE INDEX index_Estudios_ti ON estudiosPeticiones (tituloEstudio, fecha_inicio_estudio);
+CREATE INDEX index_Estudios_sr ON estudios (id_aplicativo);
+CREATE INDEX index_Estudios_ti ON estudios (fecha_inicio);
 CREATE INDEX index_search_gedeones_1 on peticiones (id);
 CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 

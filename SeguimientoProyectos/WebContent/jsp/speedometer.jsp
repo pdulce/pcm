@@ -105,7 +105,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
         }]
     },
 	
-    series:  [{"data":[1.23],"name":"núm. rechazos","tooltip":{"valueSuffix":" "}}]
+    series:  [{"data":[<%=request.getAttribute(idseries+"speedometerdato")%>],"name":"núm. rechazos","tooltip":{"valueSuffix":" "}}]
 
 },
 // Add some life

@@ -80,106 +80,24 @@
     <field mappingTo="13" name="Fecha_de_tramitacion" type="date" length="10" required="false"/>
 </entity>
 
-	
 <entity>
-    <entityname>estudiosPeticiones</entityname>
+    <entityname>estudios</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="tituloEstudio" type="string" length="250" required="false"/>    
-    <field mappingTo="3" name="id_entorno" type="long" length="11" required="true" 
-	    fkParentEntities="tecnologia" fkParentFields="1"/>  
-	<field mappingTo="4" name="aplicaciones" type="string" length="500" required="false"/>	
-	<field mappingTo="5" name="fecha_inicio_estudio" type="date" length="10" required="false"/>
-	<field mappingTo="6" name="fecha_fin_estudio" type="date" length="10" required="false"/>
-	<field mappingTo="7" name="num_peticiones" type="int" length="6" required="false"/>
-	<field mappingTo="8" name="num_meses" type="int" length="4" required="false"/>		
-	<field mappingTo="9" name="total_uts" type="double" length="10" required="false"/>	    
-    <field mappingTo="10" name="ciclo_vida" type="double" length="10" required="false"/>    
-    <field mappingTo="11" name="duracion_analysis" type="double" length="10" required="false"/>
-    <field mappingTo="12" name="duracion_desarrollo" type="double" length="10" required="false"/>    
-    <field mappingTo="13" name="duracion_entregas" type="double" length="10" required="false"/>       
-    <field mappingTo="14" name="duracion_pruebas" type="double" length="10" required="false"/>
-    <field mappingTo="15" name="gap_tram_iniRealDesa" type="double" length="10" required="false"/>
-    <field mappingTo="16" name="gap_finDesa_solicEntrega" type="double" length="10" required="false"/>
-    <field mappingTo="17" name="gap_finPrue_Producc" type="double" length="10" required="false"/>
-    <field mappingTo="18" name="total_dedicaciones" type="double" length="10" required="false"/>
-    <field mappingTo="19" name="total_gaps" type="double" length="10" required="false"/>
-    <field mappingTo="20" name="ciclo_vida_permonth" type="double" length="10" required="false"/>    
-    <field mappingTo="21" name="duracion_analysis_permonth" type="double" length="10" required="false"/>
-    <field mappingTo="22" name="duracion_desarrollo_permonth" type="double" length="10" required="false"/>    
-    <field mappingTo="23" name="duracion_entregas_permonth" type="double" length="10" required="false"/>
-    <field mappingTo="24" name="duracion_pruebas_permonth" type="double" length="10" required="false"/>
-    <field mappingTo="25" name="gap_tram_iniRealDesa_permonth" type="double" length="10" required="false"/>
-    <field mappingTo="26" name="gap_finDesa_solicEntrega_permonth" type="double" length="10" required="false"/>
-    <field mappingTo="27" name="gap_finPrue_Producc_permonth" type="double" length="10" required="false"/>
-    <field mappingTo="28" name="total_dedicaciones_permonth" type="double" length="10" required="false"/>
-    <field mappingTo="29" name="total_gaps_permonth" type="double" length="10" required="false"/>	
-	<field mappingTo="30" name="ciclo_vida_perpet" type="double" length="10" required="false"/>    
-    <field mappingTo="31" name="duracion_analysis_perpet" type="double" length="10" required="false"/>
-    <field mappingTo="32" name="duracion_desarrollo_perpet" type="double" length="10" required="false"/>    
-    <field mappingTo="33" name="duracion_entregas_perpet" type="double" length="10" required="false"/>    
-    <field mappingTo="34" name="duracion_pruebas_perpet" type="double" length="10" required="false"/>
-    <field mappingTo="35" name="gap_tram_iniRealDesa_perpet" type="double" length="10" required="false"/>
-    <field mappingTo="36" name="gap_finDesa_solicEntrega_perpet" type="double" length="10" required="false"/>
-    <field mappingTo="37" name="gap_finPrue_Producc_perpet" type="double" length="10" required="false"/>
-    <field mappingTo="38" name="total_dedicaciones_perpet" type="double" length="10" required="false"/>
-    <field mappingTo="39" name="total_gaps_perpet" type="double" length="10" required="false"/>
-    <field mappingTo="40" name="porc_duracion_analysis" type="double" length="6" required="false"/>
-    <field mappingTo="41" name="porc_duracion_desarrollo" type="double" length="6" required="false"/>    
-    <field mappingTo="42" name="porc_duracion_entrega" type="double" length="6" required="false"/>    
-    <field mappingTo="43" name="porc_pruebas" type="double" length="6" required="false"/>
-    <field mappingTo="44" name="porc_gap_tram_iniRealDesa" type="double" length="6" required="false"/>
-    <field mappingTo="45" name="porc_gap_finDesa_solicEntrega" type="double" length="6" required="false"/>
-    <field mappingTo="46" name="porc_gap_finPrue_Producc" type="double" length="6" required="false"/>
-    <field mappingTo="47" name="porc_total_dedicaciones" type="double" length="6" required="false"/>
-    <field mappingTo="48" name="porc_total_gaps" type="double" length="6" required="false"/>    
-    <field mappingTo="49" name="id_servicio" type="long" length="11" required="false" 
-	    fkParentEntities="servicioUTE" fkParentFields="1"/>   
-	<field mappingTo="50" name="tipo_periodo" type="long" length="11" required="true" 
+    <field mappingTo="2" name="titulo" type="string" length="250" required="false"/>    
+	<field mappingTo="3" name="id_aplicativo" type="long" length="11" required="false" 
+	    fkParentEntities="aplicativo" fkParentFields="1"/>
+	<field mappingTo="4" name="fecha_inicio" type="date" length="10" required="false"/>
+	<field mappingTo="5" name="fecha_fin" type="date" length="10" required="false"/>
+	<field mappingTo="6" name="num_meses" type="int" length="4" required="false"/>
+	<field mappingTo="7" name="id_periodo" type="long" length="11" required="true" 
 	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>	
-	<field mappingTo="51" name="total_hrs_analisis" type="double" length="6" required="false"/>
-	<field mappingTo="52" name="hrs_analisis_permonth" type="double" length="6" required="false"/>
-	<field mappingTo="53" name="hrs_analisis_perpet" type="double" length="6" required="false"/>
-	<field mappingTo="54" name="uts_permonth" type="double" length="6" required="false"/>
-	<field mappingTo="55" name="uts_perpet" type="double" length="6" required="false"/>
-	<field mappingTo="56" name="id_aplicativo" type="long" length="11" required="false" 
-	    fkParentEntities="aplicativo" fkParentFields="1"/>   		    
-	<field mappingTo="57" name="ciclo_vida_perappmonth" type="double" length="10" required="false"/>    
-    <field mappingTo="58" name="duracion_analysis_perappmonth" type="double" length="10" required="false"/>
-    <field mappingTo="59" name="duracion_desarrollo_perappmonth" type="double" length="10" required="false"/>    
-    <field mappingTo="60" name="duracion_entregas_perappmonth" type="double" length="10" required="false"/>    
-    <field mappingTo="61" name="duracion_pruebas_perappmonth" type="double" length="10" required="false"/>
-    <field mappingTo="62" name="gap_tram_iniRealDesa_perappmonth" type="double" length="10" required="false"/>
-    <field mappingTo="63" name="gap_finDesa_solicEntrega_perappmonth" type="double" length="10" required="false"/>
-    <field mappingTo="64" name="gap_finPrue_Producc_perappmonth" type="double" length="10" required="false"/>
-    <field mappingTo="65" name="total_dedicaciones_perappmonth" type="double" length="10" required="false"/>
-    <field mappingTo="66" name="total_gaps_perappmonth" type="double" length="10" required="false"/>
-    <field mappingTo="67" name="hrs_analisis_perappmonth" type="double" length="6" required="false"/>
-	<field mappingTo="68" name="uts_perappmonth" type="double" length="6" required="false"/>
-	<field mappingTo="69" name="ciclo_vida_perapp" type="double" length="10" required="false"/>    
-    <field mappingTo="70" name="duracion_analysis_perapp" type="double" length="10" required="false"/>
-    <field mappingTo="71" name="duracion_desarrollo_perapp" type="double" length="10" required="false"/>    
-    <field mappingTo="72" name="duracion_entregas_perapp" type="double" length="10" required="false"/>    
-    <field mappingTo="73" name="duracion_pruebas_perapp" type="double" length="10" required="false"/>
-    <field mappingTo="74" name="gap_tram_iniRealDesa_perapp" type="double" length="10" required="false"/>
-    <field mappingTo="75" name="gap_finDesa_solicEntrega_perapp" type="double" length="10" required="false"/>
-    <field mappingTo="76" name="gap_finPrue_Producc_perapp" type="double" length="10" required="false"/>
-    <field mappingTo="77" name="total_dedicaciones_perapp" type="double" length="10" required="false"/>
-    <field mappingTo="78" name="total_gaps_perapp" type="double" length="10" required="false"/>
-    <field mappingTo="79" name="hrs_analisis_perapp" type="double" length="6" required="false"/>
-	<field mappingTo="80" name="uts_perapp" type="double" length="6" required="false"/>		
-	<field mappingTo="81" name="esfuerzo_pruebas_estudio" type="double" length="6" required="false"/>
-	<field mappingTo="82" name="esfuerzo_pruebas_permonth" type="double" length="6" required="false"/>
-	<field mappingTo="83" name="esfuerzo_pruebas_perappmonth" type="double" length="6" required="false"/>
-	<field mappingTo="84" name="esfuerzo_pruebas_perapp" type="double" length="6" required="false"/>
-	<field mappingTo="85" name="esfuerzo_pruebas_perpet" type="double" length="6" required="false"/>
-	<field mappingTo="86" name="tipo_peticiones" type="long" length="11" required="true" 
-	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>	
-	<field mappingTo="87" name="desnormalizadasTipoPet" type="string" length="200" required="false"/>
-	<field mappingTo="88" name="id_configuradorEstudios" type="long" length="11" required="true" 
+	<field mappingTo="8" name="volatile_tipopeticiones" type="long" length="11" required="false" 
+	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>
+	<field mappingTo="9" name="id_configuradorEstudios" type="long" length="11" required="false"
 	   fkParentEntities="configuradorEstudios" fkParentFields="1"/>
-	<field mappingTo="89" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>
-  </entity>	
-  
+	<field mappingTo="10" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>	    
+</entity>
+
   <entity>
     <entityname>configuradorEstudios</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
@@ -208,7 +126,7 @@
     <entityname>resumenPeticiones</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="true" 
-	    fkParentEntities="estudiosPeticiones" fkParentFields="1"/>    
+	    fkParentEntities="estudios" fkParentFields="1"/>    
     <field mappingTo="3" name="id_aplicativo" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>
 	<field mappingTo="4" name="tipo" type="string" length="50" required="false"/>
@@ -240,55 +158,12 @@
     <field mappingTo="30" name="esfuerzo_pruebas" type="double" length="6" required="false"/>
     <field mappingTo="31" name="titulo" type="string" length="500" required="false"/>
   </entity>
-  
-  
-  <entity>
-    <entityname>estudiosEntregas</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="tituloEstudio" type="string" length="250" required="false"/>    
-    <field mappingTo="3" name="id_entorno" type="long" length="11" required="true" 
-	    fkParentEntities="tecnologia" fkParentFields="1"/>  
-	<field mappingTo="4" name="id_servicio" type="long" length="11" required="false" 
-	    fkParentEntities="servicioUTE" fkParentFields="1"/>      
-	<field mappingTo="5" name="aplicaciones" type="string" length="500" required="false"/>	
-	<field mappingTo="6" name="fecha_inicio_estudio" type="date" length="10" required="false"/>
-	<field mappingTo="7" name="fecha_fin_estudio" type="date" length="10" required="false"/>
-	<field mappingTo="8" name="num_entregas_total" type="int" length="6" required="false"/>
-	<field mappingTo="9" name="num_meses" type="int" length="4" required="false"/>
-	<field mappingTo="10" name="tipo_periodo" type="long" length="11" required="true" 
-	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>	
-	<field mappingTo="11" name="num_peticiones_total" type="int" length="6" required="false"/>
-	<field mappingTo="12" name="volumen_uts_total" type="double" length="10" required="false"/>	
-	<field mappingTo="13" name="num_rechazos_total" type="int" length="6" required="false"/>
-    <field mappingTo="14" name="ciclo_vida_entrega" type="double" length="10" required="false"/>    
-    <field mappingTo="15" name="tiempo_prepacion_en_DG" type="double" length="10" required="false"/>
-    <field mappingTo="16" name="tiempo_validacion_en_CD" type="double" length="10" required="false"/>
-    <field mappingTo="17" name="tiempo_desdeValidacion_hastaImplantacion" type="double" length="10" required="false"/>
-	<field mappingTo="18" name="num_peticiones_porentrega" type="int" length="6" required="false"/>
-	<field mappingTo="19" name="volumen_uts_porentrega" type="double" length="10" required="false"/>	
-	<field mappingTo="20" name="num_rechazos_porentrega" type="int" length="6" required="false"/>
-    <field mappingTo="21" name="ciclo_vida_porentrega" type="double" length="10" required="false"/>    
-    <field mappingTo="22" name="tiempo_prepacion_en_DG_porentrega" type="double" length="10" required="false"/>
-    <field mappingTo="23" name="tiempo_validacion_en_CD_porentrega" type="double" length="10" required="false"/>
-    <field mappingTo="24" name="tiempo_fromValidac_toImplantac_porentrega" type="double" length="10" required="false"/>
-    <field mappingTo="25" name="tiempo_prepacion_en_DG_porcent" type="double" length="10" required="false"/>
-    <field mappingTo="26" name="tiempo_validacion_en_CD_porcent" type="double" length="10" required="false"/>
-    <field mappingTo="27" name="tiempo_fromValidac_toImplantac_porcent" type="double" length="10" required="false"/>
-    <field mappingTo="28" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>
-    <field mappingTo="29" name="id_configuradorEstudios" type="long" length="11" required="true" 
-	   fkParentEntities="configuradorEstudios" fkParentFields="1"/>    
-    <field mappingTo="30" name="id_aplicativo" type="long" length="11" required="false" 
-	    fkParentEntities="aplicativo" fkParentFields="1"/>
-	<field mappingTo="31" name="tipo_entregas" type="long" length="11" required="false" 
-	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>
-	<field mappingTo="32" name="desnormalizadasTipoPet" type="string" length="500" required="false"/>
-  </entity>
-   
+     
   <entity>
     <entityname>resumenEntregas</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="false" 
-	    fkParentEntities="estudiosEntregas" fkParentFields="1"/>
+	    fkParentEntities="estudios" fkParentFields="1"/>
     <field mappingTo="3" name="id_aplicacion" type="long" length="11" required="false" 
 	    fkParentEntities="aplicativo" fkParentFields="1"/>
     <field mappingTo="4" name="id_gedeon_entrega" type="long" length="11" required="false" 

@@ -34,7 +34,7 @@ public class SpeedoMeter extends Pie {
 		
 		seriesJSON.add(serie);
 		
-		
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("dato"), CommonUtils.roundWith2Decimals(totalizadoOPromediado));
 		return seriesJSON.toJSONString();
 	}
 	

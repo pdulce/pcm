@@ -9,12 +9,11 @@ xmlns:service="http://pcm.framework.org/service"
 	<service name="EstudioPeticiones" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="EstudioPeticiones.query"
-			submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.FiltrarConsultaEstudios"
-			strategy="facturacionUte.strategies.FiltrarConsultaEstudiosPost">
+			submitSucces="EstudioPeticiones.query" strategy="facturacionUte.strategies.FiltrarConsultaEstudiosPost">
 
 			<viewComponent>
 
-				<form columns="2" title="Estudios Estadísticos de Peticiones">
+				<form columns="2" title="Estudios Ciclos Vida de Peticiones">
 				
 					<userbuttons>
 				
@@ -71,54 +70,37 @@ xmlns:service="http://pcm.framework.org/service"
 						
 						
 					</userbuttons>
+												
+					<fieldViewSet entitymodel="estudios" nameSpace="estudios">
 					
-							
-					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">
-					
-						<fieldset legend="Filtrar por Tecnología y Servicio">			
-															
-							<fieldView mappingTo="3" type="select">
-								<optionValues entitymodel="tecnologia"
-									descrMappingTo="2" selectionMultiple="true">
+						<fieldset legend="Filtrar por datos del estudio">
+							<fieldView mappingTo="2" editable="true" />
+							<fieldView mappingTo="7" type="select" editable="true">
+								<optionValues entitymodel="tiposPeriodos"
+									descrMappingTo="3">
 								</optionValues>
 							</fieldView>
-							
-							<fieldView mappingTo="49" type="select" size="3">
-								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2" selectionMultiple="true">
-								</optionValues>
-							</fieldView>
-							
-							<fieldView mappingTo="56" type="select" size="8" editable="true">
-								<optionValues entitymodel="aplicativo" selectionMultiple="true"
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="9" type="select" editable="true">
+								<optionValues entitymodel="configuradorEstudios"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
-							
-							<fieldView separator="br" />
-							<fieldView separator="br" />
-							<fieldView mappingTo="50" type="select">
-								<optionValues entitymodel="tiposPeriodos"
-									descrMappingTo="3" selectionMultiple="true">
-								</optionValues>
-							</fieldView>
-							<fieldView separator="br" />
-							
-						</fieldset>
-						
-						<fieldset legend="Filtrar por Fechas del estudio">
+							<fieldView mappingTo="4" editable="true" />
 							<fieldView mappingTo="5" editable="true" />
-							<fieldView mappingTo="6" editable="true" />							
+							<fieldView mappingTo="6" editable="true" />											
+							<fieldView separator="br" />
 						</fieldset>
 																	
 					</fieldViewSet>
 				</form>
-				<grid title="Listado de Estudios realizados" orderDirection="desc" defaultOrderField="estudiosPeticiones.89"
+				<grid title="Listado de Estudios realizados" orderDirection="desc" defaultOrderField="estudios.89"
 					eventsRegistered="detail, create, delete">
-					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">
+					<fieldViewSet entitymodel="estudios" nameSpace="estudios">
 						<fieldView mappingTo="1" hidden="true"/>
 						<fieldView mappingTo="49" hidden="true"/>
-						<fieldView mappingTo="56" hidden="true"/>
+						<fieldView mappingTo="3" hidden="true"/>
 						<fieldView mappingTo="89"/>
 						<fieldView mappingTo="2" />						
 						<fieldView mappingTo="7" />
@@ -146,117 +128,6 @@ xmlns:service="http://pcm.framework.org/service"
 		</action>
 		
 		
-		<action event="delete" submitError="EstudioPeticiones.delete"
-			submitSucces="EstudioPeticiones.query" strategyPre="facturacionUte.strategies.BorrarResumenes">
-			<viewComponent>
-				<form columns="2" title="Borrar Estudio Ciclo Vida Peticiones">
-					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">					
-						<fieldset legend="Estudio">											
-							<fieldView mappingTo="1" hidden="true" />
-							<fieldView mappingTo="89" editable="false" />
-							<fieldView mappingTo="49" type="select" size="3" editable="false">
-								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							<fieldView mappingTo="56" type="select" size="3" editable="false">
-								<optionValues entitymodel="aplicativo"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							<fieldView mappingTo="3" type="select" editable="false">
-								<optionValues entitymodel="tecnologia"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							<fieldView mappingTo="50" type="select" editable="false">
-								<optionValues entitymodel="tiposPeriodos"
-									descrMappingTo="3">
-								</optionValues>
-							</fieldView>
-							
-							<fieldView mappingTo="88" type="select" editable="false">
-								<optionValues entitymodel="configuradorEstudios"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							
-							<fieldView mappingTo="4" editable="false" />							
-							<fieldView separator="br" />
-									
-						</fieldset>
-								
-						<fieldset legend="Fechas del estudio (inicio-fin)">
-							<fieldView mappingTo="5" editable="false" />
-							<fieldView mappingTo="6" editable="false" />
-						</fieldset>
-																			
-					</fieldViewSet>
-				</form>
-			</viewComponent>
-			
-		</action>
-		
-		<action event="create" submitError="EstudioPeticiones.create" 
-				strategyPre="facturacionUte.strategies.TipoEstudioAGenerar"
-			submitSucces="EstudioPeticiones.query" strategy="facturacionUte.strategies.GenerarEstudioCicloVida">
-			<viewComponent>
-				<form columns="2" title="Generar Estudio Ciclo Vida Peticiones por períodos">
-					<fieldViewSet entitymodel="estudiosPeticiones" nameSpace="estudiosPeticiones">					
-						<fieldset legend="Escoja Servicio o Aplicación, tipos de peticiones, máximo de uts, etc...">											
-							
-							<fieldView mappingTo="49" type="select" size="3" editable="true">
-								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							<fieldView separator="br" />
-							<fieldView separator="br" />
-							<fieldView mappingTo="56" type="select" size="10" editable="true">
-								<optionValues selectionMultiple="true" entitymodel="aplicativo"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>				
-							
-							<fieldView separator="br" />
-							<fieldView separator="br" />
-							<!-- fieldView mappingTo="50" type="select" editable="false">
-								<optionValues entitymodel="tiposPeriodos"
-									descrMappingTo="3">
-								</optionValues>
-							</fieldView> -->
-							<fieldView mappingTo="86" type="select" size="9" editable="true">
-								<optionValues selectionMultiple="true" entitymodel="tiposPeticiones"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							
-							<fieldView mappingTo="55" editable="true" size="10"/>
-							
-							<fieldView mappingTo="88" type="select" size="8" editable="true">
-								<optionValues entitymodel="configuradorEstudios"
-									descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							
-									
-							<fieldView separator="br" />
-									
-						</fieldset>
-								
-						<fieldset legend="Introduzca fechas del estudio (inicio-fin)">
-							<fieldView mappingTo="5" editable="true" />
-							<fieldView mappingTo="6" editable="true" />
-							
-						</fieldset>
-												
-																			
-					</fieldViewSet>
-				</form>
-			</viewComponent>
-			
-		</action>
-		
 		<action event="detail" submitError="EstudioPeticiones.detail"
 			submitSucces="EstudioPeticiones.detail">
 
@@ -271,7 +142,7 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="highchart" hidden="true" value="timeseries"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
-							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
 							<fieldView name="agregado" type="select" size="1">
 								<optionValues>									
@@ -324,7 +195,7 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>							
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select" size="2">
 								<optionValues selectionMultiple="true">
@@ -363,7 +234,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
 							<fieldView name="agregado" type="select" size="1">
@@ -406,7 +277,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="barchart2">
 							<fieldView name="highchart" hidden="true" value="barchart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select" size="3">
 								<optionValues selectionMultiple="true">
@@ -439,7 +310,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="scatter2">
 							<fieldView name="highchart" hidden="true" value="scatter"/>
 							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
-							<fieldView name="filteredByField" hidden="true" value="2=estudiosPeticiones.1"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/>
 							<fieldView name="orderBy" hidden="true" value="20"/>							
 							<fieldView name="ejeX" type="select" size="1">
@@ -479,162 +350,39 @@ xmlns:service="http://pcm.framework.org/service"
 					
 				</userbuttons>
 				
-				<fieldViewSet entitymodel="estudiosPeticiones"
-					nameSpace="estudiosPeticionesForm">
+				<fieldViewSet entitymodel="estudios"
+					nameSpace="estudiosForm">
 					<fieldset legend="Resumen Estudio">
 						<fieldView mappingTo="1" hidden="true" />
-						<fieldView mappingTo="89" editable="false" />
-						<fieldView mappingTo="49" type="select" size="3" editable="false">
-							<optionValues entitymodel="servicioUTE"
-								descrMappingTo="2">
-							</optionValues>
-						</fieldView>						
+						<fieldView mappingTo="10" editable="false" />
 						<fieldView mappingTo="2" editable="false" />
 						<fieldView mappingTo="3" type="select" editable="false">
-							<optionValues entitymodel="tecnologia"
+							<optionValues entitymodel="aplicativo"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						
-						<fieldView mappingTo="50" type="select" editable="false">
+						<fieldView mappingTo="7" type="select" editable="false">
 							<optionValues entitymodel="tiposPeriodos"
 								descrMappingTo="3">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="87" editable="false" />
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView mappingTo="88" type="select" editable="false">
+						<fieldView mappingTo="9" type="select" editable="false">
 							<optionValues entitymodel="configuradorEstudios"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="7" editable="false" />
 						<fieldView mappingTo="4" editable="false" />
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-												
 						<fieldView mappingTo="5" editable="false" />
 						<fieldView mappingTo="6" editable="false" />											
-						<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;"/>
-						<fieldView separator="br" />
-					</fieldset>
-					<fieldset legend="Agregados en Periodo Estudio">
-						<fieldView mappingTo="51" hidden="true" styleCss="font-weight: bold;color: #38ef7d;"/>		
-						<fieldView mappingTo="9"  editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>	
-						<fieldView mappingTo="10" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="11" editable="false" />
-						<fieldView mappingTo="12" editable="false" />
-						<fieldView mappingTo="13" editable="false" />
-						<fieldView mappingTo="14" editable="false" />
-						<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="15" editable="false" />
-						<fieldView mappingTo="16" editable="false" />
-						<fieldView mappingTo="17" editable="false" />
-						<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-					</fieldset>
-					<fieldset legend="Promedios Mensuales">
-						<fieldView mappingTo="20" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="52" hidden="true" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="54" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>						
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="21" editable="false" />
-						<fieldView mappingTo="22" editable="false" />					
-						<fieldView mappingTo="23" editable="false" />
-						<fieldView mappingTo="24" editable="false" />
-						<fieldView mappingTo="28" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />						
-						<fieldView mappingTo="25" editable="false" />
-						<fieldView mappingTo="26" editable="false" />
-						<fieldView mappingTo="27" editable="false" />		
-						<fieldView mappingTo="29" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-					</fieldset>
-					<fieldset legend="Promedios Mensuales Por Aplicación">	
-						<fieldView mappingTo="57" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="67" hidden="true" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="68" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="58" editable="false" />
-						<fieldView mappingTo="59" editable="false" />
-						<fieldView mappingTo="60" editable="false" />
-						<fieldView mappingTo="61" editable="false" />
-						<fieldView mappingTo="65" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>						
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="62" editable="false"/>
-						<fieldView mappingTo="63" editable="false" />
-						<fieldView mappingTo="64" editable="false" />												
-						<fieldView mappingTo="66" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>						
-						<fieldView separator="br" />
-					</fieldset>
-					
-					<fieldset legend="Promedios Por Aplicación">
-						<fieldView mappingTo="69" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="79" hidden="true" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="80" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="70" editable="false" />
-						<fieldView mappingTo="71" editable="false" />
-						<fieldView mappingTo="72" editable="false" />
-						<fieldView mappingTo="73" editable="false" />
-						<fieldView mappingTo="74" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>						
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="75" editable="false"/>
-						<fieldView mappingTo="76" editable="false" />
-						<fieldView mappingTo="77" editable="false" />												
-						<fieldView mappingTo="78" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>						
 						<fieldView separator="br" />
 					</fieldset>
 										
-					<fieldset legend="Promedios Por Petición">	
-						<fieldView mappingTo="30" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="53" hidden="true" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView mappingTo="55" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="31" editable="false" />
-						<fieldView mappingTo="32" editable="false" />
-						<fieldView mappingTo="33" editable="false" />
-						<fieldView mappingTo="34" editable="false" />
-						<fieldView mappingTo="38" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="35" editable="false" />
-						<fieldView mappingTo="36" editable="false" />
-						<fieldView mappingTo="37" editable="false" />						
-						<fieldView mappingTo="39" editable="false" styleCss="font-weight: bold;color: orange;"/>						
-						<fieldView separator="br" />
-					</fieldset>
-					<fieldset legend="Porcentajes Por Petición">	
-						<fieldView mappingTo="40" editable="false" />
-						<fieldView mappingTo="41" editable="false" />
-						<fieldView mappingTo="42" editable="false" />
-						<fieldView mappingTo="43" editable="false" />
-						<fieldView mappingTo="47" editable="false" styleCss="font-weight: bold;color: #38ef7d;"/>
-						<fieldView separator="br" />
-						<fieldView separator="br" />
-						<fieldView mappingTo="44" editable="false" />
-						<fieldView mappingTo="45" editable="false" />
-						<fieldView mappingTo="46" editable="false" />
-						<fieldView mappingTo="48" editable="false" styleCss="font-weight: bold;color: orange;"/>
-					</fieldset>
 				</fieldViewSet>
 			</form>
 			
-			<grid title="Peticiones del Estudio" dependsOf="estudiosPeticionesForm" orderDirection="asc"
+			<grid title="Peticiones del Estudio" dependsOf="estudiosForm" orderDirection="asc"
 					defaultOrderField="resumenPeticiones.3" eventsRegistered="detail" serviceRef="ResumenPeticionesEstudio">
 				
 				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
