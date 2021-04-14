@@ -392,7 +392,7 @@ xmlns:service="http://pcm.framework.org/service"
 							descrMappingTo="2">
 						</optionValues>
 					</fieldView>
-					<fieldView mappingTo="28" editable="false"  />
+					<fieldView mappingTo="28" editable="false"  />	
 					<fieldView mappingTo="5" editable="false" styleCss="color: #38ef7d;" />
 					<!-- fieldView mappingTo="29" editable="false"  /> -->
 					<fieldView mappingTo="6" editable="false" styleCss="color: #38ef7d;" />
@@ -401,6 +401,7 @@ xmlns:service="http://pcm.framework.org/service"
 					<fieldView mappingTo="17" editable="false" styleCss="color: orange;" />	
 					<fieldView mappingTo="8" editable="false" />
 					<fieldView mappingTo="9" editable="false" />
+					<fieldView mappingTo="10" editable="false"  />
 					<fieldView mappingTo="12" editable="false" />
 				</fieldViewSet>
 			</grid>

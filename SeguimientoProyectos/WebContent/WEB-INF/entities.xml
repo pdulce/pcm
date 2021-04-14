@@ -91,7 +91,7 @@
 	<field mappingTo="4" name="fecha_inicio" type="date" length="10" required="false"/>
 	<field mappingTo="5" name="fecha_fin" type="date" length="10" required="false"/>
 	<field mappingTo="6" name="num_meses" type="int" length="4" required="false"/>
-	<field mappingTo="7" name="id_periodo" type="long" length="11" required="true" 
+	<field mappingTo="7" name="id_periodo" type="long" length="11" required="false" 
 	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>	
 	<field mappingTo="8" name="volatile_tipopeticiones" type="long" length="11" required="false" 
 	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>

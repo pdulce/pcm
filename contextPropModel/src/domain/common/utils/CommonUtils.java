@@ -494,7 +494,7 @@ public final class CommonUtils {
 			//algoritmo con bucle escalonado per day que mira si un día está en fin de semana o es festivo de municipioMadrid/CAM/España
 			Calendar calAux = Calendar.getInstance();
 			calAux.setTime(fechaInicio);
-			while (calAux.compareTo(fechaTope) <= 0) {
+			while (calAux.compareTo(fechaTope) < 0) {
 				if (esFestivo(calAux)) {
 					diasLaborables = diasLaborables - 1.0;
 				}

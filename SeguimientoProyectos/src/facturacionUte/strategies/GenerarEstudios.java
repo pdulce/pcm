@@ -776,7 +776,14 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			
 			String heuristicaMLRCalculoJornadas_Analysis = (String) heuristicaBBDD.getValue(
 					heuristicasEntidad.searchField(ConstantesModelo.HEURISTICAS_CALCULOS_14_MLR_JORNADAS_ANALYSIS).getName());
-			//System.out.println ("\nModelo Inferencia para cálculo Jornadas de Análisis: " + heuristicaMLRCalculoJornadas_Analysis.trim());
+			//System.out.println ("\nModelo Inferencia para cálculo Jornadas de Análisis: " + heuristicaMLRCalculoJornadas_Analysis.trim());ç
+			
+			Collection<String> estadosPosibles = new ArrayList<String>();
+			estadosPosibles.add("Petición de trabajo finalizado");
+			estadosPosibles.add("Soporte finalizado");
+			estadosPosibles.add("Petición finalizada");
+			estadosPosibles.add("Trabajo finalizado");
+			estadosPosibles.add("Trabajo finalizado no conforme");
 			
 			Iterator<Map.Entry<FieldViewSet,Collection<FieldViewSet>>> iteEntregas = filas_.entrySet().iterator();
 			while (iteEntregas.hasNext()) {
@@ -785,9 +792,20 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Collection<FieldViewSet> filas = entryOfEntrega.getValue();
 				for (final FieldViewSet peticionDG_BBDD : filas) {
 					
+					Long idAplicativo = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName());
+					Long idAplicativoEntrega = (Long) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName());
+					if (idAplicativo.longValue() != idAplicativoEntrega.longValue()) {
+						continue;
+					}
+					String estadoPeticion = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+					if (!estadosPosibles.contains(estadoPeticion)) {
+						continue;
+					}
+					
 					FieldViewSet resumenPorPeticion = new FieldViewSet(resumenPeticionEntidad);
 					
-					Long peticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
+					Long peticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());										
+					
 					//comprobamos si ya s eha entregado esta petición en otra entrega					
 					boolean yaFueEntregada = false;
 					FieldViewSet resumenPorPeticionPrevia = new FieldViewSet(resumenPeticionEntidad);
@@ -803,8 +821,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					Long idTipoPeticion = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName());					
 					Double utsEstimadas_ = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 					Double utsReales_ = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
-					String titulo = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
-					Long idAplicativo = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName());
+					String titulo = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());					
 
 					FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
 					aplicativoBBDD.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
@@ -908,7 +925,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					Double jornadasDesdeFinPruebasHastaImplantacion = 0.0;
 					Double jornadasDesfaseTramiteHastaInicioReal = 0.0;
 					Double jornadasDesfaseFinDesaSolicEntrega = 0.0;
+					
 					Map<String, Serializable> variables = new HashMap<String, Serializable>();
+					
+					
 					/*******************************************************************************************************/						
 					if (!yaFueEntregada) {
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
@@ -927,6 +947,12 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						
 						jornadasDesarrollo = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Desarrollo,	peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 								entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);			
+						/*if (_ser_jornadasDesarrollo instanceof Date) {
+							estadoEntrega = estadoEntrega+"";
+							jornadasDesarrollo = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_PruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, null, 
+								entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);							
+						}*/
+						
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
 						variables.put("#Jornadas_Desarrollo#", jornadasDesarrollo);
 						
@@ -949,7 +975,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						if (jornadasPruebasCD == null) {
 							System.out.println("jornadasPruebasCD: " + jornadasPruebasCD);
 						}
-												
+						
 						if (peticionBBDDAnalysis == null) {
 							
 							jornadasAnalysis = (Double) procesarFormulaMLR(heuristicaMLRCalculoJornadas_Analysis, variables);
@@ -969,7 +995,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							
 						}else {
 							//tomo de la petición de análisis los datos
-							if (fechaInicioRealAnalysis == null) {						
+							if (fechaInicioRealAnalysis == null) {		
+								if (fechaFinRealAnalysis == null) {
+									fechaFinRealAnalysis = fechaTramite;
+								}
 								fechaFinRealAnalysis = fechaFinRealAnalysis.compareTo(fechaTramite) > 0 ? fechaTramite : fechaFinRealAnalysis;
 								variables.put("#Fecha_fin_analisis#", fechaFinRealAnalysis);
 								jornadasAnalysis = (Double) procesarFormulaMLR(heuristicaMLRCalculoJornadas_Analysis, variables);
@@ -1019,27 +1048,47 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 																
 					}else {
 						
+						fechaInicioRealAnalysis = (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName());
+						fechaFinRealAnalysis= (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_19_FECHA_FIN_ANALYSIS).getName());
 						jornadasAnalysis = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName());
 						jornadasDesarrollo = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName());
 						jornadasDesfaseTramiteHastaInicioReal = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName());
 						jornadasDesfaseFinDesaSolicEntrega = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName());
-								
+						variables.put("#Fecha_ini_analisis#", fechaInicioRealAnalysis);
+						variables.put("#Fecha_fin_analisis#", fechaFinRealAnalysis);						
+						variables.put("#Jornadas_Analisis#", jornadasAnalysis);
+						variables.put("#Jornadas_Desarrollo#", jornadasDesarrollo);
+						
+						Double jornadasPruebasCDPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName());
+						
+						//Date _prev_fechaInicioPruebasCD= (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_24_FECHA_INICIO_PRUEBASCD).getName());
+						//Date _prev_fechaFinPruebasCD= (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName());
+						
+						Date _fechaInicioPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaInicioPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, 
+								/*peticionPruebasCD*/null, entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);
+						variables.put("#Fecha_ini_pruebas_CD#", _fechaInicioPruebasCD);
+						
 						Date _fechaFinPruebasCD= (Date) procesarReglas(heuristicaFormulaCalculo_FechaFinPruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 								entregasTramitadas,	tareasBBDD_analysis, tareasBBDD_pruebas, variables);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
 						variables.put("#Fecha_fin_pruebas_CD#", _fechaFinPruebasCD);
 					
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), _fechaFinPruebasCD);
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaFinalizacion);
 						
-						Double jornadasPruebasCDPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName());
-						jornadasPruebasCD = jornadasPruebasCDPrevias + (Double) procesarReglas(heuristicaFormulaCalculoJornadas_PruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
+						Double actual = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_PruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
 								entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
-						variables.put("#Jornadas_Pruebas_CD#", jornadasPruebasCD);
-						/*if (jornadasPruebasCD == null) {
-							System.out.println("jornadasPruebasCD: " + jornadasPruebasCD);
+						jornadasPruebasCD = jornadasPruebasCDPrevias + actual;
+						
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
+						/*if (actual_ instanceof Date) {
+							estadoEntrega = estadoEntrega+"";
+							Double actual = (Double) procesarReglas(heuristicaFormulaCalculoJornadas_PruebasCD, peticionDG_BBDD, peticionBBDDAnalysis, null, 
+									entregasTramitadas, tareasBBDD_analysis, tareasBBDD_pruebas, variables);
+							jornadasPruebasCD = jornadasPruebasCDPrevias + actual;
 						}*/
+						
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
+						variables.put("#Jornadas_Pruebas_CD#", jornadasPruebasCD);						
 						
 						Double jornadasEntregaPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName());
 						jornadasEntrega = jornadasEntregaPrevias + (Double) procesarReglas(heuristicaFormulaCalculoJornadas_Preparac_Entrega, peticionDG_BBDD, peticionBBDDAnalysis, /*peticionPruebasCD*/null, 
