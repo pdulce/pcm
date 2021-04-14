@@ -335,7 +335,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						tipoPeticionFset.setValue(tiposPeticionEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName(), tipoPeticion);
 						Collection<FieldViewSet> tiposFound = dataAccess.searchByCriteria(tipoPeticionFset);
 						if (!tiposFound.isEmpty()) {
-							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName(), tiposFound.iterator().next());
+							FieldViewSet tipoPeticionBBDD = tiposFound.iterator().next();
+							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName(), 
+									tipoPeticionBBDD.getValue(tiposPeticionEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName()));
 						}
 						
 						Date fecAlta = (Date) registro.getValue(peticionesEntidad.searchField(

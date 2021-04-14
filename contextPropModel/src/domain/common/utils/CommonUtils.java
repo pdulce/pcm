@@ -488,7 +488,7 @@ public final class CommonUtils {
 			if (fechaFin.compareTo(fechaInicio) < 0) {
 				return 0.0;
 			}
-			diasLaborables = diasNaturalesDuracion(fechaInicio, fechaFin);			
+			diasLaborables = diasNaturalesDuracion(fechaInicio, fechaFin) + 1;			
 			Calendar fechaTope = Calendar.getInstance();
 			fechaTope.setTime(fechaFin);
 			//algoritmo con bucle escalonado per day que mira si un día está en fin de semana o es festivo de municipioMadrid/CAM/España

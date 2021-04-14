@@ -23,7 +23,8 @@
     	fkParentEntities="servicio" fkParentFields="1"/>
     <field mappingTo="11" name="Centro_destino" type="string" length="100" required="false"/>
     <field mappingTo="12" name="Area_destino" type="string" length="100" required="false"/>    
-    <field mappingTo="13" name="Tipo" type="string" length="50" required="false"/>        
+    <field mappingTo="13" name="Tipo" type="long" length="11" required="false" 
+	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>       
     <field mappingTo="14" name="Tipo_inicial" type="string" length="50" required="false"/>
     <field mappingTo="15" name="Urgente" type="string" length="25" required="false"/>
     <field mappingTo="16" name="Prioridad" type="string" length="25" required="false"/>
@@ -132,7 +133,8 @@
 	    fkParentEntities="aplicativo" fkParentFields="1"/>
 	<field mappingTo="4" name="tipo" type="long" length="11" required="false"
     	fkParentEntities="tiposPeticiones" fkParentFields="1"/>
-    <field mappingTo="5" name="gedeon_DG" type="string" length="10" required="false"/>
+    <field mappingTo="5" name="id_gedeon_DG" type="long" length="11" required="false" 
+	    fkParentEntities="peticiones" fkParentFields="1"/>
     <field mappingTo="6" name="gedeon_AT" type="string" length="150" required="false"/>
     <field mappingTo="7" name="gedeon_Entrega" type="string" length="150" required="false"/>    
     <field mappingTo="8" name="ciclo_vida" type="double" length="6" required="false"/>

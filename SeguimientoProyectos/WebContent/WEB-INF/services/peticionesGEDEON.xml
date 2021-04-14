@@ -177,8 +177,8 @@
 						<fieldView separator="br" />
 												
 						<fieldView mappingTo="13" type="checkbox" size="8">
-							<optionValues selectionMultiple="true" entitymodel="peticiones"
-								descrMappingTo="13" codeField="13">
+							<optionValues selectionMultiple="true" entitymodel="tiposPeticiones"
+								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
 						<fieldView separator="br" />
@@ -247,7 +247,11 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-					<fieldView mappingTo="13" editable="false" />
+					<fieldView mappingTo="13" type="checkbox" size="8" editable="false">
+						<optionValues entitymodel="tiposPeticiones"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
 					<fieldView mappingTo="7" editable="false" styleCss="font-weight: bold;"/><!-- Estado_peticion_originaria -->					
 					<fieldView mappingTo="42" editable="false" styleCss="font-weight: bold;color: orange;"/>
 					
@@ -281,7 +285,7 @@
 					<fieldView mappingTo="2" editable="true" />
 					<fieldView separator="br" />
 					<fieldView separator="br" />
-					<fieldView mappingTo="26" editable="false">
+					<fieldView mappingTo="26" type="select" editable="false">
 						<optionValues entitymodel="aplicativo"
 								descrMappingTo="2">
 						</optionValues>
@@ -313,7 +317,11 @@
 					<fieldView mappingTo="28" editable="false" />
 					<fieldView mappingTo="29" editable="false" />
 					<fieldView mappingTo="32" editable="false" />
-					<fieldView mappingTo="13" editable="false" />
+					<fieldView mappingTo="13" type="checkbox" size="8" editable="false">
+						<optionValues entitymodel="tiposPeticiones"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
 					<fieldView mappingTo="14" editable="false" />
 					<fieldView mappingTo="15" editable="false" />
 					<fieldView mappingTo="16" editable="false" />
