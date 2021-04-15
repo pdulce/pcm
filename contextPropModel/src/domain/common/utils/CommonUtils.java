@@ -188,7 +188,7 @@ public final class CommonUtils {
 		return obtenerDifEnMeses(fechaCalMasAntigua.getTime(), fechaCalMasReciente.getTime());		
 	}
 	
-	public static final String obtenerPeriodo(int idPeriodo, Date fecIniEstudio, Date fecFinEstudio) {
+	public static final String obtenerPeriodo(Long idPeriodo, Date fecIniEstudio, Date fecFinEstudio) {
 		/**
 		 *  1|mensual	2|bimensual	3|trimestre	4|cuatrimestre	5|semestre	6|anual
 			7|bienio	8|trienio	9|cuatrienio		10|indeterminado
@@ -207,7 +207,7 @@ public final class CommonUtils {
 		//int yearFin = fechaFinEstudio.get(Calendar.YEAR);
 		
 		String periodo = "";
-		switch (idPeriodo){
+		switch (idPeriodo.intValue()){
 			case 1:					
 				periodo = CommonUtils.translateMonthAbbrToSpanish(mes).concat(String.valueOf(yearAbbr));
 				break;

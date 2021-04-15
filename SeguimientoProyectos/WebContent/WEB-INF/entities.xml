@@ -163,6 +163,7 @@
     <field mappingTo="29" name="esfuerzo_analysis" type="double" length="6" required="false"/>
     <field mappingTo="30" name="esfuerzo_pruebas" type="double" length="6" required="false"/>
     <field mappingTo="31" name="titulo" type="string" length="500" required="false"/>
+    <field mappingTo="32" name="duracion_soporte_al_CD" type="double" length="6" required="false"/>
   </entity>
      
   <entity>

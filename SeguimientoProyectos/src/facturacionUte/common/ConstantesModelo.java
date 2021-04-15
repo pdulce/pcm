@@ -134,7 +134,7 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD = 14;
 	public static final int RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC = 15;
 	public static final int RESUMEN_PETICION_16_TOTAL_DEDICACIONES = 16;
-	public static final int RESUMEN_PETICION_17_TOTAL_GAPS = 17;
+	public static final int RESUMEN_PETICION_17_TOTAL_OF_GAPS = 17;
 	public static final int RESUMEN_PETICION_18_FECHA_INI_ANALYSIS = 18;
 	public static final int RESUMEN_PETICION_19_FECHA_FIN_ANALYSIS = 19;
 	public static final int RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG = 20;
@@ -149,6 +149,7 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS = 29;
 	public static final int RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD = 30;	
 	public static final int RESUMEN_PETICION_31_TITULO = 31;
+	public static final int RESUMEN_PETICION_32_DURACION_SOPORTE_CD = 32;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
 
 	public static final int RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA = 9;

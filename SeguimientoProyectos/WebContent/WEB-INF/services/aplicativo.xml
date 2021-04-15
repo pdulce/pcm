@@ -49,7 +49,7 @@
 				eventsRegistered="update, create, delete">
 					<fieldViewSet entitymodel="aplicativo"
 						nameSpace="aplicativo">
-						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="1" editable="false"/>
 						<fieldView mappingTo="2" />
 						<fieldView mappingTo="5" />
 						<fieldView mappingTo="6" type="select" editable="false">

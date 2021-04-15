@@ -135,7 +135,8 @@ CREATE TABLE `resumenPeticiones` (
   `uts` double DEFAULT NULL,
   `esfuerzo_analysis` double DEFAULT NULL,
   `esfuerzo_pruebas` double DEFAULT NULL,
-  `titulo` varchar(500) DEFAULT NULL
+  `titulo` varchar(500) DEFAULT NULL,
+  `duracion_soporte_al_CD` double DEFAULT NULL
 );  
 
 DROP TABLE `resumenEntregas`;

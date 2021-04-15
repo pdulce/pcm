@@ -78,7 +78,6 @@ public class Dashboard extends GenericHighchartModel {
 			//recoger filtros en pantalla; pueden ser de los master o de las detail, pero los mappings deben
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			//FieldViewSet detail1 = new FieldViewSet(EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(), entities[0]));
-			 
 			this._dataAccess = dataAccess;
 						
 			TimeSeries seriesEntregas1 = new TimeSeries(), seriesEntregas2 = new TimeSeries();			
@@ -122,18 +121,20 @@ public class Dashboard extends GenericHighchartModel {
 				Pie piePeticiones = new Pie();		
 				BarChart barPeticiones = new BarChart();
 				Histogram3D histogramPeticiones = new Histogram3D();
+				
+				String valueOfDimensionSelected = _data.getParameter("dimension");
 
-				Datamap dataMapPeticiones05 =  createMap(_data, "_serie05", entities[1], "20", "3", "line", "8");
+				Datamap dataMapPeticiones05 =  createMap(_data, "_serie05", entities[1], "20", "3", "line", valueOfDimensionSelected);
 				seriesPeticiones3.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones05);
 				
-				Datamap dataMapPeticiones061 =  createMap(_data, "_serie061", entities[1], "3", "3", "", "8");
+				Datamap dataMapPeticiones061 =  createMap(_data, "_serie061", entities[1], "3", "3", "", valueOfDimensionSelected);
 				piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones061);
 				Datamap dataMapPeticiones062 =  createMap(_data, "_serie062", entities[1], "20", "3", "", "-1");
 				histogramPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones062);
 				
-				Datamap dataMapPeticiones07 =  createMap(_data, "_serie07", entities[1], "20", "3", "area", "17");
+				Datamap dataMapPeticiones07 =  createMap(_data, "_serie07", entities[1], "20", "3", "area", valueOfDimensionSelected);
 				seriesPeticiones4.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones07);
-				Datamap dataMapPeticiones08 =  createMap(_data, "_serie08", entities[1], "20", "3,4", "", "8");
+				Datamap dataMapPeticiones08 =  createMap(_data, "_serie08", entities[1], "20", "3,4", "", valueOfDimensionSelected);
 				barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones08);
 				
 				
