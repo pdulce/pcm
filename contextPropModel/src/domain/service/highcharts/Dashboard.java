@@ -86,27 +86,28 @@ public class Dashboard extends GenericHighchartModel {
 			BarChart barEntregas01 = new BarChart(), barEntregas02 = new BarChart();
 			Histogram3D entregasHistogram = new Histogram3D();
 			
+			String valueOfAgrupacionParam = _data.getParameter("agrupacion")== null? "3":  _data.getParameter("agrupacion");			
 			String valueOfDimensionEntregasSelected = _data.getParameter("dimensionE")== null? "5":  _data.getParameter("dimensionE");
-			
-			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", "3", "line", valueOfDimensionEntregasSelected);
+						
+			Datamap dataMapEntregas01 = createMap(_data, "_serie01", entities[0], "9", valueOfAgrupacionParam, "line", valueOfDimensionEntregasSelected);
 			seriesEntregas1.generateStatGraphModel(dataAccess, domainService, dataMapEntregas01);
 			
-			Datamap dataMapEntregas11 = createMap(_data, "_serie11", entities[0], "9", "3", "", "-1");//count ALL records, sin dimensión
+			Datamap dataMapEntregas11 = createMap(_data, "_serie11", entities[0], "9", valueOfAgrupacionParam, "", "-1");//count ALL records, sin dimensión
 			entregasHistogram.generateStatGraphModel(dataAccess, domainService, dataMapEntregas11);
 			
-			Datamap dataMapEntregas021 = createMap(_data, "_serie021", entities[0], "3", "3", "", valueOfDimensionEntregasSelected);
+			Datamap dataMapEntregas021 = createMap(_data, "_serie021", entities[0], valueOfAgrupacionParam, valueOfAgrupacionParam, "", valueOfDimensionEntregasSelected);
 			pieEntregas01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas021);
 			
-			Datamap dataMapEntregas022 = createMap(_data, "_serie022", entities[0], "2", "3", "", valueOfDimensionEntregasSelected);
+			Datamap dataMapEntregas022 = createMap(_data, "_serie022", entities[0], "2", valueOfAgrupacionParam, "", valueOfDimensionEntregasSelected);
 			speedMeter01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas022);
 			
-			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", "3", "area", valueOfDimensionEntregasSelected);
+			Datamap dataMapEntregas03 = createMap(_data, "_serie03", entities[0], "9", valueOfAgrupacionParam, "area", valueOfDimensionEntregasSelected);
 			seriesEntregas2.generateStatGraphModel(dataAccess, domainService, dataMapEntregas03);
 			
-			Datamap dataMapEntregas040 = createMap(_data, "_serie040", entities[0], "9", "3,7", "", valueOfDimensionEntregasSelected);
+			Datamap dataMapEntregas040 = createMap(_data, "_serie040", entities[0], "9", valueOfAgrupacionParam + ",7", "", valueOfDimensionEntregasSelected);
 			barEntregas01.generateStatGraphModel(dataAccess, domainService, dataMapEntregas040);
 			
-			Datamap dataMapEntregas041 = createMap(_data, "_serie041", entities[0], "9", "7,3", "", valueOfDimensionEntregasSelected);
+			Datamap dataMapEntregas041 = createMap(_data, "_serie041", entities[0], "9", "7," +valueOfAgrupacionParam, "", valueOfDimensionEntregasSelected);
 			barEntregas02.generateStatGraphModel(dataAccess, domainService, dataMapEntregas041);
 
 			_data.copyMap(dataMapEntregas01);
@@ -126,17 +127,18 @@ public class Dashboard extends GenericHighchartModel {
 				
 				String valueOfDimensionSelected = _data.getParameter("dimensionP")== null? "8":  _data.getParameter("dimensionP");
 
-				Datamap dataMapPeticiones05 =  createMap(_data, "_serie05", entities[1], "20", "3", "line", valueOfDimensionSelected);
+				Datamap dataMapPeticiones05 =  createMap(_data, "_serie05", entities[1], "20", valueOfAgrupacionParam, "line", valueOfDimensionSelected);
 				seriesPeticiones3.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones05);
 				
-				Datamap dataMapPeticiones061 =  createMap(_data, "_serie061", entities[1], "3", "3", "", valueOfDimensionSelected);
+				Datamap dataMapPeticiones061 =  createMap(_data, "_serie061", entities[1], valueOfAgrupacionParam, valueOfAgrupacionParam, "", valueOfDimensionSelected);
 				piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones061);
-				Datamap dataMapPeticiones062 =  createMap(_data, "_serie062", entities[1], "20", "3", "", "-1");//count ALL records, sin dimensión
+				Datamap dataMapPeticiones062 =  createMap(_data, "_serie062", entities[1], "20", valueOfAgrupacionParam, "", "-1");//count ALL records, sin dimensión
 				histogramPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones062);
 				
-				Datamap dataMapPeticiones07 =  createMap(_data, "_serie07", entities[1], "20", "3", "area", valueOfDimensionSelected);
+				Datamap dataMapPeticiones07 =  createMap(_data, "_serie07", entities[1], "20", valueOfAgrupacionParam, "area", valueOfDimensionSelected);
 				seriesPeticiones4.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones07);
-				Datamap dataMapPeticiones08 =  createMap(_data, "_serie08", entities[1], "20", "3,4", "", valueOfDimensionSelected);
+				
+				Datamap dataMapPeticiones08 =  createMap(_data, "_serie08", entities[1], "20", valueOfAgrupacionParam + ",4", "", valueOfDimensionSelected);
 				barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones08);
 				
 				

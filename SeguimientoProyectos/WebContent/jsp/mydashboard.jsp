@@ -7,6 +7,7 @@
     
     	<input id="exec" name="exec" type="hidden" value="dashboard"/>
 		<input id="event" name="event" type="hidden" value="dashboard"/>
+		<input id="agrupacion" name="agrupacion" type="hidden" value="3"/> <!--3: id_aplicacion, 2:id_estudio -->
 		<input id="entities" name="entities" type="hidden" value="resumenEntregas$resumenPeticiones"/>
     
     <fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
@@ -102,33 +103,25 @@
 			</select>
 
    			<label class="infoCls"  title="Servicio Graficos Entregas" id="resumenEntregas.id_estudioLABEL" for="resumenEntregas.id_estudio">
-			&nbsp;&nbsp;Servicio Gráficos Entregas&nbsp;
+			&nbsp;&nbsp;Estudio Gráficos Entregas&nbsp;
 			</label>
-			<select class="textInput" size="7" id="resumenEntregas.id_estudio" name="resumenEntregas.id_estudio" 
+			<select class="textInput" size="3" id="resumenEntregas.id_estudio" name="resumenEntregas.id_estudio" 
 				onChange="javascript:document.forms[0].submit();return true;"
 				 multiple>
-				<option value="resumenEntregas.id_estudio=1"  id="resumenEntregas.id_estudio=1">Servicio Mto. HOST</option>
-				<option value="resumenEntregas.id_estudio=2"  id="resumenEntregas.id_estudio=2">Servicio Nuevos Desarrollos Pros@</option>
-				<option value="resumenEntregas.id_estudio=3"  id="resumenEntregas.id_estudio=3">Servicio Mto. Pros@</option>
-				<option value="resumenEntregas.id_estudio=4"  id="resumenEntregas.id_estudio=4">Nothing</option>
-				<option value="resumenEntregas.id_estudio=5"  id="resumenEntregas.id_estudio=5">Pliego-HOST</option>
-				<option value="resumenEntregas.id_estudio=6"  id="resumenEntregas.id_estudio=6">Pliego-Mto-Pros@</option>
-				<option value="resumenEntregas.id_estudio=7"  id="resumenEntregas.id_estudio=7">Pliego-ND-Pros@</option>
+				<option value="resumenEntregas.id_estudio=8"  id="resumenEntregas.id_estudio=8">Pliego-Mto-Pros@</option>
+				<option value="resumenEntregas.id_estudio=9"  id="resumenEntregas.id_estudio=9">Pliego-ND-Pros@</option>
+				<option value="resumenEntregas.id_estudio=10"  id="resumenEntregas.id_estudio=10">Pliego-HOST</option>
 			</select>			
 			
 			<label class="infoCls"  title="Servicio Graficos Peticiones" id="resumenPeticiones.id_estudioLABEL" for="resumenPeticiones.id_estudio">
-			&nbsp;&nbsp;Servicio Gráficos Peticiones&nbsp;
+			&nbsp;&nbsp;Estudio Gráficos Peticiones&nbsp;
 			</label>
-			<select class="textInput" size="7" id="resumenPeticiones.id_estudio" name="resumenPeticiones.id_estudio" 
-				onChange="javascript:document.forms[0].submit();document.forms[0]. ; return true;"
+			<select class="textInput" size="3" id="resumenPeticiones.id_estudio" name="resumenPeticiones.id_estudio" 
+				onChange="javascript:document.forms[0].submit();return true;"
 				 multiple>
-				<option value="resumenPeticiones.id_estudio=1"  id="resumenPeticiones.id_estudio=1">Servicio Mto. HOST</option>
-				<option value="resumenPeticiones.id_estudio=2"  id="resumenPeticiones.id_estudio=2">Servicio Nuevos Desarrollos Pros@</option>
-				<option value="resumenPeticiones.id_estudio=3"  id="resumenPeticiones.id_estudio=3">Servicio Mto. Pros@</option>
-				<option value="resumenPeticiones.id_estudio=4"  id="resumenPeticiones.id_estudio=4">Nothing</option>
-				<option value="resumenPeticiones.id_estudio=5"  id="resumenPeticiones.id_estudio=5">Pliego-HOST</option>
-				<option value="resumenPeticiones.id_estudio=6"  id="resumenPeticiones.id_estudio=6">Pliego-Mto-Pros@</option>
-				<option value="resumenPeticiones.id_estudio=7"  id="resumenPeticiones.id_estudio=7">Pliego-ND-Pros@</option>
+				<option value="resumenPeticiones.id_estudio=8"  id="resumenPeticiones.id_estudio=8">Pliego-Mto-Pros@</option>
+				<option value="resumenPeticiones.id_estudio=9"  id="resumenPeticiones.id_estudio=9">Pliego-ND-Pros@</option>
+				<option value="resumenPeticiones.id_estudio=10"  id="resumenPeticiones.id_estudio=10">Pliego-HOST</option>
 			</select>
 		</div>
 				
@@ -333,7 +326,7 @@
 		<%}//for values
 	}else{//if %>
 		   for (var j=0;j<5;j++){
-		  	document.getElementById('aplicativo.id_tecnologia').options[j].selected = 'selected';
+		  	document.getElementById('aplicativo.id_tecnologia').options[j].selected = '';
 		   }
   <%} %>
   
@@ -342,15 +335,18 @@
 	if (servicioParamValues != null){
 		String[] as= (String[]) servicioParamValues;
 		for (int i=0;i<as.length;i++){
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
-			//System.out.println("value selected:" + selectedValue);
+			//System.out.println("resumenEntregas.id_estudio " + as[i]);
+			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 8;
+			//System.out.println("resumenEntregas.id_estudio value selected:" + selectedValue);
 		%>			
 			document.getElementById('resumenEntregas.id_estudio').options[<%=selectedValue%>].selected= 'selected';
-		<%}%>				
-	<%}else{//if %>
-		   for (var j=0;j<7;j++){
-		  	document.getElementById('resumenEntregas.id_estudio').options[j].selected = 'selected';
-		   }
+		<%}%>
+		document.getElementById('agrupacion').value = '2';
+  <%}else{//if %>
+	    for (var j=0;j<3;j++){
+		    document.getElementById('resumenEntregas.id_estudio').options[j].selected = '';
+		}
+	    document.getElementById('agrupacion').value = '3';
   <%} %>
   
   <% 	
@@ -358,15 +354,17 @@
 	if (servicio2ParamValues != null){
 		String[] as= (String[]) servicio2ParamValues;
 		for (int i=0;i<as.length;i++){
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
-			//System.out.println("value selected:" + selectedValue);
+			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 8;
+			//System.out.println("resumenPeticiones.id_estudio value selected:" + selectedValue);
 		%>			
 			document.getElementById('resumenPeticiones.id_estudio').options[<%=selectedValue%>].selected= 'selected';
-		<%}%>				
-	<%}else{//if %>
-		   for (var j=0;j<7;j++){
-		  	document.getElementById('resumenPeticiones.id_estudio').options[j].selected = 'selected';
-		   }
+		<%}%>
+		document.getElementById('agrupacion').value = '2';
+  <%}else{//if %>
+	    for (var j=0;j<3;j++){
+	        document.getElementById('resumenPeticiones.id_estudio').options[j].selected = '';
+		}
+	    document.getElementById('agrupacion').value = '3';
   <%}%>
 
 	<% 	
@@ -376,13 +374,15 @@
 		for (int i=0;i<as.length;i++){
 			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
 			//System.out.println("value selected:" + selectedValue);
-		%>
+	   %>
 			document.getElementById('aplicativo.id').options[<%=selectedValue%>].selected= 'selected';
-		<%}//for%>		
+	  <%}//for%>
+		document.getElementById('agrupacion').value = '3';
   <%} else {//if %>
 		 for (var j=0;j<37;j++){
 		  	document.getElementById('aplicativo.id').options[j].selected = '';
 		 }//for
+		 document.getElementById('agrupacion').value = '2';
   <%} %>
 	
 	<% 	
@@ -391,7 +391,7 @@
 		String[] as= (String[]) dimensionParamValue;
 		for (int i=0;i<as.length;i++){
 			int selectedValue = Integer.parseInt(as[i]);
-			System.out.println("dimension Entregas Value selected:" + selectedValue);
+			//System.out.println("dimension Entregas Value selected:" + selectedValue);
 			if ("5".contentEquals(as[i])){%>
 				document.getElementById('dimensionE').options[0].selected = 'selected';
 		  <%}else if ("6".contentEquals(as[i])){%>			  
@@ -407,7 +407,7 @@
 		  <%}else if ("17".contentEquals(as[i])){%>			  
 		  	document.getElementById('dimensionE').options[6].selected = 'selected';
 	  	  <%}
-		 }//for%>	
+		}//for%>	
 	<%}else{//if %>
 		document.getElementById('dimensionE').options[0].selected = 'selected';
 		for (var j=1;j<7;j++){
@@ -422,7 +422,7 @@
 		String[] as= (String[]) dimensionP_ParamValue;
 		for (int i=0;i<as.length;i++){
 			int selectedValue = Integer.parseInt(as[i]);
-			System.out.println("dimension Peticiones Value selected:" + selectedValue);
+			//System.out.println("dimension Peticiones Value selected:" + selectedValue);
 			if ("8".contentEquals(as[i])){%>
 				document.getElementById('dimensionP').options[0].selected = 'selected';
 		  <%}else if ("9".contentEquals(as[i])){%>			  
