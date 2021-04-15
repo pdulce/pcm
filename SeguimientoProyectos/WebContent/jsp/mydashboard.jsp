@@ -10,37 +10,11 @@
 		<input id="entities" name="entities" type="hidden" value="resumenEntregas$resumenPeticiones"/>
     
     <fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
-    	<div>
-    		<label class="infoCls" title="Entorno" id="aplicativo.id_tecnologiaLABEL" for="aplicativo.id_tecnologia">
-    		&nbsp;&nbsp;Entorno&nbsp;
-    		</label>
-			<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
-				onChange="javascript:document.forms[0].submit();return true;" size="7" multiple>
-					<option value="aplicativo.id_tecnologia=1" id="aplicativo.id_tecnologia=1">HOST</option>
-					<option value="aplicativo.id_tecnologia=2" id="aplicativo.id_tecnologia=2">Pros@</option>
-					<option value="aplicativo.id_tecnologia=3" id="aplicativo.id_tecnologia=3">Web Services</option>
-					<option value="aplicativo.id_tecnologia=4" id="aplicativo.id_tecnologia=4">Servicios API Rest</option>
-					<option value="aplicativo.id_tecnologia=5" id="aplicativo.id_tecnologia=5">Mobile Tech</option>
-			</select>
-
-   			<label class="infoCls"  title="Servicio" id="aplicativo.id_servicioLABEL" for="aplicativo.id_servicio">
-			&nbsp;&nbsp;Servicio&nbsp;
-			</label>
-			<select class="textInput" size="3" id="aplicativo.id_servicio" name="aplicativo.id_servicio" 
-				onChange="javascript:document.forms[0].submit();return true;"
-				 multiple>
-				<option value="aplicativo.id_servicio=1"  id="aplicativo.id_servicio=1">Servicio Mto. HOST</option>
-				<option value="aplicativo.id_servicio=2"  id="aplicativo.id_servicio=2">Servicio Nuevos Desarrollos Pros@</option>
-				<option value="aplicativo.id_servicio=3"  id="aplicativo.id_servicio=3">Servicio Mto. Pros@</option>
-				<option value="aplicativo.id_servicio=3"  id="aplicativo.id_servicio=4">Nothing</option>
-				<option value="aplicativo.id_servicio=3"  id="aplicativo.id_servicio=5">Pliego-HOST</option>
-				<option value="aplicativo.id_servicio=3"  id="aplicativo.id_servicio=6">Pliego-Mto-Pros@</option>
-				<option value="aplicativo.id_servicio=3"  id="aplicativo.id_servicio=7">Pliego-ND-Pros@</option>
-			</select>
-
-			<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
+    	
+    	<div>    	
+    		<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
 			&nbsp;&nbsp;Aplicativo&nbsp;</label>
-			<select class="textInput" size="7" id="aplicativo.id" name="aplicativo.id"
+			<select class="textInput" size="4" id="aplicativo.id" name="aplicativo.id"
 				onChange="javascript:document.forms[0].submit();return true;" 
 				multiple>
 				<option value="aplicativo.id=1"  id="aplicativo.id=1">AFLO</option>
@@ -81,26 +55,84 @@
 				<option value="aplicativo.id=36"  id="aplicativo.id=36">WSPX</option>
 				<option value="aplicativo.id=37"  id="aplicativo.id=37">WSRT</option>
 			</select>
-			
+		
 			<label class="infoCls"  title="Fase Ciclo Vida" id="dimensionLabel" for="dimension">
-			&nbsp;&nbsp;Fase Ciclo Vida&nbsp;</label>
-			<select class="textInput" size="12" id="dimension" name="dimension" 
+			&nbsp;&nbsp;Fase Ciclo Vida Entregas&nbsp;</label>
+			<select class="textInput" size="7" id="dimensionE" name="dimensionE" 
 				onChange="javascript:document.forms[0].submit();return true;">
-				<option value="8"  id="resumenPeticiones.ciclo_vida=8">Ciclo vida</option>
-				<option value="9"  id="resumenPeticiones.duracion_analysis=9">Duración Análisis</option>
-				<option value="10"  id="resumenPeticiones.duracion_desarrollo=10">Duración Desarrollo</option>
-				<option value="11"  id="resumenPeticiones.duracion_entrega_DG=11">Duración Entrega a CD</option>
-				<option value="12"  id="resumenPeticiones.duracion_pruebas=12">Duración Pruebas CD</option>
-				<option value="32"  id="resumenPeticiones.duracion_soporte_al_CD=32">Duración Soporte al CD</option>
-				<option value="13"  id="resumenPeticiones.gap_tram_iniRealDesa=13">Lapso Planificación DG</option>
-				<option value="14"  id="resumenPeticiones.gap_finDesa_solicitudEntrega=14">Lapso Planificación CD</option>
-				<option value="15"  id="resumenPeticiones.gap_finPrue_Producc=15">Lapso Planificación Instalación GISS</option>
-				<option value="16"  id="resumenPeticiones.total_dedicaciones=16">Dedicaciones efectivas</option>
-				<option value="17"  id="resumenPeticiones.total_intervalos_sin_dedicacion=17">Lapsos</option>
+				<option value="5"  id="5">Núm. Peticiones</option>
+				<option value="6"  id="6">Volumen uts</option>
+				<option value="8"  id="8">Núm. Rechazos</option>
+				<option value="14"  id="14">Ciclo Vida Entrega</option>
+				<option value="15"  id="15">Tiempo Preparación en DG</option>
+				<option value="16"  id="16">Tiempo Validación en CD</option>
+				<option value="17"  id="17">Tiempo Desvalidación hasta Implantación</option>
 			</select>
 			
-			<div>
-				<br>
+			<label class="infoCls"  title="Fase Ciclo Vida" id="dimensionPLabel" for="dimensionP">
+			&nbsp;&nbsp;Fase Ciclo Vida Peticiones&nbsp;</label>
+			<select class="textInput" size="11" id="dimensionP" name="dimensionP" 
+				onChange="javascript:document.forms[0].submit();return true;">
+				<option value="8"  id="8">Ciclo vida</option>
+				<option value="9"  id="9">Duración Análisis</option>
+				<option value="10"  id="10">Duración Desarrollo</option>
+				<option value="11"  id="11">Duración Entrega a CD</option>
+				<option value="12"  id="12">Duración Pruebas CD</option>
+				<option value="32"  id="32">Duración Soporte al CD</option>
+				<option value="13"  id="13">Lapso Planificación DG</option>
+				<option value="14"  id="14">Lapso Planificación CD</option>
+				<option value="15"  id="15">Lapso Planificación Instalación GISS</option>
+				<option value="16"  id="16">Dedicaciones efectivas</option>
+				<option value="17"  id="17">Lapsos</option>
+			</select>
+		</div>
+			
+		<div>
+			
+			<label class="infoCls" title="Entorno" id="aplicativo.id_tecnologiaLABEL" for="aplicativo.id_tecnologia">
+    		&nbsp;&nbsp;Entorno&nbsp;
+    		</label>
+			<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
+				onChange="javascript:document.forms[0].submit();return true;" size="5" multiple>
+					<option value="aplicativo.id_tecnologia=1" id="aplicativo.id_tecnologia=1">HOST</option>
+					<option value="aplicativo.id_tecnologia=2" id="aplicativo.id_tecnologia=2">Pros@</option>
+					<option value="aplicativo.id_tecnologia=3" id="aplicativo.id_tecnologia=3">Web Services</option>
+					<option value="aplicativo.id_tecnologia=4" id="aplicativo.id_tecnologia=4">Servicios API Rest</option>
+					<option value="aplicativo.id_tecnologia=5" id="aplicativo.id_tecnologia=5">Mobile Tech</option>
+			</select>
+
+   			<label class="infoCls"  title="Servicio Graficos Entregas" id="resumenEntregas.id_estudioLABEL" for="resumenEntregas.id_estudio">
+			&nbsp;&nbsp;Servicio Gráficos Entregas&nbsp;
+			</label>
+			<select class="textInput" size="7" id="resumenEntregas.id_estudio" name="resumenEntregas.id_estudio" 
+				onChange="javascript:document.forms[0].submit();return true;"
+				 multiple>
+				<option value="resumenEntregas.id_estudio=1"  id="resumenEntregas.id_estudio=1">Servicio Mto. HOST</option>
+				<option value="resumenEntregas.id_estudio=2"  id="resumenEntregas.id_estudio=2">Servicio Nuevos Desarrollos Pros@</option>
+				<option value="resumenEntregas.id_estudio=3"  id="resumenEntregas.id_estudio=3">Servicio Mto. Pros@</option>
+				<option value="resumenEntregas.id_estudio=4"  id="resumenEntregas.id_estudio=4">Nothing</option>
+				<option value="resumenEntregas.id_estudio=5"  id="resumenEntregas.id_estudio=5">Pliego-HOST</option>
+				<option value="resumenEntregas.id_estudio=6"  id="resumenEntregas.id_estudio=6">Pliego-Mto-Pros@</option>
+				<option value="resumenEntregas.id_estudio=7"  id="resumenEntregas.id_estudio=7">Pliego-ND-Pros@</option>
+			</select>			
+			
+			<label class="infoCls"  title="Servicio Graficos Peticiones" id="resumenPeticiones.id_estudioLABEL" for="resumenPeticiones.id_estudio">
+			&nbsp;&nbsp;Servicio Gráficos Peticiones&nbsp;
+			</label>
+			<select class="textInput" size="7" id="resumenPeticiones.id_estudio" name="resumenPeticiones.id_estudio" 
+				onChange="javascript:document.forms[0].submit();document.forms[0]. ; return true;"
+				 multiple>
+				<option value="resumenPeticiones.id_estudio=1"  id="resumenPeticiones.id_estudio=1">Servicio Mto. HOST</option>
+				<option value="resumenPeticiones.id_estudio=2"  id="resumenPeticiones.id_estudio=2">Servicio Nuevos Desarrollos Pros@</option>
+				<option value="resumenPeticiones.id_estudio=3"  id="resumenPeticiones.id_estudio=3">Servicio Mto. Pros@</option>
+				<option value="resumenPeticiones.id_estudio=4"  id="resumenPeticiones.id_estudio=4">Nothing</option>
+				<option value="resumenPeticiones.id_estudio=5"  id="resumenPeticiones.id_estudio=5">Pliego-HOST</option>
+				<option value="resumenPeticiones.id_estudio=6"  id="resumenPeticiones.id_estudio=6">Pliego-Mto-Pros@</option>
+				<option value="resumenPeticiones.id_estudio=7"  id="resumenPeticiones.id_estudio=7">Pliego-ND-Pros@</option>
+			</select>
+		</div>
+				
+		<div>
 				<label class="infoCls"  title="Escala">	&nbsp;&nbsp;Escala&nbsp;</label>
 				<label class="radiogroupcontainer">&nbsp;Diario&nbsp;
 					<input onChange="javascript:document.forms[0].submit();return true;" 
@@ -147,8 +179,6 @@
 					<input onChange="javascript:document.forms[0].submit();return true;" type="radio" class="checkmarkradio" value="SUM" id="operationSUM" name="operation">
 					<span class="checkmarkradio"></span>
 				</label>
-			</div>
-
 			</div>
 			
 		</fieldset>
@@ -308,22 +338,37 @@
   <%} %>
   
   <% 	
-	Object servicioParamValues = request.getAttribute("aplicativo.id_servicio");
+	Object servicioParamValues = request.getAttribute("resumenEntregas.id_estudio");
 	if (servicioParamValues != null){
 		String[] as= (String[]) servicioParamValues;
 		for (int i=0;i<as.length;i++){
 			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
 			//System.out.println("value selected:" + selectedValue);
 		%>			
-			document.getElementById('aplicativo.id_servicio').options[<%=selectedValue%>].selected= 'selected';
+			document.getElementById('resumenEntregas.id_estudio').options[<%=selectedValue%>].selected= 'selected';
 		<%}%>				
 	<%}else{//if %>
 		   for (var j=0;j<7;j++){
-		  	document.getElementById('aplicativo.id_servicio').options[j].selected = 'selected';
+		  	document.getElementById('resumenEntregas.id_estudio').options[j].selected = 'selected';
 		   }
   <%} %>
+  
+  <% 	
+	Object servicio2ParamValues = request.getAttribute("resumenPeticiones.id_estudio");
+	if (servicio2ParamValues != null){
+		String[] as= (String[]) servicio2ParamValues;
+		for (int i=0;i<as.length;i++){
+			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
+			//System.out.println("value selected:" + selectedValue);
+		%>			
+			document.getElementById('resumenPeticiones.id_estudio').options[<%=selectedValue%>].selected= 'selected';
+		<%}%>				
+	<%}else{//if %>
+		   for (var j=0;j<7;j++){
+		  	document.getElementById('resumenPeticiones.id_estudio').options[j].selected = 'selected';
+		   }
+  <%}%>
 
-  	
 	<% 	
 	Object aplicativoParamValues = request.getAttribute("aplicativo.id");
 	if (aplicativoParamValues != null){
@@ -331,54 +376,85 @@
 		for (int i=0;i<as.length;i++){
 			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
 			//System.out.println("value selected:" + selectedValue);
-		%>			
+		%>
 			document.getElementById('aplicativo.id').options[<%=selectedValue%>].selected= 'selected';
-		<%}%>
-		
-	<%}else{//if %>
-		   for (var j=0;j<37;j++){
+		<%}//for%>		
+  <%} else {//if %>
+		 for (var j=0;j<37;j++){
 		  	document.getElementById('aplicativo.id').options[j].selected = '';
-		   }
-	<%} %>
+		 }//for
+  <%} %>
 	
 	<% 	
-	Object dimensionParamValue = request.getAttribute("dimension");
+	Object dimensionParamValue = request.getAttribute("dimensionE");
 	if (dimensionParamValue != null){
 		String[] as= (String[]) dimensionParamValue;
 		for (int i=0;i<as.length;i++){
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
-			System.out.println("dimensionValue selected:" + selectedValue);
+			int selectedValue = Integer.parseInt(as[i]);
+			System.out.println("dimension Entregas Value selected:" + selectedValue);
+			if ("5".contentEquals(as[i])){%>
+				document.getElementById('dimensionE').options[0].selected = 'selected';
+		  <%}else if ("6".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionE').options[1].selected = 'selected';
+		  <%}else if ("8".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionE').options[2].selected = 'selected';
+		  <%}else if ("14".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionE').options[3].selected = 'selected';
+		  <%}else if ("15".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionE').options[4].selected = 'selected';
+		  <%}else if ("16".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionE').options[5].selected = 'selected';
+		  <%}else if ("17".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionE').options[6].selected = 'selected';
+	  	  <%}
+		 }//for%>	
+	<%}else{//if %>
+		document.getElementById('dimensionE').options[0].selected = 'selected';
+		for (var j=1;j<7;j++){
+			document.getElementById('dimensionE').options[j].selected = '';
+		}
+	<%} %>
+	
+	
+	<% 	
+	Object dimensionP_ParamValue = request.getAttribute("dimensionP");
+	if (dimensionP_ParamValue != null){
+		String[] as= (String[]) dimensionP_ParamValue;
+		for (int i=0;i<as.length;i++){
+			int selectedValue = Integer.parseInt(as[i]);
+			System.out.println("dimension Peticiones Value selected:" + selectedValue);
 			if ("8".contentEquals(as[i])){%>
-				document.getElementById('dimension').options[0].selected = 'selected';
-			  <%}else if ("9".contentEquals(as[i])){%>			  
-			  	document.getElementById('dimension').options[1].selected = 'selected';
-			  <%}else if ("10".contentEquals(as[i])){%>			  
-			  	document.getElementById('dimension').options[2].selected = 'selected';
-			  <%}else if ("11".contentEquals(as[i])){%>			  
-			  	document.getElementById('dimension').options[3].selected = 'selected';
-			  <%}else if ("12".contentEquals(as[i])){%>			  
-			  	document.getElementById('dimension').options[4].selected = 'selected';
-			  <%}else if ("32".contentEquals(as[i])){%>			  
-			  	document.getElementById('dimension').options[5].selected = 'selected';	
-			  <%}else if ("13".contentEquals(as[i])){%>			  
-			  	document.getElementById('dimension').options[6].selected = 'selected';	
-			  <%}else if ("14".contentEquals(as[i])){%>			  
-			  	document.getElementById('dimension').options[7].selected = 'selected';	
-		   	  <%}else if ("15".contentEquals(as[i])){%>			  
-		   		document.getElementById('dimension').options[8].selected = 'selected';
-		   	  <%}else if ("16".contentEquals(as[i])){%>			  
-		   		document.getElementById('dimension').options[9].selected = 'selected';
-		   	  <%}else if ("17".contentEquals(as[i])){%>			  
-		   		document.getElementById('dimension').options[10].selected = 'selected';
-		  	  <%}
+				document.getElementById('dimensionP').options[0].selected = 'selected';
+		  <%}else if ("9".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionP').options[1].selected = 'selected';
+		  <%}else if ("10".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionP').options[2].selected = 'selected';
+		  <%}else if ("11".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionP').options[3].selected = 'selected';
+		  <%}else if ("12".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionP').options[4].selected = 'selected';
+		  <%}else if ("32".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionP').options[5].selected = 'selected';	
+		  <%}else if ("13".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionP').options[6].selected = 'selected';	
+		  <%}else if ("14".contentEquals(as[i])){%>			  
+		  	document.getElementById('dimensionP').options[7].selected = 'selected';	
+	   	  <%}else if ("15".contentEquals(as[i])){%>			  
+	   		document.getElementById('dimensionP').options[8].selected = 'selected';
+	   	  <%}else if ("16".contentEquals(as[i])){%>			  
+	   		document.getElementById('dimensionP').options[9].selected = 'selected';
+	   	  <%}else if ("17".contentEquals(as[i])){%>			  
+	   		document.getElementById('dimensionP').options[10].selected = 'selected';
+	  	  <%}
 		 }//for%>	
 		
 	<%}else{//if %>
-		document.getElementById('dimension').options[0].selected = 'selected';
+		document.getElementById('dimensionP').options[0].selected = 'selected';
 		for (var j=1;j<11;j++){
-			document.getElementById('dimension').options[j].selected = '';
+			document.getElementById('dimensionP').options[j].selected = '';
 		}
 	<%} %>
+	
 	
 	  </script>
 	

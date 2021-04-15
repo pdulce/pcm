@@ -60,7 +60,7 @@ public class Histogram3D extends GenericHighchartModel {
 				
 		// extraemos todas las series que haya: si hay un único fieldgroupby, solo habrá una serie, si hay dos, habrá N series
 		Map<String, Map<Date, Number>> series = new HashMap<String, Map<Date, Number>>();		
-		
+		int numPointsWithValue = 0;
 		if (fieldsGROUPBY.length == 1) {
 			//genero aqui todas las series que hay diferentes, y luego agrupo por unidad de periodo
 			for (int j=0;j<valoresAgregados.size();j++) {
@@ -126,7 +126,7 @@ public class Histogram3D extends GenericHighchartModel {
 		}
 		
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
-		double total_ = 0.0;
+		double total = 0.0;
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 		Map<Long, String> nameSeries = new HashMap<Long, String>();
 		for (int i = 0; i < periodos.size(); i++) {
@@ -175,7 +175,10 @@ public class Histogram3D extends GenericHighchartModel {
 				double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE)? 
 						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador);
 				newPoints.put(valorPeriodoEjeX, valor);
-				total_ += acumulador;//acumulo solo los totales
+				total += valor;
+				if (valor != 0.0) {
+					numPointsWithValue++;
+				}
 				
 				Map<String, Number> puntosResueltos = newSeries.get(newkey);
 				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
@@ -203,7 +206,8 @@ public class Histogram3D extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("profundidad"), agregados == null ? 15 : 10 + 5 * (agregados.length));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("is3D"), "3D");
 		
-		return CommonUtils.roundWith2Decimals(total_);//aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
+		return CommonUtils.roundWith2Decimals(aggregateFunction.contentEquals(OPERATION_AVERAGE)?
+				CommonUtils.roundWith2Decimals(total/numPointsWithValue):total);//aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
 	}
 	
 	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {
