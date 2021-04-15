@@ -147,12 +147,12 @@
 				<jsp:include page="${containerJSP_110}">
 					<jsp:param name="idseries" value="_serie11" />
 					<jsp:param name="width" value="600px" />
-					<jsp:param name="height" value="375px" />
+					<jsp:param name="height" value="450px" />
 				</jsp:include>
 				<jsp:include page="${containerJSP_121}">
 					<jsp:param name="idseries" value="_serie022" />
 					<jsp:param name="width" value="440px" />
-					<jsp:param name="height" value="220px" />
+					<jsp:param name="height" value="190px" />
 				</jsp:include>
 			</td>
 		</tr>	
@@ -197,8 +197,13 @@
 				</jsp:include>
 			</td>
 			<td>
-				<jsp:include page="${containerJSP_32}">
-					<jsp:param name="idseries" value="_serie06" />
+				<jsp:include page="${containerJSP_301}">
+					<jsp:param name="idseries" value="_serie061" />
+					<jsp:param name="width" value="600px" />
+					<jsp:param name="height" value="450px" />
+				</jsp:include>
+				<jsp:include page="${containerJSP_302}">
+					<jsp:param name="idseries" value="_serie062" />
 					<jsp:param name="width" value="600px" />
 					<jsp:param name="height" value="360px" />
 				</jsp:include>

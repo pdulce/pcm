@@ -92,14 +92,15 @@ DROP TABLE `estudios`;
 CREATE TABLE `estudios` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `titulo` varchar(250) NULL,
-  `id_aplicativo` int(11) DEFAULT NULL,
+  `id_aplicativo` int(11) DEFAULT NULL,  
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `num_meses` int(4) DEFAULT NULL,  
   `id_periodo` int(11) DEFAULT NULL,
   `volatile_tipopeticiones` int(11) DEFAULT NULL,
   `id_configuradorEstudios` int(11) DEFAULT NULL,
-  `fec_lanzado_estudio` TIMESTAMP NULL
+  `fec_lanzado_estudio` TIMESTAMP NULL,
+  `id_servicio` int(11) DEFAULT NULL
  );
 
 DROP TABLE `resumenPeticiones`;

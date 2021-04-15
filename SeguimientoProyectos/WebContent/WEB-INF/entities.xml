@@ -98,6 +98,8 @@
 	<field mappingTo="9" name="id_configuradorEstudios" type="long" length="11" required="false"
 	   fkParentEntities="configuradorEstudios" fkParentFields="1"/>
 	<field mappingTo="10" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>	    
+	<field mappingTo="11" name="id_servicio" type="long" length="11" required="false" 
+	    fkParentEntities="servicioUTE" fkParentFields="1"/>
 </entity>
 
   <entity>

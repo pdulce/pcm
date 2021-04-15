@@ -69,7 +69,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
     // the value axis
     yAxis: {
         min: 0,
-        max: 20,
+        max: 25,
 
         minorTickInterval: 'auto',
         minorTickWidth: 1,
@@ -92,15 +92,15 @@ Highcharts.chart('<%=idseries%>speedometer', {
         },
         plotBands: [{
             from: 0,
-            to: 5,
+            to: 6,
             color: '#55BF3B' // green
         }, {
-            from: 5,
-            to: 12,
+            from: 6,
+            to: 16,
             color: '#DDDF0D' // yellow
         }, {
-            from: 12,
-            to: 20,
+            from: 16,
+            to: 25,
             color: '#DF5353' // red
         }]
     },

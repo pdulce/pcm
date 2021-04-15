@@ -17,14 +17,13 @@ xmlns:service="http://pcm.framework.org/service"
 				<form columns="2" title="Estudios Estadísticos de Entregas">
 				
 					<userbuttons>
-				
-						
+										
 						<button	link="prjManager" id="timeseries01" name="Time series" >
 							<fieldViewSet nameSpace="timeseries01">
 								<fieldView name="highchart" hidden="true" value="timeseries"/>
 								<fieldView name="entidadGrafico" hidden="true" value="resumenEntregas"/>
 								<fieldView name="orderBy" hidden="true" value="9"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
-								<fieldView name="fieldForGroupBy" hidden="true" value="2,9"/> <!-- by estudio y anyo-mes -->
+								<fieldView name="fieldForGroupBy" hidden="true" value="2,9"/>
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
 										<option code="5" title="Núm.Peticiones" selected="true"></option>
@@ -72,17 +71,22 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldset legend="Filtrar por datos del estudio">
 							<fieldView mappingTo="2" editable="true" />
 							<fieldView mappingTo="3" type="select" editable="true">
-								<optionValues entitymodel="aplicativo"
+								<optionValues entitymodel="aplicativo" selectionMultiple="true"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="11" type="select" editable="true">
+								<optionValues entitymodel="servicioUTE" selectionMultiple="true"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="7" type="select" editable="true">
-								<optionValues entitymodel="tiposPeriodos"
+								<optionValues entitymodel="tiposPeriodos" selectionMultiple="true"
 									descrMappingTo="3">
 								</optionValues>
 							</fieldView>
 							<fieldView separator="br" />
-							<fieldView separator="br" />							
+							<fieldView separator="br" />
 							<fieldView mappingTo="4" editable="true" />
 							<fieldView mappingTo="5" editable="true" />
 							<fieldView mappingTo="6" editable="true" />											
@@ -98,6 +102,11 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="2" editable="false" />					
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="aplicativo"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="11" type="select" editable="false">
+							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
@@ -132,6 +141,11 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="2" editable="false" />
 							<fieldView mappingTo="3" type="select" editable="false">
 								<optionValues entitymodel="aplicativo"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="11" type="select" editable="false">
+								<optionValues entitymodel="servicioUTE"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -173,8 +187,11 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
-							<!-- fieldView mappingTo="7" type="hidden"/> --> 
-							
+							<fieldView mappingTo="11" type="select" editable="true">
+								<optionValues entitymodel="servicioUTE"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>							
 							<fieldView mappingTo="8" type="select" editable="true" size="8">
 								<optionValues entitymodel="tiposPeticiones" selectionMultiple="true"
 									descrMappingTo="2">
@@ -401,6 +418,11 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="10" editable="false" />						
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="aplicativo"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="11" type="select" editable="false">
+							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>

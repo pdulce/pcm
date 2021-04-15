@@ -73,17 +73,10 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
                 }
             }
         },    
-        legend: {		            	
-            width: 1080,
-            floating: true,
-            align: 'center',
-            x: 95, // = marginLeft - default spacingLeft
-            y: 22,
-            itemWidth: 220,
-            itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'},
-            itemDistance: 85,
-            borderWidth: 0
-        },
+        legend: {
+	        reversed: true,
+	        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+	    },
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
             pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"histogram3ddecimals")%>}'

@@ -21,7 +21,7 @@
 							<fieldView separator="br" />
 							<fieldView mappingTo="2"/>
 							<fieldView mappingTo="3" type="select" editable="true">
-								<optionValues entitymodel="tecnologia"
+								<optionValues entitymodel="tecnologia" selectionMultiple="true"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>

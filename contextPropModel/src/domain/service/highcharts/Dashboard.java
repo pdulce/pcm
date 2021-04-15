@@ -121,22 +121,30 @@ public class Dashboard extends GenericHighchartModel {
 				TimeSeries seriesPeticiones3 = new TimeSeries(), seriesPeticiones4 = new TimeSeries();
 				Pie piePeticiones = new Pie();		
 				BarChart barPeticiones = new BarChart();
+				Histogram3D histogramPeticiones = new Histogram3D();
 
 				Datamap dataMapPeticiones05 =  createMap(_data, "_serie05", entities[1], "20", "3", "line", "8");
 				seriesPeticiones3.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones05);
-				Datamap dataMapPeticiones06 =  createMap(_data, "_serie06", entities[1], "3", "3", "", "8");
-				piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones06);
+				
+				Datamap dataMapPeticiones061 =  createMap(_data, "_serie061", entities[1], "3", "3", "", "8");
+				piePeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones061);
+				Datamap dataMapPeticiones062 =  createMap(_data, "_serie062", entities[1], "20", "3", "", "-1");
+				histogramPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones062);
+				
 				Datamap dataMapPeticiones07 =  createMap(_data, "_serie07", entities[1], "20", "3", "area", "17");
 				seriesPeticiones4.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones07);
 				Datamap dataMapPeticiones08 =  createMap(_data, "_serie08", entities[1], "20", "3,4", "", "8");
 				barPeticiones.generateStatGraphModel(dataAccess, domainService, dataMapPeticiones08);
 				
+				
 				_data.copyMap(dataMapPeticiones05);						
-				_data.copyMap(dataMapPeticiones06);
+				_data.copyMap(dataMapPeticiones061);
+				_data.copyMap(dataMapPeticiones062);
 				_data.copyMap(dataMapPeticiones07);
-				_data.copyMap(dataMapPeticiones08);
+				_data.copyMap(dataMapPeticiones08);				
 				_data.setAttribute("containerJSP_31", seriesPeticiones3.getScreenRendername().concat(".jsp"));
-				_data.setAttribute("containerJSP_32", piePeticiones.getScreenRendername().concat(".jsp"));
+				_data.setAttribute("containerJSP_301", piePeticiones.getScreenRendername().concat(".jsp"));
+				_data.setAttribute("containerJSP_302", histogramPeticiones.getScreenRendername().concat(".jsp"));
 				_data.setAttribute("containerJSP_41", seriesPeticiones4.getScreenRendername().concat(".jsp"));
 				_data.setAttribute("containerJSP_42", barPeticiones.getScreenRendername().concat(".jsp"));
 			}

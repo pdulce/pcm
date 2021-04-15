@@ -126,7 +126,7 @@ public class Histogram3D extends GenericHighchartModel {
 		}
 		
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
-		double total = 0.0;
+		double total_ = 0.0;
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 		Map<Long, String> nameSeries = new HashMap<Long, String>();
 		for (int i = 0; i < periodos.size(); i++) {
@@ -175,7 +175,7 @@ public class Histogram3D extends GenericHighchartModel {
 				double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE)? 
 						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador);
 				newPoints.put(valorPeriodoEjeX, valor);
-				total += valor;
+				total_ += acumulador;//acumulo solo los totales
 				
 				Map<String, Number> puntosResueltos = newSeries.get(newkey);
 				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
@@ -203,7 +203,7 @@ public class Histogram3D extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("profundidad"), agregados == null ? 15 : 10 + 5 * (agregados.length));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("is3D"), "3D");
 		
-		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
+		return CommonUtils.roundWith2Decimals(total_);//aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
 	}
 	
 	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {

@@ -89,6 +89,7 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES = 8;
     public static final int ESTUDIOS_9_ID_HEURISTICA = 9;
     public static final int ESTUDIOS_10_FECHA_LANZAMIENTO = 10;
+    public static final int ESTUDIOS_11_ID_SERVICIO = 11;
     public static final String ESTUDIOS_ENTIDAD = "estudios";
 	
 	public static final int HEURISTICAS_CALCULOS_1_ID = 1;
