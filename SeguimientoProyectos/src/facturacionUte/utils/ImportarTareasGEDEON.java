@@ -54,9 +54,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS",ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO",
 	ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
 	
-
 	static {
-		COLUMNSET2ENTITYFIELDSET_MAP.put("ID|Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_1_ID_NUMERIC));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("ID|Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas|Pets. relacionadas", Integer.valueOf(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS));		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.PETICIONES_2_TITULO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Descripción", Integer.valueOf(ConstantesModelo.PETICIONES_3_DESCRIPCION));
@@ -125,42 +124,43 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		initEntities(dataAccess.getDictionaryName());
 	}
 	
-	private int linkarPeticionesDeSGD_a_CDISM(FieldViewSet peticionPadre, final List<Long> idsHijas_) throws DatabaseException, TransactionException{
+	private int linkarPeticionesDeSGD_a_CDISM(FieldViewSet peticionPadre, final List<String> idsHijas_) throws DatabaseException, TransactionException{
 		int contador = 0;
-		Long idPadreGestion = (Long) peticionPadre.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
-		for (Long idHija: idsHijas_){
+		String idPadreGestion = (String) peticionPadre.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName());
+		for (String idHija: idsHijas_){
 			FieldViewSet peticionHija = new FieldViewSet(peticionesEntidad);
-			peticionHija.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idHija);
-			peticionHija = dataAccess.searchEntityByPk(peticionHija);
-			if (peticionHija == null){
-				//System.out.println("OJO: peticion con identif. " + idHija + " no encontrada; posiblemente no esto asociada al orea de OO.");
+			peticionHija.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), idHija.toString());
+			Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionHija);
+			if (existenColl == null || existenColl.isEmpty()){
 				continue;
+			}else {
+				peticionHija = existenColl.iterator().next();
 			}
 			
 			String idsRelacionadasEnHija = (String) peticionHija.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-			List<Long> idsRelacionadasEnHija_ = CommonUtils.obtenerCodigos(idsRelacionadasEnHija);
-			if (!idsRelacionadasEnHija_.contains(Long.valueOf(idPadreGestion))){
-				idsRelacionadasEnHija_.add(Long.valueOf(idPadreGestion));				
+			List<String> idsRelacionadasEnHija_ = CommonUtils.obtenerCodigos(idsRelacionadasEnHija);
+			if (!idsRelacionadasEnHija_.contains(idPadreGestion)){
+				idsRelacionadasEnHija_.add(String.valueOf(idPadreGestion));				
 			}
 			peticionHija.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName(), 
-					serialize(idsRelacionadasEnHija_));
+					CommonUtils.serialize(idsRelacionadasEnHija_));
 			dataAccess.modifyEntity(peticionHija);
 			contador++;
 		}
 		return contador;
 	}
 	
-    private int linkarPeticionesDeCDISM_A_DG(FieldViewSet peticionPadre, final List<Long> idsHijas_) throws TransactionException{
+    private int linkarPeticionesDeCDISM_A_DG(FieldViewSet peticionPadre, final List<String> idsHijas_) throws TransactionException{
     	int contador = 0;
-    	for (Long idHija: idsHijas_){    		
+    	for (String idHija: idsHijas_){    		
     		String idsRelacionadasEnPadre = (String) peticionPadre.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-			List<Long> idsRelacionadasEnPadre_ = CommonUtils.obtenerCodigos(idsRelacionadasEnPadre);
+			List<String> idsRelacionadasEnPadre_ = CommonUtils.obtenerCodigos(idsRelacionadasEnPadre);
 			if (!idsRelacionadasEnPadre_.contains(idHija)){
 				contador++;
 				idsRelacionadasEnPadre_.add(idHija);
 			}
 			peticionPadre.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName(), 
-					serialize(idsRelacionadasEnPadre_));
+					CommonUtils.serialize(idsRelacionadasEnPadre_));
     	}
     	return contador;
     }
@@ -257,15 +257,16 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				// grabamos cada fila en BBDD
 				for (final FieldViewSet registro : filas) {
 					
-					Long idPeticion = (Long) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());					
+					String codGEDEON = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName());					
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionesEntidad);
-					peticionEnBBDD.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticion);
-					peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
-					if (peticionEnBBDD != null){
+					peticionEnBBDD.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), codGEDEON);
+					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionEnBBDD);
+					if (existenColl != null && !existenColl.isEmpty()){
+						peticionEnBBDD = existenColl.iterator().next();
 						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
 						String centroDestinoPadre = (String) peticionEnBBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());
 						String idsHijas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-						List<Long> idsHijas_ = CommonUtils.obtenerCodigos(idsHijas);
+						List<String> idsHijas_ = CommonUtils.obtenerCodigos(idsHijas);
 						if ( CDISM.equals(centroDestinoPadre)){
 							numImportadas += linkarPeticionesDeSGD_a_CDISM(peticionEnBBDD, idsHijas_);
 						}else if ( CONTRATO_7201_17G_L2.equals(centroDestinoPadre)){
@@ -298,7 +299,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName(),
 							registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_3_DESCRIPCION).getName()));
 					}
-					
+					Long idApp = new Long(0);
 					//si este rochade no esto en la tabla proyectos, miramos si es entorno Natural para encajarlo
 					FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicativoEntidad);
 					existeProyectoDadoDeAlta.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_5_NOMBRE).getName(), nombreAplicacionDePeticion);
@@ -307,9 +308,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), Integer.valueOf(2));//"HOST"
 						//String aplicac = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName());
 						//String titlePet = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());
-						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), 0);//no existe aplicación registrada para esta petición
+						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), idApp);//no existe aplicación registrada para esta petición
 					}else{
-						Long idApp = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
+						idApp = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
+						//idServicio = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName());
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), idApp);
 						Long idTecnologia = (Long) apps.get(0).getValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY).getName());
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG).getName(), idTecnologia);
@@ -330,14 +332,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						if (tipoPeticion == null || tipoPeticion.equals("")) {
 							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO).getName(),
 									"Mejora desarrollo");
-							tipoPeticion = "";
-						}
-						tipoPeticionFset.setValue(tiposPeticionEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName(), tipoPeticion);
-						Collection<FieldViewSet> tiposFound = dataAccess.searchByCriteria(tipoPeticionFset);
-						if (!tiposFound.isEmpty()) {
-							FieldViewSet tipoPeticionBBDD = tiposFound.iterator().next();
-							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName(), 
-									tipoPeticionBBDD.getValue(tiposPeticionEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName()));
+							tipoPeticion = "Mejora desarrollo";
 						}
 						
 						Date fecAlta = (Date) registro.getValue(peticionesEntidad.searchField(
@@ -356,6 +351,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES)
 									.getName(), horasReales);
 						}
+						tipoPeticionFset.setValue(tiposPeticionEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE).getName(), tipoPeticion);
+						Collection<FieldViewSet> tiposFound = dataAccess.searchByCriteria(tipoPeticionFset);
+						if (!tiposFound.isEmpty()) {
+							FieldViewSet tipoPeticionBBDD = tiposFound.iterator().next();
+							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName(), 
+									tipoPeticionBBDD.getValue(tiposPeticionEntidad.searchField(ConstantesModelo.TIPOS_PETICIONES_1_ID).getName()));
+						}
+						
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(),	
 								false);
 						if (tipoPeticion.toString().indexOf("Pequeño evolutivo") != -1){						
@@ -370,7 +373,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							}
 						}
 						
-						if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){							
+						if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") == -1){
+							
 							if (situacion.toString().indexOf("Petición finalizada") != -1){						
 								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Petición de trabajo finalizado");							
 							} else if (situacion.toString().indexOf("Trabajo finalizado") != -1){														
@@ -437,28 +441,25 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							
 							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName(), null);
 							
-							idPeticion = CommonUtils.obtenerCodigo(idPeticion.toString());
-							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticion);
 							FieldViewSet registroExistente = new FieldViewSet(peticionesEntidad);
-							registroExistente.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC)
-									.getName(), idPeticion);
-							FieldViewSet duplicado = this.dataAccess.searchEntityByPk(registroExistente);
-							if (duplicado != null){
+							registroExistente.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), codGEDEON);
+							if (dataAccess.searchByCriteria(registroExistente).isEmpty()){
+								IDs_changed.add(codGEDEON);
+								int ok = this.dataAccess.insertEntity(registro);
+								if (ok != 1) {
+									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
+								}
+							}else {
+								FieldViewSet duplicado = existenColl.iterator().next();
 								Timestamp tStampFecEstadoModifReg = (Timestamp) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF)
 										.getName());
 								Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF)
 										.getName());
 								if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
-									IDs_changed.add(idPeticion.toString());
+									IDs_changed.add(codGEDEON);
 								}
 								int ok = this.dataAccess.modifyEntity(registro);
-								if (ok != 1) {
-									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
-								}
-							}else{
-								IDs_changed.add(idPeticion.toString());
-								int ok = this.dataAccess.insertEntity(registro);
-								if (ok != 1) {
+								if (ok < 1) {
 									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
 								}
 							}
@@ -505,23 +506,24 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	
 	private void linkarPeticionesAEntrega(final FieldViewSet peticionDeEntrega) throws Throwable{
 					
-		Long idGEDEONPeticionEntrega = (Long) peticionDeEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName());
+		String idGEDEONPeticionEntrega = (String) peticionDeEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName());
 		
 		String peticionesRelacionadas = 
 				(String) peticionDeEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-		List<Long> peticionesRelacionadas_int = CommonUtils.obtenerCodigos(peticionesRelacionadas);		
+		List<String> peticionesRelacionadas_int = CommonUtils.obtenerCodigos(peticionesRelacionadas);		
 		if (peticionesRelacionadas_int == null || peticionesRelacionadas_int.isEmpty()){	
 			return;
 		}
 		
-		for (Long idPet : peticionesRelacionadas_int){
+		for (String idPet : peticionesRelacionadas_int){
 
 			FieldViewSet peticionRelacionada = new FieldViewSet(peticionesEntidad);
-			peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPet);
-			peticionRelacionada = this.dataAccess.searchEntityByPk(peticionRelacionada);			
-			if (peticionRelacionada == null || 
-					peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName()) == null){				
+			peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), idPet);
+			Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionRelacionada);
+			if (existenColl == null || existenColl.isEmpty()){
 				continue;
+			}else {
+				peticionRelacionada = existenColl.iterator().next();
 			}
 
 			String servicioDestinoRelacionada = (String) 
@@ -535,18 +537,21 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			if (servicioDestinoRelacionada.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
 					
 				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(), true);
-				List<Long> entregasPrevias = peticionesEntregaPrevias == null || "".equals(peticionesEntregaPrevias) ? new ArrayList<Long>() : CommonUtils.obtenerCodigos(peticionesEntregaPrevias);
-				String literalEntregasPrevias = idGEDEONPeticionEntrega.toString();
+				List<String> entregasPrevias = peticionesEntregaPrevias == null || "".equals(peticionesEntregaPrevias) ? 
+						new ArrayList<String>() : CommonUtils.obtenerCodigos(peticionesEntregaPrevias);
+				String literalEntregasPrevias = idGEDEONPeticionEntrega;
 								
 				for (int ent_=0;ent_<entregasPrevias.size();ent_++){				
 					final String id_Entrega = String.valueOf(entregasPrevias.get(ent_));
 					literalEntregasPrevias = literalEntregasPrevias.concat(",").concat(id_Entrega);
 					
 					FieldViewSet entregaPeticion = new FieldViewSet(peticionesEntidad);
-					entregaPeticion.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), id_Entrega);
-					entregaPeticion = this.dataAccess.searchEntityByPk(entregaPeticion);						
-					if (entregaPeticion == null){ 
+					entregaPeticion.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), id_Entrega);
+					existenColl = dataAccess.searchByCriteria(entregaPeticion);
+					if (existenColl == null || existenColl.isEmpty()){
 						continue;
+					}else {
+						entregaPeticion = existenColl.iterator().next();
 					}
 					if (ent_<entregasPrevias.size() - 1){
 						literalEntregasPrevias = literalEntregasPrevias.concat(",");
@@ -614,19 +619,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 	}
 
-	
-	private String serialize(List<Long> codigos){
-		final StringBuilder strB = new StringBuilder();
-		for (int i=0;i< codigos.size();i++){
-			Long idPet = codigos.get(i);
-			strB.append(String.valueOf(idPet));
-			if (i < (codigos.size() - 1)){
-				strB.append(",");
-			}
-		}
-		return strB.toString();		
-	}
-	
 	
     @Override
     protected Serializable getFieldOfColumnValue(final IEntityLogic entidad, 

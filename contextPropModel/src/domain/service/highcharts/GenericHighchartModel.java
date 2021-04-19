@@ -199,7 +199,7 @@ public abstract class GenericHighchartModel implements IStats {
 		}else if (agregados.length > 0){
 			units = getUnitName(agregados[0], groupByField[0], aggregateFunction, data_);
 			if (agregados.length > 1){
-				nombreConceptoRecuento = " Comparativa entre ";
+				nombreConceptoRecuento = "";
 				for (int ag=0;ag<agregados.length;ag++){
 					String campoIesimoAgregado = Translator.traduceDictionaryModelDefined(lang, filtro_.getEntityDef().getName().concat(".").concat(agregados[ag].getName()));
 					nombreConceptoRecuento += "[" + campoIesimoAgregado + "]";

@@ -91,6 +91,10 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="5" editable="true" />
 							<fieldView mappingTo="6" editable="true" />											
 							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="12" editable="true" />
+							<fieldView mappingTo="13" editable="true" />																		
+							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
 						
@@ -191,7 +195,7 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>							
-							<fieldView mappingTo="8" type="select" editable="true" size="8">
+							<fieldView mappingTo="8" type="select" editable="true" size="10">
 								<optionValues entitymodel="tiposPeticiones" selectionMultiple="true"
 									descrMappingTo="2">
 								</optionValues>
@@ -476,7 +480,8 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldView mappingTo="14" editable="false" styleCss="color: #38ef7d;" />	
 						<fieldView mappingTo="15" editable="false" styleCss="color: #38ef7d;" />	
 						<fieldView mappingTo="16" editable="false" styleCss="color: #38ef7d;" />	
-						<fieldView mappingTo="17" editable="false" styleCss="color: orange;" />
+						<fieldView mappingTo="17" editable="false" styleCss="color: orange;" />	
+						
 					</fieldViewSet>
 				</grid>
 			

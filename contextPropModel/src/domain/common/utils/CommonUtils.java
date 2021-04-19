@@ -131,9 +131,9 @@ public final class CommonUtils {
 		return pluralOf.toString();
 	}
 	
-	public static Long obtenerCodigo(String peticionId){
+	public static String obtenerCodigo(String peticionId){
 		
-		Long numeroPeticion = Long.valueOf(-1);	
+		String numeroPeticion = "-1";	
 		if (peticionId == null){
 			return numeroPeticion;
 		}
@@ -146,14 +146,14 @@ public final class CommonUtils {
 				if (Character.isDigit(c_)){
 					str_.append(String.valueOf(c_));
 				}else if (str_.length() > 0 && (c_ == 'g' || c_ == '>')){
-					numeroPeticion = Long.valueOf(str_.toString().trim());
+					numeroPeticion = String.valueOf(str_.toString().trim());
 					break;
 				}
 			}
 		}else{			
 			if (peticionId.length() > 0 && Character.isDigit(peticionId.charAt(0))){
 				String[] splitter2 = peticionId.split(PCMConstants.REGEXP_POINT);
-				numeroPeticion = Long.valueOf(splitter2[0].trim());
+				numeroPeticion = String.valueOf(splitter2[0].trim());
 			}		
 		}
 		
@@ -161,9 +161,9 @@ public final class CommonUtils {
 		
 	}
 	
-	public static List<Long> obtenerCodigos(String pets){
+	public static List<String> obtenerCodigos(String pets){
 		
-		List<Long> arr = new ArrayList<Long>();	
+		List<String> arr = new ArrayList<String>();	
 		if (pets == null){
 			return arr;
 		}
@@ -173,7 +173,7 @@ public final class CommonUtils {
 		for (int i=0;i<length_;i++){
 			try {
 				if (splitter[i] != null && !splitter[i].trim().contentEquals("")) {
-					Long num = Long.valueOf(splitter[i]);
+					String num = String.valueOf(splitter[i]);
 					arr.add(num);
 				}
 			}catch (Throwable excx) {
@@ -182,6 +182,18 @@ public final class CommonUtils {
 		}
 			
 		return arr;
+	}
+	
+	public static String serialize(List<String> codigos){
+		final StringBuilder strB = new StringBuilder();
+		for (int i=0;i< codigos.size();i++){
+			String idPet = codigos.get(i);
+			strB.append(String.valueOf(idPet));
+			if (i < (codigos.size() - 1)){
+				strB.append(",");
+			}
+		}
+		return strB.toString();		
 	}
 	
 	public static int obtenerDifEnMeses(final Calendar fechaCalMasAntigua, final Calendar fechaCalMasReciente){

@@ -7,9 +7,6 @@
   <entity>
     <entityname>peticiones</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true"/>
-    <field mappingTo="26" name="id_aplicativo" type="long" length="11" required="false"
-    	fkParentEntities="aplicativo" fkParentFields="1"/>    
-    <field mappingTo="27" name="volatile_proyecto" type="string" length="100" required="false"/>
     <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
     <field mappingTo="3" name="Descripcion" type="string" length="1000" required="false"/>
     <field mappingTo="4" name="Observaciones" type="string" length="1000" required="false"/>
@@ -37,6 +34,9 @@
     <field mappingTo="23" name="Des_fecha_prevista_fin" type="date" length="10" required="false"/>
     <field mappingTo="24" name="Des_fecha_real_inicio" type="date" length="10" required="false"/>
     <field mappingTo="25" name="Des_fecha_real_fin" type="date" length="10" required="false"/>
+    <field mappingTo="26" name="id_aplicativo" type="long" length="11" required="false"
+    	fkParentEntities="aplicativo" fkParentFields="1"/>    
+    <field mappingTo="27" name="volatile_proyecto" type="string" length="100" required="false"/>
     <field mappingTo="28" name="Horas_estimadas_actuales" type="double" length="10" required="false"/>
     <field mappingTo="29" name="Horas_reales" type="double" length="10" required="false"/>
     <field mappingTo="31" name="fecha_export" type="date" length="10" required="false"/>
@@ -46,15 +46,13 @@
     <field mappingTo="35" name="id_entrega_asociada" type="string" length="10" required="false"/>
     <field mappingTo="36" name="pets_relacionadas" type="string" length="250" required="false"/>
     <field mappingTo="37" name="fecha_estado_modif" type="timestamp" length="19" required="false"/>
-    <field mappingTo="38" name="tipo_fecha" type="integer" length="2" required="false"/>
-    <field mappingTo="39" name="fecha_informe" type="date" length="10" required="false"/>
-    <field mappingTo="40" name="estado_informe" type="string" length="100" required="false"/>
     <field mappingTo="41" name="entorno" type="long" length="11" required="false" 
        fkParentEntities="tecnologia" fkParentFields="1"/>
     <field mappingTo="42" name="Horas_estimadas_iniciales" type="double" length="10" required="false"/>
     <field mappingTo="43" name="fecha_validada_CD" type="date" length="10" required="false"/>  
     <field mappingTo="44" name="ult_modificacion" type="date" length="10" required="false"/>
-    <field mappingTo="45" name="volatile_tipo" type="string" length="50" required="false"/> 
+    <field mappingTo="45" name="volatile_tipo" type="string" length="50" required="false"/>
+    <field mappingTo="46" name="cod_GEDEON" type="string" length="10" required="false"/>
 </entity>
 
 <entity>
@@ -100,6 +98,8 @@
 	<field mappingTo="10" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>	    
 	<field mappingTo="11" name="id_servicio" type="long" length="11" required="false" 
 	    fkParentEntities="servicioUTE" fkParentFields="1"/>
+   	<field mappingTo="12" name="volatile_min_uts" type="double" length="6" required="false" /> 
+   	<field mappingTo="13" name="volatile_max_uts" type="double" length="6" required="false" />
 </entity>
 
   <entity>

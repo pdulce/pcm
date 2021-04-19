@@ -108,9 +108,9 @@
 			<select class="textInput" size="3" id="resumenEntregas.id_estudio" name="resumenEntregas.id_estudio" 
 				onChange="javascript:document.forms[0].submit();return true;"
 				 multiple>
-				<option value="resumenEntregas.id_estudio=8"  id="resumenEntregas.id_estudio=8">Pliego-Mto-Pros@</option>
-				<option value="resumenEntregas.id_estudio=9"  id="resumenEntregas.id_estudio=9">Pliego-ND-Pros@</option>
-				<option value="resumenEntregas.id_estudio=10"  id="resumenEntregas.id_estudio=10">Pliego-HOST</option>
+				<option value="resumenEntregas.id_estudio=28"  id="resumenEntregas.id_estudio=28">Servicio-HOST</option>				
+				<option value="resumenEntregas.id_estudio=29"  id="resumenEntregas.id_estudio=29">Servicio-Mto-Pros@</option>
+				<option value="resumenEntregas.id_estudio=30"  id="resumenEntregas.id_estudio=30">Nuevos Desarrollos</option>
 			</select>			
 			
 			<label class="infoCls"  title="Servicio Graficos Peticiones" id="resumenPeticiones.id_estudioLABEL" for="resumenPeticiones.id_estudio">
@@ -119,9 +119,9 @@
 			<select class="textInput" size="3" id="resumenPeticiones.id_estudio" name="resumenPeticiones.id_estudio" 
 				onChange="javascript:document.forms[0].submit();return true;"
 				 multiple>
-				<option value="resumenPeticiones.id_estudio=8"  id="resumenPeticiones.id_estudio=8">Pliego-Mto-Pros@</option>
-				<option value="resumenPeticiones.id_estudio=9"  id="resumenPeticiones.id_estudio=9">Pliego-ND-Pros@</option>
-				<option value="resumenPeticiones.id_estudio=10"  id="resumenPeticiones.id_estudio=10">Pliego-HOST</option>
+				<option value="resumenPeticiones.id_estudio=28"  id="resumenPeticiones.id_estudio=28">Servicio-HOST</option>
+				<option value="resumenPeticiones.id_estudio=29"  id="resumenPeticiones.id_estudio=29">Servicio-Mto-Pros@</option>
+				<option value="resumenPeticiones.id_estudio=30"  id="resumenPeticiones.id_estudio=30">Nuevos Desarrollos</option>			
 			</select>
 		</div>
 				
@@ -336,7 +336,7 @@
 		String[] as= (String[]) servicioParamValues;
 		for (int i=0;i<as.length;i++){
 			//System.out.println("resumenEntregas.id_estudio " + as[i]);
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 8;
+			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 28;
 			//System.out.println("resumenEntregas.id_estudio value selected:" + selectedValue);
 		%>			
 			document.getElementById('resumenEntregas.id_estudio').options[<%=selectedValue%>].selected= 'selected';
@@ -354,7 +354,7 @@
 	if (servicio2ParamValues != null){
 		String[] as= (String[]) servicio2ParamValues;
 		for (int i=0;i<as.length;i++){
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 8;
+			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 28;
 			//System.out.println("resumenPeticiones.id_estudio value selected:" + selectedValue);
 		%>			
 			document.getElementById('resumenPeticiones.id_estudio').options[<%=selectedValue%>].selected= 'selected';

@@ -35,15 +35,13 @@ CREATE TABLE `peticiones` (
   `id_entrega_asociada` varchar(10) DEFAULT NULL,
   `pets_relacionadas` varchar(250) DEFAULT NULL,
   `fecha_estado_modif` TIMESTAMP DEFAULT NULL,
-  `tipo_fecha` int(2),
-  `fecha_informe` TIMESTAMP DEFAULT NULL, 
-  `estado_informe` varchar(100) DEFAULT NULL, 
   `id_area` int(11) DEFAULT NULL, 
   `entorno` int(11) DEFAULT NULL,
   `Horas_estimadas_iniciales` double DEFAULT NULL,
   `fecha_validada_CD` DATE NULL,
   `ult_modificacion` DATE NULL,
-  `volatile_tipo` varchar(50) DEFAULT NULL
+  `volatile_tipo` varchar(50) DEFAULT NULL,
+  `cod_GEDEON` varchar(10) DEFAULT NULL
 );  
 
 DROP TABLE `tareasPeticion`;
@@ -59,7 +57,7 @@ CREATE TABLE `tareasPeticion` (
   `fecha_fin_previsto` date DEFAULT NULL,
   `fecha_inicio_real` date DEFAULT NULL,  
   `fecha_fin_real` date DEFAULT NULL,
-  `Fecha_de_alta` dateDEFAULT NULL,
+  `Fecha_de_alta` date DEFAULT NULL,
   `Fecha_de_tramitacion` date DEFAULT NULL,
  );
 
@@ -97,7 +95,6 @@ CREATE TABLE `estudios` (
   `fecha_fin` date NOT NULL,
   `num_meses` int(4) DEFAULT NULL,  
   `id_periodo` int(11) DEFAULT NULL,
-  `volatile_tipopeticiones` int(11) DEFAULT NULL,
   `id_configuradorEstudios` int(11) DEFAULT NULL,
   `fec_lanzado_estudio` TIMESTAMP NULL,
   `id_servicio` int(11) DEFAULT NULL

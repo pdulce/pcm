@@ -403,22 +403,26 @@ xmlns:service="http://pcm.framework.org/service"
 							descrMappingTo="2">
 						</optionValues>
 					</fieldView>
-					<fieldView mappingTo="4" type="select" editable="false">
+					<!-- <fieldView mappingTo="4" type="select" editable="false">
 						<optionValues entitymodel="tiposPeticiones"
 							descrMappingTo="2">
 						</optionValues>
-					</fieldView>
+					</fieldView>-->
 					<fieldView mappingTo="28" editable="false"  />	
 					<fieldView mappingTo="5" editable="false" styleCss="color: #38ef7d;" />
-					<!-- fieldView mappingTo="29" editable="false"  /> -->
-					<fieldView mappingTo="6" editable="false" styleCss="color: #38ef7d;" />
-					<fieldView mappingTo="7" editable="false" styleCss="color: #38ef7d;" />					
-					<fieldView mappingTo="16" editable="false"  />
-					<fieldView mappingTo="17" editable="false" styleCss="color: orange;" />	
-					<fieldView mappingTo="8" editable="false" />
+					
+					<fieldView mappingTo="8" editable="false" styleCss="color: #38ef7d;" />
+					<fieldView mappingTo="16" editable="false" styleCss="color: #38ef7d;" />	
+					<fieldView mappingTo="17" editable="false" styleCss="color: orange;" />
 					<fieldView mappingTo="9" editable="false" />
-					<fieldView mappingTo="10" editable="false"  />
+					<fieldView mappingTo="10" editable="false" />
+					<fieldView mappingTo="11" editable="false" />
 					<fieldView mappingTo="12" editable="false" />
+					<fieldView mappingTo="32" editable="false" />
+					<fieldView mappingTo="13" editable="false" />
+					<fieldView mappingTo="14" editable="false" styleCss="color: #38ef7d;" />	
+					<fieldView mappingTo="15" editable="false" styleCss="color: #38ef7d;" />					
+					
 				</fieldViewSet>
 			</grid>
 		

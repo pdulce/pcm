@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -150,12 +151,14 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 						}
 					}
 					String[] splitter2 = splitter[0].trim().split("_");
-					Long idPeticionGEDEON = Long.valueOf(splitter2[0]);
+					String idPeticionGEDEON =splitter2[0].trim();
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionEntidad);
-					peticionEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_NUMERIC).getName(), idPeticionGEDEON);
-					peticionEnBBDD = dataAccess.searchEntityByPk(peticionEnBBDD);
-					if (peticionEnBBDD == null){
+					peticionEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), idPeticionGEDEON);
+					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionEnBBDD);
+					if (existenColl == null || existenColl.isEmpty()){
 						continue;//no añadimos esta tarea porque no tiene padre
+					}else {
+						peticionEnBBDD = existenColl.iterator().next();
 					}
 					
 					//Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());

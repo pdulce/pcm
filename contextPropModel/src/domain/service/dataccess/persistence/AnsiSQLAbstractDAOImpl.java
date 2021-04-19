@@ -122,6 +122,8 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					} else if (field.getAbstractField().isDate()) {
 						if (!value.equals("")) {
 							pstmt.setDate(contador++, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
+						}else {
+							pstmt.setDate(contador++, null);
 						}
 					} else if (field.getAbstractField().isBoolean()) {
 						pstmt.setInt(contador++, "1".equals(value.toString()) || "true".equals(value.toString()) ? 1 : 0);
@@ -203,9 +205,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			if (field.belongsPK()){//si viene PK en el objeto, lo almaceno
 				valueObjectsPk.add(value);
 				continue;
-			}
+			}			
 			
-			if ( (fieldV.isNull() || fieldV.isEmpty()) && (field.isRequired() || field.getAbstractField().isBlob()) ) {					
+			if ( (fieldV.isNull() || fieldV.isEmpty()) && field.isRequired()) {					
 				continue;
 			}
 			if (!first) {
@@ -231,17 +233,21 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 			for (int contadorArgs = 1; contadorArgs <= nArgs; contadorArgs++) {
 				final IFieldLogic field = fieldsWithVal.get(contadorArgs-1);
-				if (field.isVolatile()) {
+				if (field.isVolatile() || field.belongsPK()) {
 					continue;
 				}
+				IFieldValue fieldV = fieldViewSet.getFieldvalue(field);
 				Serializable value = valueObjects.get(contadorArgs-1);
-				if (value == null) {
-					pstmt.setObject(contadorArgs, value);
-				} else if (field.getAbstractField().isDecimal() && value != null) {
+				if ( (fieldV.isNull() || fieldV.isEmpty()) && field.isRequired()) {					
+					continue;
+				} 
+				if (field.getAbstractField().isDecimal() && value != null) {
 					pstmt.setDouble(contadorArgs, CommonUtils.numberFormatter.parse(value).doubleValue());
 				} else if (field.getAbstractField().isDate()) {
 					if (!value.equals("")) {
 						pstmt.setDate(contadorArgs, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
+					}else {
+						pstmt.setDate(contadorArgs, null);
 					}
 				} else if (field.getAbstractField().isBoolean()) {
 					pstmt.setInt(contadorArgs, "1".equals(value.toString()) || "true".equals(value.toString()) ? 1 : 0);
@@ -278,10 +284,10 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			}
 			res = pstmt.executeUpdate();
 		}
-		catch (final SQLException exc) {
+		catch (final SQLException exc1) {
 			res = -1;
-			// //AnsiSQLAbstractDAOImpl.log.error("exception1 = " + exc);
-			throw new DatabaseException(InternalErrorsConstants.BBDD_UPDATE_EXCEPTION, exc);
+			AnsiSQLAbstractDAOImpl.log.info("exception1 = " + exc1);
+			throw new DatabaseException(InternalErrorsConstants.BBDD_UPDATE_EXCEPTION, exc1);
 		}
 		catch (final Throwable exc) {
 			// //AnsiSQLAbstractDAOImpl.log.error("Unknown Error", exc);

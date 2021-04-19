@@ -196,7 +196,7 @@
 						
 					<fieldset legend="Por Detalle">
 						
-							<fieldView mappingTo="1" editable="true" size="6" />
+							<fieldView mappingTo="46" editable="true" size="10" />
 							<fieldView mappingTo="35" editable="true" />
 							<fieldView mappingTo="2" editable="true" />
 							<fieldView mappingTo="3" editable="true" />
@@ -239,7 +239,8 @@
 
 				<fieldViewSet entitymodel="peticiones"	nameSpace="peticiones">
 					<fieldView mappingTo="17" hidden="true" />
-					<fieldView mappingTo="1" editable="false" styleCss="font-weight: bold;"/><!-- Peticion -->
+					<fieldView mappingTo="1" hidden="true" />
+					<fieldView mappingTo="46" editable="false" styleCss="font-weight: bold;"/><!-- Peticion -->
 					<fieldView mappingTo="37" editable="false" />
 					<fieldView mappingTo="12" editable="false" styleCss="font-style: italic;"/>
 					<fieldView mappingTo="26" type="checkbox" size="1" editable="false">
@@ -253,7 +254,7 @@
 						</optionValues>
 					</fieldView>
 					<fieldView mappingTo="7" editable="false" styleCss="font-weight: bold;"/><!-- Estado_peticion_originaria -->					
-					<fieldView mappingTo="42" editable="false" styleCss="font-weight: bold;color: orange;"/>
+					<fieldView mappingTo="28" editable="false" styleCss="font-weight: bold;color: orange;"/>
 					
 					<fieldView mappingTo="9" type="select"><!-- Subdireccion Origen de la peticion -->
 						<optionValues entitymodel="subdireccion" descrMappingTo="3">
@@ -281,7 +282,8 @@
 			<form columns="4" title="Detalle Tarea GEDEON">
 				<fieldViewSet entitymodel="peticiones"
 					nameSpace="peticionesForm">
-					<fieldView mappingTo="1" editable="false" />
+					<fieldView mappingTo="1" hidden="true" />
+					<fieldView mappingTo="46" editable="false" />					
 					<fieldView mappingTo="2" editable="true" />
 					<fieldView separator="br" />
 					<fieldView separator="br" />
@@ -350,7 +352,7 @@
 					<fieldView mappingTo="1" hidden="true" />					
 					<fieldView mappingTo="2" editable="false"  />					
 					<fieldView mappingTo="3" type="select" editable="false">
-						<optionValues entitymodel="peticiones" descrMappingTo="1">
+						<optionValues entitymodel="peticiones" descrMappingTo="46">
 						</optionValues>
 					</fieldView>
 					<fieldView mappingTo="4" type="select" editable="false">

@@ -21,7 +21,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_5_USUARIO_CREADOR = 5;
 	public static final int PETICIONES_16_PRIORIDAD = 16;
 	public static final int PETICIONES_25_DES_FECHA_REAL_FIN = 25;
-	public static final int PETICIONES_1_ID_NUMERIC= 1;
+	public static final int PETICIONES_1_ID_SEQUENCE= 1;
 	public static final int PETICIONES_23_DES_FECHA_PREVISTA_FIN = 23;
 	public static final int PETICIONES_20_FECHA_FIN_DE_DESARROLLO = 20;
 	public static final int PETICIONES_21_FECHA_DE_FINALIZACION = 21;
@@ -49,14 +49,12 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_35_ID_ENTREGA_ASOCIADA = 35;
 	public static final int PETICIONES_36_PETS_RELACIONADAS = 36;
 	public static final int PETICIONES_37_FEC_ESTADO_MODIF = 37;
-	public static final int PETICIONES_38_TIPO_FECHA = 38;
-	public static final int PETICIONES_39_FECHA_INFORME = 39;
-	public static final int PETICIONES_40_ESTADO_INFORME = 40;
 	public static final int PETICIONES_41_ENTORNO_TECNOLOG = 41;
 	public static final int PETICIONES_42_HORAS_ESTIMADAS_INICIALES = 42;
 	public static final int PETICIONES_43_FECHA_VALIDADA_EN_CD = 43;
 	public static final int PETICIONES_44_FECHA_ULTIMA_MODIFCACION = 44;
 	public static final int PETICIONES_45_VOLATILE_TIPO = 45;
+	public static final int PETICIONES_46_CODIGO_GEDEON = 46;
 	public static final String PETICIONES_ENTIDAD = "peticiones";
 
 	public static final int TIPOTAREA_1_ID = 1;
@@ -90,6 +88,8 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_9_ID_HEURISTICA = 9;
     public static final int ESTUDIOS_10_FECHA_LANZAMIENTO = 10;
     public static final int ESTUDIOS_11_ID_SERVICIO = 11;
+    public static final int ESTUDIOS_12_VOLATILE_MIN_UTS = 12;
+    public static final int ESTUDIOS_13_VOLATILE_MAX_UTS = 13;
     public static final String ESTUDIOS_ENTIDAD = "estudios";
 	
 	public static final int HEURISTICAS_CALCULOS_1_ID = 1;

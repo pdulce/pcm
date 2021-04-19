@@ -176,9 +176,9 @@ public class Histogram3D extends GenericHighchartModel {
 						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador);
 				newPoints.put(valorPeriodoEjeX, valor);
 				total += valor;
-				if (valor != 0.0) {
+				//if (valor != 0.0) {
 					numPointsWithValue++;
-				}
+				//}
 				
 				Map<String, Number> puntosResueltos = newSeries.get(newkey);
 				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
