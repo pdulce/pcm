@@ -122,7 +122,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			Double utsMax = (Double) registroEstudio.getValue(estudiosEntidad.searchField(
 					ConstantesModelo.ESTUDIOS_13_VOLATILE_MAX_UTS).getName());
 						
-			final Collection<IFieldView> fieldViews4FilterFecTram = new ArrayList<IFieldView>();
+			final Collection<IFieldView> fieldViews4FilterFecAndUts_ = new ArrayList<IFieldView>();
 			
 			final IFieldLogic fieldfecTramite = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
 			IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldfecTramite);			
@@ -133,10 +133,9 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			final IFieldView fViewMayorFecTram = fViewEntradaEnDG.copyOf();			
 			fViewMayorFecTram.setRankField(rankHasta);
 			
-			fieldViews4FilterFecTram.add(fViewMinorFecTram);
-			fieldViews4FilterFecTram.add(fViewMayorFecTram);
-			
-			final Collection<IFieldView> fieldViews4FilterUts = new ArrayList<IFieldView>();
+			fieldViews4FilterFecAndUts_.add(fViewMinorFecTram);
+			fieldViews4FilterFecAndUts_.add(fViewMayorFecTram);
+						
 			//rango de número ed uts
 			final IFieldLogic fieldUts = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
 			IFieldView fViewUts =  new FieldViewSet(peticionesEntidad).getFieldView(fieldUts);			
@@ -147,11 +146,11 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			final IFieldView fViewMayorUts = fViewUts.copyOf();			
 			fViewMayorUts.setRankField(rankHastaUts);
 			
-			fieldViews4FilterUts.add(fViewMinorUts);
-			fieldViews4FilterUts.add(fViewMayorUts);
+			fieldViews4FilterFecAndUts_.add(fViewMinorUts);
+			fieldViews4FilterFecAndUts_.add(fViewMayorUts);
 
 			
-			FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4FilterFecTram);
+			FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4FilterFecAndUts_);
 			filterPeticiones.setValue(fViewMinorFecTram.getQualifiedContextName(), fecIniEstudio);
 			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
 			
@@ -166,9 +165,6 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			situaciones.add("Entrega no conforme");
 			situaciones.add("Petición finalizada");
 			situaciones.add("Petición de Entrega finalizada");
-			/*situaciones.add("Petición de trabajo finalizado");
-			situaciones.add("Trabajo anulado");
-			situaciones.add("Trabajo finalizado no conforme");*/
 			
 			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), situaciones); 
 			filterPeticiones.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName(), "FACTDG07");				

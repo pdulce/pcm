@@ -214,7 +214,11 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView mappingTo="4" editable="true" />
 							<fieldView mappingTo="5" editable="true" />
 						</fieldset>
-												
+						
+						<fieldset legend="Rango volumen uts">
+							<fieldView mappingTo="12" editable="true" />
+							<fieldView mappingTo="13" editable="true" />
+						</fieldset>			
 																			
 					</fieldViewSet>
 				</form>
