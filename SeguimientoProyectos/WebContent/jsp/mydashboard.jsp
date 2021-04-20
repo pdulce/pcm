@@ -294,191 +294,183 @@
 	</table>
 	
 	<script type="text/javascript">
-	
+		
+	var escala = document.forms[0].escalado;
 	<% 	
 	Object escaladoParamValue = request.getAttribute("escalado");
 	if (escaladoParamValue != null){
 		String[] as= (String[]) escaladoParamValue;
-		for (int i=0;i<as.length;i++){
-			//System.out.println("value selected:" + as[i]);
-			if ("dayly".contentEquals(as[i])){%>
-			   	document.getElementById('escaladodayly').checked= 'checked';
-		  <%}else if ("weekly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escaladoweekly').checked= 'checked';
-		  <%}else if ("monthly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escaladomonthly').checked= 'checked';
-		  <%}else if ("3monthly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado3monthly').checked= 'checked';
-		  <%}else if ("6monthly".contentEquals(as[i])){%>			  
-		   		document.getElementById('escalado6monthly').checked= 'checked';
-		  <%}else if ("anualy".contentEquals(as[i])){%>			  
-		   		document.getElementById('escaladoanualy').checked= 'checked';	
-		  <%}else if ("automatic".contentEquals(as[i])){%>			  
-		   		document.getElementById('escaladoautomatic').checked= 'checked';	
-		  <%}%>	
+		for (int i=0;i<as.length;i++){%>		
+			for (var j = 0; j < escala.length; j++) {
+				if (escala[j].value == '<%=as[i]%>'){
+					escala[j].checked = true;
+				}
+			}
+		
 		<%}//for values
 	}else{ %>
-		  	document.getElementById('escaladomonthly').checked= 'checked';		  
+			//alert('iniciando valores de escala...');
+		  	for (var j = 0; j < escala.length; j++) {
+		  		if (escala[j].value == 'monthly'){
+		  			escala[j].checked = true;	
+				}else{
+					escala[j].checked = false;
+				}
+			}
   <%} %>
   
+  var oper = document.forms[0].operation;
   <% 	
 	Object operationParamValue = request.getAttribute("operation");
 	if (operationParamValue != null){
 		String[] as= (String[]) operationParamValue;
-		for (int i=0;i<as.length;i++){
-			//System.out.println("value selected:" + as[i]);
-			if ("AVG".contentEquals(as[i])){%>
-			   	document.getElementById('operationAVG').checked= 'checked';
-		  <%}else if ("SUM".contentEquals(as[i])){%>			  
-		   		document.getElementById('operationSUM').checked= 'checked';
-		  <%}%>	
-		<%}//for values
+		for (int i=0;i<as.length;i++){%>		
+			for (var j = 0; j < oper.length; j++) {
+				if (oper[j].value == '<%=as[i]%>'){
+					oper[j].checked = true;
+				}
+			}
+	<%}//for values
 	}else{ %>
-		  	document.getElementById('operationAVG').checked= 'checked';  
+		for (var j = 0; j < oper.length; j++) {
+			if (oper[j].value == 'AVG'){
+				oper[j].checked = true;	
+			}else{
+				oper[j].checked = false;
+			}
+		}
   <%} %>
 	
-	<% 	
-	Object entornoParamValues = request.getAttribute("aplicativo.id_tecnologia");
-	if (entornoParamValues != null){
-		String[] as= (String[]) entornoParamValues;
-		for (int i=0;i<as.length;i++){
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
-			//System.out.println("value selected:" + selectedValue);
-		%>			
-			document.getElementById('aplicativo.id_tecnologia').options[<%=selectedValue%>].selected= 'selected';
-		<%}//for values
-	}else{//if %>
-		   for (var j=0;j<5;j++){
-		  	document.getElementById('aplicativo.id_tecnologia').options[j].selected = '';
-		   }
-  <%} %>
-  
-  <% 	
-	Object servicioParamValues = request.getAttribute("resumenEntregas.id_estudio");
-	if (servicioParamValues != null){
-		String[] as= (String[]) servicioParamValues;
-		for (int i=0;i<as.length;i++){
-			//System.out.println("resumenEntregas.id_estudio " + as[i]);
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 28;
-			//System.out.println("resumenEntregas.id_estudio value selected:" + selectedValue);
-		%>			
-			document.getElementById('resumenEntregas.id_estudio').options[<%=selectedValue%>].selected= 'selected';
-		<%}%>
-		document.getElementById('agrupacion').value = '2';
-  <%}else{//if %>
-	    for (var j=0;j<3;j++){
-		    document.getElementById('resumenEntregas.id_estudio').options[j].selected = '';
-		}
-	    document.getElementById('agrupacion').value = '3';
-  <%} %>
-  
+  var estu = document.getElementById('resumenPeticiones.id_estudio');
   <% 	
 	Object servicio2ParamValues = request.getAttribute("resumenPeticiones.id_estudio");
 	if (servicio2ParamValues != null){
 		String[] as= (String[]) servicio2ParamValues;
 		for (int i=0;i<as.length;i++){
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1])) - 28;
-			//System.out.println("resumenPeticiones.id_estudio value selected:" + selectedValue);
-		%>			
-			document.getElementById('resumenPeticiones.id_estudio').options[<%=selectedValue%>].selected= 'selected';
+		%>	
+			for (var j = 0; j < estu.options.length; ++j) {
+		    	if (estu.options[j].value == '<%=as[i]%>'){	    			
+	    			estu.options[j].selected= 'selected';
+		    	}//if
+			}//for
 		<%}%>
 		document.getElementById('agrupacion').value = '2';
-  <%}else{//if %>
-	    for (var j=0;j<3;j++){
-	        document.getElementById('resumenPeticiones.id_estudio').options[j].selected = '';
+  <%}else{//if %>	  	  	
+	    for (var j=0;j<estu.options.length;j++){
+	        estu.options[j].selected = '';
 		}
 	    document.getElementById('agrupacion').value = '3';
   <%}%>
-
+  
+  
+  var tecn = document.getElementById('aplicativo.id_tecnologia');
+  <% 	
+	Object entornoParamValues = request.getAttribute("aplicativo.id_tecnologia");
+	if (entornoParamValues != null){
+		String[] as= (String[]) entornoParamValues;
+		for (int i=0;i<as.length;i++){
+		%>			
+		//alert('id_tecnologia seleccionada...');
+		for (var j = 0; j < tecn.options.length; ++j) {		    	
+	    	if (tecn.options[j].id == '<%=as[i]%>'){
+	    		//alert('selected value: '+ tecn.options[j].id);
+    			tecn.options[j].selected= 'selected';
+	    	}//if
+		}//for
+		<%}//for values
+	}else{//if %>
+		for (var j=0;j<tecn.options.length;j++){
+			tecn.options[j].selected = '';
+		}
+	<%} %>
+  
+	
+  var estuEnt = document.getElementById('resumenEntregas.id_estudio');
+  <% 	
+	Object servicioParamValues = request.getAttribute("resumenEntregas.id_estudio");
+	if (servicioParamValues != null){
+		String[] as= (String[]) servicioParamValues;
+		for (int i=0;i<as.length;i++){
+		%>
+		//alert('estudio seleccionado...');			
+		for (var j = 0; j < estuEnt.options.length; ++j) {		    	
+	    	if (estuEnt.options[j].id == '<%=as[i]%>'){
+	    		//alert('selected value: '+ estuEnt.options[j].id);
+    			estuEnt.options[j].selected= 'selected';
+	    	}//if
+		}//for
+			
+		<%}%>
+		document.getElementById('agrupacion').value = '2';
+	<%}else{//if %>
+		for (var j=0;j<estuEnt.options.length;j++){
+			estuEnt.options[j].selected = '';
+		}
+		document.getElementById('agrupacion').value = '3';
+	<%} %>
+	
+	var aplic = document.getElementById('aplicativo.id');
 	<% 	
 	Object aplicativoParamValues = request.getAttribute("aplicativo.id");
 	if (aplicativoParamValues != null){
 		String[] as= (String[]) aplicativoParamValues;
 		for (int i=0;i<as.length;i++){
-			int selectedValue = (Integer.valueOf(as[i].split("=")[1]) - 1);
-			//System.out.println("value selected:" + selectedValue);
 	   %>
-			document.getElementById('aplicativo.id').options[<%=selectedValue%>].selected= 'selected';
+		   for (var j = 0; j < aplic.options.length; ++j) {		    	
+		    	if (aplic.options[j].id == '<%=as[i]%>'){
+	   				aplic.options[j].selected= 'selected';
+		    	}//if
+			}//for
 	  <%}//for%>
 		document.getElementById('agrupacion').value = '3';
   <%} else {//if %>
-		 for (var j=0;j<37;j++){
-		  	document.getElementById('aplicativo.id').options[j].selected = '';
-		 }//for
-		 document.getElementById('agrupacion').value = '2';
+	 	for (var j=0;j<aplic.options.length;j++){
+	 		aplic.options[j].selected = '';
+		}
+		document.getElementById('agrupacion').value = '2';
   <%} %>
 	
+  
+  	var dimE = document.getElementById('dimensionE');
 	<% 	
 	Object dimensionParamValue = request.getAttribute("dimensionE");
 	if (dimensionParamValue != null){
 		String[] as= (String[]) dimensionParamValue;
-		for (int i=0;i<as.length;i++){
-			int selectedValue = Integer.parseInt(as[i]);
-			//System.out.println("dimension Entregas Value selected:" + selectedValue);
-			if ("5".contentEquals(as[i])){%>
-				document.getElementById('dimensionE').options[0].selected = 'selected';
-		  <%}else if ("6".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionE').options[1].selected = 'selected';
-		  <%}else if ("8".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionE').options[2].selected = 'selected';
-		  <%}else if ("14".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionE').options[3].selected = 'selected';
-		  <%}else if ("15".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionE').options[4].selected = 'selected';
-		  <%}else if ("16".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionE').options[5].selected = 'selected';
-		  <%}else if ("17".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionE').options[6].selected = 'selected';
-	  	  <%}
-		}//for%>	
-	<%}else{//if %>
-		document.getElementById('dimensionE').options[0].selected = 'selected';
-		for (var j=1;j<7;j++){
-			document.getElementById('dimensionE').options[j].selected = '';
+		for (int i=0;i<as.length;i++){%>
+			for (var j = 0; j < dimE.options.length; ++j) {		    	
+		    	if (dimE.options[j].id == '<%=as[i]%>'){
+	   				dimE.options[j].selected= 'selected';
+		    	}//if
+			}//for
+		<%}//for	
+	}else{//if %>
+		dimE.options[0].selected = 'selected';
+		for (var j=1;j<dimE.options.length;j++){
+			dimE.options[j].selected = '';
 		}
 	<%} %>
 	
 	
+	var dimP = document.getElementById('dimensionP');
 	<% 	
 	Object dimensionP_ParamValue = request.getAttribute("dimensionP");
 	if (dimensionP_ParamValue != null){
 		String[] as= (String[]) dimensionP_ParamValue;
-		for (int i=0;i<as.length;i++){
-			int selectedValue = Integer.parseInt(as[i]);
-			//System.out.println("dimension Peticiones Value selected:" + selectedValue);
-			if ("8".contentEquals(as[i])){%>
-				document.getElementById('dimensionP').options[0].selected = 'selected';
-		  <%}else if ("9".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionP').options[1].selected = 'selected';
-		  <%}else if ("10".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionP').options[2].selected = 'selected';
-		  <%}else if ("11".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionP').options[3].selected = 'selected';
-		  <%}else if ("12".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionP').options[4].selected = 'selected';
-		  <%}else if ("32".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionP').options[5].selected = 'selected';	
-		  <%}else if ("13".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionP').options[6].selected = 'selected';	
-		  <%}else if ("14".contentEquals(as[i])){%>			  
-		  	document.getElementById('dimensionP').options[7].selected = 'selected';	
-	   	  <%}else if ("15".contentEquals(as[i])){%>			  
-	   		document.getElementById('dimensionP').options[8].selected = 'selected';
-	   	  <%}else if ("16".contentEquals(as[i])){%>			  
-	   		document.getElementById('dimensionP').options[9].selected = 'selected';
-	   	  <%}else if ("17".contentEquals(as[i])){%>			  
-	   		document.getElementById('dimensionP').options[10].selected = 'selected';
-	  	  <%}
-		 }//for%>	
-		
-	<%}else{//if %>
-		document.getElementById('dimensionP').options[0].selected = 'selected';
-		for (var j=1;j<11;j++){
-			document.getElementById('dimensionP').options[j].selected = '';
+		for (int i=0;i<as.length;i++){%>
+		for (var j = 0; j < dimE.options.length; ++j) {		    	
+	    	if (dimP.options[j].id == '<%=as[i]%>'){
+   				dimP.options[j].selected= 'selected';
+	    	}//if
+		}//for
+	<%}//for	
+	}else{//if %>
+		dimP.options[0].selected = 'selected';
+		for (var j=1;j<dimP.options.length;j++){
+			dimP.options[j].selected = '';
 		}
 	<%} %>
 	
-	
-	  </script>
+
+</script>
 	
 	
