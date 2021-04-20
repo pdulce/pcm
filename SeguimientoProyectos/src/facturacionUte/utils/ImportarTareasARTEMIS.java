@@ -159,6 +159,8 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 						continue;//no añadimos esta tarea porque no tiene padre
 					}else {
 						peticionEnBBDD = existenColl.iterator().next();
+						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName(), 
+							peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));
 					}
 					
 					//Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
