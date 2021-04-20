@@ -137,11 +137,8 @@ public class Histogram3D extends GenericHighchartModel {
 			//System.out.println("Valor en EjeAbcisas: " +  valorPeriodoEjeX);
 			Iterator<Map.Entry<String, Map<Date, Number>>> iteSeries = series.entrySet().iterator();
 			while (iteSeries.hasNext()) {
-				Map.Entry<String, Map<Date, Number>> serie = iteSeries.next();
-				
-				Map<String, Number> newPoints = new HashMap<String, Number>();
-				
-				Double acumulador = new Double(0.0);
+				Map.Entry<String, Map<Date, Number>> serie = iteSeries.next();				
+				Map<String, Number> newPoints = new HashMap<String, Number>();							
 				String newkey = serie.getKey();
 				//vemos si podemos traducir la key
 				if (fieldsGROUPBY.length == 2 && CommonUtils.isNumeric(newkey)) {
@@ -164,6 +161,7 @@ public class Histogram3D extends GenericHighchartModel {
 				Map<Date, Number> points = serie.getValue();
 				Iterator<Date> itePoints = points.keySet().iterator();
 				int count = 0;
+				Double acumulador = new Double(0.0);
 				while (itePoints.hasNext()){
 					Date fechaOfPoint = itePoints.next();
 					Number valorEnFecha = points.get(fechaOfPoint);
@@ -176,9 +174,9 @@ public class Histogram3D extends GenericHighchartModel {
 						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador);
 				newPoints.put(valorPeriodoEjeX, valor);
 				total += valor;
-				//if (valor != 0.0) {
+				if (count > 0) {
 					numPointsWithValue++;
-				//}
+				}
 				
 				Map<String, Number> puntosResueltos = newSeries.get(newkey);
 				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
@@ -197,9 +195,9 @@ public class Histogram3D extends GenericHighchartModel {
 		IEntityLogic entidadGrafico = fieldsGROUPBY[0].getEntityDef();
 		String entidad = Translator.traduceDictionaryModelDefined(data_.getLanguage(), 
 				entidadGrafico.getName().concat(".").concat(entidadGrafico.getName()));
-		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), fieldsGROUPBY.length == 2 ? 
-				"Comparativa de " + CommonUtils.obtenerPlural(entidad): "Time series ");
+		//System.out.println("serieJson with series: " + newSeries.size());
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), 
+				(newSeries.size()> 1 ?"Comparativa de " + CommonUtils.obtenerPlural(entidad) : "Time series "));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), serieJson);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("abscisas"), jsArrayEjeAbcisas.toString());
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), minimal);
