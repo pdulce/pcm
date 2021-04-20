@@ -141,6 +141,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 						//999806_1 - INVE-ANA - INMUEBLES. Revisión del informe de movimientos de inmuebles en el cálculo y visualización de la amortización.
 						idTarea = splitter[0].trim();
 						FieldViewSet tareaEnBBDD = new FieldViewSet(tareaEntidad);
+						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName(), idTarea);
 						tareaEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName(), idTarea);
 						List<FieldViewSet> tareasEnBBDD = dataAccess.searchByCriteria(tareaEnBBDD);
 						if (tareasEnBBDD != null && !tareasEnBBDD.isEmpty()){
