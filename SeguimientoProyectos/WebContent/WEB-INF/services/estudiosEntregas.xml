@@ -121,11 +121,11 @@ xmlns:service="http://pcm.framework.org/service"
 								descrMappingTo="3">
 							</optionValues>
 						</fieldView>						
-						<fieldView mappingTo="9" type="select" editable="false">
+						<!-- <fieldView mappingTo="9" type="select" editable="false">
 							<optionValues entitymodel="configuradorEstudios"
 								descrMappingTo="2">
 							</optionValues>
-						</fieldView>	
+						</fieldView> -->	
 					</fieldViewSet>
 				</grid>
 				
@@ -159,11 +159,11 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="9" type="select" editable="false">
+							<!-- <fieldView mappingTo="9" type="select" editable="false">
 								<optionValues entitymodel="configuradorEstudios"
 									descrMappingTo="2">
 								</optionValues>
-							</fieldView>
+							</fieldView> -->
 							<fieldView mappingTo="4" editable="false" />
 							<fieldView mappingTo="5" editable="false" />
 							<fieldView mappingTo="6" editable="false" />											
@@ -440,11 +440,11 @@ xmlns:service="http://pcm.framework.org/service"
 						</fieldView>
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView mappingTo="9" type="select" editable="false">
+						<!-- fieldView mappingTo="9" type="select" editable="false">
 							<optionValues entitymodel="configuradorEstudios"
 								descrMappingTo="2">
 							</optionValues>
-						</fieldView>
+						</fieldView>-->
 						<fieldView mappingTo="4" editable="false" />
 						<fieldView mappingTo="5" editable="false" />
 						<fieldView mappingTo="6" editable="false" />											
