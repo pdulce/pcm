@@ -65,30 +65,6 @@ CREATE TABLE `tareasPeticion` (
 CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
 
 
-DROP TABLE `configuradorEstudios`;
-CREATE TABLE `configuradorEstudios` (
-  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
-  `configname` varchar(100) NULL,
-  `formula_jornadas_analisis` varchar(600) DEFAULT NULL,
-  `formula_jornadas_desarrollo` varchar(600) DEFAULT NULL,
-  `formula_jornadas_preparacionEntrega` varchar(600) DEFAULT NULL,
-  `formula_jornadas_pruebasCD` varchar(600) DEFAULT NULL,
-  `formula_jornadas_intervaloPlanifDG` varchar(600) DEFAULT NULL,
-  `formula_jornadas_intervaloFinDG_SolicitudEntregaAT` varchar(600) DEFAULT NULL,
-  `formula_jornadas_intervaloFinPruebasCD_InstalacProduc` varchar(600) DEFAULT NULL,
-  `formula_fecha_ini_analisis` varchar(150) DEFAULT NULL,
-  `formula_fecha_fin_analisis` varchar(150) DEFAULT NULL,
-  `formula_fecha_ini_pruebas_CD` varchar(150) DEFAULT NULL,
-  `formula_fecha_fin_pruebas_CD` varchar(150) DEFAULT NULL,  
-  `mlr_jornadas_analisis` varchar(600) DEFAULT NULL,
-  `alias_peticion_a_DG` varchar(50) DEFAULT NULL,
-  `alias_peticion_AT` varchar(50) DEFAULT NULL,
-  `alias_peticion_entrega` varchar(50) DEFAULT NULL,
-  `alias_peticion_pruebas` varchar(50) DEFAULT NULL,
-  `alias_tarea_analisis` varchar(50) DEFAULT NULL,
-  `alias_tarea_pruebas` varchar(50) DEFAULT NULL
-);
-
 DROP TABLE `estudios`;
 CREATE TABLE `estudios` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
@@ -98,7 +74,6 @@ CREATE TABLE `estudios` (
   `fecha_fin` date NOT NULL,
   `num_meses` int(4) DEFAULT NULL,  
   `id_periodo` int(11) DEFAULT NULL,
-  `id_configuradorEstudios` int(11) DEFAULT NULL,
   `fec_lanzado_estudio` TIMESTAMP NULL,
   `id_servicio` int(11) DEFAULT NULL
  );

@@ -93,39 +93,14 @@
 	    fkParentEntities="tiposPeriodos" fkParentFields="1"/>	
 	<field mappingTo="8" name="volatile_tipopeticiones" type="long" length="11" required="false" 
 	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>
-	<field mappingTo="9" name="id_configuradorEstudios" type="long" length="11" required="false"
-	   fkParentEntities="configuradorEstudios" fkParentFields="1"/>
 	<field mappingTo="10" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>	    
 	<field mappingTo="11" name="id_servicio" type="long" length="11" required="false" 
 	    fkParentEntities="servicioUTE" fkParentFields="1"/>
    	<field mappingTo="12" name="volatile_min_uts" type="double" length="6" required="false" /> 
    	<field mappingTo="13" name="volatile_max_uts" type="double" length="6" required="false" />
+   	<field mappingTo="14" name="volatile_automatico_mes" type="boolean" length="1" required="false" />
 </entity>
-
-  <entity>
-    <entityname>configuradorEstudios</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="configname" type="string" length="100" required="false"/> 
-    <field mappingTo="3" name="formula_jornadas_analisis" type="string" length="600" required="false"/>
-	<field mappingTo="4" name="formula_jornadas_desarrollo" type="string" length="600" required="false"/>
-	<field mappingTo="5" name="formula_jornadas_preparacionEntrega" type="string" length="600" required="false"/>
-	<field mappingTo="6" name="formula_jornadas_pruebasCD" type="string" length="600" required="false"/>
-	<field mappingTo="7" name="formula_jornadas_intervaloPlanifDG" type="string" length="600" required="false"/>
-	<field mappingTo="8" name="formula_jornadas_intervaloFinDG_SolicitudEntregaAT" type="string" length="600" required="false"/>
-	<field mappingTo="9" name="formula_jornadas_intervaloFinPruebasCD_InstalacProduc" type="string" length="600" required="false"/>
-	<field mappingTo="10" name="formula_fecha_ini_analisis" type="string" length="150" required="false"/>
-	<field mappingTo="11" name="formula_fecha_fin_analisis" type="string" length="150" required="false"/>
-	<field mappingTo="12" name="formula_fecha_ini_pruebas_CD" type="string" length="150" required="false"/>
-	<field mappingTo="13" name="formula_fecha_fin_pruebas_CD" type="string" length="150" required="false"/>
-	<field mappingTo="14" name="mlr_jornadas_analisis" type="string" length="600" required="false"/>
-	<field mappingTo="15" name="alias_peticion_a_DG" type="string" length="50" required="false"/>
-	<field mappingTo="16" name="alias_peticion_AT" type="string" length="50" required="false"/>
-	<field mappingTo="17" name="alias_peticion_entrega" type="string" length="50" required="false"/>
-	<field mappingTo="18" name="alias_peticion_pruebas" type="string" length="50" required="false"/>
-	<field mappingTo="19" name="alias_tarea_analisis" type="string" length="50" required="false"/>
-	<field mappingTo="20" name="alias_tarea_pruebas" type="string" length="50" required="false"/>	
- </entity>
-  
+ 
   <entity>
     <entityname>resumenPeticiones</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>

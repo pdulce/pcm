@@ -202,6 +202,13 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							
+							<fieldView mappingTo="14" type="radio">
+								<optionValues entitymodel="estudios"
+									descrMappingTo="14" codeField="14" editable="true">
+								</optionValues>
+							</fieldView>
+							
 							<!-- fieldView mappingTo="9" type="select" editable="true">
 								<optionValues entitymodel="configuradorEstudios"
 									descrMappingTo="2">

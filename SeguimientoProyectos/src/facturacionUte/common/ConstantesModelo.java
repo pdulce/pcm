@@ -85,34 +85,12 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_6_NUM_MESES = 6;
     public static final int ESTUDIOS_7_ID_PERIODO = 7;
     public static final int ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES = 8;
-    public static final int ESTUDIOS_9_ID_HEURISTICA = 9;
     public static final int ESTUDIOS_10_FECHA_LANZAMIENTO = 10;
     public static final int ESTUDIOS_11_ID_SERVICIO = 11;
     public static final int ESTUDIOS_12_VOLATILE_MIN_UTS = 12;
     public static final int ESTUDIOS_13_VOLATILE_MAX_UTS = 13;
+    public static final int ESTUDIOS_14_VOLATILE_AUTOMATICO_MES = 14;
     public static final String ESTUDIOS_ENTIDAD = "estudios";
-	
-	public static final int HEURISTICAS_CALCULOS_1_ID = 1;
-	public static final int HEURISTICAS_CALCULOS_2_CONFIGNAME = 2;
-	public static final int HEURISTICAS_CALCULOS_3_FORMULA_JORN_ANALYSIS = 3;
-	public static final int HEURISTICAS_CALCULOS_4_FORMULA_JORN_DESARROLLO = 4;
-	public static final int HEURISTICAS_CALCULOS_5_FORMULA_JORN_PREPARAC_ENTREGA = 5;
-	public static final int HEURISTICAS_CALCULOS_6_FORMULA_JORN_PRUEBASCD = 6;	
-	public static final int HEURISTICAS_CALCULOS_7_FORMULA_JORN_INTERVAL_PLANIFICACION_DG = 7;
-	public static final int HEURISTICAS_CALCULOS_8_FORMULA_JORN_INTERVAL_FINDG_SOLIC_ENTREGA_CD = 8;
-	public static final int HEURISTICAS_CALCULOS_9_FORMULA_JORN_INTERVAL_FINPRUEBASCD_INSTALAC_PRODUC = 9;
-	public static final int HEURISTICAS_CALCULOS_10_FORMULA_CALCULO_FECINI_ANALYSIS = 10;
-	public static final int HEURISTICAS_CALCULOS_11_FORMULA_CALCULO_FECFIN_ANALYSIS= 11;
-	public static final int HEURISTICAS_CALCULOS_12_FORMULA_CALCULO_FECINI_PRUEBASCD = 12;
-	public static final int HEURISTICAS_CALCULOS_13_FORMULA_CALCULO_FECFIN_PRUEBASCD = 13;
-	public static final int HEURISTICAS_CALCULOS_14_MLR_JORNADAS_ANALYSIS = 14;
-	public static final int HEURISTICAS_CALCULOS_15_ALIAS_PETICION_DG = 15;
-	public static final int HEURISTICAS_CALCULOS_16_ALIAS_PETICION_AT = 16;
-	public static final int HEURISTICAS_CALCULOS_17_ALIAS_PETICION_ENTREGA = 17;
-	public static final int HEURISTICAS_CALCULOS_18_ALIAS_PETICION_PRUEBAS_CD = 18;
-	public static final int HEURISTICAS_CALCULOS_19_ALIAS_TAREA_ANALISIS = 19;
-	public static final int HEURISTICAS_CALCULOS_20_ALIAS_TAREA_PRUEBAS = 20;
-	public static final String HEURISTICAS_CALCULOS_ENTIDAD = "configuradorEstudios";
 	
     public static final int TIPOS_PETICIONES_1_ID = 1;
     public static final int TIPOS_PETICIONES_2_NOMBRE = 2;
