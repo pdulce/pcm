@@ -153,7 +153,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					String[] splitter2 = splitter[0].trim().split("_");
 					String idPeticionGEDEON =splitter2[0].trim();
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionEntidad);
-					peticionEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), idPeticionGEDEON);
+					peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), Long.valueOf(idPeticionGEDEON));
 					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionEnBBDD);
 					if (existenColl == null || existenColl.isEmpty()){
 						continue;//no añadimos esta tarea porque no tiene padre

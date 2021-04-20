@@ -1,9 +1,17 @@
+<%@page import="java.util.Collection"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
+<%@page import="facturacionUte.common.ConstantesModelo"%>
+<%@page import="domain.service.dataccess.definitions.IEntityLogic"%>
+<%@page import="domain.service.component.definitions.FieldViewSet"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="domain.service.component.definitions.FieldViewSetCollection"%>
 <%@page import="java.util.Enumeration"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="UTF-8"%>
     
     
-    <form class="pcmForm" action="prjManager" method="POST">
+  <form class="pcmForm" action="prjManager" method="POST">
     
     	<input id="exec" name="exec" type="hidden" value="dashboard"/>
 		<input id="event" name="event" type="hidden" value="dashboard"/>
@@ -16,75 +24,56 @@
     		<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
 			&nbsp;&nbsp;Aplicativo&nbsp;</label>
 			<select class="textInput" size="4" id="aplicativo.id" name="aplicativo.id"
-				onChange="javascript:document.forms[0].submit();return true;" 
-				multiple>
-				<option value="aplicativo.id=1"  id="aplicativo.id=1">AFLO</option>
-				<option value="aplicativo.id=2"  id="aplicativo.id=2">APRO</option>
-				<option value="aplicativo.id=3"  id="aplicativo.id=3">AYFL</option>
-				<option value="aplicativo.id=4"  id="aplicativo.id=4">BISM</option>
-				<option value="aplicativo.id=5"  id="aplicativo.id=5">CMAR</option>
-				<option value="aplicativo.id=6"  id="aplicativo.id=6">CONT</option>
-				<option value="aplicativo.id=7"  id="aplicativo.id=7">FAM2</option>
-				<option value="aplicativo.id=8"  id="aplicativo.id=8">FAMA</option>
-				<option value="aplicativo.id=9"  id="aplicativo.id=9">FARM</option>
-				<option value="aplicativo.id=10"  id="aplicativo.id=10">FMAR</option>
-				<option value="aplicativo.id=11"  id="aplicativo.id=11">FOM2</option>
-				<option value="aplicativo.id=12"  id="aplicativo.id=12">FOMA</option>
-				<option value="aplicativo.id=13"  id="aplicativo.id=13">FRMA</option>
-				<option value="aplicativo.id=14"  id="aplicativo.id=14">GFOA</option>
-				<option value="aplicativo.id=15"  id="aplicativo.id=15">IMAG</option>
-				<option value="aplicativo.id=16"  id="aplicativo.id=16">INBU</option>
-				<option value="aplicativo.id=17"  id="aplicativo.id=17">INCA</option>
-				<option value="aplicativo.id=18"  id="aplicativo.id=18">INVE</option>
-				<option value="aplicativo.id=19"  id="aplicativo.id=19">ISMW</option>
-				<option value="aplicativo.id=20"  id="aplicativo.id=20">MEJP</option>
-				<option value="aplicativo.id=21"  id="aplicativo.id=21">MGEN</option>
-				<option value="aplicativo.id=22"  id="aplicativo.id=22">MIND</option>
-				<option value="aplicativo.id=23"  id="aplicativo.id=23">MOVI</option>
-				<option value="aplicativo.id=24"  id="aplicativo.id=24">OBIS</option>
-				<option value="aplicativo.id=25"  id="aplicativo.id=25">PAGO</option>
-				<option value="aplicativo.id=26"  id="aplicativo.id=26">PRES</option>
-				<option value="aplicativo.id=27"  id="aplicativo.id=27">SANI</option>
-				<option value="aplicativo.id=28"  id="aplicativo.id=28">SBOT</option>
-				<option value="aplicativo.id=29"  id="aplicativo.id=29">SIEB</option>
-				<option value="aplicativo.id=30"  id="aplicativo.id=30">TASA</option>
-				<option value="aplicativo.id=31"  id="aplicativo.id=31">TISM</option>
-				<option value="aplicativo.id=32"  id="aplicativo.id=32">WBOF</option>
-				<option value="aplicativo.id=33"  id="aplicativo.id=33">WISM</option>
-				<option value="aplicativo.id=34"  id="aplicativo.id=34">WSAO</option>
-				<option value="aplicativo.id=35"  id="aplicativo.id=35">WSCR</option>
-				<option value="aplicativo.id=36"  id="aplicativo.id=36">WSPX</option>
-				<option value="aplicativo.id=37"  id="aplicativo.id=37">WSRT</option>
+				onChange="javascript:document.forms[0].submit();return true;"  multiple>
+				<%				  
+				  Collection<FieldViewSetCollection> listaApps = (Collection<FieldViewSetCollection>) request.getAttribute("aplicativo_all");
+				  Iterator<FieldViewSetCollection> iteFieldViewSet = listaApps.iterator();
+				  while (iteFieldViewSet.hasNext()){
+					  Iterator<FieldViewSet> ite = iteFieldViewSet.next().getFieldViewSets().iterator();
+					  FieldViewSet fieldViewSet = ite.next();
+					  Long idAplicativo = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
+					  String nombreApp = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
+				%>
+					  <option value="aplicativo.id=<%=idAplicativo%>" id="aplicativo.id=<%=idAplicativo%>"><%=nombreApp%></option>
+				<%
+				  }//while
+				%>
 			</select>
 		
 			<label class="infoCls"  title="Fase Ciclo Vida" id="dimensionLabel" for="dimension">
 			&nbsp;&nbsp;Fase Ciclo Vida Entregas&nbsp;</label>
 			<select class="textInput" size="7" id="dimensionE" name="dimensionE" 
 				onChange="javascript:document.forms[0].submit();return true;">
-				<option value="5"  id="5">Núm. Peticiones</option>
-				<option value="6"  id="6">Volumen uts</option>
-				<option value="8"  id="8">Núm. Rechazos</option>
-				<option value="14"  id="14">Ciclo Vida Entrega</option>
-				<option value="15"  id="15">Tiempo Preparación en DG</option>
-				<option value="16"  id="16">Tiempo Validación en CD</option>
-				<option value="17"  id="17">Tiempo Desvalidación hasta Implantación</option>
+				<%				  
+				  Map<Integer,String> dimensiones = (Map<Integer,String>) request.getAttribute("dimensiones4Entregas");
+				  Iterator<Map.Entry<Integer,String>> iteDimensiones = dimensiones.entrySet().iterator();
+				  while (iteDimensiones.hasNext()){					  
+					  Map.Entry<Integer,String> entry = iteDimensiones.next();					  
+					  Integer dimensionIesima = entry.getKey();
+					  String nombreDimension = entry.getValue();
+				%>
+					  <option value="<%=dimensionIesima%>" id="<%=dimensionIesima%>"><%=nombreDimension%></option>
+				<%
+				  }//while
+				%>
 			</select>
 			
 			<label class="infoCls"  title="Fase Ciclo Vida" id="dimensionPLabel" for="dimensionP">
 			&nbsp;&nbsp;Fase Ciclo Vida Peticiones&nbsp;</label>
 			<select class="textInput" size="11" id="dimensionP" name="dimensionP" 
 				onChange="javascript:document.forms[0].submit();return true;">
-				<option value="8"  id="8">Ciclo vida</option>
-				<option value="9"  id="9">Duración Análisis</option>
-				<option value="10"  id="10">Duración Desarrollo</option>
-				<option value="11"  id="11">Duración Entrega a CD</option>
-				<option value="12"  id="12">Duración Pruebas CD</option>
-				<option value="32"  id="32">Duración Soporte al CD</option>
-				<option value="13"  id="13">Lapso Planificación DG</option>
-				<option value="14"  id="14">Lapso Planificación CD</option>
-				<option value="15"  id="15">Lapso Planificación Instalación GISS</option>
-				<option value="16"  id="16">Dedicaciones efectivas</option>
-				<option value="17"  id="17">Lapsos</option>
+				<%				  
+				  Map<Integer,String> dimensionesP = (Map<Integer,String>) request.getAttribute("dimensiones4Peticiones");
+				  Iterator<Map.Entry<Integer,String>> iteDimensionesP = dimensionesP.entrySet().iterator();
+				  while (iteDimensionesP.hasNext()){					  
+					  Map.Entry<Integer,String> entry = iteDimensionesP.next();					  
+					  Integer dimensionIesima = entry.getKey();
+					  String nombreDimension = entry.getValue();
+				%>
+					  <option value="<%=dimensionIesima%>" id="<%=dimensionIesima%>"><%=nombreDimension%></option>
+				<%
+				  }//while
+				%>
 			</select>
 		</div>
 			
@@ -95,22 +84,44 @@
     		</label>
 			<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
 				onChange="javascript:document.forms[0].submit();return true;" size="5" multiple>
-					<option value="aplicativo.id_tecnologia=1" id="aplicativo.id_tecnologia=1">HOST</option>
-					<option value="aplicativo.id_tecnologia=2" id="aplicativo.id_tecnologia=2">Pros@</option>
-					<option value="aplicativo.id_tecnologia=3" id="aplicativo.id_tecnologia=3">Web Services</option>
-					<option value="aplicativo.id_tecnologia=4" id="aplicativo.id_tecnologia=4">Servicios API Rest</option>
-					<option value="aplicativo.id_tecnologia=5" id="aplicativo.id_tecnologia=5">Mobile Tech</option>
+				<%
+				  Collection<FieldViewSetCollection> listatecnologias = (Collection<FieldViewSetCollection>) request.getAttribute("tecnologia_all");
+				  Iterator<FieldViewSetCollection> itelistatecnologias = listatecnologias.iterator();
+				  while (itelistatecnologias.hasNext()){					  
+					  Iterator<FieldViewSet> ite = itelistatecnologias.next().getFieldViewSets().iterator();
+					  FieldViewSet fieldViewSet = ite.next();
+					  Long idtecnologia = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.TECHNOLOGY_1_ID).getName());
+					  String nombretecnologia = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.TECHNOLOGY_2_NOMBRE).getName());					  
+				%>
+					  <option value="aplicativo.id_tecnologia=<%=idtecnologia%>" 
+					  	id="aplicativo.id_tecnologia=<%=idtecnologia%>"><%=nombretecnologia%></option>
+				<%
+				  }//while
+				 
+				%>				
 			</select>
 
    			<label class="infoCls"  title="Servicio Graficos Entregas" id="resumenEntregas.id_estudioLABEL" for="resumenEntregas.id_estudio">
 			&nbsp;&nbsp;Estudio Gráficos Entregas&nbsp;
 			</label>
 			<select class="textInput" size="3" id="resumenEntregas.id_estudio" name="resumenEntregas.id_estudio" 
-				onChange="javascript:document.forms[0].submit();return true;"
-				 multiple>
-				<option value="resumenEntregas.id_estudio=28"  id="resumenEntregas.id_estudio=28">Servicio-HOST</option>				
-				<option value="resumenEntregas.id_estudio=29"  id="resumenEntregas.id_estudio=29">Servicio-Mto-Pros@</option>
-				<option value="resumenEntregas.id_estudio=30"  id="resumenEntregas.id_estudio=30">Nuevos Desarrollos</option>
+				onChange="javascript:document.forms[0].submit();return true;"	 multiple>
+			
+				<%
+				  Collection<FieldViewSetCollection> listaestudios = (Collection<FieldViewSetCollection>) request.getAttribute("estudio_all");
+				  Iterator<FieldViewSetCollection> itelistaestudios = listaestudios.iterator();
+				  while (itelistaestudios.hasNext()){
+					  Iterator<FieldViewSet> ite = itelistaestudios.next().getFieldViewSets().iterator();
+					  FieldViewSet fieldViewSet = ite.next();
+					  Long idestudio = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+					  String nombreestudio = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName());
+				%>
+					  <option value="resumenEntregas.id_estudio=<%=idestudio%>" 
+					  	id="resumenEntregas.id_estudio=<%=idestudio%>"><%=nombreestudio%></option>
+				<%
+				  }//while
+				%>
+				
 			</select>			
 			
 			<label class="infoCls"  title="Servicio Graficos Peticiones" id="resumenPeticiones.id_estudioLABEL" for="resumenPeticiones.id_estudio">
@@ -119,9 +130,21 @@
 			<select class="textInput" size="3" id="resumenPeticiones.id_estudio" name="resumenPeticiones.id_estudio" 
 				onChange="javascript:document.forms[0].submit();return true;"
 				 multiple>
-				<option value="resumenPeticiones.id_estudio=28"  id="resumenPeticiones.id_estudio=28">Servicio-HOST</option>
-				<option value="resumenPeticiones.id_estudio=29"  id="resumenPeticiones.id_estudio=29">Servicio-Mto-Pros@</option>
-				<option value="resumenPeticiones.id_estudio=30"  id="resumenPeticiones.id_estudio=30">Nuevos Desarrollos</option>			
+				 
+				 <%				  
+				  itelistaestudios = listaestudios.iterator();
+				 while (itelistaestudios.hasNext()){
+					  Iterator<FieldViewSet> ite = itelistaestudios.next().getFieldViewSets().iterator();
+					  FieldViewSet fieldViewSet = ite.next();
+					  Long idestudio = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+					  String nombreestudio = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName());
+				%>
+					  <option value="resumenPeticiones.id_estudio=<%=idestudio%>" 
+					  	id="resumenPeticiones.id_estudio=<%=idestudio%>"><%=nombreestudio%></option>
+				<%
+				  }//while
+				%>
+
 			</select>
 		</div>
 				

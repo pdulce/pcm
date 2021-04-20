@@ -46,7 +46,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_22_DES_FECHA_PREVISTA_INICIO = 22;
 	public static final int PETICIONES_33_SERVICIO_ATIENDE_PETICION = 	33;
 	public static final int PETICIONES_34_CON_ENTREGA = 34;
-	public static final int PETICIONES_35_ID_ENTREGA_ASOCIADA = 35;
+	public static final int PETICIONES_35_ID_ENTREGA_GEDEON = 35;
 	public static final int PETICIONES_36_PETS_RELACIONADAS = 36;
 	public static final int PETICIONES_37_FEC_ESTADO_MODIF = 37;
 	public static final int PETICIONES_41_ENTORNO_TECNOLOG = 41;
@@ -54,7 +54,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_43_FECHA_VALIDADA_EN_CD = 43;
 	public static final int PETICIONES_44_FECHA_ULTIMA_MODIFCACION = 44;
 	public static final int PETICIONES_45_VOLATILE_TIPO = 45;
-	public static final int PETICIONES_46_CODIGO_GEDEON = 46;
+	public static final int PETICIONES_46_COD_GEDEON = 46;
 	public static final String PETICIONES_ENTIDAD = "peticiones";
 
 	public static final int TIPOTAREA_1_ID = 1;

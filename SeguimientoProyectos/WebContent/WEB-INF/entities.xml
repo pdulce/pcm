@@ -6,7 +6,7 @@
   
   <entity>
     <entityname>peticiones</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true"/>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="Titulo" type="string" length="500" required="false"/>
     <field mappingTo="3" name="Descripcion" type="string" length="1000" required="false"/>
     <field mappingTo="4" name="Observaciones" type="string" length="1000" required="false"/>
@@ -43,7 +43,7 @@
     <field mappingTo="32" name="version_analysis" type="string" length="20" required="false"/>
     <field mappingTo="33" name="servicio_atiende_pet" type="string" length="20" required="false"/>
     <field mappingTo="34" name="con_entrega" type="boolean" length="1" required="false"/>
-    <field mappingTo="35" name="id_entrega_asociada" type="string" length="10" required="false"/>
+    <field mappingTo="35" name="id_entrega_asociada" type="long" length="11" required="false" />   	 
     <field mappingTo="36" name="pets_relacionadas" type="string" length="250" required="false"/>
     <field mappingTo="37" name="fecha_estado_modif" type="timestamp" length="19" required="false"/>
     <field mappingTo="41" name="entorno" type="long" length="11" required="false" 
@@ -52,18 +52,18 @@
     <field mappingTo="43" name="fecha_validada_CD" type="date" length="10" required="false"/>  
     <field mappingTo="44" name="ult_modificacion" type="date" length="10" required="false"/>
     <field mappingTo="45" name="volatile_tipo" type="string" length="50" required="false"/>
-    <field mappingTo="46" name="cod_GEDEON" type="string" length="10" required="false"/>
+    <field mappingTo="46" name="cod_GEDEON" type="long" length="10" required="true"/>
 </entity>
 
 <entity>
     <entityname>tiposTareas</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true"/>    
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>   
     <field mappingTo="2" name="nombre" type="string" length="100" required="false"/>	
 </entity>
 
 <entity>
     <entityname>tareasPeticion</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true"/>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_tareaGEDEON" type="string" length="20" required="false"/>
     <field mappingTo="3" name="id_peticion" type="long" length="11" required="false" 
        fkParentEntities="peticiones" fkParentFields="1"/>

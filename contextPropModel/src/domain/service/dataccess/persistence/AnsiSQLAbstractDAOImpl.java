@@ -120,7 +120,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					if (field.getAbstractField().isDecimal()) {
 						pstmt.setDouble(contador++, CommonUtils.numberFormatter.parse(value).doubleValue());
 					} else if (field.getAbstractField().isDate()) {
-						if (!value.equals("")) {
+						if (value!=null && !value.equals("")) {
 							pstmt.setDate(contador++, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
 						}else {
 							pstmt.setDate(contador++, null);
@@ -244,7 +244,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				if (field.getAbstractField().isDecimal() && value != null) {
 					pstmt.setDouble(contadorArgs, CommonUtils.numberFormatter.parse(value).doubleValue());
 				} else if (field.getAbstractField().isDate()) {
-					if (!value.equals("")) {
+					if (value != null && !value.equals("")) {
 						pstmt.setDate(contadorArgs, new java.sql.Date(SQLUtils.getDateObjectForPreparedStatement(value).getTime()));
 					}else {
 						pstmt.setDate(contadorArgs, null);
@@ -285,13 +285,14 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			res = pstmt.executeUpdate();
 		}
 		catch (final SQLException exc1) {
+			exc1.printStackTrace();
 			res = -1;
 			AnsiSQLAbstractDAOImpl.log.info("exception1 = " + exc1);
 			throw new DatabaseException(InternalErrorsConstants.BBDD_UPDATE_EXCEPTION, exc1);
 		}
-		catch (final Throwable exc) {
-			// //AnsiSQLAbstractDAOImpl.log.error("Unknown Error", exc);
-			throw new DatabaseException(InternalErrorsConstants.BBDD_UPDATE_EXCEPTION, exc);
+		catch (final Throwable exc2) {
+			exc2.printStackTrace();
+			throw new DatabaseException(InternalErrorsConstants.BBDD_UPDATE_EXCEPTION, exc2);
 		} finally {
 			try {
 				if (pstmt != null) {

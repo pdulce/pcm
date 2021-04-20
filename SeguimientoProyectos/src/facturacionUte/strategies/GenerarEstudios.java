@@ -260,72 +260,36 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			
 	}
 	
-	private double getTotalUtsEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega) {
-    	double numUtsEntrega = 0;
-		String peticiones = (String) miEntrega.getValue(peticionesEntidad.searchField(
-				ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
-		if (peticiones != null && !"".contentEquals(peticiones)) {				
-			List<String> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
-			for (int i=0;i<codigosPeticiones.size();i++) {
-				String codPeticionDG = codigosPeticiones.get(i);
-				FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
-				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), codPeticionDG);									
-				try {
-					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionDG);
-					if (existenColl == null || existenColl.isEmpty()){
-						continue;
-					}else {
-						peticionDG = existenColl.iterator().next();
-					}
-				} catch (DatabaseException e) {
-					e.printStackTrace();
-					return -1000000.00;
-				}
-				if (peticionDG != null) {
-					 Double utsEstimadas = (Double) peticionDG.getValue(peticionesEntidad.searchField(
-								ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
-					 if (utsEstimadas == 0) {
-						 Double utsReales = (Double) peticionDG.getValue(peticionesEntidad.searchField(
-								ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
-						 numUtsEntrega += utsReales;
-					 }else {
-						 numUtsEntrega += utsEstimadas;
-					 }
-				}
-			}
-		}    	
-    	return numUtsEntrega;
-    }
-	
-	private Collection<FieldViewSet> obtenerPeticionesEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega){
+	private Map<Double, Collection<FieldViewSet>> obtenerPeticionesEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega) throws DatabaseException{
+		double numUtsEntrega = 0.0;
+		Map<Double,Collection<FieldViewSet>> retorno = new HashMap<Double, Collection<FieldViewSet>>();
     	Collection<FieldViewSet> petsEntrega = new ArrayList<FieldViewSet>();
 		String peticiones = (String) miEntrega.getValue(peticionesEntidad.searchField(
 				ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
 		if (peticiones != null && !"".contentEquals(peticiones)) {				
-			List<String> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
-			for (int i=0;i<codigosPeticiones.size();i++) {
-				String codPeticionDG = codigosPeticiones.get(i);
-				FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
-				peticionDG.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), codPeticionDG);									
-				try {
-					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionDG);
-					if (existenColl == null || existenColl.isEmpty()){
-						continue;
-					}else {
-						peticionDG = existenColl.iterator().next();
-					}
-
-					if (peticionDG != null) {
-						petsEntrega.add(peticionDG);
-					}
-				} catch (DatabaseException e) {					
-					e.printStackTrace();
-					return null;
+			Collection<String> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
+			FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
+			peticionDG.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), codigosPeticiones);
+			Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionDG);
+			
+			// haz solo un buscar por criteria y luego recorres la lista sin invocar a BBDD
+			Iterator<FieldViewSet> itePeticionesA_DG = existenColl.iterator();
+			while (itePeticionesA_DG.hasNext()) {
+				peticionDG  = itePeticionesA_DG.next();													
+				petsEntrega.add(peticionDG);
+				Double utsEstimadas = (Double) peticionDG.getValue(peticionesEntidad.searchField(
+						ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
+				if (utsEstimadas == 0) {
+					Double utsReales = (Double) peticionDG.getValue(peticionesEntidad.searchField(
+							ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
+					numUtsEntrega += utsReales;
+				}else {
+					numUtsEntrega += utsEstimadas;
 				}
-				
 			}
-		}    	
-    	return petsEntrega;
+		}
+		retorno.put(new Double(numUtsEntrega), petsEntrega);
+    	return retorno;
     }
 				
 	protected Map<FieldViewSet,Collection<FieldViewSet>> aplicarEstudioEntregas(final IDataAccess dataAccess, final Long idEstudio, final Long idConjuntoHeuristicas, 
@@ -369,7 +333,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			
 			for (final FieldViewSet peticionEntrega_BBDD : filas) {
 				
-				String codGEDEON_entrega = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName());					
+				Long idPeticionEntrega = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName());
+				Long _codGEDEON_entrega = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());					
 				Long tipoEntrega = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName());					
 				Long idAplicativo = (Long) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName());
 				
@@ -383,9 +348,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Date fechaTramite = (Date)peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
 				Date fechaFinalizacion = (Date) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName());							
 				
-				double utsEntrega = getTotalUtsEntrega(dataAccess, peticionEntrega_BBDD);
-				Collection<FieldViewSet> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticionEntrega_BBDD);
-				peticionesEvolutivosEntrega.put(peticionEntrega_BBDD, peticionesEntrega);
+				Map<Double, Collection<FieldViewSet>> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticionEntrega_BBDD);
+				Map.Entry<Double, Collection<FieldViewSet>> entry = peticionesEntrega.entrySet().iterator().next();
+				double utsEntrega = entry.getKey();				
+				peticionesEvolutivosEntrega.put(peticionEntrega_BBDD, entry.getValue());
 				
 				int numPeticionesEntrega= peticionesEntrega.size();
 				int numRechazos = 0;				
@@ -396,7 +362,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				/*******************************************************************************************************/						
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_2_ID_ESTUDIO).getName(), idEstudio);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_3_APLICACION).getName(), idAplicativo);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_4_ID_GEDEON_ENTREGA).getName(), codGEDEON_entrega);
+				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_4_ID_GEDEON_ENTREGA).getName(), idPeticionEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUM_PETICIONES).getName(), numPeticionesEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName(), utsEntrega);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA).getName(), tipoEntrega);
@@ -447,7 +413,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName(), jornadasPruebasCD);
 				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName(), jornadasDesdeFinPruebasHastaImplantacion);
 				
-				out.write(("****** INICIO DATOS PETICION GEDEON ENTREGA: " + codGEDEON_entrega +  " ******\n").getBytes());
+				out.write(("****** INICIO DATOS PETICION GEDEON ENTREGA: " + _codGEDEON_entrega +  " ******\n").getBytes());
 				out.write(("Jornadas Duración total Entrega: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
 				out.write(("Jornadas Preparación Entrega: " + CommonUtils.roundDouble(jornadasEntrega,2) + "\n").getBytes());
 				out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(jornadasPruebasCD,2) + "\n").getBytes());
@@ -583,12 +549,13 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					
 					FieldViewSet resumenPorPeticion = new FieldViewSet(resumenPeticionEntidad);
 					
-					String peticionDG_CodGEDEON = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName());										
+					Long idPeticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName());
+					Long _peticionDG_CodGEDEON = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());										
 					
-					//comprobamos si ya s eha entregado esta petición en otra entrega					
+					//comprobamos si ya se ha entregado esta petición en otra entrega					
 					boolean yaFueEntregada = false;
 					FieldViewSet resumenPorPeticionPrevia = new FieldViewSet(resumenPeticionEntidad);
-					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PETICION_DG).getName(), peticionDG_CodGEDEON);
+					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PETICION_DG).getName(), idPeticionDG);
 					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
 					Collection<FieldViewSet> resumenesPorPeticionPrevia = dataAccess.searchByCriteria(resumenPorPeticionPrevia);
 					Iterator<FieldViewSet> iteResumenesPeticionesPrevia = resumenesPorPeticionPrevia.iterator();
@@ -618,14 +585,14 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					Date fechaRealFin = (Date) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName());
 					
 					Date fechaInicioRealAnalysis=null, fechaFinRealAnalysis=null;
-					String peticionGEDEON_Analysis = null;
+					Long peticionGEDEON_Analysis = null;
 					Double esfuerzoAnalysis = 0.0, esfuerzoPruebasCD =0.0;
 					peticionBBDDAnalysis = obtenerPeticionAnalysis(dataAccess, peticionDG_BBDD);
 					
 					if (peticionBBDDAnalysis != null) {
 						String estadoPetAna = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 						if (!"Trabajo anulado".contentEquals(estadoPetAna)) {
-							peticionGEDEON_Analysis = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName());
+							peticionGEDEON_Analysis = (Long) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());
 							fechaInicioRealAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
 							//Date fechaTramitacionAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
 							//Date fechaPrevistaInicioAnalysis = (Date) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_22_DES_FECHA_PREVISTA_INICIO).getName());
@@ -646,7 +613,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							//extraemos las tareas de esta petición de análisis
 							FieldViewSet tareasFilter = new FieldViewSet(tareaEntidad);
 							tareasFilter.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName(), 
-									peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));
+									peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));
 							Collection<FieldViewSet> tareas = dataAccess.searchByCriteria(tareasFilter);
 							Iterator<FieldViewSet> iteTareas = tareas.iterator();
 							while (iteTareas.hasNext()) {
@@ -687,7 +654,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						}
 					}
 					
-					String peticionEntregaGEDEON = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName());
+					Long peticionEntregaGEDEON = (Long) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());
 					Date fechaSolicitudEntrega = (Date) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
 					String estadoEntrega = (String) entrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 					if (estadoEntrega.toLowerCase().indexOf("no conforme")!=-1 || 
@@ -713,7 +680,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_3_ID_APLICATIVO).getName(), idAplicativo);
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_4_ID_TIPO).getName(), idTipoPeticion);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PETICION_DG).getName(), peticionDG_CodGEDEON);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PETICION_DG).getName(), idPeticionDG);
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_6_IDS_PETS_AT).getName(), (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis));				
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_7_IDS_PET_ENTREGAS).getName(), String.valueOf(peticionEntregaGEDEON));
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
@@ -948,7 +915,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 
 					/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/
 					
-					out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + peticionDG_CodGEDEON + "******\n").getBytes());
+					out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + _peticionDG_CodGEDEON + "******\n").getBytes());
 					out.write(("****** Petición Análisis a OO/Estructurado en AT: " + (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis) + " ******\n").getBytes());
 					out.write(("****** Petición GEDEON de Entrega a DG: " + String.valueOf(peticionEntregaGEDEON) + " ******\n").getBytes());
 					out.write(("Jornadas Duración total: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
@@ -1005,11 +972,13 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		
 		String petsRelacionadas = (String) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());		
 		if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
-			List<String> peticionesAnalisis = CommonUtils.obtenerCodigos(petsRelacionadas);			
+			List<String> peticionesAnalisis = CommonUtils.obtenerCodigos(petsRelacionadas);
+			
+			
 			for (int i=0;i<peticionesAnalisis.size();i++) {
 				String candidataPeticionAT = peticionesAnalisis.get(i);
 				FieldViewSet peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
-				peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_CODIGO_GEDEON).getName(), candidataPeticionAT);									
+				peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), candidataPeticionAT);									
 				Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionBBDDAnalysis);
 				if (existenColl == null || existenColl.isEmpty()){
 					continue;

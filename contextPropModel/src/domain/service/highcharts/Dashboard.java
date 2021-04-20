@@ -1,23 +1,32 @@
 package domain.service.highcharts;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import domain.common.PCMConstants;
+import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
 import domain.service.component.IViewComponent;
 import domain.service.component.XmlUtils;
 import domain.service.component.definitions.FieldViewSet;
+import domain.service.component.definitions.FieldViewSetCollection;
 import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
+import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.SceneResult;
 import domain.service.highcharts.utils.HistogramUtils;
 
 public class Dashboard extends GenericHighchartModel {
 	
+	public static IEntityLogic aplicativoEntidad, tecnologiaEntidad, estudiosEntidad;
+	
 	private String[] entities;
+	private IDataAccess dataAccess;
 	
 	public Dashboard(final String[] entities_) {
 		this.entities = entities_;
@@ -71,20 +80,67 @@ public class Dashboard extends GenericHighchartModel {
 	}
 	
 	@Override
-	public void generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap _data) {
+	public void generateStatGraphModel(final IDataAccess dataAccess_, final DomainService domainService, final Datamap _data) {
 		
 		SceneResult scene = new SceneResult();
+		dataAccess = dataAccess_;
+		if (aplicativoEntidad == null) {				
+			try {
+				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						"aplicativo");
+				tecnologiaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						"tecnologia");
+				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						"estudios");
+			}catch (PCMConfigurationException e) {
+				e.printStackTrace();
+			}
+		}
 		try {
 			//recoger filtros en pantalla; pueden ser de los master o de las detail, pero los mappings deben
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
-			//FieldViewSet detail1 = new FieldViewSet(EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(), entities[0]));
-			this._dataAccess = dataAccess;
 						
 			TimeSeries seriesEntregas1 = new TimeSeries(), seriesEntregas2 = new TimeSeries();			
 			Pie pieEntregas01 = new Pie();
 			SpeedoMeter speedMeter01 = new SpeedoMeter();
 			BarChart barEntregas01 = new BarChart(), barEntregas02 = new BarChart();
 			Histogram3D entregasHistogram = new Histogram3D();
+			
+			FieldViewSet appFieldViewSet = new FieldViewSet(aplicativoEntidad);
+			Collection<FieldViewSetCollection> aplicativos = dataAccess_.searchAll(appFieldViewSet, new String []{"aplicativo.id"}, "asc");
+			_data.setAttribute("aplicativo_all", aplicativos);
+			
+			FieldViewSet tecnologiaFieldViewSet = new FieldViewSet(tecnologiaEntidad);
+			Collection<FieldViewSetCollection> tecnologias = dataAccess_.searchAll(tecnologiaFieldViewSet, new String []{"tecnologia.id"}, "asc");
+			_data.setAttribute("tecnologia_all", tecnologias);
+			
+			FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
+			Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{"estudios.id"}, "asc");
+			_data.setAttribute("estudio_all", estudios);
+			
+			Map<Integer,String> mapa = new HashMap<Integer, String>();
+			mapa.put(new Integer(5), "Núm. Peticiones");
+			mapa.put(new Integer(6), "Volumen uts");
+			mapa.put(new Integer(8), "Núm. Rechazos");
+			mapa.put(new Integer(14), "Ciclo Vida Entrega");
+			mapa.put(new Integer(15), "Tiempo Preparación en DG");
+			mapa.put(new Integer(16), "Tiempo Validación en CD");
+			mapa.put(new Integer(17), "Tiempo Desvalidación hasta Implantación");
+			_data.setAttribute("dimensiones4Entregas", mapa);
+						
+			Map<Integer,String> mapa2 = new HashMap<Integer, String>();
+			mapa2.put(new Integer(8), "Ciclo vida");
+			mapa2.put(new Integer(9), "Duración Análisis");
+			mapa2.put(new Integer(10), "Duración Desarrollo");
+			mapa2.put(new Integer(11), "Duración Entrega a CD");
+			mapa2.put(new Integer(12), "Duración Pruebas CD");
+			mapa2.put(new Integer(32), "Duración Soporte al CD");
+			mapa2.put(new Integer(13), "Lapso Planificación DG");
+			mapa2.put(new Integer(14), "Lapso Planificación CD");
+			mapa2.put(new Integer(15), "Lapso Planificación Instalación GISS");
+			mapa2.put(new Integer(16), "Dedicaciones efectivas");
+			mapa2.put(new Integer(17), "Lapsos");
+			_data.setAttribute("dimensiones4Peticiones", mapa2);
 			
 			String valueOfAgrupacionParam = _data.getParameter("agrupacion")== null? "3":  _data.getParameter("agrupacion");			
 			String valueOfDimensionEntregasSelected = _data.getParameter("dimensionE")== null? "5":  _data.getParameter("dimensionE");

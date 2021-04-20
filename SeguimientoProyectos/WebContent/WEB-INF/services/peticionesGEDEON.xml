@@ -155,7 +155,7 @@
 						
 						<!-- tercera fila -->
 						
-						<fieldView mappingTo="41" type="checkbox">
+						<fieldView mappingTo="41" type="checkbox" size="6">
 							<optionValues selectionMultiple="true" entitymodel="tecnologia"
 								descrMappingTo="2">
 							</optionValues>

@@ -1,6 +1,6 @@
 DROP TABLE `peticiones`;
 CREATE TABLE `peticiones` (
-  `id` INTEGER PRIMARY KEY,
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `id_aplicativo` int(11) NOT NULL,
   `Titulo` varchar(500),
   `Descripcion` varchar(100),
@@ -32,7 +32,7 @@ CREATE TABLE `peticiones` (
   `version_analysis` varchar(20) DEFAULT NULL,
   `servicio_atiende_pet` varchar(20) DEFAULT 'SDG',
   `con_entrega` int(1) NOT NULL DEFAULT 0,
-  `id_entrega_asociada` varchar(10) DEFAULT NULL,
+  `id_entrega_asociada` int(11) DEFAULT NULL,
   `pets_relacionadas` varchar(250) DEFAULT NULL,
   `fecha_estado_modif` TIMESTAMP DEFAULT NULL,
   `id_area` int(11) DEFAULT NULL, 
@@ -41,8 +41,10 @@ CREATE TABLE `peticiones` (
   `fecha_validada_CD` DATE NULL,
   `ult_modificacion` DATE NULL,
   `volatile_tipo` varchar(50) DEFAULT NULL,
-  `cod_GEDEON` varchar(10) DEFAULT NULL
-);  
+  `cod_GEDEON` int(10) NOT NULL
+);
+CREATE INDEX index_peticiones_byCODGED_1 on peticiones (cod_GEDEON);
+CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 
 DROP TABLE `tareasPeticion`;
 CREATE TABLE `tareasPeticion` (
@@ -58,8 +60,9 @@ CREATE TABLE `tareasPeticion` (
   `fecha_inicio_real` date DEFAULT NULL,  
   `fecha_fin_real` date DEFAULT NULL,
   `Fecha_de_alta` date DEFAULT NULL,
-  `Fecha_de_tramitacion` date DEFAULT NULL,
+  `Fecha_de_tramitacion` date DEFAULT NULL
  );
+CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
 
 
 DROP TABLE `configuradorEstudios`;
@@ -99,6 +102,9 @@ CREATE TABLE `estudios` (
   `fec_lanzado_estudio` TIMESTAMP NULL,
   `id_servicio` int(11) DEFAULT NULL
  );
+CREATE INDEX index_Estudios_app ON estudios (id_aplicativo);
+CREATE INDEX index_Estudios_sr ON estudios (id_servicio);
+CREATE INDEX index_Estudios_ti ON estudios (fecha_inicio);
 
 DROP TABLE `resumenPeticiones`;
 CREATE TABLE `resumenPeticiones` (
@@ -135,6 +141,9 @@ CREATE TABLE `resumenPeticiones` (
   `titulo` varchar(500) DEFAULT NULL,
   `duracion_soporte_al_CD` double DEFAULT NULL
 );  
+CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
+CREATE INDEX index_search_resumenpetic_2 on resumenPeticiones (id_aplicativo);
+
 
 DROP TABLE `resumenEntregas`;
 CREATE TABLE `resumenEntregas` (
@@ -156,15 +165,9 @@ CREATE TABLE `resumenEntregas` (
   `tiempo_validacion_en_CD` double DEFAULT NULL,
   `tiempo_desdeValidacion_hastaImplantacion` double DEFAULT NULL  
 );  
+CREATE INDEX index_search_resumenentreg_1 on resumenEntregas (id_estudio);
+CREATE INDEX index_search_resumenentreg_2 on resumenEntregas (id_aplicacion);
 
- 
-
-CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
-CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
-CREATE INDEX index_Estudios_sr ON estudios (id_aplicativo);
-CREATE INDEX index_Estudios_ti ON estudios (fecha_inicio);
-CREATE INDEX index_search_gedeones_1 on peticiones (id);
-CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
 
 
 CREATE TABLE `tiposPeticiones` (
