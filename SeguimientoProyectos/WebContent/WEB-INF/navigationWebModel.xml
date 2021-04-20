@@ -32,8 +32,7 @@
 			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="Peticiones importadas" />
 			<LEAF link="event=EstudioPeticiones.query" name="Estudios Peticiones" />
 			<LEAF link="event=EstudioEntregas.query" name="Estudios Entregas" />
-			<LEAF link="exec=dashboard#event=dashboard#entities=resumenEntregas$resumenPeticiones" name="Dahsboard" />
-			<LEAF link="event=GestionHeuristicas.query" name="Heurísticas estudios" />
+			<LEAF link="exec=dashboard#event=dashboard#entities=resumenEntregas$resumenPeticiones" name="Dahsboard" />			
 			<!-- FOLDER profile="ADMINISTRADOR,ANALISIS_TEAM,CONSULTOR_UTE"	name="Import datasets">
 				<LEAF link="event=GestionarImportacionesGEDEON.query" name="Gedeones" />
 				<LEAF link="event=GestionarImportacionesARTEMIS.query" name="Artemis" />

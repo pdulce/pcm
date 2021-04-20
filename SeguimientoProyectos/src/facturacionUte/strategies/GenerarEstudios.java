@@ -686,18 +686,18 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							fechaInicioAnalysisCalendar.add(Calendar.DAY_OF_MONTH, -2);
 						}
 						fechaInicioRealAnalysis = fechaInicioAnalysisCalendar.getTime();
-						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
-												
+																		
 					}else {
 							
 						jornadasAnalysis = CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinRealAnalysis);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);							
-
 						soporteAlCD += CommonUtils.roundWith2Decimals(jornadasAnalysis*PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD);
 						jornadasAnalysis = CommonUtils.roundWith2Decimals(jornadasAnalysis*(1.0 - PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD));
-
+						esfuerzoAnalysis = jornadasAnalysis*8.0;
 					}
+					
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
+
 					
 					if (esfuerzoPruebasCD > 0.0) {
 						//Normalizar las jornadas de pruebas CD con las horas de esfuerzo. Pasar a jornadas esas horas, y poner         
@@ -795,6 +795,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							//aplico un 55% de ese porcentaje a análisis y 45% a las pruebas
 							soporteAlCD += CommonUtils.roundWith2Decimals(jornadasPruebasCD*PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD);
 							jornadasPruebasCD = CommonUtils.roundWith2Decimals(jornadasPruebasCD*(1.0 - PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD));
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), jornadasPruebasCD*8.0);
 						}
 												
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
