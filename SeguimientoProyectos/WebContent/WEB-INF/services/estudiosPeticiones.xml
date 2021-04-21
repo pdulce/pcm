@@ -32,6 +32,7 @@ xmlns:service="http://pcm.framework.org/service"
 										<option code="10" title="Desarrollo(jornadas)"></option>
 										<option code="11" title="Preparac. Entrega"></option>
 										<option code="12" title="Pruebas CD(jornadas)"></option>
+										<option code="32" title="Soporte al CD"></option>
 										<option code="13" title="Lapso Planificación DG"></option>
 										<option code="14" title="Lapso Planificación Pruebas CD"></option>
 										<option code="15" title="Lapso Planificación Instalación Producc."></option>
@@ -159,6 +160,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Preparac. Entrega"></option>
 									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
 									<option code="14" title="Lapso Planificación Pruebas CD"></option>
 									<option code="15" title="Lapso Planificación Instalación Producc."></option>
@@ -218,6 +220,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Preparac. Entrega"></option>
 									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
 									<option code="14" title="Lapso Planificación Pruebas CD"></option>
 									<option code="15" title="Lapso Planificación Instalación Producc."></option>
@@ -252,6 +255,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Preparac. Entrega"></option>
 									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
 									<option code="14" title="Lapso Planificación Pruebas CD"></option>
 									<option code="15" title="Lapso Planificación Instalación Producc."></option>
@@ -301,6 +305,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Preparac. Entrega"></option>
 									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
 									<option code="14" title="Lapso Planificación Pruebas CD"></option>
 									<option code="15" title="Lapso Planificación Instalación Producc."></option>
@@ -327,6 +332,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="10" title="Desarrollo(jornadas)"></option>
 									<option code="11" title="Preparac. Entrega"></option>
 									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
 									<option code="28" title="uts "></option>
 									<option code="13" title="Lapso Planificación DG"></option>
 									<option code="14" title="Lapso Planificación Pruebas CD"></option>
@@ -343,6 +349,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="10" title="Desarrollo(jornadas)" selected="true"></option>
 									<option code="11" title="Duración Entrega"></option>
 									<option code="12" title="Pruebas CD"></option>
+									<option code="32" title="Soporte al CD"></option>
 									<option code="28" title="uts"></option>
 									<option code="13" title="Lapso Planificación DG"></option>
 									<option code="14" title="Lapso Planificación Pruebas CD"></option>
@@ -409,7 +416,11 @@ xmlns:service="http://pcm.framework.org/service"
 						</optionValues>
 					</fieldView>-->
 					<fieldView mappingTo="28" editable="false"  />	
-					<fieldView mappingTo="5" editable="false" styleCss="color: #38ef7d;" />
+					<fieldView mappingTo="5" type="select" editable="false">
+						<optionValues entitymodel="peticiones"
+							descrMappingTo="46">
+						</optionValues>
+					</fieldView>
 					
 					<fieldView mappingTo="8" editable="false" styleCss="color: #38ef7d;" />
 					<fieldView mappingTo="16" editable="false" styleCss="color: #38ef7d;" />	
@@ -419,6 +430,7 @@ xmlns:service="http://pcm.framework.org/service"
 					<fieldView mappingTo="11" editable="false" />
 					<fieldView mappingTo="12" editable="false" />
 					<fieldView mappingTo="32" editable="false" />
+					<fieldView mappingTo="33" editable="false" />
 					<fieldView mappingTo="13" editable="false" />
 					<fieldView mappingTo="14" editable="false" styleCss="color: #38ef7d;" />	
 					<fieldView mappingTo="15" editable="false" styleCss="color: #38ef7d;" />					

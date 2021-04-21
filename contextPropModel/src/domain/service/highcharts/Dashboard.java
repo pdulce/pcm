@@ -135,6 +135,7 @@ public class Dashboard extends GenericHighchartModel {
 			mapa2.put(new Integer(11), "Duración Entrega a CD");
 			mapa2.put(new Integer(12), "Duración Pruebas CD");
 			mapa2.put(new Integer(32), "Duración Soporte al CD");
+			mapa2.put(new Integer(33), "Lapso por Pruebas resto versión");
 			mapa2.put(new Integer(13), "Lapso Planificación DG");
 			mapa2.put(new Integer(14), "Lapso Planificación CD");
 			mapa2.put(new Integer(15), "Lapso Planificación Instalación GISS");

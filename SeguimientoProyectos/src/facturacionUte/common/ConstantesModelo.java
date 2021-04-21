@@ -55,6 +55,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_44_FECHA_ULTIMA_MODIFCACION = 44;
 	public static final int PETICIONES_45_VOLATILE_TIPO = 45;
 	public static final int PETICIONES_46_COD_GEDEON = 46;
+	public static final int PETICIONES_47_PESO_EN_VERSION = 47;
 	public static final String PETICIONES_ENTIDAD = "peticiones";
 
 	public static final int TIPOTAREA_1_ID = 1;
@@ -67,7 +68,7 @@ public abstract class ConstantesModelo {
 	public static final int TAREA_PETICION_3_ID_PETICION = 3;
 	public static final int TAREA_PETICION_4_ID_TIPOTAREA = 4;
 	public static final int TAREA_PETICION_5_NOMBRE = 5;
-	public static final int TAREA_PETICION_6_HRS_IMPUTADAS = 6;
+	public static final int TAREA_PETICION_6_HORAS_IMPUTADAS = 6;
 	public static final int TAREA_PETICION_7_HRS_PREVISTAS = 7;
 	public static final int TAREA_PETICION_8_FECHA_INICIO_PREVISTO = 8;
 	public static final int TAREA_PETICION_9_FECHA_FIN_PREVISTO = 9;
@@ -127,13 +128,14 @@ public abstract class ConstantesModelo {
 	public static final int RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS = 29;
 	public static final int RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD = 30;	
 	public static final int RESUMEN_PETICION_31_TITULO = 31;
-	public static final int RESUMEN_PETICION_32_DURACION_SOPORTE_CD = 32;
+	public static final int RESUMEN_PETICION_32_GAP_DURACION_SOPORTE_CD = 32;
+	public static final int RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA = 33;
 	public static final String RESUMEN_PETICION_ENTIDAD = "resumenPeticiones";
 
 	public static final int RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA = 9;
 	public static final int RESUMENENTREGAS_2_ID_ESTUDIO = 2;
 	public static final int RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG = 15;
-	public static final int RESUMENENTREGAS_5_NUM_PETICIONES = 5;
+	public static final int RESUMENENTREGAS_5_NUMERO_PETICIONES = 5;
 	public static final int RESUMENENTREGAS_11_FECHA_FIN_PRUEBASCD = 11;
 	public static final int RESUMENENTREGAS_7_ID_TIPO_ENTREGA = 7;
 	public static final int RESUMENENTREGAS_3_APLICACION = 3;

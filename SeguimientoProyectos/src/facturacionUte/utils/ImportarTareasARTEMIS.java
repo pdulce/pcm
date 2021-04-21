@@ -52,7 +52,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 	
 	static {		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Etiquetas de fila", Integer.valueOf(ConstantesModelo.TAREA_PETICION_5_NOMBRE));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("HORAS.", Integer.valueOf(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("HORAS.", Integer.valueOf(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS));
 	}
 
 	private IDataAccess dataAccess;
@@ -133,6 +133,8 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					if (etiquetaCelda == null || !Character.isDigit(etiquetaCelda.charAt(0))) {
 						continue;
 					}
+					
+					Double new_horas_imputadas = (Double) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS).getName());
 
 					boolean isUpdate = false;
 					String idTarea = "";
@@ -149,6 +151,9 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 							tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_1_ID).getName(), 
 									tareaEnBBDD.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_1_ID).getName()));
 							isUpdate = true;
+							Double horas_ya_imputadas = (Double) tareaEnBBDD.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS).getName());
+							new_horas_imputadas += horas_ya_imputadas;
+							tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS).getName(), new_horas_imputadas);
 						}
 					}
 					String[] splitter2 = splitter[0].trim().split("_");

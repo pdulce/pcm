@@ -26,6 +26,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="fieldForGroupBy" hidden="true" value="2,9"/>
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
+										<option code="-1" title="Núm.Entregas" selected="true"></option>
 										<option code="5" title="Núm.Peticiones" selected="true"></option>
 										<option code="8" title="Núm.Rechazos"></option>
 										<option code="6" title="Volumen (uts)"></option>
@@ -251,6 +252,7 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="fieldForGroupBy" hidden="true" value="9"/> 
 								<fieldView name="agregado" type="select" size="1">
 									<optionValues>									
+										<option code="-1" title="Núm.Entregas" selected="true"></option>
 										<option code="5" title="Núm.Peticiones" selected="true"></option>
 										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
@@ -304,7 +306,8 @@ xmlns:service="http://pcm.framework.org/service"
 									</optionValues>
 								</fieldView>
 								<fieldView name="agregado" type="select" size="1">
-									<optionValues>									
+									<optionValues>
+										<option code="-1" title="Núm.Entregas" selected="true"></option>									
 										<option code="5" title="Núm.Peticiones" selected="true"></option>
 										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
@@ -333,7 +336,8 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="orderBy" hidden="true" value="9"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
 								<fieldView name="fieldForGroupBy" hidden="true" value="9"/> 
 								<fieldView name="agregado" type="select" size="1">
-									<optionValues>									
+									<optionValues>		
+										<option code="-1" title="Núm.Entregas" selected="true"></option>							
 										<option code="5" title="Núm.Peticiones" selected="true"></option>
 										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
@@ -377,7 +381,8 @@ xmlns:service="http://pcm.framework.org/service"
 									</optionValues>
 								</fieldView>
 								<fieldView name="agregado" type="select" size="1">
-									<optionValues>									
+									<optionValues>		
+										<option code="-1" title="Núm.Entregas" selected="true"></option>							
 										<option code="5" title="Núm.Peticiones" selected="true"></option>
 										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
@@ -399,7 +404,8 @@ xmlns:service="http://pcm.framework.org/service"
 								<fieldView name="fieldForGroupBy" hidden="true" value="20"/>
 								<fieldView name="orderBy" hidden="true" value="20"/>							
 								<fieldView name="ejeX" type="select" size="1">
-									<optionValues>									
+									<optionValues>	
+										<option code="-1" title="Núm.Entregas" selected="true"></option>								
 										<option code="5" title="Núm.Peticiones" selected="true"></option>
 										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>
@@ -411,6 +417,7 @@ xmlns:service="http://pcm.framework.org/service"
 								</fieldView>
 								<fieldView name="ejeY" type="select" size="1">
 									<optionValues>
+										<option code="-1" title="Núm.Entregas" selected="true"></option>
 										<option code="5" title="Núm.Peticiones"></option>
 										<option code="8" title="Núm.Rechazos"></option>										
 										<option code="6" title="Volumen (uts)"></option>

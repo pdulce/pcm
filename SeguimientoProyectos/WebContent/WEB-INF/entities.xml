@@ -53,6 +53,7 @@
     <field mappingTo="44" name="ult_modificacion" type="date" length="10" required="false"/>
     <field mappingTo="45" name="volatile_tipo" type="string" length="50" required="false"/>
     <field mappingTo="46" name="cod_GEDEON" type="long" length="10" required="true"/>
+    <field mappingTo="47" name="peso_en_version" type="double" length="6" required="false"/>    
 </entity>
 
 <entity>
@@ -139,6 +140,7 @@
     <field mappingTo="30" name="esfuerzo_pruebas" type="double" length="6" required="false"/>
     <field mappingTo="31" name="titulo" type="string" length="500" required="false"/>
     <field mappingTo="32" name="duracion_soporte_al_CD" type="double" length="6" required="false"/>
+    <field mappingTo="33" name="gap_pruebas_restoEntrega" type="double" length="6" required="false"/>
   </entity>
      
   <entity>

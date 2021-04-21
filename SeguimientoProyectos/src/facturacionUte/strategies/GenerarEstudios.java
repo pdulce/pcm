@@ -33,7 +33,11 @@ import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
 
-public class GenerarEstudios extends DefaultStrategyRequest {
+public class GenerarEstudios extends DefaultStrategyRequest { 
+		
+	//2: REVISAR CALCULO DE JORNADAS PRUEBAS CD con PESO por petición
+	//3: nueva dimensión tiempo-validación-entrega (explicar que es el tiempo de probar el resto de peticiones de la entrega)
+	// Esto lo puedes confrontar fácilmente con el mundo HOST
 	
 	public static final String FECHA_INI_PARAM = "estudios.fecha_inicio_estudio", 
 			FECHA_FIN_PARAM = "estudios.fecha_fin_estudio";
@@ -74,17 +78,6 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 	private FieldViewSet prepararFiltroPeticiones(final FieldViewSet registroEstudio, 
 			final Date fecIniEstudio, final Date fecFinEstudio, final IDataAccess dataAccess) throws DatabaseException, TransactionException, SQLException {
 		
-		Double utsMin = (Double) registroEstudio.getValue(estudiosEntidad.searchField(
-				ConstantesModelo.ESTUDIOS_12_VOLATILE_MIN_UTS).getName());
-		if (utsMin == null) {
-			utsMin = new Double(0.0);
-		}
-		Double utsMax = (Double) registroEstudio.getValue(estudiosEntidad.searchField(
-				ConstantesModelo.ESTUDIOS_13_VOLATILE_MAX_UTS).getName());
-		if (utsMax == null || utsMax == 0.0) {
-			utsMax = Double.MAX_VALUE;
-		}
-		
 		StringBuilder newTitle = new StringBuilder();
 		Collection<String> valuesPrjs =  new ArrayList<String>();
 		//obtenemos todas las aplicaciones de este estudio
@@ -117,19 +110,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		situaciones.add("Petición de Entrega finalizada");
 		
 		final Collection<IFieldView> fieldViews4FilterFecAndUts_ = new ArrayList<IFieldView>();
-		//rango de número de uts
-		final IFieldLogic fieldUts = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
-		IFieldView fViewUts =  new FieldViewSet(peticionesEntidad).getFieldView(fieldUts);			
-		final IFieldView fViewMinorUts = fViewUts.copyOf();
-		final Rank rankDesdeUts = new Rank(fViewUts.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
-		fViewMinorUts.setRankField(rankDesdeUts);
-		final Rank rankHastaUts = new Rank(fViewUts.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
-		final IFieldView fViewMayorUts = fViewUts.copyOf();
-		fViewMayorUts.setRankField(rankHastaUts);
 		
-		fieldViews4FilterFecAndUts_.add(fViewMinorUts);
-		fieldViews4FilterFecAndUts_.add(fViewMayorUts);
-				
 		final IFieldLogic fieldfecTramite = peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
 		IFieldView fViewEntradaEnDG =  new FieldViewSet(peticionesEntidad).getFieldView(fieldfecTramite);			
 		final IFieldView fViewMinorFecTram = fViewEntradaEnDG.copyOf();
@@ -146,9 +127,6 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		filterPeticiones.setValue(fViewMinorFecTram.getQualifiedContextName(), fecIniEstudio);
 		filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
 					
-		filterPeticiones.setValue(fViewMinorUts.getQualifiedContextName(), utsMin);
-		filterPeticiones.setValue(fViewMayorUts.getQualifiedContextName(), utsMax);
-		
 		IFieldValue fieldValue = registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES).getName());
 		filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName(), fieldValue.getValues());
 		filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), situaciones); 
@@ -204,8 +182,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			
 			FieldViewSet registroEstudio_ = dataAccess.searchLastInserted(_registroEstudio);
 			
-			Boolean creacionByMesAutomatica = (Boolean) registroEstudio_.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_14_VOLATILE_AUTOMATICO_MES).getName());
-			
+			Boolean creacionByMesAutomatica = (Boolean) _registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_14_VOLATILE_AUTOMATICO_MES).getName());
+			//creacionByMesAutomatica=true;
 			Date fecIniEstudio_ = (Date) registroEstudio_.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_4_FECHA_INICIO).getName());
 			Date fecFinEstudio_ = (Date) registroEstudio_.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_5_FECHA_FIN).getName());
 			if(fecFinEstudio_== null) {
@@ -221,14 +199,26 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				tipoperiodoInferido = tipoperiodoMesesColl.get(0);
 			}
 			
+			Double utsMin = (Double) registroEstudio_.getValue(estudiosEntidad.searchField(
+					ConstantesModelo.ESTUDIOS_12_VOLATILE_MIN_UTS).getName());
+			if (utsMin == null) {
+				utsMin = new Double(0.0);
+			}
+			Double utsMax = (Double) registroEstudio_.getValue(estudiosEntidad.searchField(
+					ConstantesModelo.ESTUDIOS_13_VOLATILE_MAX_UTS).getName());
+			if (utsMax == null || utsMax == 0.0) {
+				utsMax = Double.MAX_VALUE;
+			}
+			Calendar fecInicio = Calendar.getInstance();
+			fecInicio.setTime(fecIniEstudio_);
+			Calendar fecFin= Calendar.getInstance();
+			
 			for (int i=0;i<numEstudios;i++) {
-				Calendar fecInicio = Calendar.getInstance();
-				fecInicio.setTime(fecIniEstudio_);
-				fecInicio.add(Calendar.MONTH, i);
+								
+				fecInicio.add(Calendar.MONTH, i);	
 				
-				Calendar fecFin= Calendar.getInstance();
 				fecFin.setTime(fecInicio.getTime());
-				fecFin.add(Calendar.MONTH, creacionByMesAutomatica?(i+1):mesesEstudio);
+				fecFin.add(Calendar.MONTH, creacionByMesAutomatica? 1: mesesEstudio);
 				
 				FieldViewSet nuevoRegistroEstudio = registroEstudio_.copyOf();
 				if (creacionByMesAutomatica) {
@@ -251,7 +241,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}
 				
 				Long idEstudio = (Long) nuevoRegistroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
-				Map<FieldViewSet,Collection<FieldViewSet>> idPeticionesEvolutivosEstudio = aplicarEstudioEntregas(dataAccess, idEstudio, listadoPeticiones);
+				Map<FieldViewSet,Collection<FieldViewSet>> idPeticionesEvolutivosEstudio = aplicarEstudioEntregas(dataAccess, idEstudio, listadoPeticiones, utsMin, utsMax);
 				
 				IFieldValue fieldValue = nuevoRegistroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES).getName());
 				aplicarEstudioPorPeticion(dataAccess, idEstudio, idPeticionesEvolutivosEstudio, fieldValue.getValues());
@@ -287,12 +277,12 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			
 	}
 	
-	private Map<Double, Collection<FieldViewSet>> obtenerPeticionesEntrega(final IDataAccess dataAccess, FieldViewSet miEntrega) throws DatabaseException{
+	private Map<Double, Collection<FieldViewSet>> obtenerPeticionesEntrega(final IDataAccess dataAccess, 
+			final String peticiones, Double utsMin, Double utsMax) throws DatabaseException{
 		double numUtsEntrega = 0.0;
 		Map<Double,Collection<FieldViewSet>> retorno = new HashMap<Double, Collection<FieldViewSet>>();
     	Collection<FieldViewSet> petsEntrega = new ArrayList<FieldViewSet>();
-		String peticiones = (String) miEntrega.getValue(peticionesEntidad.searchField(
-				ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
+		
 		if (peticiones != null && !"".contentEquals(peticiones)) {				
 			Collection<String> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
 			FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
@@ -302,17 +292,23 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			// haz solo un buscar por criteria y luego recorres la lista sin invocar a BBDD
 			Iterator<FieldViewSet> itePeticionesA_DG = existenColl.iterator();
 			while (itePeticionesA_DG.hasNext()) {
-				peticionDG  = itePeticionesA_DG.next();													
-				petsEntrega.add(peticionDG);
+				peticionDG  = itePeticionesA_DG.next();																	
 				Double utsEstimadas = (Double) peticionDG.getValue(peticionesEntidad.searchField(
 						ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 				if (utsEstimadas == 0) {
 					Double utsReales = (Double) peticionDG.getValue(peticionesEntidad.searchField(
 							ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
+					if (utsReales.doubleValue() < utsMin.doubleValue() || utsReales.doubleValue() > utsMax.doubleValue()) {
+						continue;
+					}
 					numUtsEntrega += utsReales;
 				}else {
+					if (utsEstimadas.doubleValue() < utsMin.doubleValue() || utsEstimadas.doubleValue() > utsMax.doubleValue()) {
+						continue;
+					}
 					numUtsEntrega += utsEstimadas;
 				}
+				petsEntrega.add(peticionDG);
 			}
 		}
 		retorno.put(new Double(numUtsEntrega), petsEntrega);
@@ -320,7 +316,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
     }
 				
 	protected Map<FieldViewSet,Collection<FieldViewSet>> aplicarEstudioEntregas(final IDataAccess dataAccess, final Long idEstudio, 
-			final Collection<FieldViewSet> filas) throws StrategyException{
+			final Collection<FieldViewSet> filas, final Double utsMin, final Double utsMax) throws StrategyException{
 		
 		Map<FieldViewSet,Collection<FieldViewSet>> peticionesEvolutivosEntrega = new HashMap<FieldViewSet, Collection<FieldViewSet>>();
 		
@@ -343,31 +339,32 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				aplicativoBBDD = dataAccess.searchEntityByPk(aplicativoBBDD);
 				
 				/*** creamos la instancia para cada resumen por entrega del estudio ***/
-				FieldViewSet resumenPorPeticion = new FieldViewSet(resumenEntregaEntidad);				
+				FieldViewSet detailEntrega = new FieldViewSet(resumenEntregaEntidad);				
 				
 				Date fechaTramite = (Date)peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION).getName());
 				Date fechaFinalizacion = (Date) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION).getName());							
 				
-				Map<Double, Collection<FieldViewSet>> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticionEntrega_BBDD);
+				String peticiones = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName());
+				Map<Double, Collection<FieldViewSet>> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticiones, utsMin, utsMax);
 				Map.Entry<Double, Collection<FieldViewSet>> entry = peticionesEntrega.entrySet().iterator().next();
 				double utsEntrega = entry.getKey();				
 				peticionesEvolutivosEntrega.put(peticionEntrega_BBDD, entry.getValue());
 				
-				int numPeticionesEntrega= peticionesEntrega.size();
+				int numPeticionesEntrega= entry.getValue().size();
 				int numRechazos = 0;				
 				if (peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_43_FECHA_VALIDADA_EN_CD).getName()) == null) {
 					numRechazos++;
 				}
 				
 				/*******************************************************************************************************/						
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_2_ID_ESTUDIO).getName(), idEstudio);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_3_APLICACION).getName(), idAplicativo);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_4_ID_GEDEON_ENTREGA).getName(), idPeticionEntrega);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUM_PETICIONES).getName(), numPeticionesEntrega);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName(), utsEntrega);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA).getName(), tipoEntrega);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS).getName(), numRechazos);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA).getName(), fechaTramite);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_2_ID_ESTUDIO).getName(), idEstudio);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_3_APLICACION).getName(), idAplicativo);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_4_ID_GEDEON_ENTREGA).getName(), idPeticionEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES).getName(), numPeticionesEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName(), utsEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA).getName(), tipoEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS).getName(), numRechazos);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA).getName(), fechaTramite);
 				
 				List<FieldViewSet> entregasTramitadas = new ArrayList<FieldViewSet>();				
 				String estadoEntrega = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
@@ -389,14 +386,14 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}
 				/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/
 				Date _fechaInicioPruebasCD = fechaEntregada;
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD).getName(), fechaTramite);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD).getName(), fechaTramite);
 				
 				Date _fechaFinPruebasCD = fechaValidadaEntrega;
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_11_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_11_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
 								
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_12_FECHA_INICIO_INSTALACION_PROD).getName(), _fechaFinPruebasCD);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_13_FECHA_FIN_INSTALACION_PROD).getName(), fechaFinalizacion);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_12_FECHA_INICIO_INSTALACION_PROD).getName(), _fechaFinPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_13_FECHA_FIN_INSTALACION_PROD).getName(), fechaFinalizacion);
 				
 				Double jornadasEntrega = CommonUtils.jornadasDuracion(fechaTramite, fechaEntregada);
 				Double jornadasPruebasCD = CommonUtils.jornadasDuracion(_fechaInicioPruebasCD, _fechaFinPruebasCD);
@@ -404,10 +401,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Double jornadasDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(_fechaFinPruebasCD, fechaFinalizacion);
 				Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(jornadasEntrega + jornadasPruebasCD + jornadasDesdeFinPruebasHastaImplantacion);
 								
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA).getName(), cicloVidaPeticion);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG).getName(), jornadasEntrega);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName(), jornadasPruebasCD);
-				resumenPorPeticion.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName(), jornadasDesdeFinPruebasHastaImplantacion);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA).getName(), cicloVidaPeticion);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG).getName(), jornadasEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName(), jornadasPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName(), jornadasDesdeFinPruebasHastaImplantacion);
 				
 				out.write(("****** INICIO DATOS PETICION GEDEON ENTREGA: " + _codGEDEON_entrega +  " ******\n").getBytes());
 				out.write(("Jornadas Duración total Entrega: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
@@ -416,7 +413,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantación Producción: " + CommonUtils.roundDouble(jornadasDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
 				out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());
 				
-				int ok = dataAccess.insertEntity(resumenPorPeticion);
+				int ok = dataAccess.insertEntity(detailEntrega);
 				if (ok != 1) {
 					out.flush();
 					out.close();
@@ -509,6 +506,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					Long idTipoPeticion = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_13_ID_TIPO).getName());					
 					Double utsEstimadas_ = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 					Double utsReales_ = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
+					Double pesoEnEntrega = (Double) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_47_PESO_EN_VERSION).getName());
 					String titulo = (String) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_2_TITULO).getName());					
 
 					FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
@@ -606,7 +604,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 								FieldViewSet tarea = tareas.get(t);
 								String tipotareaName = (String) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_5_NOMBRE).getName());
 								//String idTareaGEDEON  = (String) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName());
-								Double horasImputadas = (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HRS_IMPUTADAS).getName());
+								Double horasImputadas = (Double) tarea.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS).getName());
 								//System.out.println("tarea en AT: " + idTareaGEDEON + " de tipo " + tipotareaName);
 								if (tipotareaName != null && tipotareaName.toString().indexOf("PRU") != -1) {
 									auxEsfuerzoPru = horasImputadas;
@@ -656,7 +654,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						}
 					}					
 					
-					Double jornadasPruebasCD = 0.0, jornadasAnalysis = 0.0, soporteAlCD = 0.0;
+					Double jornadasPruebasCD = 0.0, jornadasAnalysis = 0.0, soporteAlCD = 0.0, jornadasPruebasRestoVersion = 0.0;
 
 					if (esfuerzoAnalysis > 0.0) {
 						//Normalizar las jornadas de análisis con las horas de esfuerzo. Pasar a jornadas esas horas, y poner       
@@ -692,6 +690,9 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						jornadasAnalysis = CommonUtils.jornadasDuracion(fechaInicioRealAnalysis, fechaFinRealAnalysis);
 						soporteAlCD += CommonUtils.roundWith2Decimals(jornadasAnalysis*PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD);
 						jornadasAnalysis = CommonUtils.roundWith2Decimals(jornadasAnalysis*(1.0 - PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD));
+						if (jornadasAnalysis == 0.0) {
+							jornadasAnalysis = 0.1;
+						}
 						esfuerzoAnalysis = jornadasAnalysis*8.0;
 					}
 					
@@ -702,7 +703,11 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					if (esfuerzoPruebasCD > 0.0) {
 						//Normalizar las jornadas de pruebas CD con las horas de esfuerzo. Pasar a jornadas esas horas, y poner         
 						// fecha-inicio-pruebasCD restando a la fecha validada esas jornadas obtenidas, más la que correspondan por el % de dedicación a soporte.
-						jornadasPruebasCD = CommonUtils.roundWith2Decimals(esfuerzoPruebasCD/8.0);						
+						jornadasPruebasCD = CommonUtils.roundWith2Decimals(esfuerzoPruebasCD/8.0);
+						
+						jornadasPruebasRestoVersion = jornadasPruebasCD*(1.0 - pesoEnEntrega);
+						jornadasPruebasCD = jornadasPruebasCD*(pesoEnEntrega);
+						
 						Calendar fechaFinPruebasCDCalendar = Calendar.getInstance();
 						fechaFinPruebasCDCalendar.setTime(fechaTramite);
 						fechaFinPruebasCDCalendar.add(Calendar.DAY_OF_MONTH, -1);
@@ -779,7 +784,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						jornadasDesarrollo = CommonUtils.jornadasDuracion (fechaRealInicioDesarrollo, fechaRealFinDesarrollo);
 						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
 
-						if (esfuerzoPruebasCD == 0.0) {
+						if (esfuerzoPruebasCD == 0.0) {//metemos el peso y el restante del 100% lo llevamos al campo jornadasPruebasRestoVersion
 							//tomamos la fecha de fin entrega por parte de DG
 							fechaInicioPruebasCD = fechaEntregada;
 							fechaFinPruebasCD = fechaValidadaEntrega;							
@@ -794,7 +799,13 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							// aplicamos la reducción por soportes al CD que se hayan realizado en este proyecto y se tengan datos
 							//aplico un 55% de ese porcentaje a análisis y 45% a las pruebas
 							soporteAlCD += CommonUtils.roundWith2Decimals(jornadasPruebasCD*PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD);
-							jornadasPruebasCD = CommonUtils.roundWith2Decimals(jornadasPruebasCD*(1.0 - PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD));
+							jornadasPruebasCD = CommonUtils.roundWith2Decimals(jornadasPruebasCD*(1.0 - PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD));//valor entre 0 y 1
+							jornadasPruebasRestoVersion = jornadasPruebasCD*(1.0 - pesoEnEntrega);
+							jornadasPruebasCD = jornadasPruebasCD*(pesoEnEntrega);
+							
+							if (jornadasPruebasCD == 0.0) {
+								jornadasPruebasCD = 0.1;
+							}
 							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), jornadasPruebasCD*8.0);
 						}
 												
@@ -886,12 +897,12 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					soporteAlCD += Double.valueOf(jornadasAnalysis*0.95);
 					
 					double totalDedicaciones = CommonUtils.roundWith2Decimals(jornadasAnalysis + jornadasDesarrollo + jornadasEntrega + jornadasPruebasCD);
-					double totalGaps = CommonUtils.roundWith2Decimals(soporteAlCD + jornadasDesfaseTramiteHastaInicioReal + jornadasDesfaseFinDesaSolicEntrega + jornadasDesdeFinPruebasHastaImplantacion);
+					double totalGaps = CommonUtils.roundWith2Decimals(soporteAlCD + jornadasDesfaseTramiteHastaInicioReal + jornadasDesfaseFinDesaSolicEntrega + jornadasPruebasRestoVersion + jornadasDesdeFinPruebasHastaImplantacion);
 					Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(totalDedicaciones + totalGaps);
 					
 					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName(), cicloVidaPeticion);
 					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES).getName(), totalDedicaciones);
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_32_DURACION_SOPORTE_CD).getName(), soporteAlCD);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_32_GAP_DURACION_SOPORTE_CD).getName(), soporteAlCD);
 					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS).getName(), totalGaps);		
 
 					/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/

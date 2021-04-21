@@ -41,7 +41,8 @@ CREATE TABLE `peticiones` (
   `fecha_validada_CD` DATE NULL,
   `ult_modificacion` DATE NULL,
   `volatile_tipo` varchar(50) DEFAULT NULL,
-  `cod_GEDEON` int(10) NOT NULL
+  `cod_GEDEON` int(10) NOT NULL,
+  `peso_en_version` double DEFAULT NULL 
 );
 CREATE INDEX index_peticiones_byCODGED_1 on peticiones (cod_GEDEON);
 CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
@@ -114,7 +115,8 @@ CREATE TABLE `resumenPeticiones` (
   `esfuerzo_analysis` double DEFAULT NULL,
   `esfuerzo_pruebas` double DEFAULT NULL,
   `titulo` varchar(500) DEFAULT NULL,
-  `duracion_soporte_al_CD` double DEFAULT NULL
+  `duracion_soporte_al_CD` double DEFAULT NULL,
+  `gap_pruebas_restoEntrega` double DEFAULT NULL
 );  
 CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
 CREATE INDEX index_search_resumenpetic_2 on resumenPeticiones (id_aplicativo);
