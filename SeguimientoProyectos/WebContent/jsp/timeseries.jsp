@@ -69,12 +69,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
                 enableMouseTracking: false
             },
         	series: {
-                borderWidth: 2,
-                dataLabels: {
-                    enabled: true,
-                    style: {'color': 'white', 'font-size': 'xx-small'},
-                    format: '{point.y:<%=request.getAttribute(idseries+"timeseriesdecimals")%>}'
-                },
+                borderWidth: 2,                
                 label: {
                     connectorAllowed: false
                 }

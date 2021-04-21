@@ -553,74 +553,77 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 		Long codGedeonEntrega = (Long) peticionDeEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());
 		for (FieldViewSet peticionRelacionada : peticionesEntrega){
-
-			String servicioDestinoRelacionada = (String) 
-					peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_33_SERVICIO_ATIENDE_PETICION).getName());								
-			String estadoTrabajo = (String) 
-					peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
 			
-			if (servicioDestinoRelacionada.equals(ORIGEN_FROM_AT_TO_DESARR_GESTINADO)){
-					
-				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(), true);
-				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON).getName(), codGedeonEntrega); 
-				/**
-				Tramitada
-				Entrega en redaccion (en CD)
-				Entrega en curso
-				Entrega anulada
-				Entrega pte. validar por CD
-				Entrega validada por CD
-				Entrega instalada
-				Peticion de Entrega finalizada**/
-				
-				String situacionEntrega = 
-						(String) peticionDeEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());				
-				if (situacionEntrega.toString().toLowerCase().indexOf("tramitada") != -1){
-					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-						"Trabajo finalizado con Entrega tramitada");
-				}else if (situacionEntrega.toString().toLowerCase().indexOf("estimada") != -1){
-					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-							"Trabajo finalizado con Entrega estimada");
-				}else if (situacionEntrega.toString().toLowerCase().indexOf("lista para iniciar") != -1 ||
-						situacionEntrega.toString().toLowerCase().indexOf("en curso") != -1){
-					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-						"Trabajo finalizado con Entrega en curso");
-				} else if (situacionEntrega.toString().toLowerCase().indexOf("no conforme") != -1 || 
-								situacionEntrega.toString().toLowerCase().indexOf("anulada") != -1){
-					// No actualizamos el estado de la peticion de trabajo porque cuando hay entregas en esos dos estados, nada nos garantiza que sea
-					// la oltima para la que se pide esta peticion de trabajo, por eso es mejor en estos casos que prevalezca la informacion de estado de 
-					// la propia peticion de trabajo
-				} else if (	situacionEntrega.toString().toLowerCase().indexOf("en redacción") != -1){
-					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-							estadoTrabajo.concat(" con Entrega en redacción"));
-				} else if (	situacionEntrega.toString().toLowerCase().indexOf("pte. validar") != -1){
-					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-						"Trabajo pte. validar por CD");
-				} else if (	situacionEntrega.toString().toLowerCase().indexOf("validada") != -1){
-					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-						"Trabajo validado por CD");
-				} else if (	situacionEntrega.toString().toLowerCase().indexOf("instalada") != -1){
-						peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-						"Trabajo instalado (en PreExpl.)");
-				} else if (situacionEntrega.toString().toLowerCase().indexOf("finalizada") != -1){
-					String estadoPetAsociada = (String) peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-					if (!estadoPetAsociada.equals("Petición de trabajo finalizado") && !estadoPetAsociada.equals("Soporte finalizado") && !estadoPetAsociada.equals("Trabajo anulado")){
-						peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
-								estadoPetAsociada);
-					}
-				}					
+			Double uts_estimadas = (Double) peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
+			if (uts_estimadas == 0.0) {
+				uts_estimadas = (Double) peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
 			}
-			Double uts_estimadas = (Double) peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
 			Double pesoEnVersion = CommonUtils.roundWith2Decimals(uts_estimadas/total_uts_entrega);
-			
+			if (pesoEnVersion > 1.0) {
+				pesoEnVersion = 1.0;
+			}
 			peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_47_PESO_EN_VERSION).getName(), pesoEnVersion);
+			peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(), true);
+			peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON).getName(), codGedeonEntrega);
 			
+			String estadoTrabajo = (String)	peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+			 
+			/**
+			Tramitada
+			Entrega en redaccion (en CD)
+			Entrega en curso
+			Entrega anulada
+			Entrega pte. validar por CD
+			Entrega validada por CD
+			Entrega instalada
+			Peticion de Entrega finalizada**/
+			
+			String situacionEntrega = 
+					(String) peticionDeEntrega.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());				
+			if (situacionEntrega.toString().toLowerCase().indexOf("tramitada") != -1){
+				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+					"Trabajo finalizado con Entrega tramitada");
+			}else if (situacionEntrega.toString().toLowerCase().indexOf("estimada") != -1){
+				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+						"Trabajo finalizado con Entrega estimada");
+			}else if (situacionEntrega.toString().toLowerCase().indexOf("lista para iniciar") != -1 ||
+					situacionEntrega.toString().toLowerCase().indexOf("en curso") != -1){
+				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+					"Trabajo finalizado con Entrega en curso");
+			} else if (situacionEntrega.toString().toLowerCase().indexOf("no conforme") != -1 || 
+							situacionEntrega.toString().toLowerCase().indexOf("anulada") != -1){
+				// No actualizamos el estado de la peticion de trabajo porque cuando hay entregas en esos dos estados, nada nos garantiza que sea
+				// la oltima para la que se pide esta peticion de trabajo, por eso es mejor en estos casos que prevalezca la informacion de estado de 
+				// la propia peticion de trabajo
+			} else if (	situacionEntrega.toString().toLowerCase().indexOf("en redacción") != -1){
+				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+						estadoTrabajo.concat(" con Entrega en redacción"));
+			} else if (	situacionEntrega.toString().toLowerCase().indexOf("pte. validar") != -1){
+				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+					"Trabajo pte. validar por CD");
+			} else if (	situacionEntrega.toString().toLowerCase().indexOf("validada") != -1){
+				peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+					"Trabajo validado por CD");
+			} else if (	situacionEntrega.toString().toLowerCase().indexOf("instalada") != -1){
+					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+					"Trabajo instalado (en PreExpl.)");
+			} else if (situacionEntrega.toString().toLowerCase().indexOf("finalizada") != -1){
+				String estadoPetAsociada = (String) peticionRelacionada.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+				if (!estadoPetAsociada.equals("Petición de trabajo finalizado") && !estadoPetAsociada.equals("Soporte finalizado") && !estadoPetAsociada.equals("Trabajo anulado")){
+					peticionRelacionada.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
+							estadoPetAsociada);
+				}
+			}
+			
+			System.out.println("peso adjudicado");
+							
 			int updatedHija = this.dataAccess.modifyEntity(peticionRelacionada);
 			if (updatedHija != 1) {
 				throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
 			}
 			this.dataAccess.commit();
-		}	//for relacionadas				
+			
+		}//for				
 				
 	}
 
