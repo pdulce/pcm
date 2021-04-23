@@ -18,7 +18,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
             backgroundColor: 'transparent'
         },
         title: {
-            text: '<%=request.getAttribute(idseries+"timeseriestitle")%>',
+        	text: '<%=request.getAttribute(idseries+"timeseriestitle")%>',
             style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
         },
         subtitle: {
