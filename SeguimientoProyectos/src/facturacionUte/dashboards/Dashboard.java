@@ -11,6 +11,7 @@ import domain.common.exceptions.DatabaseException;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.DomainService;
 import domain.service.component.IViewComponent;
+import domain.service.component.Translator;
 import domain.service.component.XmlUtils;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.component.definitions.FieldViewSetCollection;
@@ -28,10 +29,11 @@ import domain.service.highcharts.Pie;
 import domain.service.highcharts.SpeedoMeter;
 import domain.service.highcharts.TimeSeries;
 import domain.service.highcharts.utils.HistogramUtils;
+import facturacionUte.common.ConstantesModelo;
 
 public class Dashboard extends GenericHighchartModel {
 	
-	public static IEntityLogic aplicativoEntidad, tecnologiaEntidad, estudiosEntidad;
+	public static IEntityLogic aplicativoEntidad, tecnologiaEntidad, estudiosEntidad, resumenEntregas, resumenPeticiones;
 	
 	private String entity;
 	private IDataAccess dataAccess;
@@ -86,15 +88,15 @@ public class Dashboard extends GenericHighchartModel {
 	private void setFilterGroup(final IDataAccess dataAccess_, final Datamap _data) throws DatabaseException {
 		
 		FieldViewSet appFieldViewSet = new FieldViewSet(aplicativoEntidad);
-		Collection<FieldViewSetCollection> aplicativos = dataAccess_.searchAll(appFieldViewSet, new String []{"aplicativo.id"}, "asc");
+		Collection<FieldViewSetCollection> aplicativos = dataAccess_.searchAll(appFieldViewSet, new String []{aplicativoEntidad.getName() + ".id"}, "asc");
 		_data.setAttribute("aplicativo_all", aplicativos);
 		
 		FieldViewSet tecnologiaFieldViewSet = new FieldViewSet(tecnologiaEntidad);
-		Collection<FieldViewSetCollection> tecnologias = dataAccess_.searchAll(tecnologiaFieldViewSet, new String []{"tecnologia.id"}, "asc");
+		Collection<FieldViewSetCollection> tecnologias = dataAccess_.searchAll(tecnologiaFieldViewSet, new String []{tecnologiaEntidad.getName() + ".id"}, "asc");
 		_data.setAttribute("tecnologia_all", tecnologias);
 		
 		FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
-		Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{"estudios.id"}, "asc");
+		Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
 		_data.setAttribute("estudio_all", estudios);
 			
 	}
@@ -108,11 +110,15 @@ public class Dashboard extends GenericHighchartModel {
 		if (aplicativoEntidad == null) {				
 			try {
 				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
-						"aplicativo");
+						ConstantesModelo.APLICATIVO_ENTIDAD);
 				tecnologiaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
-						"tecnologia");
+						ConstantesModelo.TECHNOLOGY_ENTIDAD);
 				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
-						"estudios");
+						ConstantesModelo.ESTUDIOS_ENTIDAD);
+				resumenEntregas = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						ConstantesModelo.RESUMENENTREGAS_ENTIDAD);
+				resumenPeticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -121,7 +127,7 @@ public class Dashboard extends GenericHighchartModel {
 			//recoger filtros en pantalla; pueden ser de los master o de las detail, pero los mappings deben
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			
-			String valueOfAgrupacionParam = _data.getParameter("agrupacion")== null? "3":  _data.getParameter("agrupacion");			
+			String valueOfAgrupacionParam = _data.getParameter(aplicativoEntidad.getName() + ".id") != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;			
 			
 			setFilterGroup(dataAccess_, _data);
 			
@@ -131,8 +137,8 @@ public class Dashboard extends GenericHighchartModel {
 			BarChart bar01 = new BarChart(), barCicloVida02 = new BarChartResumenCicloVida();
 			Histogram3D Histogram = new Histogram3D();
 			Map<Integer,String> dimensiones = new HashMap<Integer, String>();
-
-			if (_data.getParameter("entities").contentEquals("resumenEntregas")){
+			
+			if (_data.getParameter("entities").contentEquals(resumenEntregas.getName())){
 				
 				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "8":  _data.getParameter("dimension");
 				
@@ -164,16 +170,23 @@ public class Dashboard extends GenericHighchartModel {
 				_data.copyMap(dataMap03);
 				_data.copyMap(dataMap040);
 				_data.copyMap(dataMap041);
-								
-				dimensiones.put(new Integer(5), "Núm. Peticiones");
-				dimensiones.put(new Integer(6), "Volumen uts");
-				dimensiones.put(new Integer(8), "Núm. Rechazos");
-				dimensiones.put(new Integer(14), "Ciclo Vida Entrega");
-				dimensiones.put(new Integer(15), "Tiempo Preparación en DG");
-				dimensiones.put(new Integer(16), "Tiempo Validación en CD");
-				dimensiones.put(new Integer(17), "Tiempo Desvalidación hasta Implantación");
 				
-			}else if (_data.getParameter("entities").contentEquals("resumenPeticiones")){
+				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES).getName())));
+				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName())));
+				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS).getName())));
+				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA).getName())));
+				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG).getName())));
+				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName())));
+				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName())));
+				
+			}else if (_data.getParameter("entities").contentEquals(resumenPeticiones.getName())){
 				
 				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "20":  _data.getParameter("dimension");
 				
@@ -206,18 +219,30 @@ public class Dashboard extends GenericHighchartModel {
 				_data.copyMap(dataMap040);
 				_data.copyMap(dataMap041);
 				
-				dimensiones.put(new Integer(8), "Ciclo vida");
-				dimensiones.put(new Integer(9), "Duración Análisis");
-				dimensiones.put(new Integer(10), "Duración Desarrollo");
-				dimensiones.put(new Integer(11), "Duración Entrega a CD");
-				dimensiones.put(new Integer(12), "Duración Pruebas CD");
-				dimensiones.put(new Integer(32), "Duración Soporte al CD");
-				dimensiones.put(new Integer(33), "Lapso por Pruebas resto versión");
-				dimensiones.put(new Integer(13), "Lapso Planificación DG");
-				dimensiones.put(new Integer(14), "Lapso Planificación CD");
-				dimensiones.put(new Integer(15), "Lapso Planificación Instalación GISS");
-				dimensiones.put(new Integer(16), "Dedicaciones efectivas");
-				dimensiones.put(new Integer(17), "Lapsos");
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_32_GAP_DURACION_SOPORTE_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_32_GAP_DURACION_SOPORTE_CD).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES).getName())));
+				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS).getName())));
 	
 			}
 			

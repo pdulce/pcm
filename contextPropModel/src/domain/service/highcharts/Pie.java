@@ -148,7 +148,7 @@ public class Pie extends GenericHighchartModel {
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, entidadTraslated, agregadoTraslated));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = total_.doubleValue()/subtotalesPorCategoria.size();
+			double median = subtotalesPorCategoria.size() == 0 ? 0: total_.doubleValue()/subtotalesPorCategoria.size();
 			total_ = median;
 		}
 		return total_.doubleValue();

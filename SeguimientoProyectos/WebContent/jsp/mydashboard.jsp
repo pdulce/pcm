@@ -10,19 +10,12 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="UTF-8"%>
   
-  	<%  String attributeEntidad = ((String[]) request.getAttribute("entities"))[0];
-  		//System.out.println("attributeEntidad: " + attributeEntidad);
- 		String masterId = attributeEntidad.concat(".id_estudio");
-  		//System.out.println("masterId: " + masterId);
-	%>
-
   	<div id="filter" style="width : 90%;left: 20px;">
 
 	<form class="pcmForm" action="prjManager" method="POST">
 	    
 	    <input id="exec" name="exec" type="hidden" value="dashboard"/>
 		<input id="event" name="event" type="hidden" value="dashboard"/>
-		<input id="agrupacion" name="agrupacion" type="hidden" value="3"/> <!--3: id_aplicacion, 2:id_estudio -->
 		<input id="entities" name="entities" type="hidden" value="resumenPeticiones"/>
 	    
 	    <fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
@@ -50,10 +43,10 @@
 					 
 					%>				
 				</select>    
-	    		<label class="infoCls"  title="Servicio UTE" id="<%=masterId%>LABEL" for="<%=masterId%>">
+	    		<label class="infoCls"  title="Estudio" id="estudios.idLABEL" for="estudios.id">
 				&nbsp;&nbsp;Estudio&nbsp;
 				</label>
-				<select class="textInput" size="3" id="<%=masterId%>" name="<%=masterId%>" 
+				<select class="textInput" size="3" id="estudios.id" name="estudios.id" 
 					onChange="javascript:document.forms[0].submit();return true;"
 					 multiple>
 					 
@@ -66,8 +59,8 @@
 						  Long idestudio = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
 						  String nombreestudio = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName());
 					%>
-						  <option value="<%=masterId%>=<%=idestudio%>" 
-						  	id="<%=masterId%>=<%=idestudio%>"><%=nombreestudio%></option>
+						  <option value="estudios.id=<%=idestudio%>" 
+						  	id="estudios.id=<%=idestudio%>"><%=nombreestudio%></option>
 					<%
 					  }//while
 					%>
@@ -288,28 +281,26 @@
 		}
 	<%} %>
 	
-	var estu = document.getElementById('<%=masterId%>');
+	var estu = document.getElementById('estudios.id');
 	<% 	
-		Object servicio2ParamValues = request.getAttribute(masterId);	     
-		if (servicio2ParamValues != null){
-			String[] as= (String[]) servicio2ParamValues;
+		Object estudio2ParamValues = request.getAttribute("estudios.id");	     
+		if (estudio2ParamValues != null){
+			String[] as= (String[]) estudio2ParamValues;
 			for (int i=0;i<as.length;i++){
-				//System.out.println("servicio: " + as[i]);
+				//System.out.println("estudios: " + as[i]);
 			%>	
 				for (var j = 0; j < estu.options.length; ++j) {
-					//alert('¿dimension selected? '+ estu.options[j].id);			
+					//alert('¿estudios selected? '+ estu.options[j].id);			
 			    	if (estu.options[j].value == '<%=as[i]%>'){
-			    		//alert('¡¡dimension selected!! '+ estu.options[j].id);	
+			    		//alert('¡¡estudios selected!! '+ estu.options[j].id);	
 		    			estu.options[j].selected= 'selected';
 			    	}//if
 				}//for
 			<%}%>
-			//document.getElementById('agrupacion').value = '2';
 	<%}else{//if %>	  	  	
 		    for (var j=0;j<estu.options.length;j++){
 		        estu.options[j].selected = '';
 			}
-		    document.getElementById('agrupacion').value = '3';
 	<%}%>
 	
 	  var tecn = document.getElementById('aplicativo.id_tecnologia');
@@ -346,12 +337,10 @@
 			    	}//if
 				}//for
 		  <%}//for%>
-		  //document.getElementById('agrupacion').value = '3';
 	   <%} else {//if %>
 		 	for (var j=0;j<aplic.options.length;j++){
 		 		aplic.options[j].selected = '';
 			}
-			document.getElementById('agrupacion').value = '2';
 	   <%} %>
 	
 	   var dimens = document.getElementById('dimension');

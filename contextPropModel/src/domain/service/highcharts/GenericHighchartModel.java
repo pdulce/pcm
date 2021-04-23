@@ -167,9 +167,9 @@ public abstract class GenericHighchartModel implements IStats {
 					joinFView, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, IAction.ORDEN_ASCENDENTE);
 			}
 			
-			if (listaValoresAgregados == null || listaValoresAgregados.isEmpty()){
+			/*if (listaValoresAgregados == null || listaValoresAgregados.isEmpty()){
 				throw new Throwable("NO HAY DATOS");
-			}
+			}*/
 			
 			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
 

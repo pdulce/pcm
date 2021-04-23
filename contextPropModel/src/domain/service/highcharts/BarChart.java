@@ -294,7 +294,7 @@ public class BarChart extends GenericHighchartModel {
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = total_.doubleValue()/listaValoresAgregados.size();
+			double median = listaValoresAgregados.size() == 0 ? 0 : total_.doubleValue()/listaValoresAgregados.size();
 			total_ = median;
 		}
 		return total_.doubleValue();
