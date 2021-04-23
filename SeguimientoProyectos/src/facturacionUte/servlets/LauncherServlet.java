@@ -12,6 +12,8 @@ import domain.application.ApplicationDomain;
 import domain.common.PCMConstants;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.event.SceneResult;
+import domain.service.highcharts.IStats;
+import facturacionUte.dashboards.Dashboard;
 import webservlet.CDDWebController;
 
 /**
@@ -104,6 +106,11 @@ public class LauncherServlet extends CDDWebController {
 		SceneResult scene = new SceneResult();
 		scene.appendXhtml(htmlOutput.toString());
 		return scene.getXhtml();
+	}
+
+	@Override
+	protected IStats getDashboardImpl() {
+		return new Dashboard();
 	}
 
 	

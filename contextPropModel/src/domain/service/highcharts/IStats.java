@@ -3,6 +3,10 @@
  */
 package domain.service.highcharts;
 
+import domain.service.DomainService;
+import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.dto.Datamap;
+
 /**
  * @author 99GU3997
  */
@@ -57,6 +61,8 @@ public interface IStats {
 	public static final String TEXT_X_AXIS = "titulo_EJE_X";
 
 	public static final String TEXT_Y_AXIS = "titulo_EJE_Y";
+	
+	public void generateStatGraphModel(final IDataAccess dataAccess_, final DomainService domainService, final Datamap _data);
 	
 	public String getScreenRendername();
 

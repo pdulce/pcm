@@ -52,6 +52,7 @@ public abstract class GenericHighchartModel implements IStats {
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final IFieldLogic orderByField, final String aggregateFunction) throws Throwable;
 	
+	@Override
 	public abstract String getScreenRendername();
 	
 	protected boolean isJsonResult(){
@@ -80,6 +81,7 @@ public abstract class GenericHighchartModel implements IStats {
 		return name;
 	}
 	
+	@Override
 	public void generateStatGraphModel(final IDataAccess dataAccess, final DomainService domainService, final Datamap data_) {
 				
 		try {

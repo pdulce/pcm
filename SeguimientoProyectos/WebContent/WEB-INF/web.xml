@@ -6,7 +6,7 @@
 	<display-name>sg</display-name>
 	<servlet>
 		<servlet-name>PrincipalServlet</servlet-name>
-		<servlet-class>webservlet.CDDWebController</servlet-class>
+		<servlet-class>facturacionUte.servlets.MyServlet</servlet-class>
 	</servlet>
 
 	<servlet>

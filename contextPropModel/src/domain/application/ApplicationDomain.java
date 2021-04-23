@@ -56,9 +56,9 @@ import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.BarChartResumenCicloVida;
 import domain.service.highcharts.BarchartResumenDedicaciones;
-import domain.service.highcharts.Dashboard;
 import domain.service.highcharts.Dualhistogram;
 import domain.service.highcharts.Histogram3D;
+import domain.service.highcharts.IStats;
 import domain.service.highcharts.MapEurope;
 import domain.service.highcharts.MapSpain;
 import domain.service.highcharts.MapWorld;
@@ -68,7 +68,6 @@ import domain.service.highcharts.Scatter;
 import domain.service.highcharts.Spiderweb;
 import domain.service.highcharts.TimeSeries;
 import domain.service.highcharts.VerticalBarApiladoAllDimCV;
-import domain.service.highcharts.GenericHighchartModel;
 
 public class ApplicationDomain implements Serializable {
 
@@ -79,6 +78,12 @@ public class ApplicationDomain implements Serializable {
 			ATTR_SERVER_PATH = "serverPath"; 
 	
 	private static Logger log = Logger.getLogger(ApplicationDomain.class.getName());	
+	private IStats dashboard;
+	private String initService;
+	private String initEvent;
+	private Map<String, DomainService> domainServices;
+	private ResourcesConfig resourcesConfiguration;
+
 	static {
 		if (log.getHandlers().length == 0) {
 			try {
@@ -91,10 +96,10 @@ public class ApplicationDomain implements Serializable {
 			}
 		}
 	}
-	private String initService;
-	private String initEvent;
-	private Map<String, DomainService> domainServices;
-	private ResourcesConfig resourcesConfiguration;
+	
+	public void setDashboard(final IStats dashboard_) {
+		dashboard = dashboard_;
+	}
 	
 	public ApplicationDomain(InputStream navigationWebModel) {
 		try {
@@ -410,11 +415,10 @@ public class ApplicationDomain implements Serializable {
 			return paintConfiguration(datamap);
 		}
 		
-		GenericHighchartModel genericHCModel = null;
+		IStats genericHCModel = null;
 		if (datamap.getParameter(EXEC_PARAM) != null && 
 				datamap.getParameter(EXEC_PARAM).startsWith(DASHBOARD)) {
-			String[] entities = datamap.getParameter("entities").split("\\$");
-			genericHCModel = new Dashboard(entities);
+			genericHCModel = dashboard;
 		}else if ((highchartsParam = getHighchartRequest(datamap)) != null) {	
 			//instanciamos la clase del gráfico que corresponda
 			final String highchartStats = datamap.getParameter(highchartsParam);			

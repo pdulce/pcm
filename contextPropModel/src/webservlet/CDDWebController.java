@@ -31,6 +31,7 @@ import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
 import domain.service.dataccess.dto.Datamap;
+import domain.service.highcharts.IStats;
 
 
 /**
@@ -43,7 +44,7 @@ import domain.service.dataccess.dto.Datamap;
  * @since 2014-03-31
  */
 
-public class CDDWebController extends HttpServlet {
+public abstract class CDDWebController extends HttpServlet {
 
 	private static final long serialVersionUID = 4491685640714600097L;
 
@@ -96,6 +97,8 @@ public class CDDWebController extends HttpServlet {
 		return escenario;
 	}
 	
+	protected abstract IStats getDashboardImpl();
+	
 	@Override
 	public void init(final ServletConfig globalCfg_) throws ServletException {
 		try {
@@ -107,7 +110,8 @@ public class CDDWebController extends HttpServlet {
 			if (cddConfig == null){
 				throw new ServletException("navigationWebModel file not found, relative path: " + CONFIG_CDD_XML);
 			}
-			this.contextApp = new ApplicationDomain(cddConfig);			
+			this.contextApp = new ApplicationDomain(cddConfig);
+			this.contextApp.setDashboard(getDashboardImpl());
 			String pathBase = globalCfg_.getServletContext().getRealPath("");
 			if (pathBase.indexOf("server") != -1) {
 				String leftPart = pathBase.split("server")[0];
