@@ -96,31 +96,7 @@ public class Dashboard extends GenericHighchartModel {
 		FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
 		Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{"estudios.id"}, "asc");
 		_data.setAttribute("estudio_all", estudios);
-		
-		Map<Integer,String> mapa = new HashMap<Integer, String>();
-		mapa.put(new Integer(5), "Núm. Peticiones");
-		mapa.put(new Integer(6), "Volumen uts");
-		mapa.put(new Integer(8), "Núm. Rechazos");
-		mapa.put(new Integer(14), "Ciclo Vida Entrega");
-		mapa.put(new Integer(15), "Tiempo Preparación en DG");
-		mapa.put(new Integer(16), "Tiempo Validación en CD");
-		mapa.put(new Integer(17), "Tiempo Desvalidación hasta Implantación");
-		_data.setAttribute("dimensiones4Entregas", mapa);
-					
-		Map<Integer,String> mapa2 = new HashMap<Integer, String>();
-		mapa2.put(new Integer(8), "Ciclo vida");
-		mapa2.put(new Integer(9), "Duración Análisis");
-		mapa2.put(new Integer(10), "Duración Desarrollo");
-		mapa2.put(new Integer(11), "Duración Entrega a CD");
-		mapa2.put(new Integer(12), "Duración Pruebas CD");
-		mapa2.put(new Integer(32), "Duración Soporte al CD");
-		mapa2.put(new Integer(33), "Lapso por Pruebas resto versión");
-		mapa2.put(new Integer(13), "Lapso Planificación DG");
-		mapa2.put(new Integer(14), "Lapso Planificación CD");
-		mapa2.put(new Integer(15), "Lapso Planificación Instalación GISS");
-		mapa2.put(new Integer(16), "Dedicaciones efectivas");
-		mapa2.put(new Integer(17), "Lapsos");
-		_data.setAttribute("dimensiones4Peticiones", mapa2);
+			
 	}
 	
 	@Override
@@ -146,7 +122,7 @@ public class Dashboard extends GenericHighchartModel {
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			
 			String valueOfAgrupacionParam = _data.getParameter("agrupacion")== null? "3":  _data.getParameter("agrupacion");			
-						
+			
 			setFilterGroup(dataAccess_, _data);
 			
 			TimeSeries series1 = new TimeSeries(), series2 = new TimeSeries();			
@@ -154,10 +130,11 @@ public class Dashboard extends GenericHighchartModel {
 			SpeedoMeter speedMeter01 = new SpeedoMeter();
 			BarChart bar01 = new BarChart(), barCicloVida02 = new BarChartResumenCicloVida();
 			Histogram3D Histogram = new Histogram3D();
-			
+			Map<Integer,String> dimensiones = new HashMap<Integer, String>();
+
 			if (_data.getParameter("entities").contentEquals("resumenEntregas")){
 				
-				String valueOfDimensionSelected = _data.getParameter("dimensionE")== null? "5":  _data.getParameter("dimensionE");
+				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "8":  _data.getParameter("dimension");
 				
 				Datamap dataMap01 = createMap(_data, "_serie01",  "9", valueOfAgrupacionParam, "line", valueOfDimensionSelected);
 				series1.generateStatGraphModel(dataAccess, domainService, dataMap01);
@@ -187,12 +164,19 @@ public class Dashboard extends GenericHighchartModel {
 				_data.copyMap(dataMap03);
 				_data.copyMap(dataMap040);
 				_data.copyMap(dataMap041);
-				
+								
+				dimensiones.put(new Integer(5), "Núm. Peticiones");
+				dimensiones.put(new Integer(6), "Volumen uts");
+				dimensiones.put(new Integer(8), "Núm. Rechazos");
+				dimensiones.put(new Integer(14), "Ciclo Vida Entrega");
+				dimensiones.put(new Integer(15), "Tiempo Preparación en DG");
+				dimensiones.put(new Integer(16), "Tiempo Validación en CD");
+				dimensiones.put(new Integer(17), "Tiempo Desvalidación hasta Implantación");
 				
 			}else if (_data.getParameter("entities").contentEquals("resumenPeticiones")){
 				
-				String valueOfDimensionSelected = _data.getParameter("dimensionP")== null? "8":  _data.getParameter("dimensionP");
-
+				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "20":  _data.getParameter("dimension");
+				
 				Datamap dataMap01 = createMap(_data, "_serie01", "20", valueOfAgrupacionParam, "line", valueOfDimensionSelected);
 				series1.generateStatGraphModel(dataAccess, domainService, dataMap01);
 				
@@ -221,9 +205,23 @@ public class Dashboard extends GenericHighchartModel {
 				_data.copyMap(dataMap03);
 				_data.copyMap(dataMap040);
 				_data.copyMap(dataMap041);
+				
+				dimensiones.put(new Integer(8), "Ciclo vida");
+				dimensiones.put(new Integer(9), "Duración Análisis");
+				dimensiones.put(new Integer(10), "Duración Desarrollo");
+				dimensiones.put(new Integer(11), "Duración Entrega a CD");
+				dimensiones.put(new Integer(12), "Duración Pruebas CD");
+				dimensiones.put(new Integer(32), "Duración Soporte al CD");
+				dimensiones.put(new Integer(33), "Lapso por Pruebas resto versión");
+				dimensiones.put(new Integer(13), "Lapso Planificación DG");
+				dimensiones.put(new Integer(14), "Lapso Planificación CD");
+				dimensiones.put(new Integer(15), "Lapso Planificación Instalación GISS");
+				dimensiones.put(new Integer(16), "Dedicaciones efectivas");
+				dimensiones.put(new Integer(17), "Lapsos");
 	
 			}
 			
+			_data.setAttribute("dimensionesAll", dimensiones);
 			_data.setAttribute("containerJSP_11", series1.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_110", Histogram.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_120", pie01.getScreenRendername().concat(".jsp"));

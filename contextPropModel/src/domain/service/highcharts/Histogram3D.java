@@ -170,8 +170,7 @@ public class Histogram3D extends GenericHighchartModel {
 						count++;
 					}
 				}
-				double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE)? 
-						CommonUtils.roundWith2Decimals(acumulador/count): CommonUtils.roundWith2Decimals(acumulador);
+				double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE) ?	acumulador/count: acumulador;
 				newPoints.put(valorPeriodoEjeX, valor);
 				total += valor;
 				if (count > 0) {
