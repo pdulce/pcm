@@ -1,7 +1,6 @@
 package domain.service.highcharts;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,32 +18,13 @@ import domain.service.dataccess.dto.Datamap;
 
 public class ColumnBar extends BarChart {
 	
+	private String typeOfgraph = "column";
 	
-	/*
-	 * [{
-        name: 'Estudio Mto. HOST',
-        data: [6.05 , 13.16, 1.28, 4.28, 3.17, 1.38, 10.39, 0.28, 1.72]
-    }, {
-        name: 'Estudio Mto. Pros@',
-        data: [6.12, 16, 4.80, 3.18, 8.90,10.22, 14.28, 5.95, 5.38]
-    }, {
-        name: 'Estudio Nuevos Desarrollos Entornos Abiertos',
-        data: [31.57,18.21,13.49,8.37, 18.44, 28.77, 7.47, 15.78, 18.92]
-    }]
-	 */
-	/*
-	 * 
-	mappingTo="9" name="duracion_analysis"
-    mappingTo="10" name="duracion_desarrollo"
-    mappingTo="11" name="duracion_entrega_DG"
-    mappingTo="12" name="duracion_pruebas"
-    mappingTo="13" name="gap_tram_iniRealDesa"
-    mappingTo="14" name="gap_finDesa_solicitudEntrega"
-    mappingTo="15" name="gap_finPrue_Producc" 
-    mappingTo="32" name="duracion_soporte_al_CD"
-    mappingTo="33" name="gap_pruebas_restoEntrega"
-	 */
+	public ColumnBar(final String typeOfgraph_) {
+		this.typeOfgraph = typeOfgraph_;
+	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion, 
@@ -99,25 +79,19 @@ public class ColumnBar extends BarChart {
 			registros.put(valorPorElQueagrupamos.toString(), newDuplas);
 		}
 		
-		boolean stack_Z = false;
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(registros, jsArrayEjeAbcisas, stack_Z, data_));
-
-		String categories_UTF8 = CommonUtils.quitarTildes(jsArrayEjeAbcisas.toJSONString());
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CATEGORIES), categories_UTF8);
+		String agrupadoPor = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName().concat(".").concat(fieldsCategoriaDeAgrupacion[0].getName()));
+		String itemGrafico = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
-		String itemGrafico = entidadTraslated;
-		
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(registros, jsArrayEjeAbcisas, false/*stack_Z*/, data_));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CATEGORIES), jsArrayEjeAbcisas.toJSONString());
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("agrupadoPor"), agrupadoPor);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), CommonUtils.obtenerPlural(itemGrafico));
-		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(IS_BAR_INTERNAL_LABELED), "false");
-		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), 0.0);
-		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = numTuplas == 0 ? 0 : total_/numTuplas;
-			total_ = median;
-		}
-		return total_;
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfgraph"), this.typeOfgraph);
+
+		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? (numTuplas == 0 ? 0 : total_/numTuplas): total_;
+
 	}
 	
 	@Override

@@ -441,7 +441,7 @@ public class ApplicationDomain implements Serializable {
 			}else if (highchartStats.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
 			}else if (highchartStats.equals("columnbar")) {
-				genericHCModel = new ColumnBar();
+				genericHCModel = new ColumnBar("column");//by default
 			}else if (highchartStats.equals("piechartCicloVida")) {
 				genericHCModel = new PiechartCicloVida();
 			}

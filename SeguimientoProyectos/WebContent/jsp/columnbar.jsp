@@ -3,15 +3,16 @@
 
 <% 
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
+//System.out.println("seriestype: " +  idseries);
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 %>
-<div id="<%=idseries%>verticalBarApiladoAllDimCV" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+<div id="<%=idseries%>columnbar" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
 Highcharts.chart('<%=idseries%>columnbar', {
     chart: {
-        type: 'column',
+        type: '<%=request.getAttribute(idseries+"columnbartypeOfgraph")%>',
         backgroundColor: 'transparent',
         options3d: {
             enabled: true,
@@ -23,12 +24,12 @@ Highcharts.chart('<%=idseries%>columnbar', {
     },
 
     title: {
-        text: 'Promedios de las dimensiones que forman el Ciclo de Vida de las Peticiones (agrupadas por ...)',
+        text: 'Dimensiones agrupadas por <%=request.getAttribute(idseries+"columnbaragrupadoPor")%>',
         style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
 
     xAxis: {
-        categories: <%=request.getAttribute(idseries+"columnbar")%>,       
+        categories: <%=request.getAttribute(idseries+"columnbarcategories")%>,       
         labels: {
             skew3d: true,
             style: {                
@@ -58,7 +59,8 @@ Highcharts.chart('<%=idseries%>columnbar', {
         }
     },
 
-    series: <%=request.getAttribute(idseries+"columnbar")%>
-});
-
+    series: <%=request.getAttribute(idseries+"columnbarseries")%>
+    
+}); 
+        
 </script>

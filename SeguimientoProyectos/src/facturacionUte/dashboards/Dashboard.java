@@ -1,6 +1,5 @@
 package facturacionUte.dashboards;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -52,22 +51,16 @@ public class Dashboard extends GenericHighchartModel {
 		
 		dataMapPeticiones.setParameter("idPressed", nameSpaceOfButtonFieldSet);
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM), entity);
-		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat("seriesType") , graphType);//["area","line"]		
+		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat("seriesType") , graphType);//["area","line", "column", "bar"]		
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM), orderBy);
-		List<String> fieldGroupBy = new ArrayList<String>();
-		fieldGroupBy.add(firstGroupBy);
-		if (!firstGroupBy.contentEquals(orderBy) && !graphType.contentEquals("")) {
-			fieldGroupBy.add(orderBy);
-		}
 		
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY));
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM));
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM));
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM));	
 		
-		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), fieldGroupBy);
-		String[] agregados_ = agregados.split(",");
-		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados_);//ciclo vida petición
+		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), firstGroupBy.split(","));		
+		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados.split(","));//ciclo vida petición
 		//"AVG", "SUM"
 		if (_data.getParameter(OPERATION_FIELD_PARAM)== null) {
 			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), "AVG");
@@ -132,46 +125,23 @@ public class Dashboard extends GenericHighchartModel {
 			
 			setFilterGroup(dataAccess_, _data);
 			
-			TimeSeries series1 = new TimeSeries(), series2 = new TimeSeries();			
-			Pie pie01 = new Pie();
-			SpeedoMeter speedMeter01 = new SpeedoMeter();
-			BarChart bar01 = new BarChart();//, barCicloVida02 = new BarChartResumenCicloVida();
-			ColumnBar barCicloVida02 = new ColumnBar();
-			Histogram3D Histogram = new Histogram3D();
+			ColumnBar barCicloVida10 = new ColumnBar("bar"), barCicloVida11 = new ColumnBar("column");
+			SpeedoMeter speedMeter12 = new SpeedoMeter();
+			TimeSeries timeSeries20 = new TimeSeries(), timeSeries31 = new TimeSeries();			
+			Pie pie30 = new Pie();
+			BarChart bar40 = new BarChart(), bar41 = new BarChart();			
+			Histogram3D histogram21 = new Histogram3D();
+			
+			Datamap dataMap10 = null, dataMap11=null, dataMap12=null, dataMap20=null, dataMap21=null, dataMap30=null, dataMap31=null, dataMap40=null, dataMap41=null;
+			
 			Map<Integer,String> dimensiones = new HashMap<Integer, String>();
+			String orderBy = "", secondField4GroupBY = "", valueOfDimensionSelected = "";
 			
 			if (_data.getParameter("entities").contentEquals(resumenEntregas.getName())){
 				
-				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "8":  _data.getParameter("dimension");
-				
-				Datamap dataMap01 = createMap(_data, "_serie01",  "9", fields4GroupBY, "line", valueOfDimensionSelected);
-				series1.generateStatGraphModel(dataAccess, domainService, dataMap01);
-				
-				Datamap dataMap11 = createMap(_data, "_serie11", "9", fields4GroupBY, "", "-1");//count ALL records, sin dimensión
-				Histogram.generateStatGraphModel(dataAccess, domainService, dataMap11);
-				
-				Datamap dataMap021 = createMap(_data, "_serie021", fields4GroupBY, fields4GroupBY, "", valueOfDimensionSelected);
-				pie01.generateStatGraphModel(dataAccess, domainService, dataMap021);
-				
-				Datamap dataMap022 = createMap(_data, "_serie022",  "2", fields4GroupBY, "", valueOfDimensionSelected);
-				speedMeter01.generateStatGraphModel(dataAccess, domainService, dataMap022);
-				
-				Datamap dataMap03 = createMap(_data, "_serie03", "9", fields4GroupBY, "area", valueOfDimensionSelected);
-				series2.generateStatGraphModel(dataAccess, domainService, dataMap03);
-				
-				Datamap dataMap040 = createMap(_data, "_serie040", "9", fields4GroupBY + ",7", "", valueOfDimensionSelected);
-				bar01.generateStatGraphModel(dataAccess, domainService, dataMap040);
-				
-				Datamap dataMap041 = createMap(_data, "_serie041", "9", "7," +fields4GroupBY, "", "14");//valueOfDimensionSelected);
-				barCicloVida02.generateStatGraphModel(dataAccess, domainService, dataMap041);
-	
-				_data.copyMap(dataMap01);
-				_data.copyMap(dataMap11);
-				_data.copyMap(dataMap021);
-				_data.copyMap(dataMap022);
-				_data.copyMap(dataMap03);
-				_data.copyMap(dataMap040);
-				_data.copyMap(dataMap041);
+				orderBy = String.valueOf(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA);
+				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA);				
+				valueOfDimensionSelected = _data.getParameter("dimension")== null? "5":  _data.getParameter("dimension");
 				
 				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES).getName())));
@@ -187,40 +157,15 @@ public class Dashboard extends GenericHighchartModel {
 						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName())));
 				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName())));
+								
+				dataMap10 = createMap(_data, "_serie10", orderBy, fields4GroupBY, "bar", "14");//resumen de Ciclo de Vida entregas (dedicaciones totales vs gaps totales)
+				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", "15,16,17");//Detalle Ciclo Vida entregas (dedicaciones detalladas vs gaps)
 				
 			}else if (_data.getParameter("entities").contentEquals(resumenPeticiones.getName())){
 				
-				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "20":  _data.getParameter("dimension");
-				
-				Datamap dataMap01 = createMap(_data, "_serie01", "20", fields4GroupBY, "line", valueOfDimensionSelected);
-				series1.generateStatGraphModel(dataAccess, domainService, dataMap01);
-				
-				Datamap dataMap11 = createMap(_data, "_serie11",  "20", fields4GroupBY, "", "-1");//count ALL records, sin dimensión
-				Histogram.generateStatGraphModel(dataAccess, domainService, dataMap11);
-				
-				Datamap dataMap021 = createMap(_data, "_serie021",  fields4GroupBY, fields4GroupBY, "", valueOfDimensionSelected);
-				pie01.generateStatGraphModel(dataAccess, domainService, dataMap021);
-				
-				Datamap dataMap022 = createMap(_data, "_serie022",  "2", fields4GroupBY, "", valueOfDimensionSelected);
-				speedMeter01.generateStatGraphModel(dataAccess, domainService, dataMap022);
-				
-				Datamap dataMap03 = createMap(_data, "_serie03", "20", fields4GroupBY, "area", valueOfDimensionSelected);
-				series2.generateStatGraphModel(dataAccess, domainService, dataMap03);
-				
-				Datamap dataMap040 = createMap(_data, "_serie040", "20", fields4GroupBY + ",4", "", valueOfDimensionSelected);
-				bar01.generateStatGraphModel(dataAccess, domainService, dataMap040);
-				
-				//TODO
-				Datamap dataMap041 = createMap(_data, "_serie041", "20", fields4GroupBY, "", "9,10,11,12,13,14,15,32,33");
-				barCicloVida02.generateStatGraphModel(dataAccess, domainService, dataMap041);
-				
-				_data.copyMap(dataMap01);
-				_data.copyMap(dataMap11);
-				_data.copyMap(dataMap021);
-				_data.copyMap(dataMap022);
-				_data.copyMap(dataMap03);
-				_data.copyMap(dataMap040);
-				_data.copyMap(dataMap041);
+				orderBy = String.valueOf(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG);
+				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMEN_PETICION_4_ID_TIPO);
+				valueOfDimensionSelected = _data.getParameter("dimension")== null? "8":  _data.getParameter("dimension");
 				
 				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName())));
@@ -246,17 +191,63 @@ public class Dashboard extends GenericHighchartModel {
 						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES).getName())));
 				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS).getName())));
-	
-			}
+				
+				dataMap10 = createMap(_data, "_serie10", "20", fields4GroupBY, "bar", 
+						ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES + "," + 
+						ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS + "," + 
+						ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA);//resumen de Ciclo de Vida peticiones (dedicaciones totales vs gaps totales)								
+				dataMap11 = createMap(_data, "_serie11", "20", fields4GroupBY, "column", "9,10,11,12,13,32,14,33,15");//Detalle Ciclo Vida peticiones (dedicaciones detalladas vs gaps)
+				
+			}			
+			
+			barCicloVida10.generateStatGraphModel(dataAccess, domainService, dataMap10);
+			barCicloVida11.generateStatGraphModel(dataAccess, domainService, dataMap11);
+			
+			dataMap12 = createMap(_data, "_serie12",  orderBy, fields4GroupBY, "", valueOfDimensionSelected);
+			speedMeter12.generateStatGraphModel(dataAccess, domainService, dataMap12);
+							
+			dataMap20 = createMap(_data, "_serie20", orderBy, fields4GroupBY + "," + orderBy, "area", valueOfDimensionSelected);
+			timeSeries20.generateStatGraphModel(dataAccess, domainService, dataMap20);
+			
+			dataMap21 = createMap(_data, "_serie21",  orderBy, fields4GroupBY + "," + orderBy, "", "-1");//count ALL records, sin dimensión
+			histogram21.generateStatGraphModel(dataAccess, domainService, dataMap21);
+			
+			dataMap30 = createMap(_data, "_serie30",  fields4GroupBY, fields4GroupBY, "", valueOfDimensionSelected);
+			pie30.generateStatGraphModel(dataAccess, domainService, dataMap30);
+							
+			dataMap31 = createMap(_data, "_serie31", orderBy, fields4GroupBY + "," + orderBy, "area", valueOfDimensionSelected);
+			timeSeries31.generateStatGraphModel(dataAccess, domainService, dataMap31);				
+			
+			dataMap40 = createMap(_data, "_serie40", orderBy, fields4GroupBY + "," +secondField4GroupBY, "", valueOfDimensionSelected);
+			bar40.generateStatGraphModel(dataAccess, domainService, dataMap40);				
+			
+			dataMap41 = createMap(_data, "_serie41", orderBy, secondField4GroupBY + ","+fields4GroupBY, "", valueOfDimensionSelected);
+			bar41.generateStatGraphModel(dataAccess, domainService, dataMap41);
+			
+			_data.copyMap(dataMap10);
+			_data.copyMap(dataMap11);
+			_data.copyMap(dataMap12);
+			_data.copyMap(dataMap20);
+			_data.copyMap(dataMap21);
+			_data.copyMap(dataMap30);
+			_data.copyMap(dataMap31);
+			_data.copyMap(dataMap40);
+			_data.copyMap(dataMap41);
 			
 			_data.setAttribute("dimensionesAll", dimensiones);
-			_data.setAttribute("containerJSP_11", series1.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_110", Histogram.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_120", pie01.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_121", speedMeter01.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_21", series2.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_220", bar01.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_221", barCicloVida02.getScreenRendername().concat(".jsp"));
+			
+			_data.setAttribute("containerJSP_10", barCicloVida10.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_11", barCicloVida11.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_12", speedMeter12.getScreenRendername().concat(".jsp"));
+			
+			_data.setAttribute("containerJSP_20", timeSeries20.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_21", histogram21.getScreenRendername().concat(".jsp"));
+			
+			_data.setAttribute("containerJSP_30", pie30.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_31", timeSeries31.getScreenRendername().concat(".jsp"));
+			
+			_data.setAttribute("containerJSP_40", bar40.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_41", bar41.getScreenRendername().concat(".jsp"));
 			
 			_data.setAttribute("container", getScreenRendername().concat(".jsp"));		
 			
