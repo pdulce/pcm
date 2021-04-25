@@ -22,12 +22,12 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
-import domain.service.highcharts.BarChartResumenCicloVida;
 import domain.service.highcharts.GenericHighchartModel;
 import domain.service.highcharts.Histogram3D;
 import domain.service.highcharts.Pie;
 import domain.service.highcharts.SpeedoMeter;
 import domain.service.highcharts.TimeSeries;
+import domain.service.highcharts.ColumnBar;
 import domain.service.highcharts.utils.HistogramUtils;
 import facturacionUte.common.ConstantesModelo;
 
@@ -39,7 +39,7 @@ public class Dashboard extends GenericHighchartModel {
 	private IDataAccess dataAccess;
 	
 	private Datamap createMap(final Datamap _data, final String nameSpaceOfButtonFieldSet, final String orderBy, 
-			final String firstGroupBy, final String graphType, final String agregado) {
+			final String firstGroupBy, final String graphType, final String agregados) {
 
 		Datamap dataMapPeticiones = new Datamap(_data.getEntitiesDictionary(), _data.getUri(), _data.getPageSize());
 		dataMapPeticiones.copyMap(_data);
@@ -56,7 +56,7 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ORDER_BY_FIELD_PARAM), orderBy);
 		List<String> fieldGroupBy = new ArrayList<String>();
 		fieldGroupBy.add(firstGroupBy);
-		if (!firstGroupBy.contentEquals(orderBy)) {
+		if (!firstGroupBy.contentEquals(orderBy) && !graphType.contentEquals("")) {
 			fieldGroupBy.add(orderBy);
 		}
 		
@@ -66,7 +66,8 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM));	
 		
 		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), fieldGroupBy);
-		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregado);//ciclo vida petición
+		String[] agregados_ = agregados.split(",");
+		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados_);//ciclo vida petición
 		//"AVG", "SUM"
 		if (_data.getParameter(OPERATION_FIELD_PARAM)== null) {
 			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), "AVG");
@@ -127,14 +128,15 @@ public class Dashboard extends GenericHighchartModel {
 			//recoger filtros en pantalla; pueden ser de los master o de las detail, pero los mappings deben
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			
-			String valueOfAgrupacionParam = _data.getParameter(aplicativoEntidad.getName() + ".id") != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;			
+			String fields4GroupBY = _data.getParameter(aplicativoEntidad.getName() + ".id") != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;			
 			
 			setFilterGroup(dataAccess_, _data);
 			
 			TimeSeries series1 = new TimeSeries(), series2 = new TimeSeries();			
 			Pie pie01 = new Pie();
 			SpeedoMeter speedMeter01 = new SpeedoMeter();
-			BarChart bar01 = new BarChart(), barCicloVida02 = new BarChartResumenCicloVida();
+			BarChart bar01 = new BarChart();//, barCicloVida02 = new BarChartResumenCicloVida();
+			ColumnBar barCicloVida02 = new ColumnBar();
 			Histogram3D Histogram = new Histogram3D();
 			Map<Integer,String> dimensiones = new HashMap<Integer, String>();
 			
@@ -142,25 +144,25 @@ public class Dashboard extends GenericHighchartModel {
 				
 				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "8":  _data.getParameter("dimension");
 				
-				Datamap dataMap01 = createMap(_data, "_serie01",  "9", valueOfAgrupacionParam, "line", valueOfDimensionSelected);
+				Datamap dataMap01 = createMap(_data, "_serie01",  "9", fields4GroupBY, "line", valueOfDimensionSelected);
 				series1.generateStatGraphModel(dataAccess, domainService, dataMap01);
 				
-				Datamap dataMap11 = createMap(_data, "_serie11", "9", valueOfAgrupacionParam, "", "-1");//count ALL records, sin dimensión
+				Datamap dataMap11 = createMap(_data, "_serie11", "9", fields4GroupBY, "", "-1");//count ALL records, sin dimensión
 				Histogram.generateStatGraphModel(dataAccess, domainService, dataMap11);
 				
-				Datamap dataMap021 = createMap(_data, "_serie021", valueOfAgrupacionParam, valueOfAgrupacionParam, "", valueOfDimensionSelected);
+				Datamap dataMap021 = createMap(_data, "_serie021", fields4GroupBY, fields4GroupBY, "", valueOfDimensionSelected);
 				pie01.generateStatGraphModel(dataAccess, domainService, dataMap021);
 				
-				Datamap dataMap022 = createMap(_data, "_serie022",  "2", valueOfAgrupacionParam, "", valueOfDimensionSelected);
+				Datamap dataMap022 = createMap(_data, "_serie022",  "2", fields4GroupBY, "", valueOfDimensionSelected);
 				speedMeter01.generateStatGraphModel(dataAccess, domainService, dataMap022);
 				
-				Datamap dataMap03 = createMap(_data, "_serie03", "9", valueOfAgrupacionParam, "area", valueOfDimensionSelected);
+				Datamap dataMap03 = createMap(_data, "_serie03", "9", fields4GroupBY, "area", valueOfDimensionSelected);
 				series2.generateStatGraphModel(dataAccess, domainService, dataMap03);
 				
-				Datamap dataMap040 = createMap(_data, "_serie040", "9", valueOfAgrupacionParam + ",7", "", valueOfDimensionSelected);
+				Datamap dataMap040 = createMap(_data, "_serie040", "9", fields4GroupBY + ",7", "", valueOfDimensionSelected);
 				bar01.generateStatGraphModel(dataAccess, domainService, dataMap040);
 				
-				Datamap dataMap041 = createMap(_data, "_serie041", "9", "7," +valueOfAgrupacionParam, "", valueOfDimensionSelected);
+				Datamap dataMap041 = createMap(_data, "_serie041", "9", "7," +fields4GroupBY, "", "14");//valueOfDimensionSelected);
 				barCicloVida02.generateStatGraphModel(dataAccess, domainService, dataMap041);
 	
 				_data.copyMap(dataMap01);
@@ -190,25 +192,26 @@ public class Dashboard extends GenericHighchartModel {
 				
 				String valueOfDimensionSelected = _data.getParameter("dimension")== null? "20":  _data.getParameter("dimension");
 				
-				Datamap dataMap01 = createMap(_data, "_serie01", "20", valueOfAgrupacionParam, "line", valueOfDimensionSelected);
+				Datamap dataMap01 = createMap(_data, "_serie01", "20", fields4GroupBY, "line", valueOfDimensionSelected);
 				series1.generateStatGraphModel(dataAccess, domainService, dataMap01);
 				
-				Datamap dataMap11 = createMap(_data, "_serie11",  "20", valueOfAgrupacionParam, "", "-1");//count ALL records, sin dimensión
+				Datamap dataMap11 = createMap(_data, "_serie11",  "20", fields4GroupBY, "", "-1");//count ALL records, sin dimensión
 				Histogram.generateStatGraphModel(dataAccess, domainService, dataMap11);
 				
-				Datamap dataMap021 = createMap(_data, "_serie021",  valueOfAgrupacionParam, valueOfAgrupacionParam, "", valueOfDimensionSelected);
+				Datamap dataMap021 = createMap(_data, "_serie021",  fields4GroupBY, fields4GroupBY, "", valueOfDimensionSelected);
 				pie01.generateStatGraphModel(dataAccess, domainService, dataMap021);
 				
-				Datamap dataMap022 = createMap(_data, "_serie022",  "2", valueOfAgrupacionParam, "", valueOfDimensionSelected);
+				Datamap dataMap022 = createMap(_data, "_serie022",  "2", fields4GroupBY, "", valueOfDimensionSelected);
 				speedMeter01.generateStatGraphModel(dataAccess, domainService, dataMap022);
 				
-				Datamap dataMap03 = createMap(_data, "_serie03", "20", valueOfAgrupacionParam, "area", valueOfDimensionSelected);
+				Datamap dataMap03 = createMap(_data, "_serie03", "20", fields4GroupBY, "area", valueOfDimensionSelected);
 				series2.generateStatGraphModel(dataAccess, domainService, dataMap03);
 				
-				Datamap dataMap040 = createMap(_data, "_serie040", "20", valueOfAgrupacionParam + ",4", "", valueOfDimensionSelected);
+				Datamap dataMap040 = createMap(_data, "_serie040", "20", fields4GroupBY + ",4", "", valueOfDimensionSelected);
 				bar01.generateStatGraphModel(dataAccess, domainService, dataMap040);
 				
-				Datamap dataMap041 = createMap(_data, "_serie041", "20", valueOfAgrupacionParam + ",4", "", valueOfDimensionSelected);
+				//TODO
+				Datamap dataMap041 = createMap(_data, "_serie041", "20", fields4GroupBY, "", "9,10,11,12,13,14,15,32,33");
 				barCicloVida02.generateStatGraphModel(dataAccess, domainService, dataMap041);
 				
 				_data.copyMap(dataMap01);

@@ -180,9 +180,9 @@ public abstract class GenericHighchartModel implements IStats {
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(DECIMALES), decimals);
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfSeries"), typeOfSeries);
 			
-		} catch (Throwable exc0) {
+		} catch (Throwable exc1) {
 			final StringBuilder sbXml = new StringBuilder();
-			sbXml.append("<BR/><BR/><font>" + exc0.getMessage()+ "</font>");
+			sbXml.append("<BR/><BR/><font>" + exc1.getMessage()+ "</font>");
 			sbXml.append("<UL align=\"center\" id=\"pcmUl\">");
 			sbXml.append("<LI><a onClick=\"window.history.back();\"><span>Volver</span></a></LI></UL>");
 			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);

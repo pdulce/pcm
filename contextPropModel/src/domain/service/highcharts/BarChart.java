@@ -20,7 +20,7 @@ import domain.service.dataccess.dto.Datamap;
 
 public class BarChart extends GenericHighchartModel {
 
-	private static final String IS_BAR_INTERNAL_LABELED = "enabledInternalNumber";
+	protected static final String IS_BAR_INTERNAL_LABELED = "enabledInternalNumber";
 	
 	/** convierte una lista:  List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados
 	 * 

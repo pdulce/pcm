@@ -222,6 +222,25 @@ public class Datamap {
 		this.parameterNames.add(param);
 	}
 	
+	public void setParameterValues(final String param, final String[] values){
+		List<Object> dataValues = null;
+		if (this.data.containsKey(param)){
+			dataValues = this.data.get(param);
+		}else{
+			dataValues = new ArrayList<Object>();
+			for (int i=0;i<values.length;i++) {
+				dataValues.add(values[i]);
+			}
+		}
+		this.data.put(param, dataValues);
+		
+		if (param.equals(PCMConstants.APP_DICTIONARY)){
+			setEntitiesDictionary(values[0]);
+		}
+		this.parameterNames.add(param);
+	}
+
+	
 	public void setLanguage(final String lang){
 		this.language = lang;
 	}

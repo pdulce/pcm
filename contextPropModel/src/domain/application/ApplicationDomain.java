@@ -54,8 +54,6 @@ import domain.service.event.IAction;
 import domain.service.event.IEvent;
 import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
-import domain.service.highcharts.BarChartResumenCicloVida;
-import domain.service.highcharts.BarchartResumenDedicaciones;
 import domain.service.highcharts.Dualhistogram;
 import domain.service.highcharts.Histogram3D;
 import domain.service.highcharts.IStats;
@@ -67,7 +65,7 @@ import domain.service.highcharts.PiechartCicloVida;
 import domain.service.highcharts.Scatter;
 import domain.service.highcharts.Spiderweb;
 import domain.service.highcharts.TimeSeries;
-import domain.service.highcharts.VerticalBarApiladoAllDimCV;
+import domain.service.highcharts.ColumnBar;
 
 public class ApplicationDomain implements Serializable {
 
@@ -442,14 +440,10 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new Scatter();
 			}else if (highchartStats.equals("timeseries")) {
 				genericHCModel = new TimeSeries();
-			}else if (highchartStats.equals("barchartResumenCicloVida")) {
-				genericHCModel = new BarChartResumenCicloVida();
-			}else if (highchartStats.equals("barchartResumenDedicaciones")) {
-				genericHCModel = new BarchartResumenDedicaciones();
+			}else if (highchartStats.equals("columnbar")) {
+				genericHCModel = new ColumnBar();
 			}else if (highchartStats.equals("piechartCicloVida")) {
 				genericHCModel = new PiechartCicloVida();
-			}else if (highchartStats.equals("verticalBarApiladoAllDimCV")) {
-				genericHCModel = new VerticalBarApiladoAllDimCV();
 			}
 
 		}
