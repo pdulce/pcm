@@ -55,13 +55,13 @@ import domain.service.event.IEvent;
 import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.Dualhistogram;
+import domain.service.highcharts.HalfDonut;
 import domain.service.highcharts.Histogram3D;
 import domain.service.highcharts.IStats;
 import domain.service.highcharts.MapEurope;
 import domain.service.highcharts.MapSpain;
 import domain.service.highcharts.MapWorld;
 import domain.service.highcharts.Pie;
-import domain.service.highcharts.PiechartCicloVida;
 import domain.service.highcharts.Scatter;
 import domain.service.highcharts.Spiderweb;
 import domain.service.highcharts.TimeSeries;
@@ -442,8 +442,8 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new TimeSeries();
 			}else if (highchartStats.equals("columnbar")) {
 				genericHCModel = new ColumnBar("column");//by default
-			}else if (highchartStats.equals("piechartCicloVida")) {
-				genericHCModel = new PiechartCicloVida();
+			}else if (highchartStats.equals("halfdonutchart")) {
+				genericHCModel = new HalfDonut();
 			}
 
 		}

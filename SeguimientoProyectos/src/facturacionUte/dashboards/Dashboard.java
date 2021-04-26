@@ -22,8 +22,8 @@ import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.GenericHighchartModel;
+import domain.service.highcharts.HalfDonut;
 import domain.service.highcharts.Histogram3D;
-import domain.service.highcharts.Pie;
 import domain.service.highcharts.SpeedoMeter;
 import domain.service.highcharts.TimeSeries;
 import domain.service.highcharts.ColumnBar;
@@ -38,7 +38,7 @@ public class Dashboard extends GenericHighchartModel {
 	private IDataAccess dataAccess;
 	
 	private Datamap createMap(final Datamap _data, final String nameSpaceOfButtonFieldSet, final String orderBy, 
-			final String firstGroupBy, final String graphType, final String agregados, String specificOperationAgregacion) {
+			final String firstGroupBy, final String graphType, final String[] agregados, String specificOperationAgregacion) {
 
 		Datamap dataMapPeticiones = new Datamap(_data.getEntitiesDictionary(), _data.getUri(), _data.getPageSize());
 		dataMapPeticiones.copyMap(_data);
@@ -60,7 +60,7 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM));	
 		
 		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), firstGroupBy.split(","));		
-		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados.split(","));//ciclo vida petición
+		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados);//ciclo vida petición
 		//"AVG", "SUM"
 		if (_data.getParameter(OPERATION_FIELD_PARAM)== null && specificOperationAgregacion == null) {
 			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), "AVG");
@@ -129,22 +129,28 @@ public class Dashboard extends GenericHighchartModel {
 			
 			ColumnBar barCicloVida10 = new ColumnBar("bar"), barCicloVida11 = new ColumnBar("column");
 			SpeedoMeter speedMeter12 = new SpeedoMeter();
-			TimeSeries timeSeries20 = new TimeSeries(), timeSeries31 = new TimeSeries();			
-			Pie pie30 = new Pie();
+			TimeSeries timeSeries20 = new TimeSeries(), timeSeries21 = new TimeSeries();			
+			HalfDonut halfDonut30 = new HalfDonut();
 			BarChart bar40 = new BarChart(), bar41 = new BarChart();			
-			Histogram3D histogram21 = new Histogram3D();
+			Histogram3D histogram31 = new Histogram3D();
 			
 			Datamap dataMap10 = null, dataMap11=null, dataMap12=null, dataMap20=null, dataMap21=null, dataMap30=null, dataMap31=null, dataMap40=null, dataMap41=null;
 			
 			Map<Integer,String> dimensiones = new HashMap<Integer, String>();
-			String orderBy = "", secondField4GroupBY = "", valueOfDimensionSelected = "";
+			String orderBy = "", secondField4GroupBY = "";
+			String[] valuesOfDimensionSelected = new String[] {};
 			String entitiesParamValue = _data.getParameter("entities");
 			
 			if (entitiesParamValue.contentEquals(resumenEntregas.getName())){
 				
 				orderBy = String.valueOf(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA);
-				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA);				
-				valueOfDimensionSelected = _data.getParameter("dimension")== null? "6":  _data.getParameter("dimension");
+				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA);
+				if (_data.getParameterValues("dimension") == null || _data.getParameterValues("dimension").length == 0) {
+					valuesOfDimensionSelected = new String[] {"5", "6"};
+					_data.setParameterValues("dimension", valuesOfDimensionSelected);
+				}else {
+					valuesOfDimensionSelected = _data.getParameterValues("dimension");
+				}
 				
 				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES).getName())));
@@ -161,11 +167,11 @@ public class Dashboard extends GenericHighchartModel {
 				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName())));
 								
-				dataMap10 = createMap(_data, "_serie10", orderBy, fields4GroupBY, "bar", "14", null);//resumen de Ciclo de Vida entregas (dedicaciones totales vs gaps totales)
-				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", "15,16,17", null);//Detalle Ciclo Vida entregas (dedicaciones detalladas vs gaps)
+				dataMap10 = createMap(_data, "_serie10", orderBy, fields4GroupBY, "bar", new String[] {"14"}, null);//resumen de Ciclo de Vida entregas (dedicaciones totales vs gaps totales)
+				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", new String[] {"15","16","17"}, null);//Detalle Ciclo Vida entregas (dedicaciones detalladas vs gaps)
 				
 				String userValueSelected = _data.getParameter(OPERATION_FIELD_PARAM)==null ? "AVG": _data.getParameter(OPERATION_FIELD_PARAM);
-				dataMap12 = createMap(_data, "_serie12",  orderBy, fields4GroupBY, "", "8", "SUM");
+				dataMap12 = createMap(_data, "_serie12",  orderBy, fields4GroupBY, "", new String[] {"8"}, "SUM");
 				speedMeter12.generateStatGraphModel(dataAccess, domainService, dataMap12);
 				
 				_data.copyMap(dataMap12);
@@ -175,7 +181,12 @@ public class Dashboard extends GenericHighchartModel {
 				
 				orderBy = String.valueOf(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG);
 				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMEN_PETICION_4_ID_TIPO);
-				valueOfDimensionSelected = _data.getParameter("dimension")== null? "8":  _data.getParameter("dimension");
+				if (_data.getParameterValues("dimension") == null || _data.getParameterValues("dimension").length == 0) {
+					valuesOfDimensionSelected = new String[] {"16", "17"};
+					_data.setParameterValues("dimension", valuesOfDimensionSelected);
+				}else {
+					valuesOfDimensionSelected = _data.getParameterValues("dimension");
+				}
 				
 				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName())));
@@ -202,11 +213,11 @@ public class Dashboard extends GenericHighchartModel {
 				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS).getName())));
 				
-				dataMap10 = createMap(_data, "_serie10", "20", fields4GroupBY, "bar", "13,14,32,33,15" 
+				dataMap10 = createMap(_data, "_serie10", "20", fields4GroupBY, "bar", new String[] {"16","17","8"} 
 						/*ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES + "," + 
 						ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS + "," + 
 						ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA*/, null);								
-				dataMap11 = createMap(_data, "_serie11", "20", fields4GroupBY, "column", "9,10,11,12,13,32,14,33,15", null);//Detalle Ciclo Vida peticiones (dedicaciones detalladas vs gaps)
+				dataMap11 = createMap(_data, "_serie11", "20", fields4GroupBY, "column", new String[] {"9","10","11","12","13","32","14","33","15"} , null);//Detalle Ciclo Vida peticiones (dedicaciones detalladas vs gaps)
 				
 			}			
 			
@@ -217,22 +228,23 @@ public class Dashboard extends GenericHighchartModel {
 			barCicloVida10.generateStatGraphModel(dataAccess, domainService, dataMap10);
 			barCicloVida11.generateStatGraphModel(dataAccess, domainService, dataMap11);
 			
-			dataMap20 = createMap(_data, "_serie20", orderBy, fields4GroupBY + "," + orderBy, "area", valueOfDimensionSelected, null);
+			dataMap20 = createMap(_data, "_serie20", orderBy, fields4GroupBY + "," + orderBy, "area", new String[] {valuesOfDimensionSelected[0]}, null);
 			timeSeries20.generateStatGraphModel(dataAccess, domainService, dataMap20);
+
+			dataMap21 = createMap(_data, "_serie21", orderBy, fields4GroupBY + "," + orderBy, "area", 
+					new String[] {(valuesOfDimensionSelected.length>1?valuesOfDimensionSelected[1]:valuesOfDimensionSelected[0])}, null);
+			timeSeries21.generateStatGraphModel(dataAccess, domainService, dataMap21);				
 			
-			dataMap21 = createMap(_data, "_serie21",  orderBy, fields4GroupBY + "," + orderBy, "", "-1", null);//count ALL records, sin dimensión
-			histogram21.generateStatGraphModel(dataAccess, domainService, dataMap21);
+			dataMap30 = createMap(_data, "_serie30",  fields4GroupBY, fields4GroupBY, "", valuesOfDimensionSelected, null);
+			halfDonut30.generateStatGraphModel(dataAccess, domainService, dataMap30);
 			
-			dataMap30 = createMap(_data, "_serie30",  fields4GroupBY, fields4GroupBY, "", valueOfDimensionSelected, null);
-			pie30.generateStatGraphModel(dataAccess, domainService, dataMap30);
+			dataMap31 = createMap(_data, "_serie31",  orderBy, fields4GroupBY + "," + orderBy, "", new String[] {"-1"}, null);//count ALL records, sin dimensión
+			histogram31.generateStatGraphModel(dataAccess, domainService, dataMap31);
 							
-			dataMap31 = createMap(_data, "_serie31", orderBy, fields4GroupBY + "," + orderBy, "area", valueOfDimensionSelected, null);
-			timeSeries31.generateStatGraphModel(dataAccess, domainService, dataMap31);				
-			
-			dataMap40 = createMap(_data, "_serie40", orderBy, fields4GroupBY + "," +secondField4GroupBY, "", valueOfDimensionSelected, null);
+			dataMap40 = createMap(_data, "_serie40", orderBy, fields4GroupBY + "," +secondField4GroupBY, "", valuesOfDimensionSelected, null);
 			bar40.generateStatGraphModel(dataAccess, domainService, dataMap40);				
 			
-			dataMap41 = createMap(_data, "_serie41", orderBy, secondField4GroupBY + ","+fields4GroupBY, "", valueOfDimensionSelected, null);
+			dataMap41 = createMap(_data, "_serie41", orderBy, secondField4GroupBY + ","+fields4GroupBY, "", valuesOfDimensionSelected, null);
 			bar41.generateStatGraphModel(dataAccess, domainService, dataMap41);
 			
 			_data.copyMap(dataMap10);
@@ -248,13 +260,15 @@ public class Dashboard extends GenericHighchartModel {
 			
 			_data.setAttribute("containerJSP_10", barCicloVida10.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", barCicloVida11.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_12", speedMeter12.getScreenRendername().concat(".jsp"));
+			if (entitiesParamValue.contentEquals(resumenEntregas.getName())){				
+				_data.setAttribute("containerJSP_12", speedMeter12.getScreenRendername().concat(".jsp"));
+			}
 			
 			_data.setAttribute("containerJSP_20", timeSeries20.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_21", histogram21.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_21", timeSeries21.getScreenRendername().concat(".jsp"));
 			
-			_data.setAttribute("containerJSP_30", pie30.getScreenRendername().concat(".jsp"));
-			_data.setAttribute("containerJSP_31", timeSeries31.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_30", halfDonut30.getScreenRendername().concat(".jsp"));
+			_data.setAttribute("containerJSP_31", histogram31.getScreenRendername().concat(".jsp"));
 			
 			_data.setAttribute("containerJSP_40", bar40.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_41", bar41.getScreenRendername().concat(".jsp"));

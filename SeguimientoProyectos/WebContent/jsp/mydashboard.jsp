@@ -12,7 +12,7 @@
   	
   	
   	<div id="stats">
-		<table border="2">
+		<table>
 			<tr>
 				<td>
 					<jsp:include page="${containerJSP_10}">
@@ -118,9 +118,9 @@
 									<div>
 										<br>
 										<label class="infoCls"  title="Fase Ciclo Vida" id="dimensionLabel" for="dimension">
-										&nbsp;&nbsp;Fase Ciclo Vida&nbsp;</label>
-										<select class="textInput" size="6" id="dimension" name="dimension" 
-											onChange="javascript:document.forms[0].submit();return true;">
+										&nbsp;&nbsp;Dimensión(es) de agregación (series 1 y 2)&nbsp;</label>
+										<select class="textInput" size="6" id="dimension" name="dimension"
+											onChange="javascript:document.forms[0].submit();return true;" multiple>
 											<%				  
 											  Map<Integer,String> dimensiones = (Map<Integer,String>) request.getAttribute("dimensionesAll");
 											  Iterator<Map.Entry<Integer,String>> iteDimensiones = dimensiones.entrySet().iterator();
