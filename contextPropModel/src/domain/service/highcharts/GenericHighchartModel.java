@@ -251,12 +251,12 @@ public abstract class GenericHighchartModel implements IStats {
 			title = title.concat(", dimensión [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
 		}
 		
-		String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
-				.intValue()) : CommonUtils.numberFormatter.format(total);
-		String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
+		//String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
+		//		.intValue()) : CommonUtils.numberFormatter.format(total);
+		//String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
 		
 		//if (groupByField.length == 1) {
-			title += (aggregateFunction.contentEquals(OPERATION_AVERAGE) ? " -> promedio:" : " -> total: ") + resumenToalizadoOpromediado;// ((aggregateFunction.contentEquals(OPERATION_AVERAGE))?" -> total: ": " -> total: ") + resumenToalizadoOpromediado;	
+			//title += (aggregateFunction.contentEquals(OPERATION_AVERAGE) ? " -> promedio:" : " -> total: ") + resumenToalizadoOpromediado;// ((aggregateFunction.contentEquals(OPERATION_AVERAGE))?" -> total: ": " -> total: ") + resumenToalizadoOpromediado;	
 			//}		
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), title);
@@ -350,13 +350,13 @@ public abstract class GenericHighchartModel implements IStats {
 						
 			if (clave.indexOf(":") != -1) {
 				clave = clave.split(":")[1];
-			}
-			serie.put("name", clave);
+			}			
 			serie.put("data", jsArray.get(0));
+			serie.put("name", clave);
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}
-			serie.put("pointPlacement", "on");
+			//serie.put("pointPlacement", "on");
 			claveIesima++;			
 			seriesJSON.add(serie);						
 		}//for claves

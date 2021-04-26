@@ -6,6 +6,10 @@ String idseries = request.getParameter("idseries")==null?(String)request.getAttr
 //System.out.println("idseries:" + idseries);
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
+String dimensionName = (String) request.getAttribute(idseries+"speedometerdimension");
+String entidad = (String) request.getAttribute(idseries+"speedometerentidad");
+String agregacion = (String) request.getAttribute(idseries+"speedometeragregacion");
+
 %>
 <div id="<%=idseries%>speedometer" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
@@ -24,7 +28,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
     },
 
     title: {
-    	text: '',
+    	text: '<%=dimensionName%> <%=agregacion%> entre todas las <%=entidad%>',
         style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
     
@@ -87,7 +91,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
             rotation: 'auto'
         },
         title: {
-            text: 'rechazos',
+            text: '<%=request.getAttribute(idseries+"speedometerdato")%>',
             style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
         },
         plotBands: [{
@@ -105,7 +109,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
         }]
     },
 	
-    series:  [{"data":[<%=request.getAttribute(idseries+"speedometerdato")%>],"name":"núm. rechazos","tooltip":{"valueSuffix":" "}}]
+    series:  [{"data":[<%=request.getAttribute(idseries+"speedometerdato")%>],"name":"<%=dimensionName%>","tooltip":{"valueSuffix":" "}}]
 
 },
 // Add some life

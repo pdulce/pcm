@@ -24,7 +24,7 @@ Highcharts.chart('<%=idseries%>columnbar', {
     },
 
     title: {
-        text: 'Dimensiones agrupadas por <%=request.getAttribute(idseries+"columnbaragrupadoPor")%>',
+        text: 'Dimensiones del Ciclo de Vida agrupadas por <%=request.getAttribute(idseries+"columnbaragrupadoPor")%>',
         style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
 
