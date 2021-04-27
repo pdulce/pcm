@@ -218,7 +218,7 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 	
 	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet filtro_, final String aggregateFunction,
-			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo_, final double coefCorrelacion, final String units ) {
+			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total_o_promedio, final String nombreCategoriaOPeriodo_, final double coefCorrelacion, final String units ) {
 		
 		//para el nombre, tomo el completo si hay uno, sino, tomo la primera parte del primer agregado, por ej. horas, facturado, etc
 		final String lang = data_.getLanguage();
@@ -245,7 +245,7 @@ public abstract class GenericHighchartModel implements IStats {
 		} else if (data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE)) != null){
 			title = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE));
 		}
-		if (groupByField.length>0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null) {
+		if (groupByField.length>0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null && agregados.length==1) {
 			//String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
 			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
 			title = title.concat(", dimensión [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
@@ -356,7 +356,6 @@ public abstract class GenericHighchartModel implements IStats {
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}
-			//serie.put("pointPlacement", "on");
 			claveIesima++;			
 			seriesJSON.add(serie);						
 		}//for claves

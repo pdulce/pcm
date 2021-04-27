@@ -20,6 +20,10 @@ public class ColumnBar extends BarChart {
 	
 	private String typeOfgraph = "column";
 	
+	public ColumnBar() {
+		this.typeOfgraph = "column";
+	}
+	
 	public ColumnBar(final String typeOfgraph_) {
 		this.typeOfgraph = typeOfgraph_;
 	}
@@ -84,14 +88,18 @@ public class ColumnBar extends BarChart {
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(registros, jsArrayEjeAbcisas, false/*stack_Z*/, data_));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CATEGORIES), jsArrayEjeAbcisas.toJSONString());
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("agrupadoPor"), agrupadoPor);
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), CommonUtils.obtenerPlural(itemGrafico));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("agrupadoPor"), agrupadoPor);		
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), getTitle(data_, itemGrafico));		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(IS_BAR_INTERNAL_LABELED), "false");
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), 0.0);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfgraph"), this.typeOfgraph);
 
 		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? (numTuplas == 0 ? 0 : total_/numTuplas): total_;
 
+	}
+	
+	protected String getTitle(final Datamap data_, String itemGrafico) {
+		return CommonUtils.obtenerPlural(itemGrafico);
 	}
 	
 	@Override

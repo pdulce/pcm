@@ -192,12 +192,8 @@ public class Pie extends GenericHighchartModel {
 				clavePie = "<b>" + clave + "</b>";
 			}
 			
-			tupla.put("name",
-					Translator.traduceDictionaryModelDefined(data_.getLanguage(), clavePie) + " (" + subtotales.get(clave) + ")");
-			tupla.put(
-					"y",
-					CommonUtils.roundDouble(
-							Double.valueOf(Double.valueOf(subtotales.get(clave).doubleValue()) / Double.valueOf(contabilizadas)), 4));
+			tupla.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clavePie) + " (" + subtotales.get(clave) + ")");
+			tupla.put("y", CommonUtils.roundWith2Decimals(Double.valueOf(subtotales.get(clave).doubleValue()) / Double.valueOf(contabilizadas)));
 			if (i == 0) {
 				tupla.put("sliced", true);
 				tupla.put("selected", true);

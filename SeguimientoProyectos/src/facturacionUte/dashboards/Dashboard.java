@@ -177,6 +177,8 @@ public class Dashboard extends GenericHighchartModel {
 				_data.copyMap(dataMap12);
 				_data.setParameter(OPERATION_FIELD_PARAM, userValueSelected);
 				
+				dataMap30 = createMap(_data, "_serie30",  orderBy, fields4GroupBY, "", new String[] {"15","16","17"}/*"valuesOfDimensionSelected"*/, null);
+				
 			}else if (entitiesParamValue.contentEquals(resumenPeticiones.getName())){
 				
 				orderBy = String.valueOf(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG);
@@ -218,13 +220,12 @@ public class Dashboard extends GenericHighchartModel {
 						ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS + "," + 
 						ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA*/, null);								
 				dataMap11 = createMap(_data, "_serie11", "20", fields4GroupBY, "column", new String[] {"9","10","11","12","13","32","14","33","15"} , null);//Detalle Ciclo Vida peticiones (dedicaciones detalladas vs gaps)
-				
+				dataMap30 = createMap(_data, "_serie30",  orderBy, fields4GroupBY, "", new String[] {"9","10","13","12","11","33","15","32","14"}/*"valuesOfDimensionSelected"*/, null);
 			}			
 			
 			_data.removeParameter("entities");
 			_data.setParameter("entities", entitiesParamValue);
-			
-			
+						
 			barCicloVida10.generateStatGraphModel(dataAccess, domainService, dataMap10);
 			barCicloVida11.generateStatGraphModel(dataAccess, domainService, dataMap11);
 			
@@ -233,16 +234,15 @@ public class Dashboard extends GenericHighchartModel {
 
 			dataMap21 = createMap(_data, "_serie21", orderBy, fields4GroupBY + "," + orderBy, "area", 
 					new String[] {(valuesOfDimensionSelected.length>1?valuesOfDimensionSelected[1]:valuesOfDimensionSelected[0])}, null);
-			timeSeries21.generateStatGraphModel(dataAccess, domainService, dataMap21);				
+			timeSeries21.generateStatGraphModel(dataAccess, domainService, dataMap21);
 			
-			dataMap30 = createMap(_data, "_serie30",  fields4GroupBY, fields4GroupBY, "", valuesOfDimensionSelected, null);
 			halfDonut30.generateStatGraphModel(dataAccess, domainService, dataMap30);
 			
 			dataMap31 = createMap(_data, "_serie31",  orderBy, fields4GroupBY + "," + orderBy, "", new String[] {"-1"}, null);//count ALL records, sin dimensión
 			histogram31.generateStatGraphModel(dataAccess, domainService, dataMap31);
 							
 			dataMap40 = createMap(_data, "_serie40", orderBy, fields4GroupBY + "," +secondField4GroupBY, "", valuesOfDimensionSelected, null);
-			bar40.generateStatGraphModel(dataAccess, domainService, dataMap40);				
+			bar40.generateStatGraphModel(dataAccess, domainService, dataMap40);
 			
 			dataMap41 = createMap(_data, "_serie41", orderBy, secondField4GroupBY + ","+fields4GroupBY, "", valuesOfDimensionSelected, null);
 			bar41.generateStatGraphModel(dataAccess, domainService, dataMap41);

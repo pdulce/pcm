@@ -8,7 +8,6 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 %>
 <div id="<%=idseries%>halfdonutchart" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
-
 <script type="text/javascript">
 	   
   Highcharts.chart('<%=idseries%>halfdonutchart', {
@@ -19,11 +18,19 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
      },
      title: {
          text: '<%=request.getAttribute(idseries+"halfdonutcharttitle")%>',
+         align: 'center',
+         verticalAlign: 'middle',
+         y: 60,
          style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
     subtitle: {
-        text: '<%=request.getAttribute(idseries+"halfdonutchartsubtitle")%>',
-        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+        text: '',
+        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '8pt'}
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.2f} %</b>'
@@ -32,9 +39,10 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
         pie: {
             dataLabels: {
                 enabled: true,
-                distance: -50,
+                distance: -40,
                 style: {
                     fontWeight: 'bold',
+                    fontSize: '9pt',
                     color: 'white'
                 }
             },
