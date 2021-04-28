@@ -233,14 +233,7 @@
 	    <field mappingTo="4" name="subdireccion" type="long" length="11" required="false"
 	    	   fkParentEntities="subdireccion" fkParentFields="1"/>
     </entity>
-   
-   
-   <entity>
-    <entityname>tipoAplicacion</entityname>
-    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-    <field mappingTo="2" name="descripcion" type="string" length="60" required="true"/>
-   </entity>
-   
+      
    <entity>
     <entityname>ejercicio</entityname>
     <field mappingTo="1" name="ejercicio" type="int" length="4" belongsPK="true" required="true"/>

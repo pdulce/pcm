@@ -186,7 +186,7 @@ public abstract class CDDWebController extends HttpServlet {
 				datamap.setAttribute("fID", datamap.getParameter("fID"));
 				datamap.setAttribute("gPfID", datamap.getParameter("gPfID"));
 				datamap.setAttribute("gP2fID", datamap.getParameter("gP2fID"));
-			}else {
+			}else if (httpRequest.getSession().getAttribute("fID") != null){
 				datamap.setAttribute("fID",httpRequest.getSession().getAttribute("fID"));
 				datamap.setAttribute("gPfID",httpRequest.getSession().getAttribute("gPfID"));
 				datamap.setAttribute("gP2fID", httpRequest.getSession().getAttribute("gP2fID"));
@@ -268,7 +268,7 @@ public abstract class CDDWebController extends HttpServlet {
 			startingApp = true;
 			service = initService;
 			event = initEvent;			
-		}else{
+		}else{//al pulsar el botón de submit entra por aquí
 			eventSubmitted = true;
 			Map<String,String> scene = this.getSceneQName(datamap, event);
 			service = scene.isEmpty() ? event : scene.keySet().iterator().next();

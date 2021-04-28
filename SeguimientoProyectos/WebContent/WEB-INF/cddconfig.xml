@@ -3,7 +3,7 @@
 <configuration serverPath="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0">
 	<entry key="appTitle" value="Seguimiento de Proyectos Lote GISS"></entry>
 	<entry key="auditActivated" value="false"></entry>
-	<entry key="template" value="/jsp/template.jsp"></entry>
+	<entry key="template" value="/jsp/newTemplate.jsp"></entry>
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
 	<entry key="datasourceImpl" value="domain.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
