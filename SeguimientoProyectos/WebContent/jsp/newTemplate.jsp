@@ -18,7 +18,8 @@
 			
 	
   <div style="position: relative;">
-  	 <div> 
+  	 <div>
+  	  <%if (!"".contentEquals((String)request.getAttribute("#MENU_ITEMS#")) ) { %>
   	 	<div id="menuSup">
 		     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		    	<div class="container-fluid">
@@ -47,11 +48,6 @@
 				               <li><a class="dropdown-item" href="prjManager?event=GestionApps.query">Aplicativos</a></li>				               
 				             </ul>
 				           </li>	           
-				           <li class="nav-item">
-				                <a class="nav-link" href="http://localhost:9080/reporting">
-				              <i class="fas fa-cog"></i>&nbsp;&nbsp;CDISM Reporting</a>
-				           </li>
-				           				           
 				           <li class="nav-item dropdown">
 				              <a
 				               class="nav-link dropdown-toggle"
@@ -75,6 +71,10 @@
 				               <li><hr class="dropdown-divider" /></li>
 				               <li><a class="dropdown-item" href="prjManager?event=Demos.query">Mapa</a></li>
 				             </ul>
+				           </li>
+				           <li class="nav-item">
+				                <a class="nav-link" href="http://localhost:9080/reporting">
+				              <i class="fas fa-cog"></i>&nbsp;&nbsp;CDISM Reporting</a>
 				           </li>
 				           <li class="nav-item dropdown">
 				              <a
@@ -111,20 +111,14 @@
 				               <li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=mes">Meses</a></li>
 				             </ul>
 				           </li>
-				         </ul>
-				         <!-- form class="d-flex">
-				           <input
-				             class="form-control me-2"
-				             type="search"
-				             placeholder="Search"
-				             aria-label="Search"
-				           />
-				           <button class="btn btn-outline-success" type="submit">Search</button>
-				         </form> -->
+				         </ul>				         
 				       </div>
 				     </div>
 				   </nav>
 		   </div>
+		   
+		  <%} %>
+		   
   	 </div>
      <div class="pcmTDLeft"> </div>
      <div class="pcmTDRight">
@@ -146,7 +140,7 @@
 		 	
 	  	<%}%>
 
-	 </div>  
+	 </div>
   </div>
 
 </body>

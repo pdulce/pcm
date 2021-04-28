@@ -100,7 +100,7 @@ public class ApplicationLayout implements Serializable {
 
 	private String paintMenuHeader(final Document appNavigation, final Datamap datamap) {
 		final String lang = datamap.getLanguage();
-		final StringBuilder sbXML = new StringBuilder();
+		final StringBuilder sbXML = new StringBuilder("menu");
 		try {
 			sbXML.append(new MenuComponent((String) datamap.getAttribute(PCMConstants.APPURI_), datamap.getLanguage(),
 					(String) datamap.getAttribute(PCMConstants.APP_PROFILE), extractMenuElement(appNavigation)).toXHTML(datamap, null, true));
