@@ -137,20 +137,20 @@
 								 multiple>
 								 
 								 <%
-								
-								 Collection<FieldViewSetCollection> listaestudios = (Collection<FieldViewSetCollection>) request.getAttribute("estudio_all");
-								 Iterator<FieldViewSetCollection> itelistaestudios = listaestudios.iterator();
-								 while (itelistaestudios.hasNext()){
-									  Iterator<FieldViewSet> ite = itelistaestudios.next().getFieldViewSets().iterator();
-									  FieldViewSet fieldViewSet = ite.next();
-									  Long idestudio = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
-									  String nombreestudio = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName());
-								%>
-									  <option value="estudios.id=<%=idestudio%>" 
-									  	id="estudios.id=<%=idestudio%>"><%=nombreestudio%></option>
-								<%
-								  }//while
-								%>
+								if (request.getAttribute("estudio_all") != null){
+									 Collection<FieldViewSetCollection> listaestudios = (Collection<FieldViewSetCollection>) request.getAttribute("estudio_all");
+									 Iterator<FieldViewSetCollection> itelistaestudios = listaestudios.iterator();
+									 while (itelistaestudios.hasNext()){
+										  Iterator<FieldViewSet> ite = itelistaestudios.next().getFieldViewSets().iterator();
+										  FieldViewSet fieldViewSet = ite.next();
+										  Long idestudio = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+										  String nombreestudio = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName());
+									%>
+										  <option value="estudios.id=<%=idestudio%>" 
+										  	id="estudios.id=<%=idestudio%>"><%=nombreestudio%></option>
+									<%
+									  }//while
+								}%>
 				
 							</select>	
 							<br><br>
@@ -316,28 +316,6 @@
 		}
 	<%} %>
 	
-	var estu = document.getElementById('estudios.id');
-	<% 	
-		Object estudio2ParamValues = request.getAttribute("estudios.id");	     
-		if (estudio2ParamValues != null){
-			String[] as= (String[]) estudio2ParamValues;
-			for (int i=0;i<as.length;i++){
-				//System.out.println("estudios: " + as[i]);
-			%>	
-				for (var j = 0; j < estu.options.length; ++j) {
-					//alert('¿estudios selected? '+ estu.options[j].id);			
-			    	if (estu.options[j].value == '<%=as[i]%>'){
-			    		//alert('¡¡estudios selected!! '+ estu.options[j].id);	
-		    			estu.options[j].selected= 'selected';
-			    	}//if
-				}//for
-			<%}%>
-	<%}else{//if %>	  	  	
-		    for (var j=0;j<estu.options.length;j++){
-		        estu.options[j].selected = '';
-			}
-	<%}%>
-	
 	  var tecn = document.getElementById('aplicativo.id_tecnologia');
 	  <% 	
 		Object entornoParamValues = request.getAttribute("aplicativo.id_tecnologia");
@@ -401,5 +379,27 @@
 			}
 		<%} %>
 		
+		var estu = document.getElementById('estudios.id');
+		//alert("estu: " + estu);
+		<% 	
+			Object estudio2ParamValues = request.getAttribute("estudios.id");	     
+			if (estudio2ParamValues != null){
+				String[] as= (String[]) estudio2ParamValues;
+				for (int i=0;i<as.length;i++){
+					//System.out.println("estudios: " + as[i]);
+				%>	
+					for (var j = 0; j < estu.options.length; ++j) {
+						//alert('¿estudios selected? '+ estu.options[j].id);			
+				    	if (estu.options[j].value == '<%=as[i]%>'){
+				    		//alert('¡¡estudios selected!! '+ estu.options[j].id);	
+			    			estu.options[j].selected= 'selected';
+				    	}//if
+					}//for
+				<%}%>
+		<%}else{ %>	  	  	
+			    for (var j=0;estu != null && j<estu.options.length;j++){
+			        estu.options[j].selected = '';
+				}
+		<%}%>
   
 </script>

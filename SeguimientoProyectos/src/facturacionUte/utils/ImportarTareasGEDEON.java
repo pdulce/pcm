@@ -444,7 +444,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							
 							FieldViewSet registroExistente = new FieldViewSet(peticionesEntidad);
 							registroExistente.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), codGEDEON);
-							if (dataAccess.searchByCriteria(registroExistente).isEmpty()){
+							existenColl = dataAccess.searchByCriteria(registroExistente);
+							if (existenColl.isEmpty()){
 								IDs_changed.add(String.valueOf(codGEDEON));
 								int ok = this.dataAccess.insertEntity(registro);
 								if (ok != 1) {
@@ -459,6 +460,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
 									IDs_changed.add(String.valueOf(codGEDEON));
 								}
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName(), 
+										duplicado.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));
 								int ok = this.dataAccess.modifyEntity(registro);
 								if (ok < 1) {
 									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
@@ -615,7 +618,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 				}
 			}
 			
-			System.out.println("peso adjudicado");
+			//System.out.println("peso adjudicado");
 							
 			int updatedHija = this.dataAccess.modifyEntity(peticionRelacionada);
 			if (updatedHija != 1) {

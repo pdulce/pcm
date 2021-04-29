@@ -272,9 +272,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			}// for
 
 			// OK
-			for (int j=0;j< valueObjectsPk.size();j++) {
+			for (int j1=0;j1< valueObjectsPk.size();j1++) {
 				
-				Serializable value = valueObjectsPk.get(j); 
+				Serializable value = valueObjectsPk.get(j1); 
 				if (value == null || "".equals(value.toString())) {
 					continue;
 				}

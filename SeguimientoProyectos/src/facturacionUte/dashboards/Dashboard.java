@@ -82,7 +82,7 @@ public class Dashboard extends GenericHighchartModel {
 		return dataMapPeticiones;
 	}
 	
-	private void setFilterGroup(final IDataAccess dataAccess_, final Datamap _data) throws DatabaseException {
+	private void setFilterGroup(final IDataAccess dataAccess_, final Datamap _data, final String entidad_) throws DatabaseException {
 		
 		FieldViewSet appFieldViewSet = new FieldViewSet(aplicativoEntidad);
 		Collection<FieldViewSetCollection> aplicativos = dataAccess_.searchAll(appFieldViewSet, new String []{aplicativoEntidad.getName() + ".id"}, "asc");
@@ -91,10 +91,11 @@ public class Dashboard extends GenericHighchartModel {
 		FieldViewSet tecnologiaFieldViewSet = new FieldViewSet(tecnologiaEntidad);
 		Collection<FieldViewSetCollection> tecnologias = dataAccess_.searchAll(tecnologiaFieldViewSet, new String []{tecnologiaEntidad.getName() + ".id"}, "asc");
 		_data.setAttribute("tecnologia_all", tecnologias);
-		
-		FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
-		Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
-		_data.setAttribute("estudio_all", estudios);
+		if (entidad_.contentEquals(resumenEntregas.getName()) || entidad_.contentEquals(resumenPeticiones.getName())) {
+			FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
+			Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
+			_data.setAttribute("estudio_all", estudios);
+		}
 			
 	}
 	
@@ -126,9 +127,10 @@ public class Dashboard extends GenericHighchartModel {
 			//recoger filtros en pantalla; pueden ser de los master o de las detail, pero los mappings deben
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			
+			String entitiesParamValue = _data.getParameter("entities");
 			String fields4GroupBY = "";			
 			
-			setFilterGroup(dataAccess_, _data);
+			setFilterGroup(dataAccess_, _data, entitiesParamValue);
 			
 			ColumnBar barCicloVida10 = new ColumnBar("bar"), barCicloVida11 = new ColumnBar("column");
 			SpeedoMeter speedMeter12 = new SpeedoMeter();
@@ -141,8 +143,7 @@ public class Dashboard extends GenericHighchartModel {
 			
 			Map<Integer,String> dimensiones = new HashMap<Integer, String>();
 			String orderBy = "", secondField4GroupBY = "";
-			String[] valuesOfDimensionSelected = new String[] {};
-			String entitiesParamValue = _data.getParameter("entities");
+			String[] valuesOfDimensionSelected = new String[] {};			
 			
 			if (entitiesParamValue.contentEquals(peticiones.getName())){
 				
