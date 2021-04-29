@@ -17,13 +17,13 @@
 			document.getElementById('loadingdiv').style.display='none';">
 			
 	
-  <div style="position: relative;">
-  	 <div>
+  <div class="pcmTDLeft">
+  
   	  <%if (!"".contentEquals((String)request.getAttribute("#MENU_ITEMS#")) ) { %>
   	 	<div id="menuSup">
 		     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		    	<div class="container-fluid">
-				       <span class="navbar-brand mb-0 h1">Mi Portal AT-CDISM</span>				      
+				       <span class="navbar-brand mb-0 h1">Mi Portal CDISM</span>				      
 				       <div class="collapse navbar-collapse" id="navbarSupportedContent">
 				         <ul class="navbar-nav me-auto mb-lg-0">
 				           <li class="nav-item">   
@@ -39,7 +39,7 @@
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
 				             >
-				             <i class="fas fa-chart-area"></i>&nbsp;&nbsp;Estructura CDISM
+				             <i class="fas fa-anchor"></i>&nbsp;Estructura CDISM
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 				               <li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=unidadOrg">Organismos</a></li>
@@ -57,7 +57,7 @@
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
 				             >
-				             <i class="fas fa-chart-area"></i>&nbsp;&nbsp;Seguimiento CD
+				             <i class="fas fa-edit"></i>&nbsp;Seguimiento CD
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 				               <li><a class="dropdown-item" href="prjManager?event=GestionTech.query">Tecnologías</a></li>
@@ -65,16 +65,31 @@
 				               <li><a class="dropdown-item" href="prjManager?event=ConsultaPeticionesGEDEON.query">Peticiones importadas</a></li>
 				               <li><a class="dropdown-item" href="prjManager?event=EstudioPeticiones.query">Estudios Peticiones</a></li>
 				               <li><a class="dropdown-item" href="prjManager?event=EstudioEntregas.query">Estudios Entregas</a></li>
-				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenPeticiones">Dahsboard Peticiones</a></li>
-				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenEntregas">Dahsboard Entregas</a></li>
-				               <li><a class="dropdown-item" href="#">Demos</a></li>
+				             </ul>
+				           </li>
+				           
+				            <li class="nav-item dropdown">
+				              <a
+				               class="nav-link dropdown-toggle"
+				               href="#"
+				               id="navbarDropdown"
+				               role="button"
+				               data-bs-toggle="dropdown"
+				               aria-expanded="false"
+				             >
+				             <i class="fas fa-chart-line"></i>&nbsp;Dashboards
+				             </a>
+				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenPeticiones"><i class="fas fa-chart-bar"></i>&nbsp;Dahsboard Peticiones</a></li>
+				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenEntregas"><i class="fas fa-chart-bar"></i>&nbsp;Dahsboard Entregas</a></li>
+				               <li>&nbsp;&nbsp;&nbsp;&nbsp;Demos</li>
 				               <li><hr class="dropdown-divider" /></li>
-				               <li><a class="dropdown-item" href="prjManager?event=Demos.query">Mapa</a></li>
+				               <li><a class="dropdown-item" href="prjManager?event=Demos.query"><i class="fas fa-globe"></i>&nbsp;Mapas</a></li>
 				             </ul>
 				           </li>
 				           <li class="nav-item">
 				                <a class="nav-link" href="http://localhost:9080/reporting">
-				              <i class="fas fa-cog"></i>&nbsp;&nbsp;CDISM Reporting</a>
+				             <i class="fas fa-file-export"></i>&nbsp;CDISM Reporting</a>
 				           </li>
 				           <li class="nav-item dropdown">
 				              <a
@@ -85,12 +100,11 @@
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
 				             >
-				             <i class="fas fa-satellite-dish"></i>&nbsp;&nbsp;Demos e innovación
+				             <i class="fas fa-satellite-dish"></i>&nbsp;Demos e innovación
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-				               <li><a class="dropdown-item" href="http://localhost:9080/discover">&nbsp;Investment world research</a></li>
+				               <li><a class="dropdown-item" href="http://localhost:9080/discover"><i class="fas fa-atlas"></i>&nbsp;Investment world research</a></li>
 				               <li><a class="dropdown-item" href="http://localhost:9080/uploadForm"><i class="far fa-file-audio"></i>&nbsp;PDF To Audio File</a></li>
-
 				             </ul>
 				           </li>
 				           <li class="nav-item dropdown">
@@ -102,7 +116,7 @@
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
 				             >
-				             <i class="fas fa-chart-area"></i>&nbsp;&nbsp;Configuración
+				             <i class="fas fa-cogs"></i>&nbsp;Configuración
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 				               <li><a class="dropdown-item" href="prjManager?exec=Configuration">Configuración site</a></li>
@@ -120,28 +134,26 @@
 		  <%} %>
 		   
   	 </div>
-     <div class="pcmTDLeft"> </div>
+  	 
      <div class="pcmTDRight">
 
-		<%if (request.getAttribute("container") != null) {
-		  	if (request.getAttribute("addedInfo") != null) { %>
-		 		 <%=request.getAttribute("addedInfo")%> 
-	      <%}%>
-		
+		<%if (request.getAttribute("container") != null) {	%>
+		<div style="position: relative;top: 2px;left: 15px;">
 			<jsp:include page="${container}"></jsp:include>
+		</div>
 		
 		<%} else { %>
-			<div id="loadingdiv">
-				<p align="center">
-					<font class="small">Loading...please wait</font>
-				</p>
-			</div> 
-		 	<div id="principal"><%=request.getAttribute("#BODY#")%></div> 
-		 	
-	  	<%}%>
+		
+		<div id="loadingdiv">
+			<p align="center">
+				<font class="small">Loading...please wait</font>
+			</p>
+		</div> 
+	 	<div style="position: relative;top: 2px;left: 15px;" id="principal"><%=request.getAttribute("#BODY#")%></div> 
 
-	 </div>
-  </div>
+	  	<%}%>
+	 	 
+  	</div>
 
 </body>
 
