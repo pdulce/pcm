@@ -17,10 +17,9 @@
 	document.getElementById('principal').style.display='block';
 			document.getElementById('loadingdiv').style.display='none';">
 			
-	
-  <div style="position: relative;">
-     <div class="pcmTDLeft"> <%=request.getAttribute("#LOGO#")%><%=request.getAttribute("#TREE#")%> </div>
-     <div class="pcmTDRight">
+  <div class="global">
+     <div class="pcmNav"> <%=request.getAttribute("#LOGO#")%><%=request.getAttribute("#TREE#")%> </div>
+     <div class="pcmBody">
 
 		<%if (request.getAttribute("container") != null) {
 		  	if (request.getAttribute("addedInfo") != null) { %>

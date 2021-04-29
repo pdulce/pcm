@@ -16,19 +16,27 @@
 			document.getElementById('principal').style.display='block';
 			document.getElementById('loadingdiv').style.display='none';">
 			
-	
-  <div class="pcmTDLeft">
-  
+<div class="global">
+
+  <div class="pcmNav">
+  	
   	  <%if (!"".contentEquals((String)request.getAttribute("#MENU_ITEMS#")) ) { %>
   	 	<div id="menuSup">
-		     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  	 		
+  	 		<%String defaultMode = (String)request.getAttribute("style");
+  	 		   if (defaultMode.startsWith("dark")){ %>
+  	 		 	 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  	 		<%}else {%>
+	  	 		 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		     <%}%>
+		     
 		    	<div class="container-fluid">
-				       <span class="navbar-brand mb-0 h1">Mi Portal CDISM</span>				      
+				       <span class="navbar-brand mb-0 h1">Portal CDISM</span>				      
 				       <div class="collapse navbar-collapse" id="navbarSupportedContent">
 				         <ul class="navbar-nav me-auto mb-lg-0">
 				           <li class="nav-item">   
 				                 <a class="nav-link active" href="prjManager">
-				               <i class="fas fa-home"></i>&nbsp;Home</a>
+				               <i class="fas fa-home"></i>&nbsp;</a>
 				           </li>
 				          <li class="nav-item dropdown">
 				              <a
@@ -39,7 +47,7 @@
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
 				             >
-				             <i class="fas fa-anchor"></i>&nbsp;Estructura CDISM
+				             <i class="fas fa-anchor"></i>&nbsp;Estructura
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 				               <li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=unidadOrg">Organismos</a></li>
@@ -57,7 +65,7 @@
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
 				             >
-				             <i class="fas fa-edit"></i>&nbsp;Seguimiento CD
+				             <i class="fas fa-edit"></i>&nbsp;Seguimiento
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 				               <li><a class="dropdown-item" href="prjManager?event=GestionTech.query">Tecnologías</a></li>
@@ -65,6 +73,7 @@
 				               <li><a class="dropdown-item" href="prjManager?event=ConsultaPeticionesGEDEON.query">Peticiones importadas</a></li>
 				               <li><a class="dropdown-item" href="prjManager?event=EstudioPeticiones.query">Estudios Peticiones</a></li>
 				               <li><a class="dropdown-item" href="prjManager?event=EstudioEntregas.query">Estudios Entregas</a></li>
+				               <li><a class="dropdown-item" href="http://localhost:9080/reporting"><i class="fas fa-file-export"></i>&nbsp;Reporting</a></li>
 				             </ul>
 				           </li>
 				           
@@ -86,11 +95,7 @@
 				               <li><hr class="dropdown-divider" /></li>
 				               <li><a class="dropdown-item" href="prjManager?event=Demos.query"><i class="fas fa-globe"></i>&nbsp;Mapas</a></li>
 				             </ul>
-				           </li>
-				           <li class="nav-item">
-				                <a class="nav-link" href="http://localhost:9080/reporting">
-				             <i class="fas fa-file-export"></i>&nbsp;CDISM Reporting</a>
-				           </li>
+				           </li>				          
 				           <li class="nav-item dropdown">
 				              <a
 				               class="nav-link dropdown-toggle"
@@ -100,7 +105,7 @@
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
 				             >
-				             <i class="fas fa-satellite-dish"></i>&nbsp;Demos e innovación
+				             <i class="fas fa-satellite-dish"></i>&nbsp;Demos
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 				               <li><a class="dropdown-item" href="http://localhost:9080/discover"><i class="fas fa-atlas"></i>&nbsp;Investment world research</a></li>
@@ -135,25 +140,27 @@
 		   
   	 </div>
   	 
-     <div class="pcmTDRight">
+     <div class="pcmBody">
 
 		<%if (request.getAttribute("container") != null) {	%>
-		<div style="position: relative;top: 2px;left: 15px;">
+		<div style="position: relative;top: 2px;left: 1px;">
 			<jsp:include page="${container}"></jsp:include>
 		</div>
 		
 		<%} else { %>
 		
-		<div id="loadingdiv">
+		<div style="position: relative;top: 2px;left: 15px;" id="loadingdiv">
 			<p align="center">
 				<font class="small">Loading...please wait</font>
 			</p>
 		</div> 
-	 	<div style="position: relative;top: 2px;left: 15px;" id="principal"><%=request.getAttribute("#BODY#")%></div> 
+	 	<div style="position: relative;top: 0px;left: 15px;" id="principal"><%=request.getAttribute("#BODY#")%></div> 
 
 	  	<%}%>
 	 	 
   	</div>
+
+</div>
 
 </body>
 

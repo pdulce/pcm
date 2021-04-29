@@ -10,227 +10,227 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="UTF-8"%>
   	
+  	<form class="pcmForm" action="prjManager" method="POST">
+							    
+	    <input id="exec" name="exec" type="hidden" value="dashboard"/>
+		<input id="event" name="event" type="hidden" value="dashboard"/>
+		<input id="entities" name="entities" type="hidden" value="<%=request.getParameter("entities") %>"/>
+							    
   	
-  	<div id="stats">
+  	<div id="stats" class="pcmBody">
 		<table>
 			<tr>
 				<td>
 					<jsp:include page="${containerJSP_10}">
 						<jsp:param name="idseries" value="_serie10" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="460px" />
 					</jsp:include>
 				</td>
 				<td>
 					<jsp:include page="${containerJSP_11}">
 						<jsp:param name="idseries" value="_serie11" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="420px" />
 					</jsp:include>
 					<jsp:include page="${containerJSP_12}">
 						<jsp:param name="idseries" value="_serie12" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="160px" />
 					</jsp:include>
 				</td>
-				<td width="100%" height="100%">	 			
-	  				<!-- div id="filter" style="width: 200; height: 400; margin: 0 auto;float:left;"> -->
-	
-						<form class="pcmForm" action="prjManager" method="POST">
-							    
-							    <input id="exec" name="exec" type="hidden" value="dashboard"/>
-								<input id="event" name="event" type="hidden" value="dashboard"/>
-								<input id="entities" name="entities" type="hidden" value="<%=request.getParameter("entities") %>"/>
-							    
-							    <fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
-							    	
-							    	<div>
-							    		
-							    		<label class="infoCls"  title="Estudio" id="estudios.idLABEL" for="estudios.id">
-										&nbsp;&nbsp;Estudio&nbsp;
-										</label>
-										<select class="textInput" size="6" id="estudios.id" name="estudios.id" 
-											onChange="javascript:document.forms[0].submit();return true;"
-											 multiple>
-											 
-											 <%				  
-											 Collection<FieldViewSetCollection> listaestudios = (Collection<FieldViewSetCollection>) request.getAttribute("estudio_all");
-											 Iterator<FieldViewSetCollection> itelistaestudios = listaestudios.iterator();
-											 while (itelistaestudios.hasNext()){
-												  Iterator<FieldViewSet> ite = itelistaestudios.next().getFieldViewSets().iterator();
-												  FieldViewSet fieldViewSet = ite.next();
-												  Long idestudio = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
-												  String nombreestudio = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName());
-											%>
-												  <option value="estudios.id=<%=idestudio%>" 
-												  	id="estudios.id=<%=idestudio%>"><%=nombreestudio%></option>
-											<%
-											  }//while
-											%>
-							
-										</select>	
-										<br><br>
-										
-							    		<label class="infoCls" title="Entorno" id="aplicativo.id_tecnologiaLABEL" for="aplicativo.id_tecnologia">
-							    		&nbsp;&nbsp;Entorno&nbsp;
-							    		</label>
-										<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
-											onChange="javascript:document.forms[0].submit();return true;" size="5" multiple>
-											<%
-											  Collection<FieldViewSetCollection> listatecnologias = (Collection<FieldViewSetCollection>) request.getAttribute("tecnologia_all");
-											  Iterator<FieldViewSetCollection> itelistatecnologias = listatecnologias.iterator();
-											  while (itelistatecnologias.hasNext()){					  
-												  Iterator<FieldViewSet> ite = itelistatecnologias.next().getFieldViewSets().iterator();
-												  FieldViewSet fieldViewSet = ite.next();
-												  Long idtecnologia = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.TECHNOLOGY_1_ID).getName());
-												  String nombretecnologia = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.TECHNOLOGY_2_NOMBRE).getName());					  
-											%>
-												  <option value="aplicativo.id_tecnologia=<%=idtecnologia%>" 
-												  	id="aplicativo.id_tecnologia=<%=idtecnologia%>"><%=nombretecnologia%></option>
-											<%
-											  }//while
-											 
-											%>				
-										</select>    
-							    		
-							    		
-							    		<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
-										&nbsp;&nbsp;Aplicativo&nbsp;</label>
-										<select class="textInput" size="4" id="aplicativo.id" name="aplicativo.id"
-											onChange="javascript:document.forms[0].submit();return true;"  multiple>
-											<%				  
-											  Collection<FieldViewSetCollection> listaApps = (Collection<FieldViewSetCollection>) request.getAttribute("aplicativo_all");
-											  Iterator<FieldViewSetCollection> iteFieldViewSet = listaApps.iterator();
-											  while (iteFieldViewSet.hasNext()){
-												  Iterator<FieldViewSet> ite = iteFieldViewSet.next().getFieldViewSets().iterator();
-												  FieldViewSet fieldViewSet = ite.next();
-												  Long idAplicativo = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
-												  String nombreApp = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
-											%>
-												  <option value="aplicativo.id=<%=idAplicativo%>" id="aplicativo.id=<%=idAplicativo%>"><%=nombreApp%></option>
-											<%
-											  }//while
-											%>
-										</select>
-										<br><br>
-									</div>
-										
-									<div>
-										<br>
-										<label class="infoCls"  title="Fase Ciclo Vida" id="dimensionLabel" for="dimension">
-										&nbsp;&nbsp;Dimensión(es) de agregación (series 1 y 2)&nbsp;</label>
-										<select class="textInput" size="6" id="dimension" name="dimension"
-											onChange="javascript:document.forms[0].submit();return true;" multiple>
-											<%				  
-											  Map<Integer,String> dimensiones = (Map<Integer,String>) request.getAttribute("dimensionesAll");
-											  Iterator<Map.Entry<Integer,String>> iteDimensiones = dimensiones.entrySet().iterator();
-											  while (iteDimensiones.hasNext()){					  
-												  Map.Entry<Integer,String> entry = iteDimensiones.next();					  
-												  Integer dimensionIesima = entry.getKey();
-												  String nombreDimension = entry.getValue();
-											%>
-												  <option value="<%=dimensionIesima%>" id="<%=dimensionIesima%>"><%=nombreDimension%></option>
-											<%
-											  }//while
-											%>
-										</select>
-										<br><br>
-										<label class="infoCls" title="Operación de agregación">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Operaci&oacute;n
-											de agregaci&oacute;n&nbsp;</label>
-										<label class="radiogroupcontainer">&nbsp;Promediar&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="AVG" id="operationAVG"
-											name="operation"> <span class="checkmarkradio"></span>
-										</label>
-										<label class="radiogroupcontainer">Totalizar&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="SUM" id="operationSUM"
-											name="operation"> <span class="checkmarkradio"></span>
-										</label>
-										<br><br>
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										<label class="infoCls" title="Escala"> &nbsp;&nbsp;&nbsp;&nbsp;Escala&nbsp;</label>
-										<label class="radiogroupcontainer">&nbsp;Diario&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="dayly" id="escaladodayly"
-											name="escalado"> <span class="checkmarkradio"></span>
-										</label>
-										<label class="radiogroupcontainer">&nbsp;Semanal&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="weekly" id="escaladoweekly"
-											name="escalado"> <span class="checkmarkradio"></span>
-										</label>
-										<label class="radiogroupcontainer">&nbsp;Mensual&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="monthly"
-											id="escaladomonthly" name="escalado"> <span
-											class="checkmarkradio"></span>
-										</label>
-										<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<label class="radiogroupcontainer">&nbsp;Trimestral&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="3monthly"
-											id="escalado3monthly" name="escalado"> <span
-											class="checkmarkradio"></span>
-										</label>
-										
-										<label class="radiogroupcontainer">&nbsp;Semestral&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="6monthly"
-											id="escalado6monthly" name="escalado"> <span
-											class="checkmarkradio"></span>
-										</label>
-										<label class="radiogroupcontainer">&nbsp;Anual&nbsp; <input
-											onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="anualy" id="escaladoanualy"
-											name="escalado"> <span class="checkmarkradio"></span>
-										</label>
-										<label class="radiogroupcontainer">&nbsp;Autom&aacute;tico&nbsp;
-											<input onChange="javascript:document.forms[0].submit();return true;"
-											type="radio" class="checkmarkradio" value="automatic"
-											id="escaladoautomatic" name="escalado"> <span
-											class="checkmarkradio"></span>
-										</label>
-										
-										
-									</div>
-								  </fieldset>
-								
-								</form>
-				
-		    		
-	  			
+				<td>	 			
+					<fieldset class="collapsible"><legend>&nbsp;</legend>
+						<br><br><br><br><br><br>						
+						<label class="infoCls" title="Operación de agregación">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Operaci&oacute;n	de agregaci&oacute;n&nbsp;</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Promediar&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="AVG" id="operationAVG"
+							name="operation"> <span class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">Totalizar&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="SUM" id="operationSUM"
+							name="operation"> <span class="checkmarkradio"></span>
+						</label>
+						<br><br><br><br>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="infoCls" title="Escala"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Escala&nbsp;</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Diario&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="dayly" id="escaladodayly"
+							name="escalado"> <span class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Semanal&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="weekly" id="escaladoweekly"
+							name="escalado"> <span class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Mensual&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="monthly"
+							id="escaladomonthly" name="escalado"> <span
+							class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Trimestral&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="3monthly"
+							id="escalado3monthly" name="escalado"> <span
+							class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Semestral&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="6monthly"
+							id="escalado6monthly" name="escalado"> <span
+							class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Anual&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="anualy" id="escaladoanualy"
+							name="escalado"> <span class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;Autom&aacute;tico&nbsp;
+							<input onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="automatic"
+							id="escaladoautomatic" name="escalado"> <span
+							class="checkmarkradio"></span>
+						</label>
+					</fieldset>			  			
 	  			</td>
 			</tr>
 			<tr>
 				<td>
 					<jsp:include page="${containerJSP_20}">
 						<jsp:param name="idseries" value="_serie20" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="460px" />
 					</jsp:include>
 				</td>
 				<td>
 					<jsp:include page="${containerJSP_21}">
 						<jsp:param name="idseries" value="_serie21" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="380px" />
 					</jsp:include>				
 				</td>
-				<td>&nbsp;</td>
+				<td>
+					<fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
+				    	
+				    	<div>
+				    		
+				    		<label class="infoCls"  title="Estudio" id="estudios.idLABEL" for="estudios.id">
+							&nbsp;&nbsp;Estudio&nbsp;
+							</label>
+							<select class="textInput" size="6" id="estudios.id" name="estudios.id" 
+								onChange="javascript:document.forms[0].submit();return true;"
+								 multiple>
+								 
+								 <%				  
+								 Collection<FieldViewSetCollection> listaestudios = (Collection<FieldViewSetCollection>) request.getAttribute("estudio_all");
+								 Iterator<FieldViewSetCollection> itelistaestudios = listaestudios.iterator();
+								 while (itelistaestudios.hasNext()){
+									  Iterator<FieldViewSet> ite = itelistaestudios.next().getFieldViewSets().iterator();
+									  FieldViewSet fieldViewSet = ite.next();
+									  Long idestudio = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
+									  String nombreestudio = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.ESTUDIOS_2_TITULO).getName());
+								%>
+									  <option value="estudios.id=<%=idestudio%>" 
+									  	id="estudios.id=<%=idestudio%>"><%=nombreestudio%></option>
+								<%
+								  }//while
+								%>
+				
+							</select>	
+							<br><br>
+							
+				    		<label class="infoCls" title="Entorno" id="aplicativo.id_tecnologiaLABEL" for="aplicativo.id_tecnologia">
+				    		&nbsp;&nbsp;Entorno&nbsp;
+				    		</label>
+							<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
+								onChange="javascript:document.forms[0].submit();return true;" size="5" multiple>
+								<%
+								  Collection<FieldViewSetCollection> listatecnologias = (Collection<FieldViewSetCollection>) request.getAttribute("tecnologia_all");
+								  Iterator<FieldViewSetCollection> itelistatecnologias = listatecnologias.iterator();
+								  while (itelistatecnologias.hasNext()){					  
+									  Iterator<FieldViewSet> ite = itelistatecnologias.next().getFieldViewSets().iterator();
+									  FieldViewSet fieldViewSet = ite.next();
+									  Long idtecnologia = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.TECHNOLOGY_1_ID).getName());
+									  String nombretecnologia = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.TECHNOLOGY_2_NOMBRE).getName());					  
+								%>
+									  <option value="aplicativo.id_tecnologia=<%=idtecnologia%>" 
+									  	id="aplicativo.id_tecnologia=<%=idtecnologia%>"><%=nombretecnologia%></option>
+								<%
+								  }//while
+								 
+								%>				
+							</select>    
+				    		<br><br>
+				    		
+				    		<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
+							&nbsp;&nbsp;Aplicativo&nbsp;</label>
+							<select class="textInput" size="4" id="aplicativo.id" name="aplicativo.id"
+								onChange="javascript:document.forms[0].submit();return true;"  multiple>
+								<%				  
+								  Collection<FieldViewSetCollection> listaApps = (Collection<FieldViewSetCollection>) request.getAttribute("aplicativo_all");
+								  Iterator<FieldViewSetCollection> iteFieldViewSet = listaApps.iterator();
+								  while (iteFieldViewSet.hasNext()){
+									  Iterator<FieldViewSet> ite = iteFieldViewSet.next().getFieldViewSets().iterator();
+									  FieldViewSet fieldViewSet = ite.next();
+									  Long idAplicativo = (Long) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.APLICATIVO_1_ID).getName());
+									  String nombreApp = (String) fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
+								%>
+									  <option value="aplicativo.id=<%=idAplicativo%>" id="aplicativo.id=<%=idAplicativo%>"><%=nombreApp%></option>
+								<%
+								  }//while
+								%>
+							</select>
+							<br><br>
+						
+							<label class="infoCls"  title="Fase Ciclo Vida" id="dimensionLabel" for="dimension">
+							&nbsp;&nbsp;Dimensión(es) de agregación (series 1 y 2)&nbsp;</label>
+							<select class="textInput" size="6" id="dimension" name="dimension"
+								onChange="javascript:document.forms[0].submit();return true;" multiple>
+								<%				  
+								  Map<Integer,String> dimensiones = (Map<Integer,String>) request.getAttribute("dimensionesAll");
+								  Iterator<Map.Entry<Integer,String>> iteDimensiones = dimensiones.entrySet().iterator();
+								  while (iteDimensiones.hasNext()){					  
+									  Map.Entry<Integer,String> entry = iteDimensiones.next();					  
+									  Integer dimensionIesima = entry.getKey();
+									  String nombreDimension = entry.getValue();
+								%>
+									  <option value="<%=dimensionIesima%>" id="<%=dimensionIesima%>"><%=nombreDimension%></option>
+								<%
+								  }//while
+								%>
+							</select>
+																				
+						</div>
+						
+					  </fieldset>
+				
+				</td>
 			</tr>	
 			<tr>
 				<td>
 					<jsp:include page="${containerJSP_30}">
 						<jsp:param name="idseries" value="_serie30" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="460px" />
 					</jsp:include>
 				</td>
 				<td>
 					<jsp:include page="${containerJSP_31}">
 						<jsp:param name="idseries" value="_serie31" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="460px" />
 					</jsp:include>
 				</td>
@@ -239,14 +239,14 @@
 				<td>
 					<jsp:include page="${containerJSP_40}">
 						<jsp:param name="idseries" value="_serie40" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="580px" />
 					</jsp:include>
 				</td>
 				<td>
 					<jsp:include page="${containerJSP_41}">
 						<jsp:param name="idseries" value="_serie41" />
-						<jsp:param name="width" value="620px" />
+						<jsp:param name="width" value="580px" />
 						<jsp:param name="height" value="580px" />
 					</jsp:include>
 				</td>
@@ -255,11 +255,8 @@
 		</table>
 		
    </div>
-	  		
-  	
-  	
-  	
-    
+	  		  	
+   </form>
 	    
 
 <script type="text/javascript">

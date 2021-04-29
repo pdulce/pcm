@@ -31,34 +31,36 @@ Redefine aspecto de los elementos estandard de HTML
     width: 100%;
 }
 
-.pcmTDLeft {
+
+.global {	
+	position: relative;
+	top: 0px; 
+	left: 0px;
+	color: black;
+	background-color: rgb(254, 254, 254);
+	border: 1.1px solid #C9DCA6;
+	border-top: none;	
+	border: 0;	
+}
+
+.pcmNav {
 	position: relative;
 	top: 0px; 
 	left: 0px;
 	font: normal 0.9em Verdana;
-	color: black;
-	background-color: rgb(254, 254, 254);
 	text-align: left;
-	border: 1.1px solid #C9DCA6;
-	width: 7%;
-	border-top: none;	
 	border: 0;
 }
 	
-.pcmTDRight {
+.pcmBody {
 	position: relative;
 	top: 0px; 
 	left: 0px;
-	color: white;
 	font: normal 0.8em Verdana;
-	color: black;
-	background-color: rgb(254, 254, 254);
 	text-align: left;
-	border: 1.1px solid #C9DCA6;
-	width: 93%;
-	border-top: none;
-	border: 0;
 }
+
+
 
 /* Headers
 ------------------------------*/
