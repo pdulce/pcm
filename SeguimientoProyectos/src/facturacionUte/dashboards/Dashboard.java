@@ -32,7 +32,8 @@ import facturacionUte.common.ConstantesModelo;
 
 public class Dashboard extends GenericHighchartModel {
 	
-	public static IEntityLogic aplicativoEntidad, tecnologiaEntidad, estudiosEntidad, resumenEntregas, resumenPeticiones;
+	public static IEntityLogic aplicativoEntidad, tecnologiaEntidad, 
+	estudiosEntidad, resumenEntregas, resumenPeticiones, peticiones;
 	
 	private String entity;
 	private IDataAccess dataAccess;
@@ -115,15 +116,17 @@ public class Dashboard extends GenericHighchartModel {
 						ConstantesModelo.RESUMENENTREGAS_ENTIDAD);
 				resumenPeticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
 						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
+				peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						ConstantesModelo.PETICIONES_ENTIDAD);						
 			}catch (PCMConfigurationException e) {
-				e.printStackTrace();
+				throw new RuntimeException("error charging entities", e);
 			}
 		}
 		try {
 			//recoger filtros en pantalla; pueden ser de los master o de las detail, pero los mappings deben
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			
-			String fields4GroupBY = _data.getParameter(aplicativoEntidad.getName() + ".id") != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;			
+			String fields4GroupBY = "";			
 			
 			setFilterGroup(dataAccess_, _data);
 			
@@ -141,8 +144,33 @@ public class Dashboard extends GenericHighchartModel {
 			String[] valuesOfDimensionSelected = new String[] {};
 			String entitiesParamValue = _data.getParameter("entities");
 			
-			if (entitiesParamValue.contentEquals(resumenEntregas.getName())){
+			if (entitiesParamValue.contentEquals(peticiones.getName())){
 				
+				fields4GroupBY = _data.getParameter(aplicativoEntidad.getName() + ".id") != null ? "26":  "33";
+				orderBy = String.valueOf(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
+				secondField4GroupBY =  String.valueOf(ConstantesModelo.PETICIONES_13_ID_TIPO);
+				if (_data.getParameterValues("dimension") == null || _data.getParameterValues("dimension").length == 0) {
+					valuesOfDimensionSelected = new String[] {"28", "29"};
+					_data.setParameterValues("dimension", valuesOfDimensionSelected);
+				}else {
+					valuesOfDimensionSelected = _data.getParameterValues("dimension");
+				}
+				dimensiones.put(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						peticiones.getName().concat(".").concat(peticiones.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName())));
+				
+				dimensiones.put(ConstantesModelo.PETICIONES_29_HORAS_REALES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						peticiones.getName().concat(".").concat(peticiones.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName())));
+				 
+				dimensiones.put(ConstantesModelo.PETICIONES_47_PESO_EN_VERSION, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						peticiones.getName().concat(".").concat(peticiones.searchField(ConstantesModelo.PETICIONES_47_PESO_EN_VERSION).getName())));
+	
+				dataMap10 = createMap(_data, "_serie10", orderBy, fields4GroupBY, "bar", new String[] {"28"}, null);
+				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", new String[] {"28","29"} , null);
+				dataMap30 = createMap(_data, "_serie30",  orderBy, fields4GroupBY, "", new String[] {"28","29"}, null);
+
+			}else if (entitiesParamValue.contentEquals(resumenEntregas.getName())){
+				
+				fields4GroupBY = _data.getParameter(aplicativoEntidad.getName() + ".id") != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;
 				orderBy = String.valueOf(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA);
 				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA);
 				if (_data.getParameterValues("dimension") == null || _data.getParameterValues("dimension").length == 0) {
@@ -171,7 +199,7 @@ public class Dashboard extends GenericHighchartModel {
 				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", new String[] {"15","16","17"}, null);//Detalle Ciclo Vida entregas (dedicaciones detalladas vs gaps)
 				
 				String userValueSelected = _data.getParameter(OPERATION_FIELD_PARAM)==null ? "AVG": _data.getParameter(OPERATION_FIELD_PARAM);
-				dataMap12 = createMap(_data, "_serie12",  orderBy, fields4GroupBY, "", new String[] {"8"}, "SUM");
+				dataMap12 = createMap(_data, "_serie12", orderBy, fields4GroupBY, "", new String[] {"8"}, "SUM");
 				speedMeter12.generateStatGraphModel(dataAccess, domainService, dataMap12);
 				
 				_data.copyMap(dataMap12);
@@ -181,6 +209,7 @@ public class Dashboard extends GenericHighchartModel {
 				
 			}else if (entitiesParamValue.contentEquals(resumenPeticiones.getName())){
 				
+				fields4GroupBY = _data.getParameter(aplicativoEntidad.getName() + "." + aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName()) != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;
 				orderBy = String.valueOf(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG);
 				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMEN_PETICION_4_ID_TIPO);
 				if (_data.getParameterValues("dimension") == null || _data.getParameterValues("dimension").length == 0) {
@@ -215,12 +244,9 @@ public class Dashboard extends GenericHighchartModel {
 				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
 						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS).getName())));
 				
-				dataMap10 = createMap(_data, "_serie10", "20", fields4GroupBY, "bar", new String[] {"16","17","8"} 
-						/*ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES + "," + 
-						ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS + "," + 
-						ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA*/, null);								
-				dataMap11 = createMap(_data, "_serie11", "20", fields4GroupBY, "column", new String[] {"9","10","11","12","13","32","14","33","15"} , null);//Detalle Ciclo Vida peticiones (dedicaciones detalladas vs gaps)
-				dataMap30 = createMap(_data, "_serie30",  orderBy, fields4GroupBY, "", new String[] {"9","10","13","12","11","33","15","32","14"}/*"valuesOfDimensionSelected"*/, null);
+				dataMap10 = createMap(_data, "_serie10", orderBy, fields4GroupBY, "bar", new String[] {"16","17","8"}, null);								
+				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", new String[] {"9","10","11","12","13","32","14","33","15"} , null);//Detalle Ciclo Vida peticiones (dedicaciones detalladas vs gaps)
+				dataMap30 = createMap(_data, "_serie30", orderBy, fields4GroupBY, "", new String[] {"9","10","13","12","11","33","15","32","14"}/*"valuesOfDimensionSelected"*/, null);
 			}			
 			
 			_data.removeParameter("entities");

@@ -17,7 +17,7 @@
 		<input id="entities" name="entities" type="hidden" value="<%=request.getParameter("entities") %>"/>
 							    
   	
-  	<div id="stats" class="pcmBody">
+  	<div id="stats">
 		<table>
 			<tr>
 				<td>
@@ -41,7 +41,8 @@
 				</td>
 				<td>	 			
 					<fieldset class="collapsible"><legend>&nbsp;</legend>
-						<br><br><br><br><br><br>						
+					<div class="pcmBody">
+						<br><br>					
 						<label class="infoCls" title="Operación de agregación">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Operaci&oacute;n	de agregaci&oacute;n&nbsp;</label>
 						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<label class="radiogroupcontainer">&nbsp;Promediar&nbsp; <input
@@ -104,6 +105,8 @@
 							id="escaladoautomatic" name="escalado"> <span
 							class="checkmarkradio"></span>
 						</label>
+						<br><br>
+					  </div>
 					</fieldset>			  			
 	  			</td>
 			</tr>
@@ -123,10 +126,9 @@
 					</jsp:include>				
 				</td>
 				<td>
-					<fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>	
-				    	
-				    	<div>
-				    		
+					<fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>					    	
+				    	<div class="pcmBody">
+				    		<br><br>			    		
 				    		<label class="infoCls"  title="Estudio" id="estudios.idLABEL" for="estudios.id">
 							&nbsp;&nbsp;Estudio&nbsp;
 							</label>
@@ -134,7 +136,8 @@
 								onChange="javascript:document.forms[0].submit();return true;"
 								 multiple>
 								 
-								 <%				  
+								 <%
+								
 								 Collection<FieldViewSetCollection> listaestudios = (Collection<FieldViewSetCollection>) request.getAttribute("estudio_all");
 								 Iterator<FieldViewSetCollection> itelistaestudios = listaestudios.iterator();
 								 while (itelistaestudios.hasNext()){
@@ -158,6 +161,7 @@
 							<select class="textInput" id="aplicativo.id_tecnologia" name="aplicativo.id_tecnologia"
 								onChange="javascript:document.forms[0].submit();return true;" size="5" multiple>
 								<%
+								
 								  Collection<FieldViewSetCollection> listatecnologias = (Collection<FieldViewSetCollection>) request.getAttribute("tecnologia_all");
 								  Iterator<FieldViewSetCollection> itelistatecnologias = listatecnologias.iterator();
 								  while (itelistatecnologias.hasNext()){					  
@@ -180,6 +184,7 @@
 							<select class="textInput" size="4" id="aplicativo.id" name="aplicativo.id"
 								onChange="javascript:document.forms[0].submit();return true;"  multiple>
 								<%				  
+								
 								  Collection<FieldViewSetCollection> listaApps = (Collection<FieldViewSetCollection>) request.getAttribute("aplicativo_all");
 								  Iterator<FieldViewSetCollection> iteFieldViewSet = listaApps.iterator();
 								  while (iteFieldViewSet.hasNext()){
@@ -200,6 +205,7 @@
 							<select class="textInput" size="6" id="dimension" name="dimension"
 								onChange="javascript:document.forms[0].submit();return true;" multiple>
 								<%				  
+								
 								  Map<Integer,String> dimensiones = (Map<Integer,String>) request.getAttribute("dimensionesAll");
 								  Iterator<Map.Entry<Integer,String>> iteDimensiones = dimensiones.entrySet().iterator();
 								  while (iteDimensiones.hasNext()){					  
@@ -212,10 +218,9 @@
 								  }//while
 								%>
 							</select>
-																				
-						</div>
-						
-					  </fieldset>
+							<br><br>										
+						</div>						
+					</fieldset>
 				
 				</td>
 			</tr>	

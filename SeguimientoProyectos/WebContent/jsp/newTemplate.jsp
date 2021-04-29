@@ -21,7 +21,7 @@
   <div class="pcmNav">
   	
   	  <%if (!"".contentEquals((String)request.getAttribute("#MENU_ITEMS#")) ) { %>
-  	 	<div id="menuSup">
+  	 	<div style="position: relative;top: 0px;left: 15px;" id="menuSup">
   	 		
   	 		<%String defaultMode = (String)request.getAttribute("style");
   	 		   if (defaultMode.startsWith("dark")){ %>
@@ -89,8 +89,9 @@
 				             <i class="fas fa-chart-line"></i>&nbsp;Dashboards
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenPeticiones"><i class="fas fa-chart-bar"></i>&nbsp;Dahsboard Peticiones</a></li>
-				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenEntregas"><i class="fas fa-chart-bar"></i>&nbsp;Dahsboard Entregas</a></li>
+				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenPeticiones"><i class="fas fa-chart-bar"></i>&nbsp;Estudios Peticiones</a></li>
+				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenEntregas"><i class="fas fa-chart-bar"></i>&nbsp;Estudios Entregas</a></li>
+				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=peticiones"><i class="fas fa-chart-bar"></i>&nbsp;Peticiones (en construcción)</a></li>
 				               <li>&nbsp;&nbsp;&nbsp;&nbsp;Demos</li>
 				               <li><hr class="dropdown-divider" /></li>
 				               <li><a class="dropdown-item" href="prjManager?event=Demos.query"><i class="fas fa-globe"></i>&nbsp;Mapas</a></li>
