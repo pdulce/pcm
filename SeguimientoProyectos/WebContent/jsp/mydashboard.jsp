@@ -128,7 +128,9 @@
 				<td>
 					<fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>					    	
 				    	<div class="pcmBody">
-				    		<br><br>			    		
+				    		<% if (request.getAttribute("estudio_all") != null){%>
+				    		
+				    		<br><br>				
 				    		<label class="infoCls"  title="Estudio" id="estudios.idLABEL" for="estudios.id">
 							&nbsp;&nbsp;Estudio&nbsp;
 							</label>
@@ -137,7 +139,6 @@
 								 multiple>
 								 
 								 <%
-								if (request.getAttribute("estudio_all") != null){
 									 Collection<FieldViewSetCollection> listaestudios = (Collection<FieldViewSetCollection>) request.getAttribute("estudio_all");
 									 Iterator<FieldViewSetCollection> itelistaestudios = listaestudios.iterator();
 									 while (itelistaestudios.hasNext()){
@@ -150,9 +151,11 @@
 										  	id="estudios.id=<%=idestudio%>"><%=nombreestudio%></option>
 									<%
 									  }//while
-								}%>
+								%>
 				
-							</select>	
+							</select>
+							
+							<%}//if%>	
 							<br><br>
 							
 				    		<label class="infoCls" title="Entorno" id="aplicativo.id_tecnologiaLABEL" for="aplicativo.id_tecnologia">

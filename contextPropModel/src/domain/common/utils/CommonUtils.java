@@ -926,6 +926,7 @@ public final class CommonUtils {
 		if (value == null || PCMConstants.EMPTY_.equals(value)) {
 			return "";
 		}
+		String valorFormateado = "";
 		IFieldLogic fieldLogic = fieldView.getEntityField();
 		if (fieldLogic == null) {
 			return (String) value;
@@ -940,30 +941,17 @@ public final class CommonUtils {
 			catch (final ClassCastException castExc) {
 				return val_;
 			}
-		} else if (fieldLogic.getAbstractField().isNumeric()) {
-			String valorFormateado = val_;
-			if (fieldLogic.getAbstractField().isDecimal()) {
-				try {
-					valorFormateado = CommonUtils.numberFormatter.format(new BigDecimal(val_));
-				}
-				catch (final NumberFormatException excc) {
-					return val_;
-				}
-			} else if (!fieldLogic.belongsPK()){
-				NumberFormat formatter = NumberFormat.getNumberInstance(new Locale(PCMConstants.ES_CHARCODE));
-				formatter.setMaximumFractionDigits(0);
-				formatter.setMinimumFractionDigits(0);
-				valorFormateado = formatter.format(Long.parseLong(val_.replaceAll(PCMConstants.REGEXP_POINT, "")));
-				if (fieldView.isEditable() && valorFormateado.indexOf(PCMConstants.POINT) != -1) {
-					valorFormateado = valorFormateado.replaceAll(PCMConstants.REGEXP_POINT, "");
-				}
-			}else{
-				return CommonUtils.scapeValueInXML(val_);
-			}
-			return valorFormateado;
-		} else {
-			return CommonUtils.scapeValueInXML(val_);
+		} else if (fieldLogic.getAbstractField().isDecimal()) {
+			try {
+				valorFormateado = CommonUtils.numberFormatter.format(new BigDecimal(val_));
+			}catch (final NumberFormatException excc) {
+				return val_;
+			}			
+		}else{
+			valorFormateado = CommonUtils.scapeValueInXML(val_);
 		}
+		
+		return valorFormateado;
 	}
 
 	/** Convierte a formato literal "30 de Noviembre de 2018"

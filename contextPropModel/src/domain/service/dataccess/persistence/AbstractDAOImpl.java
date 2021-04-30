@@ -89,7 +89,8 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 		int nArgs = 0;
 		for (final IFieldView fieldView : fieldCollection) {
 			if (fieldViewSet.getFieldvalue(fieldView.getQualifiedContextName()).isNull() ||
-					fieldView.getEntityField().isVolatile()) {
+					fieldView.getEntityField()== null ||
+					(fieldView.getEntityField().isVolatile()) ) {
 				continue;
 			}
 			StringBuilder leftPartOfSqlExpression = new StringBuilder(), rightPartOfSqlExpression = new StringBuilder(), sqlExpression = new StringBuilder();			
