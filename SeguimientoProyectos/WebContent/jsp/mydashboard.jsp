@@ -184,7 +184,7 @@
 				    		
 				    		<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
 							&nbsp;&nbsp;Aplicativo&nbsp;</label>
-							<select class="textInput" size="4" id="aplicativo.id" name="aplicativo.id"
+							<select class="textInput" size="30" id="aplicativo.id" name="aplicativo.id"
 								onChange="javascript:document.forms[0].submit();return true;"  multiple>
 								<%				  
 								

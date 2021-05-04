@@ -122,6 +122,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 			
 		public Map<Integer, String> filtradoInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
 			
+			List<Long> peticionesProcesadas = new ArrayList<Long>();
 			int numImportadas = 0;
 			try {
 			
@@ -165,8 +166,21 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 						continue;//no añadimos esta tarea porque no tiene padre
 					}else {
 						peticionEnBBDD = existenColl.iterator().next();
+						Long idPeticionSeq = (Long) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName());
 						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName(), 
-							peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));
+							idPeticionSeq);
+						if (!peticionesProcesadas.contains(idPeticionSeq)) {
+							peticionesProcesadas.add(idPeticionSeq);
+							peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), 0.0);
+						}
+						//contabilizamos las horas dedicadas a esta petición a partir de esta tarea
+						Double horas = (Double) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
+						horas += new_horas_imputadas;
+						peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), horas);
+						int ok = this.dataAccess.modifyEntity(peticionEnBBDD);
+						if (ok != 1) {
+							throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
+						}
 					}
 					
 					//Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());

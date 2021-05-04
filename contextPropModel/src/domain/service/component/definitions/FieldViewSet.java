@@ -228,7 +228,7 @@ public class FieldViewSet implements Serializable {
 		try {
 			//obtenemos padres de esta entidad por si en el formulario vienen filtros de esa otra entidad padre:			
 			IEntityLogic entidadARefrescar = this.getEntityDef();
-			
+			 
 			Map<String, FieldViewSet> recordParentMap = new HashMap<String, FieldViewSet>();			
 			Map<String, IEntityLogic> parentEntitiesMap = new HashMap<String, IEntityLogic>();			
 			Collection<IEntityLogic> padres = entidadARefrescar.getParentEntities();
@@ -257,6 +257,22 @@ public class FieldViewSet implements Serializable {
 							|| fieldInRequest.length == 1) {
 						continue;
 					}
+					String fieldName_rank = keyMemorized;
+					fieldName_rank = fieldName_rank.replace(IRank.DESDE_SUFFIX, "");
+					fieldName_rank = fieldName_rank.replace(IRank.HASTA_SUFFIX, "");
+					IFieldView fView = this.getFieldView(fieldName_rank);
+					if (fView != null && keyMemorized.contains(IRank.HASTA_SUFFIX)) {
+					
+						final Rank rankDesde = new Rank(fView.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
+						fView.setRankField(rankDesde);
+
+					}else if (fView != null && keyMemorized.contains(IRank.DESDE_SUFFIX)) {
+						
+						final Rank rankHasta = new Rank(fView.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
+						fView.setRankField(rankHasta);
+						
+					}
+					
 					List<String> stringVals = new ArrayList<String>();
 					for (Object val: values) {
 						if (!"".equals(val.toString())){
