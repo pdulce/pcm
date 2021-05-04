@@ -437,10 +437,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							}
 							linkarPeticionesAEntrega(registro);
 						}
-												
+																	
 						if (!filas.isEmpty() && nombreAplicacionDePeticion != null) {
 							
-							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName(), null);
+							registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME).getName(), null);							
 							
 							FieldViewSet registroExistente = new FieldViewSet(peticionesEntidad);
 							registroExistente.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), codGEDEON);
@@ -461,7 +461,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 									IDs_changed.add(String.valueOf(codGEDEON));
 								}
 								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName(), 
-										duplicado.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));
+										duplicado.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));								
 								int ok = this.dataAccess.modifyEntity(registro);
 								if (ok < 1) {
 									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);

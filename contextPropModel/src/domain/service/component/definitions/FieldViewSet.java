@@ -610,7 +610,7 @@ public class FieldViewSet implements Serializable {
 			} else if (!fieldView.isUserDefined()
 					&& fieldView.getQualifiedContextName().toUpperCase().equals(qualifiedName.toString().toUpperCase())) {
 				return fieldView;
-			} else if (!fieldView.isUserDefined()
+			} else if (!fieldView.isUserDefined() && fieldView.getEntityField() != null
 					&& this.getContextName().concat(PCMConstants.POINT).concat(fieldView.getEntityField().getName()).toUpperCase()
 							.equals(qualifiedName.toString().toUpperCase())) {
 				return fieldView;

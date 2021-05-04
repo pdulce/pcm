@@ -251,13 +251,13 @@ public abstract class GenericHighchartModel implements IStats {
 			title = title.concat(", dimensión [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
 		}
 		
-		//String resumenToalizadoOpromediado_str = (total == Double.valueOf(total).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total)
-		//		.intValue()) : CommonUtils.numberFormatter.format(total);
-		//String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
+		String resumenToalizadoOpromediado_str = (total_o_promedio == Double.valueOf(total_o_promedio).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total_o_promedio)
+				.intValue()) : CommonUtils.numberFormatter.format(total_o_promedio);
+		String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
 		
-		//if (groupByField.length == 1) {
-			//title += (aggregateFunction.contentEquals(OPERATION_AVERAGE) ? " -> promedio:" : " -> total: ") + resumenToalizadoOpromediado;// ((aggregateFunction.contentEquals(OPERATION_AVERAGE))?" -> total: ": " -> total: ") + resumenToalizadoOpromediado;	
-			//}		
+		if (groupByField.length == 1) {
+			title += (aggregateFunction.contentEquals(OPERATION_AVERAGE) ? " -> promedio:" : " -> total: ") + resumenToalizadoOpromediado;// ((aggregateFunction.contentEquals(OPERATION_AVERAGE))?" -> total: ": " -> total: ") + resumenToalizadoOpromediado;	
+		}		
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), title);
 
