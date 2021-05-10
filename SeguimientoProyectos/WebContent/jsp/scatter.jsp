@@ -10,29 +10,36 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 
 
 <script type="text/javascript">
-	
+Highcharts.setOptions({
+    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});
+		
 		Highcharts.chart('<%=idseries%>scatter', {
 	        chart: {
 	            type: 'scatter',
 	            backgroundColor: 'transparent',
-	            zoomType: 'xy'
+	            zoomType: 'xy',
+	            style: {
+	                fontFamily: 'serif',
+	                fontColor: '#2c3e50'
+	            }
 	        },
 	        title: {
 	            text: '<%=request.getAttribute(idseries+"scattertitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+	            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
 	        },
 	        subtitle: {
 	            text: '<%=request.getAttribute(idseries+"scattersubtitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+	            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
 	        },
 	        xAxis: {
 	            title: {	                
 	                text: '<%=request.getAttribute(idseries+"scattertitulo_EJE_X")%>',
-	                style: {'color': 'orange', 'font-weight': 'lighter'}	                
+	                style: {'color': '#606c88', 'font-weight': 'lighter'}	                
 	            },
 	            labels: {
 	                style: {
-	                    color: 'orange',
+	                    color: '#606c88',
 	                    fontSize:'small'
 	                }
 	            }
@@ -40,11 +47,11 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        yAxis: {
 	            title: {
 	                text: '<%=request.getAttribute(idseries+"scattertitulo_EJE_Y")%>',
-	                itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+	                itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '12px'}
 	            },
 	            labels: {
 	                style: {
-	                    color: 'orange',
+	                    color: '#606c88',
 	                    fontSize:'small'
 	                }
 	            }

@@ -9,46 +9,52 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <div id="<%=idseries%>barchart" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
-			
+Highcharts.setOptions({
+    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});
 			Highcharts.chart('<%=idseries%>barchart', {
 			    chart: {
 			        type: 'bar',
-		            backgroundColor: 'transparent'
+		            backgroundColor: 'transparent',
+		            style: {
+		                fontFamily: 'serif',
+		                fontColor: '#2c3e50'
+		            }
 			    },
 			    title: {
 			        text: '<%=request.getAttribute(idseries+"barcharttitle")%>',
-			        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+			        style: {'color': '#2c3e50', 'font-weight': 'lighter', 'font-size': '11pt'}
 			    },
 			    subtitle: {
 		            text: '<%=request.getAttribute(idseries+"barchartsubtitle")%>',
-		            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+		            style: {'color': '#2c3e50', 'font-weight': 'lighter', 'font-size': '9pt'}
 		        },
 			    xAxis: {
 			        categories: <%=request.getAttribute(idseries+"barchartcategories")%>,
 			        labels: {
 		                style: {
-		                    color: 'orange',
+		                    color: '#2c3e50',
 		                    fontSize:'small'
 		                }
 		            }
 			    },
 			    yAxis: {
 			        min: 0,
-			        itemStyle: {'color': 'orange', 'font-weight': 'lighter'},
+			        itemStyle: {'color': '#2c3e50', 'font-weight': 'lighter'},
 			        title: {
 			            text: '<%=request.getAttribute(idseries+"barcharttitulo_EJE_X")%>',
-			            itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+			            itemStyle: {'color': '#2c3e50', 'font-weight': 'normal', 'font-size': '12px'}
 			        },
 			        labels: {
 		                style: {
-		                    color: 'orange',
+		                    color: '#2c3e50',
 		                    fontSize:'small'
 		                }
 		            }
 			    },
 			    legend: {
 			        reversed: true,
-			        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+			        itemStyle: {'color': '#2c3e50', 'font-weight': 'normal', 'font-size': '12px'}
 			    },
 			    plotOptions: {
 			        series: {

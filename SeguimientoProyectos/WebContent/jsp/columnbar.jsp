@@ -10,12 +10,18 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <div id="<%=idseries%>columnbar" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
+
+Highcharts.setOptions({
+    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});
+
+
 Highcharts.chart('<%=idseries%>columnbar', {
     chart: {
         type: '<%=request.getAttribute(idseries+"columnbartypeOfgraph")%>',
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent',        
         options3d: {
-            enabled: true,
+            enabled: false,
             alpha: 15,
             beta: 15,
             viewDistance: 25,
@@ -25,7 +31,7 @@ Highcharts.chart('<%=idseries%>columnbar', {
 
     title: {
         text: 'Dimensiones del Ciclo de Vida agrupadas por <%=request.getAttribute(idseries+"columnbaragrupadoPor")%>',
-        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
 
     xAxis: {
@@ -33,7 +39,7 @@ Highcharts.chart('<%=idseries%>columnbar', {
         labels: {
             skew3d: true,
             style: {                
-            	 fontSize: '16px'
+            	 fontSize: '12px'
             }
         }
     },
@@ -51,8 +57,8 @@ Highcharts.chart('<%=idseries%>columnbar', {
         headerFormat: '<b>{point.key}</b><br>',
         pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
     },
-
-    plotOptions: {
+    
+    plotOptions: {    	
         column: {
             stacking: 'normal',
             depth: 40

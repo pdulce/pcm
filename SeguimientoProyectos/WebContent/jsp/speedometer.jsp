@@ -14,8 +14,11 @@ String agregacion = (String) request.getAttribute(idseries+"speedometeragregacio
 
 
 <script type="text/javascript">
-Highcharts.chart('<%=idseries%>speedometer', {
+Highcharts.setOptions({
+    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});
 
+Highcharts.chart('<%=idseries%>speedometer', {
     chart: {
     	backgroundColor: 'transparent',
         type: 'gauge',
@@ -23,17 +26,21 @@ Highcharts.chart('<%=idseries%>speedometer', {
         plotBackgroundImage: null,
         plotBorderWidth: 0,
         borderWidth: 0,
-        plotShadow: false
+        plotShadow: false,
+        style: {
+            fontFamily: 'serif',
+            fontColor: '#2c3e50'
+        }
     },
 
     title: {
     	text: '<%=dimensionName%> <%=agregacion%> entre todas las <%=entidad%>',
-        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
     
     subtitle: {
         text: '',
-        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
     },
     
     pane: {
@@ -91,7 +98,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
         },
         title: {
             text: '<%=request.getAttribute(idseries+"speedometerdato")%>',
-            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
         },
         plotBands: [{
             from: 0,

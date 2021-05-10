@@ -18,12 +18,12 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	
 		   title : {
 			   text : '<%=request.getAttribute(idseries+"spainmaptitle")%>',
-			   style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+			   style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
 		   },
 				
 		   subtitle : {
 			   text : '<%=request.getAttribute(idseries+"spainmapsubtitle")%>',
-			   style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+			   style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
 		   },
 		        			        
            legend: {

@@ -24,12 +24,12 @@
 
 	    	title : {
 				text : '<%=request.getAttribute(idseries+"worldmaptitle")%>',
-				style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+				style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
 			},
 					
 			subtitle : {
 				text : '<%=request.getAttribute(idseries+"worldmapsubtitle")%>',
-				style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+				style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
 			},
 	        
 	        legend: {

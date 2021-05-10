@@ -10,16 +10,22 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 
 
 <script type="text/javascript">
-	   
+Highcharts.setOptions({
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});   
   	Highcharts.chart('<%=idseries%>spiderweb', {
    		chart: {
 	        polar: true,
 	        type: 'line',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            style: {
+                fontFamily: 'serif',
+                fontColor: '#2c3e50'
+            }
 	    },
         title: {
-        	text : '<%=request.getAttribute(idseries+"spiderwebtitle")%>',
-        	style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+        	text: '<%=request.getAttribute(idseries+"spiderwebtitle")%>',
+        	style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
             x: -80
         },
         pane: {
@@ -27,7 +33,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
         },
         subtitle: {
             text: '<%=request.getAttribute(idseries+"spiderwebsubtitle")%>',
-            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
         },
         xAxis : {
 			categories : <%=request.getAttribute(idseries+"spiderwebcategories")%>,
@@ -35,7 +41,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 		    lineWidth: 0,
 		    labels: {
                 style: {
-                    color: 'orange',
+                    color: '#606c88',
                     fontSize:'small'
                 }
             }
@@ -46,7 +52,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        min: 0,
 	        labels: {
                 style: {
-                    color: 'orange',
+                    color: '#606c88',
                     fontSize:'small'
                 }
             }
@@ -61,7 +67,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        align: 'right',
 	        verticalAlign: 'middle',
 	        layout: 'vertical',
-	        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '12px'}
 	    },
 		series : <%=request.getAttribute(idseries+"spiderwebseries")%>,
 		responsive: {

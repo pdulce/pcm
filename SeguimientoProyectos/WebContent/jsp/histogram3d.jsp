@@ -27,13 +27,22 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 </div>-->
 
 <script type="text/javascript">
+
+Highcharts.setOptions({
+    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});
+
 	var chart = new Highcharts.Chart({
 	    chart: {
 	        renderTo: '<%=idseries%>histogram3d',
 	        type: 'column',
             backgroundColor: 'transparent',
+            style: {
+                fontFamily: 'serif',
+                fontColor: '#2c3e50'
+            },
 	        options3d: {
-	            enabled: true,
+	            enabled: false,
 	            alpha: 15,
 	            beta: 15,
 	            depth: 50,
@@ -42,18 +51,18 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	    },
 	    title: {
 	        text: '<%=request.getAttribute(idseries+"histogram3dtitle")%>',
-	        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+	        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
 	    },
 	    subtitle: {
             text: '<%=request.getAttribute(idseries+"histogram3dsubtitle")%>',
-            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
         },
         
         xAxis: {
             categories: <%=request.getAttribute(idseries+"histogram3dabscisas")%>,
             labels: {
                 style: {
-                    color: 'orange',
+                    color: '#606c88',
                     fontSize:'xx-small'
                 }
             }
@@ -64,18 +73,18 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
             min: <%=request.getAttribute(idseries+"histogram3dminEjeRef")%>,
             title: {
                 text: '<%=request.getAttribute(idseries+"histogram3dtitulo_EJE_Y")%>',
-                style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': 'xx-small'}
+                style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': 'xx-small'}
             },
             labels: {
                 style: {
-                    color: 'orange',
+                    color: '#606c88',
                     fontSize:'small'
                 }
             }
         },    
         legend: {
 	        reversed: true,
-	        itemStyle: {'color': 'orange', 'font-weight': 'normal', 'font-size': '12px'}
+	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '12px'}
 	    },
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
@@ -84,7 +93,11 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
         				       
         plotOptions: {
             column: {
-                depth: 25
+                depth: 24,
+                pointPadding: 0,
+                borderWidth: 0,
+                groupPadding: 0,
+                shadow: false
             }
         },
         				      

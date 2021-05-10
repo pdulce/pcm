@@ -9,23 +9,30 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <div id="<%=idseries%>halfdonutchart" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
-	   
+Highcharts.setOptions({
+    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});
+
   Highcharts.chart('<%=idseries%>halfdonutchart', {
    chart: {	   
          backgroundColor: 'transparent',
          type: 'container',
-         borderWidth: 0
+         borderWidth: 0,
+         style: {
+             fontFamily: 'serif',
+             fontColor: '#2c3e50'
+         }
      },
      title: {
          text: '<%=request.getAttribute(idseries+"halfdonutcharttitle")%>',
          align: 'center',
          verticalAlign: 'middle',
          y: 60,
-         style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+         style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
     },
     subtitle: {
         text: '',
-        style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '8pt'}
+        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '8pt'}
     },
     accessibility: {
         point: {

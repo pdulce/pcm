@@ -10,26 +10,32 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <div id="<%=idseries%>dualHistogram" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">
-	 		
+Highcharts.setOptions({
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+});
  		Highcharts.chart('<%=idseries%>dualHistogram', {
 	        chart: {
 	        	type: 'column',
 	            zoomType: 'xy',
-	            backgroundColor: 'transparent'
+	            backgroundColor: 'transparent',
+	            style: {
+	                fontFamily: 'serif',
+	                fontColor: '#2c3e50'
+	            }
 	        },
 	        title: {
 	            text: '<%=request.getAttribute(idseries+"dualHistogramtitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '11pt'}
+	            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
 	        },
 	        subtitle: {
 	            text: '<%=request.getAttribute(idseries+"dualHistogramsubtitle")%>',
-	            style: {'color': 'orange', 'font-weight': 'lighter', 'font-size': '9pt'}
+	            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
 	        },
 	        xAxis: [{
 	            categories: <%=request.getAttribute(idseries+"dualHistogramseries")%>,
 	            labels: {
 	                style: {
-	                    color: 'orange',
+	                    color: '#606c88',
 	                    fontSize:'small'
 	                }
 	            },
@@ -75,7 +81,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	            x: 110, // = marginLeft - default spacingLeft
 	            y: 22,
 	            itemWidth: 220,
-	            itemStyle: {'color': 'orange', 'font-weight': 'light', 'font-size': '12px'},
+	            itemStyle: {'color': '#606c88', 'font-weight': 'light', 'font-size': '12px'},
 	            itemDistance: 80,
 	            borderWidth: 0
 	        },
