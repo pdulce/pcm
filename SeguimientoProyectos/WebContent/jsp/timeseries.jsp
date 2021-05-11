@@ -67,30 +67,34 @@ Highcharts.setOptions({
             headerFormat: '<b>{point.key}</b><br>',
             pointFormat: '<span style="font-size: xx-small; color: #3f4c6b">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"timeseriesdecimals")%>}'
         },
-        				       
+
         plotOptions: {
-        	line: {
-                dataLabels: {
-                    enabled: false,
-                    style: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'}
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[2]],
+                        [1, Highcharts.color(Highcharts.getOptions().colors[1]).setOpacity(0).get('rgba')]
+                    ]
                 },
-                enableMouseTracking: false
-            },
-        	series: {
-                borderWidth: 2,                
-                label: {
-                    connectorAllowed: false
-                }
-            },
-            column: {
-                depth: 25,
-                style: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8pt'},
-                stacking: true,
-                grouping: false,
-                groupZPadding: 10
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
             }
         },
-        
+
         series: <%=request.getAttribute(idseries+"timeseriesseries")%>,
         
         responsive: {
