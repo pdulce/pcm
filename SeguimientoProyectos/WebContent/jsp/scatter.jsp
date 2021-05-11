@@ -11,7 +11,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 
 <script type="text/javascript">
 Highcharts.setOptions({
-    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+	colors: [ '#a4a4a4', '#04b4cc', '#0484ac', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
 });
 		
 		Highcharts.chart('<%=idseries%>scatter', {
