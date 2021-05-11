@@ -240,25 +240,27 @@
 			</tr>	
 			<tr>
 				<td>
+					
+					<jsp:include page="${containerJSP_31}">
+						<jsp:param name="idseries" value="_serie31" />
+						<jsp:param name="width" value="1200px" />
+						<jsp:param name="height" value="460px" />
+					</jsp:include>
+				</td>
+				<td>
 					<jsp:include page="${containerJSP_30}">
 						<jsp:param name="idseries" value="_serie30" />
 						<jsp:param name="width" value="680px" />
 						<jsp:param name="height" value="460px" />
 					</jsp:include>
-				</td>
-				<td>
-					<jsp:include page="${containerJSP_31}">
-						<jsp:param name="idseries" value="_serie31" />
-						<jsp:param name="width" value="680px" />
-						<jsp:param name="height" value="460px" />
-					</jsp:include>
+					
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<jsp:include page="${containerJSP_40}">
 						<jsp:param name="idseries" value="_serie40" />
-						<jsp:param name="width" value="680px" />
+						<jsp:param name="width" value="880px" />
 						<jsp:param name="height" value="680px" />
 					</jsp:include>
 					<div>

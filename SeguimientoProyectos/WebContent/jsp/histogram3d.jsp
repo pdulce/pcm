@@ -60,7 +60,7 @@ Highcharts.setOptions({
         xAxis: {
             categories: <%=request.getAttribute(idseries+"histogram3dabscisas")%>,
             labels: {
-            	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
+            	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '9pt'}
             }
         },
         
