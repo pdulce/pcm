@@ -18,10 +18,6 @@ Highcharts.setOptions({
 	        	type: 'column',
 	            zoomType: 'xy',
 	            backgroundColor: 'transparent',
-	            style: {
-	                fontFamily: 'serif',
-	                fontColor: '#2c3e50'
-	            }
 	        },
 	        title: {
 	            text: '<%=request.getAttribute(idseries+"dualHistogramtitle")%>',
@@ -74,16 +70,13 @@ Highcharts.setOptions({
 	        tooltip: {
 	            shared: true
 	        },
-	        legend: {		            	
-	            width: 580,
-	            floating: true,
-	            align: 'left',
-	            x: 110, // = marginLeft - default spacingLeft
-	            y: 22,
-	            itemWidth: 220,
-	            itemStyle: {'color': '#606c88', 'font-weight': 'light', 'font-size': '12px'},
-	            itemDistance: 80,
-	            borderWidth: 0
+	        legend: {
+	            layout: 'horizontal',
+	            align: 'center',
+	            y: 18,
+	            itemWidth: 150,
+	            itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+	            verticalAlign: 'bottom'
 	        },
 
 	        series: [{

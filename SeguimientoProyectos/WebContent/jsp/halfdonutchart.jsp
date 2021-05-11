@@ -18,10 +18,6 @@ Highcharts.setOptions({
          backgroundColor: 'transparent',
          type: 'container',
          borderWidth: 0,
-         style: {
-             fontFamily: 'serif',
-             fontColor: '#2c3e50'
-         }
      },
      title: {
          text: '<%=request.getAttribute(idseries+"halfdonutcharttitle")%>',
@@ -38,6 +34,14 @@ Highcharts.setOptions({
         point: {
             valueSuffix: '%'
         }
+    },
+    legend: {
+        layout: 'horizontal',
+        align: 'center',        
+        y: 18,
+        itemWidth: 150,
+        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+        verticalAlign: 'bottom'
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.2f} %</b>'

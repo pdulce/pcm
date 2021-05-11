@@ -18,10 +18,6 @@ Highcharts.setOptions({
 	        polar: true,
 	        type: 'line',
             backgroundColor: 'transparent',
-            style: {
-                fontFamily: 'serif',
-                fontColor: '#2c3e50'
-            }
 	    },
         title: {
         	text: '<%=request.getAttribute(idseries+"spiderwebtitle")%>',
@@ -61,14 +57,7 @@ Highcharts.setOptions({
 	    tooltip: {
 	        shared: true,
 	        pointFormat: '<span style="color:{series.color}">{series.name}: {point.y:<%=request.getAttribute(idseries+"spiderwebdecimals")%>}'
-	    },
-
-	    legend: {
-	        align: 'right',
-	        verticalAlign: 'middle',
-	        layout: 'vertical',
-	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '12px'}
-	    },
+	    },	    
 		series : <%=request.getAttribute(idseries+"spiderwebseries")%>,
 		responsive: {
 	        rules: [{
@@ -76,11 +65,14 @@ Highcharts.setOptions({
 	                maxWidth: 500
 	            },
 	            chartOptions: {
-	                legend: {
-	                    align: 'center',
-	                    verticalAlign: 'bottom',
-	                    layout: 'horizontal'
-	                },
+	            	legend: {
+	        	        layout: 'horizontal',
+	        	        align: 'center',
+	        	        y: 18,
+	        	        itemWidth: 150,
+	        	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+	        	        verticalAlign: 'bottom'
+	        	    },
 	                pane: {
 	                    size: '70%'
 	                }

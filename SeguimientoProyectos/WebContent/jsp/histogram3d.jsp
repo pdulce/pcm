@@ -37,10 +37,6 @@ Highcharts.setOptions({
 	        renderTo: '<%=idseries%>histogram3d',
 	        type: 'column',
             backgroundColor: 'transparent',
-            style: {
-                fontFamily: 'serif',
-                fontColor: '#2c3e50'
-            },
 	        options3d: {
 	            enabled: false,
 	            alpha: 15,
@@ -83,9 +79,13 @@ Highcharts.setOptions({
             }
         },    
         legend: {
-	        reversed: true,
-	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '12px'}
-	    },
+            layout: 'horizontal',
+            align: 'center',
+            y: 14,
+            itemWidth: 150,
+            itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+            verticalAlign: 'bottom'
+        },
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
             pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"histogram3ddecimals")%>}'

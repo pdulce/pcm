@@ -12,17 +12,13 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 
 <script type="text/javascript">
 Highcharts.setOptions({
-    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+	colors: ['#7AA1D2','#bdc3c7', '#2C5364','#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
 });
 	Highcharts.chart('<%=idseries%>timeseries', {
 	    chart: {     	
             type: '<%=request.getAttribute(idseries+"timeseriestypeOfSeries")%>',
             margin: 75,
-            backgroundColor: 'transparent',
-            style: {
-                fontFamily: 'serif',
-                fontColor: '#2c3e50'
-            }
+            backgroundColor: 'transparent'           
         },
         title: {
         	text: '<%=request.getAttribute(idseries+"timeseriestitle")%>',
@@ -56,12 +52,13 @@ Highcharts.setOptions({
             }
         },
         legend: {
-            layout: 'vertical',
-            align: 'right',
-            itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '12px'},
-            verticalAlign: 'middle'
-        },
-        
+	        layout: 'horizontal',
+	        align: 'center',
+	        y: 18,
+	        itemWidth: 150,
+	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+	        verticalAlign: 'bottom'
+	    },
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
             pointFormat: '<span style="font-size: xx-small; color: #3f4c6b">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"timeseriesdecimals")%>}'
@@ -98,11 +95,15 @@ Highcharts.setOptions({
                     maxWidth: 500
                 },
                 chartOptions: {
-                    legend: {
+                	legend: {
                         layout: 'horizontal',
-                        align: 'center',
+                        align: 'bottom',
+                        x: 20,
+                        y: 8,
+                        itemWidth: 150,
+                        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
                         verticalAlign: 'bottom'
-                    }
+                    },
                 }
             }]
         }

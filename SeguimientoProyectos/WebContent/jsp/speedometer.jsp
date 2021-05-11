@@ -27,10 +27,6 @@ Highcharts.chart('<%=idseries%>speedometer', {
         plotBorderWidth: 0,
         borderWidth: 0,
         plotShadow: false,
-        style: {
-            fontFamily: 'serif',
-            fontColor: '#2c3e50'
-        }
     },
 
     title: {

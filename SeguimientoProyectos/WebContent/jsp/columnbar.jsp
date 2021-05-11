@@ -12,7 +12,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <script type="text/javascript">
 
 Highcharts.setOptions({
-    colors: ['#2C5364', '#bdc3c7', '#7AA1D2', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+    colors: ['#7AA1D2','#bdc3c7', '#2C5364','#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
 });
 
 
@@ -51,6 +51,14 @@ Highcharts.chart('<%=idseries%>columnbar', {
             text: 'Jornadas',
             skew3d: true
         }
+    },
+    legend: {
+        layout: 'horizontal',
+        align: 'center',
+        y: 17,
+        itemWidth: 150,
+        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+        verticalAlign: 'bottom'
     },
 
     tooltip: {

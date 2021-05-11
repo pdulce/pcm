@@ -19,10 +19,6 @@ Highcharts.setOptions({
 	            type: 'scatter',
 	            backgroundColor: 'transparent',
 	            zoomType: 'xy',
-	            style: {
-	                fontFamily: 'serif',
-	                fontColor: '#2c3e50'
-	            }
 	        },
 	        title: {
 	            text: '<%=request.getAttribute(idseries+"scattertitle")%>',
@@ -55,6 +51,14 @@ Highcharts.setOptions({
 	                    fontSize:'small'
 	                }
 	            }
+	        },
+	        legend: {
+	            layout: 'horizontal',
+	            align: 'center',
+	            y: 18,
+	            itemWidth: 150,
+	            itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+	            verticalAlign: 'bottom'
 	        },
 	        plotOptions: {
 	            scatter: {

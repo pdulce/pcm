@@ -16,10 +16,6 @@ Highcharts.setOptions({
 			    chart: {
 			        type: 'bar',
 		            backgroundColor: 'transparent',
-		            style: {
-		                fontFamily: 'serif',
-		                fontColor: '#2c3e50'
-		            }
 			    },
 			    title: {
 			        text: '<%=request.getAttribute(idseries+"barcharttitle")%>',
@@ -53,8 +49,12 @@ Highcharts.setOptions({
 		            }
 			    },
 			    legend: {
-			        reversed: true,
-			        itemStyle: {'color': '#2c3e50', 'font-weight': 'normal', 'font-size': '12px'}
+			        layout: 'horizontal',
+			        align: 'center',
+			        y: 18,
+			        itemWidth: 150,
+			        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+			        verticalAlign: 'bottom'
 			    },
 			    plotOptions: {
 			        series: {
