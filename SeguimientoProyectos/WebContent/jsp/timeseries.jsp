@@ -55,7 +55,7 @@ Highcharts.setOptions({
 	        layout: 'horizontal',
 	        align: 'center',
 	        y: 18,
-	        itemWidth: 150,
+	        itemWidth: 155,
 	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
 	        verticalAlign: 'bottom'
 	    },
@@ -100,7 +100,7 @@ Highcharts.setOptions({
                         align: 'bottom',
                         x: 20,
                         y: 8,
-                        itemWidth: 150,
+                        itemWidth: 155,
                         itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
                         verticalAlign: 'bottom'
                     },
