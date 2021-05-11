@@ -11,17 +11,27 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 
 <script type="text/javascript">
 Highcharts.setOptions({
-    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+	colors: [ '#B3DFF2', '#06B5CA','#00607E', '#1A3B47', '#CFCECE','#FCBF0A','#64E572', '#FFF263', '#6AF9C4']
 });   
   	Highcharts.chart('<%=idseries%>spiderweb', {
    		chart: {
 	        polar: true,
 	        type: 'line',
             backgroundColor: 'transparent',
+            options3d: {
+                enabled: false,
+                alpha: 15,
+                beta: 15,
+                viewDistance: 25,
+                depth: 40
+            },
+            style: {
+           	 fontFamily: 'Roboto, sans-serif'   	 
+           }
 	    },
         title: {
         	text: '<%=request.getAttribute(idseries+"spiderwebtitle")%>',
-        	style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
+        	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'},
             x: -80
         },
         pane: {
@@ -29,17 +39,14 @@ Highcharts.setOptions({
         },
         subtitle: {
             text: '<%=request.getAttribute(idseries+"spiderwebsubtitle")%>',
-            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
+            style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
         },
         xAxis : {
 			categories : <%=request.getAttribute(idseries+"spiderwebcategories")%>,
 			tickmarkPlacement: 'on',
 		    lineWidth: 0,
 		    labels: {
-                style: {
-                    color: '#606c88',
-                    fontSize:'small'
-                }
+		    	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
             }
 	    },
 	    yAxis: {
@@ -47,10 +54,7 @@ Highcharts.setOptions({
 	        lineWidth: 0,
 	        min: 0,
 	        labels: {
-                style: {
-                    color: '#606c88',
-                    fontSize:'small'
-                }
+	        	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
             }
 	    },
 
@@ -69,8 +73,8 @@ Highcharts.setOptions({
 	        	        layout: 'horizontal',
 	        	        align: 'center',
 	        	        y: 18,
-	        	        itemWidth: 155,
-	        	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+	        	        itemWidth: 165,
+	        	        itemStyle: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'},
 	        	        verticalAlign: 'bottom'
 	        	    },
 	                pane: {

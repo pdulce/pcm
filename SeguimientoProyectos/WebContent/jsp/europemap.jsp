@@ -43,7 +43,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        },
 	            
 	        mapNavigation: {
-	            enabled: true,
+	            enabled: false,
 	            buttonOptions: {
 	                verticalAlign: 'bottom'
 	            }
@@ -62,7 +62,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	                 }
 	             },
 	             dataLabels: {
-	                 enabled: true,
+	                 enabled: false,
 	                 format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute(idseries+"decimals")%>}'
 	             }
 	         }]

@@ -49,7 +49,7 @@
 	        },
 
 	        mapNavigation: {
-	            enabled: true,
+	            enabled: false,
 	            buttonOptions: {
 	                verticalAlign: 'bottom'
 	            }
@@ -70,7 +70,7 @@
 	                }
 	            },
 	            dataLabels: {
-	                enabled: true,
+	                enabled: false,
 	                format: '<b>{point.name}</b>: {point.value:<%=request.getAttribute(idseries+"worldmapdecimals")%>}'
 	            }
 	        }]

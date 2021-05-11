@@ -10,25 +10,28 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 
 <script type="text/javascript">
 Highcharts.setOptions({
-	colors: [ '#a4a4a4', '#04b4cc', '#0484ac', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+	colors: [ '#B3DFF2', '#06B5CA','#00607E', '#1A3B47', '#CFCECE','#FCBF0A','#64E572', '#FFF263', '#6AF9C4']
 });
 
   Highcharts.chart('<%=idseries%>halfdonutchart', {
    chart: {	   
-         backgroundColor: 'transparent',
-         type: 'container',
-         borderWidth: 0,
+	   type: 'container',
+	   backgroundColor: 'transparent',            
+       borderWidth: 0,
+       style: {
+       	 fontFamily: 'Roboto, sans-serif'   	 
+       }
      },
      title: {
          text: '<%=request.getAttribute(idseries+"halfdonutcharttitle")%>',
          align: 'center',
          verticalAlign: 'middle',
          y: 60,
-         style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
+         style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
     },
     subtitle: {
         text: '',
-        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '8pt'}
+        style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
     },
     accessibility: {
         point: {
@@ -39,8 +42,8 @@ Highcharts.setOptions({
         layout: 'horizontal',
         align: 'center',        
         y: 18,
-        itemWidth: 155,
-        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+        itemWidth: 165,
+        itemStyle: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'},
         verticalAlign: 'bottom'
     },
     tooltip: {
@@ -48,12 +51,11 @@ Highcharts.setOptions({
     },
     plotOptions: {
         pie: {
-            dataLabels: {
+        	dataLabels: {
                 enabled: true,
-                distance: -40,
+                distance: -50,
                 style: {
                     fontWeight: 'bold',
-                    fontSize: '9pt',
                     color: 'white'
                 }
             },

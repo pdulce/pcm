@@ -29,7 +29,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <script type="text/javascript">
 
 Highcharts.setOptions({
-	colors: [ '#a4a4a4', '#04b4cc', '#0484ac', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+	colors: [ '#B3DFF2', '#06B5CA','#00607E', '#1A3B47', '#CFCECE','#FCBF0A','#64E572', '#FFF263', '#6AF9C4']
 });
 
 	var chart = new Highcharts.Chart({
@@ -43,24 +43,24 @@ Highcharts.setOptions({
 	            beta: 15,
 	            depth: 50,
 	            viewDistance: 25
-	        }
+	        },
+	        style: {
+           	 fontFamily: 'Roboto, sans-serif'   	 
+           }
 	    },
 	    title: {
 	        text: '<%=request.getAttribute(idseries+"histogram3dtitle")%>',
-	        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
+	        style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
 	    },
 	    subtitle: {
             text: '<%=request.getAttribute(idseries+"histogram3dsubtitle")%>',
-            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
+            style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
         },
         
         xAxis: {
             categories: <%=request.getAttribute(idseries+"histogram3dabscisas")%>,
             labels: {
-                style: {
-                    color: '#606c88',
-                    fontSize:'xx-small'
-                }
+            	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
             }
         },
         
@@ -69,21 +69,18 @@ Highcharts.setOptions({
             min: <%=request.getAttribute(idseries+"histogram3dminEjeRef")%>,
             title: {
                 text: '<%=request.getAttribute(idseries+"histogram3dtitulo_EJE_Y")%>',
-                style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': 'xx-small'}
+                style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
             },
             labels: {
-                style: {
-                    color: '#606c88',
-                    fontSize:'small'
-                }
+            	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
             }
         },    
         legend: {
             layout: 'horizontal',
             align: 'center',
             y: 14,
-            itemWidth: 155,
-            itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+            itemWidth: 185,
+            itemStyle: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'},
             verticalAlign: 'bottom'
         },
         tooltip: {				        	

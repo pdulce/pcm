@@ -12,29 +12,36 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 
 <script type="text/javascript">
 Highcharts.setOptions({
-	colors: [ '#a4a4a4', '#04b4cc', '#0484ac', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+	colors: [ '#B3DFF2', '#06B5CA','#00607E', '#1A3B47', '#CFCECE','#FCBF0A','#64E572', '#FFF263', '#6AF9C4']
 });
 	Highcharts.chart('<%=idseries%>timeseries', {
 	    chart: {     	
             type: '<%=request.getAttribute(idseries+"timeseriestypeOfSeries")%>',
             margin: 75,
-            backgroundColor: 'transparent'           
+            backgroundColor: 'transparent',
+            options3d: {
+                enabled: false,
+                alpha: 15,
+                beta: 15,
+                viewDistance: 25,
+                depth: 40
+            },
+            style: {
+           	 fontFamily: 'Roboto, sans-serif'   	 
+           }
         },
         title: {
         	text: '<%=request.getAttribute(idseries+"timeseriestitle")%>',
-            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
+        	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
         },
         subtitle: {
             text: '<%=request.getAttribute(idseries+"timeseriessubtitle")%>',
-            style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '9pt'}
+            style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
         },
         xAxis: {
             categories: <%=request.getAttribute(idseries+"timeseriesabscisas")%>,
             labels: {
-                style: {
-                    color: '#606c88',
-                    fontSize:'xx-small'
-                }
+            	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '9pt'}
             }
         },
         yAxis: {
@@ -42,21 +49,18 @@ Highcharts.setOptions({
             allowDecimals: true,
             title: {
                 text: '<%=request.getAttribute(idseries+"timeseriestitulo_EJE_Y")%>',
-                style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': 'xx-small'}
+                style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
             },
             labels: {
-                style: {
-                    color: '#606c88',
-                    fontSize:'small'
-                }
+            	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
             }
         },
         legend: {
 	        layout: 'horizontal',
 	        align: 'center',
 	        y: 18,
-	        itemWidth: 155,
-	        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+	        itemWidth: 240,
+	        itemStyle: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'},
 	        verticalAlign: 'bottom'
 	    },
         tooltip: {				        	
@@ -67,8 +71,8 @@ Highcharts.setOptions({
         plotOptions: {
         	line: {
                 dataLabels: {
-                    enabled: true,
-                    style: {'color': 'rgb(219, 202, 172)', 'font-weight': 'normal', 'font-size': 'xx-small'}
+                    enabled: false,
+                    style: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'}
                 },
                 enableMouseTracking: false
             },
@@ -80,7 +84,7 @@ Highcharts.setOptions({
             },
             column: {
                 depth: 25,
-                style: {'color': 'white', 'font-size': 'xx-small'},
+                style: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8pt'},
                 stacking: true,
                 grouping: false,
                 groupZPadding: 10
@@ -100,8 +104,8 @@ Highcharts.setOptions({
                         align: 'bottom',
                         x: 20,
                         y: 8,
-                        itemWidth: 155,
-                        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
+                        itemWidth: 165,
+                        itemStyle: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'},
                         verticalAlign: 'bottom'
                     },
                 }

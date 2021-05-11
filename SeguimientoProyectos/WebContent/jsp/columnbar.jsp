@@ -12,8 +12,10 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 <script type="text/javascript">
 
 Highcharts.setOptions({
-    colors: [ '#a4a4a4', '#04b4cc', '#0484ac', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+    colors: [ '#B3DFF2', '#06B5CA','#00607E', '#1A3B47', '#CFCECE','#FCBF0A','#64E572', '#FFF263', '#6AF9C4']
 });
+
+//new palette: '#a4a4a4', '#04b4cc', '#0484ac', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'
 
 
 Highcharts.chart('<%=idseries%>columnbar', {
@@ -26,21 +28,22 @@ Highcharts.chart('<%=idseries%>columnbar', {
             beta: 15,
             viewDistance: 25,
             depth: 40
+        },
+        style: {
+        	 fontFamily: 'Roboto, sans-serif'   	 
         }
     },
 
     title: {
         text: 'Dimensiones del Ciclo de Vida agrupadas por <%=request.getAttribute(idseries+"columnbaragrupadoPor")%>',
-        style: {'color': '#606c88', 'font-weight': 'lighter', 'font-size': '11pt'}
+        style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
     },
 
     xAxis: {
         categories: <%=request.getAttribute(idseries+"columnbarcategories")%>,       
         labels: {
             skew3d: true,
-            style: {                
-            	 fontSize: '12px'
-            }
+            style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
         }
     },
 
@@ -50,15 +53,16 @@ Highcharts.chart('<%=idseries%>columnbar', {
         title: {
             text: 'Jornadas',
             skew3d: true
-        }
+        },
+        style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
     },
     legend: {
         layout: 'horizontal',
         align: 'center',
         y: 17,
-        itemWidth: 155,
-        itemStyle: {'color': '#606c88', 'font-weight': 'normal', 'font-size': '8px'},
-        verticalAlign: 'bottom'
+        itemWidth: 165,        
+        verticalAlign: 'bottom',
+        itemStyle: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'},
     },
 
     tooltip: {
