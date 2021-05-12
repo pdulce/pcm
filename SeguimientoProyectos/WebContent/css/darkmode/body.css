@@ -7,7 +7,7 @@
 
 
 .small {
-	font: normal 85% Verdana, sans-serif;
+	font: normal 85% Roboto, sans-serif;
 	color: white;
 	background-color: rgb(7, 39, 46);
 	top: 0;
@@ -48,7 +48,7 @@ Redefine aspecto de los elementos estandard de HTML
 	left: 0px;
 	color: white;
 	background-color: rgb(7, 39, 46);	
-	font: normal 0.9em Verdana;
+	font: normal 0.9em Roboto, sans-serif;
 	text-align: left;
 }
 	
@@ -56,7 +56,7 @@ Redefine aspecto de los elementos estandard de HTML
 	position: relative;
 	top: 0px; 
 	left: 0px;
-	font: normal 0.8em Verdana;
+	font: normal 0.8em Roboto, sans-serif;
 	border: 0.3px solid #C9DCA6;
 	text-align: left;
 }

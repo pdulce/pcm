@@ -4,7 +4,7 @@
 		margin:0px;
 		padding:0px;
 		width:175px;	/* Width of context menu */
-		font-family:verdana;
+		font-family:Roboto, sans-serif;
 		color: black;
 		font-size:9px;
 		background-image:url('../img/gradient.gif');

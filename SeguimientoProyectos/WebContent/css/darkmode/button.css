@@ -8,7 +8,7 @@ ul#pcmUl {
 	float: left;
 	background: rgb(7, 39, 46);
 	font-size: 1.0em;
-    font-family: Verdana, sans-serif;
+    font-family: Roboto, sans-serif;
     color: blue;
 }   
 
@@ -20,7 +20,7 @@ ul#pcmUl li {
 	display: inline; 
 	font-size: 1.0em;
 	margin: 0 9px; 
-    font-family: Verdana, sans-serif;
+    font-family: Roboto, sans-serif;
 } 
 
 ul#pcmUl li span {    
@@ -30,7 +30,7 @@ ul#pcmUl li span {
 	background: url('../../img/blue.PNG');
 	font-size: 1.0em;
 	float: center; 
-    font-family: Verdana, sans-serif;
+    font-family: Roboto, sans-serif;
     color: blue;
 }
 
@@ -40,7 +40,7 @@ ul#pcmUl li a {
 	position: relative;
 	background: url('../../img/blue.PNG');
 	float: center; 
-    font-family: Verdana, sans-serif;
+    font-family: Roboto, sans-serif;
     cursor: pointer;
     text-decoration: none;
 }
