@@ -9,7 +9,7 @@ ul#pcmUl {
 	background: rgb(254, 254, 254);
 	font-size: 1.0em;
     font-family: Roboto, sans-serif, sans-serif;
-    color: blue;
+    color: rgb(2, 78, 102);
 }   
 
 ul#pcmUl li {     
@@ -31,7 +31,7 @@ ul#pcmUl li span {
 	float: center; 
 	font-size: 1.0em;
     font-family: Roboto, sans-serif, sans-serif;
-    color: blue;
+    color: rgb(2, 78, 102);
 }
 
 ul#pcmUl li a {    

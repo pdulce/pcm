@@ -44,8 +44,8 @@ form.pcmForm fieldset fieldset {
   vertical-align:middle;
   font-size: 0.95em;
   font-family: Roboto, sans-serif, sans-serif;
-  color: rgb(0, 0, 160);
-  border:1px solid rgb(0, 0, 160);
+  color: rgb(94, 94, 94);
+  border:1px solid rgb(94, 94, 94);
 }
 
 .imgCalendar{
@@ -65,7 +65,7 @@ label.order{
 
 label.infoCls{
   background: rgb(254, 254, 254);
-  color: rgb(0, 0, 160);
+  color: rgb(94, 94, 94);
   font-size: 99%;
   font-family: Roboto, sans-serif, sans-serif;
 }

@@ -92,7 +92,7 @@ Highcharts.setOptions({
             column: {
                 depth: 24,
                 pointPadding: 0,
-                borderWidth: 0,
+                borderWidth: 2,
                 groupPadding: 0,
                 shadow: false
             }

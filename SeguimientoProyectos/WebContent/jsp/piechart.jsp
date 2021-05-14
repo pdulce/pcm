@@ -49,7 +49,8 @@ Highcharts.setOptions({
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.2f} %</b>'
     },
+     
     series: <%=request.getAttribute(idseries+"piechartseries")%>
-  });
+        
 
 </script>

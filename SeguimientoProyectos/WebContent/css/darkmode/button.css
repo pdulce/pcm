@@ -6,10 +6,10 @@ ul#pcmUl {
 	position: relative;
 	list-style: none;     
 	float: left;
-	background: rgb(7, 39, 46);
+	background: rgb(254, 254, 254);
 	font-size: 1.0em;
-    font-family: Roboto, sans-serif;
-    color: blue;
+    font-family: Roboto, sans-serif, sans-serif;
+    color: rgb(2, 78, 102);
 }   
 
 ul#pcmUl li {     
@@ -20,7 +20,7 @@ ul#pcmUl li {
 	display: inline; 
 	font-size: 1.0em;
 	margin: 0 9px; 
-    font-family: Roboto, sans-serif;
+    font-family: Roboto, sans-serif, sans-serif;
 } 
 
 ul#pcmUl li span {    
@@ -28,10 +28,10 @@ ul#pcmUl li span {
 	padding: 1px 2px 2px 1px;     
 	position: relative;
 	background: url('../../img/blue.PNG');
-	font-size: 1.0em;
 	float: center; 
-    font-family: Roboto, sans-serif;
-    color: blue;
+	font-size: 1.0em;
+    font-family: Roboto, sans-serif, sans-serif;
+    color: rgb(2, 78, 102);
 }
 
 ul#pcmUl li a {    
@@ -40,7 +40,7 @@ ul#pcmUl li a {
 	position: relative;
 	background: url('../../img/blue.PNG');
 	float: center; 
-    font-family: Roboto, sans-serif;
+    font-family: Roboto, sans-serif, sans-serif;
     cursor: pointer;
     text-decoration: none;
 }
@@ -51,7 +51,7 @@ ul#pcmUl li a.current, ul#pcmUl li a:hover {
 	position: relative;
 	float: center;
 	background: url('../../img/softBlue.PNG');/*no-repeat top left; */
-	color: rgb(7, 39, 46);
+	color: rgb(254, 254, 254);
 	cursor: pointer;
     text-decoration: none;
 }
