@@ -366,6 +366,10 @@ public class SQLUtils {
 			int orderFieldsCount = orderFields_.length;
 			for (int o_ = 0; o_ < orderFieldsCount; o_++) {
 				if (orderFields_[o_] ==null) {
+					sqlPattern = sqlPattern.replaceFirst("ORDER BY", "");
+					sqlPattern = sqlPattern.replaceFirst("#ORDER_FIELD#", "");
+					sqlPattern = sqlPattern.replaceFirst(orderDirec_, "");
+					sqlPattern = sqlPattern.trim();
 					continue;
 				}
 				final String orderField_ = orderFields_[o_];

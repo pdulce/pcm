@@ -226,8 +226,8 @@ public abstract class CDDWebController extends HttpServlet {
 	@Override
 	protected void doPost(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) throws ServletException, IOException {
 		
-		httpRequest.setAttribute("width-container", "0");
-		httpRequest.setAttribute("height-container", "0");
+		//httpRequest.setAttribute("width-container", "0");
+		//httpRequest.setAttribute("height-container", "0");
 		
 		if (this.contextApp.getResourcesConfiguration().getServerName() == null) {
 			this.contextApp.getResourcesConfiguration().setServerName(httpRequest.getLocalName());

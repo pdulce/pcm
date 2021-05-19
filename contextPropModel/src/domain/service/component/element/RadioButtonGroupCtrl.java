@@ -47,6 +47,7 @@ public class RadioButtonGroupCtrl extends AbstractCtrl {
 			if (counter%lengthOfOptions==0 && counter>0){
 				conSalto = true;
 				radioButtonGroup.append(IViewComponent.NEW_ROW);
+				radioButtonGroup.append(IViewComponent.NEW_ROW);
 			}
 			counter++;
 			String descrTraduced = radio.getDescription() != null && lang != null && !"".equals(lang) ? Translator
@@ -59,6 +60,7 @@ public class RadioButtonGroupCtrl extends AbstractCtrl {
 		}
 		String cadena = radioButtonGroup.toString();
 		if (conSalto){
+			cadena = IViewComponent.NEW_ROW.concat(cadena);
 			cadena = IViewComponent.NEW_ROW.concat(cadena);
 		}
 		return cadena;

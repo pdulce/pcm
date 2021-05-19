@@ -1451,12 +1451,12 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					pstmt_ = conn.prepareStatement(sql_);
 					isLocked = false;
 				}
-				catch (SQLException iSqlExc) {
-					if (conn.isResourceLocked(iSqlExc)) {
+				catch (SQLException iSqlExc1) {
+					if (conn.isResourceLocked(iSqlExc1)) {
 						Thread.sleep(500);
 					} else {
-						iSqlExc.printStackTrace();
-						throw iSqlExc;
+						iSqlExc1.printStackTrace();
+						throw iSqlExc1;
 					}
 				}
 			}

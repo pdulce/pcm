@@ -33,7 +33,9 @@ import domain.service.component.element.html.Span;
 import domain.service.component.factory.IBodyContainer;
 import domain.service.conditions.DefaultStrategyLogin;
 import domain.service.dataccess.IDataAccess;
+import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.dto.Datamap;
+import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.AbstractAction;
 import domain.service.event.ActionPagination;
 import domain.service.event.IAction;
@@ -161,7 +163,7 @@ public class DomainService {
 		return this.events;
 	}
 	
-	public final Element extractActionElementByService(final String event_)
+	public final Element extractActionElementByService(final String dictionary, final String event_)
 			throws PCMConfigurationException {
 		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		final NodeList listaNodes = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
@@ -172,6 +174,15 @@ public class DomainService {
 				return node;
 			}
 		}
+		//si llegamos aqui, buscamos el elemento en el padre de este service
+		String entityName = this.useCase.getAttribute("name");
+		IEntityLogic entidad_ = EntityLogicFactory.getFactoryInstance().getEntityDef(dictionary, entityName);
+		if (!entidad_.getParentEntities().isEmpty()) {
+			IEntityLogic parentEntity = entidad_.getParentEntities().iterator().next();
+			//parentEntity.getName().conc
+		}
+		//new EntityLogic(dictionaryName_, schemaNode)
+		
 		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).append(event).append(
 				PCMConstants.STRING_SPACE);
 		excep.append(InternalErrorsConstants.SERVICE_LITERAL).append(this.docOfServiceFileDescr).append(
@@ -202,10 +213,10 @@ public class DomainService {
 		return arrViewComponents;
 	}
 	
-	public final Collection<Element> extractViewComponentElementsByAction(final String event_) 
+	public final Collection<Element> extractViewComponentElementsByAction(final String dictionary, final String event_) 
 			throws PCMConfigurationException {
 		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
-		final Element actionParentNode = this.extractActionElementByService(event);
+		final Element actionParentNode = this.extractActionElementByService(dictionary, event);
 		Collection<Element> arrViewComponents = new ArrayList<Element>();
 		final NodeList listaNodes_ = actionParentNode.getElementsByTagName(VIEWCOMPONENT_ELEMENT);
 		for (int i = 0; i < listaNodes_.getLength(); i++) {
@@ -219,10 +230,10 @@ public class DomainService {
 		return arrViewComponents;
 	}
 	
-	public final Collection<String> extractStrategiesPreElementByAction(final String event_) 
+	public final Collection<String> extractStrategiesPreElementByAction(final String dictionary, final String event_) 
 			throws PCMConfigurationException {
 		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
-		Element actionParentNode = this.extractActionElementByService(event);
+		Element actionParentNode = this.extractActionElementByService(dictionary, event);
 		final Collection<String> strategs = new ArrayList<String>();
 		if (actionParentNode.hasAttribute(STRATEGY_PRECONDITION_ATTR)) {
 			strategs.add(actionParentNode.getAttribute(STRATEGY_PRECONDITION_ATTR));
@@ -230,10 +241,10 @@ public class DomainService {
 		return strategs;
 	}
 	
-	public final Collection<String> extractStrategiesElementByAction(final String event_) 
+	public final Collection<String> extractStrategiesElementByAction(final String dictionary, final String event_) 
 			throws PCMConfigurationException {
 		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
-		Element actionParentNode = this.extractActionElementByService(event);
+		Element actionParentNode = this.extractActionElementByService(dictionary, event);
 		final Collection<String> strategs = new ArrayList<String>();
 		if (actionParentNode.hasAttribute(STRATEGY_ATTR)) {
 			strategs.add(actionParentNode.getAttribute(STRATEGY_ATTR));
@@ -241,11 +252,11 @@ public class DomainService {
 		return strategs;
 	}
 	
-	public String getTitleOfAction(final String event_){
+	public String getTitleOfAction(final String dictionary, final String event_){
 		String serviceSceneTitle = "";
 		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
 		try {
-			Element actionElementNode = extractActionElementByService(event);
+			Element actionElementNode = extractActionElementByService(dictionary, event);
 			NodeList nodes = actionElementNode.getElementsByTagName("form");
 			int n = nodes.getLength();
 			for (int nn=0;nn<n;nn++){
@@ -281,7 +292,7 @@ public class DomainService {
 			IBodyContainer containerView = BodyContainer.getContainerOfView(datamap, dataAccess, this);
 			if (dataAccess.getPreconditionStrategies().isEmpty()) {
 				dataAccess.getPreconditionStrategies().addAll(
-						this.extractStrategiesPreElementByAction(event));
+						this.extractStrategiesPreElementByAction(dataAccess.getDictionaryName(), event));
 			}
 			final String sceneRedirect = sceneResult.isSuccess() ? action.getSubmitSuccess() : action.getSubmitError();
 			if (eventSubmitted) {
@@ -309,7 +320,7 @@ public class DomainService {
 						IBodyContainer containerViewRedirect = BodyContainer.getContainerOfView(datamap, dataAccess, serviceRedirectDomain);
 						
 						if (!(AbstractAction.isFormularyEntryEvent(event) || (serviceRedirect.equals(this.getUseCaseName()) && eventRedirect.equals(event)))) {
-							Element elementActionRedirect = serviceRedirectDomain.extractActionElementByService(eventRedirect);
+							Element elementActionRedirect = serviceRedirectDomain.extractActionElementByService(dataAccess.getDictionaryName(), eventRedirect);
 							Collection<String> registeredEventsOfRedirect = serviceRedirectDomain.discoverAllEvents();
 							IAction actionObjectOfRedirect = AbstractAction.getAction(containerViewRedirect, elementActionRedirect, datamap, registeredEventsOfRedirect);						
 							sceneResult = serviceRedirectDomain.invokeServiceCore(dataAccess, eventRedirect, datamap, false, 
@@ -336,7 +347,7 @@ public class DomainService {
 			while (!redirected && eventSubmitted && iteratorGrids.hasNext()) {
 				PaginationGrid paginationGrid = (PaginationGrid) iteratorGrids.next();
 				if (paginationGrid.getMasterNamespace() != null) {
-					final ActionPagination actionPagination = new ActionPagination(containerView, datamap, this.extractActionElementByService(event), discoverAllEvents());
+					final ActionPagination actionPagination = new ActionPagination(containerView, datamap, this.extractActionElementByService(dataAccess.getDictionaryName(), event), discoverAllEvents());
 					sceneResult.appendXhtml(actionPagination.executeAction(dataAccess, datamap, datamap.getEvent(), eventSubmitted, messageExceptions)
 							.getXhtml());
 					break;

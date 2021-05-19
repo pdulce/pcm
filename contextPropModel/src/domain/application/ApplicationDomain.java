@@ -172,7 +172,7 @@ public class ApplicationDomain implements Serializable {
 				if (initialDomainService == null){
 					throw new RuntimeException("You must have one authentication service in some of your .xml service files");
 				}
-				if (initialDomainService.extractActionElementByService("submitForm") == null){
+				if (initialDomainService.extractActionElementByService(this.resourcesConfiguration.getEntitiesDictionary(), "submitForm") == null){
 					throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service");
 				}
 				this.initService = "Authentication";	
@@ -191,13 +191,13 @@ public class ApplicationDomain implements Serializable {
 		return this.initEvent;
 	}
 	
-	public String getTitleOfAction(final String service, final String event){
+	public String getTitleOfAction(final String service, final String event_){
 		String serviceSceneTitle = "";
 		if (service.contentEquals("") || service.contentEquals("dashboard")) {
 			return serviceSceneTitle;
 		}
 		try {
-			Element actionElementNode = getDomainService(service).extractActionElementByService(event);
+			Element actionElementNode = getDomainService(service).extractActionElementByService(getDataAccess().getDictionaryName(), event_);
 			NodeList nodes = actionElementNode.getElementsByTagName("form");
 			int n = nodes.getLength();
 			for (int nn=0;nn<n;nn++){
@@ -207,7 +207,7 @@ public class ApplicationDomain implements Serializable {
 				}
 			}
 		} catch (PCMConfigurationException e) {
-			ApplicationDomain.log.log(Level.INFO, "Error getting title of " + service + " event: " + event, e);
+			ApplicationDomain.log.log(Level.INFO, "Error getting title of " + service + " event: " + event_, e);
 		}
 		return serviceSceneTitle;
 	}
@@ -454,8 +454,8 @@ public class ApplicationDomain implements Serializable {
 				
 				if (!datamap.getService().contentEquals("dashboard")) {
 					DomainService domainService = getDomainService(datamap.getService());
-					Collection<String> conditions = domainService.extractStrategiesElementByAction(datamap.getEvent()); ;
-					Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
+					Collection<String> conditions = domainService.extractStrategiesElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent()); ;
+					Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent());
 					dataAccess_ = getDataAccess(conditions, preconditions);
 					genericHCModel.generateStatGraphModel(dataAccess_, domainService, datamap);
 				}else {
@@ -482,16 +482,16 @@ public class ApplicationDomain implements Serializable {
 				if (AbstractAction.isFormularyEntryEvent(datamap.getEvent()) && domainService.discoverAllEvents().
 						contains(AbstractAction.getInherentEvent(datamap.getEvent()))) {
 					final String event4DataAccess = AbstractAction.getInherentEvent(datamap.getEvent());
-					conditions = domainService.extractStrategiesElementByAction(event4DataAccess);
-					preconditions = domainService.extractStrategiesPreElementByAction(event4DataAccess);
+					conditions = domainService.extractStrategiesElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), event4DataAccess);
+					preconditions = domainService.extractStrategiesPreElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), event4DataAccess);
 				} else {
-					conditions = domainService.extractStrategiesElementByAction(datamap.getEvent());
-					preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
+					conditions = domainService.extractStrategiesElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent());
+					preconditions = domainService.extractStrategiesPreElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent());
 				}
 				dataAccess_ = getDataAccess(conditions, preconditions);
 				IBodyContainer container = BodyContainer.getContainerOfView(datamap, dataAccess_, domainService);
 				IAction	action = AbstractAction.getAction(container,
-						domainService.extractActionElementByService(datamap.getEvent()), 
+						domainService.extractActionElementByService(dataAccess_.getDictionaryName(), datamap.getEvent()), 
 						datamap, domainService.discoverAllEvents());
 				List<MessageException> messages = new ArrayList<MessageException>();
 				SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, datamap.getEvent(), datamap, 

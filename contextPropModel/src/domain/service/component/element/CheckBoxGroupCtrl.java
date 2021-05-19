@@ -53,6 +53,7 @@ public class CheckBoxGroupCtrl extends AbstractCtrl {
 			if (counter%lengthOfOptions==0 && counter>0){
 				conSalto = true;
 				checkBoxGroup.append(IViewComponent.NEW_ROW);
+				checkBoxGroup.append(IViewComponent.NEW_ROW);
 			}
 			counter++;
 			String descrTraduced = check.getDescription() != null && lang != null && !"".equals(lang) ? Translator
@@ -65,6 +66,7 @@ public class CheckBoxGroupCtrl extends AbstractCtrl {
 		}
 		String cadena = checkBoxGroup.toString();
 		if (conSalto){
+			cadena = IViewComponent.NEW_ROW.concat(cadena);
 			cadena = IViewComponent.NEW_ROW.concat(cadena);
 		}
 		return cadena;

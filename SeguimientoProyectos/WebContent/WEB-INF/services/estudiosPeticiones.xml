@@ -400,7 +400,7 @@ xmlns:service="http://pcm.framework.org/service"
 			</form>
 			
 			<grid title="Peticiones del Estudio" dependsOf="estudiosForm" orderDirection="asc"
-					defaultOrderField="resumenPeticiones.3" eventsRegistered="detail" serviceRef="ResumenPeticionesEstudio">
+					defaultOrderField="resumenPeticiones.3" eventsRegistered="detail" serviceRef="DetailCicloVidaPeticion">
 				
 				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
 					<fieldView mappingTo="1" hidden="true" />					
@@ -431,9 +431,9 @@ xmlns:service="http://pcm.framework.org/service"
 					<fieldView mappingTo="12" editable="false" />
 					<fieldView mappingTo="32" editable="false" />
 					<fieldView mappingTo="33" editable="false" />
-					<fieldView mappingTo="13" editable="false" />
-					<fieldView mappingTo="14" editable="false" styleCss="color: #38ef7d;" />	
-					<fieldView mappingTo="15" editable="false" styleCss="color: #38ef7d;" />					
+					<fieldView mappingTo="13" editable="false" styleCss="color: orange;" />	
+					<fieldView mappingTo="14" editable="false" styleCss="color: orange;" />	
+					<fieldView mappingTo="15" editable="false" styleCss="color: orange;" />					
 					
 				</fieldViewSet>
 			</grid>
