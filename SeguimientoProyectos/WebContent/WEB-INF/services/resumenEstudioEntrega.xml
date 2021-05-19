@@ -8,8 +8,8 @@ xmlns:service="http://pcm.framework.org/service"
 
 <service name="DetailCicloVidaEntrega" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
-		<action event="detail" submitError="DetailCicloVidaEntrega.detail"
-			submitSucces="DetailCicloVidaEntrega.detail">
+		<action event="detail" submitSucces="DetailCicloVidaEntrega.detail"
+					submitError="EstudioEntregas.query">
 				
 				<viewComponent>
 				

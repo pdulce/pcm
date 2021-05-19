@@ -76,15 +76,19 @@ public class ApplicationDomain implements Serializable {
 			ATTR_SERVER_PATH = "serverPath"; 
 	
 	private static Logger log = Logger.getLogger(ApplicationDomain.class.getName());	
+	
+	private static Map<String, DomainService> domainServices;
+	
 	private IStats dashboard;
 	private String initService;
 	private String initEvent;
-	private Map<String, DomainService> domainServices;
+	
 	private ResourcesConfig resourcesConfiguration;
 
 	static {
 		if (log.getHandlers().length == 0) {
 			try {
+				domainServices = new HashMap<String, DomainService>();
 				StreamHandler strdout = new StreamHandler(System.out, new SimpleFormatter());
 				log.addHandler(strdout);
 				log.setLevel(Level.INFO);
@@ -137,7 +141,7 @@ public class ApplicationDomain implements Serializable {
 	
 	private final void readDomainServices() throws PCMConfigurationException{
 		
-		this.domainServices = new HashMap<String, DomainService>();
+		domainServices = new HashMap<String, DomainService>();
 		File[] pFiles = new File(this.resourcesConfiguration.getServiceDirectory()).listFiles();		
 		if (pFiles == null) {
 			throw new PCMConfigurationException("Error instantiating DomainServiceContainer: service directory " + 
@@ -147,7 +151,7 @@ public class ApplicationDomain implements Serializable {
 			if (pFile.isFile() && pFile.getName().endsWith(".xml")) {
 				DomainService service = new DomainService(pFile.getAbsolutePath(), resourcesConfiguration.isAuditOn());
 				//ApplicationDomain.log.log(Level.INFO, "service: " + service.getUseCaseName());
-				this.domainServices.put(service.getUseCaseName(), service);
+				domainServices.put(service.getUseCaseName(), service);
 			}
 		}
 	}
@@ -168,11 +172,11 @@ public class ApplicationDomain implements Serializable {
 	public String getInitService() {
 		if (this.initService == null || "".equals(this.initService)) {
 			try {
-				DomainService initialDomainService = this.getDomainService("Authentication");
+				DomainService initialDomainService = getDomainService("Authentication");
 				if (initialDomainService == null){
 					throw new RuntimeException("You must have one authentication service in some of your .xml service files");
 				}
-				if (initialDomainService.extractActionElementByService(this.resourcesConfiguration.getEntitiesDictionary(), "submitForm") == null){
+				if (initialDomainService.extractActionElementByService( "submitForm") == null){
 					throw new RuntimeException("You must set one of the service domain set as the intiial service, perhaps, Autentication or login service");
 				}
 				this.initService = "Authentication";	
@@ -197,7 +201,7 @@ public class ApplicationDomain implements Serializable {
 			return serviceSceneTitle;
 		}
 		try {
-			Element actionElementNode = getDomainService(service).extractActionElementByService(getDataAccess().getDictionaryName(), event_);
+			Element actionElementNode = getDomainService(service).extractActionElementByService(event_);
 			NodeList nodes = actionElementNode.getElementsByTagName("form");
 			int n = nodes.getLength();
 			for (int nn=0;nn<n;nn++){
@@ -329,8 +333,8 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	public DomainService getDomainService(final String _useCase){
-		DomainService sr = this.domainServices.get(_useCase);
+	public static DomainService getDomainService(final String _useCase){
+		DomainService sr = domainServices.get(_useCase);
 		if (sr != null) {
 			return sr;
 		}
@@ -352,12 +356,12 @@ public class ApplicationDomain implements Serializable {
 	}
 	
 	public Map<String,DomainService> getDomainServices(){
-		return this.domainServices;
+		return domainServices;
 	}
 	
 	public final Collection<String> extractServiceNames() throws PCMConfigurationException {		
 		final Collection<String> services = new ArrayList<String>();
-		services.addAll(this.domainServices.keySet());
+		services.addAll(domainServices.keySet());
 		return services;
 	}
 	
@@ -454,8 +458,8 @@ public class ApplicationDomain implements Serializable {
 				
 				if (!datamap.getService().contentEquals("dashboard")) {
 					DomainService domainService = getDomainService(datamap.getService());
-					Collection<String> conditions = domainService.extractStrategiesElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent()); ;
-					Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent());
+					Collection<String> conditions = domainService.extractStrategiesElementByAction(datamap.getEvent()); ;
+					Collection<String> preconditions = domainService.extractStrategiesPreElementByAction(datamap.getEvent());
 					dataAccess_ = getDataAccess(conditions, preconditions);
 					genericHCModel.generateStatGraphModel(dataAccess_, domainService, datamap);
 				}else {
@@ -482,16 +486,16 @@ public class ApplicationDomain implements Serializable {
 				if (AbstractAction.isFormularyEntryEvent(datamap.getEvent()) && domainService.discoverAllEvents().
 						contains(AbstractAction.getInherentEvent(datamap.getEvent()))) {
 					final String event4DataAccess = AbstractAction.getInherentEvent(datamap.getEvent());
-					conditions = domainService.extractStrategiesElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), event4DataAccess);
-					preconditions = domainService.extractStrategiesPreElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), event4DataAccess);
+					conditions = domainService.extractStrategiesElementByAction(event4DataAccess);
+					preconditions = domainService.extractStrategiesPreElementByAction(event4DataAccess);
 				} else {
-					conditions = domainService.extractStrategiesElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent());
-					preconditions = domainService.extractStrategiesPreElementByAction(this.resourcesConfiguration.getEntitiesDictionary(), datamap.getEvent());
+					conditions = domainService.extractStrategiesElementByAction( datamap.getEvent());
+					preconditions = domainService.extractStrategiesPreElementByAction( datamap.getEvent());
 				}
 				dataAccess_ = getDataAccess(conditions, preconditions);
 				IBodyContainer container = BodyContainer.getContainerOfView(datamap, dataAccess_, domainService);
 				IAction	action = AbstractAction.getAction(container,
-						domainService.extractActionElementByService(dataAccess_.getDictionaryName(), datamap.getEvent()), 
+						domainService.extractActionElementByService(datamap.getEvent()), 
 						datamap, domainService.discoverAllEvents());
 				List<MessageException> messages = new ArrayList<MessageException>();
 				SceneResult sceneResult = domainService.invokeServiceCore(dataAccess_, datamap.getEvent(), datamap, 

@@ -75,7 +75,7 @@ public class BodyContainer implements IBodyContainer {
 	public BodyContainer(final DomainService domainService, final IDataAccess dataAccess_, final Datamap datamap) 
 			throws PCMConfigurationException {
 		
-		final Collection<Element> viewElements_ = domainService.extractViewComponentElementsByAction(dataAccess_.getDictionaryName(), datamap.getEvent());
+		final Collection<Element> viewElements_ = domainService.extractViewComponentElementsByAction(datamap.getEvent());
 		if (viewElements_.isEmpty()) {
 			throw new PCMConfigurationException("Error: viewcomponent must be defined for this service");
 		}
