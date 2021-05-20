@@ -34,9 +34,7 @@ import domain.service.component.element.html.Span;
 import domain.service.component.factory.IBodyContainer;
 import domain.service.conditions.DefaultStrategyLogin;
 import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.dto.Datamap;
-import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.AbstractAction;
 import domain.service.event.ActionPagination;
 import domain.service.event.IAction;
@@ -48,9 +46,13 @@ public class DomainService {
 	private static final String EVENT_ATTR = "event";
 	public static final String WELLCOME_TXT = "WELLCOME_TXT", 
 		NAME_ATTR = "name",
+		TITLE_ATTR = "title",
 		STRATEGY_ATTR = "strategy", 
+		ENTITY_ATTR = "entitymodel",
 		STRATEGY_PRECONDITION_ATTR = "strategyPre", 
 		VIEWCOMPONENT_ELEMENT = "viewComponent", 
+		FORMULARIO_ELEMENT = "form",
+		FIELDVIEWSET_ELEMENT = "fieldViewSet",		
 		SERVICE_ELEMENT = "service", 
 		ACTION_ELEMENT = "action";
 	
@@ -164,6 +166,21 @@ public class DomainService {
 		return this.events;
 	}
 	
+	
+	public final Element extractActionElementOnlyThisService (final String event_)
+			throws PCMConfigurationException {
+		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
+		final NodeList listaNodes = this.useCase.getElementsByTagName(DomainService.ACTION_ELEMENT);
+		for (int i = 0; i < listaNodes.getLength(); i++) {
+			final Element node = (Element) listaNodes.item(i);
+			if (node.getAttributes() != null && node.hasAttribute(DomainService.EVENT_ATTR)
+					&& event.toLowerCase().endsWith(node.getAttribute(DomainService.EVENT_ATTR).toLowerCase()) ) {
+				return node;
+			}
+		}		
+		return null;
+	}
+	
 	public final Element extractActionElementByService(final String event_)
 			throws PCMConfigurationException {
 		String event = event_.startsWith(IEvent.QUERY) ? IEvent.QUERY : event_;
@@ -174,25 +191,35 @@ public class DomainService {
 					&& event.toLowerCase().endsWith(node.getAttribute(DomainService.EVENT_ATTR).toLowerCase()) ) {
 				return node;
 			}
+		}		
+		return extractActionElementByParentService();
+	}
+	
+	
+	public String getParentEvent () throws PCMConfigurationException {
+		String queryParentScene_ = extractActionElementByService("update") != null ? 
+				extractActionElementByService("update").getAttribute("submitError") : extractActionElementByService("detail").getAttribute("submitError");
+		if (queryParentScene_ == null) {
+			return null;
 		}
-		//si llegamos aqui, buscamos el elemento en el padre de este service
-		if (event_.contentEquals(IEvent.QUERY)) {
-			//extraemos del atributo submitError el sitio al que ir			
-			String queryParentScene_ = extractActionElementByService("detail").getAttribute("submitError");
-			String[] serviceAndEvent = queryParentScene_.split("\\.");
-			String serviceNameParent = serviceAndEvent[0];
-			String eventNameParent = serviceAndEvent[1];
-			
-			return ApplicationDomain.getDomainService(serviceNameParent).extractActionElementByService(eventNameParent);			
-			
+		return queryParentScene_;
+	}
+	
+	public final Element extractActionElementByParentService()
+			throws PCMConfigurationException {
+		
+		//extraemos del atributo submitError el sitio al que ir			
+		String queryParentScene_ = extractActionElementByService("update") != null ? 
+				extractActionElementByService("update").getAttribute("submitError") : extractActionElementByService("detail").getAttribute("submitError");
+		if (queryParentScene_ == null) {
+			return null;
 		}
+		String[] serviceAndEvent = queryParentScene_.split("\\.");
+		String serviceNameParent = serviceAndEvent[0];
+		String eventNameParent = serviceAndEvent[1];
 		
-		
-		final StringBuilder excep = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL).append(event).append(
-				PCMConstants.STRING_SPACE);
-		excep.append(InternalErrorsConstants.SERVICE_LITERAL).append(this.docOfServiceFileDescr).append(
-				InternalErrorsConstants.NOT_FOUND_LITERAL);
-		throw new PCMConfigurationException(excep.toString());
+		return ApplicationDomain.getDomainService(serviceNameParent).extractActionElementByService(eventNameParent);			
+			
 	}
 	
 	public final Collection<Element> extractViewComponentElementsByEvent(final String event_)

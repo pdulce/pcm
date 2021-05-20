@@ -9,7 +9,7 @@ xmlns:service="http://pcm.framework.org/service"
 <service name="DetailCicloVidaPeticion" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="detail" submitSucces="DetailCicloVidaPeticion.detail"
-					submitError="EstudioPeticiones.query">
+					submitError="EstudioPeticiones.detail">
 				
 				<viewComponent>
 		

@@ -24,13 +24,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.w3c.dom.Element;
+
 import com.oreilly.servlet.MultipartRequest;
 
 import domain.application.ApplicationDomain;
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
 import domain.common.exceptions.PCMConfigurationException;
+import domain.service.dataccess.definitions.IEntityLogic;
+import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
+import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.highcharts.IStats;
 
 
@@ -331,8 +336,41 @@ public abstract class CDDWebController extends HttpServlet {
 			if (externalLaunch()){
 				bodyContent = renderRequest(datamap);
 			}else {
-				String escenarioTraducido = this.contextApp.getTitleOfAction(datamap.getService(), datamap.getEvent());
-				bodyContent = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
+				if (!service.contentEquals("") && !service.contentEquals("dashboard")) {
+					String escenarioTraducido = "";
+					Element actionElementNode = ApplicationDomain.getDomainService(service).extractActionElementOnlyThisService(datamap.getEvent());
+					if (actionElementNode == null) {
+						//buscamos esta acción en nuestro padre
+						Element actionElementParentNode = ApplicationDomain.getDomainService(service).extractActionElementByParentService();						
+						escenarioTraducido = this.contextApp.getTitleOfAction(actionElementParentNode);
+						// le damos valor a la entidad-param-id de este escenario padre
+						//vamos a averiguar qué entidades son la del servicio anidado(hijo) y la de su servicio padre
+						String entidadPadreName = this.contextApp.getEntityFromAction(actionElementParentNode);
+						IEntityLogic entidadPadre = EntityLogicFactory.getFactoryInstance().getEntityDef(this.contextApp.getResourcesConfiguration().getEntitiesDictionary(), entidadPadreName);
+						
+						//localizamos los hijos de esta entidad, recorremos la lista hasta encontrar en el datamap la entidad
+						Iterator<IEntityLogic> hijositerator = entidadPadre.getChildrenEntities().iterator();
+						while (hijositerator.hasNext()) {
+							IEntityLogic hijo = hijositerator.next();
+							Object valueOfFKInChiled = valueInRequest(hijo, entidadPadre.getFieldKey().getPkFieldSet().iterator().next(), datamap);
+							if (valueOfFKInChiled != null) {
+								String paramIdOfparent = entidadPadreName.concat(".").concat(entidadPadre.getFieldKey().getPkFieldSet().iterator().next().getName());
+								datamap.setAttribute(paramIdOfparent, valueOfFKInChiled);
+								datamap.setParameter(paramIdOfparent, (String)valueOfFKInChiled);
+								break;
+							}
+						}
+						//sustituir event=[DetailCicloVidaPeticion.query] por [EstudioPeticiones.detail]
+						datamap.setEvent(ApplicationDomain.getDomainService(service).getParentEvent());
+
+						
+					}else {
+						escenarioTraducido = this.contextApp.getTitleOfAction(actionElementNode);
+					}
+					
+					bodyContent = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
+				}
+				
 			}
 			
 			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), datamap, startingApp);
@@ -349,6 +387,25 @@ public abstract class CDDWebController extends HttpServlet {
 		} catch (final Throwable e2) {
 			throw new ServletException(InternalErrorsConstants.SCENE_INVOKE_EXCEPTION, e2);
 		}
+	}
+	
+	public Object valueInRequest(final IEntityLogic hijo, final IFieldLogic fieldParentPK, final Datamap datamap) {
+		
+		List<String> names = new ArrayList<String>();
+		names.addAll(datamap.getParameterNames());
+		names.addAll(datamap.getAttributeNames());
+		for (int i=0;i<names.size();i++) {
+			String[] splitter = names.get(i).split("\\.");
+			if (splitter.length < 2) {
+				continue;
+			}
+			String entityName = splitter[0];
+			String fieldFKName = splitter[1];
+			if (hijo.getName().contentEquals(entityName) && hijo.getFkFields(fieldParentPK).iterator().next().getName().contentEquals(fieldFKName)){
+				return datamap.getParameter(names.get(i))!=null ? datamap.getParameter(names.get(i)): datamap.getAttribute(names.get(i));
+			}
+		}
+		return false;
 	}
 	
 	protected String renderRequest(final Datamap data_) {

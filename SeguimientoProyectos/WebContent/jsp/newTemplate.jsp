@@ -10,7 +10,7 @@
 	<jsp:include page="imports.jsp"></jsp:include>
 </head>
 
-<body
+<body class="pcmBody"
 	onLoad="javascript:$('fieldset.collapsible').collapsible('<%=request.getAttribute("userCriteria")%>');
 			initInputHighlightScript();
 			document.getElementById('principal').style.display='block';

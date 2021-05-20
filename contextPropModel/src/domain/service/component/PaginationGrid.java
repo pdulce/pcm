@@ -358,7 +358,7 @@ public class PaginationGrid extends AbstractComponent {
 				final Element fieldViewSetNode = (Element) nodosFieldViewSets.item(i);
 				final NamedNodeMap attrs = fieldViewSetNode.getAttributes();
 				String nameSpaceEntity = attrs.getNamedItem(NAMESPACE_ENTITY_ATTR).getNodeValue();
-				String entityNameInMetamodel = attrs.getNamedItem(FieldView.ENTITYMODEL_ATTR).getNodeValue();
+				String entityNameInMetamodel = attrs.getNamedItem(FieldViewSet.ENTITYMODEL_ATTR).getNodeValue();
 				final Collection<IFieldView> coleccionFieldViews = new ArrayList<IFieldView>();
 				final NodeList nodosFieldViews = fieldViewSetNode.getElementsByTagName(FIELDVIEW_ELEMENT);
 				FieldViewSet fieldViewSet = null;

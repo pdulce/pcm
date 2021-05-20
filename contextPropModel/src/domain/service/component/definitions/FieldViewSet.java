@@ -29,6 +29,7 @@ import domain.service.dataccess.dto.IFieldValue;
 public class FieldViewSet implements Serializable {
 
 	public static final char FIELD_SEPARATOR = PCMConstants.CHAR_POINT;
+	public static final String ENTITYMODEL_ATTR = "entitymodel";
 
 	private static final long serialVersionUID = 699999999999999L;
 

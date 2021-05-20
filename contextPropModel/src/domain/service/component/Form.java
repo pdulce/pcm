@@ -310,7 +310,7 @@ public class Form extends AbstractComponent {
 			for (int i = 0; i < nodosFieldViewLength; i++) {
 				final Element fieldViewSetNode = (Element) nodosFieldViewSets.item(i);
 				final String nameSpace = fieldViewSetNode.getAttribute(NAMESPACE_ENTITY_ATTR);
-				String entityNameInMetamodel = fieldViewSetNode.getAttribute(FieldView.ENTITYMODEL_ATTR);
+				String entityNameInMetamodel = fieldViewSetNode.getAttribute(FieldViewSet.ENTITYMODEL_ATTR);
 				final String persistToBBDD = fieldViewSetNode.getAttribute(PERSIST_ATTR);
 				final String order = fieldViewSetNode.getAttribute(ORDER_ATTR);
 				if (!"".equals(order)) {

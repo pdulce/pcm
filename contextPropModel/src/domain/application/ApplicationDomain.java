@@ -26,7 +26,6 @@ import javax.naming.NamingException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import domain.common.InternalErrorsConstants;
 import domain.common.PCMConstants;
@@ -195,26 +194,40 @@ public class ApplicationDomain implements Serializable {
 		return this.initEvent;
 	}
 	
-	public String getTitleOfAction(final String service, final String event_){
-		String serviceSceneTitle = "";
-		if (service.contentEquals("") || service.contentEquals("dashboard")) {
-			return serviceSceneTitle;
-		}
+	public String getTitleOfAction(final Element actionElementNode){
+		String serviceSceneTitle = "";		
 		try {
-			Element actionElementNode = getDomainService(service).extractActionElementByService(event_);
-			NodeList nodes = actionElementNode.getElementsByTagName("form");
-			int n = nodes.getLength();
-			for (int nn=0;nn<n;nn++){
-				Node elem = nodes.item(nn);
-				if (elem.getNodeName().equals("form")){
-					serviceSceneTitle = ((Element)elem).getAttribute("title");
-				}
-			}
-		} catch (PCMConfigurationException e) {
-			ApplicationDomain.log.log(Level.INFO, "Error getting title of " + service + " event: " + event_, e);
+			NodeList nodes = actionElementNode.getElementsByTagName(DomainService.FORMULARIO_ELEMENT);
+			if (nodes.getLength() > 0){
+				return ((Element)nodes.item(0)).getAttribute(DomainService.TITLE_ATTR);
+			}			
+		} catch (Throwable e) {
+			ApplicationDomain.log.log(Level.INFO, "Error getting title of this node element", e);
 		}
 		return serviceSceneTitle;
 	}
+	
+	public final String getEntityFromAction(Element actionElement) throws PCMConfigurationException {
+
+		//Collection<Element> arrViewComponents = new ArrayList<Element>();
+		final NodeList listaNodes_ = actionElement.getElementsByTagName(DomainService.VIEWCOMPONENT_ELEMENT);
+		for (int i = 0; i < listaNodes_.getLength(); i++) {
+			Element iViewActionComponent = (Element) listaNodes_.item(i);
+			final NodeList listaFormularios_ = iViewActionComponent.getElementsByTagName(DomainService.FORMULARIO_ELEMENT);
+			for (int j = 0; j < listaFormularios_.getLength(); j++) {
+				Element formElement_ = (Element) listaFormularios_.item(j);
+				final NodeList listaFieldViewSets_ = formElement_.getElementsByTagName(DomainService.FIELDVIEWSET_ELEMENT);
+				for (int k=0;k<listaFieldViewSets_.getLength();k++) {
+					Element fieldviewsetElement_ = (Element) listaFieldViewSets_.item(k);
+					if (fieldviewsetElement_.hasAttribute(DomainService.ENTITY_ATTR)) {
+						return fieldviewsetElement_.getAttribute(DomainService.ENTITY_ATTR);
+					}
+				}
+			}
+		}
+		return "";
+	}
+	
 	
 	
 	
