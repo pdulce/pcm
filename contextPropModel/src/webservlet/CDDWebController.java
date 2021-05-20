@@ -352,17 +352,23 @@ public abstract class CDDWebController extends HttpServlet {
 						Iterator<IEntityLogic> hijositerator = entidadPadre.getChildrenEntities().iterator();
 						while (hijositerator.hasNext()) {
 							IEntityLogic hijo = hijositerator.next();
-							Object valueOfFKInChiled = valueInRequest(hijo, entidadPadre.getFieldKey().getPkFieldSet().iterator().next(), datamap);
+							String valueOfFKInChiled = valueInRequest(hijo, entidadPadre.getFieldKey().getPkFieldSet().iterator().next(), datamap);
 							if (valueOfFKInChiled != null) {
 								String paramIdOfparent = entidadPadreName.concat(".").concat(entidadPadre.getFieldKey().getPkFieldSet().iterator().next().getName());
-								datamap.setAttribute(paramIdOfparent, valueOfFKInChiled);
-								datamap.setParameter(paramIdOfparent, (String)valueOfFKInChiled);
+								//datamap.setAttribute(paramIdOfparent, valueOfFKInChiled);
+								String newValue = paramIdOfparent.concat("=").concat(valueOfFKInChiled);
+								datamap.setParameter(paramIdOfparent, newValue);
+								datamap.setParameter(paramIdOfparent.replaceFirst("\\.", "Sel."), newValue);
+								datamap.setParameter(paramIdOfparent.replaceFirst("\\.", "Form."), newValue);
 								break;
 							}
 						}
 						//sustituir event=[DetailCicloVidaPeticion.query] por [EstudioPeticiones.detail]
-						datamap.setEvent(ApplicationDomain.getDomainService(service).getParentEvent());
-
+						datamap.removeParameter("event");
+						datamap.removeParameter("service");
+						String[] splitter = ApplicationDomain.getDomainService(service).getParentEvent().split("\\.");
+						datamap.setService(splitter[0]);
+						datamap.setEvent(splitter[1]);
 						
 					}else {
 						escenarioTraducido = this.contextApp.getTitleOfAction(actionElementNode);
@@ -389,7 +395,7 @@ public abstract class CDDWebController extends HttpServlet {
 		}
 	}
 	
-	public Object valueInRequest(final IEntityLogic hijo, final IFieldLogic fieldParentPK, final Datamap datamap) {
+	public String valueInRequest(final IEntityLogic hijo, final IFieldLogic fieldParentPK, final Datamap datamap) {
 		
 		List<String> names = new ArrayList<String>();
 		names.addAll(datamap.getParameterNames());
@@ -402,10 +408,12 @@ public abstract class CDDWebController extends HttpServlet {
 			String entityName = splitter[0];
 			String fieldFKName = splitter[1];
 			if (hijo.getName().contentEquals(entityName) && hijo.getFkFields(fieldParentPK).iterator().next().getName().contentEquals(fieldFKName)){
-				return datamap.getParameter(names.get(i))!=null ? datamap.getParameter(names.get(i)): datamap.getAttribute(names.get(i));
+				String nameAndvalue = datamap.getParameter(names.get(i));
+				nameAndvalue= nameAndvalue.split("=").length >1 ?nameAndvalue.split("=")[1] : nameAndvalue.split("=")[0];
+				return nameAndvalue;
 			}
 		}
-		return false;
+		return "";
 	}
 	
 	protected String renderRequest(final Datamap data_) {

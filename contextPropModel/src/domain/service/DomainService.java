@@ -197,8 +197,8 @@ public class DomainService {
 	
 	
 	public String getParentEvent () throws PCMConfigurationException {
-		String queryParentScene_ = extractActionElementByService("update") != null ? 
-				extractActionElementByService("update").getAttribute("submitError") : extractActionElementByService("detail").getAttribute("submitError");
+		String queryParentScene_ = extractActionElementOnlyThisService("update") != null ? 
+				extractActionElementOnlyThisService("update").getAttribute("submitError") : extractActionElementOnlyThisService("detail").getAttribute("submitError");
 		if (queryParentScene_ == null) {
 			return null;
 		}
@@ -209,8 +209,8 @@ public class DomainService {
 			throws PCMConfigurationException {
 		
 		//extraemos del atributo submitError el sitio al que ir			
-		String queryParentScene_ = extractActionElementByService("update") != null ? 
-				extractActionElementByService("update").getAttribute("submitError") : extractActionElementByService("detail").getAttribute("submitError");
+		String queryParentScene_ = extractActionElementOnlyThisService("update") != null ? 
+				extractActionElementOnlyThisService("update").getAttribute("submitError") : extractActionElementOnlyThisService("detail").getAttribute("submitError");
 		if (queryParentScene_ == null) {
 			return null;
 		}
@@ -218,7 +218,7 @@ public class DomainService {
 		String serviceNameParent = serviceAndEvent[0];
 		String eventNameParent = serviceAndEvent[1];
 		
-		return ApplicationDomain.getDomainService(serviceNameParent).extractActionElementByService(eventNameParent);			
+		return ApplicationDomain.getDomainService(serviceNameParent).extractActionElementOnlyThisService(eventNameParent);			
 			
 	}
 	

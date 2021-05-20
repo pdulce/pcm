@@ -93,7 +93,7 @@ public class Datamap {
 		this.event = event_;
 		List<String> val_List = new ArrayList<String>();
 		val_List.add(getService().concat(".").concat(event_));
-		this.setParameterValues(PCMConstants.EVENT, val_List);
+		this.setParameterValues(PCMConstants.EVENT, val_List);		
 	}
 		
 	public void setPageSize(final int page_size){

@@ -331,23 +331,30 @@ public class ActionForm extends AbstractAction {
 				pkSel = pkSel.replaceFirst(PCMConstants.SEL_PREFFIX, PCMConstants.POINT).replaceFirst(PCMConstants.POINT_COMMA,
 						PCMConstants.EMPTY_);
 				final String val_ = this.getDataBus().getParameter(pkSel);
-				if (val_ == null || PCMConstants.EMPTY_.equals(val_)) {
-					continue;
-				}
-				final String newQualifiedName = new StringBuilder(fieldViewSet.getContextName()).append(FieldViewSet.FIELD_SEPARATOR)
+				if (val_ == null || PCMConstants.EMPTY_.equals(val_)) {					
+					valueofPk = this.getDataBus().getParameter(pkSel.replaceFirst("Sel", ""));					
+				}else {
+					final String newQualifiedName = new StringBuilder(fieldViewSet.getContextName()).append(FieldViewSet.FIELD_SEPARATOR)
 						.append(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName()).toString();
-				valueofPk = new StringBuilder(newQualifiedName).append(PCMConstants.EQUALS).append(val_).toString();
+					valueofPk = new StringBuilder(newQualifiedName).append(PCMConstants.EQUALS).append(val_).toString();
+				}
 			} else {
 				fieldViewSetWithEntityDef = true;
 				valueofPk = this.getDataBus().getParameter(pkSel);
-				String paramPKField = fieldViewSet.getContextName().concat(".").concat(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName());
-				if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {					
-					if (this.getDataBus().getParameter(paramPKField) != null){
-						valueofPk = paramPKField.concat("=").concat(this.getDataBus().getParameter(paramPKField));										
-					} else {
-						continue;
+				if (valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk)) {					
+					valueofPk = this.getDataBus().getParameter(pkSel.replaceFirst("Sel", ""));					
+					if (valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk)) {		
+						String paramPKField = fieldViewSet.getContextName().concat(".").concat(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName());
+						if ((valueofPk == null || PCMConstants.EMPTY_.equals(valueofPk))) {					
+							if (this.getDataBus().getParameter(paramPKField) != null){
+								valueofPk = paramPKField.concat("=").concat(this.getDataBus().getParameter(paramPKField));										
+							} else {
+								continue;
+							}
+						}
 					}
 				}else if (valueofPk != null && valueofPk.split("=").length < 2){
+					String paramPKField = fieldViewSet.getContextName().concat(".").concat(fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName());
 					valueofPk = paramPKField.concat("=").concat(valueofPk);
 				}
 			}			
