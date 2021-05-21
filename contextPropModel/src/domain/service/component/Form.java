@@ -913,16 +913,15 @@ public class Form extends AbstractComponent {
 				javascriptF.toString()));
 		}
 		
-		if (AbstractAction.isQueryEvent(this.event) || IEvent.SUBMIT_FORM.equals(this.event)) {
+		if (AbstractAction.isQueryEvent(this.event)) {
 			buttons.add(this.paintSubmitButtonWithoutReturn(PCMConstants.CLEAN_EVENT, IViewComponent.CLEAN_FUNC));
-		} else if ((!this.event.equals(IEvent.DETAIL) || !this.userButtons.isEmpty()) && !this.event.equals(IEvent.DELETE) && !this.event.equals(IEvent.SHOW_CONFIRM_DELETE)) {
-			buttons.add(this.paintSubmitButtonWithoutReturn(PCMConstants.RESET_EVENT, IViewComponent.RESET_FUNC));
 		}
 		
 		if (!AbstractAction.isQueryEvent(this.event) && !this.service.contentEquals("Authentication")){
 			StringBuilder javascrReturn = new StringBuilder();			
 			javascrReturn.append("document.getElementById('" + PCMConstants.EVENT + "').value='"+ this.service.concat(".query") + "';");
 			javascrReturn.append("document.forms[0].action='" + this.uri + "';");
+			javascrReturn.append("document.forms[0].idPressed.value='back';");
 			buttons.add(this.paintSubmitButtonWithReturn(IEvent.RETURN_BACK, javascrReturn.toString()));
 		}
 		return buttons;

@@ -193,6 +193,18 @@ public class Datamap {
 		this.data.remove(param);
 	}
 	
+	public void removeParameters(String preffix) {
+		List<String> nombres = new ArrayList<String>();
+		nombres.addAll(getParameterNames()); 
+		for (int i=0;i<nombres.size();i++) {
+			String param = nombres.get(i);
+			if (param.startsWith(preffix)) {
+				this.parameterNames.remove(param);
+				this.data.remove(param);
+			}
+		}		
+	}
+	
 	public String getParameter(final String param){
 		if (this.data.get(param) == null){
 			return null;

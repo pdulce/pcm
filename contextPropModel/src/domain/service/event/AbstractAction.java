@@ -71,13 +71,9 @@ public abstract class AbstractAction implements IAction {
 			this.imageEvents.put(IEvent.QUERY, "page-search-icon.png");
 			this.imageEvents.put(IEvent.SUBMIT_FORM, "submit-icon.gif");
 			this.imageEvents.put(IEvent.RETURN_BACK, "up-icon.png");
-			this.imageEvents.put(IEvent.CANCEL, "cancel-icon.png");
+			//this.imageEvents.put(IEvent.CANCEL, "cancel-icon.png");
 		}
 		return this.imageEvents.get(getEvent());
-	}
-
-	public static boolean isVolverPressed(final String event) {
-		return (event.endsWith(IEvent.RETURN_BACK) || event.endsWith(IEvent.CANCEL));
 	}
 
 	public static boolean isShowFormUpdateEvent(final String event) {

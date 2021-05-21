@@ -18,8 +18,6 @@ public interface IEvent {
 
 	public final static String RETURN_BACK = "returnBack";
 	
-	public final static String VOLVER = "volver";
-
 	public final static String PREFIX_SHOWFORM = "showForm";
 
 	public final static String SHOW_FORM_CREATE = "showFormCreate";
@@ -27,8 +25,6 @@ public interface IEvent {
 	public final static String SHOW_FORM_UPDATE = "showFormUpdate";
 
 	public final static String SHOW_CONFIRM_DELETE = "showFormDelete";
-
-	public final static String CANCEL = "cancel";
 
 	public final static String RESET_FORM = "reset";
 

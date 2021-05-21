@@ -36,6 +36,7 @@ import domain.service.dataccess.definitions.IEntityLogic;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.factory.EntityLogicFactory;
+import domain.service.event.IEvent;
 import domain.service.highcharts.IStats;
 
 
@@ -357,6 +358,7 @@ public abstract class CDDWebController extends HttpServlet {
 								String paramIdOfparent = entidadPadreName.concat(".").concat(entidadPadre.getFieldKey().getPkFieldSet().iterator().next().getName());
 								//datamap.setAttribute(paramIdOfparent, valueOfFKInChiled);
 								String newValue = paramIdOfparent.concat("=").concat(valueOfFKInChiled);
+								datamap.removeParameters(hijo.getName());
 								datamap.setParameter(paramIdOfparent, newValue);
 								datamap.setParameter(paramIdOfparent.replaceFirst("\\.", "Sel."), newValue);
 								datamap.setParameter(paramIdOfparent.replaceFirst("\\.", "Form."), newValue);
@@ -371,6 +373,13 @@ public abstract class CDDWebController extends HttpServlet {
 						datamap.setEvent(splitter[1]);
 						
 					}else {
+						boolean isBackEvent = datamap.getParameter("idPressed") != null && datamap.getParameter("idPressed").contentEquals("back");
+						if (datamap.getEvent().contentEquals(IEvent.QUERY) && isBackEvent) {
+							String entidadEscenario = this.contextApp.getEntityFromAction(actionElementNode);
+							entidadEscenario = entidadEscenario.contentEquals("%request%") ? datamap.getParameter("entityName") : entidadEscenario;
+							datamap.removeParameters(entidadEscenario);
+							datamap.removeParameters("idPressed");
+						}
 						escenarioTraducido = this.contextApp.getTitleOfAction(actionElementNode);
 					}
 					
