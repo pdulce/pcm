@@ -1478,9 +1478,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					if (!PCMConstants.EMPTY_.equals(val_) && !PCMConstants.CLASSIC_SEPARATOR.equals(val_)) {
 						if (!fieldAbstract.isBlob()) {
 							if (fieldAbstract.isString()) {
-								if (fieldMaxlength >= MAX_FOR_CODES) {
-									//val_ = PCMConstants.PERCENTAGE.concat(val_).concat(PCMConstants.PERCENTAGE);
-									val_ = val_.replaceAll(PCMConstants.ASTERISC_SCAPED, PCMConstants.PERCENTAGE_SCAPED);
+								if (fieldMaxlength >= MAX_FOR_CODES) {									
+									val_ = val_.replaceAll(PCMConstants.ASTERISC_SCAPED, "");
+									val_ = "%".concat(val_).concat("%");
 									val_ = getSpecialCharsConversion(val_);
 								}
 								pstmt_.setObject(contadorArgumentos + 1, val_);

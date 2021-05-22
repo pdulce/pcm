@@ -515,7 +515,7 @@ public class ActionForm extends AbstractAction {
 
 		Iterator<IViewComponent> iteFCollections = collForms.iterator();
 		while (iteFCollections.hasNext()) {
-			Form form_ = (Form) iteFCollections.next();
+ 			Form form_ = (Form) iteFCollections.next();
 			try {
 				msgs = this.bindingPhase(realEvent, form_, dataAccess, eventSubmitted_);
 				FieldViewSetCollection fCollectionIesimo = form_.getFieldViewSetCollection();
