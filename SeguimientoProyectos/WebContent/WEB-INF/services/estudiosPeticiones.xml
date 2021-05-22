@@ -20,7 +20,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<button	link="prjManager" id="timeseries01" name="Time series" >
 							<fieldViewSet nameSpace="timeseries01">
 								<fieldView name="highchart" hidden="true" value="timeseries"/>
-								<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+								<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
 								<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 								<fieldView name="fieldForGroupBy" hidden="true" value="2,20"/> <!-- by estudio y anyo-mes -->
 								<fieldView name="agregado" type="select" size="1">
@@ -147,7 +147,7 @@ xmlns:service="http://pcm.framework.org/service"
 					<button	link="prjManager" id="timeseries02" name="Time series" >
 						<fieldViewSet nameSpace="timeseries02">
 							<fieldView name="highchart" hidden="true" value="timeseries"/>
-							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
@@ -202,7 +202,7 @@ xmlns:service="http://pcm.framework.org/service"
 									<option code="piechart" title="Pie chart"></option>
 								</optionValues>
 							</fieldView>							
-							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select" size="2">
@@ -242,7 +242,7 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>
 							
-							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
@@ -286,7 +286,7 @@ xmlns:service="http://pcm.framework.org/service"
 					<button link="prjManager" id="barchart2" name="Barchart">
 						<fieldViewSet nameSpace="barchart2">
 							<fieldView name="highchart" hidden="true" value="barchart"/>
-							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="fieldForGroupBy" type="select" size="3">
@@ -320,7 +320,7 @@ xmlns:service="http://pcm.framework.org/service"
 					<button link="prjManager" id="scatter2"	name="Correlation">
 						<fieldViewSet nameSpace="scatter2">
 							<fieldView name="highchart" hidden="true" value="scatter"/>
-							<fieldView name="entidadGrafico" hidden="true" value="resumenPeticiones"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
 							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/>
 							<fieldView name="orderBy" hidden="true" value="20"/>							
@@ -400,9 +400,9 @@ xmlns:service="http://pcm.framework.org/service"
 			</form>
 			
 			<grid title="Peticiones del Estudio" dependsOf="estudiosForm" orderDirection="asc"
-					defaultOrderField="resumenPeticiones.3" eventsRegistered="detail" serviceRef="DetailCicloVidaPeticion">
+					defaultOrderField="detailCicloVidaPeticion.3" eventsRegistered="detail" serviceRef="DetailCicloVidaPeticion">
 				
-				<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
+				<fieldViewSet entitymodel="detailCicloVidaPeticion" nameSpace="detailCicloVidaPeticion">
 					<fieldView mappingTo="1" hidden="true" />					
 					<fieldView mappingTo="2" hidden="true"/>
 					<fieldView mappingTo="3" type="select" editable="false">

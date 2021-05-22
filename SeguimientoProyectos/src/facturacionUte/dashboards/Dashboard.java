@@ -33,7 +33,7 @@ import facturacionUte.common.ConstantesModelo;
 public class Dashboard extends GenericHighchartModel {
 	
 	public static IEntityLogic aplicativoEntidad, tecnologiaEntidad, 
-	estudiosEntidad, resumenEntregas, resumenPeticiones, peticiones;
+	estudiosEntidad, detailCicloVidaEntrega, detailCicloVidaPeticion, peticiones;
 	
 	private String entity;
 	private IDataAccess dataAccess;
@@ -91,7 +91,7 @@ public class Dashboard extends GenericHighchartModel {
 		FieldViewSet tecnologiaFieldViewSet = new FieldViewSet(tecnologiaEntidad);
 		Collection<FieldViewSetCollection> tecnologias = dataAccess_.searchAll(tecnologiaFieldViewSet, new String []{tecnologiaEntidad.getName() + ".id"}, "asc");
 		_data.setAttribute("tecnologia_all", tecnologias);
-		if (entidad_.contentEquals(resumenEntregas.getName()) || entidad_.contentEquals(resumenPeticiones.getName())) {
+		if (entidad_.contentEquals(detailCicloVidaEntrega.getName()) || entidad_.contentEquals(detailCicloVidaPeticion.getName())) {
 			FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
 			Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
 			_data.setAttribute("estudio_all", estudios);
@@ -113,10 +113,10 @@ public class Dashboard extends GenericHighchartModel {
 						ConstantesModelo.TECHNOLOGY_ENTIDAD);
 				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
 						ConstantesModelo.ESTUDIOS_ENTIDAD);
-				resumenEntregas = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
-						ConstantesModelo.RESUMENENTREGAS_ENTIDAD);
-				resumenPeticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
-						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
+				detailCicloVidaEntrega = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_ENTIDAD);
+				detailCicloVidaPeticion = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						ConstantesModelo.DETAILCICLO_VIDA_PETICION_ENTIDAD);
 				peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
 						ConstantesModelo.PETICIONES_ENTIDAD);						
 			}catch (PCMConfigurationException e) {
@@ -169,11 +169,11 @@ public class Dashboard extends GenericHighchartModel {
 				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", new String[] {"28","29"} , null);
 				dataMap30 = createMap(_data, "_serie30",  orderBy, fields4GroupBY, "", new String[] {"28","29"}, null);
 
-			}else if (entitiesParamValue.contentEquals(resumenEntregas.getName())){
+			}else if (entitiesParamValue.contentEquals(detailCicloVidaEntrega.getName())){
 				
 				fields4GroupBY = _data.getParameter(aplicativoEntidad.getName() + ".id") != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;
-				orderBy = String.valueOf(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA);
-				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA);
+				orderBy = String.valueOf(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_9_FECHA_SOLICITUD_ENTREGA);
+				secondField4GroupBY =  String.valueOf(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_7_ID_TIPO_ENTREGA);
 				if (_data.getParameterValues("dimension") == null || _data.getParameterValues("dimension").length == 0) {
 					valuesOfDimensionSelected = new String[] {"5", "6"};
 					_data.setParameterValues("dimension", valuesOfDimensionSelected);
@@ -181,20 +181,20 @@ public class Dashboard extends GenericHighchartModel {
 					valuesOfDimensionSelected = _data.getParameterValues("dimension");
 				}
 				
-				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES).getName())));
-				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName())));
-				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS).getName())));
-				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA).getName())));
-				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG).getName())));
-				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName())));
-				dimensiones.put(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenEntregas.getName().concat(".").concat(resumenEntregas.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_5_NUMERO_PETICIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_5_NUMERO_PETICIONES).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_6_VOLUMEN_UTS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_6_VOLUMEN_UTS).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_8_NUM_RECHAZOS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_8_NUM_RECHAZOS).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_14_CICLO_VIDA_ENTREGA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_14_CICLO_VIDA_ENTREGA).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_15_TIEMPO_PREPACION_EN_DG, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_15_TIEMPO_PREPACION_EN_DG).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_16_TIEMPO_VALIDACION_EN_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_16_TIEMPO_VALIDACION_EN_CD).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName())));
 								
 				dataMap10 = createMap(_data, "_serie10", orderBy, fields4GroupBY, "bar", new String[] {"14"}, null);//resumen de Ciclo de Vida entregas (dedicaciones totales vs gaps totales)
 				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", new String[] {"15","16","17"}, null);//Detalle Ciclo Vida entregas (dedicaciones detalladas vs gaps)
@@ -208,11 +208,11 @@ public class Dashboard extends GenericHighchartModel {
 				
 				dataMap30 = createMap(_data, "_serie30",  orderBy, fields4GroupBY, "", new String[] {"15","16","17"}/*"valuesOfDimensionSelected"*/, null);
 				
-			}else if (entitiesParamValue.contentEquals(resumenPeticiones.getName())){
+			}else if (entitiesParamValue.contentEquals(detailCicloVidaPeticion.getName())){
 				
 				fields4GroupBY = _data.getParameter(aplicativoEntidad.getName() + "." + aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName()) != null ? "3"/*campo mapping="3" id_aplicativo*/:  "2"/*_data.getParameter("estudios.id")*/;
-				orderBy = String.valueOf(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG);
-				secondField4GroupBY =  String.valueOf(ConstantesModelo.RESUMEN_PETICION_4_ID_TIPO);
+				orderBy = String.valueOf(ConstantesModelo.DETAILCICLO_VIDA_PETICION_20_FECHA_TRAMITE_A_DG);
+				secondField4GroupBY =  String.valueOf(ConstantesModelo.DETAILCICLO_VIDA_PETICION_4_ID_TIPO);
 				if (_data.getParameterValues("dimension") == null || _data.getParameterValues("dimension").length == 0) {
 					valuesOfDimensionSelected = new String[] {"16", "17"};
 					_data.setParameterValues("dimension", valuesOfDimensionSelected);
@@ -220,30 +220,30 @@ public class Dashboard extends GenericHighchartModel {
 					valuesOfDimensionSelected = _data.getParameterValues("dimension");
 				}
 				
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_32_GAP_DURACION_SOPORTE_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_32_GAP_DURACION_SOPORTE_CD).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES).getName())));
-				dimensiones.put(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
-						resumenPeticiones.getName().concat(".").concat(resumenPeticiones.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_8_CICLO_VIDA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_8_CICLO_VIDA).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_9_DURACION_ANALYSIS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_9_DURACION_ANALYSIS).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_10_DURACION_DESARROLLO, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_10_DURACION_DESARROLLO).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_11_DURACION_ENTREGA_EN_DG, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_11_DURACION_ENTREGA_EN_DG).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_12_DURACION_PRUEBAS_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_12_DURACION_PRUEBAS_CD).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_32_GAP_DURACION_SOPORTE_CD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_32_GAP_DURACION_SOPORTE_CD).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_13_GAP_TRAMITE_INIREALDESA, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_13_GAP_TRAMITE_INIREALDESA).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_15_GAP_FINPRUEBAS_PRODUCC, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_16_TOTAL_DEDICACIONES, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_16_TOTAL_DEDICACIONES).getName())));
+				dimensiones.put(ConstantesModelo.DETAILCICLO_VIDA_PETICION_17_TOTAL_OF_GAPS, Translator.traduceDictionaryModelDefined(dataAccess.getDictionaryName(), 
+						detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_17_TOTAL_OF_GAPS).getName())));
 				
 				dataMap10 = createMap(_data, "_serie10", orderBy, fields4GroupBY, "bar", new String[] {"16","17","8"}, null);								
 				dataMap11 = createMap(_data, "_serie11", orderBy, fields4GroupBY, "column", new String[] {"9","10","11","12","13","32","14","33","15"} , null);//Detalle Ciclo Vida peticiones (dedicaciones detalladas vs gaps)
@@ -287,7 +287,7 @@ public class Dashboard extends GenericHighchartModel {
 			
 			_data.setAttribute("containerJSP_10", barCicloVida10.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_11", barCicloVida11.getScreenRendername().concat(".jsp"));
-			if (entitiesParamValue.contentEquals(resumenEntregas.getName())){				
+			if (entitiesParamValue.contentEquals(detailCicloVidaEntrega.getName())){				
 				_data.setAttribute("containerJSP_12", speedMeter12.getScreenRendername().concat(".jsp"));
 			}
 			

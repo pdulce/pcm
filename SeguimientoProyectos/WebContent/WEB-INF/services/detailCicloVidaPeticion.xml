@@ -14,7 +14,7 @@ xmlns:service="http://pcm.framework.org/service"
 				<viewComponent>
 		
 				<form columns="4" title="Detalle del Estudio">
-					<fieldViewSet entitymodel="resumenPeticiones" nameSpace="resumenPeticiones">
+					<fieldViewSet entitymodel="detailCicloVidaPeticion" nameSpace="detailCicloVidaPeticion">
 						<fieldset legend="Información Petición">
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" type="select" editable="false">

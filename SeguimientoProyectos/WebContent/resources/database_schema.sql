@@ -82,8 +82,8 @@ CREATE INDEX index_Estudios_app ON estudios (id_aplicativo);
 CREATE INDEX index_Estudios_sr ON estudios (id_servicio);
 CREATE INDEX index_Estudios_ti ON estudios (fecha_inicio);
 
-DROP TABLE `resumenPeticiones`;
-CREATE TABLE `resumenPeticiones` (
+DROP TABLE `detailCicloVidaPeticion`;
+CREATE TABLE `detailCicloVidaPeticion` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `id_estudio` int(11) NOT NULL,
   `id_aplicativo` int(11) NOT NULL,
@@ -118,12 +118,12 @@ CREATE TABLE `resumenPeticiones` (
   `duracion_soporte_al_CD` double DEFAULT NULL,
   `gap_pruebas_restoEntrega` double DEFAULT NULL
 );  
-CREATE INDEX index_search_resumenpetic_1 on resumenPeticiones (id_estudio);
-CREATE INDEX index_search_resumenpetic_2 on resumenPeticiones (id_aplicativo);
+CREATE INDEX index_search_resumenpetic_1 on detailCicloVidaPeticion (id_estudio);
+CREATE INDEX index_search_resumenpetic_2 on detailCicloVidaPeticion (id_aplicativo);
 
 
-DROP TABLE `resumenEntregas`;
-CREATE TABLE `resumenEntregas` (
+DROP TABLE `detailCicloVidaEntrega`;
+CREATE TABLE `detailCicloVidaEntrega` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `id_estudio` int(11) NOT NULL,  
   `id_aplicacion` int(11) NOT NULL,
@@ -142,8 +142,8 @@ CREATE TABLE `resumenEntregas` (
   `tiempo_validacion_en_CD` double DEFAULT NULL,
   `tiempo_desdeValidacion_hastaImplantacion` double DEFAULT NULL  
 );  
-CREATE INDEX index_search_resumenentreg_1 on resumenEntregas (id_estudio);
-CREATE INDEX index_search_resumenentreg_2 on resumenEntregas (id_aplicacion);
+CREATE INDEX index_search_resumenentreg_1 on detailCicloVidaEntrega (id_estudio);
+CREATE INDEX index_search_resumenentreg_2 on detailCicloVidaEntrega (id_aplicacion);
 
 
 

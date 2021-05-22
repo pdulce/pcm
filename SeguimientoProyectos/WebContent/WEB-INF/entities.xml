@@ -103,7 +103,7 @@
 </entity>
  
   <entity>
-    <entityname>resumenPeticiones</entityname>
+    <entityname>detailCicloVidaPeticion</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="true" 
 	    fkParentEntities="estudios" fkParentFields="1"/>    
@@ -144,7 +144,7 @@
   </entity>
      
   <entity>
-    <entityname>resumenEntregas</entityname>
+    <entityname>detailCicloVidaEntrega</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="id_estudio" type="long" length="11" required="false" 
 	    fkParentEntities="estudios" fkParentFields="1"/>

@@ -58,9 +58,9 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				tareaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.TAREA_PETICION_ENTIDAD);
 				resumenPeticionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.RESUMEN_PETICION_ENTIDAD);
+						ConstantesModelo.DETAILCICLO_VIDA_PETICION_ENTIDAD);
 				resumenEntregaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.RESUMENENTREGAS_ENTIDAD);
+						ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_ENTIDAD);
 				peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.PETICIONES_ENTIDAD);
 				aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
@@ -358,14 +358,14 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}
 				
 				/*******************************************************************************************************/						
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_2_ID_ESTUDIO).getName(), idEstudio);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_3_APLICACION).getName(), idAplicativo);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_4_ID_GEDEON_ENTREGA).getName(), idPeticionEntrega);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_5_NUMERO_PETICIONES).getName(), numPeticionesEntrega);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_6_VOLUMEN_UTS).getName(), utsEntrega);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_7_ID_TIPO_ENTREGA).getName(), tipoEntrega);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_8_NUM_RECHAZOS).getName(), numRechazos);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_9_FECHA_SOLICITUD_ENTREGA).getName(), fechaTramite);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_2_ID_ESTUDIO).getName(), idEstudio);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_3_APLICACION).getName(), idAplicativo);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_4_ID_GEDEON_ENTREGA).getName(), idPeticionEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_5_NUMERO_PETICIONES).getName(), numPeticionesEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_6_VOLUMEN_UTS).getName(), utsEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_7_ID_TIPO_ENTREGA).getName(), tipoEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_8_NUM_RECHAZOS).getName(), numRechazos);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_9_FECHA_SOLICITUD_ENTREGA).getName(), fechaTramite);
 				
 				List<FieldViewSet> entregasTramitadas = new ArrayList<FieldViewSet>();				
 				String estadoEntrega = (String) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
@@ -387,14 +387,14 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}
 				/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/
 				Date _fechaInicioPruebasCD = fechaEntregada;
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_10_FECHA_INICIO_PRUEBASCD).getName(), fechaTramite);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_10_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_10_FECHA_INICIO_PRUEBASCD).getName(), fechaTramite);
 				
 				Date _fechaFinPruebasCD = fechaValidadaEntrega;
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_11_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_11_FECHA_FIN_PRUEBASCD).getName(), _fechaFinPruebasCD);
 								
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_12_FECHA_INICIO_INSTALACION_PROD).getName(), _fechaFinPruebasCD);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_13_FECHA_FIN_INSTALACION_PROD).getName(), fechaFinalizacion);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_12_FECHA_INICIO_INSTALACION_PROD).getName(), _fechaFinPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_13_FECHA_FIN_INSTALACION_PROD).getName(), fechaFinalizacion);
 				
 				Double jornadasEntrega = CommonUtils.jornadasDuracion(fechaTramite, fechaEntregada);
 				Double jornadasPruebasCD = CommonUtils.jornadasDuracion(_fechaInicioPruebasCD, _fechaFinPruebasCD);
@@ -402,10 +402,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Double jornadasDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(_fechaFinPruebasCD, fechaFinalizacion);
 				Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(jornadasEntrega + jornadasPruebasCD + jornadasDesdeFinPruebasHastaImplantacion);
 								
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_14_CICLO_VIDA_ENTREGA).getName(), cicloVidaPeticion);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_15_TIEMPO_PREPACION_EN_DG).getName(), jornadasEntrega);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_16_TIEMPO_VALIDACION_EN_CD).getName(), jornadasPruebasCD);
-				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.RESUMENENTREGAS_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName(), jornadasDesdeFinPruebasHastaImplantacion);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_14_CICLO_VIDA_ENTREGA).getName(), cicloVidaPeticion);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_15_TIEMPO_PREPACION_EN_DG).getName(), jornadasEntrega);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_16_TIEMPO_VALIDACION_EN_CD).getName(), jornadasPruebasCD);
+				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName(), jornadasDesdeFinPruebasHastaImplantacion);
 				
 				out.write(("****** INICIO DATOS PETICION GEDEON ENTREGA: " + _codGEDEON_entrega +  " ******\n").getBytes());
 				out.write(("Jornadas Duración total Entrega: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
@@ -495,8 +495,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					//comprobamos si ya se ha entregado esta petición en otra entrega
 					boolean yaFueEntregada = false;
 					FieldViewSet resumenPorPeticionPrevia = new FieldViewSet(resumenPeticionEntidad);
-					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PETICION_DG).getName(), idPeticionDG);
-					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
+					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_5_ID_PETICION_DG).getName(), idPeticionDG);
+					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
 					Collection<FieldViewSet> resumenesPorPeticionPrevia = dataAccess.searchByCriteria(resumenPorPeticionPrevia);
 					Iterator<FieldViewSet> iteResumenesPeticionesPrevia = resumenesPorPeticionPrevia.iterator();
 					if (iteResumenesPeticionesPrevia.hasNext()) {
@@ -705,8 +705,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						esfuerzoAnalysis = jornadasAnalysis*8.0;
 					}
 					
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_9_DURACION_ANALYSIS).getName(), jornadasAnalysis);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_29_ESFUERZO_HRS_ANALYSIS).getName(), esfuerzoAnalysis);
 
 					
 					if (esfuerzoPruebasCD > 0.0) {
@@ -741,7 +741,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						}
 						fechaInicioPruebasCD = fechaInicioPruebasCDCalendar.getTime();
 						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), esfuerzoPruebasCD);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), esfuerzoPruebasCD);
 					}
 					
 					List<FieldViewSet> entregasTramitadas = new ArrayList<FieldViewSet>();					
@@ -774,24 +774,24 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					
 					/*******************************************************************************************************/						
 					if (!yaFueEntregada) {
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_3_ID_APLICATIVO).getName(), idAplicativo);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_4_ID_TIPO).getName(), idTipoPeticion);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_5_ID_PETICION_DG).getName(), idPeticionDG);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_6_IDS_PETS_AT).getName(), (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis));				
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_7_IDS_PET_ENTREGAS).getName(), String.valueOf(peticionEntregaGEDEON));
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_19_FECHA_FIN_ANALYSIS).getName(), fechaFinRealAnalysis);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_20_FECHA_TRAMITE_A_DG).getName(), fechaTramite);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_21_FECHA_INICIO_DESA).getName(), fechaRealInicioDesarrollo);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_22_FECHA_FIN_DESA).getName(), fechaRealFinDesarrollo);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_23_FECHA_SOLICITUD_ENTREGA).getName(), fechaSolicitudEntrega);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_31_TITULO).getName(), titulo);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_2_ID_ESTUDIO).getName(), idEstudio);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_3_ID_APLICATIVO).getName(), idAplicativo);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_4_ID_TIPO).getName(), idTipoPeticion);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_5_ID_PETICION_DG).getName(), idPeticionDG);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_6_IDS_PETS_AT).getName(), (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis));				
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_7_IDS_PET_ENTREGAS).getName(), String.valueOf(peticionEntregaGEDEON));
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_18_FECHA_INI_ANALYSIS).getName(), fechaInicioRealAnalysis);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_19_FECHA_FIN_ANALYSIS).getName(), fechaFinRealAnalysis);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_20_FECHA_TRAMITE_A_DG).getName(), fechaTramite);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_21_FECHA_INICIO_DESA).getName(), fechaRealInicioDesarrollo);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_22_FECHA_FIN_DESA).getName(), fechaRealFinDesarrollo);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_23_FECHA_SOLICITUD_ENTREGA).getName(), fechaSolicitudEntrega);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_31_TITULO).getName(), titulo);
 						
 						//restamos la fecha de fin e inicio de fin 
 						
 						jornadasDesarrollo = CommonUtils.jornadasDuracion (fechaRealInicioDesarrollo, fechaRealFinDesarrollo);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_10_DURACION_DESARROLLO).getName(), jornadasDesarrollo);
 
 						if (esfuerzoPruebasCD == 0.0) {//metemos el peso y el restante del 100% lo llevamos al campo jornadasPruebasRestoVersion
 							//tomamos la fecha de fin entrega por parte de DG
@@ -804,12 +804,12 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							}
 							fechaFinPruebasCD = fechaValidadaEntrega;							
 
-							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), fechaInicioPruebasCD);
-							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), fechaFinPruebasCD);
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), fechaInicioPruebasCD);
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), fechaFinPruebasCD);
 							jornadasPruebasCD = CommonUtils.jornadasDuracion(fechaInicioPruebasCD, fechaFinPruebasCD);
 							
-							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fechaFinPruebasCD);
-							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaPuestaProduccion);
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fechaFinPruebasCD);
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaPuestaProduccion);
 							
 							// aplicamos la reducción por soportes al CD que se hayan realizado en este proyecto y se tengan datos
 							soporteAlCD += CommonUtils.roundWith2Decimals(jornadasPruebasCD*PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD);
@@ -820,51 +820,51 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							if (jornadasPruebasCD == 0.0) {
 								jornadasPruebasCD = 0.1;
 							}
-							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), jornadasPruebasCD*8.0);
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_30_ESFUERZO_HRS_PRUEBASCD).getName(), jornadasPruebasCD*8.0);
 						}
 												
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName(), jornadasPruebasRestoVersion);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName(), jornadasPruebasRestoVersion);
 																	
 						jornadasDesfaseTramiteHastaInicioReal = CommonUtils.jornadasDuracion(fechaTramite, fechaRealInicioDesarrollo);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName(), jornadasDesfaseTramiteHastaInicioReal);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_13_GAP_TRAMITE_INIREALDESA).getName(), jornadasDesfaseTramiteHastaInicioReal);
 						
 						jornadasDesfaseFinDesaSolicEntrega = CommonUtils.jornadasDuracion(fechaRealFinDesarrollo, fechaSolicitudEntrega);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName(), jornadasDesfaseFinDesaSolicEntrega);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName(), jornadasDesfaseFinDesaSolicEntrega);
 
 						if (utsEstimadas_ == 0.0 && utsReales_==0.0) {								
 							utsReales_ = CommonUtils.roundDouble(jornadasDesarrollo*8.0*(1.0/0.75),2);//ratio de 0.75 horas equivale a 1 ut
 							utsEstimadas_ = utsReales_;
 						}
 						Double esfuerzoUts = CommonUtils.roundWith2Decimals((utsEstimadas_==0.0?utsReales_:utsEstimadas_));
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_28_UTS).getName(), esfuerzoUts);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_28_UTS).getName(), esfuerzoUts);
 						
 						jornadasEntrega = CommonUtils.jornadasDuracion(fechaSolicitudEntrega, fechaEntregada);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName(), jornadasEntrega);					
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_11_DURACION_ENTREGA_EN_DG).getName(), jornadasEntrega);					
 						
 						jornadasDesdeFinPruebasHastaImplantacion = CommonUtils.jornadasDuracion(fechaFinPruebasCD, fechaPuestaProduccion);
 						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);				
 																
 					}else {
 						
-						jornadasAnalysis = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_9_DURACION_ANALYSIS).getName());
-						jornadasDesarrollo = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_10_DURACION_DESARROLLO).getName());
+						jornadasAnalysis = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_9_DURACION_ANALYSIS).getName());
+						jornadasDesarrollo = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_10_DURACION_DESARROLLO).getName());
 						
-						fechaInicioRealAnalysis = (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_18_FECHA_INI_ANALYSIS).getName());
-						fechaFinRealAnalysis= (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_19_FECHA_FIN_ANALYSIS).getName());
+						fechaInicioRealAnalysis = (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_18_FECHA_INI_ANALYSIS).getName());
+						fechaFinRealAnalysis= (Date) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_19_FECHA_FIN_ANALYSIS).getName());
 
-						jornadasDesfaseTramiteHastaInicioReal = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_13_GAP_TRAMITE_INIREALDESA).getName());
-						jornadasDesfaseFinDesaSolicEntrega = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName());
+						jornadasDesfaseTramiteHastaInicioReal = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_13_GAP_TRAMITE_INIREALDESA).getName());
+						jornadasDesfaseFinDesaSolicEntrega = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_14_GAP_FINDESA_SOLIC_ENTREGACD).getName());
 
-						Double jornadasPruebasCDPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName());						
-						Double jornadasPruebasRestoVersionPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName());
+						Double jornadasPruebasCDPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_12_DURACION_PRUEBAS_CD).getName());						
+						Double jornadasPruebasRestoVersionPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName());
 						if (esfuerzoPruebasCD == 0.0) {
 							fechaInicioPruebasCD = fechaEntregada;
 							fechaFinPruebasCD = fechaValidadaEntrega;							
 
-							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), fechaInicioPruebasCD);
-							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), fechaFinPruebasCD);
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), fechaInicioPruebasCD);
+							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), fechaFinPruebasCD);
 							
 							jornadasPruebasCD = CommonUtils.jornadasDuracion(fechaInicioPruebasCD, fechaFinPruebasCD);
 							
@@ -877,21 +877,21 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						jornadasPruebasCD += jornadasPruebasCDPrevias;
 						jornadasPruebasRestoVersion += jornadasPruebasRestoVersionPrevias;
 						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName(), jornadasPruebasRestoVersion);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_33_GAP_PRUEBAS_RESTO_ENTREGA).getName(), jornadasPruebasRestoVersion);
 						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fechaFinPruebasCD);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaPuestaProduccion);						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), fechaInicioPruebasCD);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), fechaFinPruebasCD);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fechaFinPruebasCD);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaPuestaProduccion);						
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_24_FECHA_INICIO_PRUEBASCD).getName(), fechaInicioPruebasCD);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_25_FECHA_FIN_PRUEBASCD).getName(), fechaFinPruebasCD);
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_12_DURACION_PRUEBAS_CD).getName(), jornadasPruebasCD);
 
-						Double jornadasEntregaPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName());
+						Double jornadasEntregaPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_11_DURACION_ENTREGA_EN_DG).getName());
 						jornadasEntrega = jornadasEntregaPrevias + CommonUtils.jornadasDuracion(fechaSolicitudEntrega, fechaEntregada);
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_11_DURACION_ENTREGA_EN_DG).getName(), jornadasEntrega);					
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_11_DURACION_ENTREGA_EN_DG).getName(), jornadasEntrega);					
 						
-						Double jornadasGapFinPruebasPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName());
+						Double jornadasGapFinPruebasPrevias = (Double) resumenPorPeticion.getValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName());
 						jornadasDesdeFinPruebasHastaImplantacion = jornadasGapFinPruebasPrevias + CommonUtils.jornadasDuracion(fechaFinPruebasCD, fechaPuestaProduccion);						
-						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);										
+						resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_15_GAP_FINPRUEBAS_PRODUCC).getName(), jornadasDesdeFinPruebasHastaImplantacion);										
 						
 					}
 					if (jornadasDesfaseTramiteHastaInicioReal < 0.0) {
@@ -917,10 +917,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					double totalGaps = CommonUtils.roundWith2Decimals(soporteAlCD + jornadasDesfaseTramiteHastaInicioReal + jornadasDesfaseFinDesaSolicEntrega + jornadasPruebasRestoVersion + jornadasDesdeFinPruebasHastaImplantacion);
 					Double cicloVidaPeticion = CommonUtils.roundWith2Decimals(totalDedicaciones + totalGaps);
 					
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_8_CICLO_VIDA).getName(), cicloVidaPeticion);
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_16_TOTAL_DEDICACIONES).getName(), totalDedicaciones);
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_32_GAP_DURACION_SOPORTE_CD).getName(), soporteAlCD);
-					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.RESUMEN_PETICION_17_TOTAL_OF_GAPS).getName(), totalGaps);		
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_8_CICLO_VIDA).getName(), cicloVidaPeticion);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_16_TOTAL_DEDICACIONES).getName(), totalDedicaciones);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_32_GAP_DURACION_SOPORTE_CD).getName(), soporteAlCD);
+					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_17_TOTAL_OF_GAPS).getName(), totalGaps);		
 
 					/****************** PROCESAMIENTO DE LAS REGLAS DE CÁLCULO ********/
 					
