@@ -359,27 +359,30 @@ public class ActionForm extends AbstractAction {
 				}
 			}			
 			form.setEntityName(fieldViewSet.getEntityDef().getName());
-			final Map<String, Serializable> valoresCamposPK = FieldCompositePK.desempaquetarPK(valueofPk.toString(),
-					fieldViewSet.getContextName());
-			final Iterator<Map.Entry<String, Serializable>> ite = valoresCamposPK.entrySet().iterator();
-			while (ite.hasNext()) {
-				final Map.Entry<String, Serializable> entry = ite.next();
-				final String fieldValue = entry.getValue() != null ? entry.getValue().toString() : PCMConstants.EMPTY_;
-				final IFieldView fieldView = fieldViewSet.getFieldView(entry.getKey()/* qualifiedName */);
-				if (fieldView == null) {
-					final StringBuilder str = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL);
-					str.append(this.getEvent()).append(" key: ").append(entry.getKey());
-					throw new ParameterBindingException(str.toString());
-				}
-				if (fieldValue == null || PCMConstants.EMPTY_.equals(fieldValue.trim())) {
-					final MessageException parqMensaje = new MessageException(IAction.ERROR_BINDING_CODE);
-					parqMensaje.addParameter(new Parameter(IAction.FIELD_PARAM, fieldViewSet.getEntityDef().getFieldKey()
-							.getComposedName(fieldViewSet.getContextName())));
-					parqMensajes.add(parqMensaje);
-				} else {
-					fieldViewSet.setValue(fieldView.getQualifiedContextName(), fieldValue);
-					if (!form.isBindedPk()) {
-						form.setBindedPk(true);
+			
+			if (valueofPk != null) {
+				final Map<String, Serializable> valoresCamposPK = FieldCompositePK.desempaquetarPK(valueofPk.toString(),
+						fieldViewSet.getContextName());
+				final Iterator<Map.Entry<String, Serializable>> ite = valoresCamposPK.entrySet().iterator();
+				while (ite.hasNext()) {
+					final Map.Entry<String, Serializable> entry = ite.next();
+					final String fieldValue = entry.getValue() != null ? entry.getValue().toString() : PCMConstants.EMPTY_;
+					final IFieldView fieldView = fieldViewSet.getFieldView(entry.getKey()/* qualifiedName */);
+					if (fieldView == null) {
+						final StringBuilder str = new StringBuilder(InternalErrorsConstants.ACTION_LITERAL);
+						str.append(this.getEvent()).append(" key: ").append(entry.getKey());
+						throw new ParameterBindingException(str.toString());
+					}
+					if (fieldValue == null || PCMConstants.EMPTY_.equals(fieldValue.trim())) {
+						final MessageException parqMensaje = new MessageException(IAction.ERROR_BINDING_CODE);
+						parqMensaje.addParameter(new Parameter(IAction.FIELD_PARAM, fieldViewSet.getEntityDef().getFieldKey()
+								.getComposedName(fieldViewSet.getContextName())));
+						parqMensajes.add(parqMensaje);
+					} else {
+						fieldViewSet.setValue(fieldView.getQualifiedContextName(), fieldValue);
+						if (!form.isBindedPk()) {
+							form.setBindedPk(true);
+						}
 					}
 				}
 			}
