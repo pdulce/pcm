@@ -84,8 +84,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		
 		//obtenemos todas las aplicaciones de este estudio
 		FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
-		Long servicioId = (Long) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
-		if (servicioId == null || servicioId == 0) {
+		Boolean genByApp = (Boolean) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_15_VOLATILE_GEN_BY_APP).getName());
+		if (genByApp) {
 			Long idAplicativo = Long.valueOf(registroEstudio.getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName()).getValue());
 			FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
 			aplicativo.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_1_ID).getName(), idAplicativo);
@@ -94,6 +94,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			newTitle.append(rochade);
 			valuesPrjs.add(String.valueOf(idAplicativo));
 		}else {
+			Long servicioId = (Long) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
 			registroEstudio.setValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName(), null);
 			filtroApps.setValue(aplicativoEntidad.searchField(ConstantesModelo.APLICATIVO_3_ID_SERVICIO).getName(), servicioId);
 			List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);

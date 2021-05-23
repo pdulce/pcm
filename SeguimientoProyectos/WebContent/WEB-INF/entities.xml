@@ -100,6 +100,7 @@
    	<field mappingTo="12" name="volatile_min_uts" type="double" length="6" required="false" /> 
    	<field mappingTo="13" name="volatile_max_uts" type="double" length="6" required="false" />
    	<field mappingTo="14" name="volatile_automatico_mes" type="boolean" length="1" required="false" />
+   	<field mappingTo="15" name="volatile_gen_app" type="boolean" length="1" required="false" />
 </entity>
  
   <entity>

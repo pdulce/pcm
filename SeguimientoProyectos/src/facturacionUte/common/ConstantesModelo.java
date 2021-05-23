@@ -91,6 +91,7 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_12_VOLATILE_MIN_UTS = 12;
     public static final int ESTUDIOS_13_VOLATILE_MAX_UTS = 13;
     public static final int ESTUDIOS_14_VOLATILE_AUTOMATICO_MES = 14;
+    public static final int ESTUDIOS_15_VOLATILE_GEN_BY_APP = 15;
     public static final String ESTUDIOS_ENTIDAD = "estudios";
 	
     public static final int TIPOS_PETICIONES_1_ID = 1;
