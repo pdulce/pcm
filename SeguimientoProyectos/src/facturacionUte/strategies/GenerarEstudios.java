@@ -240,6 +240,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						final Collection<Object> messageArguments = new ArrayList<Object>();
 						throw new StrategyException("INFO_ESTUDIO_SIN_PETICIONES", false, true, messageArguments);
 					}
+					continue;
 				}
 				
 				Long idEstudio = (Long) nuevoRegistroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_1_ID).getName());
