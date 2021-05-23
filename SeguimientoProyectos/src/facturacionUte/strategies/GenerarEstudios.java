@@ -81,6 +81,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		
 		StringBuilder newTitle = new StringBuilder();
 		Collection<String> valuesPrjs =  new ArrayList<String>();
+		
 		//obtenemos todas las aplicaciones de este estudio
 		FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
 		Long servicioId = (Long) registroEstudio.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());

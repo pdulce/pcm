@@ -746,7 +746,7 @@ public class FieldViewSet implements Serializable {
 						e.printStackTrace();
 					}
 				} else if (fieldAbstract.isBoolean() && value instanceof String) {
-					return Boolean.valueOf(value.toString());
+					return ("1".contentEquals(value.toString()) || "true".contentEquals((value.toString()).toLowerCase()));
 				} else {
 					return value;
 				}

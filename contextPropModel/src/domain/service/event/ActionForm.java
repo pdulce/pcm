@@ -449,11 +449,9 @@ public class ActionForm extends AbstractAction {
 						dataValues = new ArrayList<String>();
 						dataValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
 					}
-					if (fieldView.isCheckOrRadioOrCombo() || dataValues.size() > 1) {
+					if (fieldView.isCheckOrRadioOrCombo()) {
 						fieldViewSet.resetValues(fieldView.getQualifiedContextName());
-						if (fieldView.isCheckOrRadioOrCombo()){
-							fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
-						}
+						fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
 					}
 					if (!fieldView.isUserDefined()) {
 						if (fieldView.getEntityField().belongsPK()) {

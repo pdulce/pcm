@@ -205,7 +205,6 @@ public class FieldValue implements IFieldValue, Serializable {
 					this.values.add(actualValue);
 				}
 			}
-			return;
 		}
 	}
 

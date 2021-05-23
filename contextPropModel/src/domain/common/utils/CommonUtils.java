@@ -91,7 +91,7 @@ public final class CommonUtils {
 		
 		int diferencia = 0;
 		
-		while (fechaCalAux.getTime().compareTo(fechaCalMasReciente) <= 0) {					
+		while (fechaCalAux.getTime().compareTo(fechaCalMasReciente) < 0) {					
 			diferencia++;		
 			fechaCalAux.add(Calendar.MONTH, 1);				
 		}//while
