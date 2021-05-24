@@ -89,9 +89,9 @@
 				             <i class="fas fa-chart-line"></i>&nbsp;Dashboards
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenPeticiones">
+				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=detailCicloVidaPeticion">
 				               <i class="fas fa-chart-bar"></i>&nbsp;Estudios Historizados de Peticiones</a></li>
-				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=resumenEntregas">
+				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=detailCicloVidaEntrega">
 				               <i class="fas fa-chart-bar"></i>&nbsp;Estudios Historizados de Entregas</a></li>
 				               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=peticiones">
 				               <i class="fas fa-chart-bar"></i>&nbsp;Peticiones</a></li>

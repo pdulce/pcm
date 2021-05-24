@@ -232,9 +232,6 @@ public abstract class CDDWebController extends HttpServlet {
 	@Override
 	protected void doPost(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) throws ServletException, IOException {
 		
-		//httpRequest.setAttribute("width-container", "0");
-		//httpRequest.setAttribute("height-container", "0");
-		
 		if (this.contextApp.getResourcesConfiguration().getServerName() == null) {
 			this.contextApp.getResourcesConfiguration().setServerName(httpRequest.getLocalName());
 			this.contextApp.getResourcesConfiguration().setServerPort(String.valueOf(httpRequest.getLocalPort()));
@@ -334,11 +331,11 @@ public abstract class CDDWebController extends HttpServlet {
 
 		try {
 			String bodyContent = "";
+			String escenarioTraducido = "";
 			if (externalLaunch()){
 				bodyContent = renderRequest(datamap);
 			}else {
-				if (!service.contentEquals("") && !service.contentEquals("dashboard")) {
-					String escenarioTraducido = "";
+				if (!service.contentEquals("") && !service.contentEquals("dashboard")) {					
 					Element actionElementNode = ApplicationDomain.getDomainService(service).extractActionElementOnlyThisService(datamap.getEvent());
 					if (actionElementNode == null) {
 						//buscamos esta acción en nuestro padre
@@ -381,11 +378,10 @@ public abstract class CDDWebController extends HttpServlet {
 							datamap.removeParameters("idPressed");
 						}
 						escenarioTraducido = this.contextApp.getTitleOfAction(actionElementNode);
-					}
-					
-					bodyContent = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
+					}					
 				}
 				
+				bodyContent = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
 			}
 			
 			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), datamap, startingApp);

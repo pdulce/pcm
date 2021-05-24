@@ -5,13 +5,19 @@
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
+String defaultMode = (String)request.getAttribute("style");
+String fontColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#203A43";
+String itemColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#859398";
+
 %>
 <div id="<%=idseries%>piechart" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 
 <script type="text/javascript">
+var fontColor = '<%=fontColor_%>';
+var itemColor = '<%=fontColor_%>';
 Highcharts.setOptions({
-	colors: [ '#B3DFF2', '#06B5CA','#00607E', '#1A3B47', '#CFCECE','#FCBF0A','#64E572', '#FFF263', '#6AF9C4']
+	colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
 });
 
   Highcharts.chart('<%=idseries%>piechart', {
@@ -32,18 +38,18 @@ Highcharts.setOptions({
      },
      title: {
          text: '<%=request.getAttribute(idseries+"piecharttitle")%>',
-         style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
+         style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
     },
     subtitle: {
         text: '<%=request.getAttribute(idseries+"piechartsubtitle")%>',
-        style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
+        style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
     },
     legend: {
         layout: 'horizontal',
         align: 'center',
         y: 18,
         itemWidth: 165,
-        itemStyle: {'color': '#859398', 'font-weight': 'normal', 'font-size': '8pt'},
+        itemStyle: {'color': itemColor, 'font-weight': 'normal', 'font-size': '8pt'},
         verticalAlign: 'bottom'
     },
     tooltip: {

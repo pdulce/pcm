@@ -8,14 +8,19 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 String dimensionName = (String) request.getAttribute(idseries+"speedometerdimension");
 String entidad = (String) request.getAttribute(idseries+"speedometerentidad");
 String agregacion = (String) request.getAttribute(idseries+"speedometeragregacion");
+String defaultMode = (String)request.getAttribute("style");
+String fontColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#203A43";
+String itemColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#859398";
 
 %>
 <div id="<%=idseries%>speedometer" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 
 <script type="text/javascript">
+var fontColor = '<%=fontColor_%>';
+var itemColor = '<%=fontColor_%>';
 Highcharts.setOptions({
-	colors: [ '#B3DFF2', '#06B5CA','#00607E', '#1A3B47', '#CFCECE','#FCBF0A','#64E572', '#FFF263', '#6AF9C4']
+	colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
 });
 
 Highcharts.chart('<%=idseries%>speedometer', {
@@ -41,12 +46,12 @@ Highcharts.chart('<%=idseries%>speedometer', {
 
     title: {
     	text: '<%=dimensionName%> <%=agregacion%> entre todas las <%=entidad%>',
-    	style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
+    	style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
     },
     
     subtitle: {
         text: '',
-        style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
+        style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
     },
     
     pane: {
@@ -104,7 +109,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
         },
         title: {
             text: '<%=request.getAttribute(idseries+"speedometerdato")%>',
-            style: {'color': '#203A43', 'font-weight': 'normal', 'font-size': '10pt'}
+            style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
         },
         plotBands: [{
             from: 0,
