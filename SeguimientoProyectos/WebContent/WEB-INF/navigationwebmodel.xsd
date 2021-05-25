@@ -7,25 +7,10 @@ xmlns="http://pcm.framework.org/metamodel">
   
 	<xs:complexType name="AppType">
    		<xs:sequence>
-   			<!-- xs:element maxOccurs="1" name="configuration" nillable="false" type="ConfigurationType"/> -->
-   			<xs:element maxOccurs="1" name="profiles" nillable="false" type="ProfilesType"/>		    		
-			<xs:element name="logo" nillable="true" type="LogoType"/>
-			<xs:element name="foot" nillable="true" type="FootType"/>
 			<xs:element name="tree" nillable="true" type="TreeType"/>
   		</xs:sequence>
 	</xs:complexType>
    	
-   	<!-- xs:complexType name="ConfigurationType">
-   		<xs:complexContent>
-    		<xs:extension base="serverPathInfoType">   	
-   				<xs:sequence>
-					<xs:element maxOccurs="unbounded" name="entry" nillable="false" type="EntryConfigType"/>
-   				</xs:sequence>
-	   		</xs:extension>
-	   	</xs:complexContent>
-	</xs:complexType> -->
-   		
-   		
 	<xs:complexType name="serverPathInfoType">
 		<xs:attribute name="serverPath" type="xs:string"/>
 	</xs:complexType>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<app:application xmlns:app="http://pcm.framework.org/metamodel"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/metamodel navigationwebmodel.xsd">
+	
+	<profiles>
+		<profile name="ADMINISTRADOR"
+			description="Usuario administrador" />
+		<profile name="CONSULTOR_UTE"
+			description="Usuario consultor" />
+		<profile name="ANALISIS_TEAM" description="Analista del equipo del CDINSS" />
+	</profiles>
+
+	<logo content="img/logoPCM.PNG" width="150" height="80" alt="Inicio" uri="prjManager"/>
+
+	<foot text="Seguimiento Peticiones CDISM v&lt;b&gt;&lt;i&gt;01.05&lt;/i&gt;&lt;/b&gt; [17/03/2021]" link="prjManager" />
+
+	<tree profile="ADMINISTRADOR" name="tree">
+
+		<FOLDER profile="ADMINISTRADOR, CONSULTOR_UTE" name="Mapa organizativo CDISM">
+			<LEAF link="event=GestionEntidades.query#entityName=unidadOrg" name="Organismos" />
+			<LEAF link="event=GestionEntidades.query#entityName=subdireccion" name="Subdirecciones" />
+		</FOLDER>
+		
+		<FOLDER profile="ANALISIS_TEAM,CONSULTOR_UTE, ADMINISTRADOR"
+			name="Seguimiento CD">
+			<LEAF link="event=GestionTech.query" name="Tecnologías" />
+			<LEAF link="event=GestionServiciosUTE.query" name="Servicios UTE" />
+			<LEAF link="event=GestionApps.query" name="Aplicativos" />
+			<LEAF link="event=GestionEntidades.query#entityName=tiposPeticiones" name="Tipos Peticiones" />
+			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="Peticiones importadas" />
+			<LEAF link="event=EstudioPeticiones.query" name="Estudios Peticiones" />
+			<LEAF link="event=EstudioEntregas.query" name="Estudios Entregas" />
+			<LEAF link="exec=dashboard#event=dashboard#entities=resumenPeticiones" name="Dahsboard Peticiones" />
+			<LEAF link="exec=dashboard#event=dashboard#entities=resumenEntregas" name="Dahsboard Entregas" />
+			<!-- FOLDER profile="ADMINISTRADOR,ANALISIS_TEAM,CONSULTOR_UTE"	name="Import datasets">
+				<LEAF link="event=GestionarImportacionesGEDEON.query" name="Gedeones" />
+				<LEAF link="event=GestionarImportacionesARTEMIS.query" name="Artemis" />
+			</FOLDER> -->
+			
+			<FOLDER profile="ADMINISTRADOR,ANALISIS_TEAM,CONSULTOR_UTE"	name="Demos">
+				<LEAF link="event=Demos.query" name="Gráficos - mapas" />
+			</FOLDER>			
+		</FOLDER>
+		
+		<!-- FOLDER profile="INVITADO"
+			name="Seguimiento CD">
+			<LEAF link="event=ConsultaPeticionesGEDEON.query" name="GEDEON(es)" />
+			<LEAF link="event=EstudioPeticionesInvi.query" name="Estudios Peticiones" />
+			<LEAF link="event=EstudioPeticionesInvi.query" name="Estudios Entregas" />			
+		</FOLDER> -->
+		
+		<FOLDER profile="ADMINISTRADOR" name="Site technical config.">
+			<LEAF link="exec=Configuration" name="Configuraciones" />
+			<LEAF link="event=GestionEntidades.query#entityName=rol" name="Roles" />
+			<LEAF link="event=GestionUsuarios.query" name="Usuarios" />
+			<LEAF link="event=GestionEntidades.query#entityName=mes" name="Meses" />
+		</FOLDER>
+		
+	</tree>
+	
+	
+</app:application>

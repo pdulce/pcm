@@ -21,7 +21,7 @@ public interface PCMConstants {
 			CHAR_9 = '9', CHAR_ASTERISC = '*', CHAR_PERCENT = '%';
 	
 	public static final String ID_PAGINACION = "paginacion", LANGUAGE = "language", DEFAULT_LANG = "es_",
-			NAVIGATION_MODEL = "navigationApp",	SERVICE_DIRECTORY = "serviceDirectory", ENTITIES_MODEL = "entitiesDictionary",
+			SERVICE_DIRECTORY = "serviceDirectory", ENTITIES_MODEL = "entitiesDictionary",
 			DOWNLOAD_DIR = "downloadDir", LOG_APPFILE = "logAppFile", UPLOAD_DIR = "uploadDir", APPURI_ = "uri", PAGESIZE = "pageSize",
 			APP_PROFILE = "profile", STYLE_MODE_SITE = "style", SERVLET_MAPPING = "servletMapping", AUDITON_APP = "auditActivated",
 			DATA_SOURCE_TYPE = "datasourceAccess", DATASOURCE_FACTORY_IMPL = "datasourceFactoryImpl",

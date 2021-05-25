@@ -57,8 +57,14 @@ public abstract class CDDWebController extends HttpServlet {
 	private static final String MULTIPART_DATA = "multipart/form-datamap";
 	private static final String CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
 	private static final String BODY = "#BODY#", TITLE = "#TITLE#"; 
+	protected static final Logger log = Logger.getLogger(CDDWebController.class.getName());
+	protected static String mainservlet;
 	
-	protected static Logger log = Logger.getLogger(CDDWebController.class.getName());
+	protected ServletConfig webconfig;		
+	protected ApplicationDomain contextApp;	
+	
+	protected Map<String, Collection<String>> sceneMap_ = new HashMap<String, Collection<String>>();
+
 	
 	static {
 		if (log.getHandlers().length == 0) {
@@ -74,12 +80,6 @@ public abstract class CDDWebController extends HttpServlet {
 		}
 	}
 	
-	protected static String mainservlet;
-	protected ServletConfig webconfig;		
-	protected ApplicationDomain contextApp;	
-	protected NavigationAppManager navigationManager;
-	
-	protected Map<String, Collection<String>> sceneMap_ = new HashMap<String, Collection<String>>();
 		
 	protected void setResponseMimeTypeAttrs(final HttpServletResponse response, int size, String extension) {
 		response.setContentType(MimeTypes.mimeTypes.get(extension) == null ? "application/".concat(extension) : MimeTypes.mimeTypes.get(extension));
@@ -136,8 +136,6 @@ public abstract class CDDWebController extends HttpServlet {
 				throw new PCMConfigurationException("downloadDir does not exist");
 			}
 			this.contextApp.invoke();
-			this.navigationManager = new NavigationAppManager(
-					this.contextApp.getResourcesConfiguration().getNavigationApp(), globalCfg_.getServletContext());
 						
 		} catch (final PCMConfigurationException excCfg) {
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, excCfg);
@@ -147,8 +145,6 @@ public abstract class CDDWebController extends HttpServlet {
 		}
 	}
 
-	
-	
 	protected void cleanTmpFiles(final String pathUpload) {
 		final File[] files = new File(pathUpload).listFiles();
 		if (files == null) {
@@ -261,14 +257,12 @@ public abstract class CDDWebController extends HttpServlet {
 		final Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
 		
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);
-		//datamap.getParameterValues("");
 		final String initService = this.contextApp.getInitService();
 		final String initEvent = this.contextApp.getInitEvent();
 		String service = "";
-		boolean eventSubmitted = false, startingApp = false;
+		boolean eventSubmitted = false;
 		String event = datamap.getParameter(PCMConstants.EVENT);
 		if (event == null){
-			startingApp = true;
 			service = initService;
 			event = initEvent;			
 		}else{//al pulsar el botón de submit entra por aquí
@@ -353,7 +347,6 @@ public abstract class CDDWebController extends HttpServlet {
 							String valueOfFKInChiled = valueInRequest(hijo, entidadPadre.getFieldKey().getPkFieldSet().iterator().next(), datamap);
 							if (valueOfFKInChiled != null) {
 								String paramIdOfparent = entidadPadreName.concat(".").concat(entidadPadre.getFieldKey().getPkFieldSet().iterator().next().getName());
-								//datamap.setAttribute(paramIdOfparent, valueOfFKInChiled);
 								String newValue = paramIdOfparent.concat("=").concat(valueOfFKInChiled);
 								datamap.removeParameters(hijo.getName());
 								datamap.setParameter(paramIdOfparent, newValue);
@@ -384,8 +377,6 @@ public abstract class CDDWebController extends HttpServlet {
 				bodyContent = this.contextApp.launch(datamap, eventSubmitted, escenarioTraducido);
 			}
 			
-			new ApplicationLayout().paintScreen(this.navigationManager.getAppNavigation(), datamap, startingApp);
-			datamap.setAppProfileSet(ApplicationDomain.extractProfiles(this.navigationManager.getAppNavigation()));
 			datamap.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
 			datamap.setAttribute(BODY, bodyContent != null && !"".equals(bodyContent)? bodyContent.toString() : "");
 			

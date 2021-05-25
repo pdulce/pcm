@@ -10,11 +10,11 @@ public class ResourcesConfig {
 		"nombre recurso JNDI", "clase driver JDBC", "url de conexión vía JDBC", "esquema Base de Datos", "usuario Base de Datos",
 		"password Base de Datos", "hoja de estilos (especofica)", "ruta de plantilla genérica de pantalla",
 		"directorio de subida de ficheros a servidor", "autorías activadas", "tamaño de paginación", "directorio de downloads",
-		"log de aplicación", "navigation model", "Domain Service Directory" };
+		"log de aplicación", "Domain Service Directory" };
 	
 	private boolean auditOn;
 
-	private String appTitle, entitiesDictionary, navigationApp, serviceDirectory, dataSourceAccess, dSourceImpl, datasourceFactoryImpl, dbPreffix, resourceName,
+	private String appTitle, entitiesDictionary, serviceDirectory, dataSourceAccess, dSourceImpl, datasourceFactoryImpl, dbPreffix, resourceName,
 			driverDDBB, urlConn, schemaDDBB, dbUser, dbPassword, styleSheet, templatePath, updloadDir, serverName, serverPort,
 			pageSize = "10", downloadDir, logAppFile, baseServerPath, baseAppPath;
 	
@@ -91,12 +91,9 @@ public class ResourcesConfig {
 		} else if (key.equals(PCMConstants.LOG_APPFILE)) {
 			this.setLogAppFile(value);
 			this.itemValues[18] = value;
-		} else if (key.equals(PCMConstants.NAVIGATION_MODEL)) {
-			this.setNavigationApp(value);
-			this.itemValues[19] = value;
 		} else if (key.equals(PCMConstants.SERVICE_DIRECTORY)) {
 			this.setServiceDirectory(value);
-			this.itemValues[20] = value;
+			this.itemValues[19] = value;
 		}
 	}
 	
@@ -294,15 +291,7 @@ public class ResourcesConfig {
 	public void setBaseAppPath(String baseAppPath_) {
 		this.baseAppPath = baseAppPath_;
 	}
-	
-	public String getNavigationApp() {
-		return this.navigationApp;
-	}
-
-	public void setNavigationApp(String nav_) {
-		this.navigationApp = nav_;
-	}
-	
+		
 	public String getBaseServerPath() {
 		return this.baseServerPath;
 	}
