@@ -9,9 +9,17 @@ String itemColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#859398
 %>
 
 <script type="text/javascript">
-var fontColor = '<%=fontColor_%>';
-var itemColor = '<%=fontColor_%>';
-	Highcharts.setOptions({
-		colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
-	});
+	var fontColor = '<%=fontColor_%>';
+	var itemColor = '<%=fontColor_%>';
+
+<%if (defaultMode.contentEquals("darkmode")){ %>
+		Highcharts.setOptions({
+			colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
+		});
+<%}else{%>
+		Highcharts.setOptions({
+			colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
+		});
+<%}%>
+
 </script>

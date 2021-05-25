@@ -28,27 +28,28 @@
 		<table>
 			<tr>
 				<td>
-					<jsp:include page="${containerJSP_10}">
-						<jsp:param name="idseries" value="_serie10" />
-						<jsp:param name="width" value="720px" />
+					<jsp:include page="${containerJSP_21}">
+						<jsp:param name="idseries" value="_serie21" />
+						<jsp:param name="width" value="780px" />
 						<jsp:param name="height" value="460px" />
 						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
+
 				</td>
 				<td>
-					<jsp:include page="${containerJSP_11}">
-						<jsp:param name="idseries" value="_serie11" />
-						<jsp:param name="width" value="490px" />
-						<jsp:param name="height" value="420px" />
+					<jsp:include page="${containerJSP_30}">
+						<jsp:param name="idseries" value="_serie30" />
+						<jsp:param name="width" value="560px" />
+						<jsp:param name="height" value="400px" />
 						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 					<div>
-						<br><br>&nbsp;<br>
+						<br>
 					</div>
 					<jsp:include page="${containerJSP_12}">
 						<jsp:param name="idseries" value="_serie12" />
-						<jsp:param name="width" value="490px" />
-						<jsp:param name="height" value="260px" />
+						<jsp:param name="width" value="560px" />
+						<jsp:param name="height" value="250px" />
 						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 				</td>
@@ -220,20 +221,20 @@
 			</tr>
 			<tr>
 				<td>
-					<jsp:include page="${containerJSP_21}">
-						<jsp:param name="idseries" value="_serie21" />
-						<jsp:param name="width" value="780px" />
+					<jsp:include page="${containerJSP_10}">
+						<jsp:param name="idseries" value="_serie10" />
+						<jsp:param name="width" value="720px" />
 						<jsp:param name="height" value="460px" />
 						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
-					</jsp:include>				
+					</jsp:include>
 				</td>
 				<td>
-					<jsp:include page="${containerJSP_30}">
-						<jsp:param name="idseries" value="_serie30" />
+					<jsp:include page="${containerJSP_11}">
+						<jsp:param name="idseries" value="_serie11" />
 						<jsp:param name="width" value="490px" />
-						<jsp:param name="height" value="460px" />
+						<jsp:param name="height" value="420px" />
 						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
-					</jsp:include>	
+					</jsp:include>
 				</td>
 				<td>				
 					<fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>					    	
