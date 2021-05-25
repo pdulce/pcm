@@ -8,6 +8,8 @@
 %>
 <div id="<%=idseries%>worldmap" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
  
+ <jsp:include page="manejadorPaleta.jsp"></jsp:include>
+ 
  <script type="text/javascript">
 	 
    $(function () {

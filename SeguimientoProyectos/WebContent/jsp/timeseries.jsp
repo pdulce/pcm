@@ -7,20 +7,12 @@ String idseries = request.getParameter("idseries")==null?(String)request.getAttr
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 
-String defaultMode = (String)request.getAttribute("style");
-String fontColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#203A43";
-String itemColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#859398";
-
 %>
 <div id="<%=idseries%>timeseries" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
+<jsp:include page="manejadorPaleta.jsp"></jsp:include>
 
 <script type="text/javascript">
-var fontColor = '<%=fontColor_%>';
-var itemColor = '<%=fontColor_%>';
-Highcharts.setOptions({
-	colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
-});
 	Highcharts.chart('<%=idseries%>timeseries', {
 	    chart: {     	
             type: '<%=request.getAttribute(idseries+"timeseriestypeOfSeries")%>',
