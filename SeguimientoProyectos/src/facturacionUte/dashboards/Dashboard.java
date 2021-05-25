@@ -300,7 +300,13 @@ public class Dashboard extends GenericHighchartModel {
 			_data.setAttribute("containerJSP_40", bar40.getScreenRendername().concat(".jsp"));
 			_data.setAttribute("containerJSP_41", bar41.getScreenRendername().concat(".jsp"));
 			
-			_data.setAttribute("container", getScreenRendername().concat(".jsp"));		
+			_data.setAttribute("container", getScreenRendername().concat(".jsp"));
+			
+			if (_data.getParameter(HistogramUtils.VISIONADO_PARAM)== null) {
+				_data.setAttribute(HistogramUtils.VISIONADO_PARAM, new String[] {"2D"});
+			}else {
+				_data.setAttribute(HistogramUtils.VISIONADO_PARAM,	_data.getParameter(HistogramUtils.VISIONADO_PARAM));
+			}
 			
 		} catch (Throwable exc0) {
 			final StringBuilder sbXml = new StringBuilder();

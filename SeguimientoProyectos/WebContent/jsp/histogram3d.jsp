@@ -5,12 +5,12 @@
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
-
+boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals("3D");
 %>
 <div id="<%=idseries%>histogram3d" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
-
-<!--  div id="sliders">
+<%if (visionado3D){ %>
+<div id="sliders">
        <table>
            <tr>
                <td><label for="alpha">Alpha Angle</label></td>
@@ -25,7 +25,8 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
                <td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
            </tr>
        </table>
-</div>-->
+</div>
+<%} %>
 
 <jsp:include page="manejadorPaleta.jsp"></jsp:include>
 
@@ -37,7 +38,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        type: 'column',
             backgroundColor: 'transparent',
 	        options3d: {
-	            enabled: false,
+	        	enabled: <%=visionado3D%>,
 	            alpha: 15,
 	            beta: 15,
 	            depth: 50,

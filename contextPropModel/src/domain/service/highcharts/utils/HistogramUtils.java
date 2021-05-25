@@ -18,6 +18,7 @@ import domain.service.component.definitions.Rank;
 public class HistogramUtils {
 	
 	public static final String ESCALADO_PARAM = "escalado";
+	public static final String VISIONADO_PARAM = "visionado";
 	
 	private static final String PATTERN_WEEKS = "[1-6][a-z]{2} [a-z]{3}'[0-9]{2}";
 	//private static final String PATTERN_BIMONTHLY = "Q[1-4]'[0-9]{2}";

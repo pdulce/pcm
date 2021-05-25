@@ -3,10 +3,9 @@
 
 <% 
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
-//System.out.println("series-id: " + idseries);
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
-
+boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals("3D");
 %>
 <div id="<%=idseries%>timeseries" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
@@ -19,7 +18,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
             margin: 75,
             backgroundColor: 'transparent',
             options3d: {
-                enabled: false,
+            	enabled: <%=visionado3D%>,
                 alpha: 15,
                 beta: 15,
                 viewDistance: 25,

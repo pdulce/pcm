@@ -8,6 +8,7 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 String dimensionName = (String) request.getAttribute(idseries+"speedometerdimension");
 String entidad = (String) request.getAttribute(idseries+"speedometerentidad");
 String agregacion = (String) request.getAttribute(idseries+"speedometeragregacion");
+boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals("3D");
 %>
 <div id="<%=idseries%>speedometer" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 

@@ -9,7 +9,14 @@
 <%@page import="java.util.Enumeration"%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  pageEncoding="UTF-8"%>
-  	
+
+<%	
+  String visionadoSelected = "2D";
+  if (request.getAttribute("visionado") != null){
+	  visionadoSelected = ((String[]) request.getAttribute("visionado"))[0];	  
+  }
+%>
+
   	<form class="pcmForm" action="prjManager" method="POST">
 							    
 	    <input id="exec" name="exec" type="hidden" value="dashboard"/>
@@ -25,6 +32,7 @@
 						<jsp:param name="idseries" value="_serie10" />
 						<jsp:param name="width" value="720px" />
 						<jsp:param name="height" value="460px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 				</td>
 				<td>
@@ -32,6 +40,7 @@
 						<jsp:param name="idseries" value="_serie11" />
 						<jsp:param name="width" value="490px" />
 						<jsp:param name="height" value="420px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 					<div>
 						<br><br>&nbsp;<br>
@@ -40,11 +49,27 @@
 						<jsp:param name="idseries" value="_serie12" />
 						<jsp:param name="width" value="490px" />
 						<jsp:param name="height" value="260px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 				</td>
 				<td>	 			
 					<fieldset class="collapsible"><legend>&nbsp;</legend>
 					<div class="pcmBody">
+						<br><br>					
+						<label class="infoCls" title="Gráficos en 3D">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Visionado de gr&aacute;ficos&nbsp;</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">&nbsp;2D&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="2D" id="visionado2D"
+							name="visionado"> <span class="checkmarkradio"></span>
+						</label>
+						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<label class="radiogroupcontainer">3D&nbsp; <input
+							onChange="javascript:document.forms[0].submit();return true;"
+							type="radio" class="checkmarkradio" value="3D" id="visionado3D"
+							name="visionado"> <span class="checkmarkradio"></span>
+						</label>
+
 						<br><br>					
 						<label class="infoCls" title="Operación de agregación">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Operaci&oacute;n	de agregaci&oacute;n&nbsp;</label>
 						<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -119,6 +144,7 @@
 						<jsp:param name="idseries" value="_serie20" />
 						<jsp:param name="width" value="780px" />
 						<jsp:param name="height" value="460px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 				</td>
 				<td>
@@ -126,6 +152,7 @@
 						<jsp:param name="idseries" value="_serie31" />
 						<jsp:param name="width" value="490px" />
 						<jsp:param name="height" value="460px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>			
 				</td>
 				<td>
@@ -197,6 +224,7 @@
 						<jsp:param name="idseries" value="_serie21" />
 						<jsp:param name="width" value="780px" />
 						<jsp:param name="height" value="460px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>				
 				</td>
 				<td>
@@ -204,6 +232,7 @@
 						<jsp:param name="idseries" value="_serie30" />
 						<jsp:param name="width" value="490px" />
 						<jsp:param name="height" value="460px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>	
 				</td>
 				<td>				
@@ -259,6 +288,7 @@
 						<jsp:param name="idseries" value="_serie40" />
 						<jsp:param name="width" value="720px" />
 						<jsp:param name="height" value="460px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 					<div>
 						<br><br>&nbsp;<br>
@@ -270,6 +300,7 @@
 						<jsp:param name="idseries" value="_serie41" />
 						<jsp:param name="width" value="490px" />
 						<jsp:param name="height" value="460px" />
+						<jsp:param name="visionado" value="<%=visionadoSelected%>" />
 					</jsp:include>
 					<div>
 						<br><br>&nbsp;<br>
@@ -286,6 +317,20 @@
 	    
 
 <script type="text/javascript">
+	
+	var visionado = document.forms[0].visionado;
+	<% 		
+	if (visionadoSelected != null){		
+		%>		
+		for (var j = 0; j < visionado.length; j++) {
+			if (visionado[j].value == '<%=visionadoSelected%>'){
+				visionado[j].checked = true;
+			}
+		}
+		
+		<%
+	}
+	%>
 	
 	var escala = document.forms[0].escalado;
 	<% 	
