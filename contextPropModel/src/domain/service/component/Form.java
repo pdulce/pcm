@@ -742,7 +742,6 @@ public class Form extends AbstractComponent {
 						XmlUtils.closeXmlNode(innerHTMLFieldsSetInterno, "span");		
 						XmlUtils.closeXmlNode(innerHTMLFieldsSetInterno, IViewComponent.LEGEND);
 						XmlUtils.openXmlNode(innerHTMLFieldsSetInterno, IViewComponent.DIV_LAYER);
-						innerHTMLFieldsSetInterno.append(IViewComponent.NEW_ROW);
 					}
 					if (control.isSelection() || control.isCheckBoxGroup() || control.isRadioButtonGroup()) {
 
@@ -788,7 +787,7 @@ public class Form extends AbstractComponent {
 					//buttonsStrBuilder.append("<BR>");
 					XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.FIELDSET + " id=\"diagramas\"");
 					buttonsStrBuilder.append("<LEGEND><span>Diagramas " + this.title + "</span></LEGEND>");
-					buttonsStrBuilder.append("<DIV>"+ NEW_ROW);
+					buttonsStrBuilder.append("<DIV>"/*+ NEW_ROW*/);
 
 					XmlUtils.openXmlNode(buttonsStrBuilder, IViewComponent.UL_LABEL_ID);
 

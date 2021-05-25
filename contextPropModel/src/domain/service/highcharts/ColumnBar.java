@@ -15,6 +15,7 @@ import domain.service.component.Translator;
 import domain.service.component.definitions.FieldViewSet;
 import domain.service.dataccess.definitions.IFieldLogic;
 import domain.service.dataccess.dto.Datamap;
+import domain.service.highcharts.utils.HistogramUtils;
 
 public class ColumnBar extends BarChart {
 	
@@ -93,7 +94,8 @@ public class ColumnBar extends BarChart {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(IS_BAR_INTERNAL_LABELED), "false");
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), 0.0);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfgraph"), this.typeOfgraph);
-
+		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
 		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? (numTuplas == 0 ? 0 : total_/numTuplas): total_;
 
 	}

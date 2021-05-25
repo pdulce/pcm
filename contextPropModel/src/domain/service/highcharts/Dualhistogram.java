@@ -57,7 +57,6 @@ public class Dualhistogram extends GenericHighchartModel {
 		Date fechaCalMasReciente = (Date) reciente.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
 		
 		List<String> periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(fechaCalMasReciente, fechaCalMasAntigua, escalado);
-		
 
 		int posicionAgrupacion = 1;
 		for (int i=0;i<periodos.size(); i++) {//pueden ser aoos, meses o doas
@@ -141,7 +140,8 @@ public class Dualhistogram extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(FREQ_ABSOLUTE), seriesJSONFrecAbsolutas.toJSONString());
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(FREQ_ACUMULATED), seriesJSONFrecAcumuladas.toJSONString());
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), minimal);
-		
+		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
 			frecuenciaAcumulada = frecuenciaAcumulada/jsArrayEjeAbcisas.size();
 		}

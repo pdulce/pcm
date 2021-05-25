@@ -8,8 +8,6 @@
 	<entry key="datasourceImpl" value="domain.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
 	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//entities.xml"></entry>
-	<!-- entry key="navigationApp" 
-	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//navigationWebModel.xml"></entry> -->
 	<entry key="serviceDirectory" 
 	value="C:\\Users\\ESDU\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\services"></entry>
 	<entry key="driver-class" value="org.sqlite.JDBC"></entry>

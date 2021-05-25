@@ -5,9 +5,14 @@
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
-boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals("3D");
+boolean visionado3D = false;
+if ((String)request.getAttribute(idseries+"histogramvisionado") == null){
+	visionado3D = request.getParameter("visionado").contentEquals("3D");
+}else{
+	visionado3D = ((String)request.getAttribute(idseries+"histogramvisionado")).contentEquals("3D");
+}
 %>
-<div id="<%=idseries%>histogram3d" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
+<div id="<%=idseries%>histogram" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <%if (visionado3D){ %>
 <div id="sliders">
@@ -34,7 +39,7 @@ boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals
 
 	var chart = new Highcharts.Chart({
 	    chart: {
-	        renderTo: '<%=idseries%>histogram3d',
+	        renderTo: '<%=idseries%>histogram',
 	        type: 'column',
             backgroundColor: 'transparent',
 	        options3d: {
@@ -49,16 +54,16 @@ boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals
            }
 	    },
 	    title: {
-	        text: '<%=request.getAttribute(idseries+"histogram3dtitle")%>',
+	        text: '<%=request.getAttribute(idseries+"histogramtitle")%>',
 	        style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
 	    },
 	    subtitle: {
-            text: '<%=request.getAttribute(idseries+"histogram3dsubtitle")%>',
+            text: '<%=request.getAttribute(idseries+"histogramsubtitle")%>',
             style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
         },
         
         xAxis: {
-            categories: <%=request.getAttribute(idseries+"histogram3dabscisas")%>,
+            categories: <%=request.getAttribute(idseries+"histogramabscisas")%>,
             labels: {
             	style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '9pt'}
             }
@@ -66,9 +71,9 @@ boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals
         
         yAxis: {
             allowDecimals: true,
-            min: <%=request.getAttribute(idseries+"histogram3dminEjeRef")%>,
+            min: <%=request.getAttribute(idseries+"histogramminEjeRef")%>,
             title: {
-                text: '<%=request.getAttribute(idseries+"histogram3dtitulo_EJE_Y")%>',
+                text: '<%=request.getAttribute(idseries+"histogramtitulo_EJE_Y")%>',
                 style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
             },
             labels: {
@@ -85,7 +90,7 @@ boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals
         },
         tooltip: {				        	
             headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"histogram3ddecimals")%>}'
+            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"histogramdecimals")%>}'
         },
         				       
         plotOptions: {
@@ -98,7 +103,7 @@ boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals
             }
         },
         				      
-        series: <%=request.getAttribute(idseries+"histogram3dseries")%>
+        series: <%=request.getAttribute(idseries+"histogramseries")%>
 	});
 	
 	function showValues() {

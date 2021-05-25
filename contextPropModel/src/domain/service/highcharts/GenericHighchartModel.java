@@ -166,13 +166,7 @@ public abstract class GenericHighchartModel implements IStats {
 				listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
 					joinFView, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, IAction.ORDEN_ASCENDENTE);
 			}
-			
-			
-			/*if (!listaValoresAgregados.isEmpty()){
-				FieldViewSetCollection row = listaValoresAgregados.get(0);
-				row.setTotalRecords
-			}*/
-			
+								
 			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
 
 			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, aggregateFunction);			
@@ -181,7 +175,7 @@ public abstract class GenericHighchartModel implements IStats {
 
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(DECIMALES), decimals);
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfSeries"), typeOfSeries);
-			
+						
 		} catch (Throwable exc10) {
 			final StringBuilder sbXml = new StringBuilder();
 			sbXml.append("<BR/><BR/><font>" + exc10.getMessage()+ "</font>");
@@ -271,7 +265,7 @@ public abstract class GenericHighchartModel implements IStats {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "");//subTitle + "<br/> " + crit);
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 		data_.setAttribute("width", "1180px");
-		data_.setAttribute("height", "690px");
+		data_.setAttribute("height", "640px");
 		data_.setAttribute("idseries", data_.getParameter("idPressed"));
 	}
 

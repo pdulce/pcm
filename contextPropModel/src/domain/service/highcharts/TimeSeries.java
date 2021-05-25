@@ -1,6 +1,6 @@
 package domain.service.highcharts;
 
-public class TimeSeries extends Histogram3D {
+public class TimeSeries extends Histogram {
 
 	
 	@Override

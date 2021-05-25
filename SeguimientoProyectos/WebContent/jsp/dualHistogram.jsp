@@ -5,7 +5,12 @@
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
-boolean visionado3D = ((String) request.getParameter("visionado")).contentEquals("3D");
+boolean visionado3D = false;
+if ((String)request.getAttribute(idseries+"dualHistogramvisionado") == null){
+	visionado3D = request.getParameter("visionado").contentEquals("3D");
+}else{
+	visionado3D = ((String)request.getAttribute(idseries+"dualHistogramvisionado")).contentEquals("3D");
+}
 %>
 <div id="<%=idseries%>dualHistogram" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 

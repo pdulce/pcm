@@ -23,7 +23,7 @@ import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.GenericHighchartModel;
 import domain.service.highcharts.HalfDonut;
-import domain.service.highcharts.Histogram3D;
+import domain.service.highcharts.Histogram;
 import domain.service.highcharts.SpeedoMeter;
 import domain.service.highcharts.TimeSeries;
 import domain.service.highcharts.ColumnBar;
@@ -137,7 +137,7 @@ public class Dashboard extends GenericHighchartModel {
 			TimeSeries timeSeries20 = new TimeSeries(), timeSeries21 = new TimeSeries();			
 			HalfDonut halfDonut30 = new HalfDonut();
 			BarChart bar40 = new BarChart(), bar41 = new BarChart();			
-			Histogram3D histogram31 = new Histogram3D();
+			Histogram histogram31 = new Histogram();
 			
 			Datamap dataMap10 = null, dataMap11=null, dataMap12=null, dataMap20=null, dataMap21=null, dataMap30=null, dataMap31=null, dataMap40=null, dataMap41=null;
 			

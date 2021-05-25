@@ -55,7 +55,7 @@ import domain.service.event.SceneResult;
 import domain.service.highcharts.BarChart;
 import domain.service.highcharts.Dualhistogram;
 import domain.service.highcharts.HalfDonut;
-import domain.service.highcharts.Histogram3D;
+import domain.service.highcharts.Histogram;
 import domain.service.highcharts.IStats;
 import domain.service.highcharts.MapEurope;
 import domain.service.highcharts.MapSpain;
@@ -445,8 +445,8 @@ public class ApplicationDomain implements Serializable {
 				genericHCModel = new MapWorld();
 			}else if (highchartStats.equals("barchart")){
 				genericHCModel = new BarChart();
-			}else if (highchartStats.equals("histogram3D")) {
-				genericHCModel = new Histogram3D();
+			}else if (highchartStats.equals("histogram")) {
+				genericHCModel = new Histogram();
 			}else if (highchartStats.equals("piechart")) {
 				genericHCModel = new Pie();
 			}else if (highchartStats.equals("spiderweb")) {

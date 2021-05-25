@@ -79,7 +79,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
-						<button	link="Histogram3DStatsServlet" id="histParam2" 
+						<button	link="HistogramStatsServlet" id="histParam2" 
 							name="Histogram" >
 							<fieldViewSet nameSpace="histParam2">
 								<fieldView name="highchart" hidden="true" value="dualhistogram"/>

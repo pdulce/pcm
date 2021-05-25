@@ -33,6 +33,7 @@ import domain.service.dataccess.dto.Datamap;
 import domain.service.dataccess.dto.IFieldValue;
 import domain.service.dataccess.factory.EntityLogicFactory;
 import domain.service.event.IAction;
+import domain.service.highcharts.utils.HistogramUtils;
 import domain.service.highcharts.utils.StatsUtils;
 
 
@@ -131,8 +132,10 @@ public class Scatter extends GenericHighchartModel {
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), "<h4>".concat(title).concat("</h4>"));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "");//"<br/> " + criteria);
+		String visionado = data_.getParameter(userFilter.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
 		data_.setAttribute("width", "1180px");
-		data_.setAttribute("height", "690px");
+		data_.setAttribute("height", "640px");
 		data_.setAttribute("idseries", data_.getParameter("idPressed"));
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 	}

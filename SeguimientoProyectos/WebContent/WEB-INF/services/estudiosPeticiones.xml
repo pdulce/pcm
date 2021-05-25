@@ -237,7 +237,7 @@ xmlns:service="http://pcm.framework.org/service"
 						<fieldViewSet nameSpace="histDual2">
 							<fieldView name="highchart" type="select">
 								<optionValues>
-									<option code="histogram3D" title="Histogram-3D" selected="true"></option>								
+									<option code="histogram" title="Histogram" selected="true"></option>								
 									<option code="dualhistogram" title="Freq.histogram"></option>
 								</optionValues>
 							</fieldView>

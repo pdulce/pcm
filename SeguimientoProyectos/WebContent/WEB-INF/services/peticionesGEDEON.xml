@@ -22,7 +22,7 @@
 						<fieldViewSet nameSpace="histog1">
 							<fieldView name="highchart" type="select" size="2">
 								<optionValues>
-									<option code="histogram3D" title="Histogram-3D" selected="true"></option>								
+									<option code="histogram" title="Histogram" selected="true"></option>								
 									<option code="dualhistogram" title="Freq.histogram"></option>
 								</optionValues>
 							</fieldView>
@@ -51,6 +51,12 @@
 								<optionValues>
 									<option code="SUM" title="Totalizar" selected="true"></option>								
 									<option code="AVG" title="Promediar"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="visionado" type="select" size="2">
+								<optionValues>
+									<option code="2D" title="2D" selected="true"></option>								
+									<option code="3D" title="3D"></option>
 								</optionValues>
 							</fieldView>
 						</fieldViewSet>
@@ -82,6 +88,12 @@
 								<optionValues>
 									<option code="SUM" title="Totalizar" selected="true"></option>								
 									<option code="AVG" title="Promediar"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="visionado" type="select" size="2">
+								<optionValues>
+									<option code="2D" title="2D" selected="true"></option>								
+									<option code="3D" title="3D"></option>
 								</optionValues>
 							</fieldView>
 						</fieldViewSet>
@@ -119,6 +131,12 @@
 								<optionValues>
 									<option code="SUM" title="Totalizar" selected="true"></option>								
 									<option code="AVG" title="Promediar"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="visionado" type="select" size="2">
+								<optionValues>
+									<option code="2D" title="2D" selected="true"></option>								
+									<option code="3D" title="3D"></option>
 								</optionValues>
 							</fieldView>
 						</fieldViewSet>
