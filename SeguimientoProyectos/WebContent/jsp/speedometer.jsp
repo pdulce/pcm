@@ -9,8 +9,8 @@ String dimensionName = (String) request.getAttribute(idseries+"speedometerdimens
 String entidad = (String) request.getAttribute(idseries+"speedometerentidad");
 String agregacion = (String) request.getAttribute(idseries+"speedometeragregacion");
 String defaultMode = (String)request.getAttribute("style");
-String fontColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#203A43";
-String itemColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#859398";
+String fontColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#203A43";
+String itemColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#859398";
 
 %>
 <div id="<%=idseries%>speedometer" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
@@ -118,7 +118,7 @@ Highcharts.chart('<%=idseries%>speedometer', {
         }, {
             from: 20,
             to: 50,
-            color: '#DDDF0D' // yellow
+            color: '#DDDF0D' // #FFEFBA
         }, {
             from: 50,
             to: 100,

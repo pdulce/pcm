@@ -1,14 +1,14 @@
 
 .inputHighlighted{  
   background-color: rgb(7, 39, 46);
-  color: white;
+  color: rgb(230, 230, 230);
   border:1px solid rgb(0, 128, 128);
 } 
 
 
 .small {
-	font: normal 85% Roboto, sans-serif;
-	color: white;
+	font: normal 90% Roboto, sans-serif;
+	color: rgb(230, 230, 230);
 	background-color: rgb(7, 39, 46);
 	top: 0;
 	height: 1px;
@@ -36,7 +36,7 @@ Redefine aspecto de los elementos estandard de HTML
 	position: relative;
 	top: 0px; 
 	left: 0px;
-	color: white;
+	color: rgb(230, 230, 230);
 	background-color: rgb(7, 39, 46);
 	border-top: none;	
 	border: 0;	
@@ -46,9 +46,9 @@ Redefine aspecto de los elementos estandard de HTML
 	position: relative;
 	top: 0px; 
 	left: 0px;
-	color: white;
+	color: rgb(230, 230, 230);
 	background-color: rgb(7, 39, 46);	
-	font: normal 0.9em Roboto, sans-serif;
+	font: normal 0.95em Roboto, sans-serif;
 	text-align: left;
 }
 	
@@ -56,7 +56,7 @@ Redefine aspecto de los elementos estandard de HTML
 	position: relative;
 	top: 0px; 
 	left: 0px;
-	font: normal 0.8em Roboto, sans-serif;
+	font: normal 0.95em Roboto, sans-serif;
 	border: 0.3px solid #C9DCA6;
 	background-color: rgb(7, 39, 46);
 	text-align: left;
@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
 	
 body {
 	padding: 0 2px;
-	color: white;
+	color: rgb(230, 230, 230);
 	background-color: rgb(7, 39, 46);
 	margin: 0;
 	padding: 0;

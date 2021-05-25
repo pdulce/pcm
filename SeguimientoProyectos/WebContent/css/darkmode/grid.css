@@ -19,12 +19,12 @@ TD {
 
 .trImpaired{
     background: #1d2f37;/*30515f*/
-    color: white;
+    color: rgb(230, 230, 230);
     border: 0;
 }
 
 .trPaired{
     background: #2b4753;
-    color: white;
+    color: rgb(230, 230, 230);
     border: 0;
 }

@@ -8,7 +8,7 @@
 }
 
 .highcharts-data-table table {
-	font-family: Roboto, sans-serif, sans-serif;
+	font: normal 0.95em Roboto, sans-serif;
 	color: black;
 	border-collapse: collapse;
 	border: 1px solid #EBEBEB;

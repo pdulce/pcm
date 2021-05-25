@@ -7,7 +7,7 @@
 
 
 .small {
-	font: normal 85% Roboto, sans-serif, sans-serif;
+	font: normal 95% Roboto, sans-serif, sans-serif;
 	color: black;
 	background-color: rgb(254, 254, 254);
 	top: 0;
@@ -47,7 +47,7 @@ Redefine aspecto de los elementos estandard de HTML
 	position: relative;
 	top: 0px; 
 	left: 0px;
-	font: normal 0.9em Roboto, sans-serif;
+	font: normal 0.95em Roboto, sans-serif;
 	text-align: left;
 	border: 0;
 }
@@ -56,7 +56,7 @@ Redefine aspecto de los elementos estandard de HTML
 	position: relative;
 	top: 0px; 
 	left: 0px;
-	font: normal 0.8em Roboto, sans-serif;
+	font: normal 0.95em Roboto, sans-serif;
 	text-align: left;
 }
 

@@ -197,7 +197,7 @@
 					<fieldset legend="Por Detalle">
 						
 							<fieldView mappingTo="46" editable="true" size="10" />
-							<fieldView mappingTo="35" editable="true" />
+							<fieldView mappingTo="35" editable="true" size="10" />
 							<fieldView mappingTo="2" editable="true" />
 							<fieldView mappingTo="3" editable="true" />
 							<fieldView mappingTo="16" type="checkbox">

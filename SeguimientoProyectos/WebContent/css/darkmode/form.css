@@ -2,10 +2,9 @@
 form.pcmForm {
 	width: 100%;
 	border: none;
-	color: white;
+	color: rgb(230, 230, 230);
 	background-color: rgb(7, 39, 46);
-    font-family: Roboto, sans-serif;
-    font-size: 0.9em;
+    font: normal 0.95em Roboto, sans-serif;
 	margin: 0;
 	padding: 0;
 }
@@ -13,18 +12,16 @@ form.pcmForm {
 form.pcmForm legend { 
 	padding-left: 0; 
 	background-color: rgb(7, 39, 46);
-	font-size: 0.9em;
-    font-family: Roboto, sans-serif;
-	color: white;
+    font: normal 0.95em Roboto, sans-serif;
+	color: rgb(230, 230, 230);
 }
 	
 form.pcmForm fieldset fieldset { 	
 	border: none;
-	color: white;
+	color: rgb(230, 230, 230);
 	background-color: rgb(7, 39, 46);
 	border-top: 0.1em solid #FCFFF7;
-	font-size: 0.9em;
-    font-family: Roboto, sans-serif;
+    font: normal 0.95em Roboto, sans-serif;
 	margin: 2px;
 	padding: 0;
 }
@@ -42,8 +39,7 @@ form.pcmForm fieldset fieldset {
   display:inline-block;
   vertical-align:middle;
   padding: 1px;
-  font-size: 0.95em;
-  font-family: Roboto, sans-serif;
+  font: normal 0.95em Roboto, sans-serif;
   color: rgb(2, 208, 208);
   border:1px solid #000;
 }
@@ -57,30 +53,26 @@ form.pcmForm fieldset fieldset {
 
 
 label.order{
-	font-size: 0.9em;
-    font-family: Roboto, sans-serif;
-	color: white;
+    font: normal 0.95em Roboto, sans-serif;
+	color: rgb(230, 230, 230);
 	background: rgb(7, 39, 46);
 }
 
 label.infoCls{
   background: rgb(7, 39, 46);
   color: #91e0de;
-  font-size: 105%;
-  font-family: Roboto, sans-serif;
+  font: normal 0.95em Roboto, sans-serif;
 }
 
 label.warningCls{
   background: rgb(7, 39, 46);
-  color: #d3cf06;
-  font-size: 0.8em;
-  font-family: Roboto, sans-serif;
+  color: #d3cf06;  
+  font: normal 0.95em Roboto, sans-serif;
 }
 
 label.errorCls{
   background: rgb(7, 39, 46);
   color: rgb(250, 157, 126);
-  font-size: 0.8em;
-  font-family: Roboto, sans-serif;
+  font: normal 0.95em Roboto, sans-serif;
 }
 

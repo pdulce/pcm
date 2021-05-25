@@ -1,13 +1,13 @@
 .collapsible, .collapsible.collapsed {
-	color: white;    
+	color: rgb(230, 230, 230);    
 }
 
 .collapsible.expanded {
-	color: white;	
+	color: rgb(230, 230, 230);	
 }
 
 .collapsible legend {
-	color: white;
+	color: rgb(230, 230, 230);
 	font-weight: bold;
 	cursor: pointer;
 	padding-left: 10px;

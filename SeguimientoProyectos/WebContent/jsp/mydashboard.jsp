@@ -23,7 +23,7 @@
 				<td>
 					<jsp:include page="${containerJSP_10}">
 						<jsp:param name="idseries" value="_serie10" />
-						<jsp:param name="width" value="490px" />
+						<jsp:param name="width" value="720px" />
 						<jsp:param name="height" value="460px" />
 					</jsp:include>
 				</td>
@@ -117,12 +117,16 @@
 				<td>
 					<jsp:include page="${containerJSP_20}">
 						<jsp:param name="idseries" value="_serie20" />
-						<jsp:param name="width" value="980px" />
+						<jsp:param name="width" value="780px" />
 						<jsp:param name="height" value="460px" />
 					</jsp:include>
 				</td>
 				<td>
-					&nbsp;			
+					<jsp:include page="${containerJSP_31}">
+						<jsp:param name="idseries" value="_serie31" />
+						<jsp:param name="width" value="490px" />
+						<jsp:param name="height" value="460px" />
+					</jsp:include>			
 				</td>
 				<td>
 					<fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>					    	
@@ -181,7 +185,31 @@
 							</select>    
 				    		<br><br>
 				    		
-				    		<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
+				    												
+						</div>						
+					</fieldset>
+				
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<jsp:include page="${containerJSP_21}">
+						<jsp:param name="idseries" value="_serie21" />
+						<jsp:param name="width" value="780px" />
+						<jsp:param name="height" value="460px" />
+					</jsp:include>				
+				</td>
+				<td>
+					<jsp:include page="${containerJSP_30}">
+						<jsp:param name="idseries" value="_serie30" />
+						<jsp:param name="width" value="490px" />
+						<jsp:param name="height" value="460px" />
+					</jsp:include>	
+				</td>
+				<td>				
+					<fieldset class="collapsible"><legend>Filtrar por criterios generales</legend>					    	
+					   	<div class="pcmBody">
+					   		<label class="infoCls"  title="Aplicativo" id="aplicativo.idLABEL" for="aplicativo.id">
 							&nbsp;&nbsp;Aplicativo&nbsp;</label>
 							<select class="textInput" size="30" id="aplicativo.id" name="aplicativo.id"
 								onChange="javascript:document.forms[0].submit();return true;"  multiple>
@@ -220,48 +248,17 @@
 								  }//while
 								%>
 							</select>
-							<br><br>										
-						</div>						
+							<br><br>
+						</div>
 					</fieldset>
-				
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<jsp:include page="${containerJSP_21}">
-						<jsp:param name="idseries" value="_serie21" />
-						<jsp:param name="width" value="980px" />
-						<jsp:param name="height" value="460px" />
-					</jsp:include>				
-				</td>
-				<td>
-				&nbsp;
 				</td>
 			</tr>	
 			<tr>
 				<td>
-					
-					<jsp:include page="${containerJSP_31}">
-						<jsp:param name="idseries" value="_serie31" />
-						<jsp:param name="width" value="490px" />
-						<jsp:param name="height" value="460px" />
-					</jsp:include>
-				</td>
-				<td>
-					<jsp:include page="${containerJSP_30}">
-						<jsp:param name="idseries" value="_serie30" />
-						<jsp:param name="width" value="490px" />
-						<jsp:param name="height" value="460px" />
-					</jsp:include>
-					
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<jsp:include page="${containerJSP_40}">
 						<jsp:param name="idseries" value="_serie40" />
-						<jsp:param name="width" value="490px" />
-						<jsp:param name="height" value="680px" />
+						<jsp:param name="width" value="720px" />
+						<jsp:param name="height" value="460px" />
 					</jsp:include>
 					<div>
 						<br><br>&nbsp;<br>
@@ -272,7 +269,7 @@
 					<jsp:include page="${containerJSP_41}">
 						<jsp:param name="idseries" value="_serie41" />
 						<jsp:param name="width" value="490px" />
-						<jsp:param name="height" value="680px" />
+						<jsp:param name="height" value="460px" />
 					</jsp:include>
 					<div>
 						<br><br>&nbsp;<br>

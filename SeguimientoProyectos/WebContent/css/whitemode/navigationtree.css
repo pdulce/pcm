@@ -22,7 +22,7 @@
 .dhtmlgoodies_tree li a{	/* Node links */
 	/*color:#677ABA;*/
 	text-decoration:none;
-	font-family: Roboto, sans-serif, sans-serif;
+	font: normal 0.95em Roboto, sans-serif;
 	color: black;
 	background: rgb(254, 254, 254);
 	font-size:0.78em;

@@ -8,8 +8,8 @@ String width = request.getParameter("width") == null ? (String)request.getAttrib
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 
 String defaultMode = (String)request.getAttribute("style");
-String fontColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#203A43";
-String itemColor_ = defaultMode.contentEquals("darkmode") ? "yellow" : "#859398";
+String fontColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#203A43";
+String itemColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#859398";
 
 %>
 <div id="<%=idseries%>timeseries" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>

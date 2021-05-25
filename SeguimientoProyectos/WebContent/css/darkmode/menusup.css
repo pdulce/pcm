@@ -7,9 +7,8 @@ background: rgb(7, 39, 46);
 width: 100%;
 margin: 0 auto;
 padding: 1em 0;
-font-family: Roboto, sans-serif;
-font-size: 0.9em;
-color: white;
+font: normal 0.95em Roboto, sans-serif;
+color: rgb(230, 230, 230);
 text-align: center;
 text-transform: lowercase;
 }
@@ -21,7 +20,7 @@ list-style: none;
 padding: 0;
 margin: 0 auto;
 width: 100%;
-color: white;
+color: rgb(230, 230, 230);
 background-color: rgb(7, 39, 46);
 }
 
@@ -30,7 +29,7 @@ ul#navlist li
 display: block;
 margin: 0;
 padding: 0;
-color: white;
+color: rgb(230, 230, 230);
 background-color: rgb(7, 39, 46);
 }
 
@@ -43,7 +42,7 @@ border-width: 1px;
 background-color: rgb(7, 39, 46);
 border-style: solid;
 /*color: #919191;*/
-color: white;
+color: rgb(230, 230, 230);
 text-decoration: none;
 background: #f7f2ea;
 }
@@ -54,13 +53,13 @@ ul#navlist li#active a
 {
 background: #E6EDE8;
 /*color: #4F4F4F;*/
-color: white;
+color: rgb(230, 230, 230);
 }
 
 ul#navlist li a:hover, ul#navlist li#active a:hover
 {
 /*color: #4F4F4F;*/
-color: white;
+color: rgb(230, 230, 230);
 background: transparent;
 border-color: #aaab9c #fff #fff #ccc;
 }
