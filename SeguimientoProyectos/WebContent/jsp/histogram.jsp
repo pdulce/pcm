@@ -45,7 +45,7 @@ if ((String)request.getAttribute(idseries+"histogramvisionado") == null){
 	        options3d: {
 	        	enabled: <%=visionado3D%>,
 	            alpha: 15,
-	            beta: 15,
+	            beta: 15,	      
 	            depth: 50,
 	            viewDistance: 25
 	        },
@@ -68,7 +68,11 @@ if ((String)request.getAttribute(idseries+"histogramvisionado") == null){
             	style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '9pt'}
             }
         },
-        
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
         yAxis: {
             allowDecimals: true,
             min: <%=request.getAttribute(idseries+"histogramminEjeRef")%>,
@@ -92,17 +96,6 @@ if ((String)request.getAttribute(idseries+"histogramvisionado") == null){
             headerFormat: '<b>{point.key}</b><br>',
             pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y:<%=request.getAttribute(idseries+"histogramdecimals")%>}'
         },
-        				       
-        plotOptions: {
-            column: {
-                depth: 24,
-                pointPadding: 0,
-                borderWidth: 2,
-                groupPadding: 0,
-                shadow: false
-            }
-        },
-        				      
         series: <%=request.getAttribute(idseries+"histogramseries")%>
 	});
 	

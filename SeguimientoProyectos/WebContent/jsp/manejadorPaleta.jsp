@@ -14,11 +14,11 @@ String itemColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#859398
 
 <%if (defaultMode.contentEquals("darkmode")){ %>
 		Highcharts.setOptions({
-			colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
+			colors: [ '#06B5CA', '#00607E', '#CFCECE', '#FCBF0A', '#64E572', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
 		});
 <%}else{%>
 		Highcharts.setOptions({
-			colors: [ '#06B5CA','#64E572', '#CFCECE', '#00607E', '#FCBF0A', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
+			colors: [ '#06B5CA', '#00607E', '#CFCECE', '#FCBF0A', '#64E572', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
 		});
 <%}%>
 

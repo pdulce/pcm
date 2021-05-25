@@ -26,8 +26,8 @@ if ((String)request.getAttribute(idseries+"dualHistogramvisionado") == null){
 	            	enabled: <%=visionado3D%>,
 	                alpha: 15,
 	                beta: 15,
-	                viewDistance: 25,
-	                depth: 40
+	                depth: 50,
+	                viewDistance: 25
 	            },
 	            style: {
 	            	 fontFamily: 'Roboto, sans-serif'   	 
@@ -89,7 +89,11 @@ if ((String)request.getAttribute(idseries+"dualHistogramvisionado") == null){
 	            itemStyle: {'color': itemColor, 'font-weight': 'normal', 'font-size': '12px'},
 	            verticalAlign: 'bottom'
 	        },
-
+	        plotOptions: {
+	            column: {
+	                depth: 25
+	            }
+	        },
 	        series: [{
 	        	name: 'Relative freq.',
 	            type: 'column',
