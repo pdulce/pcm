@@ -254,8 +254,8 @@ public class FieldViewSet implements Serializable {
 					String entityInRequest = fieldInRequest[0];
 					String field_ =  keyMemorized.contains(".")? fieldInRequest[1]: keyMemorized;
 					final List<Object> values = entry.getValue();
-					if ((values == null || values.isEmpty() || "".contentEquals(values.get(0).toString()))
-							|| fieldInRequest.length == 1) {
+					if ((values == null || values.isEmpty() || values.get(0) == null || 
+							"".contentEquals(values.get(0).toString())) || fieldInRequest.length == 1) {
 						continue;
 					}
 					String fieldName_rank = keyMemorized;

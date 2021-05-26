@@ -16,7 +16,7 @@ if ((String)request.getAttribute(idseries+"timeseriesvisionado") == null){
 
 <jsp:include page="manejadorPaleta.jsp"></jsp:include>
 
-<script type="text/javascript">
+<script type="text/javascript">	
 	Highcharts.chart('<%=idseries%>timeseries', {
 	    chart: {     	
             type: '<%=request.getAttribute(idseries+"timeseriestypeOfSeries")%>',
@@ -84,8 +84,8 @@ if ((String)request.getAttribute(idseries+"timeseriesvisionado") == null){
                 },
                 threshold: null
             }
-        },
-
+        },        
+        
         series: <%=request.getAttribute(idseries+"timeseriesseries")%>,
         
         responsive: {

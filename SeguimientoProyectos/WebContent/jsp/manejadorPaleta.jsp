@@ -14,12 +14,28 @@ String itemColor_ = defaultMode.contentEquals("darkmode") ? "#FFEFBA" : "#859398
 
 <%if (defaultMode.contentEquals("darkmode")){ %>
 		Highcharts.setOptions({
-			colors: [ '#06B5CA', '#00607E', '#CFCECE', '#FCBF0A', '#64E572', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
+			colors: [ '#06B5CA', '#00607E', '#B3DFF2', '#35DBC6', '#D3F9D6', '#F0C779', '#CCB0B0', '#EBEC6B', '#1F4C5C']
 		});
 <%}else{%>
 		Highcharts.setOptions({
-			colors: [ '#06B5CA', '#00607E', '#CFCECE', '#FCBF0A', '#64E572', '#FFF263', '#B3DFF2', '#6AF9C4', '#1A3B47']
+			colors: [ '#06B5CA', '#00607E', '#B3DFF2', '#35DBC6', '#D3F9D6', '#F0C779', '#CCB0B0', '#EBEC6B', '#1F4C5C']
 		});
 <%}%>
+
+Highcharts.setOptions({
+    colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: {
+                cx: 0.5,
+                cy: 0.3,
+                r: 0.7
+            },
+            stops: [
+                [0, color],
+                [1, Highcharts.color(color).brighten(-0.35).get('rgb')] // darken
+            ]
+        };
+    })
+});
 
 </script>
