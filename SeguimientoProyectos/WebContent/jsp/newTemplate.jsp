@@ -73,8 +73,7 @@
 					             <li><a class="dropdown-item" href="prjManager?event=GestionApps.query">Aplicativos</a></li>		
 				             </ul>
 				           </li>
-				       <%} %>	         
-			           <li class="nav-item dropdown">
+				            <li class="nav-item dropdown">
 			              <a
 			               class="nav-link dropdown-toggle"
 			               href="#"
@@ -97,7 +96,9 @@
 			               <%} %>
 			             </ul>
 			           </li>
-			           
+				       <%} %>	         
+			          
+			           <%if (profile.contentEquals("ADMINISTRADOR") || profile.contentEquals("CONSULTOR_UTE") || profile.contentEquals("INVITADO")){ %>			
 			            <li class="nav-item dropdown">
 			              <a
 			               class="nav-link dropdown-toggle"
@@ -121,6 +122,8 @@
 			               <li><a class="dropdown-item" href="prjManager?event=Demos.query"><i class="fas fa-globe"></i>&nbsp;Mapas</a></li>
 			             </ul>
 			           </li>
+			           <%} %>
+			           
 			           <%if (profile.contentEquals("ADMINISTRADOR")){ %>				          
 				           <li class="nav-item dropdown">
 				              <a

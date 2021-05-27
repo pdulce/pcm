@@ -34,7 +34,8 @@
 			var conjuntoCritLocaliz = ["17","9","12","41"];
 			var conjuntoCritAplicativo = ["26","13"];
 			var conjuntoCritSituacion = ["7"];
-			var conjuntoCritDetalles = ["1","35","2","3","16"];
+			var conjuntoCritDetalles = ["46", "35", "2", "3", "16"];
+			
 			var criteriaFilled = settings.valuesFilled;
 			
 			//alert('criteriaFilled: ' + criteriaFilled);
