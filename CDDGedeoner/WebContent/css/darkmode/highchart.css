@@ -1,0 +1,53 @@
+/* PERSONALIZACION DE LOS MAPAS Y GRAPHICS DE HIGHCHARTS */
+
+#container {
+    height: 800px; 
+    min-width: 310px; 
+    max-width: 1260px; 
+    margin: 0 auto; 
+    color: rgb(230, 230, 230);
+}
+
+.highcharts-data-table table {
+	font: normal 0.95em Roboto, sans-serif;
+	color: rgb(230, 230, 230);
+	border-collapse: collapse;
+	border: 1px solid #EBEBEB;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 800px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 0.9em;
+    color: rgb(159, 255, 255);
+}
+.highcharts-data-table th {
+	font-weight: 640;
+	color: rgb(230, 230, 230);
+    padding: 0.5em;
+    background: rgb(7, 39, 46);
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+    color: rgb(230, 230, 230);
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: rgb(7, 39, 46);
+    color: rgb(230, 230, 230);
+}
+.highcharts-data-table tr:hover {
+    background: rgb(7, 39, 46);
+    color: rgb(230, 230, 230);
+}
+
+#sliders td input[type=range] {
+    display: inline;
+    color: rgb(230, 230, 230);
+}
+#sliders td {
+    padding-right: 1em;
+    rgb(230, 230, 230)-space: nowrap;
+    color: rgb(230, 230, 230);
+}

@@ -8,13 +8,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import domain.application.ApplicationDomain;
-import domain.common.PCMConstants;
-import domain.service.dataccess.dto.Datamap;
-import domain.service.event.SceneResult;
-import domain.service.highcharts.IStats;
+import org.cdd.application.ApplicationDomain;
+import org.cdd.common.PCMConstants;
+import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.event.SceneResult;
+import org.cdd.service.highcharts.IStats;
 import facturacionUte.dashboards.Dashboard;
-import webservlet.CDDWebController;
+import org.cdd.webservlet.CDDWebController;
 
 /**
  * @author 99GU3997

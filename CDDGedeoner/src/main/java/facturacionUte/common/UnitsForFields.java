@@ -3,8 +3,8 @@
  */
 package facturacionUte.common;
 
-import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Datamap;
+import org.cdd.service.dataccess.definitions.IFieldLogic;
+import org.cdd.service.dataccess.dto.Datamap;
 
 /**
  * @author 99GU3997

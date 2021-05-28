@@ -20,25 +20,40 @@
   </properties>
 
   <dependencies>
+  	<dependency>
+		<groupId>org.cdd</groupId>
+		<artifactId>cdd-framework</artifactId>
+		<version>1.0</version>
+		<scope>system</scope>
+		<systemPath>${basedir}/local-lib/cdd.jar</systemPath>
+	</dependency>
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi</artifactId>
+	    <version>5.0.0</version>
+	</dependency>	
 	<dependency>
 	  <groupId>org.tensorflow</groupId>
 	  <artifactId>tensorflow-core-platform</artifactId>
 	  <version>0.3.1</version>
 	</dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>org.cdd</groupId>
-    	<artifactId>CDDFramework</artifactId>
-    	<version>01.00</version>
-    	<type>java-source</type>
-    	<systemPath>${basedir}\..\contextPropModel\src</systemPath>
-    	<classifier>Java Module</classifier>
-    </dependency>
+   	<dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+     </dependency>  
+     <dependency>
+		<groupId>org.junit.jupiter</groupId>
+		<artifactId>junit-jupiter-api</artifactId>
+		<version>5.3.0</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.junit.jupiter</groupId>
+		<artifactId>junit-jupiter-engine</artifactId>
+		<version>5.3.2</version>
+	</dependency>  
   </dependencies>
 
   <build>

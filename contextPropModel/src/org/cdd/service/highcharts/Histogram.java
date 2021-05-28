@@ -95,7 +95,7 @@ public class Histogram extends GenericHighchartModel {
 					Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
 					FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();
 					//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
-					Serializable firstGroupBY_id =  (Serializable) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
+					Serializable firstGroupBY_id =  registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
 					
 					if (firstGroupBY_ID_Aux == null) {
 						firstGroupBY_ID_Aux = firstGroupBY_id;

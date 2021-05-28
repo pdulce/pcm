@@ -21,24 +21,22 @@ import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.PCMConfigurationException;
-import domain.common.utils.AbstractExcelReader;
-import domain.common.utils.CommonUtils;
-import domain.service.component.definitions.FieldViewSet;
-import domain.service.dataccess.DataAccess;
-import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.comparator.ComparatorByFilename;
-import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.dataccess.factory.IEntityLogicFactory;
-import domain.service.dataccess.persistence.SqliteDAOSQLImpl;
-import domain.service.dataccess.persistence.datasource.IPCMDataSource;
-import domain.service.dataccess.persistence.datasource.PCMDataSourceFactory;
+import org.cdd.common.exceptions.DatabaseException;
+import org.cdd.common.exceptions.PCMConfigurationException;
+import org.cdd.common.utils.AbstractExcelReader;
+import org.cdd.common.utils.CommonUtils;
+import org.cdd.service.component.definitions.FieldViewSet;
+import org.cdd.service.dataccess.DataAccess;
+import org.cdd.service.dataccess.IDataAccess;
+import org.cdd.service.dataccess.comparator.ComparatorByFilename;
+import org.cdd.service.dataccess.definitions.IEntityLogic;
+import org.cdd.service.dataccess.definitions.IFieldLogic;
+import org.cdd.service.dataccess.factory.EntityLogicFactory;
+import org.cdd.service.dataccess.factory.IEntityLogicFactory;
+import org.cdd.service.dataccess.persistence.SqliteDAOSQLImpl;
+import org.cdd.service.dataccess.persistence.datasource.IPCMDataSource;
+import org.cdd.service.dataccess.persistence.datasource.PCMDataSourceFactory;
 import facturacionUte.common.ConstantesModelo;
 
 
@@ -90,30 +88,28 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 				in = new FileInputStream(ficheroTareasImport);
 			} catch (Throwable excc) {
 				throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
+			}finally {
+				in.close();
 			}
 
 			/** intentamos con el formato .xls y con el .xlsx **/
+			HSSFWorkbook wb2 = null;
 			try {
-				XSSFWorkbook wb = new XSSFWorkbook(in);
-				final XSSFSheet sheet = wb.getSheetAt(0);
+				in = new FileInputStream(ficheroTareasImport);
+				wb2 = new HSSFWorkbook(in);
+				final HSSFSheet sheet = wb2.getSheetAt(0);
 				if (sheet == null) {
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
-				filas = leerFilas(sheet, null, tareaEntidad);
-			} catch (Throwable exc) {
-				try {
-					in = new FileInputStream(ficheroTareasImport);
-					HSSFWorkbook wb2 = new HSSFWorkbook(in);
-					final HSSFSheet sheet = wb2.getSheetAt(0);
-					if (sheet == null) {
-						throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-					}
-					filas = leerFilas(null, sheet, tareaEntidad);
-					
-				} catch (Throwable exc2) {
-					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-				}
-			}			
+				filas = leerFilas(sheet, tareaEntidad);
+				
+			} catch (Throwable exc2) {
+				throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
+			}finally {
+				in.close();
+				wb2.close();
+			}
+						
 
 			return filtradoInterno(Calendar.getInstance().getTime(), filas);
 		}
@@ -141,7 +137,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					String idTarea = "";
 					String[] splitter = etiquetaCelda.split("-");
 					if (splitter.length > 1) {
-						//999806_1 - INVE-ANA - INMUEBLES. Revisión del informe de movimientos de inmuebles en el cálculo y visualización de la amortización.
+						//999806_1 - INVE-ANA - INMUEBLES. Revisiï¿½n del informe de movimientos de inmuebles en el cï¿½lculo y visualizaciï¿½n de la amortizaciï¿½n.
 						idTarea = splitter[0].trim();
 						FieldViewSet tareaEnBBDD = new FieldViewSet(tareaEntidad);
 						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName(), idTarea);
@@ -163,7 +159,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), Long.valueOf(idPeticionGEDEON));
 					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionEnBBDD);
 					if (existenColl == null || existenColl.isEmpty()){
-						continue;//no añadimos esta tarea porque no tiene padre
+						continue;//no aï¿½adimos esta tarea porque no tiene padre
 					}else {
 						peticionEnBBDD = existenColl.iterator().next();
 						Long idPeticionSeq = (Long) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName());
@@ -173,7 +169,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 							peticionesProcesadas.add(idPeticionSeq);
 							peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), 0.0);
 						}
-						//contabilizamos las horas dedicadas a esta petición a partir de esta tarea
+						//contabilizamos las horas dedicadas a esta peticiï¿½n a partir de esta tarea
 						Double horas = (Double) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
 						horas += new_horas_imputadas;
 						peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), horas);
@@ -184,7 +180,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					}
 					
 					//Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
-					//System.out.println("La petición fue dada de alta el día: " + CommonUtils.convertDateToLongFormatted(fecAlta));
+					//System.out.println("La peticiï¿½n fue dada de alta el dï¿½a: " + CommonUtils.convertDateToLongFormatted(fecAlta));
 										
 					if (isUpdate) {
 						int ok = this.dataAccess.modifyEntity(tareaFilaExcel);

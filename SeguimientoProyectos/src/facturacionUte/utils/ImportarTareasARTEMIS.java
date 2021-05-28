@@ -18,11 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.utils.AbstractExcelReader;
@@ -90,29 +89,26 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 				in = new FileInputStream(ficheroTareasImport);
 			} catch (Throwable excc) {
 				throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
+			}finally {
+				in.close();
 			}
 
 			/** intentamos con el formato .xls y con el .xlsx **/
+			Workbook wb = null;
+			
 			try {
-				XSSFWorkbook wb = new XSSFWorkbook(in);
-				final XSSFSheet sheet = wb.getSheetAt(0);
+				in = new FileInputStream(ficheroTareasImport);
+				wb = WorkbookFactory.create(in);					
+				final Sheet sheet = wb.getSheetAt(0);
 				if (sheet == null) {
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
-				filas = leerFilas(sheet, null, tareaEntidad);
-			} catch (Throwable exc) {
-				try {
-					in = new FileInputStream(ficheroTareasImport);
-					HSSFWorkbook wb2 = new HSSFWorkbook(in);
-					final HSSFSheet sheet = wb2.getSheetAt(0);
-					if (sheet == null) {
-						throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-					}
-					filas = leerFilas(null, sheet, tareaEntidad);
-					
-				} catch (Throwable exc2) {
-					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-				}
+				filas = leerFilas(sheet, tareaEntidad);
+				
+			} catch (Throwable exc2) {
+				throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
+			}finally {
+				in.close();
 			}			
 
 			return filtradoInterno(Calendar.getInstance().getTime(), filas);

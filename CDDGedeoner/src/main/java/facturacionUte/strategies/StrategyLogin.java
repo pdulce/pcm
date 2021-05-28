@@ -3,17 +3,17 @@ package facturacionUte.strategies;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import domain.common.PCMConstants;
-import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.StrategyException;
-import domain.service.component.definitions.FieldViewSet;
-import domain.service.conditions.DefaultStrategyLogin;
-import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Datamap;
-import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.IAction;
+import org.cdd.common.PCMConstants;
+import org.cdd.common.exceptions.DatabaseException;
+import org.cdd.common.exceptions.PCMConfigurationException;
+import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.definitions.FieldViewSet;
+import org.cdd.service.conditions.DefaultStrategyLogin;
+import org.cdd.service.dataccess.IDataAccess;
+import org.cdd.service.dataccess.definitions.IEntityLogic;
+import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.dataccess.factory.EntityLogicFactory;
+import org.cdd.service.event.IAction;
 import facturacionUte.common.ConstantesModelo;
 
 public class StrategyLogin extends DefaultStrategyLogin {

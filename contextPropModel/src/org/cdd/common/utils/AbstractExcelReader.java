@@ -14,10 +14,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
@@ -51,17 +50,15 @@ public abstract class AbstractExcelReader {
 	 * @throws Throwable
 	 * This method read an Excel and maps each column in Excel with the equivalent field in the entityLogic instance (fieldviewset)
 	 */
-	public final List<FieldViewSet> leerFilas(final XSSFSheet sheetNewVersion, 
-			final HSSFSheet sheetOldVersion, 
-			final IEntityLogic entidad) throws Throwable{
+	public final List<FieldViewSet> leerFilas(final Sheet sheet, final IEntityLogic entidad) throws Throwable{
 		
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
 		int nrow = 0;
 		Cell columnTitle = null;
 
-		Row rowTitle = sheetNewVersion!=null?sheetNewVersion.getRow(nrow++): sheetOldVersion.getRow(nrow++);
+		Row rowTitle = sheet.getRow(nrow++);
 		while (rowTitle != null) {// while
-			final Row rowIEsima = sheetNewVersion!=null?sheetNewVersion.getRow(nrow++): sheetOldVersion.getRow(nrow++);
+			final Row rowIEsima = sheet.getRow(nrow++);
 			if (rowIEsima == null) {
 				break;
 			}

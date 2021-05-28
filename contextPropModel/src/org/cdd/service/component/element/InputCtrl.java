@@ -48,7 +48,7 @@ public class InputCtrl extends AbstractCtrl {
 					length = 6;
 				} else {
 					final int maxLength = this.fieldView.getEntityField().getAbstractField().getMaxLength();
-					size = (int) (maxLength*2)/InputCtrl.DEFAULT_SIZE;
+					size = (maxLength*2)/InputCtrl.DEFAULT_SIZE;
 					length = maxLength;
 				}
 			}

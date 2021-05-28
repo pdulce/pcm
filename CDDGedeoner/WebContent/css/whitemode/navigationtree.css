@@ -1,0 +1,30 @@
+
+.dhtmlgoodies_tree{
+	margin:3px;
+	background: rgb(254, 254, 254);
+	padding:0px;
+}
+
+.dhtmlgoodies_tree ul{	/* Sub menu groups */
+	margin-left:20px;	/* Left spacing */
+	padding-left:0px;
+	background: rgb(254, 254, 254);
+	display:none;	/* Initially hide sub nodes */
+}
+
+.dhtmlgoodies_tree li{	/* Nodes */
+	list-style-type:none;
+	background: transparent;
+	vertical-align:middle;
+	
+}
+
+.dhtmlgoodies_tree li a{	/* Node links */
+	/*color:#677ABA;*/
+	text-decoration:none;
+	font: normal 0.95em Roboto, sans-serif;
+	color: black;
+	background: rgb(254, 254, 254);
+	font-size:0.78em;
+	padding-left:2px;
+}

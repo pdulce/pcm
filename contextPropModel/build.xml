@@ -1,0 +1,43 @@
+<?xml version="1.0" ?> 
+<project name="ContextDomainDrivenFramework" default="jarCDD">
+	
+	<property environment="env"/>
+	
+	<property name="base.workspace" value="C:\\Users\\ESDU\\git\\pcm"/>
+	
+	<property name="cdd.work.path" value="${base.workspace}/contextPropModel"/>
+	<property name="app.work.path" value="${base.workspace}/CDDGedeoner"/>
+	
+	<!-- fin propiedades -->
+	
+    <target name="init">
+    	<mkdir dir="${cdd.work.path}/build/classes"/>
+    </target>
+	
+	<path id="compile.classpath">
+	    <fileset dir="${cdd.work.path}/lib">
+	        <include name="*.jar"/>
+	    </fileset>
+	 </path>
+
+	
+	<target name="compileCDD" depends="init">
+        <javac encoding="ISO-8859-1" destdir="${cdd.work.path}/build/classes"
+        	includeAntRuntime="false" debug="true">
+			<compilerarg value="-Xlint"/>
+        	<src>
+	          <pathelement location="${cdd.work.path}/src" />
+	        </src>
+        	<classpath refid="compile.classpath"/>
+       </javac>
+       <copy todir="${cdd.work.path}/build/classes/org/cdd/common/messages">
+       	  <fileset dir="${cdd.work.path}/src/org/cdd/common/messages"/>
+       </copy>
+    </target>
+	
+	<target name="jarCDD" depends="compileCDD">
+		<jar destfile="${app.work.path}/local-lib/cdd.jar" basedir="${cdd.work.path}/build/classes"/>
+	</target>
+		
+     
+</project>

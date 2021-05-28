@@ -5,29 +5,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import domain.common.PCMConstants;
-import domain.common.exceptions.DatabaseException;
-import domain.common.exceptions.PCMConfigurationException;
-import domain.service.DomainService;
-import domain.service.component.IViewComponent;
-import domain.service.component.Translator;
-import domain.service.component.XmlUtils;
-import domain.service.component.definitions.FieldViewSet;
-import domain.service.component.definitions.FieldViewSetCollection;
-import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.definitions.IFieldLogic;
-import domain.service.dataccess.dto.Datamap;
-import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.SceneResult;
-import domain.service.highcharts.BarChart;
-import domain.service.highcharts.GenericHighchartModel;
-import domain.service.highcharts.HalfDonut;
-import domain.service.highcharts.Histogram;
-import domain.service.highcharts.SpeedoMeter;
-import domain.service.highcharts.TimeSeries;
-import domain.service.highcharts.ColumnBar;
-import domain.service.highcharts.utils.HistogramUtils;
+import org.cdd.common.PCMConstants;
+import org.cdd.common.exceptions.DatabaseException;
+import org.cdd.common.exceptions.PCMConfigurationException;
+import org.cdd.service.DomainService;
+import org.cdd.service.component.IViewComponent;
+import org.cdd.service.component.Translator;
+import org.cdd.service.component.XmlUtils;
+import org.cdd.service.component.definitions.FieldViewSet;
+import org.cdd.service.component.definitions.FieldViewSetCollection;
+import org.cdd.service.dataccess.IDataAccess;
+import org.cdd.service.dataccess.definitions.IEntityLogic;
+import org.cdd.service.dataccess.definitions.IFieldLogic;
+import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.dataccess.factory.EntityLogicFactory;
+import org.cdd.service.event.SceneResult;
+import org.cdd.service.highcharts.BarChart;
+import org.cdd.service.highcharts.GenericHighchartModel;
+import org.cdd.service.highcharts.HalfDonut;
+import org.cdd.service.highcharts.Histogram;
+import org.cdd.service.highcharts.SpeedoMeter;
+import org.cdd.service.highcharts.TimeSeries;
+import org.cdd.service.highcharts.ColumnBar;
+import org.cdd.service.highcharts.utils.HistogramUtils;
 import facturacionUte.common.ConstantesModelo;
 
 public class Dashboard extends GenericHighchartModel {
@@ -61,7 +61,7 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM));	
 		
 		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), firstGroupBy.split(","));		
-		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados);//ciclo vida petición
+		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados);//ciclo vida peticiï¿½n
 		//"AVG", "SUM"
 		if (_data.getParameter(OPERATION_FIELD_PARAM)== null && specificOperationAgregacion == null) {
 			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), "AVG");
@@ -265,7 +265,7 @@ public class Dashboard extends GenericHighchartModel {
 			
 			halfDonut30.generateStatGraphModel(dataAccess, domainService, dataMap30);
 			
-			dataMap31 = createMap(_data, "_serie31",  orderBy, fields4GroupBY + "," + orderBy, "", new String[] {"-1"}, null);//count ALL records, sin dimensión
+			dataMap31 = createMap(_data, "_serie31",  orderBy, fields4GroupBY + "," + orderBy, "", new String[] {"-1"}, null);//count ALL records, sin dimensiï¿½n
 			histogram31.generateStatGraphModel(dataAccess, domainService, dataMap31);
 							
 			dataMap40 = createMap(_data, "_serie40", orderBy, fields4GroupBY + "," +secondField4GroupBY, "", valuesOfDimensionSelected, null);

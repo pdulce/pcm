@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import domain.common.PCMConstants;
-import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.StrategyException;
-import domain.common.utils.CommonUtils;
-import domain.service.component.definitions.FieldViewSet;
-import domain.service.conditions.DefaultStrategyRequest;
-import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Datamap;
-import domain.service.dataccess.factory.EntityLogicFactory;
-import domain.service.event.AbstractAction;
+import org.cdd.common.PCMConstants;
+import org.cdd.common.exceptions.PCMConfigurationException;
+import org.cdd.common.exceptions.StrategyException;
+import org.cdd.common.utils.CommonUtils;
+import org.cdd.service.component.definitions.FieldViewSet;
+import org.cdd.service.conditions.DefaultStrategyRequest;
+import org.cdd.service.dataccess.IDataAccess;
+import org.cdd.service.dataccess.definitions.IEntityLogic;
+import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.dataccess.factory.EntityLogicFactory;
+import org.cdd.service.event.AbstractAction;
 import facturacionUte.common.ConstantesModelo;
 
 public class TipoEstudioAGenerar extends DefaultStrategyRequest {

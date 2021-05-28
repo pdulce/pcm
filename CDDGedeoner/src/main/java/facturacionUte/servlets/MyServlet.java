@@ -1,8 +1,8 @@
 package facturacionUte.servlets;
 
-import domain.service.highcharts.IStats;
+import org.cdd.service.highcharts.IStats;
 import facturacionUte.dashboards.Dashboard;
-import webservlet.CDDWebController;
+import org.cdd.webservlet.CDDWebController;
 
 public class MyServlet extends CDDWebController {
 	
