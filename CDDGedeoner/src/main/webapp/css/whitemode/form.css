@@ -1,0 +1,79 @@
+
+form.pcmForm {
+	width: 100%;
+	border: none;
+	color: black;
+	background-color: rgb(254, 254, 254);
+    font: normal 0.95em Roboto, sans-serif;    
+	margin: 0;
+	padding: 0;
+}
+	
+form.pcmForm legend { 
+	padding-left: 0; 
+	background-color: rgb(254, 254, 254);
+	font: normal 0.95em Roboto, sans-serif;
+	color: black;
+}
+	
+form.pcmForm fieldset fieldset { 	
+	border: none;
+	color: black;
+	background-color: rgb(254, 254, 254);
+	border-top: 0.1em solid #FCFFF7;
+	font: normal 0.95em Roboto, sans-serif;
+	margin: 2px;
+	padding: 0;
+}
+
+.redAst{
+	color: #d3cf06;
+	background: rgb(254, 254, 254);
+}
+
+
+.textInput{ 
+  background-color: rgb(218, 181, 7);
+  background: rgb(252, 252, 252);
+  margin: 0;
+  padding: 1px;
+  display:inline-block;
+  vertical-align:middle;
+  font: normal 0.95em Roboto, sans-serif;
+  color: rgb(94, 94, 94);
+  border:1px solid rgb(94, 94, 94);
+}
+
+.imgCalendar{
+  position: relative;
+  vertical-align: bottom;	
+  height: 17px;
+  width: 19px;
+}
+
+
+label.order{
+    font: normal 0.95em Roboto, sans-serif;
+	color: black;
+	background: rgb(254, 254, 254);
+}
+
+label.infoCls{
+  background: rgb(254, 254, 254);
+  color: rgb(94, 94, 94);  
+  font: normal 0.95em Roboto, sans-serif;
+}
+
+label.warningCls{
+  background: rgb(254, 254, 254);
+  color: rgb(255, 128, 0);
+  font: normal 0.95em Roboto, sans-serif;
+}
+
+label.errorCls{
+  background: rgb(254, 254, 254);
+  color: rgb(128, 0, 64);
+  font: normal 0.95em Roboto, sans-serif;  
+}
+
+

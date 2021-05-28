@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group 
+	xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+	<service
+    name="GestionarImportacionesGEDEON" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="GestionarImportacionesGEDEON.query"
+			submitSucces="GestionarImportacionesGEDEON.query">
+	
+			<viewComponent>
+
+			<form columns="3" title="Importaciones desde GEDEON">
+
+				<fieldViewSet entitymodel="importacionesGEDEON"
+					nameSpace="importacionesGEDEON">
+					<fieldView mappingTo="1" />
+					<fieldView mappingTo="2" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="4" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+				</fieldViewSet>
+			</form>
+
+			<grid title="Listado de importaciones desde GEDEON" orderDirection="desc" defaultOrderField="importacionesGEDEON.6"
+				eventsRegistered="create,update, delete">
+
+				<fieldViewSet entitymodel="importacionesGEDEON"
+					nameSpace="importacionesGEDEON">
+					<fieldView mappingTo="1" />
+					<fieldView mappingTo="2" />
+					<fieldView mappingTo="3" />
+					<fieldView mappingTo="4" />
+					<fieldView mappingTo="6" />
+				</fieldViewSet>
+			</grid>
+
+		</viewComponent>
+	</action>
+
+	<action event="create" submitError="GestionarImportacionesGEDEON.create"
+		submitSucces="GestionarImportacionesGEDEON.query" strategyPre="facturacionUte.strategies.StrategyImportacion">
+
+		<viewComponent>
+			<form columns="8" title="Importacion">
+				<fieldViewSet entitymodel="importacionesGEDEON"
+					nameSpace="importacionesGEDEON">
+					<fieldset legend="Datos Importacion">
+						<fieldView mappingTo="1" size="4" />
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="5" />
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="2" hidden="true" />
+						<fieldView mappingTo="3" hidden="true" />
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="4" hidden="true" />
+					</fieldset>
+				</fieldViewSet>
+								
+			</form>
+		</viewComponent>
+	</action>
+
+	<action event="update" submitError="GestionarImportacionesGEDEON.update"
+		submitSucces="GestionarImportacionesGEDEON.update" strategyPre="facturacionUte.strategies.StrategyImportacion">
+
+		<viewComponent>
+			<form columns="3" title="Edicion Importacion">
+				<fieldViewSet entitymodel="importacionesGEDEON"
+					nameSpace="importacionesGEDEON">
+					<fieldView mappingTo="6" editable="false" />							
+					<fieldView mappingTo="1" editable="false" />
+					<fieldView mappingTo="2" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="3" editable="false" />
+					<fieldView mappingTo="4" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+					<fieldView mappingTo="5" editable="true" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
+				</fieldViewSet>
+			</form>
+		</viewComponent>
+	</action>
+	
+	<action event="delete" submitError="GestionarImportacionesGEDEON.delete"
+		submitSucces="GestionarImportacionesGEDEON.query">
+
+		<viewComponent>
+			<form columns="8" title="Importacion">
+				<fieldViewSet entitymodel="importacionesGEDEON"
+					nameSpace="importacionesGEDEON">
+					<fieldset legend="Datos Importacion">
+						<fieldView mappingTo="1" size="4" editable="false" />
+						<fieldView mappingTo="2" size="25" editable="false" />
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="3" editable="false" />
+						<fieldView mappingTo="4" editable="false" />
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<fieldView mappingTo="5" editable="false" />
+						<fieldView mappingTo="6" editable="false" />
+					</fieldset>
+				</fieldViewSet>
+			</form>
+		</viewComponent>
+	</action>
+
+</service>
+
+</service:service-group>

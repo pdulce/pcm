@@ -6,16 +6,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 
-import domain.application.ApplicationDomain;
-import domain.common.PCMConstants;
-import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.PcmException;
-import domain.service.DomainService;
-import domain.service.dataccess.dto.Datamap;
-import domain.service.event.IEvent;
-import domain.service.highcharts.IStats;
 import facturacionUte.common.ConstantesModelo;
 
+import org.cdd.application.ApplicationDomain;
+import org.cdd.common.PCMConstants;
+import org.cdd.common.exceptions.PCMConfigurationException;
+import org.cdd.common.exceptions.PcmException;
+import org.cdd.service.DomainService;
+import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.event.IEvent;
+import org.cdd.service.highcharts.IStats;
 import org.junit.Assert;
 import junit.framework.TestCase;
 

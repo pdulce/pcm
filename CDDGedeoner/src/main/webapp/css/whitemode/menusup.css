@@ -1,0 +1,67 @@
+/***** UL para meno superior *****/
+
+#navcontainer
+{
+/*background: #E6EDE8;*/
+background: rgb(254, 254, 254);
+width: 100%;
+margin: 0 auto;
+padding: 1em 0;
+font: normal 0.95em Roboto, sans-serif;
+color: black;
+text-align: center;
+text-transform: lowercase;
+}
+
+ul#navlist
+{
+text-align: left;
+list-style: none;
+padding: 0;
+margin: 0 auto;
+width: 100%;
+color: black;
+background-color: rgb(254, 254, 254);
+}
+
+ul#navlist li
+{
+display: block;
+margin: 0;
+padding: 0;
+color: black;
+background-color: rgb(254, 254, 254);
+}
+
+ul#navlist li a
+{
+display: block;
+padding: 0.5em 0 0.5em 2em;
+border-width: 1px;
+/*border-color: #ffe #aaab9c #ccc #fff;*/
+background-color: rgb(254, 254, 254);
+border-style: solid;
+/*color: #919191;*/
+color: black;
+text-decoration: none;
+background: #f7f2ea;
+}
+
+#navcontainer>ul#navlist li a { width: auto; }
+
+ul#navlist li#active a
+{
+background: #E6EDE8;
+/*color: #4F4F4F;*/
+color: black;
+}
+
+ul#navlist li a:hover, ul#navlist li#active a:hover
+{
+/*color: #4F4F4F;*/
+color: black;
+background: transparent;
+border-color: #aaab9c #fff #fff #ccc;
+}
+
+/***** END of UL para menu superior *****/

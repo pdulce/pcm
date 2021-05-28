@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+	
+	<service name="EstudioPeticiones" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="EstudioPeticiones.query"
+			submitSucces="EstudioPeticiones.query" strategy="facturacionUte.strategies.FiltrarConsultaEstudiosPost">
+
+			<viewComponent>
+
+				<form columns="2" title="Estudios Ciclos Vida de Peticiones">
+				
+					<userbuttons>
+										
+						<button	link="prjManager" id="timeseries01" name="Time series" >
+							<fieldViewSet nameSpace="timeseries01">
+								<fieldView name="highchart" hidden="true" value="timeseries"/>
+								<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
+								<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
+								<fieldView name="fieldForGroupBy" hidden="true" value="2,20"/> <!-- by estudio y anyo-mes -->
+								<fieldView name="agregado" type="select" size="1">
+									<optionValues>									
+										<option code="28" title="uts"></option>
+										<!-- <option code="29" title="hrs.análisis"></option> -->
+										<option code="8" title="CicloVida" selected="true"></option>
+										<option code="9" title="Análisis(jornadas)"></option>
+										<option code="10" title="Desarrollo(jornadas)"></option>
+										<option code="11" title="Preparac. Entrega"></option>
+										<option code="12" title="Pruebas CD(jornadas)"></option>
+										<option code="32" title="Soporte al CD"></option>
+										<option code="13" title="Lapso Planificación DG"></option>
+										<option code="14" title="Lapso Planificación Pruebas CD"></option>
+										<option code="15" title="Lapso Planificación Instalación Producc."></option>
+										<option code="16" title="Total dedicaciones"></option>
+										<option code="17" title="Total Intervalos sin dedicación"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="escalado" type="select" size="1">
+									<optionValues>
+										<option code="dayly" title="Diario"></option>
+										<option code="weekly" title="Semanal"></option>
+										<option code="monthly" title="Mensual" selected="true"></option>
+										<option code="3monthly" title="Trimestral"></option>
+										<option code="6monthly" title="Semestral"></option>
+										<option code="anualy" title="Anual"></option>
+										<option code="automatic" title="Automatico"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="operation" type="select">
+									<optionValues>																	
+										<option code="AVG" title="Promediar" selected="true"></option>
+										<option code="SUM" title="Totalizar"></option>
+									</optionValues>
+								</fieldView>
+								<fieldView name="seriesType" type="select">
+									<optionValues>																	
+										<option code="line" title="Line" selected="true"></option>
+										<option code="area" title="Area"></option>
+									</optionValues>
+								</fieldView>
+							
+							</fieldViewSet>
+						</button>
+						
+						
+						
+					</userbuttons>
+												
+					<fieldViewSet entitymodel="estudios" nameSpace="estudios">
+					
+						<fieldset legend="Filtrar por datos del estudio">
+							<fieldView mappingTo="2" editable="true" />
+							<fieldView mappingTo="3" type="select" editable="true">
+								<optionValues entitymodel="aplicativo" selectionMultiple="true"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="11" type="select" editable="true">
+								<optionValues entitymodel="servicioUTE" selectionMultiple="true"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="7" type="select" editable="true">
+								<optionValues entitymodel="tiposPeriodos" selectionMultiple="true"
+									descrMappingTo="3">
+								</optionValues>
+							</fieldView>	
+							<fieldView separator="br" />
+							<fieldView separator="br" />							
+							<fieldView mappingTo="4" editable="true" />
+							<fieldView mappingTo="5" editable="true" />
+							<fieldView mappingTo="6" editable="true" />											
+							<fieldView separator="br" />							
+						</fieldset>
+								
+					</fieldViewSet>
+				</form>
+				<grid title="Listado de Estudios realizados" orderDirection="desc" defaultOrderField="estudios.3"
+					eventsRegistered="detail">
+					<fieldViewSet entitymodel="estudios" nameSpace="estudios">
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="10" editable="false" />				
+						<fieldView mappingTo="2" editable="false" />					
+						<fieldView mappingTo="3" type="select" editable="false">
+							<optionValues entitymodel="aplicativo"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="11" type="select" editable="false">
+							<optionValues entitymodel="servicioUTE"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="5" editable="false" />
+						<fieldView mappingTo="7" type="select" editable="false">
+							<optionValues entitymodel="tiposPeriodos"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>						
+						<!-- fieldView mappingTo="9" type="select" editable="false">
+							<optionValues entitymodel="configuradorEstudios"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>-->	
+					</fieldViewSet>
+				</grid>
+				
+			</viewComponent>
+
+		</action>
+		
+		
+		<action event="detail" submitError="EstudioPeticiones.detail"
+			submitSucces="EstudioPeticiones.detail">
+
+		<viewComponent>
+		
+			<form columns="3" title="Detalle del Estudio">
+				
+				<userbuttons>
+				
+					<button	link="prjManager" id="timeseries02" name="Time series" >
+						<fieldViewSet nameSpace="timeseries02">
+							<fieldView name="highchart" hidden="true" value="timeseries"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
+							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
+							<fieldView name="agregado" type="select" size="1">
+								<optionValues>									
+									<option code="28" title="uts"></option>
+									<!-- <option code="29" title="hrs.análisis"></option> -->
+									<option code="8" title="CicloVida" selected="true"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
+									<option code="11" title="Preparac. Entrega"></option>
+									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" type="select" size="1">
+								<optionValues>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal"></option>
+									<option code="monthly" title="Mensual" selected="true"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+									<option code="automatic" title="Automatico"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" type="select">
+								<optionValues>																	
+									<option code="AVG" title="Promediar" selected="true"></option>
+									<option code="SUM" title="Totalizar"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="seriesType" type="select" size="1">
+									<optionValues>																	
+										<option code="area" title="Area" selected="true"></option>
+										<option code="line" title="Line"></option>										
+									</optionValues>
+							</fieldView>						
+						</fieldViewSet>
+					</button>
+					
+					<button link="prjManager" id="Chart222"	name="Chart">
+						<fieldViewSet nameSpace="Chart222">
+							<fieldView name="highchart" type="select">
+								<optionValues>
+									<option code="spiderweb" title="Spiderweb" selected="true"></option>								
+									<option code="piechart" title="Pie chart"></option>
+								</optionValues>
+							</fieldView>							
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="fieldForGroupBy" type="select" size="2">
+								<optionValues selectionMultiple="true">
+									<option code="3" title="aplicacion" selected="true"></option>
+									<option code="4" title="tipo"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select" size="1">
+								<optionValues>
+									<option code="28" title="uts "></option>
+									<!-- <option code="29" title="hrs.análisis"></option> -->
+									<option code="8" title="CicloVida" selected="true"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
+									<option code="11" title="Preparac. Entrega"></option>
+									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>				
+							<fieldView name="operation" hidden="true" value="AVG"/>
+						</fieldViewSet>
+					</button>
+					
+					
+					<button link="prjManager" id="histDual2" name="Histogram">						
+						<fieldViewSet nameSpace="histDual2">
+							<fieldView name="highchart" type="select">
+								<optionValues>
+									<option code="histogram" title="Histogram" selected="true"></option>								
+									<option code="dualhistogram" title="Freq.histogram"></option>
+								</optionValues>
+							</fieldView>
+							
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámite a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
+							<fieldView name="agregado" type="select" size="1">
+								<optionValues>
+									<option code="28" title="uts"></option>
+									<!-- <option code="29" title="hrs.análisis"></option> -->
+									<option code="8" title="CicloVida" selected="true"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
+									<option code="11" title="Preparac. Entrega"></option>
+									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="escalado" type="select" size="1">
+								<optionValues>
+									<option code="dayly" title="Diario"></option>
+									<option code="weekly" title="Semanal"></option>
+									<option code="monthly" title="Mensual" selected="true"></option>
+									<option code="3monthly" title="Trimestral"></option>
+									<option code="6monthly" title="Semestral"></option>
+									<option code="anualy" title="Anual"></option>
+									<option code="automatic" title="Automatico"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" type="select">
+								<optionValues>																	
+									<option code="AVG" title="Promediar" selected="true"></option>
+									<option code="SUM" title="Totalizar"></option>
+								</optionValues>
+							</fieldView>						
+						</fieldViewSet>
+					</button>		
+					
+					<button link="prjManager" id="barchart2" name="Barchart">
+						<fieldViewSet nameSpace="barchart2">
+							<fieldView name="highchart" hidden="true" value="barchart"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
+							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
+							<fieldView name="fieldForGroupBy" type="select" size="3">
+								<optionValues selectionMultiple="true">
+									<option code="3" title="aplicacion" selected="true"></option>
+									<option code="4" title="tipo" selected="true"></option>
+									<option code="3" title="aplicacion"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select" size="1">
+								<optionValues>
+									<option code="28" title="uts "></option>
+									<!-- <option code="29" title="hrs.análisis"></option> -->
+									<option code="8" title="CicloVida" selected="true"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
+									<option code="11" title="Preparac. Entrega"></option>
+									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" hidden="true" value="AVG"/>	
+						</fieldViewSet>
+					</button>	
+					
+					<button link="prjManager" id="scatter2"	name="Correlation">
+						<fieldViewSet nameSpace="scatter2">
+							<fieldView name="highchart" hidden="true" value="scatter"/>
+							<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaPeticion"/>
+							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
+							<fieldView name="fieldForGroupBy" hidden="true" value="20"/>
+							<fieldView name="orderBy" hidden="true" value="20"/>							
+							<fieldView name="ejeX" type="select" size="1">
+								<optionValues>
+									<!-- option code="29" title="hrs.análisis"></option> -->
+									<option code="8" title="CicloVida"></option>
+									<option code="9" title="Análisis(jornadas)" selected="true"></option>
+									<option code="10" title="Desarrollo(jornadas)"></option>
+									<option code="11" title="Preparac. Entrega"></option>
+									<option code="12" title="Pruebas CD(jornadas)"></option>
+									<option code="32" title="Soporte al CD"></option>
+									<option code="28" title="uts "></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="ejeY" type="select" size="1">
+								<optionValues>
+									<!-- option code="29" title="hrs.análisis"></option> -->
+									<option code="8" title="CicloVida"></option>
+									<option code="9" title="Análisis(jornadas)"></option>
+									<option code="10" title="Desarrollo(jornadas)" selected="true"></option>
+									<option code="11" title="Duración Entrega"></option>
+									<option code="12" title="Pruebas CD"></option>
+									<option code="32" title="Soporte al CD"></option>
+									<option code="28" title="uts"></option>
+									<option code="13" title="Lapso Planificación DG"></option>
+									<option code="14" title="Lapso Planificación Pruebas CD"></option>
+									<option code="15" title="Lapso Planificación Instalación Producc."></option>
+									<option code="16" title="Total dedicaciones"></option>
+									<option code="17" title="Total Intervalos sin dedicación"></option>
+								</optionValues>
+							</fieldView>
+						</fieldViewSet>
+					</button>					
+					
+				</userbuttons>
+				
+				<fieldViewSet entitymodel="estudios"
+					nameSpace="estudiosForm">
+					<fieldset legend="Resumen Estudio">
+						<fieldView mappingTo="1" hidden="true" />
+						<fieldView mappingTo="10" editable="false" />						
+						<fieldView mappingTo="3" type="select" editable="false">
+							<optionValues entitymodel="aplicativo"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="11" type="select" editable="false">
+							<optionValues entitymodel="servicioUTE"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
+						<fieldView mappingTo="7" type="select" editable="false">
+							<optionValues entitymodel="tiposPeriodos"
+								descrMappingTo="3">
+							</optionValues>
+						</fieldView>
+						<fieldView separator="br" />
+						<fieldView separator="br" />
+						<!-- fieldView mappingTo="9" type="select" editable="false">
+							<optionValues entitymodel="configuradorEstudios"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>-->
+						<fieldView mappingTo="4" editable="false" />
+						<fieldView mappingTo="5" editable="false" />
+						<fieldView mappingTo="6" editable="false" />											
+						<fieldView separator="br" />
+					</fieldset>
+										
+				</fieldViewSet>
+			</form>
+			
+			<grid title="Peticiones del Estudio" dependsOf="estudiosForm" orderDirection="asc"
+					defaultOrderField="detailCicloVidaPeticion.3" eventsRegistered="detail" serviceRef="DetailCicloVidaPeticion">
+				
+				<fieldViewSet entitymodel="detailCicloVidaPeticion" nameSpace="detailCicloVidaPeticion">
+					<fieldView mappingTo="1" hidden="true" />					
+					<fieldView mappingTo="2" hidden="true"/>
+					<fieldView mappingTo="3" type="select" editable="false">
+						<optionValues entitymodel="aplicativo"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
+					<!-- <fieldView mappingTo="4" type="select" editable="false">
+						<optionValues entitymodel="tiposPeticiones"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>-->
+					<fieldView mappingTo="28" editable="false"  />	
+					<fieldView mappingTo="5" type="select" editable="false">
+						<optionValues entitymodel="peticiones"
+							descrMappingTo="46">
+						</optionValues>
+					</fieldView>
+					
+					<fieldView mappingTo="8" editable="false" styleCss="color: #38ef7d;" />
+					<fieldView mappingTo="16" editable="false" styleCss="color: #38ef7d;" />	
+					<fieldView mappingTo="17" editable="false" styleCss="color: orange;" />
+					<fieldView mappingTo="9" editable="false" />
+					<fieldView mappingTo="10" editable="false" />
+					<fieldView mappingTo="11" editable="false" />
+					<fieldView mappingTo="12" editable="false" />
+					<fieldView mappingTo="32" editable="false" />
+					<fieldView mappingTo="33" editable="false" />
+					<fieldView mappingTo="13" editable="false" styleCss="color: orange;" />	
+					<fieldView mappingTo="14" editable="false" styleCss="color: orange;" />	
+					<fieldView mappingTo="15" editable="false" styleCss="color: orange;" />					
+					
+				</fieldViewSet>
+			</grid>
+		
+		</viewComponent>
+	</action>
+		
+	</service>
+		
+	
+</service:service-group>	

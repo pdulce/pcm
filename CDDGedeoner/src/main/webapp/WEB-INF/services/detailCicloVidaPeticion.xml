@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group
+xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+<service name="DetailCicloVidaPeticion" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="detail" submitSucces="DetailCicloVidaPeticion.detail"
+					submitError="EstudioPeticiones.detail">
+				
+				<viewComponent>
+		
+				<form columns="4" title="Detalle del Estudio">
+					<fieldViewSet entitymodel="detailCicloVidaPeticion" nameSpace="detailCicloVidaPeticion">
+						<fieldset legend="Información Petición">
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" type="select" editable="false">
+								<optionValues entitymodel="estudios"
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="3" editable="false"  />
+							<fieldView mappingTo="4" editable="false"  />
+							<!-- <fieldView mappingTo="29" editable="false"  /> -->
+							<fieldView mappingTo="28" editable="false"  />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="31" editable="false"  />
+							<fieldView separator="br" />
+							<fieldView separator="br" />							
+							<fieldView mappingTo="5" editable="false"  />
+							<fieldView mappingTo="6" editable="false"  />
+							<fieldView mappingTo="7" editable="false"  />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
+						
+						<fieldset legend="Fechas significativas">
+							<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="20" editable="false" styleCss="font-weight: bold;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="21" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="23" editable="false" styleCss="font-weight: bold;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="24" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="25" editable="false" styleCss="font-weight: bold;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="26" editable="false" styleCss="font-weight: bold;" />						
+							<fieldView mappingTo="27" editable="false" styleCss="font-weight: bold;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
+					
+						<fieldset legend="Dedicaciones efectivas e intervalos entre dedicaciones">
+							<fieldView mappingTo="16" editable="false" styleCss="font-weight: bold;" />							
+							<fieldView mappingTo="17" editable="false" styleCss="font-weight: bold;color: orange;" />
+							<fieldView mappingTo="8" editable="false" styleCss="font-weight: bold;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="9" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="10" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="11" editable="false" styleCss="font-weight: bold;" />
+							<fieldView mappingTo="12" editable="false" styleCss="font-weight: bold;" />
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="13" editable="false" styleCss="font-weight: bold;color: orange;" />
+							<fieldView mappingTo="14" editable="false" styleCss="font-weight: bold;color: orange;" />
+							<fieldView mappingTo="15" editable="false" styleCss="font-weight: bold;color: orange;" />
+							
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+						</fieldset>
+												
+					</fieldViewSet>
+				</form>						   
+    				
+				</viewComponent>
+		</action>
+	
+	</service>
+		
+</service:service-group>
+

@@ -5,7 +5,7 @@
 	<entry key="auditActivated" value="false"></entry>
 	<entry key="template" value="/jsp/newTemplate.jsp"></entry>
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
-	<entry key="datasourceImpl" value="domain.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
+	<entry key="datasourceImpl" value="org.cdd.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
 	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//entities.xml"></entry>
 	<entry key="serviceDirectory" 

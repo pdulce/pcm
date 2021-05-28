@@ -3,8 +3,8 @@ package facturacionUte.common;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import domain.service.component.definitions.FieldViewSet;
-import domain.service.dataccess.definitions.IEntityLogic;
+import org.cdd.service.component.definitions.FieldViewSet;
+import org.cdd.service.dataccess.definitions.IEntityLogic;
 
 
 public final class ComparatorTasksBySituation implements Comparator<FieldViewSet>, Serializable {

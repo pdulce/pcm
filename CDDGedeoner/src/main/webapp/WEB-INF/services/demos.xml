@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group 
+	xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+	<service name="Demos" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+	<action event="query" submitError="Demos.query"
+		submitSucces="Demos.query">
+
+		<viewComponent>
+
+			<form columns="12" title="Demos - Gráficos - Mapas">
+				
+				<userbuttons>
+				
+					<button link="prjManager" id="mapaSpain" name="Mapa (Spain)">
+						<fieldViewSet nameSpace="mapaSpain">
+							<fieldView name="highchart" hidden="true" value="mapspain"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
+							<fieldView name="orderBy" hidden="true" value="17"/>
+							<fieldView name="fieldForGroupBy" type="select">
+							<optionValues selectionMultiple="true">
+									<option code="26" title="origen incidencia" selected="true"></option>
+									<option code="7" title="origen consultas aplic."></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="-1" title="peticiones"></option>
+									<option code="28" title="coste estimado" selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" type="select">
+								<optionValues>
+									<option code="SUM" title="agregados" selected="true"></option>
+									<option code="AVG" title="medias"></option>
+								</optionValues>
+							</fieldView>
+						</fieldViewSet>
+					</button>
+					
+					<button link="prjManager" id="mapaEurope" name="Mapa (Europe)">
+						<fieldViewSet nameSpace="mapaEurope">
+							<fieldView name="highchart" hidden="true" value="mapeurope"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
+							<fieldView name="orderBy" hidden="true" value="17"/>
+							<fieldView name="fieldForGroupBy" type="select">
+							<optionValues selectionMultiple="true">
+									<option code="26" title="origen incidencia" selected="true"></option>
+									<option code="7" title="origen consultas aplic."></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="-1" title="peticiones"></option>
+									<option code="28" title="coste estimado" selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" type="select">
+								<optionValues>
+									<option code="SUM" title="agregados" selected="true"></option>
+									<option code="AVG" title="medias"></option>
+								</optionValues>
+							</fieldView>
+						</fieldViewSet>
+					</button>
+					
+					<button link="prjManager" id="mapaWorld" name="Mapa (World)">
+						<fieldViewSet nameSpace="mapaWorld">
+							<fieldView name="highchart" hidden="true" value="mapworld"/>
+							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
+							<fieldView name="orderBy" hidden="true" value="17"/>
+							<fieldView name="fieldForGroupBy" type="select">
+							<optionValues selectionMultiple="true">
+									<option code="26" title="origen incidencia" selected="true"></option>
+									<option code="7" title="origen consultas aplic."></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="agregado" type="select">
+								<optionValues>
+									<option code="-1" title="peticiones"></option>
+									<option code="28" title="coste estimado" selected="true"></option>
+								</optionValues>
+							</fieldView>
+							<fieldView name="operation" type="select">
+								<optionValues>
+									<option code="SUM" title="agregados" selected="true"></option>
+									<option code="AVG" title="medias"></option>
+								</optionValues>
+							</fieldView>
+						</fieldViewSet>
+					</button>
+				</userbuttons>
+				
+				<fieldViewSet entitymodel="peticiones"	nameSpace="peticiones">
+					<fieldView mappingTo="17" hidden="true" />
+					<fieldView mappingTo="1" hidden="true" />
+					<fieldView mappingTo="2" hidden="true" />
+					<fieldView mappingTo="3" hidden="true" />
+					<fieldView mappingTo="4" hidden="true" />
+				</fieldViewSet>
+				
+				</form>
+				
+			</viewComponent>
+			
+		</action>
+		
+	</service>
+	
+</service:service-group>

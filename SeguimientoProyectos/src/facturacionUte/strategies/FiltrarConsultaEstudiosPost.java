@@ -3,16 +3,17 @@ package facturacionUte.strategies;
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.common.exceptions.PCMConfigurationException;
-import domain.common.exceptions.StrategyException;
-import domain.service.component.definitions.FieldViewSet;
-import domain.service.component.definitions.FieldViewSetCollection;
-import domain.service.conditions.DefaultStrategyRequest;
-import domain.service.dataccess.IDataAccess;
-import domain.service.dataccess.definitions.IEntityLogic;
-import domain.service.dataccess.dto.Datamap;
-import domain.service.dataccess.dto.FieldValue;
-import domain.service.dataccess.factory.EntityLogicFactory;
+import org.cdd.common.exceptions.PCMConfigurationException;
+import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.definitions.FieldViewSet;
+import org.cdd.service.component.definitions.FieldViewSetCollection;
+import org.cdd.service.conditions.DefaultStrategyRequest;
+import org.cdd.service.dataccess.IDataAccess;
+import org.cdd.service.dataccess.definitions.IEntityLogic;
+import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.dataccess.dto.FieldValue;
+import org.cdd.service.dataccess.factory.EntityLogicFactory;
+
 import facturacionUte.common.ConstantesModelo;
 
 public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {

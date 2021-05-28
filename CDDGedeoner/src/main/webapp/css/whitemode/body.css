@@ -1,0 +1,107 @@
+
+.inputHighlighted{  
+  background-color: rgb(157, 184, 238);
+  color: black;
+  border:1px solid rgb(181, 216, 247);
+} 
+
+
+.small {
+	font: normal 95% Roboto, sans-serif, sans-serif;
+	color: black;
+	background-color: rgb(254, 254, 254);
+	top: 0;
+	height: 1px;
+	overflow: auto;
+}
+
+	
+.imgSize {
+	width: 20px;
+}
+ 
+/**********************************
+
+Redefine aspecto de los elementos estandard de HTML
+***********************************/
+
+ 
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+
+
+.global {	
+	position: relative;
+	top: 0px; 
+	left: 0px;
+	color: black;
+	background-color: rgb(254, 254, 254);
+	border: 1.1px solid rgb(153, 222, 234);
+	border-top: none;	
+	border: 0;	
+}
+
+.pcmNav {
+	position: relative;
+	top: 0px; 
+	left: 0px;
+	font: normal 0.95em Roboto, sans-serif;
+	text-align: left;
+	border: 0;
+}
+	
+.pcmBody {
+	position: relative;
+	top: 0px; 
+	left: 0px;
+	font: normal 0.95em Roboto, sans-serif;
+	text-align: left;
+}
+
+
+
+/* Headers
+------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	background-color: rgb(254, 254, 254);
+}
+	
+body {
+	padding: 0 2px;
+	color: black;
+	background-color: rgb(254, 254, 254);
+	margin: 0;
+	padding: 0;
+}
+
+blockquote {
+	margin: 0;
+	padding: 0;
+	background-color: rgb(254, 254, 254);
+}
+
+
+table.cmxtable tr {
+	border: none;
+	background-color: rgb(254, 254, 254);
+	border-top: 1.0px solid rgb(170, 232, 247);
+	}
+
+table.cmxtable tr2 {
+	background-color: rgb(254, 254, 254);
+	border: none;
+	border-top: 1px solid rgb(170, 232, 247);	
+}
+
+img, iframe { 
+	border: none; 
+	background: rgb(254, 254, 254);
+}
+
+
+

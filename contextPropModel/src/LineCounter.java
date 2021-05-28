@@ -27,7 +27,7 @@ public class LineCounter {
 
 		final String[] rootPaths = new String[]{
 				"/home/pedro/git/pcm/contextPropModel/src/domain/",
-				"/home/pedro/git/pcm/contextPropModel/src/webservlet/"
+				"/home/pedro/git/pcm/contextPropModel/src/org.cdd.webservlet/"
 				/*, "/home/pedro/git/pcm/SeguimientoProyectos/WebContent"*/};
 		
 		List<File> listaFiles = new ArrayList<File>();
