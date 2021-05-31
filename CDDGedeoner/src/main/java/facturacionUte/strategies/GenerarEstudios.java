@@ -36,9 +36,9 @@ import facturacionUte.common.ConstantesModelo;
 
 public class GenerarEstudios extends DefaultStrategyRequest { 
 		
-	//2: REVISAR CALCULO DE JORNADAS PRUEBAS CD con PESO por petici�n
-	//3: nueva dimensi�n tiempo-validaci�n-entrega (explicar que es el tiempo de probar el resto de peticiones de la entrega)
-	// Esto lo puedes confrontar f�cilmente con el mundo HOST
+	//2: REVISAR CALCULO DE JORNADAS PRUEBAS CD con PESO por peticion
+	//3: nueva dimension tiempo-validacion-entrega (explicar que es el tiempo de probar el resto de peticiones de la entrega)
+	// Esto lo puedes confrontar focilmente con el mundo HOST
 	
 	public static final String FECHA_INI_PARAM = "estudios.fecha_inicio_estudio", 
 			FECHA_FIN_PARAM = "estudios.fecha_fin_estudio";
@@ -109,8 +109,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		}
 		List<String> situaciones = new ArrayList<String>();
 		situaciones.add("Entrega no conforme");
-		situaciones.add("Petici�n finalizada");
-		situaciones.add("Petici�n de Entrega finalizada");
+		situaciones.add("Peticion finalizada");
+		situaciones.add("Peticion de Entrega finalizada");
 		
 		final Collection<IFieldView> fieldViews4FilterFecAndUts_ = new ArrayList<IFieldView>();
 		
@@ -255,7 +255,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				
 				int ok = dataAccess.modifyEntity(nuevoRegistroEstudio);
 				if (ok != 1) {
-					throw new StrategyException("Error actualizando los res�menes de las peticiones para este Estudio");
+					throw new StrategyException("Error actualizando los resomenes de las peticiones para este Estudio");
 				}
 			}
 			
@@ -388,7 +388,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					fechaValidadaEntrega = (Date) peticionEntrega_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_44_FECHA_ULTIMA_MODIFCACION).getName());
 					
 				}
-				/****************** PROCESAMIENTO DE LAS REGLAS DE C�LCULO ********/
+				/****************** PROCESAMIENTO DE LAS REGLAS DE CoLCULO ********/
 				Date _fechaInicioPruebasCD = fechaEntregada;
 				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_10_FECHA_INICIO_PRUEBASCD).getName(), _fechaInicioPruebasCD);
 				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_10_FECHA_INICIO_PRUEBASCD).getName(), fechaTramite);
@@ -411,17 +411,17 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				detailEntrega.setValue(resumenEntregaEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_17_TIEMPO_DESDEVALIDACION_HASTAIMPLANTACION).getName(), jornadasDesdeFinPruebasHastaImplantacion);
 				
 				out.write(("****** INICIO DATOS PETICION GEDEON ENTREGA: " + _codGEDEON_entrega +  " ******\n").getBytes());
-				out.write(("Jornadas Duraci�n total Entrega: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
-				out.write(("Jornadas Preparaci�n Entrega: " + CommonUtils.roundDouble(jornadasEntrega,2) + "\n").getBytes());
+				out.write(("Jornadas Duracion total Entrega: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
+				out.write(("Jornadas Preparacion Entrega: " + CommonUtils.roundDouble(jornadasEntrega,2) + "\n").getBytes());
 				out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(jornadasPruebasCD,2) + "\n").getBytes());
-				out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantaci�n Producci�n: " + CommonUtils.roundDouble(jornadasDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
+				out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantacion Produccion: " + CommonUtils.roundDouble(jornadasDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
 				out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());
 				
 				int ok = dataAccess.insertEntity(detailEntrega);
 				if (ok != 1) {
 					out.flush();
 					out.close();
-					throw new StrategyException("Error actualizando registro de petici�n");
+					throw new StrategyException("Error actualizando registro de peticion");
 				}				
 				
 			}//for
@@ -464,9 +464,9 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			dataAccess.setAutocommit(false);
 			
 			Collection<String> estadosPosibles = new ArrayList<String>();
-			estadosPosibles.add("Petici�n de trabajo finalizado");
+			estadosPosibles.add("Peticion de trabajo finalizado");
 			estadosPosibles.add("Soporte finalizado");
-			estadosPosibles.add("Petici�n finalizada");
+			estadosPosibles.add("Peticion finalizada");
 			estadosPosibles.add("Trabajo finalizado");
 			estadosPosibles.add("Trabajo finalizado no conforme");
 			
@@ -495,7 +495,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					Long idPeticionDG = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName());
 					Long _peticionDG_CodGEDEON = (Long) peticionDG_BBDD.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());										
 					
-					//comprobamos si ya se ha entregado esta petici�n en otra entrega
+					//comprobamos si ya se ha entregado esta peticion en otra entrega
 					boolean yaFueEntregada = false;
 					FieldViewSet resumenPorPeticionPrevia = new FieldViewSet(resumenPeticionEntidad);
 					resumenPorPeticionPrevia.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_5_ID_PETICION_DG).getName(), idPeticionDG);
@@ -560,18 +560,18 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							fechaFinRealAnalysis = fechaFinAnalysisCalendar.getTime();
 							peticionBBDDAnalysis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN).getName(), fechaFinRealAnalysis);	
 						}
-						//extraemos las tareas de esta petici�n de an�lisis
+						//extraemos las tareas de esta peticion de anolisis
 						FieldViewSet tareasFilter = new FieldViewSet(tareaEntidad);
 						tareasFilter.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName(), 
 								peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName()));
 						String orderFieldTasks = ConstantesModelo.TAREA_PETICION_ENTIDAD.concat(".").concat(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName());							
-						List<FieldViewSet> tareas = dataAccess.searchByCriteria(tareasFilter, new String[] {orderFieldTasks}, "asc");//las m�s antiguas primero
+						List<FieldViewSet> tareas = dataAccess.searchByCriteria(tareasFilter, new String[] {orderFieldTasks}, "asc");//las mos antiguas primero
 						if (!tareas.isEmpty()) {
-							//buscamos todas las tareas en DG que tienen esta petici�n de an�lisis
+							//buscamos todas las tareas en DG que tienen esta peticion de anolisis
 							Long gedeonAnalisis = (Long) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());
 
 							FieldViewSet filterPetsEnDGDeEstaPetAnalisis = new FieldViewSet(peticionesEntidad);
-							//relacionadas, viene este contenido en el campo: 971939,971976   �  971939
+							//relacionadas, viene este contenido en el campo: 971939,971976   o  971939
 							String orderFieldPets = ConstantesModelo.PETICIONES_ENTIDAD.concat(".").
 									concat(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
 							filterPetsEnDGDeEstaPetAnalisis.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS).getName(), gedeonAnalisis);								
@@ -588,7 +588,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							}
 							if (!existe) {
 								peticionesA_DG_de_esteAnalisis.add(peticionDG_BBDD);
-								//System.out.println("se incorpora al saco de peticiones a DG para este an�lisis");
+								//System.out.println("se incorpora al saco de peticiones a DG para este anolisis");
 							}
 							
 							double volumenTotalUtsPeticionesADG = 0.0;
@@ -652,7 +652,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							if (positionOfThisPeticionAD >= parejasEsfuerzosEnAT.size()) {
 								Map<Double, Double> esfuerzos = parejasEsfuerzosEnAT.get(0);
 								Map.Entry<Double, Double> entryEsfuerzo = esfuerzos.entrySet().iterator().next();
-								// baremas con el peso de esta petici�n a DG respecto del total de las peticiones relacionadas 
+								// baremas con el peso de esta peticion a DG respecto del total de las peticiones relacionadas 
 								double peso = utsEstimadas_/volumenTotalUtsPeticionesADG;
 								esfuerzoAnalysis = CommonUtils.roundWith2Decimals(peso*entryEsfuerzo.getKey());
 								esfuerzoPruebasCD = CommonUtils.roundWith2Decimals(peso*entryEsfuerzo.getValue());
@@ -669,8 +669,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					Double jornadasPruebasCD = 0.0, jornadasAnalysis = 0.0, soporteAlCD = 0.0, jornadasPruebasRestoVersion = 0.0;
 
 					if (esfuerzoAnalysis > 0.0) {
-						//Normalizar las jornadas de an�lisis con las horas de esfuerzo. Pasar a jornadas esas horas, y poner       
-						//fecha-inicio-an�lisis restando a la fecha tr�mite a DG esas jornadas obtenidas, m�s la que correspondan por el % de dedicaci�n a soporte.
+						//Normalizar las jornadas de anolisis con las horas de esfuerzo. Pasar a jornadas esas horas, y poner       
+						//fecha-inicio-anolisis restando a la fecha tromite a DG esas jornadas obtenidas, mos la que correspondan por el % de dedicacion a soporte.
 						jornadasAnalysis = CommonUtils.roundWith2Decimals(esfuerzoAnalysis/8.0);						
 						Calendar fechaFinAnalysisCalendar = Calendar.getInstance();
 						fechaFinAnalysisCalendar.setTime(fechaTramite);
@@ -714,7 +714,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					
 					if (esfuerzoPruebasCD > 0.0) {
 						//Normalizar las jornadas de pruebas CD con las horas de esfuerzo. Pasar a jornadas esas horas, y poner         
-						// fecha-inicio-pruebasCD restando a la fecha validada esas jornadas obtenidas, m�s la que correspondan por el % de dedicaci�n a soporte.
+						// fecha-inicio-pruebasCD restando a la fecha validada esas jornadas obtenidas, mos la que correspondan por el % de dedicacion a soporte.
 						jornadasPruebasCD = CommonUtils.roundWith2Decimals(esfuerzoPruebasCD/8.0);
 						
 						jornadasPruebasRestoVersion = jornadasPruebasCD*(1.0 - pesoEnEntrega);
@@ -814,7 +814,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_26_FECHA_INI_INSTALAC_PROD).getName(), fechaFinPruebasCD);
 							resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_27_FECHA_FIN_INSTALAC_PROD).getName(), fechaPuestaProduccion);
 							
-							// aplicamos la reducci�n por soportes al CD que se hayan realizado en este proyecto y se tengan datos
+							// aplicamos la reduccion por soportes al CD que se hayan realizado en este proyecto y se tengan datos
 							soporteAlCD += CommonUtils.roundWith2Decimals(jornadasPruebasCD*PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD);
 							jornadasPruebasCD = CommonUtils.roundWith2Decimals(jornadasPruebasCD*(1.0 - PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD));//valor entre 0 y 1
 							jornadasPruebasRestoVersion = jornadasPruebasCD*(1.0 - pesoEnEntrega);
@@ -925,19 +925,19 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_32_GAP_DURACION_SOPORTE_CD).getName(), soporteAlCD);
 					resumenPorPeticion.setValue(resumenPeticionEntidad.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_17_TOTAL_OF_GAPS).getName(), totalGaps);		
 
-					/****************** PROCESAMIENTO DE LAS REGLAS DE C�LCULO ********/
+					/****************** PROCESAMIENTO DE LAS REGLAS DE CoLCULO ********/
 					
 					out.write(("****** INICIO DATOS PETICION GEDEON A DG: " + _peticionDG_CodGEDEON + "******\n").getBytes());
-					out.write(("****** Petici�n An�lisis a OO/Estructurado en AT: " + (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis) + " ******\n").getBytes());
-					out.write(("****** Petici�n GEDEON de Entrega a DG: " + String.valueOf(peticionEntregaGEDEON) + " ******\n").getBytes());
-					out.write(("Jornadas Duraci�n total: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
-					out.write(("Jornadas An�lisis: " + CommonUtils.roundDouble(jornadasAnalysis,1) + "\n").getBytes());
-					out.write(("Jornadas Desfase desde Tr�mite Hasta Inicio Real Implementaci�n: " + CommonUtils.roundDouble(jornadasDesfaseTramiteHastaInicioReal,1) + "\n").getBytes());
+					out.write(("****** Peticion Anolisis a OO/Estructurado en AT: " + (peticionBBDDAnalysis==null?"no enlazada":peticionGEDEON_Analysis) + " ******\n").getBytes());
+					out.write(("****** Peticion GEDEON de Entrega a DG: " + String.valueOf(peticionEntregaGEDEON) + " ******\n").getBytes());
+					out.write(("Jornadas Duracion total: " + CommonUtils.roundDouble(cicloVidaPeticion,1) + "\n").getBytes());
+					out.write(("Jornadas Anolisis: " + CommonUtils.roundDouble(jornadasAnalysis,1) + "\n").getBytes());
+					out.write(("Jornadas Desfase desde Tromite Hasta Inicio Real Implementacion: " + CommonUtils.roundDouble(jornadasDesfaseTramiteHastaInicioReal,1) + "\n").getBytes());
 					out.write(("Jornadas Desarrollo: " + CommonUtils.roundDouble(jornadasDesarrollo,2) + "\n").getBytes());
 					out.write(("Jornadas Desfase desde Fin Desarrollo hasta Solicitud Entrega en CD: " + CommonUtils.roundDouble(jornadasDesfaseFinDesaSolicEntrega,2) + "\n").getBytes());
-					out.write(("Jornadas Preparaci�n Entrega: " + CommonUtils.roundDouble(jornadasEntrega,2) + "\n").getBytes());
+					out.write(("Jornadas Preparacion Entrega: " + CommonUtils.roundDouble(jornadasEntrega,2) + "\n").getBytes());
 					out.write(("Jornadas Pruebas CD: " + CommonUtils.roundDouble(jornadasPruebasCD,2) + "\n").getBytes());
-					out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantaci�n Producci�n: " + CommonUtils.roundDouble(jornadasDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
+					out.write(("Jornadas Desfase desde Fin Pruebas hasta Implantacion Produccion: " + CommonUtils.roundDouble(jornadasDesdeFinPruebasHastaImplantacion,2) + "\n").getBytes());
 					out.write(("******  FIN DATOS PETICION GEDEON ******\n\n").getBytes());					
 					
 					int ok = yaFueEntregada ? dataAccess.modifyEntity(resumenPorPeticion) : dataAccess.insertEntity(resumenPorPeticion);
@@ -946,7 +946,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						out.close();
 						dataset4MLR.flush();
 						dataset4MLR.close();
-						throw new StrategyException("Error actualizando registro de petici�n");
+						throw new StrategyException("Error actualizando registro de peticion");
 					}
 					
 				}//for
@@ -997,7 +997,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}else {
 					peticionBBDDAnalysis = existenColl.iterator().next();
 					String areaDestino = (String) peticionBBDDAnalysis.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
-					if (areaDestino.indexOf("ATH An�lisis") != -1) {
+					if (areaDestino.indexOf("ATH Anolisis") != -1) {
 						return peticionBBDDAnalysis;
 					}
 				}

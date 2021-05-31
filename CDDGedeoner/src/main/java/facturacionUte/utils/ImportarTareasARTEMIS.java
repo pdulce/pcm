@@ -137,7 +137,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					String idTarea = "";
 					String[] splitter = etiquetaCelda.split("-");
 					if (splitter.length > 1) {
-						//999806_1 - INVE-ANA - INMUEBLES. Revisi�n del informe de movimientos de inmuebles en el c�lculo y visualizaci�n de la amortizaci�n.
+						//999806_1 - INVE-ANA - INMUEBLES. Revision del informe de movimientos de inmuebles en el colculo y visualizacion de la amortizacion.
 						idTarea = splitter[0].trim();
 						FieldViewSet tareaEnBBDD = new FieldViewSet(tareaEntidad);
 						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName(), idTarea);
@@ -159,7 +159,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), Long.valueOf(idPeticionGEDEON));
 					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionEnBBDD);
 					if (existenColl == null || existenColl.isEmpty()){
-						continue;//no a�adimos esta tarea porque no tiene padre
+						continue;//no aoadimos esta tarea porque no tiene padre
 					}else {
 						peticionEnBBDD = existenColl.iterator().next();
 						Long idPeticionSeq = (Long) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName());
@@ -169,7 +169,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 							peticionesProcesadas.add(idPeticionSeq);
 							peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), 0.0);
 						}
-						//contabilizamos las horas dedicadas a esta petici�n a partir de esta tarea
+						//contabilizamos las horas dedicadas a esta peticion a partir de esta tarea
 						Double horas = (Double) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
 						horas += new_horas_imputadas;
 						peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), horas);
@@ -180,7 +180,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 					}
 					
 					//Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
-					//System.out.println("La petici�n fue dada de alta el d�a: " + CommonUtils.convertDateToLongFormatted(fecAlta));
+					//System.out.println("La peticion fue dada de alta el doa: " + CommonUtils.convertDateToLongFormatted(fecAlta));
 										
 					if (isUpdate) {
 						int ok = this.dataAccess.modifyEntity(tareaFilaExcel);

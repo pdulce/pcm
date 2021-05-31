@@ -33,10 +33,10 @@ public class SeparadorApellidos {
 		String[] c2 = new SeparadorApellidos().separar("GARCIA DEL HORNO");
 		String[] c3 = new SeparadorApellidos().separar("RODRIGUEZ DE LA OCA");
 		String[] c4 = new SeparadorApellidos().separar("DE LOS CABALLEROS ALONSO");
-		System.out.println("DEL HORNO GARCIA--> 1er apellido: " + c1[0] + ", 2º apellido: " + c1[1]);
-		System.out.println("GARCIA DEL HORNO--> 1er apellido: " + c2[0] + ", 2º apellido: " + c2[1]);
-		System.out.println("RODRIGUEZ DE LA OCA--> 1er apellido: " + c3[0] + ", 2º apellido: " + c3[1]);
-		System.out.println("DE LOS CABALLEROS ALONSO--> 1er apellido: " + c4[0] + ", 2º apellido: " + c4[1]);
+		System.out.println("DEL HORNO GARCIA--> 1er apellido: " + c1[0] + ", 2o apellido: " + c1[1]);
+		System.out.println("GARCIA DEL HORNO--> 1er apellido: " + c2[0] + ", 2o apellido: " + c2[1]);
+		System.out.println("RODRIGUEZ DE LA OCA--> 1er apellido: " + c3[0] + ", 2o apellido: " + c3[1]);
+		System.out.println("DE LOS CABALLEROS ALONSO--> 1er apellido: " + c4[0] + ", 2o apellido: " + c4[1]);
 	}
 	
 }

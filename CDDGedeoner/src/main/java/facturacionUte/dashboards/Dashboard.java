@@ -61,7 +61,7 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.ESCALADO_PARAM));	
 		
 		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(FIELD_4_GROUP_BY), firstGroupBy.split(","));		
-		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados);//ciclo vida petici�n
+		dataMapPeticiones.setParameterValues(nameSpaceOfButtonFieldSet.concat(".").concat(AGGREGATED_FIELD_PARAM), agregados);//ciclo vida peticion
 		//"AVG", "SUM"
 		if (_data.getParameter(OPERATION_FIELD_PARAM)== null && specificOperationAgregacion == null) {
 			dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(OPERATION_FIELD_PARAM), "AVG");
@@ -265,7 +265,7 @@ public class Dashboard extends GenericHighchartModel {
 			
 			halfDonut30.generateStatGraphModel(dataAccess, domainService, dataMap30);
 			
-			dataMap31 = createMap(_data, "_serie31",  orderBy, fields4GroupBY + "," + orderBy, "", new String[] {"-1"}, null);//count ALL records, sin dimensi�n
+			dataMap31 = createMap(_data, "_serie31",  orderBy, fields4GroupBY + "," + orderBy, "", new String[] {"-1"}, null);//count ALL records, sin dimension
 			histogram31.generateStatGraphModel(dataAccess, domainService, dataMap31);
 							
 			dataMap40 = createMap(_data, "_serie40", orderBy, fields4GroupBY + "," +secondField4GroupBY, "", valuesOfDimensionSelected, null);
