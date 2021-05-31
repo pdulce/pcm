@@ -36,7 +36,7 @@
     </target>
 	
 	<target name="jarCDD" depends="compileCDD">
-		<jar destfile="${app.work.path}/local-lib/cdd.jar" basedir="${cdd.work.path}/build/classes"/>
+		<jar destfile="${app.work.path}/src/main/webapp/WEB-INF/lib/cdd.jar" basedir="${cdd.work.path}/build/classes"/>
 	</target>
 		
      
