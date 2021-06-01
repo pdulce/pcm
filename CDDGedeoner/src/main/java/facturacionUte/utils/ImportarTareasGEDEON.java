@@ -66,7 +66,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_AREA_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área destino|Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.PETICIONES_16_PRIORIDAD));
@@ -259,7 +259,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					}else {
 						continue;//es peticion hija
 					}
-									
+					String ce =  (String) registro.getValue(peticionesEntidad.searchField(
+							ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());
+					String are =  (String) registro.getValue(peticionesEntidad.searchField(
+							ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
 					String situacion = (String) registro.getValue(peticionesEntidad.searchField(
 							ConstantesModelo.PETICIONES_7_ESTADO).getName());
 					
@@ -380,7 +383,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 							}else if (situacion.toString().indexOf("pte. de estimaci") != -1){
 								Double estimadasActuales = (Double) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 								if (estimadasActuales != null && estimadasActuales.compareTo(Double.valueOf(0)) > 0){//en este caso, tuvo una estimacion previa, y por algon motivo, debe revisarse esta estimacion
-									registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Trabajo pte. de re-estimacion");
+									registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Trabajo pte. de re-estimación");
 								}else{
 									registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Trabajo pte. estimar");
 								}
@@ -388,23 +391,23 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						}else if (tipoPeticion.toString().toUpperCase().indexOf("ENTREGA") != -1 &&
 								tipoPeticion.toString().toUpperCase().indexOf("PARCIAL")== -1){	// no contabilizamos las parciales
 							if (situacion.toString().indexOf("Petición finalizada") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),  "Petición de Entrega finalizada");
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Petición de Entrega finalizada");
 							}else if (situacion.toString().indexOf("Anulada") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega anulada");
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega anulada");
 							}else if (situacion.toString().indexOf("En redacción") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega en redacción (en CD)");
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega en redacción (en CD)");
 							}else if (situacion.toString().indexOf("Trabajo finalizado") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega pte. validar por CD");
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega pte. validar por CD");
 							}else if (situacion.toString().indexOf("Trabajo validado") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega validada por CD");		
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega validada por CD");		
 							}else if (situacion.toString().indexOf("No conforme") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega no conforme");						
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega no conforme");						
 							}else if (situacion.toString().indexOf("Estimada") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega estimada");
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega estimada");
 							}else if (situacion.toString().indexOf("En curso") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega en curso");
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega en curso");
 							}else if (situacion.toString().indexOf("Lista para iniciar") != -1){
-								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	"Entrega lista para iniciar");						
+								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), "Entrega lista para iniciar");						
 							}else {
 								registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(),	
 							  		  situacion.toString().replaceFirst("Trabajo", "Entrega").replaceFirst("trabajo", "Entrega").replaceAll("ado", "ada"));
@@ -659,7 +662,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	public static void main(String[] args){
 		try{
 			if (args.length < 3){
-				System.out.println("Debe indicar los argumentos necesarios, con un minimo tres argumentos; path ficheros Excel a escanear, path de BBDD y database namefile");
+				System.out.println("Debe indicar los argumentos necesarios, con un mínimo tres argumentos; path ficheros Excel a escanear, path de BBDD y database namefile");
 				return;
 			}
 			
