@@ -5,7 +5,6 @@ package facturacionUte.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -18,10 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.utils.AbstractExcelReader;
@@ -44,8 +43,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 	
 	protected static IEntityLogic tareaEntidad, peticionEntidad;
 		
-	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS",
-			ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO",
+	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS",			
 			ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
 	
 	static {		
@@ -77,46 +75,25 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 	public Map<Integer, String> importarExcel2BBDD(final String path) throws Throwable {
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
 		
-			// leer de un path
-			InputStream in = null;
-			File ficheroTareasImport = null;
-			try {
-				ficheroTareasImport = new File(path);
-				if (!ficheroTareasImport.exists()) {					
-					throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
-				}
-				in = new FileInputStream(ficheroTareasImport);
-			} catch (Throwable excc) {
-				throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
-			}finally {
-				in.close();
-			}
-
-			/** intentamos con el formato .xls y con el .xlsx **/
-			HSSFWorkbook wb2 = null;
-			try {
-				in = new FileInputStream(ficheroTareasImport);
-				wb2 = new HSSFWorkbook(in);
-				final HSSFSheet sheet = wb2.getSheetAt(0);
-				if (sheet == null) {
-					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-				}
-				filas = leerFilas(sheet, tareaEntidad);
-				
-			} catch (Throwable exc2) {
+		Workbook wb = null;
+		try {
+			wb = WorkbookFactory.create(new File(path));
+			final Sheet sheet = wb.getSheetAt(0);
+			if (sheet == null) {
 				throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
-			}finally {
-				in.close();
-				wb2.close();
 			}
-						
-
-			return filtradoInterno(Calendar.getInstance().getTime(), filas);
+			filas = leerFilas(sheet, tareaEntidad);
+			
+		} catch (Throwable exc2) {
+			throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
+		}finally {
+			wb.close();
 		}
-
+		return filtradoInterno(Calendar.getInstance().getTime(), filas);
+	}
 
 			
-		public Map<Integer, String> filtradoInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
+	public Map<Integer, String> filtradoInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
 			
 			List<Long> peticionesProcesadas = new ArrayList<Long>();
 			int numImportadas = 0;

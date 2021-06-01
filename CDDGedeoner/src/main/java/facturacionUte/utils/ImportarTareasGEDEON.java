@@ -5,7 +5,6 @@ package facturacionUte.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -19,8 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.usermodel.Cell;
 
 import org.cdd.common.exceptions.DatabaseException;
@@ -50,8 +50,8 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	public static final String ORIGEN_FROM_SG_TO_CDISM = "ISM", ORIGEN_FROM_CDISM_TO_AT = "CDISM", ORIGEN_FROM_AT_TO_DESARR_GESTINADO = "SDG";
 	private static final String CDISM = "Centro de Desarrollo del ISM", CONTRATO_7201_17G_L2 = "7201 17G L2 ISM ATH Anolisis Orientado a Objecto";
 	
-	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS",ERR_FICHERO_EXCEL_NO_LOCALIZADO = "ERR_FICHERO_EXCEL_NO_LOCALIZADO",
-	ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
+	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS", 
+			ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
 	
 	static {
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID|Id. Gestion", Integer.valueOf(ConstantesModelo.PETICIONES_46_COD_GEDEON));
@@ -197,27 +197,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	public Map<Integer, String> importarExcel2BBDD(final String path) throws Throwable {
 		List<FieldViewSet> filas = new ArrayList<FieldViewSet>();
 		
-			// leer de un path
-			InputStream in = null;
-			File ficheroTareasImport = null;
+			Workbook wb = null;
 			try {
-				ficheroTareasImport = new File(path);
-				if (!ficheroTareasImport.exists()) {					
-					throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
-				}
-				in = new FileInputStream(ficheroTareasImport);
-			} catch (Throwable excc) {
-				throw new Exception(ERR_FICHERO_EXCEL_NO_LOCALIZADO);
-			}finally {
-				in.close();
-			}
-
-			/** intentamos con el formato .xls y con el .xlsx **/
-			HSSFWorkbook wb2 = null;
-			try {
-				in = new FileInputStream(ficheroTareasImport);
-				wb2 = new HSSFWorkbook(in);
-				final HSSFSheet sheet = wb2.getSheetAt(0);
+				wb = WorkbookFactory.create(new File(path));
+				final Sheet sheet = wb.getSheetAt(0);
 				if (sheet == null) {
 					throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 				}
@@ -226,8 +209,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			} catch (Throwable exc2) {
 				throw new Exception(ERR_FICHERO_EXCEL_FORMATO_XLS);
 			}finally {
-				in.close();
-				wb2.close();
+				wb.close();
 			}
 
 			return importarInterno(Calendar.getInstance().getTime(), filas);
@@ -680,7 +662,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 	public static void main(String[] args){
 		try{
 			if (args.length < 3){
-				System.out.println("Debe indicar los argumentos necesarios, con un minimo tres argumentos; path ficheros Excel a escanear, database name file, y path de BBDD.");
+				System.out.println("Debe indicar los argumentos necesarios, con un minimo tres argumentos; path ficheros Excel a escanear, path de BBDD y database namefile");
 				return;
 			}
 			
@@ -697,7 +679,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}		
 			
 			final String fileDatabase = args[2];
-			if (!new File(basePathBBDD).exists()){
+			if (!new File(basePathBBDD.concat("//".concat(fileDatabase))).exists()){
 				System.out.println("El nombre de fichero de BBDD " + fileDatabase + " no existe");
 				return;
 			}			

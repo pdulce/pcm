@@ -7,9 +7,9 @@
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
 	<entry key="datasourceImpl" value="org.cdd.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
 	<entry key="entitiesDictionary" 
-	value="file:///C://Users//ESDU//git//pcm//SeguimientoProyectos//WebContent//WEB-INF//entities.xml"></entry>
+	value="file:///C://Users//pedro.dulce//git//pcm//CDDGedeoner//src//main//webapp//WEB-INF//entities.xml"></entry>
 	<entry key="serviceDirectory" 
-	value="C:\\Users\\ESDU\\git\\pcm\\SeguimientoProyectos\\WebContent\\WEB-INF\\services"></entry>
+	value="C:\\Users\\pedro.dulce\\git\\pcm\\CDDGedeoner\\src\\main\\webapp\\WEB-INF\\services"></entry>
 	<entry key="driver-class" value="org.sqlite.JDBC"></entry>
 	<entry key="url-connection" value="jdbc:sqlite:"></entry>
 	<entry key="dbPort" value="-1"></entry><!-- SQLite no requiere puerto -->
