@@ -64,9 +64,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Estado", Integer.valueOf(ConstantesModelo.PETICIONES_7_ESTADO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Entidad origen", Integer.valueOf(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("¡Årea origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_AREA_ORIGEN));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("¡rea origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_AREA_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("¡Årea desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("¡rea desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.PETICIONES_16_PRIORIDAD));
@@ -339,7 +339,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						
 						registro.setValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_34_CON_ENTREGA).getName(),	
 								false);
-						if (tipoPeticion.toString().indexOf("Pequeoo evolutivo") != -1){						
+						if (tipoPeticion.toString().indexOf("PequeÒo evolutivo") != -1){						
 							Double UTs_estimadas = (Double) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES).getName());
 							Double UTs_realizadas = (Double) registro.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
 							if (UTs_estimadas != null && UTs_estimadas.compareTo(Double.valueOf(0)) == 0){
