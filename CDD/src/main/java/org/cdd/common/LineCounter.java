@@ -42,9 +42,9 @@ public class LineCounter {
 		System.out.println("Lineas totales = " + LineCounter.lines);
 		//Random  rand = new Random(System.currentTimeMillis());
 		//rand.nextLong()
-		System.out.println("Ficheros de mas de 1000 lineas = " + LineCounter.pathFilesML.size());
-		System.out.println("Media de lineas por fichero = " + ((double) LineCounter.lines / (double) LineCounter.javas));		
-		System.out.println("Ficheros de mas de 500 lineas = " + LineCounter.pathFilesQL.size());		
+		System.out.println("Ficheros de más de 1000 líneas = " + LineCounter.pathFilesML.size());
+		System.out.println("Media de líneas por fichero = " + ((double) LineCounter.lines / (double) LineCounter.javas));		
+		System.out.println("Ficheros de más de 500 líneas = " + LineCounter.pathFilesQL.size());		
 
 	}
 	
@@ -103,10 +103,10 @@ public class LineCounter {
 			}
 			if (fileLines > 1000) {
 				LineCounter.pathFilesML.add(file.getName() + " (" + fileLines + ")");
-				System.out.println("Ficheros de mas de 1000: " + file.getName());
+				System.out.println("Ficheros de más de 1000: " + file.getName());
 			} else if (fileLines > 500) {
 				LineCounter.pathFilesQL.add(file.getName() + " (" + fileLines + ")");
-				System.out.println("Ficheros de mas de 500: " + file.getName());
+				System.out.println("Ficheros de más de 500: " + file.getName());
 			}
 			LineCounter.javas++;
 		}
