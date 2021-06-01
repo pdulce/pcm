@@ -134,7 +134,7 @@ public abstract class CDDWebController extends HttpServlet {
 			if (!new File(downloadDir).exists()) {
 				throw new PCMConfigurationException("downloadDir does not exist");
 			}
-			this.contextApp.invoke();
+			this.contextApp.invoke(pathBase.concat(File.separator).concat("WEB-INF").concat(File.separator));
 						
 		} catch (final PCMConfigurationException excCfg) {
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, excCfg);
@@ -249,10 +249,9 @@ public abstract class CDDWebController extends HttpServlet {
 				return;
 			}
 		}
-		
-		final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
-		final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();
 		final String baseUri = "/".concat(this.webconfig.getServletContext().getServletContextName()).concat(mainservlet);
+		final String entitiesDictionary_ = this.contextApp.getResourcesConfiguration().getEntitiesDictionary();
+		final int pageSize = Integer.valueOf(this.contextApp.getResourcesConfiguration().getPageSize()).intValue();		
 		final Datamap datamap = new Datamap(entitiesDictionary_, baseUri, pageSize);
 		
 		transferHttpRequestToDatabus(httpRequest, multiPartReq, datamap);
@@ -264,7 +263,7 @@ public abstract class CDDWebController extends HttpServlet {
 		if (event == null){
 			service = initService;
 			event = initEvent;			
-		}else{//al pulsar el botón de submit entra por aquí
+		}else{//al pulsar el botï¿½n de submit entra por aquï¿½
 			eventSubmitted = true;
 			Map<String,String> scene = this.getSceneQName(datamap, event);
 			service = scene.isEmpty() ? event : scene.keySet().iterator().next();
@@ -331,11 +330,11 @@ public abstract class CDDWebController extends HttpServlet {
 				if (!service.contentEquals("") && !service.contentEquals("dashboard")) {					
 					Element actionElementNode = ApplicationDomain.getDomainService(service).extractActionElementOnlyThisService(datamap.getEvent());
 					if (actionElementNode == null) {
-						//buscamos esta acción en nuestro padre
+						//buscamos esta acciï¿½n en nuestro padre
 						Element actionElementParentNode = ApplicationDomain.getDomainService(service).extractActionElementByParentService();						
 						escenarioTraducido = this.contextApp.getTitleOfAction(actionElementParentNode);
 						// le damos valor a la entidad-param-id de este escenario padre
-						//vamos a averiguar qué entidades son la del servicio anidado(hijo) y la de su servicio padre
+						//vamos a averiguar quï¿½ entidades son la del servicio anidado(hijo) y la de su servicio padre
 						String entidadPadreName = this.contextApp.getEntityFromAction(actionElementParentNode);
 						IEntityLogic entidadPadre = EntityLogicFactory.getFactoryInstance().getEntityDef(this.contextApp.getResourcesConfiguration().getEntitiesDictionary(), entidadPadreName);
 						

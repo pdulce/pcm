@@ -139,10 +139,10 @@ public class ApplicationDomain implements Serializable {
 		}
 	}
 	
-	private final void readDomainServices() throws PCMConfigurationException{
+	private final void readDomainServices(String basePath) throws PCMConfigurationException{
 		
 		domainServices = new HashMap<String, DomainService>();
-		File[] pFiles = new File(this.resourcesConfiguration.getServiceDirectory()).listFiles();		
+		File[] pFiles = new File(basePath.concat(this.resourcesConfiguration.getServiceDirectory())).listFiles();		
 		if (pFiles == null) {
 			throw new PCMConfigurationException("Error instantiating DomainServiceContainer: service directory " + 
 		this.resourcesConfiguration.getServiceDirectory() + " is empty");
@@ -232,13 +232,13 @@ public class ApplicationDomain implements Serializable {
 	
 	
 	
-	public void invoke() throws PCMConfigurationException{
+	public void invoke(String basePath) throws PCMConfigurationException{
 		
 		InputStream dictionaryStream = null;
 		try{
 			if (EntityLogicFactory.getFactoryInstance() != null) {
 				if (!EntityLogicFactory.getFactoryInstance().isInitiated(this.resourcesConfiguration.getEntitiesDictionary())) {	
-					dictionaryStream = new URL(this.resourcesConfiguration.getEntitiesDictionary()).openStream();
+					dictionaryStream = new URL("file:///".concat(basePath).concat(this.resourcesConfiguration.getEntitiesDictionary())).openStream();
 					if (dictionaryStream == null){
 						throw new PCMConfigurationException("dictionary uri-file not found: " + 
 					this.resourcesConfiguration.getEntitiesDictionary());
@@ -301,7 +301,7 @@ public class ApplicationDomain implements Serializable {
 			
 			/** CACHEAMOS TODOS LOS SERVICIOS DEL DOMINIO ***/
 			
-			readDomainServices();
+			readDomainServices(basePath);
 			
 		}catch (PCMConfigurationException exc){
 			ApplicationDomain.log.log(Level.SEVERE, InternalErrorsConstants.ENVIRONMENT_EXCEPTION, exc);
@@ -436,7 +436,7 @@ public class ApplicationDomain implements Serializable {
 				datamap.getParameter(EXEC_PARAM).startsWith(DASHBOARD)) {
 			genericHCModel = dashboard;
 		}else if ((highchartsParam = getHighchartRequest(datamap)) != null) {	
-			//instanciamos la clase del gráfico que corresponda
+			//instanciamos la clase del grï¿½fico que corresponda
 			final String highchartStats = datamap.getParameter(highchartsParam);			
 			if (highchartStats.equals("mapspain")){
 				genericHCModel = new MapSpain();

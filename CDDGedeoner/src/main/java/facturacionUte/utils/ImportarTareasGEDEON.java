@@ -259,10 +259,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					}else {
 						continue;//es peticion hija
 					}
-					String ce =  (String) registro.getValue(peticionesEntidad.searchField(
-							ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());
-					String are =  (String) registro.getValue(peticionesEntidad.searchField(
-							ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
+					//String ce =  (String) registro.getValue(peticionesEntidad.searchField(
+					//		ConstantesModelo.PETICIONES_11_CENTRO_DESTINO).getName());
+					//String are =  (String) registro.getValue(peticionesEntidad.searchField(
+					//		ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());
 					String situacion = (String) registro.getValue(peticionesEntidad.searchField(
 							ConstantesModelo.PETICIONES_7_ESTADO).getName());
 					

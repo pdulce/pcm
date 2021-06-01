@@ -6,10 +6,8 @@
 	<entry key="template" value="/jsp/newTemplate.jsp"></entry>
 	<entry key="datasourceAccess" value="JDBC"></entry> <!--valores: [JNDI|JDBC] -->
 	<entry key="datasourceImpl" value="org.cdd.service.dataccess.persistence.SqliteDAOSQLImpl"></entry>
-	<entry key="entitiesDictionary" 
-	value="file:///C://Users//pedro.dulce//git//pcm//CDDGedeoner//src//main//webapp//WEB-INF//entities.xml"></entry>
-	<entry key="serviceDirectory" 
-	value="C:\\Users\\pedro.dulce\\git\\pcm\\CDDGedeoner\\src\\main\\webapp\\WEB-INF\\services"></entry>
+	<entry key="entitiesDictionary"	value="entities.xml"></entry>
+	<entry key="serviceDirectory" value="services"></entry>
 	<entry key="driver-class" value="org.sqlite.JDBC"></entry>
 	<entry key="url-connection" value="jdbc:sqlite:"></entry>
 	<entry key="dbPort" value="-1"></entry><!-- SQLite no requiere puerto -->
@@ -17,10 +15,7 @@
 	<entry key="dbUserName" value=""></entry><!-- without login -->
 	<entry key="dbPassword" value=""></entry><!-- without password -->		
 	<entry key="pageSize" value="25"></entry>
-	<entry key="logAppFile"
-		value="#serverPath#/logs/logSeguimientoUTE.xml"></entry>
-	<entry key="downloadDir"
-		value="#serverPath#/temp/downloads/"></entry>
-	<entry key="uploadDir"
-		value="#serverPath#/temp/uploads/"></entry>
+	<entry key="logAppFile"	value="#serverPath#/logs/logSeguimientoUTE.xml"></entry>
+	<entry key="downloadDir" value="#serverPath#/temp/downloads/"></entry>
+	<entry key="uploadDir"	value="#serverPath#/temp/uploads/"></entry>
 </configuration>
