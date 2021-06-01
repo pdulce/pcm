@@ -226,7 +226,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 	public static void main(String[] args){
 		try{
 			if (args.length < 3){
-				System.out.println("Debe indicar los argumentos necesarios, con un minimo tres argumentos; path ficheros Excel a escanear, database name file, y path de BBDD.");
+				System.out.println("Debe indicar los argumentos necesarios, con un mínimo tres argumentos; path ficheros Excel a escanear, database name file, y path de BBDD.");
 				return;
 			}
 			
@@ -276,9 +276,9 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 						!fileScanned.getName().endsWith(".xlsm")){
 					continue;
 				}
-				System.out.println("Comenzando importacion del fichero " + fileScanned.getName() + " ...");
+				System.out.println("Comenzando importación del fichero " + fileScanned.getName() + " ...");
 				importarTareasARTEMIS.importarExcel2BBDD(fileScanned.getAbsolutePath());
-				System.out.println("...Importacion realizada con exito del fichero " + fileScanned.getName() + ".");
+				System.out.println("...Importación realizada con éxito del fichero " + fileScanned.getName() + ".");
 			}
 			
 			dataAccess_.freeConnection();
@@ -293,7 +293,7 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 			}else{
 				tiempoTranscurrido = segundos + " segundos";
 			}
-			System.out.println("*** FIN Importacion global, tiempo empleado: " + tiempoTranscurrido + "***");
+			System.out.println("*** FIN Importación global, tiempo empleado: " + tiempoTranscurrido + "***");
 			
 			
 		} catch (PCMConfigurationException e1) {
