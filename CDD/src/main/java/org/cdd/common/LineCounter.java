@@ -26,8 +26,8 @@ public class LineCounter {
 	public static void main(final String[] args) {
 
 		final String[] rootPaths = new String[]{
-				"C:\\Users\\ESDU\\git\\pcm\\contextPropModel\\src\\org\\cdd\\",
-				"C:\\Users\\ESDU\\git\\pcm\\contextPropModel\\src\\org\\cdd\\webservlet\\"};
+				"C:\\Users\\pedro.dulce\\git\\pcm\\CDD\\src\\main\\java\\org\\cdd\\",
+				"C:\\Users\\pedro.dulce\\git\\pcm\\CDD\\src\\main\\java\\org\\cdd\\webservlet\\"};
 		
 		List<File> listaFiles = new ArrayList<File>();
 		for (int i=0;i<rootPaths.length;i++){
