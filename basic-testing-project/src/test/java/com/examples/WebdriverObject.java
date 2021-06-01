@@ -8,7 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class WebdriverObject {
 	
 	static {
-		System.setProperty("webdriver.gecko.driver", "C:\\Users\\pedro.dulce\\git\\pcm\\basic-testing-project\\tools\\geckodriver");
+		System.setProperty("webdriver.gecko.driver", "C:\\Users\\pedro.dulce\\git\\pcm\\basic-testing-project\\tools\\geckodriver.exe");
 	}
 	
 	private static WebDriver driver;
