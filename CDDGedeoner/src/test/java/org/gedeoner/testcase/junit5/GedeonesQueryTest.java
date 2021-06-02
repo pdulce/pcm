@@ -37,12 +37,14 @@ public class GedeonesQueryTest extends TestCase {
 
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
-		try {
-			
+		
+		try {			
 			/*** BLOQUE PARA VALIDARTE CON EXITO ***/
 			Map<String, String> datatest = new HashMap<String, String>();
 			datatest.putAll(memoryData.getDatosEscenarioTest("testLoginSucess"));
 
+			driver.get(memoryData.getURL());
+			
 			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
 			entryUserForm.sendKeys(datatest.get("entryForm.user"));

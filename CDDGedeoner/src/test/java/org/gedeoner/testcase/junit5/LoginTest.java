@@ -51,10 +51,12 @@ public class LoginTest extends TestCase {
 
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
+		
 		try {			
 			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
-
-			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(5));
+			
+			driver.get(memoryData.getURL());
+			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
 			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(By.id("entryForm.user")));
 			WebElement entryUserForm = waitForTree.until(presenceOfElementLocated(By.id("entryForm.user")));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
@@ -65,7 +67,7 @@ public class LoginTest extends TestCase {
 			WebElement submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
 			submitFormElement.click();
 
-			WebDriverWait waitForDivErrMsg = new WebDriverWait(driver, Long.valueOf(5));
+			WebDriverWait waitForDivErrMsg = new WebDriverWait(driver, Long.valueOf(10));
 			String expression = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
 			waitForDivErrMsg.until(ExpectedConditions
 					.visibilityOfElementLocated(expression.startsWith("/") ? By.xpath(expression) : By.id(expression)));
