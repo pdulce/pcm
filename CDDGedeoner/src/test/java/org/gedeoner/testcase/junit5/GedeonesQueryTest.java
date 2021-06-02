@@ -44,47 +44,48 @@ public class GedeonesQueryTest extends TestCase {
 			datatest.putAll(memoryData.getDatosEscenarioTest("testLoginSucess"));
 
 			driver.get(memoryData.getURL());
-			
+			WebDriverWait waitForHome = new WebDriverWait(driver, Long.valueOf(10));
+			waitForHome.until(ExpectedConditions.visibilityOfElementLocated(By.id("entryForm.user")));
 			WebElement entryUserForm = driver.findElement(By.name("entryForm.user"));
 			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
 			entryUserForm.sendKeys(datatest.get("entryForm.user"));
 			entryPaswdForm.sendKeys(datatest.get("entryForm.password"));
 			WebElement submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
 			submitFormElement.click();
-			/*** FIN BLOQUE PARA VALIDARTE CON EXITO ***/
-
-			/*** BLOQUE EXCLUSIVO DE LA PRUEBA O TEST QUE VAMOS A REALIZAR ***/
+			/*** FIN BLOQUE PARA AUTENTICACION CON EXITO ***/
+			
+			WebDriverWait waitForMenu = new WebDriverWait(driver, Long.valueOf(10));			
 			datatest.clear();
 			datatest.putAll(memoryData.getDatosEscenarioTest("testQueryEvent"));
-			String expression = datatest.get("partialLink1");
-			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
-			By by = expression.startsWith("/") ? By.xpath(expression) : By.id(expression);
-
-			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(by));
-			WebElement arbolNavegacion = waitForTree.until(
-					presenceOfElementLocated(expression.startsWith("/") ? By.xpath(expression) : By.id(expression)));
-			Assert.assertTrue(arbolNavegacion.isDisplayed());
-
-			expression = datatest.get("partialLink2");
-			WebElement seguimientoFolder = arbolNavegacion
-					.findElement(expression.startsWith("/") ? By.xpath(expression) : By.id(expression));
+			String menuSuperior = datatest.get("partialLink1");
+			waitForMenu.until(ExpectedConditions.visibilityOfElementLocated(By.id(menuSuperior)));
+			WebElement menu = driver.findElement(By.id(menuSuperior));
+			if (menu != null) {
+				Assert.assertTrue(menu.isDisplayed());
+			}
+			
+			String menuContainer = datatest.get("partialLink2");
+			WebElement seguimientoFolder = menu.findElement(menuContainer.startsWith("/") ? By.xpath(menuContainer) : By.id(menuContainer));
 			Assert.assertTrue(seguimientoFolder.getText().contains("Seguimiento"));
-			seguimientoFolder.click();// pinchamos para abrir la carpeta que contiene el nodo buscado
+			seguimientoFolder.click();
 
-			expression = datatest.get("partialLink3");
+			String menuEntry = datatest.get("partialLink3");
 			WebElement hrefGEDEONES = seguimientoFolder
-					.findElement(expression.startsWith("/") ? By.xpath(expression) : By.id(expression));
-			Assert.assertTrue(hrefGEDEONES.getText().contains("GEDEON"));
-			hrefGEDEONES.click();// nodo del escenario buscado, pinchado
+					.findElement(menuEntry.startsWith("/") ? By.xpath(menuEntry) : By.id(menuEntry));
+			Assert.assertTrue(hrefGEDEONES.getText().contains("Peticiones"));
+			hrefGEDEONES.click();
 
 			WebDriverWait waitForDivResults = new WebDriverWait(driver, Long.valueOf(10));
 			waitForDivResults.until(ExpectedConditions.visibilityOfElementLocated(By.id("principal")));
 			WebElement divResultados = waitForDivResults.until(presenceOfElementLocated(By.id("principal")));
 			Assert.assertTrue(divResultados.getText().contains("Resultados del  1 al  25"));
 
-			String searchingExpressions[] = datatest.get("incidenciasProyecto.id").split("#");
-			WebElement entryPeticionID2search = driver.findElement(By.name("peticiones.id"));
-			entryPeticionID2search.sendKeys(searchingExpressions[0]);
+			WebElement entryPeticionID2search = driver.findElement(By.id("peticionesSel.id0"));
+			Long idPeticion = Long.valueOf(entryPeticionID2search.getAttribute("value").split("=")[1]);
+			Assert.assertTrue(idPeticion > 0);
+			
+			
+			/*entryPeticionID2search.sendKeys(searchingExpressions[0]);
 			submitFormElement = driver.findElement(By.id("query"));
 			submitFormElement.click();
 
@@ -109,7 +110,7 @@ public class GedeonesQueryTest extends TestCase {
 						.until(presenceOfElementLocated(By.xpath("//TABLE[@class='pcmTable']")));
 				Assert.assertTrue(divResultados.getText().contains("No hay datos"));
 
-			}
+			}*/
 
 		} catch (Throwable exc) {
 			Assert.fail("Error in testLoginSucess:" + exc.getMessage());
