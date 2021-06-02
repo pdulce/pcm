@@ -24,8 +24,6 @@ import junit.framework.TestCase;
  */
 public class GedeonesQueryTest extends TestCase {
 
-	private static MemoryData memoryData;
-
 	/**
 	 * Create the test case
 	 *
@@ -33,26 +31,15 @@ public class GedeonesQueryTest extends TestCase {
 	 */
 	public GedeonesQueryTest() {
 		super("Query Gedeones");
-		initializeMemoryData();
-	}
-
-	public void initializeMemoryData() {
-		try {
-			if (memoryData == null) {
-				String excelFile = "DataNew.xlsx";
-				memoryData = new MemoryData(excelFile);
-			}
-		} catch (Throwable exc) {
-			throw new RuntimeException("Error initializing data test set from Excel resource file", exc);
-		}
 	}
 
 	@Test
 	public void testQueryEvent() {
 
 		WebDriver driver = WebdriverObject.getWebDriverInstance();
+		MemoryData memoryData =  MemoryData.getUniqueInstance();
 		try {
-
+			
 			/*** BLOQUE PARA VALIDARTE CON EXITO ***/
 			Map<String, String> datatest = new HashMap<String, String>();
 			datatest.putAll(memoryData.getDatosEscenarioTest("testLoginSucess"));
@@ -124,10 +111,9 @@ public class GedeonesQueryTest extends TestCase {
 			}
 
 		} catch (Throwable exc) {
-			System.out.println("Error in testLoginSucess:" + exc.getMessage());
-			exc.printStackTrace();
+			Assert.fail("Error in testLoginSucess:" + exc.getMessage());
 		} finally {
-			WebdriverObject.reinitializeDriver();
+			WebdriverObject.killDriverInstance();
 		}
 
 	}

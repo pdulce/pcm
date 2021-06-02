@@ -32,12 +32,21 @@ public class MemoryData {
 	public static final String ELEMENT_2_EVALUATE = "element2Check";
 	public static final String VALUE_2_EVALUATE = "value2Check";
 	
+	private static MemoryData memoryData;
 	private Map<String, Map<String, String>> dataTests;
 	private String URL = "";
 	
-	public MemoryData(final String file_) {		
+	public static final MemoryData getUniqueInstance() {
+		if (memoryData == null) {
+			memoryData =  new MemoryData();
+		}
+		return memoryData;
+	}
+	
+	private MemoryData() {		
 		try {
-			chargeInMemory(file_);
+			String excelFile = "DataNew.xlsx";
+			chargeInMemory(excelFile);
 		} catch (Exception notFound) {
 			notFound.printStackTrace();
 			throw new RuntimeException(ERR_FICHERO_EXCEL_NO_LOCALIZADO);

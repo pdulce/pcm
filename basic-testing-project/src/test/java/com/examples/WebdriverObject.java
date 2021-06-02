@@ -28,8 +28,8 @@ public class WebdriverObject {
 		driver.quit();
 	}
 
-	public static void reinitializeDriver() {
-		driver.quit();
+	public static void killDriverInstance() {
+		disposeDriver();
 		driver = null;
 	}
 
