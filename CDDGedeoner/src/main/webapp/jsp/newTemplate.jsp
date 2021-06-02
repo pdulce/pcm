@@ -58,7 +58,7 @@
 				              <a
 				               class="nav-link dropdown-toggle"
 				               href="#"
-				               id="navbarDropdown"
+				               id="organization"
 				               role="button"
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false">
@@ -77,7 +77,7 @@
 			              <a
 			               class="nav-link dropdown-toggle"
 			               href="#"
-			               id="navbarDropdown"
+			               id="seguimiento"
 			               role="button"
 			               data-bs-toggle="dropdown"
 			               aria-expanded="false">
@@ -103,7 +103,7 @@
 			              <a
 			               class="nav-link dropdown-toggle"
 			               href="#"
-			               id="navbarDropdown"
+			               id="dashboards"
 			               role="button"
 			               data-bs-toggle="dropdown"
 			               aria-expanded="false"
@@ -129,7 +129,7 @@
 				              <a
 				               class="nav-link dropdown-toggle"
 				               href="#"
-				               id="navbarDropdown"
+				               id="demos"
 				               role="button"
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false">					             
@@ -145,7 +145,7 @@
 				              <a
 				               class="nav-link dropdown-toggle"
 				               href="#"
-				               id="navbarDropdown"
+				               id="config"
 				               role="button"
 				               data-bs-toggle="dropdown"
 				               aria-expanded="false"
