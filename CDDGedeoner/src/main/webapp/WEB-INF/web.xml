@@ -3,12 +3,12 @@
     <display-name>CDDGedeoner</display-name>
 	<servlet>
 		<servlet-name>PrincipalServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.MyServlet</servlet-class>
+		<servlet-class>gedeoner.servlets.MyServlet</servlet-class>
 	</servlet>
 
 	<servlet>
 		<servlet-name>LauncherServlet</servlet-name>
-		<servlet-class>facturacionUte.servlets.LauncherServlet</servlet-class>
+		<servlet-class>gedeoner.servlets.LauncherServlet</servlet-class>
 	</servlet>
 
 
