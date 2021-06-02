@@ -1,7 +1,7 @@
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
-<%@page import="facturacionUte.common.ConstantesModelo"%>
+<%@page import="gedeoner.common.ConstantesModelo"%>
 <%@page import="org.cdd.service.dataccess.definitions.IEntityLogic"%>
 <%@page import="org.cdd.service.component.definitions.FieldViewSet"%>
 <%@page import="java.util.Iterator"%>

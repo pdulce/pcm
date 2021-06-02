@@ -45,7 +45,7 @@
 	</action>
 
 	<action event="create" submitError="GestionarImportacionesGEDEON.create"
-		submitSucces="GestionarImportacionesGEDEON.query" strategyPre="facturacionUte.strategies.StrategyImportacion">
+		submitSucces="GestionarImportacionesGEDEON.query" strategyPre="gedeoner.strategies.StrategyImportacion">
 
 		<viewComponent>
 			<form columns="8" title="Importacion">
@@ -71,7 +71,7 @@
 	</action>
 
 	<action event="update" submitError="GestionarImportacionesGEDEON.update"
-		submitSucces="GestionarImportacionesGEDEON.update" strategyPre="facturacionUte.strategies.StrategyImportacion">
+		submitSucces="GestionarImportacionesGEDEON.update" strategyPre="gedeoner.strategies.StrategyImportacion">
 
 		<viewComponent>
 			<form columns="3" title="Edicion Importacion">

@@ -10,7 +10,7 @@ xmlns:service="http://pcm.framework.org/service"
 	<service name="EstudioEntregas" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="EstudioEntregas.query"
-			submitSucces="EstudioEntregas.query" strategy="facturacionUte.strategies.FiltrarConsultaEstudiosPost">
+			submitSucces="EstudioEntregas.query" strategy="gedeoner.strategies.FiltrarConsultaEstudiosPost">
 
 			<viewComponent>
 
@@ -135,7 +135,7 @@ xmlns:service="http://pcm.framework.org/service"
 		</action>
 				
 		<action event="delete" submitError="EstudioEntregas.delete"
-			submitSucces="EstudioEntregas.query" strategyPre="facturacionUte.strategies.BorrarResumenes">
+			submitSucces="EstudioEntregas.query" strategyPre="gedeoner.strategies.BorrarResumenes">
 			<viewComponent>
 				<form columns="3" title="Borrar Estudio Ciclo Vida Entregas">
 					<fieldViewSet entitymodel="estudios" nameSpace="estudiosForm">
@@ -178,8 +178,8 @@ xmlns:service="http://pcm.framework.org/service"
 		</action>
 		
 		<action event="create" submitError="EstudioEntregas.create" 
-				strategyPre="facturacionUte.strategies.TipoEstudioAGenerar"
-			submitSucces="EstudioEntregas.query" strategy="facturacionUte.strategies.GenerarEstudios">
+				strategyPre="gedeoner.strategies.TipoEstudioAGenerar"
+			submitSucces="EstudioEntregas.query" strategy="gedeoner.strategies.GenerarEstudios">
 			<viewComponent>
 				<form columns="2" title="Generar Estudio Ciclos Vida Peticiones/Entregas en período">
 					<fieldViewSet entitymodel="estudios" nameSpace="estudios">					

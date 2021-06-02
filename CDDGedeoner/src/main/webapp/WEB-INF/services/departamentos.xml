@@ -10,7 +10,7 @@ xmlns:service="http://pcm.framework.org/service"
 		
 		<action event="delete" submitError="GestionDepartamentos.delete"
 			submitSucces="GestionServicios.update"
-			strategy="facturacionUte.strategies.concursos.StrategyBorrarAgregadosMesesDpto">
+			strategy="gedeoner.strategies.concursos.StrategyBorrarAgregadosMesesDpto">
 
 			<viewComponent>
 				<form columns="53" title="Borrado departamento">
@@ -31,7 +31,7 @@ xmlns:service="http://pcm.framework.org/service"
 		
 		<action event="create" submitError="GestionDepartamentos.create"
 			submitSucces="GestionServicios.update"
-			strategyPre="facturacionUte.strategies.concursos.StrategyEncajarNuevoDpto">
+			strategyPre="gedeoner.strategies.concursos.StrategyEncajarNuevoDpto">
 
 			<viewComponent>
 				<form columns="53" title="Alta Formulario departamento">
