@@ -1,9 +1,11 @@
-package com.examples.junit5;
+package org.cddgedeoner.testcase.junit5;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 import java.util.Map;
 
+import org.cddgedeoner.testcase.MemoryData;
+import org.cddgedeoner.testcase.WebdriverObject;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +15,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.examples.MemoryData;
-import com.examples.WebdriverObject;
 
 import junit.framework.TestCase;
 
