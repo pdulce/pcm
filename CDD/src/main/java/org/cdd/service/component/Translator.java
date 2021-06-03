@@ -19,7 +19,7 @@ public class Translator {
 
 	private static final String MESSAGE_APP_BUNDLE = "messagesApp/MessageBundle";
 
-	private static final String MESSAGE_PCM_BUNDLE = "org/cdd/common/messages/MessageBundle";
+	private static final String MESSAGE_PCM_BUNDLE = "messages/MessageBundle";
 
 	private static Translator languageTraductor;
 
