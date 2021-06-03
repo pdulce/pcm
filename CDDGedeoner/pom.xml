@@ -17,8 +17,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<base.path>C:\\Users\\ESDU\\git\\pcm\\CDDGedeoner</base.path>
-		<tomcat.manager>http://localhost:8080/manager</tomcat.manager>
-		<suiteXmlFile>src/main/resources/testng.xml</suiteXmlFile>
+		<tomcat.manager>http://localhost:8080/manager</tomcat.manager>		
 	</properties>
 
 	<dependencies>
@@ -56,10 +55,10 @@
 		    <scope>test</scope>
 		</dependency>				
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.14.3</version>
-			<scope>test</scope>
+		    <groupId>org.testng</groupId>
+		    <artifactId>testng</artifactId>
+		    <version>7.4.0</version>
+		    <scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -95,8 +94,9 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>3.0.0-M5</version>
 					<configuration>
-          				<!--skipTests>${skipTests}</skipTests>-->
-          				<suiteXmlFiles>${suiteXmlFile}</suiteXmlFiles>
+          				<suiteXmlFiles>
+          					<file>src/test/resources/testng.xml</file>
+						</suiteXmlFiles>
         			</configuration>
 				</plugin>
 				<plugin>
