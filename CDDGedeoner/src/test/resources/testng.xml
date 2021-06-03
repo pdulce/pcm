@@ -10,7 +10,7 @@
   
    <test name="IntegrationTests">
    	<classes>
-   		<!-- class name="org.gedeoner.selenium.GedeonesQuerySeleniumTest" /> -->
+   		<class name="org.gedeoner.selenium.GedeonesQuerySeleniumTest" />
     	<class name="org.gedeoner.selenium.LoginSeleniumTest" />
     </classes>
   </test>

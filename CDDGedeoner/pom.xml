@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>predictive.test</groupId>
+	<groupId>gedeoner.webapp</groupId>
 	<artifactId>CDDGedeoner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -16,8 +16,9 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<base.path>C:\\Users\\ESDU\\git\\pcm\\CDDGedeoner</base.path>
+		<base.path>C:\\Users\\pedro.dulce\\git\\pcm\\CDDGedeoner</base.path>
 		<tomcat.manager>http://localhost:8080/manager</tomcat.manager>		
+		<suiteFile>${base.path}\\src\\test\\resources\\testng.xml</suiteFile>		
 	</properties>
 
 	<dependencies>
@@ -64,8 +65,7 @@
 
 	<build>
 		<finalName>CDDGedeoner</finalName>
-		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
-				defaults (may be moved to parent pom) -->
+		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.tomcat.maven</groupId>
@@ -81,7 +81,6 @@
 					<artifactId>maven-clean-plugin</artifactId>
 					<version>3.1.0</version>
 				</plugin>
-				<!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
 				<plugin>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>3.0.2</version>
@@ -95,10 +94,31 @@
 					<version>3.0.0-M5</version>
 					<configuration>
           				<suiteXmlFiles>
-          					<file>src/test/resources/testng.xml</file>
+    						<suiteXmlFile>${suiteFile}</suiteXmlFile>
 						</suiteXmlFiles>
-        			</configuration>
+					    <excludes>
+					      <exclude>*selenium/*Test.java</exclude>
+					    </excludes>
+					  </configuration>
+					  <executions>
+					    <execution>
+					      <id>integration-test</id>
+					      <goals>
+					        <goal>test</goal>
+					      </goals>
+					      <phase>integration-test</phase>
+					      <configuration>
+					        <excludes>
+					          <exclude>*.testcase.*/*Test.java</exclude>
+					        </excludes>
+					        <includes>
+					          <include>*selenium/*Test.java</include>
+					        </includes>
+					      </configuration>					      
+					    </execution>
+					  </executions>        			
 				</plugin>
+				
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
 					<version>3.2.2</version>
