@@ -18,7 +18,6 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<base.path>C:\\Users\\pedro.dulce\\git\\pcm\\CDDGedeoner</base.path>
 		<tomcat.manager>http://localhost:8080/manager</tomcat.manager>		
-		<suiteFile>src/test/config/testng.xml</suiteFile>		
 	</properties>
 
 	<dependencies>
@@ -94,11 +93,8 @@
          					<suiteXmlFiles>
    								<suiteXmlFile>src/test/config/testng.xml</suiteXmlFile>
 							</suiteXmlFiles>
-					    <!-- excludes>
-					      <exclude>*selenium/*Test.java</exclude>
-					    </excludes> -->
-					  	</configuration>
-					  <!-- <executions>
+ 				  	 </configuration>
+					 <executions>
 					    <execution>
 					      <id>integration-test</id>
 					      <goals>
@@ -106,15 +102,12 @@
 					      </goals>
 					      <phase>integration-test</phase>
 					      <configuration>
-					        <excludes>
-					          <exclude>*.testcase.*/*Test.java</exclude>
-					        </excludes>
-					        <includes>
-					          <include>*selenium/*Test.java</include>
-					        </includes>
-					      </configuration>					      
+         					<suiteXmlFiles>
+   								<suiteXmlFile>src/test/config/testngSelenium.xml</suiteXmlFile>
+							</suiteXmlFiles>
+ 				  	 	</configuration>					      
 					    </execution> 
-					  </executions>   -->      			
+					  </executions>      			
 				</plugin>
 				
 				<plugin>

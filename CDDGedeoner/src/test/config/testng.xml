@@ -1,27 +1,20 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
   
-<suite name="Suite">	
-		<test name="Mi Test Demo">	
+<suite name="Suite Basic Unit tests by Pdulce">
+		<test name="Tests unitarios">	
 			<groups>	
 				<run>	
    					 <include name="functest" />	
    					 <include name="checkintest" />
    					 
-   					 <exclude name="login" />
-   					 <exclude name="query" />
+   					 <!-- exclude name="login" />
+   					 <exclude name="query" /> -->
         		</run>	
        		</groups>	
 			<classes>	
 					<class name="org.gedeoner.testcase.junit5.SampleJunitTest" />	
-					<!-- class name="org.gedeoner.selenium.MySeleniumTest" /> -->
            	</classes>	
-		</test>	
-		
-		<!-- <test name="IntegrationTests">
-   			<classes>
-   				<class name="org.gedeoner.selenium.MySeleniumTest" />
-    		</classes>    
-  		</test>-->
+		</test>		
   		
   </suite>	
 
