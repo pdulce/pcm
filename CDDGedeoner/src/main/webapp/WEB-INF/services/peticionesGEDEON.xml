@@ -18,7 +18,7 @@
 				
 				<userbuttons>
 				
-					<button	link="prjManager" id="histog1" name="Histogram" >
+					<button	link="dispatch" id="histog1" name="Histogram" >
 						<fieldViewSet nameSpace="histog1">
 							<fieldView name="highchart" type="select" size="2">
 								<optionValues>
@@ -62,7 +62,7 @@
 						</fieldViewSet>
 					</button>
 					
-					<button link="prjManager" id="barchart1" name="Barchart">
+					<button link="dispatch" id="barchart1" name="Barchart">
 						<fieldViewSet nameSpace="barchart1">
 							<fieldView name="highchart" hidden="true" value="barchart"/>
 							<fieldView name="entidadGrafico" hidden="true" value="peticiones"/>
@@ -99,7 +99,7 @@
 						</fieldViewSet>
 					</button>
 										
-					<button link="prjManager" id="Chart11"
+					<button link="dispatch" id="Chart11"
 						name="Chart">
 						<fieldViewSet nameSpace="Chart11">
 							<fieldView name="highchart" type="select" size="2">

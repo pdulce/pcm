@@ -1,6 +1,6 @@
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
-    <display-name>CDDGedeoner</display-name>
+    <display-name>gedeoner</display-name>
 	<servlet>
 		<servlet-name>PrincipalServlet</servlet-name>
 		<servlet-class>gedeoner.servlets.MyServlet</servlet-class>
@@ -15,7 +15,7 @@
 	<!-- mappings servlets -->
 	<servlet-mapping>
 		<servlet-name>PrincipalServlet</servlet-name>
-		<url-pattern>/prjManager</url-pattern>
+		<url-pattern>/dispatch</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

@@ -90,6 +90,8 @@ public class MySeleniumTest extends TestCase{
 					
 		} catch (Throwable exc) {
 			Assert.fail("Error in queryGedeonesTest:" + exc.getMessage());
+		}finally {
+			driver.quit();
 		}
 	}
 	

@@ -18,7 +18,7 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 										
-						<button	link="prjManager" id="timeseries01" name="Time series" >
+						<button	link="dispatch" id="timeseries01" name="Time series" >
 							<fieldViewSet nameSpace="timeseries01">
 								<fieldView name="highchart" hidden="true" value="timeseries"/>
 								<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaEntrega"/>
@@ -244,7 +244,7 @@ xmlns:service="http://pcm.framework.org/service"
 					
 					<userbuttons>
 					
-						<button	link="prjManager" id="timeseries02" name="Time series" >
+						<button	link="dispatch" id="timeseries02" name="Time series" >
 							<fieldViewSet nameSpace="timeseries02">
 								<fieldView name="highchart" hidden="true" value="timeseries"/>
 								<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaEntrega"/>
@@ -289,7 +289,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
-						<button link="prjManager" id="Chart222"	name="Chart">
+						<button link="dispatch" id="Chart222"	name="Chart">
 							<fieldViewSet nameSpace="Chart222">
 								<fieldView name="highchart" type="select">
 									<optionValues>
@@ -323,7 +323,7 @@ xmlns:service="http://pcm.framework.org/service"
 						</button>
 						
 						
-						<button link="prjManager" id="histDual2" name="Histogram">						
+						<button link="dispatch" id="histDual2" name="Histogram">						
 							<fieldViewSet nameSpace="histDual2">
 								<fieldView name="highchart" type="select">
 									<optionValues>
@@ -368,7 +368,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>		
 						
-						<button link="prjManager" id="barchart2" name="Barchart">
+						<button link="dispatch" id="barchart2" name="Barchart">
 							<fieldViewSet nameSpace="barchart2">
 								<fieldView name="highchart" hidden="true" value="barchart"/>
 								<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaEntrega"/>
@@ -397,7 +397,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>	
 						
-						<button link="prjManager" id="scatter2"	name="Correlation">
+						<button link="dispatch" id="scatter2"	name="Correlation">
 							<fieldViewSet nameSpace="scatter2">
 								<fieldView name="highchart" hidden="true" value="scatter"/>
 								<fieldView name="entidadGrafico" hidden="true" value="detailCicloVidaEntrega"/>

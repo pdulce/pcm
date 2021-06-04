@@ -49,7 +49,7 @@
  	  		       	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			         <ul class="navbar-nav me-auto mb-lg-0">
 			           <li class="nav-item">   
-			             <a class="nav-link active" href="prjManager">
+			             <a class="nav-link active" href="dispatch">
 			               <i class="fas fa-home"></i>&nbsp;
 			             </a>
 			           </li>
@@ -66,11 +66,11 @@
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 					             <%if (!profile.contentEquals("CONSULTOR_UTE")){ %>    
-					             	<li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=unidadOrg">Organismos</a></li>
-					             	<li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=subdireccion">Subdirecciones</a></li>
+					             	<li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=unidadOrg">Organismos</a></li>
+					             	<li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=subdireccion">Subdirecciones</a></li>
 					             <%} %>				                 					              
-					             <li><a class="dropdown-item" href="prjManager?event=GestionServiciosUTE.query">Servicios UTE</a></li>
-					             <li><a class="dropdown-item" href="prjManager?event=GestionApps.query">Aplicativos</a></li>		
+					             <li><a class="dropdown-item" href="dispatch?event=GestionServiciosUTE.query">Servicios UTE</a></li>
+					             <li><a class="dropdown-item" href="dispatch?event=GestionApps.query">Aplicativos</a></li>		
 				             </ul>
 				           </li>
 				            <li class="nav-item dropdown">
@@ -85,12 +85,12 @@
 			             </a>
 			             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 			             	<%if (profile.contentEquals("ADMINISTRADOR") || profile.contentEquals("CONSULTOR_UTE")){ %>
-			               		<li><a class="dropdown-item" href="prjManager?event=GestionTech.query">Tecnologías</a></li>
-			               		<li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=tiposPeticiones">Tipos Peticiones</a></li>
+			               		<li><a class="dropdown-item" href="dispatch?event=GestionTech.query">Tecnologías</a></li>
+			               		<li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=tiposPeticiones">Tipos Peticiones</a></li>
 			               	<%} %>			               
-			               <li><a class="dropdown-item" href="prjManager?event=ConsultaPeticionesGEDEON.query">Peticiones importadas</a></li>
-			               <li><a class="dropdown-item" href="prjManager?event=EstudioPeticiones.query">Estudios Peticiones</a></li>
-			               <li><a class="dropdown-item" href="prjManager?event=EstudioEntregas.query">Estudios Entregas</a></li>
+			               <li><a class="dropdown-item" href="dispatch?event=ConsultaPeticionesGEDEON.query">Peticiones importadas</a></li>
+			               <li><a class="dropdown-item" href="dispatch?event=EstudioPeticiones.query">Estudios Peticiones</a></li>
+			               <li><a class="dropdown-item" href="dispatch?event=EstudioEntregas.query">Estudios Entregas</a></li>
 			               <%if (profile.contentEquals("ADMINISTRADOR") || profile.contentEquals("CONSULTOR_UTE")){ %>
 			               		<li><a class="dropdown-item" href="http://localhost:9080/reporting"><i class="fas fa-file-export"></i>&nbsp;Reporting</a></li>
 			               <%} %>
@@ -111,15 +111,15 @@
 			             <i class="fas fa-chart-line"></i>&nbsp;Dashboards
 			             </a>
 			             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-			               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=detailCicloVidaEntrega">
+			               <li><a class="dropdown-item" href="dispatch?exec=dashboard&event=dashboard&entities=detailCicloVidaEntrega">
 			               <i class="fas fa-chart-bar"></i>&nbsp;Estudios Historizados de Entregas</a></li>
-			               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=detailCicloVidaPeticion">
+			               <li><a class="dropdown-item" href="dispatch?exec=dashboard&event=dashboard&entities=detailCicloVidaPeticion">
 			               <i class="fas fa-chart-bar"></i>&nbsp;Estudios Historizados de Peticiones</a></li>
-			               <li><a class="dropdown-item" href="prjManager?exec=dashboard&event=dashboard&entities=peticiones">
+			               <li><a class="dropdown-item" href="dispatch?exec=dashboard&event=dashboard&entities=peticiones">
 			               <i class="fas fa-chart-bar"></i>&nbsp;Peticiones</a></li>
 			               <li>&nbsp;&nbsp;&nbsp;&nbsp;Demos</li>
 			               <li><hr class="dropdown-divider" /></li>
-			               <li><a class="dropdown-item" href="prjManager?event=Demos.query"><i class="fas fa-globe"></i>&nbsp;Mapas</a></li>
+			               <li><a class="dropdown-item" href="dispatch?event=Demos.query"><i class="fas fa-globe"></i>&nbsp;Mapas</a></li>
 			             </ul>
 			           </li>
 			           <%} %>
@@ -153,10 +153,10 @@
 				             <i class="fas fa-cogs"></i>&nbsp;Configuración
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-				               <li><a class="dropdown-item" href="prjManager?exec=Configuration">Configuración site</a></li>
-				               <li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=rol">Roles</a></li>
-				               <li><a class="dropdown-item" href="prjManager?event=GestionUsuarios.query">Usuarios</a></li>
-				               <li><a class="dropdown-item" href="prjManager?event=GestionEntidades.query&entityName=mes">Meses</a></li>
+				               <li><a class="dropdown-item" href="dispatch?exec=Configuration">Configuración site</a></li>
+				               <li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=rol">Roles</a></li>
+				               <li><a class="dropdown-item" href="dispatch?event=GestionUsuarios.query">Usuarios</a></li>
+				               <li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=mes">Meses</a></li>
 				             </ul>
 				           </li>
 				        <%} %>

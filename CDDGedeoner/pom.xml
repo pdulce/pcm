@@ -6,12 +6,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gedeoner.webapp</groupId>
-	<artifactId>Gedeoner</artifactId>
+	<artifactId>gedeoner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Gedeoner Webapp</name>
-	
+
 	<properties>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -31,67 +31,68 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>5.0.0</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.0.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>cglib</groupId>
-		    <artifactId>cglib-nodep</artifactId>
-		    <version>3.2.4</version>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>3.2.4</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium-java</artifactId>
-		    <version>4.0.0-alpha-1</version>
-		    <scope>test</scope>
-		</dependency>				
-		<dependency>
-		    <groupId>org.testng</groupId>
-		    <artifactId>testng</artifactId>
-		    <version>7.4.0</version>
-		    <scope>test</scope>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.0.0-alpha-1</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.codehaus.cargo</groupId>
-		    <artifactId>cargo-maven3-plugin</artifactId>
-		    <version>1.9.4</version>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.4.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.cargo</groupId>
+			<artifactId>cargo-maven3-plugin</artifactId>
+			<version>1.9.4</version>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}_v${project.version}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<pluginManagement>
-			<plugins>				
+			<plugins>
+
 				<plugin>
-				   <groupId>org.codehaus.cargo</groupId>
-				   <artifactId>cargo-maven3-plugin</artifactId>
-				   <version>1.9.4</version>
-				    <configuration>
+					<groupId>org.codehaus.cargo</groupId>
+      				<artifactId>cargo-maven3-plugin</artifactId>
+					<version>1.9.4</version>
+					<configuration>
 						<wait>false</wait>
 						<container>
-						<containerId>tomcat9x</containerId>
-							<home>c:/apache-tomcat-9.0.46</home><!--type>embedded </type>-->
+							<containerId>tomcat9x</containerId>
+							<home>c:/apache-tomcat-9.0.46</home>
 						</container>
-					</configuration>				   			  
-				   <executions>
-				      <execution>
-				         <id>start-container</id>
-				         <phase>pre-integration-test</phase>
-				         <goals>
-				            <goal>start</goal>
-				         </goals>
-				      </execution>
-				      <execution>
-				         <id>stop-container</id>
-				         <phase>post-integration-test</phase>
-				         <goals>
-				            <goal>stop</goal>
-				         </goals>
-				      </execution>
-				   </executions>				  
+					</configuration>
+					<executions>
+						<execution>
+							<id>start-container</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>start</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>stop-container</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>stop</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
-				<plugin>			
+				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
 					<version>3.1.0</version>
 				</plugin>
@@ -107,36 +108,36 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.22.1</version>
-					  <configuration>
-         					<suiteXmlFiles>
-   								<suiteXmlFile>src/test/config/testng.xml</suiteXmlFile>
-							</suiteXmlFiles>
- 				  	 </configuration>
-					 <executions>
-					    <execution>
-					      <id>it-test</id>
-					      <goals>
-					        <goal>test</goal>
-					      </goals>
-					      <phase>integration-test</phase>
-					      <configuration>
-         					<suiteXmlFiles>
-   								<suiteXmlFile>src/test/config/testngSelenium.xml</suiteXmlFile>
-							</suiteXmlFiles>
- 				  	 	</configuration>					      
-					    </execution> 
-					  </executions>      			
+					<configuration>
+						<suiteXmlFiles>
+							<suiteXmlFile>src/test/config/testng.xml</suiteXmlFile>
+						</suiteXmlFiles>
+					</configuration>
+					<executions>
+						<execution>
+							<id>it-test</id>
+							<goals>
+								<goal>test</goal>
+							</goals>
+							<phase>integration-test</phase>
+							<configuration>
+								<suiteXmlFiles>
+									<suiteXmlFile>src/test/config/testngSelenium.xml</suiteXmlFile>
+								</suiteXmlFiles>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
-				
+
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
-					<version>3.2.2</version>				
+					<version>3.2.2</version>
 				</plugin>
-				<plugin>					
+				<plugin>
 					<artifactId>maven-install-plugin</artifactId>
 					<version>2.5.2</version>
 				</plugin>
-				<plugin>					
+				<plugin>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>2.8.2</version>
 				</plugin>

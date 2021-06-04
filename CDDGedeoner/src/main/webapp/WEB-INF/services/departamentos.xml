@@ -55,7 +55,7 @@ xmlns:service="http://pcm.framework.org/service"
 				
 					<userbuttons>
 
-						<button link="prjManager" id="barchartParam1"
+						<button link="dispatch" id="barchartParam1"
 							name="Barchart">
 							<fieldViewSet nameSpace="barchartParam1">
 								<fieldView name="highchart" hidden="true" value="barchart"/>
@@ -104,7 +104,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</fieldViewSet>
 						</button>
 						
-						<button link="prjManager" id="piechartParam3"
+						<button link="dispatch" id="piechartParam3"
 							name="Piechart">
 							<fieldViewSet nameSpace="piechartParam3">
 								<fieldView name="highchart" hidden="true" value="piechart"/>

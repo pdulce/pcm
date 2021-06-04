@@ -17,7 +17,7 @@
   }
 %>
 
-  	<form class="pcmForm" action="prjManager" method="POST">
+  	<form class="pcmForm" action="dispatch" method="POST">
 							    
 	    <input id="exec" name="exec" type="hidden" value="dashboard"/>
 		<input id="event" name="event" type="hidden" value="dashboard"/>
