@@ -3,10 +3,10 @@ package org.gedeoner.selenium;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.BeforeClass;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Test;	
+import org.testng.annotations.Test;
+
+import junit.framework.TestCase;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +20,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
 /***
  * Tests with SeleniumHQ WebDriver
  */
-public class MySeleniumTest {
+public class MySeleniumTest extends TestCase{
 	
 	static {
 		System.setProperty("webdriver.gecko.driver", "C:\\webtools\\geckodriver.exe");
@@ -31,18 +31,16 @@ public class MySeleniumTest {
 
 	private static WebDriver driver;
 	
-	@BeforeClass
-	public static void setup() {
+	protected void setUp() {
 		driver = new FirefoxDriver();
 	}
 	
-	@AfterClass
-	public static void cleanUp(){
-	driver.quit();
+	protected void tearDown(){
+		driver.quit();
 	}
 	
 	@Test (groups = { "login", "query"})	
-	public void queryGedeones() {
+	public void testQueryGedeones() {
 		
 		System.out.println("testing queryGedeones WebDriver SELENIUM");		 	
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
@@ -94,7 +92,7 @@ public class MySeleniumTest {
 			Assert.assertTrue(idPeticion > 0);			
 					
 		} catch (Throwable exc) {
-			Assert.fail("Error in testLoginSucess:" + exc.getMessage());
+			Assert.fail("Error in queryGedeonesTest:" + exc.getMessage());
 		}
 	}
 	
