@@ -12,6 +12,7 @@ import junit.framework.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,12 +24,11 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
  */
 public class MySeleniumTest extends TestCase{
 	
-	private static WebDriver driver;
+	private WebDriver driver;
 	static {
-		System.setProperty("webdriver.gecko.driver", "C:\\webtools\\geckodriver.exe");
-		driver = new FirefoxDriver();
+		//System.setProperty("webdriver.gecko.driver", "C:\\webtools\\geckodriver.exe");		
 		/**ANOTHER WEB DRIVERS**/
-		//System.setProperty("webdriver.chrome.driver", "C:\\webtools\\chromedriver.exe");    
+		System.setProperty("webdriver.chrome.driver", "C:\\webtools\\chromedriver.exe");    
 	}
 	
 	@AfterTest
@@ -39,6 +39,10 @@ public class MySeleniumTest extends TestCase{
 	@Test (groups = { "login", "query"})	
 	public void testQueryGedeones() {
 		
+		if (driver == null) {
+			//driver = new FirefoxDriver();
+			driver = new ChromeDriver();
+		}
 		System.out.println("testing queryGedeones WebDriver SELENIUM");		 	
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
 		
