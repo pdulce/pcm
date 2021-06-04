@@ -31,6 +31,7 @@ public class MySeleniumTest extends TestCase{
 	@AfterTest
 	protected void tearDown(){
 		driver.quit();
+		driver = null;
 	}
 	
 	@Test (groups = { "login", "query"})	
@@ -91,7 +92,7 @@ public class MySeleniumTest extends TestCase{
 		} catch (Throwable exc) {
 			Assert.fail("Error in queryGedeonesTest:" + exc.getMessage());
 		}finally {
-			driver.quit();
+			tearDown();
 		}
 	}
 	
@@ -145,7 +146,7 @@ public class MySeleniumTest extends TestCase{
 		} catch (Throwable exc) {
 			Assert.fail("Error in " + testMethod + ": " + exc.getMessage());
 		}finally {
-			driver.quit();
+			tearDown();
 		}
 	}
 
