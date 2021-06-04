@@ -115,7 +115,9 @@ public class MySeleniumTest extends TestCase{
 	private void makeAccessWithData(String testMethod) {
 
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
-		
+		if (driver == null) {			
+			driver = new ChromeDriver();
+		}
 		try {			
 			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
 			
@@ -142,6 +144,8 @@ public class MySeleniumTest extends TestCase{
 
 		} catch (Throwable exc) {
 			Assert.fail("Error in " + testMethod + ": " + exc.getMessage());
+		}finally {
+			driver.quit();
 		}
 	}
 
