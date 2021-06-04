@@ -9,7 +9,6 @@
 	<artifactId>gedeoner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-
 	<name>Gedeoner Webapp</name>
 
 	<properties>
@@ -26,19 +25,20 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.cdd</groupId>
+		 	<groupId>org.cdd</groupId>
 			<artifactId>CDD</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+  			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>5.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib-nodep</artifactId>
-			<version>3.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
@@ -52,99 +52,72 @@
 			<version>7.4.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.codehaus.cargo</groupId>
-			<artifactId>cargo-maven3-plugin</artifactId>
-			<version>1.9.4</version>
-		</dependency>
 	</dependencies>
-
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<pluginManagement>
-			<plugins>
-
-				<plugin>
-					<groupId>org.codehaus.cargo</groupId>
-      				<artifactId>cargo-maven3-plugin</artifactId>
-					<version>1.9.4</version>
+		<finalName>cargoSampleApp</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven3-plugin</artifactId>
+				<version>1.9.4</version>
+				<configuration>
+					<container>
+						<containerId>tomcat9x</containerId>
+						<type>installed</type>
+						<home>c:/apache-tomcat-9.0.46</home>
+					</container>
 					<configuration>
-						<wait>false</wait>
-						<container>
-							<containerId>tomcat9x</containerId>
-							<home>c:/apache-tomcat-9.0.46</home>
-						</container>
+						<type>existing</type>
+						<home>c:/apache-tomcat-9.0.46</home>
 					</configuration>
-					<executions>
-						<execution>
-							<id>start-container</id>
-							<phase>pre-integration-test</phase>
-							<goals>
-								<goal>start</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>stop-container</id>
-							<phase>post-integration-test</phase>
-							<goals>
-								<goal>stop</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.0.2</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.22.1</version>
-					<configuration>
-						<suiteXmlFiles>
-							<suiteXmlFile>src/test/config/testng.xml</suiteXmlFile>
-						</suiteXmlFiles>
-					</configuration>
-					<executions>
-						<execution>
-							<id>it-test</id>
-							<goals>
-								<goal>test</goal>
-							</goals>
-							<phase>integration-test</phase>
-							<configuration>
-								<suiteXmlFiles>
-									<suiteXmlFile>src/test/config/testngSelenium.xml</suiteXmlFile>
-								</suiteXmlFiles>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>3.2.2</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.5.2</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.8.2</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+					<!--<container> para despliegue en servidor remoto <containerId>tomcat8x</containerId> 
+						<type>remote</type> </container> <configuration> <type>runtime</type> <properties> 
+						<cargo.remote.username>admin</cargo.remote.username> <cargo.remote.password>admin</cargo.remote.password> 
+						<cargo.tomcat.manager.url>http://localhost:8080/manager/text </cargo.tomcat.manager.url> 
+						</properties> </configuration> -->
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-container</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-container</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/config/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+				<executions>
+					<execution>
+						<id>it-test</id>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<phase>integration-test</phase>
+						<configuration>
+							<suiteXmlFiles>
+								<suiteXmlFile>src/test/config/testngSelenium.xml</suiteXmlFile>
+							</suiteXmlFiles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
-	<scm>
-		<url>https://github.com/pdulce/pcm.git</url>
-	</scm>
+
 </project>
