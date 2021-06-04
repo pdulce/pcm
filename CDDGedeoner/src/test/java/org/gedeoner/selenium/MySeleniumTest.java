@@ -13,7 +13,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -26,8 +25,6 @@ public class MySeleniumTest extends TestCase{
 	
 	private WebDriver driver;
 	static {
-		//System.setProperty("webdriver.gecko.driver", "C:\\webtools\\geckodriver.exe");		
-		/**ANOTHER WEB DRIVERS**/
 		System.setProperty("webdriver.chrome.driver", "C:\\webtools\\chromedriver.exe");    
 	}
 	
@@ -39,8 +36,7 @@ public class MySeleniumTest extends TestCase{
 	@Test (groups = { "login", "query"})	
 	public void testQueryGedeones() {
 		
-		if (driver == null) {
-			//driver = new FirefoxDriver();
+		if (driver == null) {			
 			driver = new ChromeDriver();
 		}
 		System.out.println("testing queryGedeones WebDriver SELENIUM");		 	
@@ -99,7 +95,7 @@ public class MySeleniumTest extends TestCase{
 		}
 	}
 	
-	/*@Test (groups = { "login"})	
+	@Test (groups = { "login"})	
 	public void testLoginErrUser() {
 		makeAccessWithData("testLoginErrUser");
 	}
@@ -108,12 +104,11 @@ public class MySeleniumTest extends TestCase{
 	public void testLoginErrPass() {
 		makeAccessWithData("testLoginErrPass");
 	}
-
 	
 	@Test (groups = { "login"})	
 	public void testLoginSucess() {
 		makeAccessWithData("testLoginSucess");
-	}*/
+	}
 
 	
 	
