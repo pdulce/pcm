@@ -1,4 +1,4 @@
-package org.gedeoner.testcase.resource;
+package org.gedeoner.selenium;
 
 import java.io.IOException;
 import java.io.InputStream;

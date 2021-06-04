@@ -3,31 +3,48 @@ package org.gedeoner.selenium;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-
-import org.gedeoner.testcase.resource.MemoryData;
-import org.gedeoner.testcase.resource.WebdriverObject;
-
+import org.junit.BeforeClass;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;	
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 /***
  * Tests with SeleniumHQ WebDriver
  */
 public class MySeleniumTest {
 	
+	static {
+		System.setProperty("webdriver.gecko.driver", "C:\\webtools\\geckodriver.exe");
+		
+		/**ANOTHER WEB DRIVERS**/
+		//System.setProperty("webdriver.chrome.driver", "C:\\webtools\\chromedriver.exe");    
+	}
+
+	private static WebDriver driver;
+	
+	@BeforeClass
+	public static void setup() {
+		driver = new FirefoxDriver();
+	}
+	
+	@AfterClass
+	public static void cleanUp(){
+	driver.quit();
+	}
+	
 	@Test (groups = { "login", "query"})	
 	public void queryGedeones() {
 		
-		 System.out.println("testing queryGedeones WebDriver SELENIUM");
-		 
-		WebDriver driver = WebdriverObject.getWebDriverInstance();
+		System.out.println("testing queryGedeones WebDriver SELENIUM");		 	
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
 		
 		try {			
@@ -78,13 +95,10 @@ public class MySeleniumTest {
 					
 		} catch (Throwable exc) {
 			Assert.fail("Error in testLoginSucess:" + exc.getMessage());
-		} finally {
-			WebdriverObject.killDriverInstance();
 		}
-
 	}
 	
-	@Test (groups = { "login"})	
+	/*@Test (groups = { "login"})	
 	public void testLoginErrUser() {
 		makeAccessWithData("testLoginErrUser");
 	}
@@ -98,13 +112,12 @@ public class MySeleniumTest {
 	@Test (groups = { "login"})	
 	public void testLoginSucess() {
 		makeAccessWithData("testLoginSucess");
-	}
+	}*/
 
 	
 	
 	private void makeAccessWithData(String testMethod) {
 
-		WebDriver driver = WebdriverObject.getWebDriverInstance();
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
 		
 		try {			
@@ -133,9 +146,6 @@ public class MySeleniumTest {
 
 		} catch (Throwable exc) {
 			Assert.fail("Error in " + testMethod + ": " + exc.getMessage());
-
-		} finally {
-			WebdriverObject.killDriverInstance();
 		}
 	}
 
