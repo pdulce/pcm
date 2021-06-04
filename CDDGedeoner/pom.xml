@@ -6,17 +6,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gedeoner.webapp</groupId>
-	<artifactId>CDDGedeoner</artifactId>
+	<artifactId>Gedeoner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>CDDGedeoner Maven Webapp</name>
+	<name>Gedeoner Maven Webapp</name>
 	
 	<properties>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<tomcat.manager>http://localhost:8080/manager</tomcat.manager>		
 	</properties>
 
 	<dependencies>
@@ -53,28 +52,17 @@
 		    <version>7.4.0</version>
 		    <scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.codehaus.cargo/cargo-maven3-plugin -->
 		<dependency>
 		    <groupId>org.codehaus.cargo</groupId>
 		    <artifactId>cargo-maven3-plugin</artifactId>
 		    <version>1.9.4</version>
-		</dependency>
+		</dependency>	
 	</dependencies>
 
 	<build>
-		<finalName>CDDGedeoner</finalName>
+		<finalName>${project.artifactId}_v${project.version}</finalName>
 		<pluginManagement>
-			<plugins>
-				<!-- plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<version>2.2</version>
-					<configuration>
-						<url>${tomcat.manager}/text</url>
-						<username>admin</username>
-						<password>admin</password>
-					</configuration>
-				</plugin> -->
+			<plugins>				
 				<plugin>
 				   <groupId>org.codehaus.cargo</groupId>
 				   <artifactId>cargo-maven3-plugin</artifactId>
@@ -83,7 +71,7 @@
 						<wait>false</wait>
 						<container>
 						<containerId>tomcat9x</containerId>
-							<home>c:/apache-tomcat-9.0.46/</home><!--type>embedded </type>-->
+							<home>c:/apache-tomcat-9.0.46</home><!--type>embedded </type>-->
 						</container>
 					</configuration>				   			  
 				   <executions>
@@ -104,34 +92,37 @@
 				   </executions>				  
 				</plugin>
 				<plugin>			
-					<groupId>org.apache.maven.plugins</groupId>		
 					<artifactId>maven-clean-plugin</artifactId>
 					<version>3.1.0</version>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>3.0.2</version>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.22.1</version>
-					  <configuration>
-         					<suiteXmlFiles>
-   								<suiteXmlFile>src/test/config/testng.xml</suiteXmlFile>
-							</suiteXmlFiles>
- 				  	 </configuration>
-					 <executions>
+					<version>2.22.2</version>
+					<configuration>
+   						<suiteXmlFiles>
+							<suiteXmlFile>src/test/config/testng.xml</suiteXmlFile>
+						</suiteXmlFiles>
+		  			</configuration>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.22.2</version>
+					<executions>
 					    <execution>
-					      <id>it-test</id>
+					      <id>integration-test</id>
 					      <goals>
-					        <goal>test</goal>
+					        <goal>integration-test</goal>
 					      </goals>
 					      <phase>integration-test</phase>
 					      <configuration>
@@ -140,21 +131,18 @@
 							</suiteXmlFiles>
  				  	 	</configuration>					      
 					    </execution> 
-					  </executions>      			
+					  </executions>		
 				</plugin>
 				
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
 					<version>3.2.2</version>				
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
+				<plugin>					
 					<artifactId>maven-install-plugin</artifactId>
 					<version>2.5.2</version>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
+				<plugin>					
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>2.8.2</version>
 				</plugin>
