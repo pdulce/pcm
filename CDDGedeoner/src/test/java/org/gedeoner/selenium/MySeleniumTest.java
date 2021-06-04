@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import junit.framework.TestCase;
@@ -22,19 +23,15 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
  */
 public class MySeleniumTest extends TestCase{
 	
+	private static WebDriver driver;
 	static {
 		System.setProperty("webdriver.gecko.driver", "C:\\webtools\\geckodriver.exe");
-		
+		driver = new FirefoxDriver();
 		/**ANOTHER WEB DRIVERS**/
 		//System.setProperty("webdriver.chrome.driver", "C:\\webtools\\chromedriver.exe");    
 	}
-
-	private static WebDriver driver;
 	
-	protected void setUp() {
-		driver = new FirefoxDriver();
-	}
-	
+	@AfterTest
 	protected void tearDown(){
 		driver.quit();
 	}
