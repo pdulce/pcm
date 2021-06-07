@@ -113,6 +113,10 @@ public class LauncherServlet extends CDDWebController {
 	protected IStats getDashboardImpl() {
 		return new Dashboard();
 	}
+	
+	protected void arrancarThreads(ApplicationDomain domain) {
+		//NOTHING TO INIT
+	}
 
 	
 

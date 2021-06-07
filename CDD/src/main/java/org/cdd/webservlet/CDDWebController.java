@@ -63,7 +63,6 @@ public abstract class CDDWebController extends HttpServlet {
 	protected ApplicationDomain contextApp;	
 	
 	protected Map<String, Collection<String>> sceneMap_ = new HashMap<String, Collection<String>>();
-
 	
 	static {
 		if (log.getHandlers().length == 0) {
@@ -135,12 +134,19 @@ public abstract class CDDWebController extends HttpServlet {
 				throw new PCMConfigurationException("downloadDir does not exist");
 			}
 			this.contextApp.invoke(pathBase.concat(File.separator).concat("WEB-INF").concat(File.separator));
-						
+			
 		} catch (final PCMConfigurationException excCfg) {
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, excCfg);
 		} catch (final Throwable exc) {
 			CDDWebController.log.log(Level.SEVERE, "Init Error: ", exc);
 			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, exc);
+		}
+		
+		try {
+			//si todo ha ido bien, lanzamos los treads para levantar procesos desatendidos que chequeen sucesos
+			arrancarThreads(this.contextApp);
+		} catch (final Throwable excThread) {
+			throw new ServletException(InternalErrorsConstants.INIT_EXCEPTION, excThread);
 		}
 	}
 
@@ -154,11 +160,6 @@ public abstract class CDDWebController extends HttpServlet {
 		}
 	}
 
-	@Override
-	protected void doGet(final HttpServletRequest data, final HttpServletResponse response) throws ServletException, IOException {
-		this.doPost(data, response);
-	}
-	
 	private void transferHttpRequestToDatabus(final HttpServletRequest httpRequest, final MultipartRequest multiPartReq, final Datamap datamap){
 		@SuppressWarnings("rawtypes")
 		Enumeration enumerationAttrs = httpRequest.getAttributeNames();
@@ -224,6 +225,11 @@ public abstract class CDDWebController extends HttpServlet {
 		}
 	}
 
+	@Override
+	protected void doGet(final HttpServletRequest data, final HttpServletResponse response) throws ServletException, IOException {
+		this.doPost(data, response);
+	}
+	
 	@Override
 	protected void doPost(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) throws ServletException, IOException {
 		
@@ -418,5 +424,6 @@ public abstract class CDDWebController extends HttpServlet {
 		return false;
 	}
 	
+	protected abstract void arrancarThreads(ApplicationDomain domain);
 	
 }

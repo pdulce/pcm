@@ -280,13 +280,13 @@
 					</fieldView>
 											
 					<fieldView mappingTo="2" editable="false" /><!-- Titulo -->
-					<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/><!-- Fecha_de_tramitacion -->
-					<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/><!-- Fecha_de_necesidad -->
+					<fieldView mappingTo="18" editable="false" styleCss="font-weight: bold;color: rgb(2, 208, 208);"/><!-- Fecha_de_tramitacion -->
+					<fieldView mappingTo="19" editable="false" styleCss="font-weight: bold;color: rgb(2, 208, 208);"/><!-- Fecha_de_necesidad -->
 					
-					<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_prevista_inicio-->
-					<fieldView mappingTo="23" editable="false" styleCss="font-weight: bold;color: #00B4DB;"/> <!-- Des_fecha_prevista_fin-->
+					<fieldView mappingTo="22" editable="false" styleCss="font-weight: bold;color: rgb(2, 208, 208);"/> <!-- Des_fecha_prevista_inicio-->
+					<fieldView mappingTo="23" editable="false" styleCss="font-weight: bold;color: rgb(2, 208, 208);"/> <!-- Des_fecha_prevista_fin-->
 				     
-					<fieldView mappingTo="35" editable="false" styleCss="font-weight: normal;color: #00B4DB;"/><!-- ID entrega -->
+					<fieldView mappingTo="35" editable="false" styleCss="font-weight: normal;color: rgb(2, 208, 208);"/><!-- ID entrega -->
 										
 				</fieldViewSet>
 			</grid>

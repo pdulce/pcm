@@ -203,9 +203,9 @@ xmlns:service="http://pcm.framework.org/service"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="7" styleCss="font-weight: bold;color: blue;"/>
-						<fieldView mappingTo="8" styleCss="font-weight: bold;color: blue;"/>
-						<fieldView mappingTo="9" styleCss="font-weight: bold;color: blue;"/>
+						<fieldView mappingTo="7" styleCss="font-weight: bold;color: rgb(2, 208, 208);"/>
+						<fieldView mappingTo="8" styleCss="font-weight: bold;color: rgb(2, 208, 208);"/>
+						<fieldView mappingTo="9" styleCss="font-weight: bold;color: rgb(2, 208, 208);"/>
 					</fieldViewSet>
 				</grid>
 				
