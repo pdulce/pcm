@@ -50,13 +50,21 @@ public class AlarmaTareasProntoFin extends Thread {
 
 	// Punto de entrada del hilo
 	public void run() {
+		
 		System.out.println(getName() + " iniciando...");
-		System.out.println(obtenerListaFinalizanPronto());
+		String infoMessage = obtenerListaFinalizanPronto();
+		if (!"".contentEquals(infoMessage)) {
+			domain.setAlertMessages(infoMessage);
+		}
+		
 		try {
 			for (int i=0;i<10;i++) {
-				Thread.sleep(30000);//30 segundos entre cada despertar
-				System.out.println("Despertando por " + (i+1) + "-ésima vez de una siesta  " + getName());
-				System.out.println(obtenerListaFinalizanPronto());
+				Thread.sleep(60000);//60 segundos entre cada despertar
+				//System.out.println("Despertando por " + (i+1) + "-ésima vez de una siesta  " + getName());
+				infoMessage = obtenerListaFinalizanPronto();
+				if (!"".contentEquals(infoMessage)) {
+					domain.setAlertMessages(infoMessage);
+				}
 			}
 		} catch (InterruptedException exc) {
 			System.out.println(getName() + " ha sido interrumpido.");
@@ -70,12 +78,12 @@ public class AlarmaTareasProntoFin extends Thread {
 				throw new RuntimeException(e.getMessage(), e);
 			}
 		}
-		System.out.println("..." + getName() + " finalizado.");
+		System.out.println("..." + getName() + " finalizado.");		
+		domain.deleteAlertMessages();
 	}
 	
 	private String obtenerListaFinalizanPronto()  {
 		
-		StringBuilder strBuilder = new StringBuilder("Estas son las peticiones que finalizan pronto:");
 		try {			
 			final Collection<IFieldView> fieldViews4FilterFecAndUts_ = new ArrayList<IFieldView>();
 			
@@ -111,22 +119,26 @@ public class AlarmaTareasProntoFin extends Thread {
 			situaciones.add("Pendiente de estimación");
 			situaciones.add("Trabajo listo para iniciar");
 			filterPeticiones.setValues(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName(), situaciones); 
-			
+						
 			Collection<FieldViewSet> peticionesProntoFin = dataAccess.searchByCriteria(filterPeticiones, new String []{peticionesEntidad.getName() + ".id"}, "asc");
+			StringBuilder strBuilder = new StringBuilder(peticionesProntoFin.isEmpty()? "": "¡¡AVISO!! Estas peticiones finalizan en breve:<br><ul>");
 			Iterator<FieldViewSet> itePets = peticionesProntoFin.iterator();
 			while (itePets.hasNext()) {
 				FieldViewSet peticionSearched = itePets.next();
 				Date fechaFinPrevistoPet = (Date) peticionSearched.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName());
-				String codGEDEON = (String) peticionSearched.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());
+				Long codGEDEON = (Long) peticionSearched.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());
 				String situacionPeticion = (String) peticionSearched.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-				String lineOfBuffer = "\t" + "Petición " + codGEDEON + "("+ situacionPeticion +") -- fecha prevista finalización " + CommonUtils.convertDateToShortFormattedClean(fechaFinPrevistoPet) + "\n"; 
+				String lineOfBuffer = "<li>Petición " + codGEDEON + "("+ situacionPeticion +") : fecha prevista finalización " + CommonUtils.myDateFormatter.format(fechaFinPrevistoPet) + "</li>"; 
 				strBuilder.append(lineOfBuffer);
+				if (!itePets.hasNext()) {
+					strBuilder.append("</ul>");
+				}
 			}
+			return strBuilder.toString();
 			
 		} catch (DatabaseException e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
-				
-		return strBuilder.toString();
+		
 	}
 }

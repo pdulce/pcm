@@ -82,7 +82,7 @@ public class ApplicationDomain implements Serializable {
 	private IStats dashboard;
 	private String initService;
 	private String initEvent;
-	
+	private String alertsMessages;
 	private ResourcesConfig resourcesConfiguration;
 
 	static {
@@ -97,6 +97,19 @@ public class ApplicationDomain implements Serializable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void deleteAlertMessages() {
+		this.alertsMessages = null;
+	}
+	
+	public void setAlertMessages(final String userMsgs_) {
+		this.alertsMessages = userMsgs_;
+		
+	}
+	
+	public String getAlertMessages() {
+		return this.alertsMessages;
 	}
 	
 	public void setDashboard(final IStats dashboard_) {

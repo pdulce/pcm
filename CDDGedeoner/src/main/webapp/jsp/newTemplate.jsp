@@ -17,7 +17,10 @@
 			initInputHighlightScript();
 			document.getElementById('principal').style.display='block';
 			document.getElementById('loadingdiv').style.display='none';">
-			
+
+<%
+String alerts = (String) request.getAttribute("#MESSAGES_ALERTS#");
+%>			
 <div class="global">
 
 	 <div class="pcmNav">
@@ -160,7 +163,16 @@
 				             </ul>
 				           </li>
 				        <%} %>
-			         </ul>				         
+			         </ul>			
+			         
+			         <%if (alerts != null && !"".contentEquals(alerts)){ %>			
+			            <div class="alert alert-danger" role="alert">
+						  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  						  <span class="sr-only"></span>
+  								<%=alerts%>	  
+						</div>
+			           <%} %>
+			         	         			         	       
 			       </div>
 			        
 		     </div>

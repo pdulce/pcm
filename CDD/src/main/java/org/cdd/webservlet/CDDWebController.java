@@ -56,6 +56,7 @@ public abstract class CDDWebController extends HttpServlet {
 	private static final String MULTIPART_DATA = "multipart/form-datamap";
 	private static final String CONFIG_CDD_XML = "/WEB-INF/cddconfig.xml";
 	private static final String BODY = "#BODY#", TITLE = "#TITLE#"; 
+	private static final String MESSAGES_ALERTS = "#MESSAGES_ALERTS#";
 	protected static final Logger log = Logger.getLogger(CDDWebController.class.getName());
 	protected static String mainservlet;
 	
@@ -383,7 +384,7 @@ public abstract class CDDWebController extends HttpServlet {
 			
 			datamap.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
 			datamap.setAttribute(BODY, bodyContent != null && !"".equals(bodyContent)? bodyContent.toString() : "");
-			
+			datamap.setAttribute(MESSAGES_ALERTS, this.contextApp.getAlertMessages()== null?"":this.contextApp.getAlertMessages());
 			/** DATAMAP TO HTTPREQUEST **/
 			transferDatabusToHttpRequest(datamap, httpRequest);
 			
