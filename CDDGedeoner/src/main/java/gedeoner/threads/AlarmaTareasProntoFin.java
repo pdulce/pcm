@@ -52,34 +52,36 @@ public class AlarmaTareasProntoFin extends Thread {
 	public void run() {
 		
 		System.out.println(getName() + " iniciando...");
-		String infoMessage = obtenerListaFinalizanPronto();
-		if (!"".contentEquals(infoMessage)) {
-			domain.setAlertMessages(infoMessage);
-		}
 		
 		try {
-			for (int i=0;i<10;i++) {
-				Thread.sleep(60000);//60 segundos entre cada despertar
-				//System.out.println("Despertando por " + (i+1) + "-ésima vez de una siesta  " + getName());
-				infoMessage = obtenerListaFinalizanPronto();
+			int contador = 1;
+			while (true) {
+				String infoMessage = obtenerListaFinalizanPronto();
 				if (!"".contentEquals(infoMessage)) {
 					domain.setAlertMessages(infoMessage);
 				}
+				Thread.sleep(60000);//1 minuto entre cada despertar
+				if (contador % 10 == 0) {
+					domain.deleteAlertMessages();
+					Thread.sleep(300000);//30 minutos hasta que vuelvo a mostrar el mensaje
+				}
+				contador++;
 			}
 		} catch (InterruptedException exc) {
 			System.out.println(getName() + " ha sido interrumpido.");
 			throw new RuntimeException(exc.getMessage(), exc);
-		}
+		}finally {
 		
-		if (dataAccess != null && dataAccess.getConn() != null){
-			try {
-				domain.getResourcesConfiguration().getDataSourceFactoryImplObject().freeConnection(dataAccess.getConn());
-			} catch (PCMConfigurationException e) {
-				throw new RuntimeException(e.getMessage(), e);
+			if (dataAccess != null && dataAccess.getConn() != null){
+				try {
+					domain.getResourcesConfiguration().getDataSourceFactoryImplObject().freeConnection(dataAccess.getConn());
+					System.out.println("..." + getName() + " finalizado.");		
+					domain.deleteAlertMessages();
+				} catch (PCMConfigurationException e) {
+					throw new RuntimeException(e.getMessage(), e);
+				}
 			}
 		}
-		System.out.println("..." + getName() + " finalizado.");		
-		domain.deleteAlertMessages();
 	}
 	
 	private String obtenerListaFinalizanPronto()  {
