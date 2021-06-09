@@ -10,7 +10,7 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.cdd.common.utils.CommonUtils;
 import org.cdd.service.dataccess.comparator.ComparatorDouble;
-import org.cdd.service.dataccess.comparator.ComparatorVariablesXY;
+import org.cdd.service.dataccess.comparator.ComparatorVariables;
 
 
 /**
@@ -85,7 +85,7 @@ public class StatsUtils {
 			tupla.put(this.datos_variable_X.get(i), this.datos_variable_Y.get(i));
 			listaVariablesXY.add(tupla);
 		}
-		Collections.sort(listaVariablesXY, new ComparatorVariablesXY());
+		Collections.sort(listaVariablesXY, new ComparatorVariables());
 		this.datos_variable_X = new ArrayList<Double>(this.datos_variable_X.size());
 		this.datos_variable_Y = new ArrayList<Double>(this.datos_variable_Y.size());
 		for (int i = 0; i < sizeOfVar_X; i++) {
@@ -100,19 +100,11 @@ public class StatsUtils {
 		Double acumulado = Double.valueOf(0.0);
 		int tamanioMuestra = var.size();
 		for (int i = 0; i < tamanioMuestra; i++) {
-			acumulado = Double.valueOf(acumulado.doubleValue() + var.get(i).doubleValue());
+			acumulado += var.get(i).doubleValue();
 		}
 		return acumulado.doubleValue() / tamanioMuestra;
 	}
-
-	public double obtenerMediaAritmetica_Variable_Y() {
-		return obtenerMediaAritmetica_Variable(this.datos_variable_Y);
-	}
-
-	public double obtenerMediaAritmetica_Variable_X() {
-		return obtenerMediaAritmetica_Variable(this.datos_variable_X);
-	}
-
+	
 	private double obtenerMediaGeometrica_Variable(List<Double> var) {
 		double acumulado = 1.0;
 		int tamanioMuestra = var.size();
@@ -121,6 +113,28 @@ public class StatsUtils {
 		}
 		return Math.pow(acumulado, Double.valueOf(1.0 / tamanioMuestra).doubleValue());
 	}
+	
+	public double obtenerPercentil_Variable(double percentil, List<Double> lista) {
+		Collections.sort(lista, new ComparatorDouble());
+		int tamanioMuestra = lista.size();		
+		for (int i = 0; i < tamanioMuestra; i++) {
+			if ( Math.round((Double.valueOf(i + 1).doubleValue() / Double.valueOf(tamanioMuestra))) > (percentil / 100)) {
+				return lista.get(i).doubleValue();
+			} else if ( Math.round((Double.valueOf(i + 1).doubleValue() / Double.valueOf(tamanioMuestra))) == percentil) {// n es
+																							// par
+				return ( Math.round(lista.get(i).doubleValue() + lista.get(i + 1).doubleValue())) /  Double.valueOf(percentil / 100);
+			}
+		}
+		return 0;
+	}
+
+	public double obtenerMediaAritmetica_Variable_Y() {
+		return obtenerMediaAritmetica_Variable(this.datos_variable_Y);
+	}
+
+	public double obtenerMediaAritmetica_Variable_X() {
+		return obtenerMediaAritmetica_Variable(this.datos_variable_X);
+	}	
 
 	public double obtenerMediaGeometrica_Variable_Y() {
 		return obtenerMediaGeometrica_Variable(this.datos_variable_Y);
@@ -152,21 +166,6 @@ public class StatsUtils {
 
 	public double obtenerMediana_Variable_Y() {
 		return obtenerPercentil_Variable(50, this.datos_variable_Y);
-	}
-
-	public double obtenerPercentil_Variable(double percentil, List<Double> lista) {
-		// ordenar la lista de valores recibidos
-		int tamanioMuestra = lista.size();
-
-		for (int i = 0; i < tamanioMuestra; i++) {
-			if ( Math.round((Double.valueOf(i + 1).doubleValue() / Double.valueOf(tamanioMuestra))) > (percentil / 100)) {
-				return lista.get(i).doubleValue();
-			} else if ( Math.round((Double.valueOf(i + 1).doubleValue() / Double.valueOf(tamanioMuestra))) == percentil) {// n es
-																							// par
-				return ( Math.round(lista.get(i).doubleValue() + lista.get(i + 1).doubleValue())) /  Double.valueOf(percentil / 100);
-			}
-		}
-		return 0;
 	}
 
 	private double obtenerModa_Variable(List<Double> var) {
@@ -227,8 +226,9 @@ public class StatsUtils {
 	}
 
 	/** Coeficiente variacion Pearseon **/
-	public double obtenerCoeficienteVP_Variable_X(Double media) {
-		return obtenerDesviacionTipica_Variable_X(media) / (media == null ? obtenerMediaAritmetica_Variable_X() : media.doubleValue());
+	public double obtenerCoeficienteVP_Variable_X() {
+		Double media = obtenerMediaAritmetica_Variable_X();
+		return obtenerDesviacionTipica_Variable_X(media) / media.doubleValue();
 	}
 
 	/** a partir de las muestras x e y **/
@@ -338,7 +338,7 @@ public class StatsUtils {
 		double p_value_of_Chi_X2_test = chiSquaredTest_.chiSquareTestDataSetsComparison(columns_observed, rows_observed);
 		
 		if (p_value_of_Chi_X2_test > 0.995){
-			System.out.println("resultado del test Chi-Squared: existe un alto grado de correlacion entre ambas variables, x e Y elegidas");
+			System.out.println("resultado del test Chi-Squared: existe un alto grado de correlacion entre las variables X e Y del estudio");
 		}
 		// forzamos un factor de correlacion, luego invocamos al calculador de dicho factor
 		stats.setDatos_variable_Y(data_Y);
@@ -353,7 +353,7 @@ public class StatsUtils {
 		System.out.println("media A: " + stats.obtenerMediaAritmetica_Variable_X());
 		// System.out.println("media geo A: " + stats.obtenerMediaGeometrica_Variable_X());
 		// System.out.println("mediana A: " + stats.obtenerMediana_Variable_X());
-		System.out.println("coeficiente de Variacion Pearson A: " + stats.obtenerCoeficienteVP_Variable_X(null));
+		System.out.println("coeficiente de Variacion Pearson A: " + stats.obtenerCoeficienteVP_Variable_X());
 		try {
 			System.out.println("tabla_correlacion_X_Y: " + stats.tabla_correlacion_X_Y());
 			Double param_Beta_correlacionLineal = Double.valueOf(stats.obtenerParametro_Beta_de_Correlacion());

@@ -14,7 +14,7 @@ import java.util.Map;
  * @since 2014-03-31
  */
 
-public class ComparatorVariablesXY implements Comparator<Map<Double, Double>>, Serializable {
+public class ComparatorVariables implements Comparator<Map<Double, Double>>, Serializable {
 
 	private static final long serialVersionUID = 235999829222211L;
 
