@@ -695,7 +695,15 @@ public class FieldViewSet implements Serializable {
 		}
 		return retorno;
 	}
-
+	
+	public Collection<String> getValues(final int fieldPosition) {
+		return getFieldvalue(this.entityLogic.searchField(fieldPosition).getName()).getValues();		
+	}
+	
+	public Serializable getValue(final int fieldPosition) {
+		return getValue(this.entityLogic.searchField(fieldPosition).getName());
+	}
+	
 	public Serializable getValue(final String fieldName) {
 
 		IFieldValue fieldValue_ = this.getFieldvalue(fieldName);
@@ -807,12 +815,18 @@ public class FieldViewSet implements Serializable {
 		}
 		return valueF;
 	}
-
-	public void resetValues(final String qualifiedName_) {
+	
+	public void resetValues(final int fieldPosition_) {
+		resetValues(this.entityLogic.searchField(fieldPosition_).getName());
+	}	
+	private void resetValues(final String qualifiedName_) {
 		IFieldValue fieldValue = this.getFieldvalue(qualifiedName_);
 		fieldValue.reset();
 	}
-
+	
+	public void setValues(final int fieldPosition_, final Collection<String> values) {
+		setValues(this.entityLogic.searchField(fieldPosition_).getName(), values);
+	}	
 	public void setValues(final String qualifiedName_, final Collection<String> values) {
 		if (values == null) {
 			return;
@@ -848,7 +862,10 @@ public class FieldViewSet implements Serializable {
 		fieldValue.setValues(_values);
 		this.fieldViewsValues.put(qualifiedName, fieldValue);
 	}
-
+	
+	public void setValue(final int fieldPosition, final Serializable value_) {		
+		setValue(this.entityLogic.searchField(fieldPosition).getName(), value_);
+	}	
 	public void setValue(final String qualifiedName_, final Serializable value_) {
 		if (value_ != null) {
 			final Collection<String> values = new ArrayList<String>();
@@ -859,8 +876,12 @@ public class FieldViewSet implements Serializable {
 			setNull(qualifiedName_);
 		}
 	}
-
-	public void setNull(final String qualifiedName_) {
+	
+	public void setNull(final int fieldPosition) {
+		setNull(this.entityLogic.searchField(fieldPosition).getName());
+	}	
+	private void setNull(final String qualifiedName_) {
+		
 		FieldValue nullValue = new FieldValue();
 		nullValue.setValue(null);
 		String qName_ = getContextName() !=null && !qualifiedName_.contains(getContextName())?getContextName().concat(PCMConstants.POINT).concat(qualifiedName_):qualifiedName_;
