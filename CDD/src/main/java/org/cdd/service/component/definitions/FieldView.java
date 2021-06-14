@@ -245,6 +245,11 @@ public class FieldView implements IFieldView, Serializable {
 
 	@Override
 	public final int getPosition() {
+		if (this.position < 1 && this.entityField != null) {
+			return this.entityField.getMappingTo();
+		}else if (this.position < 1) {
+			throw new RuntimeException("No se ha definido position para este campo: " + this.contextName);
+		}
 		return this.position;
 	}
 	
@@ -1000,7 +1005,7 @@ public class FieldView implements IFieldView, Serializable {
 			}
 
 			if (!_dataValues.isEmpty()) {
-				fieldViewSet.setValues(this.getQualifiedContextName(), _dataValues);
+				fieldViewSet.setValues(this.getPosition(), _dataValues);
 			} else {
 				bindingOK = false;
 			}

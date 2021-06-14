@@ -292,9 +292,9 @@ public final class CommonUtils {
 			IFieldView fView = iteFViews.next();
 			if (fView.isRankField() && fView.getEntityField() != null && fView.getEntityField().getAbstractField().isDate()
 					&& fView.getQualifiedContextName().endsWith(IRank.DESDE_SUFFIX)
-					&& filter.getValue(fView.getQualifiedContextName()) != null) {
+					&& filter.getValue(fView.getPosition()) != null) {
 				
-				Serializable fechaObject = filter.getValue(fView.getQualifiedContextName());
+				Serializable fechaObject = filter.getValue(fView.getPosition());
 				Date dateGot = null;
 				if (fechaObject instanceof java.lang.String){
 					try {
@@ -325,9 +325,9 @@ public final class CommonUtils {
 			IFieldView fView = iteFViews.next();
 			if (fView.isRankField() && fView.getEntityField() != null && fView.getEntityField().getAbstractField().isDate()
 					&& fView.getQualifiedContextName().endsWith(IRank.HASTA_SUFFIX)
-					&& filter.getValue(fView.getQualifiedContextName()) != null) {
+					&& filter.getValue(fView.getPosition()) != null) {
 				
-				Serializable fechaObject = filter.getValue(fView.getQualifiedContextName());
+				Serializable fechaObject = filter.getValue(fView.getPosition());
 				Date dateGot = null;
 				if (fechaObject instanceof java.lang.String){
 					try {

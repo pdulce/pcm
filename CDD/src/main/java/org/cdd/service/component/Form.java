@@ -484,7 +484,7 @@ public class Form extends AbstractComponent {
 				if (fieldView.hasField4Filter()) {
 					IFieldLogic fLogic = fieldView.getField4Filter();
 					String valueForFilter = fieldView.getFieldValue4Filter().toString();
-					fieldviewSetDeListaDesplegable.setValue(fLogic.getEntityDef().searchField(fLogic.getMappingTo()).getName(), valueForFilter);
+					fieldviewSetDeListaDesplegable.setValue(fLogic.getMappingTo(), valueForFilter);
 				}
 				
 				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
@@ -580,7 +580,7 @@ public class Form extends AbstractComponent {
 					int resultsLength= results.size();
 					for (int i = 0; i < resultsLength; i++) {
 						FieldViewSet fSet = results.get(i);
-						String val_ = fSet.getValue(fSet.getEntityDef().searchField(descrMappings[0]).getName()).toString();
+						String val_ = fSet.getValue(descrMappings[0]).toString();
 						val_ = val_ == null ? "" : val_;
 						String valorString = String.valueOf(val_);
 						Option newOption = new Option(valorString, valorString, valoresPorDefecto_.contains(valorString)/* selected */);

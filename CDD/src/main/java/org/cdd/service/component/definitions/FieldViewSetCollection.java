@@ -69,7 +69,7 @@ public class FieldViewSetCollection {
 						final IFieldView fieldView = fieldsIte.next();
 						final Serializable newValue_ = criteriaFieldSet.getFieldvalue(fieldView.getQualifiedContextName()).getValue();
 						if (fieldSetPrototype.getFieldView(fieldView.getQualifiedContextName()) != null && newValue_ != null) {
-							fieldSetPrototype.setValue(fieldView.getQualifiedContextName(), newValue_);
+							fieldSetPrototype.setValue(fieldView.getPosition(), newValue_);
 						}
 					}
 				}
@@ -86,7 +86,7 @@ public class FieldViewSetCollection {
 					final Iterator<IFieldView> fieldsIte = criteriaFieldSet.getFieldViews().iterator();
 					while (fieldsIte.hasNext()) {
 						final IFieldView fieldView = fieldsIte.next();
-						fieldSetPrototype.setValues(fieldView.getQualifiedContextName(),
+						fieldSetPrototype.setValues(fieldView.getPosition(),
 								criteriaFieldSet.getFieldvalue(fieldView.getQualifiedContextName()).getValues());
 					}
 				}

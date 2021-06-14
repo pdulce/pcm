@@ -98,9 +98,9 @@ public abstract class AbstractExcelReader {
 					}
 
 					valueCell = getFieldOfColumnValue(entidad, positionOfEntityField, cell, valueCell);
-					Serializable val = fila.getValue(entidad.searchField(positionOfEntityField.intValue()).getName());
+					Serializable val = fila.getValue(positionOfEntityField.intValue());
 					if (val == null || "".equals(val.toString().trim())){					
-						fila.setValue(entidad.searchField(positionOfEntityField.intValue()).getName(), valueCell);
+						fila.setValue(positionOfEntityField.intValue(), valueCell);
 					}
 					
 				}

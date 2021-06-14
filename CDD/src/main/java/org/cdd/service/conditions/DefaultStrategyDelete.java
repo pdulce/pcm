@@ -94,7 +94,7 @@ public class DefaultStrategyDelete implements IStrategy {
 				for (int k = 0; k < numberOfMaxDimensions; k++) {
 					IFieldLogic fieldEntityFK = (k >= fieldsInChild.length) ? (IFieldLogic) fieldsInChild[fieldsInChild.length - 1]
 							: (IFieldLogic) fieldsInChild[k];
-					childEntities.get(k).setValue(fieldEntityFK.getName(), valueOfKey);
+					childEntities.get(k).setValue(fieldEntityFK.getMappingTo(), valueOfKey);
 				}
 			}
 		}

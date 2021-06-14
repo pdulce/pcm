@@ -61,7 +61,7 @@ public class DefaultStrategyCreate implements IStrategy {
 					// Ya existe en el Modelo de Datos, pero esto dado de baja:
 					// hacemos una modificacion, poniendo a null los dos campos de auditoroa que
 					// provocan la baja logica del registro
-					entidadInDataModel.setValue(entidadInDataModel.getFieldView(fieldLogicFecBaja).getQualifiedContextName(), null);
+					entidadInDataModel.setValue(entidadInDataModel.getFieldView(fieldLogicFecBaja).getPosition(), null);
 					final FieldViewSetCollection collection2Modify = new FieldViewSetCollection();
 					collection2Modify.getFieldViewSets().add(entidadInDataModel);
 					dataAccess.modifyEntities(collection2Modify);

@@ -15,14 +15,14 @@ public class ComparatorFieldViewSet implements Comparator<FieldViewSet>, Seriali
 	public final int compare(final FieldViewSet entry1, final FieldViewSet entry2) {
 		
 		final IFieldLogic pk = entry1.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
-		if (entry1.getValue(pk.getName()) == null){
+		if (entry1.getValue(pk.getMappingTo()) == null){
 			return -1;
-		}else if (entry2.getValue(pk.getName()) == null){
+		}else if (entry2.getValue(pk.getMappingTo()) == null){
 			return 1;
 		}
 		//eliminamos posibles . en el numero
-		final Long value1 = Double.valueOf(entry1.getValue(pk.getName()).toString()).longValue();
-		final Long value2 = Double.valueOf(entry2.getValue(pk.getName()).toString()).longValue();
+		final Long value1 = Double.valueOf(entry1.getValue(pk.getMappingTo()).toString()).longValue();
+		final Long value2 = Double.valueOf(entry2.getValue(pk.getMappingTo()).toString()).longValue();
 		
 		int resultado = 0;
 		if (value1  < value2) {
