@@ -48,7 +48,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 				List<FieldViewSetCollection> newCollectionResults = new ArrayList<FieldViewSetCollection>();
 				for (FieldViewSetCollection record:fieldCollectionResults) {
 					FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();											
-					Long idAplicativoFound = (Long) registroBuscado.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName());
+					Long idAplicativoFound = (Long) registroBuscado.getValue(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO);
 					if (idAplicativoFound.longValue() == new Long(new FieldValue(idAplicativo_[0]).getValue()).longValue()) {
 						FieldViewSetCollection newRecord = new FieldViewSetCollection();
 						newRecord.getFieldViewSets().add(registroBuscado);

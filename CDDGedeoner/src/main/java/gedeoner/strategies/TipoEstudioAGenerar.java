@@ -58,11 +58,9 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 				throw new PCMConfigurationException("Error: Objeto Estudio recibido del datamap es nulo ", new Exception("null object"));
 			}
 			
-			Date fecIniEstudio = (Date) estudioFSet.getValue(estudiosEntidad.searchField(
-					ConstantesModelo.ESTUDIOS_4_FECHA_INICIO).getName());
-			Date fecFinEstudio = (Date) estudioFSet.getValue(estudiosEntidad.searchField(
-					ConstantesModelo.ESTUDIOS_5_FECHA_FIN).getName());				
-			Long aplicativoId = (Long) estudioFSet.getValue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName());			
+			Date fecIniEstudio = (Date) estudioFSet.getValue(ConstantesModelo.ESTUDIOS_4_FECHA_INICIO);
+			Date fecFinEstudio = (Date) estudioFSet.getValue(ConstantesModelo.ESTUDIOS_5_FECHA_FIN);				
+			Long aplicativoId = (Long) estudioFSet.getValue(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO);			
 			
 			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
 			if (fecIniEstudio.compareTo(fecFinEstudio)>0) {

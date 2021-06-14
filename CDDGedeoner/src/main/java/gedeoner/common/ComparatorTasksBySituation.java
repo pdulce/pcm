@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 import org.cdd.service.component.definitions.FieldViewSet;
-import org.cdd.service.dataccess.definitions.IEntityLogic;
 
 
 public final class ComparatorTasksBySituation implements Comparator<FieldViewSet>, Serializable {
@@ -29,18 +28,17 @@ public final class ComparatorTasksBySituation implements Comparator<FieldViewSet
 
 	@Override
 	public final int compare(final FieldViewSet obj1, final FieldViewSet obj2) {
-
-		IEntityLogic entidad= obj1.getEntityDef();
-		final String situac_1 = (String) obj1.getValue(entidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-		final String situac_2 = (String) obj2.getValue(entidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
+		
+		final String situac_1 = (String) obj1.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
+		final String situac_2 = (String) obj2.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
 		int situa1 = -1, situa2 = -1;
 		boolean sPeticionADG_1 = false;
-		String areaDestino = (String) obj1.getValue(entidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());      								
+		String areaDestino = (String) obj1.getValue(ConstantesModelo.PETICIONES_12_AREA_DESTINO);      								
 		if (areaDestino.startsWith("Desarrollo Gestionado")){
 			sPeticionADG_1 = true;
 		}
 		boolean sPeticionADG_2 = false;
-		areaDestino = (String) obj2.getValue(entidad.searchField(ConstantesModelo.PETICIONES_12_AREA_DESTINO).getName());      								
+		areaDestino = (String) obj2.getValue(ConstantesModelo.PETICIONES_12_AREA_DESTINO);      								
 		if (areaDestino.startsWith("Desarrollo Gestionado")){
 			sPeticionADG_2 = true;
 		}

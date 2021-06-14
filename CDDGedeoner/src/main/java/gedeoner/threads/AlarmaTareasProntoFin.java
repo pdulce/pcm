@@ -24,7 +24,7 @@ import gedeoner.common.ConstantesModelo;
 
 public class AlarmaTareasProntoFin extends Thread {
 	
-	public IEntityLogic peticionesEntidad;
+	public IEntityLogic peticionesEntidad, aplicativoEntidad;
 	
 	ApplicationDomain domain;
 	IDataAccess dataAccess;
@@ -42,6 +42,8 @@ public class AlarmaTareasProntoFin extends Thread {
 		try {
 			peticionesEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
 					ConstantesModelo.PETICIONES_ENTIDAD);
+			aplicativoEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+					ConstantesModelo.APLICATIVO_ENTIDAD);
 		}catch (PCMConfigurationException e) {
 			throw new RuntimeException("error charging entities", e);
 		}
@@ -116,7 +118,7 @@ public class AlarmaTareasProntoFin extends Thread {
 			situaciones.add("Tramitada");
 			situaciones.add("Trabajo en curso");
 			situaciones.add("Entrega en redacción (en CD)");
-			situaciones.add("Trabajo pte. validar por CD");
+			//situaciones.add("Trabajo pte. validar por CD");
 			situaciones.add("Trabajo estimado");
 			situaciones.add("Pendiente de estimación");
 			situaciones.add("Trabajo listo para iniciar");
@@ -127,10 +129,22 @@ public class AlarmaTareasProntoFin extends Thread {
 			Iterator<FieldViewSet> itePets = peticionesProntoFin.iterator();
 			while (itePets.hasNext()) {
 				FieldViewSet peticionSearched = itePets.next();
-				Date fechaFinPrevistoPet = (Date) peticionSearched.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN).getName());
-				Long codGEDEON = (Long) peticionSearched.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName());
-				String situacionPeticion = (String) peticionSearched.getValue(peticionesEntidad.searchField(ConstantesModelo.PETICIONES_7_ESTADO).getName());
-				String lineOfBuffer = "<li>Petición " + codGEDEON + "("+ situacionPeticion +") : fecha prevista finalización " + CommonUtils.myDateFormatter.format(fechaFinPrevistoPet) + "</li>"; 
+				Date fechaFinPrevistoPet = (Date) peticionSearched.getValue(ConstantesModelo.PETICIONES_23_DES_FECHA_PREVISTA_FIN);
+				Long codGEDEON = (Long) peticionSearched.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
+				Long idAplicativo = (Long) peticionSearched.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO);
+				FieldViewSet aplicativoVO = new FieldViewSet(aplicativoEntidad);
+				aplicativoVO.setValue(ConstantesModelo.APLICATIVO_1_ID, idAplicativo);
+				aplicativoVO = dataAccess.searchEntityByPk(aplicativoVO);
+				String nombreAplicativo = (String) aplicativoVO.getValue(ConstantesModelo.APLICATIVO_2_ROCHADE);
+				
+				String centroDestino = (String) peticionSearched.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
+				if (centroDestino.indexOf("DG") != -1) {
+					centroDestino = "DG";
+				}
+				 				
+				String situacionPeticion = (String) peticionSearched.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
+				String lineOfBuffer = "<li>Petición " + codGEDEON + "("+ centroDestino +")[" + nombreAplicativo + 
+							"] en situación " + situacionPeticion + " => fec.prevista fin: " + ((fechaFinPrevistoPet == null)? "sin planificar":CommonUtils.myDateFormatter.format(fechaFinPrevistoPet)) + "</li>"; 
 				strBuilder.append(lineOfBuffer);
 				if (!itePets.hasNext()) {
 					strBuilder.append("</ul>");

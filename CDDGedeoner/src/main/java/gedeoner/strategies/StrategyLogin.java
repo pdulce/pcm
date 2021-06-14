@@ -58,8 +58,8 @@ public class StrategyLogin extends DefaultStrategyLogin {
 			}
 
 			final FieldViewSet filterAdmin = new FieldViewSet(StrategyLogin.administrators);
-			filterAdmin.setValue(StrategyLogin.administrators.searchField(ConstantesModelo.ADMINISTRADOR_2_LOGIN_NAME).getName(), userReq);// "nombre"
-			filterAdmin.setValue(StrategyLogin.administrators.searchField(ConstantesModelo.ADMINISTRADOR_3_PASSWORD).getName(), passReq);// "password"
+			filterAdmin.setValue(ConstantesModelo.ADMINISTRADOR_2_LOGIN_NAME, userReq);// "nombre"
+			filterAdmin.setValue(ConstantesModelo.ADMINISTRADOR_3_PASSWORD, passReq);// "password"
 			final Collection<FieldViewSet> resultsADMIN = dataAccess.searchByCriteria(filterAdmin);
 
 			if (resultsADMIN.isEmpty()) {
@@ -71,22 +71,20 @@ public class StrategyLogin extends DefaultStrategyLogin {
 				throw new StrategyException(IAction.AUTHENTIC_ERR, messageArguments);
 			} else if (!resultsADMIN.isEmpty()) {
 				FieldViewSet administradorFound = resultsADMIN.iterator().next();
-				String nombre = (String) administradorFound.getValue(administrators
-						.searchField(ConstantesModelo.ADMINISTRADOR_2_LOGIN_NAME).getName());
-				String nombreCompleto = (String) administradorFound.getValue(administrators.searchField(
-						ConstantesModelo.ADMINISTRADOR_5_NOMBRECOMPLETO).getName());
+				String nombre = (String) administradorFound.getValue(ConstantesModelo.ADMINISTRADOR_2_LOGIN_NAME);
+				String nombreCompleto = (String) administradorFound.getValue(ConstantesModelo.ADMINISTRADOR_5_NOMBRECOMPLETO);
 				req.setAttribute(DefaultStrategyLogin.NAME, nombre);
 				req.setAttribute(DefaultStrategyLogin.COMPLETED_NAME, nombreCompleto);
 				req.setAttribute(
 						DefaultStrategyLogin.USER_,
-						administradorFound.getValue(StrategyLogin.administrators.searchField(ConstantesModelo.ADMINISTRADOR_1_ID).getName()));
+						administradorFound.getValue(ConstantesModelo.ADMINISTRADOR_1_ID));
 				
 				//buscamos la definicion (nombre) del profile asignado al usuario				
-				Long profile = (Long) administradorFound.getValue(administrators.searchField(ConstantesModelo.ADMINISTRADOR_4_PROFILE).getName());
+				Long profile = (Long) administradorFound.getValue(ConstantesModelo.ADMINISTRADOR_4_PROFILE);
 				final FieldViewSet filterRol = new FieldViewSet(StrategyLogin.roles);
-				filterRol.setValue(StrategyLogin.roles.searchField(ConstantesModelo.ROL_1_ID).getName(), profile);
+				filterRol.setValue(ConstantesModelo.ROL_1_ID, profile);
 				final FieldViewSet rol = dataAccess.searchFirstByPK(filterRol);
-				String _profileName = (String) rol.getValue(roles.searchField(ConstantesModelo.ROL_2_NOMBRE).getName());
+				String _profileName = (String) rol.getValue(ConstantesModelo.ROL_2_NOMBRE);
 				req.setAttribute(PCMConstants.APP_PROFILE, _profileName);
 			}
 			String defaultMode = "darkmode";

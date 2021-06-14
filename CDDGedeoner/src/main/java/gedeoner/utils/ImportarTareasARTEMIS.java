@@ -104,12 +104,12 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 				
 				for (final FieldViewSet tareaFilaExcel : filas) {
 
-					String etiquetaCelda = (String) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_5_NOMBRE).getName());
+					String etiquetaCelda = (String) tareaFilaExcel.getValue(ConstantesModelo.TAREA_PETICION_5_NOMBRE);
 					if (etiquetaCelda == null || !Character.isDigit(etiquetaCelda.charAt(0))) {
 						continue;
 					}
 					
-					Double new_horas_imputadas = (Double) tareaFilaExcel.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS).getName());
+					Double new_horas_imputadas = (Double) tareaFilaExcel.getValue(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS);
 
 					boolean isUpdate = false;
 					String idTarea = "";
@@ -118,46 +118,46 @@ public class ImportarTareasARTEMIS extends AbstractExcelReader{
 						//999806_1 - INVE-ANA - INMUEBLES. Revision del informe de movimientos de inmuebles en el colculo y visualizacion de la amortizacion.
 						idTarea = splitter[0].trim();
 						FieldViewSet tareaEnBBDD = new FieldViewSet(tareaEntidad);
-						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName(), idTarea);
-						tareaEnBBDD.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON).getName(), idTarea);
+						tareaFilaExcel.setValue(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON, idTarea);
+						tareaEnBBDD.setValue(ConstantesModelo.TAREA_PETICION_2_ID_TAREA_GEDEON, idTarea);
 						List<FieldViewSet> tareasEnBBDD = dataAccess.searchByCriteria(tareaEnBBDD);
 						if (tareasEnBBDD != null && !tareasEnBBDD.isEmpty()){
 							tareaEnBBDD = tareasEnBBDD.get(0);
-							tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_1_ID).getName(), 
-									tareaEnBBDD.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_1_ID).getName()));
+							tareaFilaExcel.setValue(ConstantesModelo.TAREA_PETICION_1_ID, 
+									tareaEnBBDD.getValue(ConstantesModelo.TAREA_PETICION_1_ID));
 							isUpdate = true;
-							Double horas_ya_imputadas = (Double) tareaEnBBDD.getValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS).getName());
+							Double horas_ya_imputadas = (Double) tareaEnBBDD.getValue(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS);
 							new_horas_imputadas += horas_ya_imputadas;
-							tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS).getName(), new_horas_imputadas);
+							tareaFilaExcel.setValue(ConstantesModelo.TAREA_PETICION_6_HORAS_IMPUTADAS, new_horas_imputadas);
 						}
 					}
 					String[] splitter2 = splitter[0].trim().split("_");
 					String idPeticionGEDEON =splitter2[0].trim();
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionEntidad);
-					peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_46_COD_GEDEON).getName(), Long.valueOf(idPeticionGEDEON));
+					peticionEnBBDD.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, Long.valueOf(idPeticionGEDEON));
 					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionEnBBDD);
 					if (existenColl == null || existenColl.isEmpty()){
 						continue;//no aoadimos esta tarea porque no tiene padre
 					}else {
 						peticionEnBBDD = existenColl.iterator().next();
-						Long idPeticionSeq = (Long) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_1_ID_SEQUENCE).getName());
-						tareaFilaExcel.setValue(tareaEntidad.searchField(ConstantesModelo.TAREA_PETICION_3_ID_PETICION).getName(), 
+						Long idPeticionSeq = (Long) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE);
+						tareaFilaExcel.setValue(ConstantesModelo.TAREA_PETICION_3_ID_PETICION, 
 							idPeticionSeq);
 						if (!peticionesProcesadas.contains(idPeticionSeq)) {
 							peticionesProcesadas.add(idPeticionSeq);
-							peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), 0.0);
+							peticionEnBBDD.setValue(ConstantesModelo.PETICIONES_29_HORAS_REALES, 0.0);
 						}
 						//contabilizamos las horas dedicadas a esta peticion a partir de esta tarea
-						Double horas = (Double) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName());
+						Double horas = (Double) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES);
 						horas += new_horas_imputadas;
-						peticionEnBBDD.setValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_29_HORAS_REALES).getName(), horas);
+						peticionEnBBDD.setValue(ConstantesModelo.PETICIONES_29_HORAS_REALES, horas);
 						int ok = this.dataAccess.modifyEntity(peticionEnBBDD);
 						if (ok != 1) {
 							throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
 						}
 					}
 					
-					//Date fecAlta = (Date) peticionEnBBDD.getValue(peticionEntidad.searchField(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO).getName());
+					//Date fecAlta = (Date) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO);
 					//System.out.println("La peticion fue dada de alta el doa: " + CommonUtils.convertDateToLongFormatted(fecAlta));
 										
 					if (isUpdate) {
