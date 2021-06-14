@@ -52,8 +52,8 @@ public class Dualhistogram extends GenericHighchartModel {
 		int numRegistros = valoresAgregados.size();
 		FieldViewSet antiguo = valoresAgregados.get(0).keySet().iterator().next();
 		FieldViewSet reciente =valoresAgregados.get(numRegistros-1).keySet().iterator().next();
-		Date fechaCalMasAntigua = (Date) antiguo.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
-		Date fechaCalMasReciente = (Date) reciente.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
+		Date fechaCalMasAntigua = (Date) antiguo.getValue(orderByField.getMappingTo());
+		Date fechaCalMasReciente = (Date) reciente.getValue(orderByField.getMappingTo());
 		
 		List<String> periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(fechaCalMasReciente, fechaCalMasAntigua, escalado);
 

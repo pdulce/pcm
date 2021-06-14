@@ -49,7 +49,7 @@ public class MapEurope extends MapSpain {
 					continue;
 				}
 				
-				String valor = (String) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName());
+				String valor = (String) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getMappingTo());
 				String regionCodeISO = getAleatoryNameForRegion(valor);
 				double subTotalPorRegion = registroTotalizado.values().iterator().next().values().iterator().next().doubleValue();
 				sumarizadorTotal += subTotalPorRegion;

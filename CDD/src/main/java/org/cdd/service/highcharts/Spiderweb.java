@@ -35,10 +35,10 @@ public class Spiderweb extends GenericHighchartModel {
 				FieldViewSet registroFieldSet = ite.next();
 				if (registroFieldSet.getEntityDef().getName().equals(fieldsCategoriaDeAgrupacion[0].getEntityDef().getName())) {
 					subTotalPorCategoria = registroTotalizado.get(registroFieldSet).values().iterator().next().doubleValue();
-					if (registroFieldSet.getValue(fieldsCategoriaDeAgrupacion[0].getName()) == null) {
+					if (registroFieldSet.getValue(fieldsCategoriaDeAgrupacion[0].getMappingTo()) == null) {
 						valueForEntidadFiltro = "";
 					} else {
-						valueForEntidadFiltro = registroFieldSet.getValue(fieldsCategoriaDeAgrupacion[0].getName()).toString();
+						valueForEntidadFiltro = registroFieldSet.getValue(fieldsCategoriaDeAgrupacion[0].getMappingTo()).toString();
 					}
 				} else {
 					// obtengo el primer fieldView que tenga value not null
@@ -48,7 +48,7 @@ public class Spiderweb extends GenericHighchartModel {
 						IFieldView fView = registroFieldSet.getFieldViews().get(f);
 						if (!registroFieldSet.getFieldvalue(fView.getEntityField()).isNull()
 								&& !registroFieldSet.getFieldvalue(fView.getEntityField()).isEmpty()) {
-							valueEntidadMaster = ((String) registroFieldSet.getValue(fView.getEntityField().getName())).concat(" (");
+							valueEntidadMaster = ((String) registroFieldSet.getValue(fView.getEntityField().getMappingTo())).concat(" (");
 							found = true;
 							break;
 						}
@@ -61,11 +61,11 @@ public class Spiderweb extends GenericHighchartModel {
 			if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
 				IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
 				FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-				fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), agrupacion);
+				fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), agrupacion);
 				try {
 					fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 					IFieldLogic descField = fSetParent.getDescriptionField();
-					agrupacion = (String) fSetParent.getValue(descField.getName());
+					agrupacion = (String) fSetParent.getValue(descField.getMappingTo());
 				} catch (DatabaseException e) {
 					e.printStackTrace();
 				}									

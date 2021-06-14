@@ -53,18 +53,18 @@ public class Pie extends GenericHighchartModel {
 							subtotalesPorAgregado.put(agregadosQueryResultNameIesimo, CommonUtils.roundWith2Decimals(subTotalPorCategoria_.doubleValue()));
 						}
 					}
-					if (registroPorCategoria.getValue(agrupacionInterna.getName()) == null) {
+					if (registroPorCategoria.getValue(agrupacionInterna.getMappingTo()) == null) {
 						valorParaCategoria1EnEsteRegistroAgregado = "";
 					} else {
-						valorParaCategoria1EnEsteRegistroAgregado = registroPorCategoria.getValue(agrupacionInterna.getName()).toString();
+						valorParaCategoria1EnEsteRegistroAgregado = registroPorCategoria.getValue(agrupacionInterna.getMappingTo()).toString();
 						if (agrupacionInterna.getParentFieldEntities() != null && !agrupacionInterna.getParentFieldEntities().isEmpty()){
 							IFieldLogic fieldLogicAssociated = agrupacionInterna.getParentFieldEntities().get(0);
 							FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), registroPorCategoria.getValue(agrupacionInterna.getName()));
+							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), registroPorCategoria.getValue(agrupacionInterna.getMappingTo()));
 							try {
 								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 								IFieldLogic descField = fSetParent.getDescriptionField();
-								valorParaCategoria1EnEsteRegistroAgregado = fSetParent.getValue(descField.getName()).toString();
+								valorParaCategoria1EnEsteRegistroAgregado = fSetParent.getValue(descField.getMappingTo()).toString();
 							} catch (DatabaseException e) {
 								e.printStackTrace();
 							}
@@ -72,7 +72,7 @@ public class Pie extends GenericHighchartModel {
 						
 						/***inicio parte comon con GenericPieChart ***/
 						
-						Serializable valorIntrinseco = registroPorCategoria.getValue(agrupacionInterna.getName());
+						Serializable valorIntrinseco = registroPorCategoria.getValue(agrupacionInterna.getMappingTo());
 						if (fieldsCategoriaDeAgrupacion.length > 1){
 							IFieldLogic agrupacionPral = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 2];
 							Serializable valorAgrupacionPral = registroPorCategoria.getFieldvalue(agrupacionPral).getValue();

@@ -242,8 +242,8 @@ public class HistogramUtils {
 		filtroPorTareaApp.removeFieldView(fechaFieldView);
 		filtroPorTareaApp.addFieldViews(fieldsRango);
 
-		filtroPorTareaApp.setValue(fViewMinor.getQualifiedContextName(), fechaInicioRango.getTime());
-		filtroPorTareaApp.setValue(fViewMayor.getQualifiedContextName(), fechaFinRango.getTime());
+		filtroPorTareaApp.setValue(fViewMinor.getPosition(), fechaInicioRango.getTime());
+		filtroPorTareaApp.setValue(fViewMayor.getPosition(), fechaFinRango.getTime());
 
 		return filtroPorTareaApp;
 	}

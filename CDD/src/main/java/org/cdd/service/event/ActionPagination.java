@@ -248,8 +248,7 @@ public class ActionPagination extends AbstractAction {
 						if (itePks.hasNext() && entidadPadre.getFieldKey().getPkFieldSet().size() == 1) {
 							IFieldLogic fieldPKMaster = itePks.next();
 							IFieldLogic fkDetail = entidadDetail.getFkFields(fieldPKMaster).iterator().next();
-							detailGridElement.setValue(
-									detailGridElement.getContextName().concat(PCMConstants.POINT).concat(fkDetail.getName()), value);
+							detailGridElement.setValue(fkDetail.getMappingTo(), value);
 						}
 					}
 				}

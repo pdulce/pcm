@@ -48,7 +48,7 @@ public class MapSpain extends GenericHighchartModel {
 				if (!categoriaFieldSet.getEntityDef().getName().equals(fieldsForCategoriaDeAgrupacion[0].getEntityDef().getName())) {
 					continue;
 				}
-				String identificadorRegional = categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getName()).toString();
+				String identificadorRegional = categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getMappingTo()).toString();
 				String regionCodeISO = getAleatoryNameForRegion(identificadorRegional);
 				double subTotalPorRegion = registroTotalizado.values().iterator().next().values().iterator().next().doubleValue();
 				if (identificadorRegional.equals(CodigosISOProvinciasSpain.SSCC)) {

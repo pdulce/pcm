@@ -293,18 +293,18 @@ public class ActionForm extends AbstractAction {
 			if (entidad.getParentEntities().contains(entidadRelacionada)) {
 				IFieldLogic fieldPKMaster = entidadRelacionada.getFieldKey().getPkFieldSet().iterator().next();
 				IFieldLogic fkDetail = entidad.getFkFields(fieldPKMaster).iterator().next();
-				Serializable value = f.getValue(fieldPKMaster.getName());
+				Serializable value = f.getValue(fieldPKMaster.getMappingTo());
 				if (value != null) {
 					wasFilledWithAnyValue = true;
-					fieldViewset.setValue(fkDetail.getName(), value);
+					fieldViewset.setValue(fkDetail.getMappingTo(), value);
 				}
 			} else if (entidadRelacionada.getParentEntities().contains(entidad)) {
 				IFieldLogic fieldPKMaster = entidad.getFieldKey().getPkFieldSet().iterator().next();
 				IFieldLogic fkDetail = entidadRelacionada.getFkFields(fieldPKMaster).iterator().next();
-				Serializable value = f.getValue(fkDetail.getName());
+				Serializable value = f.getValue(fkDetail.getMappingTo());
 				if (value != null) {
 					wasFilledWithAnyValue = true;
-					fieldViewset.setValue(fieldPKMaster.getName(), value);
+					fieldViewset.setValue(fieldPKMaster.getMappingTo(), value);
 				}
 			}
 		}
@@ -378,7 +378,7 @@ public class ActionForm extends AbstractAction {
 								.getComposedName(fieldViewSet.getContextName())));
 						parqMensajes.add(parqMensaje);
 					} else {
-						fieldViewSet.setValue(fieldView.getQualifiedContextName(), fieldValue);
+						fieldViewSet.setValue(fieldView.getPosition(), fieldValue);
 						if (!form.isBindedPk()) {
 							form.setBindedPk(true);
 						}
@@ -402,7 +402,7 @@ public class ActionForm extends AbstractAction {
 			final List<FieldViewSet> fieldViewSets = form.getFieldViewSets(); 
 			String submitWithUserInputs = null;
 			final boolean validacionObligatoria = isUniqueFormComposite(getEvent());
-			String minorRangeField = null, mayorRangeField = null;
+			int minorRangeField = -1, mayorRangeField = -1;
 			final Iterator<FieldViewSet> fieldViewSetsIte = fieldViewSets.iterator();
 			form.setBindedPk(false);
 			while (fieldViewSetsIte.hasNext()) {
@@ -449,8 +449,8 @@ public class ActionForm extends AbstractAction {
 						dataValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
 					}
 					if (fieldView.isCheckOrRadioOrCombo()) {
-						fieldViewSet.resetValues(fieldView.getQualifiedContextName());
-						fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
+						fieldViewSet.resetValues(fieldView.getPosition());
+						fieldViewSet.setValues(fieldView.getPosition(), dataValues);
 					}
 					if (!fieldView.isUserDefined()) {
 						if (fieldView.getEntityField().belongsPK()) {
@@ -462,14 +462,14 @@ public class ActionForm extends AbstractAction {
 						if (fieldSinthacticValid) {
 
 							if (fieldView.isRankField()) {
-								final Serializable val = fieldViewSet.getValue(fieldView.getQualifiedContextName());								
+								final Serializable val = fieldViewSet.getValue(fieldView.getPosition());								
 								if (val != null && !"".equals(val.toString())) {
 									if (fieldView.getRankField().isMinorInRange()) {
-										minorRangeField = fieldView.getQualifiedContextName();
+										minorRangeField = fieldView.getPosition();
 									} else {
-										mayorRangeField = fieldView.getQualifiedContextName();
+										mayorRangeField = fieldView.getPosition();
 									}
-									if (minorRangeField != null && mayorRangeField != null) {
+									if (minorRangeField != -1 && mayorRangeField != -1) {
 										final Serializable minorVal = fieldViewSet.getValue(minorRangeField), mayorVal = fieldViewSet
 												.getValue(mayorRangeField);
 										final boolean semanthicIsCorrect = fieldView.getEntityField().getAbstractField().isDate() ? RelationalAndCIFValidator
@@ -478,14 +478,14 @@ public class ActionForm extends AbstractAction {
 										if (!semanthicIsCorrect) {
 											final MessageException msg = new MessageException(IAction.ERROR_SEMANTHIC_CODE);
 											msg.addParameter(new Parameter(IAction.ERROR_SEMANTHIC_CODE, IValidator.DATA_RANGE_INVALID));
-											msg.addParameter(new Parameter(IViewComponent.ZERO, mayorRangeField));
-											msg.addParameter(new Parameter(IViewComponent.ONE, mayorVal.toString()));
-											msg.addParameter(new Parameter("2", minorRangeField));
+											msg.addParameter(new Parameter(IViewComponent.ZERO, fieldViewSet.getEntityDef().searchField(mayorRangeField).getName()));
+											msg.addParameter(new Parameter(IViewComponent.ONE, ""+mayorVal.toString()));
+											msg.addParameter(new Parameter("2", fieldViewSet.getEntityDef().searchField(minorRangeField).getName()));
 											msg.addParameter(new Parameter("3", minorVal.toString()));
 											parqMensajes.add(msg);
 										}
-										minorRangeField = null;
-										mayorRangeField = null;
+										minorRangeField = -1;
+										mayorRangeField = -1;
 									}
 								}
 							}

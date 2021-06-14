@@ -395,7 +395,7 @@ public abstract class GenericHighchartModel implements IStats {
 					while (iteMapSerializable.hasNext()){
 						Map<String,Boolean> mapa1 = iteMapSerializable.next();
 						String val = mapa1.keySet().iterator().next();
-						fSetParent.setValue(fSetParent.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), val);
+						fSetParent.setValue(fSetParent.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), val);
 						try {
 							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 							descFields = fSetParent.getDescriptionFieldList();
@@ -407,7 +407,7 @@ public abstract class GenericHighchartModel implements IStats {
 										nombreCampoTraducido.append(", ");
 									}
 								}
-								strBuf.append(fSetParent.getValue(descFields.get(i).getName()));
+								strBuf.append(fSetParent.getValue(descFields.get(i).getMappingTo()));
 								if (countOfMapavalues==0){
 									nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(data_.getLanguage(), fSetParent.getEntityDef().getName().concat(".").concat(descFields.get(i).getName())));
 								}

@@ -30,7 +30,14 @@ public class StatsUtils {
 	public static final int MUESTREO_CON_SAMPLE = 2;
 
 	private List<Double> datos_variable_X, datos_variable_Y;
-
+	
+	public void pintarVariable(List<Double> datos_variable) {
+		int sizeOfVar_X = datos_variable.size();
+		for (int i = 0; i < sizeOfVar_X; i++) {
+			System.out.println("valor posición " + (i+1) + "-ésima: " + datos_variable.get(i));
+		}
+	}
+	
 	public List<Double> getDatos_variable_X() {
 		return this.datos_variable_X;
 	}
@@ -319,35 +326,33 @@ public class StatsUtils {
 		
 		List<Double> data_Y = new ArrayList<Double>();
 		int tamanioData = data_X.size();
-		long[] columns_observed = new long[tamanioData];
-		long[] rows_observed = new long[tamanioData];
+		long[] observed = new long[tamanioData];
+		long[] expected = new long[tamanioData];
 		
 		for (int i = 0; i < tamanioData; i++) {
 			data_Y.add(i, CommonUtils.roundWith2Decimals(data_X.get(i).doubleValue() * 0.92));
 			//for chi squared test
-			columns_observed[i] = data_X.get(i).longValue();
-			rows_observed[i] = data_Y.get(i).longValue();
+			observed[i] = data_X.get(i).longValue();
+			expected[i] = data_Y.get(i).longValue();
 		}
+		stats.setDatos_variable_Y(data_Y);
 		
-		// realizamos un test de Chi-Squared (test de chi cuadrado)
-		//int degreesOfFreedom = (tamanioData-1)*(tamanioData-1);//(columns-1)*(rows-1)
-		//ChiSquaredDistribution chiSquaredDist = new ChiSquaredDistribution(degreesOfFreedom);
-		//chiSquaredDist.
+		System.out.println("************** VARIABLES DE ESTUDIO **************");
+		System.out.println("Valores variable X: " + stats.getDatos_variable_X());
+		System.out.println("Valores variable Y: " + stats.getDatos_variable_Y());
+		System.out.println("");
 		
 		ChiSquareTest chiSquaredTest_ = new ChiSquareTest();
-		double p_value_of_Chi_X2_test = chiSquaredTest_.chiSquareTestDataSetsComparison(columns_observed, rows_observed);
+		double p_value_of_Chi_X2_test = chiSquaredTest_.chiSquareTestDataSetsComparison(observed, expected);
 		
 		if (p_value_of_Chi_X2_test > 0.995){
-			System.out.println("resultado del test Chi-Squared: existe un alto grado de correlacion entre las variables X e Y del estudio");
+			System.out.println("resultado del test Chi-Squared: existe un alto grado de correlación entre las variables X e Y del estudio");
 		}
-		// forzamos un factor de correlacion, luego invocamos al calculador de dicho factor
-		stats.setDatos_variable_Y(data_Y);
+		// forzamos un factor de correlacion, luego invocamos al calculador de dicho factor		
 		double media_Var_X = stats.obtenerMediaAritmetica_Variable_X();
 		System.out.println("Media de X: " + media_Var_X);
-		System.out.println("Desviacion topica de X: " + stats.obtenerDesviacionTipica_Variable_X(Double.valueOf(media_Var_X)));
+		System.out.println("Desviación típica de X: " + stats.obtenerDesviacionTipica_Variable_X(Double.valueOf(media_Var_X)));
 
-		System.out.println("lista de variables A: " + stats.getDatos_variable_X());
-		System.out.println("lista de variables B: " + stats.getDatos_variable_Y());
 		// double media_X = stats.obtenerMediaAritmetica_Variable_X();
 		// double media_Y = stats.obtenerMediaAritmetica_Variable_Y();
 		System.out.println("media A: " + stats.obtenerMediaAritmetica_Variable_X());
@@ -358,9 +363,9 @@ public class StatsUtils {
 			System.out.println("tabla_correlacion_X_Y: " + stats.tabla_correlacion_X_Y());
 			Double param_Beta_correlacionLineal = Double.valueOf(stats.obtenerParametro_Beta_de_Correlacion());
 			Double param_A_correlacionLineal = Double.valueOf(stats.obtenerParametro_A_de_Correlacion());
-			System.out.println("parometro 'a' de correlacion lineal (y cuando x es 0): " + param_A_correlacionLineal);
-			System.out.println("parometro 'b' de correlacion lineal: " + param_Beta_correlacionLineal);
-			System.out.println("lista de variables Y estimadas segon CCL: "
+			System.out.println("parámetro 'a' de correlación lineal (y cuando x es 0): " + param_A_correlacionLineal);
+			System.out.println("parámetro 'b' de correlación lineal: " + param_Beta_correlacionLineal);
+			System.out.println("lista de variables Y estimadas según CCL: "
 					+ stats.obtenerVariables_Y(param_A_correlacionLineal, param_Beta_correlacionLineal));
 		}
 		catch (Throwable exc) {

@@ -114,7 +114,7 @@ public class Scatter extends GenericHighchartModel {
 					List<FieldViewSet> appsPeticiones = dataAccess.selectWithDistinct(userFilter, field4Classify.getMappingTo() , "desc");
 					Collection<String> listaDistintos = new ArrayList<String>();
 					for (FieldViewSet peticion : appsPeticiones) {
-						listaDistintos.add(peticion.getValue(field4Classify.getName()).toString());
+						listaDistintos.add(peticion.getValue(field4Classify.getMappingTo()).toString());
 					}
 					camposAComparar.setValues(listaDistintos);
 				}
@@ -236,8 +236,8 @@ public class Scatter extends GenericHighchartModel {
 					FieldViewSet filtroByClasifiedValue = userFilter.copyOf();
 					for (FieldViewSet differentValue: differentValues4Clasify) {
 						FieldViewSet record = differentValue;
-						String valueOfClasificacion = (String) record.getValue(fieldForClasifyResults.getName());
-						filtroByClasifiedValue.setValue(fieldForClasifyResults.getName(), valueOfClasificacion);
+						String valueOfClasificacion = (String) record.getValue(fieldForClasifyResults.getMappingTo());
+						filtroByClasifiedValue.setValue(fieldForClasifyResults.getMappingTo(), valueOfClasificacion);
 						double numberOfClasifiedValuesAppears = dataAccess.selectWithAggregateFunction(filtroByClasifiedValue,
 								OPERATION_COUNT, fieldForClasifyResults.getMappingTo());
 						/** muestra ajustada a las proporciones de la poblacion **/

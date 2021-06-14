@@ -45,8 +45,8 @@ public class Histogram extends GenericHighchartModel {
 
 			FieldViewSet antiguo = valoresAgregados.get(0).keySet().iterator().next();
 			FieldViewSet reciente =valoresAgregados.get(numRegistros-1).keySet().iterator().next();
-			Date fechaCalMasAntigua = (Date) antiguo.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
-			Date fechaCalMasReciente = (Date) reciente.getValue(filtro_.getEntityDef().searchField(orderByField.getMappingTo()).getName());
+			Date fechaCalMasAntigua = (Date) antiguo.getValue(orderByField.getMappingTo());
+			Date fechaCalMasReciente = (Date) reciente.getValue(orderByField.getMappingTo());
 			String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));			
 			if (escalado == null){
 				escalado = "automatic";
@@ -71,7 +71,7 @@ public class Histogram extends GenericHighchartModel {
 				for (int j=0;j<valoresAgregados.size();j++) {
 					Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
 					FieldViewSet registroBBDD = registroEnCrudo.keySet().iterator().next();
-					Date idSerie = (Date) registroBBDD.getValue(registroBBDD.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());					
+					Date idSerie = (Date) registroBBDD.getValue(fieldsGROUPBY[0].getMappingTo());					
 					Map<Date, Number> volcarSeriesvalues = series.get("serie_1");
 					if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
 						volcarSeriesvalues = new HashMap<Date, Number>();						
@@ -95,7 +95,7 @@ public class Histogram extends GenericHighchartModel {
 					Map<FieldViewSet, Map<String, Double>> registroEnCrudo = valoresAgregados.get(j);
 					FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();
 					//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
-					Serializable firstGroupBY_id =  registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[0].getMappingTo()).getName());
+					Serializable firstGroupBY_id =  registroBBDD_.getValue(fieldsGROUPBY[0].getMappingTo());
 					
 					if (firstGroupBY_ID_Aux == null) {
 						firstGroupBY_ID_Aux = firstGroupBY_id;
@@ -112,7 +112,7 @@ public class Histogram extends GenericHighchartModel {
 						firstGroupBY_ID_Aux = firstGroupBY_id;
 					}
 					
-					Date secondGroupBY =  (Date) registroBBDD_.getValue(filtro_.getEntityDef().searchField(fieldsGROUPBY[1].getMappingTo()).getName());
+					Date secondGroupBY =  (Date) registroBBDD_.getValue(fieldsGROUPBY[1].getMappingTo());
 					Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
 					while (iteradorSerie.hasNext()) {
 						Map.Entry<String, Double> entry_ = iteradorSerie.next();
@@ -148,9 +148,9 @@ public class Histogram extends GenericHighchartModel {
 							if (!nameSeries.containsKey(Long.valueOf(newkey))){
 								IFieldLogic fieldLogic = fieldsGROUPBY[0].getParentFieldEntities().iterator().next();
 								FieldViewSet recordparent = new FieldViewSet(fieldLogic.getEntityDef());
-								recordparent.setValue(fieldLogic.getEntityDef().searchField(fieldLogic.getMappingTo()).getName(), Long.valueOf(newkey));
+								recordparent.setValue(fieldLogic.getMappingTo(), Long.valueOf(newkey));
 								recordparent = this._dataAccess.searchEntityByPk(recordparent);						
-								String titleOfKey = (String) recordparent.getValue(fieldLogic.getEntityDef().searchField(recordparent.getDescriptionField().getMappingTo()).getName());
+								String titleOfKey = (String) recordparent.getValue(recordparent.getDescriptionField().getMappingTo());
 								String newTitledKey = ("["+ newkey + "]").concat(titleOfKey);
 								nameSeries.put(Long.valueOf(newkey), newTitledKey);
 								newkey = newTitledKey;

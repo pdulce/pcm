@@ -70,19 +70,19 @@ public class BarChart extends GenericHighchartModel {
 						while (iteradorEntrysDeValorAgrupacion.hasNext()){
 							Map.Entry<FieldViewSet, Map<String,Double>> entryDeValorAgrupacion = iteradorEntrysDeValorAgrupacion.next();
 							FieldViewSet filtroConValorAgrupacion = entryDeValorAgrupacion.getKey();
-							Serializable valorAgrupacion = filtroConValorAgrupacion.getValue(fieldsCategoriaDeAgrupacion[0].getName());//puede ser String, o int, normalmente
+							Serializable valorAgrupacion = filtroConValorAgrupacion.getValue(fieldsCategoriaDeAgrupacion[0].getMappingTo());//puede ser String, o int, normalmente
 							Double valorDeNuestraDimensionParaEstaAgrupacion = CommonUtils.roundWith2Decimals(entryDeValorAgrupacion.getValue().get(dimensionName));
 														
 							if (fieldsCategoriaDeAgrupacion[0].getAbstractField().isNumeric()){//ordenacion closica: puede ser este campo un FK, entonces hay que obtener el verdadero valor
 								if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
 									IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
 									FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());									
-									fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), valorAgrupacion);
+									fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacion);
 									try {
 										fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 										IFieldLogic descField = fSetParent.getDescriptionField();
 										if (descField.getAbstractField().isInteger() || descField.getAbstractField().isLong()){
-											Number valueOfcategoriaNumber = (Number) fSetParent.getValue(descField.getName());
+											Number valueOfcategoriaNumber = (Number) fSetParent.getValue(descField.getMappingTo());
 											positionClaveAgregacion = valueOfcategoriaNumber.intValue();
 										}else{
 											positionClaveAgregacion = ((Number) valorAgrupacion).intValue();
@@ -101,11 +101,11 @@ public class BarChart extends GenericHighchartModel {
 							if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null && !fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().isEmpty()){
 								IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
 								FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-								fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), valorAgrupacion);
+								fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacion);
 								try {
 									fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 									IFieldLogic descField = fSetParent.getDescriptionField();
-									valorAgrupacion = fSetParent.getValue(descField.getName()).toString();
+									valorAgrupacion = fSetParent.getValue(descField.getMappingTo()).toString();
 								} catch (DatabaseException e) {
 									e.printStackTrace();
 								}
@@ -134,11 +134,11 @@ public class BarChart extends GenericHighchartModel {
 					if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
 						IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
 						FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-						fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), dimensionLabel);
+						fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), dimensionLabel);
 						try {
 							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 							IFieldLogic descField = fSetParent.getDescriptionField();
-							dimensionLabel = fSetParent.getValue(descField.getName());
+							dimensionLabel = fSetParent.getValue(descField.getMappingTo());
 						} catch (DatabaseException e) {
 							e.printStackTrace();
 						}									
@@ -148,8 +148,8 @@ public class BarChart extends GenericHighchartModel {
 			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupacion con mas de un campo
 
 				/** primero: obtenemos la primera dimension de los campos de agrupacion ***/
-				String dimensionNamePral = fieldsCategoriaDeAgrupacion[0].getName();
-				String dimensionNameSecundario = fieldsCategoriaDeAgrupacion[1].getName();
+				int dimensionNamePral = fieldsCategoriaDeAgrupacion[0].getMappingTo();
+				int dimensionNameSecundario = fieldsCategoriaDeAgrupacion[1].getMappingTo();
 				
 				//obtenemos todos los valores posibles para el estado, ya que necesitamos meter las ocurrencias a 0.0 cuando no aparezcan en la lista de valores reales recibidos,
 				//quitando los valores preseleccionados por el usuario!
@@ -169,11 +169,11 @@ public class BarChart extends GenericHighchartModel {
 						if (fieldsCategoriaDeAgrupacion[1].getParentFieldEntities() != null){
 							IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[1].getParentFieldEntities().get(0);
 							FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), valueDistint42ndAgregado_serial);
+							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valueDistint42ndAgregado_serial);
 							try {
 								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 								IFieldLogic descField = fSetParent.getDescriptionField();
-								valueDistint42ndAgregado_serial = fSetParent.getValue(descField.getName());
+								valueDistint42ndAgregado_serial = fSetParent.getValue(descField.getMappingTo());
 							} catch (DatabaseException e) {
 								e.printStackTrace();
 							}							
@@ -217,11 +217,11 @@ public class BarChart extends GenericHighchartModel {
 									if (fieldsCategoriaDeAgrupacion[1].getParentFieldEntities() != null){
 										IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[1].getParentFieldEntities().get(0);
 										FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-										fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), valorAgrupacionSecundaria);
+										fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacionSecundaria);
 										try {
 											fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 											IFieldLogic descField = fSetParent.getDescriptionField();
-											valorAgrupacionSecundaria = fSetParent.getValue(descField.getName());
+											valorAgrupacionSecundaria = fSetParent.getValue(descField.getMappingTo());
 										} catch (DatabaseException e) {
 											e.printStackTrace();
 										}									
@@ -243,11 +243,11 @@ public class BarChart extends GenericHighchartModel {
 						if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
 							IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
 							FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), valorAgrupacionPralCandidato);
+							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacionPralCandidato);
 							try {
 								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 								IFieldLogic descField = fSetParent.getDescriptionField();
-								valorAgrupacionPralCandidato = fSetParent.getValue(descField.getName());
+								valorAgrupacionPralCandidato = fSetParent.getValue(descField.getMappingTo());
 							} catch (DatabaseException e) {
 								e.printStackTrace();
 							}									

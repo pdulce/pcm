@@ -45,16 +45,16 @@ public class ColumnBar extends BarChart {
 		for (int k=0;k<listaValoresAgregados.size();k++) {
 			Map<FieldViewSet, Map<String,Double>> serieIesima = listaValoresAgregados.get(k);
 			FieldViewSet filtroConValorAgrupacion = serieIesima.keySet().iterator().next();
-			Serializable valorPorElQueagrupamos = filtroConValorAgrupacion.getValue(fieldsCategoriaDeAgrupacion[0].getName());
+			Serializable valorPorElQueagrupamos = filtroConValorAgrupacion.getValue(fieldsCategoriaDeAgrupacion[0].getMappingTo());
 			
 			if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null && !fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().isEmpty()){
 				IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
 				FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-				fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getName(), valorPorElQueagrupamos);
+				fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorPorElQueagrupamos);
 				try {
 					fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 					IFieldLogic descField = fSetParent.getDescriptionField();
-					valorPorElQueagrupamos = fSetParent.getValue(descField.getName()).toString();
+					valorPorElQueagrupamos = fSetParent.getValue(descField.getMappingTo()).toString();
 				} catch (DatabaseException e) {
 					e.printStackTrace();
 					return -11111;
