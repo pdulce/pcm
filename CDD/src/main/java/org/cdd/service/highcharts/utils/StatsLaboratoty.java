@@ -1,5 +1,8 @@
 package org.cdd.service.highcharts.utils;
 
+import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,8 +26,50 @@ import org.cdd.common.utils.CommonUtils;
  * @since 2014-03-31
  */
 
-public class RandomVarUtils {
+public class StatsLaboratoty {
+	
+	public static void experimentWithMultipleLinearRegression() {
+		//n=3
+		double[] y = new double[]{-64.04, 8.0, 185.0, 2.0, 34.0, 2.0, 34.0, 31.0, 119.0, 72.04, 15.0, 43.0, 
+				97.04, 22.0, 25.0, 120.04, 122.96, 13.0, 34.96, 176.96, 65.0, 85.04, 50.04, 96.04, 234.0, 
+				18.96, 19.0, 135.04, 101.04, 20.0, 33.0, 41.0, 19.0, 15.0, 55.04, 119.0, 35.04, 3.0, 5.0, 23.0};
 
+		//n=3
+		double[][] x = new double[][]{{49.04, 2.0},{20.0, 12.0},{100.0, 3.0},
+		{20.0, 3.0},{10.0, 40.0},{0.01, 20.0},{35.0, 3.0},{5.0, 40.0},
+		{34.0, 12.0},{8.0, 5.0},{86.0, 0.0},{23.0, 2.0},{62.0, 5.0},
+		{12.0, 2.0},{22.0, 5.0},{9.0, 5.0},	{9.0, 56.0},{1.0, 5.0},{1.0, 11.0},
+		{43.0, 7.0},{3.0, 22.0},{12.0, 9.04},{5.0, 2.0},{18.0, 24.0},{1.0, 4.0},
+		{68.0, 12.04},{17.0, 24.0},{4.0, 3.0},{9.0, 3.0},{7.0, 24.0},{20.0, 24.0},
+		{21.0, 12.04},{3.0, 12.04},{26.0, 12.04},{5.0, 3.0},	{11.0, 0.0},
+		{0.01, 3.0},{15.0, 4.0},{13.0, 4.0},{1.0, 1.0} };
+
+		OLSMultipleLinearRegression r = new OLSMultipleLinearRegression();
+		r.setNoIntercept(true);
+		
+		r.newSampleData(y,x);
+		
+		double[] para = r.estimateRegressionParameters();
+	    double[] residuals = r.estimateResiduals();
+	    int k = para.length;
+	    int n = residuals.length;
+	    ArrayList<Double> aPara = new ArrayList<Double>(k);
+	    ArrayList<Double> aResiduals = new ArrayList<Double>(n);
+	    for (int i = 0; i < k; i++){
+	        aPara.add(i, para[i]);
+	        System.out.println("Beta "+ (i) +"-ésima: " +  para[i]);
+	    }
+	    for (int i = 0; i < k; i++){
+	        aResiduals.add(i, residuals[i]);
+	        System.out.println("Residuo "+ (i+1) +"-ésimo: " +  residuals[i]);
+	    }
+	    
+	    ArrayList<Double> modelo = new ArrayList<Double>();
+	    modelo.addAll(aPara);
+	    modelo.addAll(aResiduals);
+	    
+	}
+	
 	public static double variacionesDeNelementosTomadosDeMenM(int n_variaciones, int m_poblacion) {
 		if (n_variaciones > m_poblacion) {
 			return Double.MIN_VALUE;
@@ -126,14 +171,17 @@ public class RandomVarUtils {
 	}
 
 	public static void main(String[] args) {
+		StatsLaboratoty.experimentWithMultipleLinearRegression();
+		
+		
 		long timeComienzo = Calendar.getInstance().getTimeInMillis();
 		int nLanzamientos = 6;
-		List<Double> muestra = RandomVarUtils.tirarDado(nLanzamientos);
-		RandomVarUtils.experimentoBoostrap(muestra);
+		List<Double> muestra = StatsLaboratoty.tirarDado(nLanzamientos);
+		StatsLaboratoty.experimentoBoostrap(muestra);
 		long timeFin = Calendar.getInstance().getTimeInMillis();
 		System.out.println("Ha tardado: " + ((timeFin - timeComienzo) / 1000) + " segundos.");
 
-		RandomVarUtils.generarRandomDeUnaNormal(10, 0.2);
+		StatsLaboratoty.generarRandomDeUnaNormal(10, 0.2);
 
 		// double e = java.lang.Math.exp(1);// es el nomero e
 		java.lang.Math.log(1);// logaritimo natural de 1 es CERO; 0 es el nomero al cual debes
@@ -178,7 +226,7 @@ public class RandomVarUtils {
 				+ " lanzamientos a una probabilidad de éxito de " + probabilityOfOneSuccess + " es del "
 				+ CommonUtils.roundWith2Decimals(probabilityDeAlMenosNExitos * 100) + " %");
 
-		double combinaciones = RandomVarUtils.variacionesDeNelementosTomadosDeMenM(6, 49);
+		double combinaciones = StatsLaboratoty.variacionesDeNelementosTomadosDeMenM(6, 49);
 		System.out.println("combinaciones posibles de 6 num. tomados de 6 en 6: " + combinaciones);
 		double probaLoteria = 1 / combinaciones;
 		// k=6, m=49, todas las posibles combinaciones de 49 nomeros tomados de 1 en 1, solo una de
@@ -221,7 +269,7 @@ public class RandomVarUtils {
 		// (probEsperada * 100) + " %");
 		long timeComienzo = Calendar.getInstance().getTimeInMillis();
 		int nLanzamientos = 60000;
-		List<Double> muestra = RandomVarUtils.tirarDado(nLanzamientos);
+		List<Double> muestra = StatsLaboratoty.tirarDado(nLanzamientos);
 
 		System.out.println();
 		System.out.println();
@@ -304,7 +352,7 @@ public class RandomVarUtils {
 		double alfa_ = T_distribution_3.cumulativeProbability(t);
 		System.out.println("Probabilidad acumulada " + CommonUtils.roundWith4Decimals(alfa_ * 100) + "% para t=" + t);
 
-		RandomVarUtils.experimentoBoostrap(muestra);
+		StatsLaboratoty.experimentoBoostrap(muestra);
 
 		long timeFin = Calendar.getInstance().getTimeInMillis();
 
