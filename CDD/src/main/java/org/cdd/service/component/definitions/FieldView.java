@@ -168,12 +168,6 @@ public class FieldView implements IFieldView, Serializable {
 			return;
 		}
 		this.entityField = fieldLogic;
-		/*
-		this.required = fieldLogic.isRequired();
-		this.entityField.setAutoIncremental(fieldLogic.isAutoIncremental());
-		this.entityField.setBelongsPK(fieldLogic.belongsPK());
-		this.entityField.setRequired(fieldLogic.isRequired());
-		this.entityField.setVolatile(fieldLogic.isVolatile());*/
 		this.disabled = false;
 		this.hidden = false;
 		if (this.getEntityField().getAbstractField().isBoolean()) {
@@ -245,7 +239,7 @@ public class FieldView implements IFieldView, Serializable {
 
 	@Override
 	public final int getPosition() {
-		if (this.position < 1 && this.entityField != null) {
+		if (this.entityField != null) {			
 			return this.entityField.getMappingTo();
 		}else if (this.position < 1) {
 			throw new RuntimeException("No se ha definido position para este campo: " + this.contextName);

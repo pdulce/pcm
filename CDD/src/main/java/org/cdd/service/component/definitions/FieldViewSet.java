@@ -819,7 +819,7 @@ public class FieldViewSet implements Serializable {
 	public void resetValues(final int fieldPosition_) {
 		resetValues(this.entityLogic.searchField(fieldPosition_).getName());
 	}	
-	private void resetValues(final String qualifiedName_) {
+	public void resetValues(final String qualifiedName_) {
 		IFieldValue fieldValue = this.getFieldvalue(qualifiedName_);
 		fieldValue.reset();
 	}

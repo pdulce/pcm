@@ -256,7 +256,6 @@ public class ActionPagination extends AbstractAction {
 					res.setSuccess(Boolean.FALSE);
 					return res;
 				}
-				
 				paginationGrid.setPageSize(pageSize);
 				FieldViewSetCollection filtroForQuery = new FieldViewSetCollection();
 				if (detailGridElement!= null){
