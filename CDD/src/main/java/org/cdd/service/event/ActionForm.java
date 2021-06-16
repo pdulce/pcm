@@ -378,7 +378,7 @@ public class ActionForm extends AbstractAction {
 								.getComposedName(fieldViewSet.getContextName())));
 						parqMensajes.add(parqMensaje);
 					} else {
-						fieldViewSet.setValue(fieldView.getPosition(), fieldValue);
+						fieldViewSet.setValue(fieldView.getQualifiedContextName(), fieldValue);
 						if (!form.isBindedPk()) {
 							form.setBindedPk(true);
 						}
@@ -449,8 +449,8 @@ public class ActionForm extends AbstractAction {
 						dataValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
 					}
 					if (fieldView.isCheckOrRadioOrCombo()) {
-						fieldViewSet.resetValues(fieldView.getPosition());
-						fieldViewSet.setValues(fieldView.getPosition(), dataValues);
+						fieldViewSet.resetValues(fieldView.getQualifiedContextName());
+						fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
 					}
 					if (!fieldView.isUserDefined()) {
 						if (fieldView.getEntityField().belongsPK()) {
@@ -462,12 +462,12 @@ public class ActionForm extends AbstractAction {
 						if (fieldSinthacticValid) {
 
 							if (fieldView.isRankField()) {
-								final Serializable val = fieldViewSet.getValue(fieldView.getPosition());								
+								final Serializable val = fieldViewSet.getValue(fieldView.getQualifiedContextName());								
 								if (val != null && !"".equals(val.toString())) {
 									if (fieldView.getRankField().isMinorInRange()) {
-										minorRangeField = fieldView.getPosition();
+										minorRangeField = fieldView.getEntityField().getMappingTo();
 									} else {
-										mayorRangeField = fieldView.getPosition();
+										mayorRangeField = fieldView.getEntityField().getMappingTo();
 									}
 									if (minorRangeField != -1 && mayorRangeField != -1) {
 										final Serializable minorVal = fieldViewSet.getValue(minorRangeField), mayorVal = fieldViewSet

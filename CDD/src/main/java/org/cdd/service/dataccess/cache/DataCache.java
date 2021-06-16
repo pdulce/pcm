@@ -46,7 +46,7 @@ public class DataCache implements Serializable, IDataCache {
 			final Iterator<IFieldView> fieldIte = resultado.getFieldViews().iterator();
 			while (fieldIte.hasNext()) {
 				final IFieldView fieldView = fieldIte.next();
-				resultado.setValues(fieldView.getPosition(), inCache.getFieldvalue(fieldView.getEntityField()).getValues());
+				resultado.setValues(fieldView.getQualifiedContextName(), inCache.getFieldvalue(fieldView.getEntityField()).getValues());
 			}
 			resultados.add(resultado);
 		}

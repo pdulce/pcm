@@ -110,7 +110,7 @@ public class FieldView implements IFieldView, Serializable {
 			newV.setHidden(this.hidden);
 			newV.setIsOrderfield(this.isOrderfield);
 			newV.setActivatedOnlySelectedToShow(this.activatedOnlySelected2Show);
-			newV.setPosition(this.position);
+			newV.setScreenPosition(this.position);
 			newV.setQualifiedContextName(this.qualifiedContextName);
 			newV.setRequired(this.required);
 			newV.setFormatted(this.getFormatted());
@@ -238,12 +238,7 @@ public class FieldView implements IFieldView, Serializable {
 	}
 
 	@Override
-	public final int getPosition() {
-		if (this.entityField != null) {			
-			return this.entityField.getMappingTo();
-		}else if (this.position < 1) {
-			throw new RuntimeException("No se ha definido position para este campo: " + this.contextName);
-		}
+	public final int getScreenPosition() {	
 		return this.position;
 	}
 	
@@ -253,7 +248,7 @@ public class FieldView implements IFieldView, Serializable {
 	}
 
 	@Override
-	public final void setPosition(final int pos_) {
+	public final void setScreenPosition(final int pos_) {
 		this.position = pos_;
 	}
 
@@ -999,7 +994,11 @@ public class FieldView implements IFieldView, Serializable {
 			}
 
 			if (!_dataValues.isEmpty()) {
-				fieldViewSet.setValues(this.getPosition(), _dataValues);
+				if (this.entityField != null) {								
+					fieldViewSet.setValues(this.entityField.getMappingTo(), _dataValues);
+				}else {
+					fieldViewSet.setValues(this.qualifiedContextName, _dataValues);							
+				}				
 			} else {
 				bindingOK = false;
 			}

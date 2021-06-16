@@ -196,7 +196,7 @@ public class Form extends AbstractComponent {
 					Map.Entry<String, IFieldLogic> entry = mapEntriesIte.next();
 					final IFieldLogic fieldLogic = entry.getValue();
 					final IFieldView fieldView = new FieldView(fieldLogic, this.editableForm);
-					fieldView.setPosition(position++);
+					fieldView.setScreenPosition(position++);
 					fieldView.setQualifiedContextName(fieldLogic.getEntityDef().getName().concat(".").concat(fieldLogic.getName()));
 					fieldView.setContextName(fieldLogic.getEntityDef().getName());
 					if (parent.hasAttribute(IViewComponent.LEGEND.toLowerCase())){
@@ -215,7 +215,7 @@ public class Form extends AbstractComponent {
 				}				
 			}
 			if (fieldViewDef != null){
-				fieldViewDef.setPosition(position++);
+				fieldViewDef.setScreenPosition(position++);
 				completarLista(dataAccess_, fieldViewDef, fieldSetsCtrl, validationBlock, coleccionFieldViews, datamap.getEvent(), isButtonParam);
 			}
 		}// for each node of list

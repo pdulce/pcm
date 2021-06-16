@@ -127,8 +127,16 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		fieldViews4FilterFecAndUts_.add(fViewMayorFecTram);
 		
 		FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4FilterFecAndUts_);
-		filterPeticiones.setValue(fViewMinorFecTram.getPosition(), fecIniEstudio);
-		filterPeticiones.setValue(fViewMayorFecTram.getPosition(), fecFinEstudio);
+		if (fViewMinorFecTram.getEntityField() != null) {											
+			filterPeticiones.setValue(fViewMinorFecTram.getEntityField().getMappingTo(), fecIniEstudio);
+		}else {
+			filterPeticiones.setValue(fViewMinorFecTram.getQualifiedContextName(), fecIniEstudio);
+		}
+		if (fViewMayorFecTram.getEntityField() != null) {											
+			filterPeticiones.setValue(fViewMayorFecTram.getEntityField().getMappingTo(), fecFinEstudio);
+		}else {
+			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
+		}		
 					
 		Collection<String> fieldValues = registroEstudio.getValues(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES);
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_13_ID_TIPO, fieldValues);

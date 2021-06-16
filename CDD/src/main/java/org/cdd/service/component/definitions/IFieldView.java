@@ -62,7 +62,7 @@ public interface IFieldView {
 
 	public int getUserDefSize();
 
-	public int getPosition();
+	public int getScreenPosition();
 
 	public String getUserNamed();
 
@@ -112,7 +112,7 @@ public interface IFieldView {
 
 	public IAggregateField getAggregateField();
 	
-	public void setPosition(int pos_);
+	public void setScreenPosition(int pos_);
 
 	public void setLabelStyle(String st);
 

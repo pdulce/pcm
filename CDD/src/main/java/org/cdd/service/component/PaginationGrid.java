@@ -392,7 +392,7 @@ public class PaginationGrid extends AbstractComponent {
 						} else if (fieldView.isSeparator()) {
 							continue;
 						}
-						fieldView.setPosition(j + 1);
+						fieldView.setScreenPosition(j + 1);
 						coleccionFieldViews.add(fieldView);
 
 					}// for each fieldView
