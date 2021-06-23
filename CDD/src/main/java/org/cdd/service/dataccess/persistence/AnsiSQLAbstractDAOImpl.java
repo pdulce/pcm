@@ -1469,7 +1469,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					final String fieldTypeAndMaxLengthkey = valueOfWhere.keySet().iterator().next();
 					final String[] fieldTypeAndMaxLength = fieldTypeAndMaxLengthkey.split(",");
 					final String fieldType = fieldTypeAndMaxLength[0];
-					final int fieldMaxlength = Integer.parseInt(fieldTypeAndMaxLength[1]);
+					//final int fieldMaxlength = Integer.parseInt(fieldTypeAndMaxLength[1]);
 					if (new FieldLogic(fieldType).isVolatile()) {
 						continue;
 					}
@@ -1478,10 +1478,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 					if (!PCMConstants.EMPTY_.equals(val_) && !PCMConstants.CLASSIC_SEPARATOR.equals(val_)) {
 						if (!fieldAbstract.isBlob()) {
 							if (fieldAbstract.isString()) {
-								if (fieldMaxlength >= MAX_FOR_CODES) {									
-									val_ = val_.replaceAll(PCMConstants.ASTERISC_SCAPED, PCMConstants.PERCENTAGE_SCAPED);
-									val_ = getSpecialCharsConversion(val_);
-								}
+								val_ = val_.replaceAll(PCMConstants.ASTERISC_SCAPED, PCMConstants.PERCENTAGE_SCAPED);
 								pstmt_.setObject(contadorArgumentos + 1, val_);
 								if (!hasCounterSQLEmbbeded() && offset_ != -1) {
 									pstmtCount.setObject(contadorArgumentos + 1, val_);
