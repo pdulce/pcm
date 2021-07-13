@@ -87,12 +87,7 @@
 					<configuration>
 						<type>existing</type>
 						<home>c:/apache-tomcat-9.0.46</home>
-					</configuration>
-					<!--<container> para despliegue en servidor remoto <containerId>tomcat8x</containerId> 
-						<type>remote</type> </container> <configuration> <type>runtime</type> <properties> 
-						<cargo.remote.username>admin</cargo.remote.username> <cargo.remote.password>admin</cargo.remote.password> 
-						<cargo.tomcat.manager.url>http://localhost:8080/manager/text </cargo.tomcat.manager.url> 
-						</properties> </configuration> -->
+					</configuration>					
 				</configuration>
 				<executions>
 					<execution>
@@ -148,9 +143,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<!-- reporting> <excludeDefaults>true</excludeDefaults> <plugins> <plugin> 
-		<groupId>io.qameta.allure</groupId> <artifactId>allure-maven</artifactId> 
-		<version>2.9</version> </plugin> </plugins> </reporting> -->
 
 </project>
