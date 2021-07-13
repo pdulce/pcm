@@ -1443,7 +1443,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				sql_withoutPagination = sql_;
 			}
 
-			System.out.println("\nSQL.: ".concat(sql_));
+			//System.out.println("\nSQL.: ".concat(sql_));
 
 			boolean isLocked = true;
 			while (isLocked) {
