@@ -994,7 +994,7 @@ public class FieldView implements IFieldView, Serializable {
 			}
 
 			if (!_dataValues.isEmpty()) {
-				if (this.entityField != null) {								
+				if (this.entityField != null && !this.isRankField()) {								
 					fieldViewSet.setValues(this.entityField.getMappingTo(), _dataValues);
 				}else {
 					fieldViewSet.setValues(this.qualifiedContextName, _dataValues);							

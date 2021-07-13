@@ -420,8 +420,8 @@ public class ActionForm extends AbstractAction {
 						continue;
 					}
 					
-					Collection<String> dataValues = getDataValues(fieldView);
-					if (dataValues.isEmpty()) {
+					Collection<String> dataValues_ = getDataValues(fieldView);
+					if (dataValues_.isEmpty()) {
 						final boolean required = validacionObligatoria
 								&& fieldView.isRequired()
 								&& (fieldView.isUserDefined() || (!fieldView.isUserDefined()
@@ -445,12 +445,12 @@ public class ActionForm extends AbstractAction {
 					if (!fieldView.isUserDefined() && 
 							fieldView.getEntityField().getAbstractField().isTimestamp() && 
 								"SYSDATE()".equals(fieldView.getDefaultValueExpr())){
-						dataValues = new ArrayList<String>();
-						dataValues.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
+						dataValues_ = new ArrayList<String>();
+						dataValues_.add(CommonUtils.myDateFormatter.format(new Timestamp(Calendar.getInstance().getTimeInMillis())));						
 					}
 					if (fieldView.isCheckOrRadioOrCombo()) {
 						fieldViewSet.resetValues(fieldView.getQualifiedContextName());
-						fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues);
+						fieldViewSet.setValues(fieldView.getQualifiedContextName(), dataValues_);
 					}
 					if (!fieldView.isUserDefined()) {
 						if (fieldView.getEntityField().belongsPK()) {
@@ -458,7 +458,7 @@ public class ActionForm extends AbstractAction {
 						}
 						final boolean fieldSinthacticValid = fieldView.isCheckOrRadioOrCombo() || 
 								fieldView.validateAndSaveValueInFieldview(getDataBus(), fieldViewSet,
-								validacionObligatoria, dataValues, this.getDataBus().getEntitiesDictionary(), parqMensajes);
+								validacionObligatoria, dataValues_, this.getDataBus().getEntitiesDictionary(), parqMensajes);
 						if (fieldSinthacticValid) {
 
 							if (fieldView.isRankField()) {
