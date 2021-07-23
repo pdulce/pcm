@@ -71,7 +71,7 @@
 		</dependency>
 		
 		<!--for debugging CDD classes -->
-     <!-- <dependency>
+      <!--<dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.34.0</version>
@@ -105,7 +105,7 @@
 	    <groupId>com.itextpdf</groupId>
 	    <artifactId>itextpdf</artifactId>
 	    <version>5.5.13.2</version>
-	</dependency>  -->
+	</dependency>-->
 	<!-- fin de libraries for debugging CDD -->
 	
 	</dependencies>
