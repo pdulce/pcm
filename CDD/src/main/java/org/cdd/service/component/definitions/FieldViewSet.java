@@ -790,7 +790,7 @@ public class FieldViewSet implements Serializable {
 			} else {
 				valueF = this.fieldViewsValues.get(qualifiedName_.toString());
 				if (ICtrl.RADIO_TYPE.equals(fView.getType())) {
-					final String value = fView.getValueOfOption(this.dictionaryName, valueF.getValue());
+					final String value = fView.getValueOfOption(valueF.getValue());
 					valueF.setValue(value);
 					if (!valueF.isNull()) {
 						this.fieldViewsValues.put(qualifiedName_.toString(), valueF);
@@ -805,7 +805,7 @@ public class FieldViewSet implements Serializable {
 				valueF = this.fieldViewsValues.get(qualifiedName_.toString());
 				IFieldView fView = getFieldView(qualifiedName_.toString());
 				if (ICtrl.RADIO_TYPE.equals(fView.getType())) {
-					final String value = fView.getValueOfOption(this.dictionaryName, valueF.getValue());
+					final String value = fView.getValueOfOption(valueF.getValue());
 					if (!valueF.isNull()) {
 						valueF.setValue(value);
 						this.fieldViewsValues.put(qualifiedName_.toString(), valueF);

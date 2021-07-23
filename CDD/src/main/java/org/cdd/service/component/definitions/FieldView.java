@@ -560,7 +560,7 @@ public class FieldView implements IFieldView, Serializable {
 	}
 
 	@Override
-	public String getValueOfOption(final String dictionary, final String valueOfOption) {
+	public String getValueOfOption(final String valueOfOption) {
 		if (valueOfOption == null) {
 			return null;
 		} else if (valueOfOption.toString().indexOf(PCMConstants.EQUALS) == -1) {
@@ -940,7 +940,7 @@ public class FieldView implements IFieldView, Serializable {
 	 */
 	@Override
 	public final boolean validateAndSaveValueInFieldview(final Datamap data_, final FieldViewSet fieldViewSet,
-			final boolean validacionObligatoria_, final Collection<String> dataValues_, final String dict,
+			final boolean validacionObligatoria_, final Collection<String> dataValues_,
 			final Collection<MessageException> parqMensajes) {
 		try {
 			if (dataValues_ == null) {
@@ -970,7 +970,7 @@ public class FieldView implements IFieldView, Serializable {
 						esValido = true;
 					} else if (validacionObligatoria && this.hasNOptionsToChoose()) {
 						esValido = true;
-						final Serializable valuesSelectedOfOptions = this.getValueOfOption(dict, value);
+						final Serializable valuesSelectedOfOptions = this.getValueOfOption(value);
 						if (valuesSelectedOfOptions == null || "".equals(valuesSelectedOfOptions)) {
 							parqMensaje.addParameter(new Parameter(IAction.FIELD_PARAM, InternalErrorsConstants.FIELD_NEEDED_ERROR
 									.replaceFirst(InternalErrorsConstants.ARG_1, this.getEntityField().getName())));

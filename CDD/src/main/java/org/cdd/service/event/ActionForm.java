@@ -402,7 +402,6 @@ public class ActionForm extends AbstractAction {
 			final List<FieldViewSet> fieldViewSets = form.getFieldViewSets(); 
 			String submitWithUserInputs = null;
 			final boolean validacionObligatoria = isUniqueFormComposite(getEvent());
-			int minorRangeField = -1, mayorRangeField = -1;
 			final Iterator<FieldViewSet> fieldViewSetsIte = fieldViewSets.iterator();
 			form.setBindedPk(false);
 			while (fieldViewSetsIte.hasNext()) {
@@ -458,34 +457,40 @@ public class ActionForm extends AbstractAction {
 						}
 						final boolean fieldSinthacticValid = fieldView.isCheckOrRadioOrCombo() || 
 								fieldView.validateAndSaveValueInFieldview(getDataBus(), fieldViewSet,
-								validacionObligatoria, dataValues_, this.getDataBus().getEntitiesDictionary(), parqMensajes);
+								validacionObligatoria, dataValues_, parqMensajes);
 						if (fieldSinthacticValid) {
 
 							if (fieldView.isRankField()) {
 								final Serializable val = fieldViewSet.getValue(fieldView.getQualifiedContextName());								
-								if (val != null && !"".equals(val.toString())) {
-									if (fieldView.getRankField().isMinorInRange()) {
-										minorRangeField = fieldView.getEntityField().getMappingTo();
-									} else {
-										mayorRangeField = fieldView.getEntityField().getMappingTo();
-									}
-									if (minorRangeField != -1 && mayorRangeField != -1) {
-										final Serializable minorVal = fieldViewSet.getValue(minorRangeField), mayorVal = fieldViewSet
-												.getValue(mayorRangeField);
+								if (val != null && !"".equals(val.toString())) {									
+									
+									final Serializable minorVal = fieldView.getEntityField().getAbstractField().getMinvalue();
+									final Serializable mayorVal = fieldView.getEntityField().getAbstractField().getMaxvalue();
+									if (fieldView.getRankField().isMinorInRange() && minorVal != null) {										
 										final boolean semanthicIsCorrect = fieldView.getEntityField().getAbstractField().isDate() ? RelationalAndCIFValidator
-												.relationalDateValidation(minorVal, mayorVal) : RelationalAndCIFValidator
-												.relationalNumberValidation(minorVal, mayorVal);
+												.relationalDateValidation(minorVal, val) : RelationalAndCIFValidator.relationalNumberValidation(minorVal, val);
 										if (!semanthicIsCorrect) {
+											//DATA_RANGE_INVALID =El valor consignado para el campo $0 [$1] es $2 que el permitido [$3]
 											final MessageException msg = new MessageException(IAction.ERROR_SEMANTHIC_CODE);
 											msg.addParameter(new Parameter(IAction.ERROR_SEMANTHIC_CODE, IValidator.DATA_RANGE_INVALID));
-											msg.addParameter(new Parameter(IViewComponent.ZERO, fieldViewSet.getEntityDef().searchField(mayorRangeField).getName()));
-											msg.addParameter(new Parameter(IViewComponent.ONE, ""+mayorVal.toString()));
-											msg.addParameter(new Parameter("2", fieldViewSet.getEntityDef().searchField(minorRangeField).getName()));
+											msg.addParameter(new Parameter(IViewComponent.ZERO, fieldView.getQualifiedContextName()));
+											msg.addParameter(new Parameter(IViewComponent.ONE, val.toString()));
+											msg.addParameter(new Parameter("2", "menor") );
 											msg.addParameter(new Parameter("3", minorVal.toString()));
 											parqMensajes.add(msg);
 										}
-										minorRangeField = -1;
-										mayorRangeField = -1;
+									}else if (!fieldView.getRankField().isMinorInRange() && mayorVal != null) {										
+										final boolean semanthicIsCorrect = fieldView.getEntityField().getAbstractField().isDate() ? RelationalAndCIFValidator
+												.relationalDateValidation(val, mayorVal) : RelationalAndCIFValidator.relationalNumberValidation(val, mayorVal);
+										if (!semanthicIsCorrect) {
+											final MessageException msg = new MessageException(IAction.ERROR_SEMANTHIC_CODE);
+											msg.addParameter(new Parameter(IAction.ERROR_SEMANTHIC_CODE, IValidator.DATA_RANGE_INVALID));
+											msg.addParameter(new Parameter(IViewComponent.ZERO, fieldView.getQualifiedContextName()));
+											msg.addParameter(new Parameter(IViewComponent.ONE, val.toString()));
+											msg.addParameter(new Parameter("2", "mayor") );
+											msg.addParameter(new Parameter("3", mayorVal.toString()));
+											parqMensajes.add(msg);
+										}
 									}
 								}
 							}

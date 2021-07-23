@@ -30,7 +30,7 @@ public interface IFieldView {
 
 	public IFieldView copyOf();
 
-	public String getValueOfOption(String dictionary, String valueOfOption);
+	public String getValueOfOption(String valueOfOption);
 
 	public Serializable getDefaultFirstOfOptions();
 
@@ -145,8 +145,7 @@ public interface IFieldView {
 	public void setEntityField(IFieldLogic fieldLogic);
 
 	public boolean validateAndSaveValueInFieldview(final Datamap data_, final FieldViewSet fieldViewSet,
-			final boolean validacionObligatoria, final Collection<String> dataValues, final String dict,
-			final Collection<MessageException> parqMensajes);
+			final boolean validacionObligatoria, final Collection<String> dataValues, final Collection<MessageException> parqMensajes);
 
 	public String formatToString(final Serializable value);
 
