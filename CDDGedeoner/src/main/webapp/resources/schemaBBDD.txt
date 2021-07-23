@@ -1,0 +1,200 @@
+CREATE TABLE sqlite_sequence(name,seq);
+CREATE TABLE `ejercicio` (
+  `ejercicio` int(4) NOT NULL,
+  PRIMARY KEY (`ejercicio`)
+);
+CREATE TABLE `mes` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `numero` int(2) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+);
+CREATE TABLE `rol` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(25) NOT NULL
+  );
+CREATE TABLE `unidadOrg` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(100) NOT NULL
+  );
+CREATE TABLE `subdireccion` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `unidadOrg` int(11) NOT NULL,
+  `nombre` varchar(150) NOT NULL
+  );
+CREATE TABLE `servicio` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `unidadOrg` int(11) NOT NULL,
+  `subdireccion` int(11) NULL
+);
+CREATE TABLE `tecnologia` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `descripcion` varchar(250) DEFAULT NULL
+);
+CREATE TABLE `servicioUTE` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `id_tecnologia` int(11) NOT NULL,
+  `descripcion` varchar(250) DEFAULT NULL
+);
+CREATE TABLE `tiposPeriodos` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `numMeses` int(4) NOT NULL,
+  `periodo` varchar(50) DEFAULT NULL
+);
+CREATE TABLE `tiposTareas` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(100) NOT NULL
+);
+CREATE TABLE `administrador` (
+  `id` integer primary key autoincrement,
+  `login_name` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  `profile` int(11) NOT NULL,
+  `nombreCompleto` varchar(100));
+CREATE TABLE `aplicativo` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `id_servicio` int(11) DEFAULT NULL,
+  `descripcion` varchar(250) DEFAULT NULL,
+  `rochade` varchar(20) DEFAULT NULL,
+  `id_tecnologia` int(11) DEFAULT NULL,
+  `en_mantenimiento` int(1) NOT NULL DEFAULT 1
+);
+CREATE TABLE `tiposPeticiones` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` varchar(30) NOT NULL
+);
+CREATE TABLE `estudios` (
+  `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `titulo` varchar(250) NULL,
+  `id_aplicativo` int(11) DEFAULT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `num_meses` int(4) DEFAULT NULL,
+  `id_periodo` int(11) DEFAULT NULL,
+  `id_configuradorEstudios` int(11) DEFAULT NULL,
+  `fec_lanzado_estudio` TIMESTAMP NULL,
+  `id_servicio` int(11) DEFAULT NULL
+ );
+CREATE INDEX index_Estudios_app ON estudios (id_aplicativo);
+CREATE INDEX index_Estudios_sr ON estudios (id_servicio);
+CREATE INDEX index_Estudios_ti ON estudios (fecha_inicio);
+CREATE TABLE `tareasPeticion` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_tareaGEDEON` varchar(20) DEFAULT NULL,
+  `id_peticion` int(11) DEFAULT NULL,
+  `id_tipotarea` int(11) DEFAULT NULL,
+  `nombre` varchar(200) DEFAULT NULL,
+  `horas_imputadas` double DEFAULT NULL,
+  `horas_previstas` double DEFAULT NULL,
+  `fecha_inicio_previsto` date DEFAULT NULL,
+  `fecha_fin_previsto` date DEFAULT NULL,
+  `fecha_inicio_real` date DEFAULT NULL,
+  `fecha_fin_real` date DEFAULT NULL,
+  `Fecha_de_alta` date DEFAULT NULL,
+  `Fecha_de_tramitacion` date DEFAULT NULL
+ );
+CREATE INDEX index_search_tareasPet_1 on tareasPeticion (id_peticion);
+CREATE TABLE `peticiones` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_aplicativo` int(11) NOT NULL,
+  `Titulo` varchar(500),
+  `Descripcion` varchar(100),
+  `Observaciones` varchar(1000),
+  `Usuario_creador` varchar(80),
+  `Solicitante` varchar(200),
+  `Estado` varchar(50),
+  `Entidad_origen` varchar(100),
+  `Unidad_origen` int(11),
+  `Area_origen` varchar(100),
+  `Centro_destino` varchar(100),
+  `Area_destino` varchar(100),
+  `Tipo` int(11) DEFAULT NULL,
+  `Tipo_inicial` varchar(50),
+  `Urgente` varchar(25),
+  `Prioridad` varchar(25),
+  `Fecha_de_alta` date,
+  `Fecha_de_tramitacion` date,
+  `Fecha_de_necesidad` date,
+  `Fecha_fin_de_desarrollo` date,
+  `Fecha_de_finalizacion` date,
+  `Des_fecha_prevista_inicio` date,
+  `Des_fecha_prevista_fin` date,
+  `Des_fecha_real_inicio` date,
+  `Des_fecha_real_fin` date,
+  `Horas_estimadas_actuales` double,
+  `Horas_reales` double,
+  `fecha_export` DATE NULL,
+  `version_analysis` varchar(20) DEFAULT NULL,
+  `servicio_atiende_pet` varchar(20) DEFAULT 'SDG',
+  `con_entrega` int(1) NOT NULL DEFAULT 0,
+  `id_entrega_asociada` int(11) DEFAULT NULL,
+  `pets_relacionadas` varchar(250) DEFAULT NULL,
+  `fecha_estado_modif` TIMESTAMP DEFAULT NULL,
+  `id_area` int(11) DEFAULT NULL,
+  `entorno` int(11) DEFAULT NULL,
+  `Horas_estimadas_iniciales` double DEFAULT NULL,
+  `fecha_validada_CD` DATE NULL,
+  `ult_modificacion` DATE NULL,
+  `volatile_tipo` varchar(50) DEFAULT NULL,
+  `cod_GEDEON` int(10) NOT NULL,
+  `peso_en_version` double DEFAULT NULL
+);
+CREATE INDEX index_peticiones_byCODGED_1 on peticiones (cod_GEDEON);
+CREATE INDEX index_search_gedeones_2 on peticiones (fecha_estado_modif);
+CREATE TABLE `detailCicloVidaPeticion` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_estudio` int(11) NOT NULL,
+  `id_aplicativo` int(11) NOT NULL,
+  `tipo` int(11) DEFAULT NULL,
+  `id_gedeon_DG` int(11) DEFAULT NULL,
+  `gedeon_AT` varchar(150) DEFAULT NULL,
+  `gedeon_Entrega` varchar(10) DEFAULT NULL,
+  `ciclo_vida` double DEFAULT NULL,
+  `duracion_analysis` double DEFAULT NULL,
+  `duracion_desarrollo` double DEFAULT NULL,
+  `duracion_entrega_DG` double DEFAULT NULL,
+  `duracion_pruebas` double DEFAULT NULL,
+  `gap_tram_iniRealDesa` double DEFAULT NULL,
+  `gap_finDesa_solicitudEntrega` double DEFAULT NULL,
+  `gap_finPrue_Producc` double DEFAULT NULL,
+  `total_dedicaciones` double DEFAULT NULL,
+  `total_intervalos_sin_dedicacion` double DEFAULT NULL,
+  `fecha_inicio_analisis` date DEFAULT NULL,
+  `fecha_fin_analisis` date DEFAULT NULL,
+  `fecha_tramite_a_DG` date DEFAULT NULL,
+  `fecha_inicio_desarrollo` date DEFAULT NULL,
+  `fecha_fin_desarrollo` date DEFAULT NULL,
+  `fecha_solicitud_entrega` date DEFAULT NULL,
+  `fecha_inicio_pruebasCD` date DEFAULT NULL,
+  `fecha_fin_pruebasCD` date DEFAULT NULL,
+  `fecha_inicio_instalacion_Prod` date DEFAULT NULL,
+  `fecha_fin_instalacion_Prod` date DEFAULT NULL,
+  `uts` double DEFAULT NULL,
+  `esfuerzo_analysis` double DEFAULT NULL,
+  `esfuerzo_pruebas` double DEFAULT NULL,
+  `titulo` varchar(500) DEFAULT NULL,
+  `duracion_soporte_al_CD` double DEFAULT NULL,
+  `gap_pruebas_restoEntrega` double DEFAULT NULL
+);
+CREATE TABLE `detailCicloVidaEntrega` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_estudio` int(11) NOT NULL,
+  `id_aplicacion` int(11) NOT NULL,
+  `id_gedeon_entrega` int(11) NOT NULL,
+  `num_peticiones` int(6) DEFAULT NULL,
+  `volumen_uts` double DEFAULT NULL,
+  `tipo` int(11) DEFAULT NULL,
+  `num_rechazos` int(2) DEFAULT NULL,
+  `ciclo_vida_entrega` double DEFAULT NULL,
+  `fecha_solicitud_entrega` date DEFAULT NULL,
+  `fecha_inicio_pruebasCD` date DEFAULT NULL,
+  `fecha_fin_pruebasCD` date DEFAULT NULL,
+  `fecha_inicio_instalacion_Prod` date DEFAULT NULL,
+  `fecha_fin_instalacion_Prod` date DEFAULT NULL,
+  `tiempo_prepacion_en_DG` double DEFAULT NULL,
+  `tiempo_validacion_en_CD` double DEFAULT NULL,
+  `tiempo_desdeValidacion_hastaImplantacion` double DEFAULT NULL
+);
