@@ -58,6 +58,18 @@ public abstract class GenericHighchartModel implements IStats {
 		return true;
 	}
 	
+	protected double getTotal(List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados ) {
+		double tot = 0.0;
+		for (int v=0;v<listaValoresAgregados.size();v++){
+			Map<FieldViewSet, Map<String,Double>> valoresDimensiones = listaValoresAgregados.get(v);
+			Collection<Map<String,Double>> valuesMaps = valoresDimensiones.values();
+			double value_ = valuesMaps.iterator().next().values().iterator().next();
+			tot += value_;
+		}
+		return tot;
+		
+	}
+	
 	protected String getUnitName(IFieldLogic aggregateField, IFieldLogic fieldForCategoriaDeAgrupacion,
 			String aggregateFunction, Datamap data_) {
 		

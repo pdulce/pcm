@@ -38,7 +38,6 @@ public class Histogram extends GenericHighchartModel {
 		Map<String, Map<Date, Number>> series = new HashMap<String, Map<Date, Number>>();
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
 		double minimal = 0.0;
-		double total = 0.0;
 		int numPointsWithValue = 0;
 		int numRegistros = valoresAgregados.size();
 		if (numRegistros > 0) {
@@ -174,7 +173,6 @@ public class Histogram extends GenericHighchartModel {
 					}
 					double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE) ?	acumulador/count: acumulador;
 					newPoints.put(valorPeriodoEjeX, valor);
-					total += valor;
 					if (count > 0) {
 						numPointsWithValue++;
 					}
@@ -206,7 +204,7 @@ public class Histogram extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("profundidad"), agregados == null ? 15 : 10 + 5 * (agregados.length));
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
-		
+		double total = getTotal(valoresAgregados);
 		return CommonUtils.roundWith2Decimals(aggregateFunction.contentEquals(OPERATION_AVERAGE)?
 				CommonUtils.roundWith2Decimals(total/numPointsWithValue):total);//aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
 	}

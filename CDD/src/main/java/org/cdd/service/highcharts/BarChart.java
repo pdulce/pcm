@@ -43,11 +43,10 @@ public class BarChart extends GenericHighchartModel {
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion, final IFieldLogic orderBy,
 			final String aggregateFunction) {
 		
-		boolean sinAgregado = agregados == null || agregados[0]==null;
+		//boolean sinAgregado = agregados == null || agregados[0]==null;
 		String lang = data_.getLanguage();
 		final Map<String, Map<String, Number>> registros = new HashMap<String, Map<String, Number>>();		
 		double minimal = 0.0;
-		Number total_ = Double.valueOf(0.0);
 		Map<Serializable, Double> totalizacionbarrasHoriz = null;
 		if (!listaValoresAgregados.isEmpty()){
 			
@@ -123,30 +122,15 @@ public class BarChart extends GenericHighchartModel {
 							if (valorDeNuestraDimensionParaEstaAgrupacion.doubleValue() < minimal){
 								minimal = valorDeNuestraDimensionParaEstaAgrupacion;
 							}
-							if (sinAgregado){//Long al contar totales
-								total_ = Long.valueOf(total_.longValue() + valorDeNuestraDimensionParaEstaAgrupacion.longValue());
-							}else{
-								total_ = Double.valueOf(total_.doubleValue() + valorDeNuestraDimensionParaEstaAgrupacion.doubleValue());
-							}												
+							
+							//total_ += valorDeNuestraDimensionParaEstaAgrupacion.doubleValue();							
+																			
 						}
-					}
-					//miro si este valor de agrupacion es un FK contra otra tabla, para obtener el valor correcto, descField
-					if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
-						IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
-						FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-						fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), dimensionLabel);
-						try {
-							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-							IFieldLogic descField = fSetParent.getDescriptionField();
-							dimensionLabel = fSetParent.getValue(descField.getMappingTo());
-						} catch (DatabaseException e) {
-							e.printStackTrace();
-						}									
 					}
 					registros.put(dimensionLabel.toString(), valoresDeDimensionParaAgrupacPral);
 				}
 			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupacion con mas de un campo
-
+				
 				/** primero: obtenemos la primera dimension de los campos de agrupacion ***/
 				int dimensionNamePral = fieldsCategoriaDeAgrupacion[0].getMappingTo();
 				int dimensionNameSecundario = fieldsCategoriaDeAgrupacion[1].getMappingTo();
@@ -229,13 +213,7 @@ public class BarChart extends GenericHighchartModel {
 									valoresDeDimensionParaAgrupacPral.put(valorAgrupacionSecundaria.toString(), valorParaEstaCombinacion);
 									if (valorParaEstaCombinacion.doubleValue() < minimal){
 										minimal = valorParaEstaCombinacion;
-									}
-									if (sinAgregado){//Long al contar totales
-										total_ = Long.valueOf(total_.longValue() + valorParaEstaCombinacion.longValue());
-									}else{
-										total_ = Double.valueOf(total_.doubleValue() + valorParaEstaCombinacion.doubleValue());
-									}
-									
+									}									
 								}
 							}
 						}
@@ -294,14 +272,14 @@ public class BarChart extends GenericHighchartModel {
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
+		double total_ = getTotal(listaValoresAgregados);
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = listaValoresAgregados.size() == 0 ? 0 : total_.doubleValue()/listaValoresAgregados.size();
+			double median = listaValoresAgregados.size() == 0 ? 0 : total_/listaValoresAgregados.size();
 			total_ = median;
 		}
-		return total_.doubleValue();
+		return total_;
 	}
 	
-
 	@Override
 	public String getScreenRendername() {
 		
