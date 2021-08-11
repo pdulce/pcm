@@ -264,26 +264,13 @@ public class FieldViewSet implements Serializable {
 					IFieldView fView = this.getFieldView(fieldName_rank);
 					if (fView != null && keyMemorized.contains(IRank.HASTA_SUFFIX)) {
 						
-						final Rank rankDesde = new Rank(fView.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
-						if (fView.isRankField()) {
-							IFieldView fViewNew = fView.copyOf();
-							fViewNew.setRankField(rankDesde);
-							this.fieldViews.add(fViewNew);
-						}else {
-							fView.setRankField(rankDesde);
-						}											
+						final Rank rankHasta = new Rank(fView.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
+						fView.setRankField(rankHasta);
 
 					}else if (fView != null && keyMemorized.contains(IRank.DESDE_SUFFIX)) {
 						
-						final Rank rankHasta = new Rank(fView.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
-						if (fView.isRankField()) {
-							IFieldView fViewNew = fView.copyOf();
-							fViewNew.setRankField(rankHasta);
-							this.fieldViews.add(fViewNew);
-						}else {
-							fView.setRankField(rankHasta);
-						}
-						
+						final Rank rankDesde = new Rank(fView.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
+						fView.setRankField(rankDesde);
 					}
 					
 					List<String> stringVals = new ArrayList<String>();
