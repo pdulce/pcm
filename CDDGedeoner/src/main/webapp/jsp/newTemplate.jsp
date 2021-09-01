@@ -69,10 +69,12 @@ String alerts = (String) request.getAttribute("#MESSAGES_ALERTS#");
 				             </a>
 				             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 					             <%if (!profile.contentEquals("CONSULTOR_UTE")){ %>    
-					             	<li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=unidadOrg">Organismos</a></li>
-					             	<li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=subdireccion">Subdirecciones</a></li>
 					             <%} %>				                 					              
-					             <li><a class="dropdown-item" href="dispatch?event=GestionServiciosUTE.query">Servicios UTE</a></li>
+					             <li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=unidadOrg">Organismos</a></li>
+					             <li><a class="dropdown-item" href="dispatch?event=GestionPaletasColores.query">Paletas Colores</a></li>
+					             <li><a class="dropdown-item" href="dispatch?event=GestionServiciosUTE.query">Grupos</a></li>
+ 				             	 <li><a class="dropdown-item" href="dispatch?event=GestionSubdirecciones.query">Áreas</a></li>
+ 				             	 <li><a class="dropdown-item" href="dispatch?event=GestionServicios.query">Servicios</a></li>
 					             <li><a class="dropdown-item" href="dispatch?event=GestionApps.query">Aplicativos</a></li>		
 				             </ul>
 				           </li>
@@ -182,9 +184,9 @@ String alerts = (String) request.getAttribute("#MESSAGES_ALERTS#");
 		   </div>
 		   
   	 </div>
-  	 
+  	   	 
      <div class="pcmBody">
-
+	 
 	  <%if (request.getAttribute("container") != null) {	%>
 	  		<%if ( !event.contentEquals("Authentication.submitForm") && (profile == null || profile.contentEquals("")) ) { %>
 	  			<div style="position: relative;top: 2px;left: 1px;">
@@ -193,6 +195,7 @@ String alerts = (String) request.getAttribute("#MESSAGES_ALERTS#");
 	  		<%}else {%>
 	  
 				<div style="position: relative;top: 2px;left: 1px;">
+					<jsp:include page="manejadorPaleta.jsp"></jsp:include>					
 					<jsp:include page="${container}"></jsp:include>
 				</div>
 			<%}%>

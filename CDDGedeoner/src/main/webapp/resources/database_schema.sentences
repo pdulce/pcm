@@ -184,17 +184,92 @@ CREATE TABLE `tecnologia` (
   `descripcion` varchar(250) DEFAULT NULL
 );
 
+drop table paletaColoresGraph;
+CREATE TABLE `paletaColoresGraph` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `id_organismo` int(11) NOT NULL,
+  `colorHex_1` varchar(7) DEFAULT NULL,
+  `colorHex_2` varchar(7) DEFAULT NULL,
+  `colorHex_3` varchar(7) DEFAULT NULL,
+  `colorHex_4` varchar(7) DEFAULT NULL,
+  `colorHex_5` varchar(7) DEFAULT NULL,
+  `colorHex_6` varchar(7) DEFAULT NULL,
+  `colorHex_7` varchar(7) DEFAULT NULL,
+  `colorHex_8` varchar(7) DEFAULT NULL,
+  `colorHex_9` varchar(7) DEFAULT NULL,
+  `colorHex_10` varchar(7) DEFAULT NULL
+ );
+ 
+drop table subdireccion;
+CREATE TABLE `subdireccion` (
+  `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
+  `codigo` varchar(100) DEFAULT NULL,
+  `nombre` varchar(250) DEFAULT NULL,
+  `id_organismo` int(11) NOT NULL
+ );
+
+insert into subdireccion (id, codigo, nombre, id_organismo) values (1, 'DAAP', 'División de Administración y Análisis Presupuestario del ISM', 2);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (2, 'SGASM', 'SG Acción Social Marítima del ISM', 2);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (3, 'SGSS', 'Subdirección General de Seguridad Social del ISM', 2);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (4, 'CDISM', 'Centro de Desarrollo del ISM', 2);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (5, 'DISM', 'Dirección del ISM', 2);
+
+insert into subdireccion (id, codigo, nombre, id_organismo) values (6, 'ACyDH', 'Coordinación y Desarrollos Horizontales', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (7, 'AP', 'Prestaciones', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (8, 'AAD', 'Administración Digital', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (9, 'AOyA', 'Organización y Apoyo', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (10, 'SSyAI', 'Subsidios y Aplicaciones Internas', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (11, 'SPnC', 'Prestaciones no contributivas', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (12, 'SRyM', 'Redes y Microinformática', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (13, 'ATD', 'Transición Digital', 1);
+insert into subdireccion (id, codigo, nombre, id_organismo) values (14, 'SGRAL', 'Secretaría Gral.', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('DG', 'Dirección General', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('IDSSCC', 'Intervención Delegada en los SS.CC del INSS', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('SGCUM', 'S.G. de Coordinación de Unidades Médicas', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('SGGEP', 'S.G. de Gestión Económico - Presupuestaria y Estudios Económicos', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('SGGIT', 'S.G. de Gestión de I.T y  Otras Prestaciones a corto plazo', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('SGGP',	'S.G. de Gestión de Prestaciones', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('SGOPGR', 'S.G. de Organización, Planificación y Gestión de Recursos', 1);
+insert into subdireccion (codigo, nombre, id_organismo) values ('SGRHM','S.G. de Recursos Humanos y Materiales', 1);
+
 drop table servicioUTE;
 CREATE TABLE `servicioUTE` (
   `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
-  `id_tecnologia` int(11) NOT NULL,
-  `descripcion` varchar(250) DEFAULT NULL
+  `descripcion` varchar(250) DEFAULT NULL,
+  `id_organismo` int(11) NOT NULL
 );
+
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (1, 'Servicio Mto. HOST', 'Servicio Mto. Aplicaciones HOST', 2);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (2, 'Servicio Nuevos Desarrollos', 'Servicio Nuevos Desarrollos', 2);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (3, 'Servicio Mto. Pros@', 'Servicio Mto. Aplicaciones Pros@', 2);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (4, 'INTRANET', 'INTRANET', 1);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (5, 'SEDESS', 'SEDESS', 1);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (6, 'Asistencia Sanitaria Internacional', 'Asistencia Sanitaria Internacional', 1);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (7, 'TuSS', 'TuSS', 1);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (8, 'Tarjeta Social Digital', 'Tarjeta Social Digital', 1);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (9, 'Estadísticas y Análisis de Datos', 'Estadísticas y Análisis de Datos', 1);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (10, 'Trámite Prestaciones/Subsidios', 'Trámite Prestaciones/Subsidios', 1);
+insert into servicioUTE (id, nombre, descripcion, id_organismo) values (11, 'Sistema RED', 'Sistema RED', 1);
+
+
+drop table unidadOrg;
+CREATE TABLE `unidadOrg` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `codigo` varchar(10) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+  );
+
+insert into unidadOrg (id, codigo, nombre) values (1, 'INSS', 'Instituto Nacional de La Seguridad Social');
+insert into unidadOrg (id, codigo, nombre) values (2, 'ISM', 'Instituto Social de La Marina');
+
+
 drop table aplicativo;
 CREATE TABLE `aplicativo` (
   `id`  INTEGER PRIMARY KEY   AUTOINCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
+  `id_subdireccion` int(11) DEFAULT NULL,
   `id_servicio` int(11) DEFAULT NULL,
   `descripcion` varchar(250) DEFAULT NULL,
   `rochade` varchar(20) DEFAULT NULL,
@@ -241,6 +316,115 @@ insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimi
 insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimiento) values (36,'WSPX - WS_PERMEX','WSPX - WS_PERMEX','WSPX',3,1);
 insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimiento) values (37,'WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria','WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria','WSRT',4,1);
 
+--del INSS
+  
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('W4XX', 'Actas', 'Actas del Consejo General y Comisiones Ejecutivas Provinciales', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ACGX', 'Actas (Pros@)', 'Actas Consejo General y Comisiones Ejecutivas Provinciales', 8, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('AMCT', 'Actualización Médica', 'Actualización Médica', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ASXX', 'ASIA', 6, 10, 12, 6);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ACXX', 'ASIA Convenios Bilaterales', 'Convenios Bilaterales', 10, 12, 6);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ABWB', 'Autocálculo Web', 'Autocálculo Web', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('BSXX', 'BISS', 'Boletin Informativo de la Seguridad Social', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('COME', 'Consulta y gestión de contenidos médicos', 'Consulta y gestión de contenidos médicos', 8, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CNXX', 'CAIN', 'Control de Activos Informáticos', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CLXX', 'CAPRI', 'Gestión de facturas por asistencia sanitaria AT/EP', 10, 12, 6);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CRXX', 'Cargo', 'Cargo de Gastos Reales por Asistencia Sanitaria', 10, 12, 6);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CSXX', 'CESAR', 'Control, Evaluación y Seguimiento de la Atención Recibida', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CGXX', 'CFWEB', 'Control de formularios web', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CFXX', 'CIDE', 'Control Informático para el Desarrollo de la formación', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('AWXX', 'COMINS', 'Comunicación Institucional', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CWXX', 'Cómo va mi prestación', 'Cómo va mi prestación', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('COXX', 'CONANTI', 'Control de Anticipos', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('DXAS', 'Consulta Derecho Asistencia Sanitaria', 'Consulta Derecho Asistencia Sanitaria', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CDAS', 'Consulta Derecho Asistencia Sanitaria (Pros@)', 'Consulta Derecho Asistencia Sanitaria', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FIER', 'Consulta de ficheros FIE ', 'Consulta Fichero INSS Empresas RED DIRECTO para empresas que no están dadas de alta en SILTRA', 8, 2, 11);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('KWXX', 'COREA', 'Control de Recursos y Accesos', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ICOC', 'Contenidos iConsulto', 'Generación de contenidos y mantenimiento de los mismos para el nuevo portal informador del INSS ICONSULTO', 8, 10, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CPSP', 'CPS (Pros@)', 'Certificado Provisional Sustitutorio', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('DAXX', 'DAMIAN', 'Documento de Análisis Mensual de Información', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('DTXX', 'DETALLE2', 'Detalles de Códigos Extrapresupuestarios', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('DSXX', 'Doctrinas', 'Doctrinas del Tribunal Supremo', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ECIP', 'ECIP', 'Enlace y Colaboración Internacional de Pensiones', 10, 2, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('EGXX', 'EGEO', 'Estadísticas de Gestión', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('EGPE', 'EGEO Pensiones', 'Estadísticas de Gestión de Pensiones', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('EGSU', 'EGEO Subsidios', 'Estadísticas de Gestión de Subsidios', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('EGUM', 'EGEO Unidades Médicas', 'Estadísticas de Gestión de Unidades Médicas', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('EGOT', 'EGEO Otras actividades', 'Estadísticas de Gestión de Otras Actividades', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ESTA', 'eSTADISS', 'Estadísticas de Gestión del INSS', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('DWXX', 'Estadísticas Diarias', 'Estadísticas Diarias', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('EDXX', 'Estadísticas Diarias Gestión', 'Estadísticas Diarias de Gestión', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ENOT', 'Estadisticas Sistema de Notificaciones Telemáticas', 'Estadisticas Sistema de Notificaciones Telemáticas', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ESXX', 'Estadísticas SPS', 'Estadísticas de los Servicios Públicos de Salud', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FWXX', 'FISS', 'Facturación Asistencia Sanitaria Internacional de los Servicios Públicos de Salud', 10, 12, 6);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FIDS', 'FISS Web', 'Facturación Internacional de los Servicios Públicos de Salud', 8, 8, 6);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FDXX', 'FONDOSS', 'Fondo Documental', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FORS', 'FOROS', 'Foro Jurídico', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FRIN', 'FRIN', 'Formulario de Registro Electrónico INSS', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FRIT', 'FRIT', 'Formulario de Registro Electrónico INSS', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('FROG', 'FROG', 'Formulario Genérico de Registro Electrónico INSS', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ACRA', 'Gestión de incidencias de Acredita y Subsidios (ACREDITA)', 'Gestión de incidencias de Acredita y Subsidios (ACREDITA)', 8, 2, 11);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('GQSC ', 'Gestión de Quejas y Sugerencias de los Ciudadanos', 'Gestión de Quejas y Sugerencias de los Ciudadanos', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ICXX', 'ICONA', 'Inventario y Control de Amortizaciones', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('IIXX', 'INCA Pago Delegado', 'Incapacidad Temporal Pago Delegado', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('INXX', 'INCA Pago Directo', 'Incapacidad Temporal Pago Directo', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('IWXX', 'INCA Web', 'Gestión de la Incapacidad Temporal', 8, 8, 11);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('PSXX', 'INCAPRES', 'Procedimiento especial Incapacidad Temporal', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('IEXX', 'Indice CAISS', 'Gestión de información de los CAISS', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('INSF', 'INSFOR', 'Gestión y control visitas de inspección', 8, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SJXX', 'Juridica', 'Gestión de Expedientes de los Servicios Jurídicos', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('MIXX', 'MIDAS', 'Mantenimiento Informático de las Deudas Adquiridas', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('MOXX', 'MIDAS OLAP', 'Estadísticas de Deudas de Prestaciones', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TPRE', 'MIDAS (Pros@)', 'Trámite de procedimientos de reconocimiento de deudas por prestaciones indebidamente percibidas para su reintegro.', 10, 2, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('NRXX', 'NORMASS', 'Normativa de la Seguridad Social', 8, 8, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('OFXX', 'OFERIN', 'Oficina de Enlace de Relaciones Internacionales', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ORDP', 'Organigrama DDPP', 'Organigrama Direcciones Provinciales', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('ORSC', 'Organigrama SSCC', 'Organigrama Servicios Centrales', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('PGXX', 'PAGOPRES', 'Estadísticas de Pagos de Prestaciones', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('PUXX', 'PFINSS', 'Pagos Únicos por Maternidad', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('PRMJ', 'Practicas de Mejora', 'Consulta y gestión de prácticas de mejora', 8, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('PRXX', 'PRISMA', 'Reordenación de Información para Seguimiento Mensual', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('PVXX', 'Productividad', 'Indicadores de Productividad', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('BQIN', 'Quejas y Sugerencias (Pros@)', 'Aplicación de Intranet que consulta y gestiona de las las quejas y sugerencias del INSS', 8, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('BUSC', 'Quejas y Sugerencias', 'Buzón de  Quejas y Sugerencias del INSS (versión ASP)', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('RCMA', 'RECEMA', 'Remisión de Certificados Maternidad P.', 8, 2, 11);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('RCSS', 'Red CAISS', 'Gestión de centros de atención e información de la Seg. Soc.', 10, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('RGXX', 'REGINSS', 'Registro de Incidencias del INSS', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('RIIX', 'REGINSS (Pros@)', 'Registro de Incidencias del INSS', 8, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('RNXX', 'REGINSS2', 'Registro de Incidencias del INSS', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('REXX', 'REMUPRES', 'Resúmen por Municipios de Prestaciones', 10, 12, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('RIXX', 'Riesgo', 'Riesgo durante el embarazo y la lactancia', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SAGA', 'SAGATEC', 'Seguimiento de asuntos del Gabinete Técnico', 8, 2, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SEXX', 'SEGPRES', 'Seguimiento Presupuestario', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SEGL', 'Seguro Escolar', 'Gestión de Prestaciones de Seguro Escolar', 10, 2, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SERJ', 'SERJURIDICO', 'Agrupación y ordenación de sentencias de tribunales', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SWXX', 'SID Web', 'Sistema de Información de Directivos', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('STXX', 'SINTOX', 'Síndrome Tóxico', 10, 12, 10);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SAXX', 'SIRIA', 'Estadísticas de pensiones del sistema de S.S.', 6, 9, 9);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TSUN', 'Tarjeta Social Digital ', 'Tarjeta Social Digital (Portal web y servicios app móvil)', 8, 11, 8);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TSUC', 'Tarjeta Social Digital Carga', 'Tarjeta Social Digital (Cargas de datos y aplicación de consulta)', 8, 2, 8);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TJXX', 'TESOL Jubilación', 'Solicitud electrónica Jubilación', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TAXX', 'TESOL Maternidad', 'Solicitud electrónica Maternidad y Paternidad', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TMXX', 'TESOL Muerte y Supervivencia', 'Solicitud electrónica Muerte y Supervivencia', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TIXX', 'TESOL Servicios Comunes', 'Tramitación Electrónica de Solicitudes', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TDVM', 'Tribuna Valoración', 'Tribuna de Valoración Medica', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TSXX', 'TSE (Natural)', 'Solicitud de la Tarjeta Sanitaria Europea', 10, 12, 6);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('STSE', 'TSE (Pros@)', 'Tarjeta Sanitaria Europea', 8, 2, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('SDLT', 'TSE Web', 'Solicitud de la Tarjeta Sanitaria Europea', 8, 8, 5);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TURE', 'TuSS Servicios comunes', 'TuSS, Portal Web de Servicios Integrales y Personalizados', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TASB', 'TUSS Asistencia Sanitaria', 'Tu Seguridad Social Asistencia Sanitaria Y Beneficiarios', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('BCTS', 'TUSS Buzón', 'Buzón para incluir las consultas sobre INFOTUSS/TuSS', 8, 7, 4);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CEAS', 'TUSS Certificados Asistencia Sanitaria', 'TUSS Certificados Asistencia Sanitaria', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('CEPE', 'TUSS Certificados Pensiones', 'TUSS Certificados Pensiones', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TFAC', 'TUSS Fallecimientos', 'Tu Seguridad Social Fallecimientos', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TFAM', 'TUSS Familia', 'Tu Seguridad Social Familia', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TSJU', 'TUSS Jubilación', 'Tu Seguridad Social Simuladores y solicitudes de jubilación', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('PENS', 'TUSS Pensiones', 'Tu Seguridad Social Pensiones', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TURE', 'TuSS Servicios comunes', 'TuSS, Portal Web de Servicios Integrales y Personalizados', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TRBJ', 'TUSS Trabajo', 'Tu Seguridad Social Trabajo', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TTSE', 'TUSS TSE', 'Tu Seguridad Social Tarjeta Sanitaria Europea', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion, id_subdireccion, id_tecnologia, id_servicio) values ('TUZU', 'TUSS Usuario', 'Tu Seguridad Social Usuario', 8, 11, 7);
+insert into aplicativo (rochade, nombre, descripcion,id_subdireccion,id_servicio,id_tecnologia) values ('SADI', 'SAD_INTRANET', 'Mantenimiento en general la Intranet del INSS', 8, 302, 10);
+insert into aplicativo (rochade, nombre, descripcion,id_subdireccion,id_servicio,id_tecnologia) values ('APOF', 'APP_DISEÑO', 'Servicio de diseño grafico que da soporte tanto al INSS como al CDINSS', 8, 301,10);
 
 CREATE TABLE `categoria_profesional` (
   `ID_CATEGORIA` INTEGER PRIMARY KEY   AUTOINCREMENT,
@@ -357,10 +541,7 @@ CREATE TABLE `responsablecentro` (
   `id_ubicacion` int(11) DEFAULT NULL,
   `observaciones` varchar(150) DEFAULT NULL
 );
-CREATE TABLE `unidadOrg` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `nombre` varchar(100) NOT NULL
-  );
+
 CREATE TABLE `facturacionMesPorConcurso` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `anyo` INTEGER,
@@ -593,11 +774,7 @@ CREATE TABLE `datos_prevision_contrato` (
   `fecha` date NOT NULL,
   `texto` varchar(250) DEFAULT NULL
 );
-CREATE TABLE `subdireccion` (
-  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `unidadOrg` int(11) NOT NULL,
-  `nombre` varchar(150) NOT NULL
-  );
+
 CREATE TABLE `servicio` (
   `id` INTEGER PRIMARY KEY   AUTOINCREMENT,
   `nombre` varchar(50) NOT NULL,

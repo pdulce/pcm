@@ -101,6 +101,8 @@
    	<field mappingTo="13" name="volatile_max_uts" type="double" length="6" required="false" />
    	<field mappingTo="14" name="volatile_automatico_mes" type="boolean" length="1" required="false" />
    	<field mappingTo="15" name="volatile_gen_app" type="boolean" length="1" required="false" />
+   	<field mappingTo="16" name="volatile_subdireccion" type="long" length="11" required="false" />
+	    <!-- fkParentEntities="subdireccion" fkParentFields="1"/> -->
 </entity>
  
   <entity>
@@ -187,15 +189,49 @@
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="nombre" type="string" length="100" required="false"/>
     <field mappingTo="3" name="descripcion" type="string" length="250" required="false"/>
- </entity>
+  </entity>
  
+   <entity>
+    	<entityname>unidadOrg</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	    <field mappingTo="2" name="codigo" type="string" length="10" required="true"/>
+	    <field mappingTo="3" name="nombre" type="string" length="100" required="true"/>    
+   </entity>
+   
+   <entity>
+    <entityname>paletaColoresGraph</entityname>
+    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+    <field mappingTo="2" name="nombre" type="string" length="100" required="true"/>	
+	<field mappingTo="3" name="id_organismo" type="long" length="11" required="true" 
+	    fkParentEntities="unidadOrg" fkParentFields="1"/>
+    <field mappingTo="4" name="colorHex_1" type="string" length="7" required="false"/>
+    <field mappingTo="5" name="colorHex_2" type="string" length="7" required="false"/>
+    <field mappingTo="6" name="colorHex_3" type="string" length="7" required="false"/>
+    <field mappingTo="7" name="colorHex_4" type="string" length="7" required="false"/>
+    <field mappingTo="8" name="colorHex_5" type="string" length="7" required="false"/>
+    <field mappingTo="9" name="colorHex_6" type="string" length="7" required="false"/>
+    <field mappingTo="10" name="colorHex_7" type="string" length="7" required="false"/>
+    <field mappingTo="11" name="colorHex_8" type="string" length="7" required="false"/>
+    <field mappingTo="12" name="colorHex_9" type="string" length="7" required="false"/>
+    <field mappingTo="13" name="colorHex_10" type="string" length="7" required="false"/>
+   </entity>
+    
+   <entity>
+	    <entityname>subdireccion</entityname>
+	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
+	   	<field mappingTo="2" name="codigo" type="string" length="10" required="true"/>
+	    <field mappingTo="3" name="nombre" type="string" length="150" required="true"/>
+	    	<field mappingTo="4" name="id_organismo" type="long" length="11" required="false" 
+	     fkParentEntities="unidadOrg" fkParentFields="1"/>	    
+   </entity>
+    
   <entity>
     <entityname>servicioUTE</entityname>
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="nombre" type="string" length="100" required="false"/>
-    <field mappingTo="3" name="id_tecnologia" type="long" length="11" required="false" 
-	    fkParentEntities="tecnologia" fkParentFields="1"/>    
-	 <field mappingTo="4" name="descripcion" type="string" length="250" required="false"/>
+	<field mappingTo="3" name="descripcion" type="string" length="250" required="false"/>
+	<field mappingTo="4" name="id_organismo" type="long" length="11" required="false" 
+	    fkParentEntities="unidadOrg" fkParentFields="1"/>    
    </entity>
   
   <entity>
@@ -209,22 +245,11 @@
 	 <field mappingTo="6" name="id_tecnologia" type="long" length="11" required="false" 
 	 	 fkParentEntities="tecnologia" fkParentFields="1"/>
 	 <field mappingTo="7" name="en_mantenimiento" type="boolean" length="1" required="false"/>
+	 <field mappingTo="8" name="id_subdireccion" type="long" length="11" required="false" 
+	    fkParentEntities="subdireccion" fkParentFields="1"/>    
    </entity>
    
-   <entity>
-    	<entityname>unidadOrg</entityname>
-	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-	    <field mappingTo="2" name="nombre" type="string" length="100" required="true"/>    
-    </entity>
-   
-    <entity>
-	    <entityname>subdireccion</entityname>
-	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-	    <field mappingTo="2" name="unidadOrg" type="long" length="11" required="false" 
-	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>
-	    <field mappingTo="3" name="nombre" type="string" length="150" required="true"/>
-    </entity>
-   
+
 	<entity>
     	<entityname>servicio</entityname>
 	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>

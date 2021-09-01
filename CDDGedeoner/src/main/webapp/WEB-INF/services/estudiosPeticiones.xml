@@ -151,8 +151,8 @@ xmlns:service="http://pcm.framework.org/service"
 							<fieldView name="orderBy" hidden="true" value="20"/><!-- fecha-trámit a DG: este campo se usa para obtener los periodos de forma automática-->
 							<fieldView name="filteredByField" hidden="true" value="2=estudios.1"/>
 							<fieldView name="fieldForGroupBy" hidden="true" value="20"/> 
-							<fieldView name="agregado" type="select" size="1">
-								<optionValues>									
+							<fieldView name="agregado" type="select" size="4">
+								<optionValues selectionMultiple="true">									
 									<option code="28" title="uts"></option>
 									<!-- <option code="29" title="hrs.análisis"></option> -->
 									<option code="8" title="CicloVida" selected="true"></option>
@@ -367,6 +367,7 @@ xmlns:service="http://pcm.framework.org/service"
 					nameSpace="estudiosForm">
 					<fieldset legend="Resumen Estudio">
 						<fieldView mappingTo="1" hidden="true" />
+						<fieldView mappingTo="2" editable="false"/>
 						<fieldView mappingTo="10" editable="false" />						
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="aplicativo"

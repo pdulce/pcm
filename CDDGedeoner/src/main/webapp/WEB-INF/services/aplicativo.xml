@@ -17,7 +17,17 @@
 
 					<fieldViewSet entitymodel="aplicativo"
 						nameSpace="aplicativo">
+						<fieldView mappingTo="2" type="select" size="5" editable="true">
+							<optionValues entitymodel="aplicativo" selectionMultiple="true"
+								descrMappingTo="2" codeField="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="5" size="20"/>
+						<fieldView mappingTo="8" type="select" size="3" editable="true">
+							<optionValues entitymodel="subdireccion" selectionMultiple="true"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="3" type="select" size="3" editable="true">
 							<optionValues entitymodel="servicioUTE" selectionMultiple="true"
 								descrMappingTo="2">
@@ -31,11 +41,6 @@
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						<fieldView mappingTo="4" size="30"/>
-						<fieldView mappingTo="5" type="select" size="5" editable="true">						
-							<optionValues selectionMultiple="true" entitymodel="aplicativo"
-								descrMappingTo="2" codeField="2">
-							</optionValues>							
-						</fieldView>
 						<fieldView mappingTo="7" type="checkbox">
 							<optionValues selectionMultiple="true" entitymodel="aplicativo"
 								descrMappingTo="7" codeField="7">
@@ -57,6 +62,10 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+						<fieldView mappingTo="8" type="select" editable="false">
+							<optionValues entitymodel="subdireccion" descrMappingTo="2">
+							</optionValues>
+						</fieldView>						
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
@@ -88,6 +97,10 @@
 						</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							<fieldView mappingTo="8" type="select" editable="false">
+								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="false">
 								<optionValues entitymodel="servicioUTE"
 									descrMappingTo="2">
@@ -125,9 +138,13 @@
 							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							<fieldView mappingTo="8" type="select" editable="true">
+								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="true">
 								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2" selectionMultiple="true">
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" size="30" editable="true" />
@@ -164,9 +181,12 @@
 							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							<fieldView mappingTo="8" type="select" editable="true">
+								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="true">
-								<optionValues entitymodel="servicioUTE"
-									descrMappingTo="2" selectionMultiple="true">
+								<optionValues entitymodel="servicioUTE"	descrMappingTo="2" >
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" size="30" editable="true" />

@@ -28,12 +28,21 @@ xmlns:service="http://pcm.framework.org/service"
 								<option code="en_" title="ingles"></option>
 							</optionValues> -->
 						<fieldView name="style" type="radio" 
-							required="false" persistsIn="%session%">
+							required="true" persistsIn="%session%">
 							<optionValues> 
 								<option code="darkmode" title="dark style" selected="true"></option>
 								<option code="whitemode" title="light style"></option>
 							</optionValues>
 						</fieldView>
+						<fieldView name="paletaColores" type="select" size="3"
+							required="true" persistsIn="%session%">
+							<optionValues> 
+								<option code="1" title="Paleta Colores ISM"></option>
+								<option code="2" title="Paleta Colores INSS"></option>
+								<option code="3" title="Paleta Colores Libre"></option>
+							</optionValues>
+						</fieldView>
+						
 					</fieldViewSet>
 				</form>
 			</viewComponent>

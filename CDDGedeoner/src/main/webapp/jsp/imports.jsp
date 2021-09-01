@@ -60,3 +60,4 @@ integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0
 <%if (defaultMode.contentEquals("darkmode")){%>
 <script type="text/javascript" src="https://code.highcharts.com/themes/dark-unica.js"></script>	
 <%}%>
+
