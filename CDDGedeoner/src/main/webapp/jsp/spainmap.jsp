@@ -8,8 +8,6 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 %>
 <div id="<%=idseries%>spainmap" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
-<jsp:include page="manejadorPaleta.jsp"></jsp:include>
-
 <script type="text/javascript">
 	 
 	   Highcharts.mapChart('<%=idseries%>spainmap', {

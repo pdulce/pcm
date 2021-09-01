@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<service:service-group 
+	xmlns:service="http://pcm.framework.org/service"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
+
+    <service name="GestionServicios" profile="ADMINISTRADOR, CONSULTOR_UTE">
+
+		<action event="query" submitError="GestionServicios.query"
+			submitSucces="GestionServicios.query">
+
+			<viewComponent>
+
+				<form columns="3" title="Consulta Servicios">
+
+					<fieldViewSet entitymodel="servicio"	nameSpace="servicio">
+						<fieldset legend="Servicio">
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="2"/>
+							<fieldView mappingTo="3" type="select" editable="true">
+								<optionValues entitymodel="unidadOrg" selectionMultiple="true" 
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>							
+							<fieldView mappingTo="4" type="select" editable="true">
+								<optionValues entitymodel="subdireccion" selectionMultiple="true" 
+									descrMappingTo="2">
+								</optionValues>
+							</fieldView>							
+							<fieldView separator="br" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+
+				<grid title="Listado Servicios" orderDirection="asc" eventsRegistered="update, create, delete">
+					<fieldViewSet entitymodel="servicio"
+						nameSpace="servicio">
+						<fieldView mappingTo="1" hidden="true"/>
+						<fieldView mappingTo="2" />
+						<fieldView mappingTo="3" type="select" editable="true">
+							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+							</optionValues>
+						</fieldView>		
+						<fieldView mappingTo="4" type="select" editable="true">
+							<optionValues entitymodel="subdireccion" descrMappingTo="2">
+							</optionValues>
+						</fieldView>														
+					</fieldViewSet>
+				</grid>
+
+			</viewComponent>
+		</action>
+
+		<action event="delete" submitError="GestionServicios.query"
+			submitSucces="GestionServicios.delete">
+
+			<viewComponent>
+				<form columns="2" title="Servicio">
+					<fieldViewSet entitymodel="servicio"	nameSpace="servicio">
+						<fieldset legend="Servicio">
+							<fieldView separator="br" />
+							<fieldView separator="br" />
+							<fieldView mappingTo="1" editable="false" />
+							<fieldView mappingTo="2" editable="false" />
+							<fieldView mappingTo="3" type="select" editable="false">
+								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="4" type="select" editable="false">
+								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								</optionValues>
+							</fieldView>							
+							<fieldView separator="br" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+			</viewComponent>
+		</action>
+		
+		<action event="create" submitError="GestionServicios.create"
+			submitSucces="GestionServicios.create">
+
+			<viewComponent>
+				<form columns="2" title="Servicio">
+				
+					
+						<fieldViewSet entitymodel="servicio"	nameSpace="servicio">
+							<fieldset legend="Servicio">
+								<fieldView separator="br" />						
+								<fieldView mappingTo="2" editable="true" />
+								<fieldView mappingTo="3" type="select" editable="true">
+									<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+									</optionValues>
+								</fieldView>
+								<fieldView mappingTo="4" type="select" editable="true">
+									<optionValues entitymodel="subdireccion" descrMappingTo="2">
+									</optionValues>
+								</fieldView>								
+								<fieldView separator="br" />	
+							</fieldset>
+						</fieldViewSet>
+					
+				</form>
+			</viewComponent>
+		</action>
+		
+		<action event="update" submitError="GestionServicios.update"
+			submitSucces="GestionServicios.update">
+
+			<viewComponent>
+				<form columns="2" title="Servicio">
+					<fieldViewSet entitymodel="servicio"	nameSpace="servicioForm">
+					
+						<fieldset legend="Servicio">
+							<fieldView separator="br" />	
+							<fieldView mappingTo="1" hidden="true" />
+							<fieldView mappingTo="2" editable="true" />
+							<fieldView mappingTo="3" type="select" editable="true">
+								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="4" type="select" editable="true">
+								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								</optionValues>
+							</fieldView>							
+							<fieldView separator="br" />
+						</fieldset>
+					</fieldViewSet>
+				</form>
+								
+			</viewComponent>
+		</action>
+
+	</service>
+	
+</service:service-group>

@@ -6,15 +6,13 @@ String idseries = request.getParameter("idseries")==null?(String)request.getAttr
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 boolean visionado3D = false;
-if ((String)request.getAttribute(idseries+"scattervisionado") == null){
+if (request.getAttribute(idseries+"scattervisionado") == null){
 	visionado3D = request.getParameter("visionado").contentEquals("3D");
 }else{
 	visionado3D = ((String)request.getAttribute(idseries+"scattervisionado")).contentEquals("3D");
 }
 %>
 <div id="<%=idseries%>scatter" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
-
-<jsp:include page="manejadorPaleta.jsp"></jsp:include>
 
 <script type="text/javascript">
 		
@@ -69,6 +67,9 @@ if ((String)request.getAttribute(idseries+"scattervisionado") == null){
 	            verticalAlign: 'bottom'
 	        },
 	        plotOptions: {
+	        	series: {
+	                fillOpacity: 0.4
+	            },
 	            scatter: {
 	                marker: {
 	                    radius: 2

@@ -9,15 +9,13 @@ String dimensionName = (String) request.getAttribute(idseries+"speedometerdimens
 String entidad = (String) request.getAttribute(idseries+"speedometerentidad");
 String agregacion = (String) request.getAttribute(idseries+"speedometeragregacion");
 boolean visionado3D = false;
-if ((String)request.getAttribute(idseries+"speedometervisionado") == null){
+if (request.getAttribute(idseries+"speedometervisionado") == null){
 	visionado3D = request.getParameter("visionado").contentEquals("3D");
 }else{
 	visionado3D = ((String)request.getAttribute(idseries+"speedometervisionado")).contentEquals("3D");
 }
 %>
 <div id="<%=idseries%>speedometer" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
-
-<jsp:include page="manejadorPaleta.jsp"></jsp:include>
 
 <script type="text/javascript">
 
@@ -122,6 +120,11 @@ Highcharts.chart('<%=idseries%>speedometer', {
             to: 100,
             color: '#DF5353' // red
         }]
+    },
+    plotOptions: {
+    	series: {
+            fillOpacity: 0.4
+        }
     },
 	
     series:  [{"data":[<%=request.getAttribute(idseries+"speedometerdato")%>],"name":"<%=dimensionName%>","tooltip":{"valueSuffix":" "}}]

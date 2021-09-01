@@ -8,7 +8,6 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 %>
 <div id="<%=idseries%>spiderweb" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
-<jsp:include page="manejadorPaleta.jsp"></jsp:include>
 
 <script type="text/javascript">
   	Highcharts.chart('<%=idseries%>spiderweb', {
@@ -46,6 +45,11 @@ String height = request.getParameter("height") == null ? (String)request.getAttr
 	        min: 0,
 	        labels: {
 	        	style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
+            }
+	    },
+	    plotOptions: {
+        	series: {
+                fillOpacity: 0.4
             }
 	    },
 

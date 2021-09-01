@@ -3,22 +3,22 @@
 
 <% 
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
+
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 boolean visionado3D = false;
-if ((String)request.getAttribute(idseries+"timeseriesvisionado") == null){
+if (request.getAttribute(idseries+"timeseriesvisionado") == null){
 	visionado3D = request.getParameter("visionado").contentEquals("3D");
 }else{
 	visionado3D = ((String)request.getAttribute(idseries+"timeseriesvisionado")).contentEquals("3D");
 }
 %>
-<div id="<%=idseries%>timeseries" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
-<jsp:include page="manejadorPaleta.jsp"></jsp:include>
+<div id="<%=idseries%>timeseries" style="width: <%=width%>; height: <%=height%>; margin: 0 auto;float:left;"></div>
 
 <script type="text/javascript">	
 	Highcharts.chart('<%=idseries%>timeseries', {
-	    chart: {     	
+	    chart: {     		    	
             type: '<%=request.getAttribute(idseries+"timeseriestypeOfSeries")%>',
             margin: 75,
             backgroundColor: 'transparent',
@@ -72,10 +72,13 @@ if ((String)request.getAttribute(idseries+"timeseriesvisionado") == null){
         },
 
         plotOptions: {
-            area: {                
-                marker: {
+        	series: {
+                fillOpacity: 0.4
+            },
+            area: {                           	
+            	marker: {
                     radius: 2
-                },
+                },                               
                 lineWidth: 1,
                 states: {
                     hover: {
@@ -85,7 +88,7 @@ if ((String)request.getAttribute(idseries+"timeseriesvisionado") == null){
                 threshold: null
             }
         },        
-        
+                
         series: <%=request.getAttribute(idseries+"timeseriesseries")%>,
         
         responsive: {
@@ -111,3 +114,4 @@ if ((String)request.getAttribute(idseries+"timeseriesvisionado") == null){
 				 				   
 
 </script>
+

@@ -6,38 +6,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
 
-    <service name="GestionServiciosUTE" profile="ADMINISTRADOR, CONSULTOR_UTE">
+    <service name="GestionSubdirecciones" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
-		<action event="query" submitError="GestionServiciosUTE.query"
-			submitSucces="GestionServiciosUTE.query">
+		<action event="query" submitError="GestionSubdirecciones.query"
+			submitSucces="GestionSubdirecciones.query">
 
 			<viewComponent>
 
-				<form columns="3" title="Consulta Grupos">
+				<form columns="3" title="Consulta 햞eas">
 
-					<fieldViewSet entitymodel="servicioUTE"	nameSpace="servicioUTE">
-						<fieldset legend="Servicio">
+					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
+						<fieldset legend="subdireccion">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="2"/>
-							<fieldView mappingTo="3"/>
+							<fieldView mappingTo="2"/>							
+							<fieldView mappingTo="3" />
 							<fieldView mappingTo="4" type="select" editable="true">
 								<optionValues entitymodel="unidadOrg" selectionMultiple="true" 
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView separator="br" />
-							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
 				</form>
 
-				<grid title="Listado Grupos" orderDirection="asc" eventsRegistered="update, create, delete">
-					<fieldViewSet entitymodel="servicioUTE"
-						nameSpace="servicioUTE">
+				<grid title="Listado 햞eas" orderDirection="asc" eventsRegistered="update, create, delete">
+					<fieldViewSet entitymodel="subdireccion"
+						nameSpace="subdireccion">
 						<fieldView mappingTo="1" hidden="true"/>
 						<fieldView mappingTo="2" />
-						<fieldView mappingTo="3" />
+						<fieldView mappingTo="3" />						
 						<fieldView mappingTo="4" type="select" editable="true">
 							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 							</optionValues>
@@ -48,13 +47,13 @@
 			</viewComponent>
 		</action>
 
-		<action event="delete" submitError="GestionServiciosUTE.query"
-			submitSucces="GestionServiciosUTE.delete">
+		<action event="delete" submitError="GestionSubdirecciones.query"
+			submitSucces="GestionSubdirecciones.delete">
 
 			<viewComponent>
-				<form columns="2" title="Grupo">
-					<fieldViewSet entitymodel="servicioUTE"	nameSpace="servicioUTE">
-						<fieldset legend="Servicio">
+				<form columns="2" title="햞ea">
+					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
+						<fieldset legend="subdireccion">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="1" editable="false" />
@@ -65,22 +64,21 @@
 								</optionValues>
 							</fieldView>
 							<fieldView separator="br" />
-							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
 				</form>
 			</viewComponent>
 		</action>
 		
-		<action event="create" submitError="GestionServiciosUTE.create"
-			submitSucces="GestionServiciosUTE.create">
+		<action event="create" submitError="GestionSubdirecciones.create"
+			submitSucces="GestionSubdirecciones.create">
 
 			<viewComponent>
-				<form columns="2" title="Grupo">
+				<form columns="2" title="햞ea">
 				
 					
-						<fieldViewSet entitymodel="servicioUTE"	nameSpace="servicioUTE">
-							<fieldset legend="Servicio">
+						<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
+							<fieldset legend="subdireccion">
 								<fieldView separator="br" />						
 								<fieldView mappingTo="2" editable="true" />
 								<fieldView mappingTo="3" editable="true" />
@@ -88,7 +86,6 @@
 									<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 									</optionValues>
 								</fieldView>
-								<fieldView separator="br" />
 								<fieldView separator="br" />	
 							</fieldset>
 						</fieldViewSet>
@@ -97,14 +94,14 @@
 			</viewComponent>
 		</action>
 		
-		<action event="update" submitError="GestionServiciosUTE.update"
-			submitSucces="GestionServiciosUTE.update">
+		<action event="update" submitError="GestionSubdirecciones.update"
+			submitSucces="GestionSubdirecciones.update">
 
 			<viewComponent>
-				<form columns="2" title="Grupo">
-					<fieldViewSet entitymodel="servicioUTE"	nameSpace="servicioUTEForm">
+				<form columns="2" title="햞ea">
+					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccForm">
 					
-						<fieldset legend="Servicio">
+						<fieldset legend="subdireccion">
 							<fieldView separator="br" />	
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" editable="true" />
@@ -114,13 +111,12 @@
 								</optionValues>
 							</fieldView>
 							<fieldView separator="br" />
-							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Aplicaciones en cartera" dependsOf="servicioUTEForm" orderDirection="asc"
-					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionServiciosUTE">
+				<grid title="Aplicaciones" dependsOf="subdireccForm" orderDirection="asc"
+					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionSubdirecciones">
 				
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
 						<fieldView mappingTo="1" hidden="true" />					
@@ -131,6 +127,7 @@
 					
 				</grid>
 				
+								
 			</viewComponent>
 		</action>
 
