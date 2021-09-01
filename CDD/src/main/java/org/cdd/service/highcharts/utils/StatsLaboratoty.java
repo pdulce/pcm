@@ -2,7 +2,6 @@ package org.cdd.service.highcharts.utils;
 
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
