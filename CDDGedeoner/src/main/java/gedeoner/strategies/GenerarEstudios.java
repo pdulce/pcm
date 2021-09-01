@@ -43,14 +43,17 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 	public static final String FECHA_INI_PARAM = "estudios.fecha_inicio_estudio", 
 			FECHA_FIN_PARAM = "estudios.fecha_fin_estudio";
 	
+	private static final String DG_Factory_INSS = "FACTDG05", DG_Factory_ISM = "FACTDG07";
 	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, peticionesEntidad, tipoPeriodo, resumenPeticionEntidad, servicioUTEEntidad,
-	 	aplicativoEntidad, tiposPeticionesEntidad, tareaEntidad;
+	 	aplicativoEntidad, tiposPeticionesEntidad, tareaEntidad, subdireccionEntidad;
 	
 	private static final Double PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD = 0.12;	
 	
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudiosEntidad == null) {
 			try {
+				subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.SUBDIRECCION_ENTIDAD);
 				servicioUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SERVICIOUTE_ENTIDAD);
 				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
@@ -81,19 +84,21 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		
 		StringBuilder newTitle = new StringBuilder();
 		Collection<String> valuesPrjs =  new ArrayList<String>();
-		
+		Long idOrganismo = new Long(2);
 		//obtenemos todas las aplicaciones de este estudio
+		
 		FieldViewSet filtroApps = new FieldViewSet(aplicativoEntidad);
 		Boolean genByApp = (Boolean) registroEstudio.getValue(ConstantesModelo.ESTUDIOS_15_VOLATILE_GEN_BY_APP);
 		if (genByApp) {
 			Long idAplicativo = (Long) registroEstudio.getValue(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO);
 			FieldViewSet aplicativo = new FieldViewSet(aplicativoEntidad);
+			registroEstudio.setValue(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO, null);
 			aplicativo.setValue(ConstantesModelo.APLICATIVO_1_ID, idAplicativo);
 			aplicativo = dataAccess.searchEntityByPk(aplicativo);
 			String rochade = (String) aplicativo.getValue(ConstantesModelo.APLICATIVO_2_ROCHADE);
 			newTitle.append(rochade);
 			valuesPrjs.add(String.valueOf(idAplicativo));
-		}else {
+		}else if (registroEstudio.getValue(ConstantesModelo.ESTUDIOS_16_VOLATILE_SUBDIRECCION) == null){
 			Long servicioId = (Long) registroEstudio.getValue(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO);
 			registroEstudio.setValue(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO, null);
 			filtroApps.setValue(ConstantesModelo.APLICATIVO_3_ID_SERVICIO, servicioId);
@@ -104,9 +109,26 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			FieldViewSet servicioEnBBDD = new FieldViewSet(servicioUTEEntidad);
 			servicioEnBBDD.setValue(ConstantesModelo.SERVICIOUTE_1_ID, servicioId);
 			servicioEnBBDD = dataAccess.searchEntityByPk(servicioEnBBDD);
-			String servicio = (String) servicioEnBBDD.getValue(ConstantesModelo.SERVICIO_2_NOMBRE);
+			String servicio = (String) servicioEnBBDD.getValue(ConstantesModelo.SERVICIOUTE_2_NOMBRE);
+			idOrganismo = (Long) servicioEnBBDD.getValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO);
 			newTitle.append(servicio);
+		}else {
+			Long idSubdireccion = (Long) registroEstudio.getValue(ConstantesModelo.ESTUDIOS_16_VOLATILE_SUBDIRECCION);
+			registroEstudio.setValue(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO, null);
+			registroEstudio.setValue(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO, null);
+			filtroApps.setValue(ConstantesModelo.APLICATIVO_8_ID_SUBDIRECCION, idSubdireccion);
+			List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
+			for (FieldViewSet aplicacion: aplicaciones) {
+				valuesPrjs.add(String.valueOf((Long)aplicacion.getValue(ConstantesModelo.APLICATIVO_1_ID)));
+			}
+			FieldViewSet subdireccionEnBBDD = new FieldViewSet(subdireccionEntidad);
+			subdireccionEnBBDD.setValue(ConstantesModelo.SUBDIRECCION_1_ID, idSubdireccion);
+			subdireccionEnBBDD = dataAccess.searchEntityByPk(subdireccionEnBBDD);
+			String codigoSubdir = (String) subdireccionEnBBDD.getValue(ConstantesModelo.SUBDIRECCION_2_CODIGO);
+			idOrganismo = (Long) subdireccionEnBBDD.getValue(ConstantesModelo.SUBDIRECCION_4_ORGANISMO);
+			newTitle.append(codigoSubdir);		
 		}
+		
 		List<String> situaciones = new ArrayList<String>();
 		situaciones.add("Entrega no conforme");
 		situaciones.add("Petición finalizada");
@@ -141,7 +163,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		Collection<String> fieldValues = registroEstudio.getValues(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES);
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_13_ID_TIPO, fieldValues);
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_7_ESTADO, situaciones); 
-		filterPeticiones.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, "FACTDG07");
+		filterPeticiones.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, (idOrganismo.longValue() == 1? DG_Factory_INSS: DG_Factory_ISM));
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, valuesPrjs);
 		
 		int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
@@ -263,7 +285,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				
 				int ok = dataAccess.modifyEntity(nuevoRegistroEstudio);
 				if (ok != 1) {
-					throw new StrategyException("Error actualizando los resÃºmenes de las peticiones para este Estudio");
+					throw new StrategyException("Error actualizando los resúmenes de las peticiones para este Estudio");
 				}
 			}
 			
@@ -345,7 +367,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Long idAplicativo = (Long) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO);
 				
 				FieldViewSet aplicativoBBDD = new FieldViewSet(aplicativoEntidad);
-				aplicativoBBDD.setValue(ConstantesModelo.APLICATIVO_5_NOMBRE, idAplicativo);
+				aplicativoBBDD.setValue(ConstantesModelo.APLICATIVO_1_ID, idAplicativo);
 				aplicativoBBDD = dataAccess.searchEntityByPk(aplicativoBBDD);
 				
 				/*** creamos la instancia para cada resumen por entrega del estudio ***/
@@ -483,7 +505,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Collection<FieldViewSet> filas = entryOfEntrega.getValue();
 				for (final FieldViewSet peticionDG_BBDD : filas) {
 					Long idTipo = (Long) peticionDG_BBDD.getValue(ConstantesModelo.PETICIONES_13_ID_TIPO);
-					if (!idsTiposSelected.contains(String.valueOf(idTipo))){
+					if (idTipo.longValue() != 6 && idTipo.longValue() != 8 && !idsTiposSelected.contains(String.valueOf(idTipo))){
 						continue;
 					}
 					Long idAplicativo = (Long) peticionDG_BBDD.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO);
@@ -999,8 +1021,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					continue;
 				}else {
 					peticionBBDDAnalysis = existenColl.iterator().next();
+					String centroDestino = (String) peticionBBDDAnalysis.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
 					String areaDestino = (String) peticionBBDDAnalysis.getValue(ConstantesModelo.PETICIONES_12_AREA_DESTINO);
-					if (areaDestino.indexOf("ATH Análisis") != -1) {
+					if (areaDestino.indexOf("Desarrollo Gestionado ") == -1 &&
+							centroDestino.indexOf("Centro de Desarrollo") != -1) {
 						return peticionBBDDAnalysis;
 					}
 				}

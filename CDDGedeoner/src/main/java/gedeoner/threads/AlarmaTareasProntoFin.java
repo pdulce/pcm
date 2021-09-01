@@ -53,19 +53,19 @@ public class AlarmaTareasProntoFin extends Thread {
 	// Punto de entrada del hilo
 	public void run() {
 		
-		System.out.println(getName() + " iniciando...");
-		
+		//System.out.println(getName() + " iniciando...");
 		try {
+			String infoMessage = obtenerListaFinalizanPronto();
 			int contador = 1;
-			while (true) {
-				String infoMessage = obtenerListaFinalizanPronto();
+			while (!domain.isObsoleteAlert()) {				
 				if (!"".contentEquals(infoMessage)) {
 					domain.setAlertMessages(infoMessage);
 				}
 				Thread.sleep(60000);//1 minuto entre cada despertar
-				if (contador % 10 == 0) {
+				if (contador % 2 == 0) {// a los dos minutos, borramos las alertas
 					domain.deleteAlertMessages();
-					Thread.sleep(300000);//30 minutos hasta que vuelvo a mostrar el mensaje
+					domain.setObsoleteAlert(true);
+					//Thread.sleep(300000);//30 minutos hasta que vuelvo a recorrer el bucle
 				}
 				contador++;
 			}
@@ -77,8 +77,9 @@ public class AlarmaTareasProntoFin extends Thread {
 			if (dataAccess != null && dataAccess.getConn() != null){
 				try {
 					domain.getResourcesConfiguration().getDataSourceFactoryImplObject().freeConnection(dataAccess.getConn());
-					System.out.println("..." + getName() + " finalizado.");		
+					//System.out.println("..." + getName() + " finalizado.");		
 					domain.deleteAlertMessages();
+					domain.setObsoleteAlert(true);
 				} catch (PCMConfigurationException e) {
 					throw new RuntimeException(e.getMessage(), e);
 				}
@@ -135,6 +136,10 @@ public class AlarmaTareasProntoFin extends Thread {
 				FieldViewSet aplicativoVO = new FieldViewSet(aplicativoEntidad);
 				aplicativoVO.setValue(ConstantesModelo.APLICATIVO_1_ID, idAplicativo);
 				aplicativoVO = dataAccess.searchEntityByPk(aplicativoVO);
+				if (aplicativoVO == null) {
+					//throw new RuntimeException("error");
+					continue;
+				}
 				String nombreAplicativo = (String) aplicativoVO.getValue(ConstantesModelo.APLICATIVO_2_ROCHADE);
 				
 				String centroDestino = (String) peticionSearched.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);

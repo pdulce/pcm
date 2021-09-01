@@ -20,9 +20,9 @@ import gedeoner.common.ConstantesModelo;
 public class StrategyLogin extends DefaultStrategyLogin {
 
 	public static final String MY_USER_PARAM = "entryForm.user", MY_PASSWD_PARAM = "entryForm.password",
-			STYLE_PARAM = "entryForm.style";
+			STYLE_PARAM = "entryForm.style", PALETA_PARAM = "entryForm.paletaColores";
 
-	public static IEntityLogic administrators, roles;
+	public static IEntityLogic administrators, roles, paletaColores;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (StrategyLogin.administrators == null) {
@@ -31,6 +31,8 @@ public class StrategyLogin extends DefaultStrategyLogin {
 						ConstantesModelo.ADMINISTRADOR_ENTIDAD);
 				StrategyLogin.roles = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ROL_ENTIDAD);
+				StrategyLogin.paletaColores = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.PALETACOLORES_ENTIDAD);
 
 			}
 			catch (PCMConfigurationException e) {
@@ -92,6 +94,27 @@ public class StrategyLogin extends DefaultStrategyLogin {
 				defaultMode = req.getParameter(STYLE_PARAM);
 			}
 			req.setAttribute(PCMConstants.STYLE_MODE_SITE, defaultMode);
+			//recogemos el id de paleta, y vamos a BBDD a por cada uno de los colores hexadecimales de esta paleta
+			String paletaID = req.getParameter(PALETA_PARAM);
+			if (paletaID !=null && !"".contentEquals(req.getParameter(PALETA_PARAM))) {
+				FieldViewSet paletaFSet = new FieldViewSet(StrategyLogin.paletaColores);
+				paletaFSet.setValue(ConstantesModelo.PALETACOLORES_1_ID, paletaID);				
+				paletaFSet = dataAccess.searchEntityByPk(paletaFSet);
+				if (paletaFSet != null) {
+					String [] colores = new String[10];
+					colores[0] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_4_COLOR_HEX_1);
+					colores[1] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_5_COLOR_HEX_2);
+					colores[2] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_6_COLOR_HEX_3);
+					colores[3] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_7_COLOR_HEX_4);
+					colores[4] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_8_COLOR_HEX_5);
+					colores[5] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_9_COLOR_HEX_6);
+					colores[6] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_10_COLOR_HEX_7);
+					colores[7] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_11_COLOR_HEX_8);
+					colores[8] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_12_COLOR_HEX_9);
+					colores[9] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_13_COLOR_HEX_10);
+					req.setAttribute(PCMConstants.PALETA_COLORES, colores);
+				}
+			}
 
 		}
 		catch (final StrategyException ecxx) {

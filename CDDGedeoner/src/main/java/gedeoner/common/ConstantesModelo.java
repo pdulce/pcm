@@ -92,6 +92,7 @@ public abstract class ConstantesModelo {
     public static final int ESTUDIOS_13_VOLATILE_MAX_UTS = 13;
     public static final int ESTUDIOS_14_VOLATILE_AUTOMATICO_MES = 14;
     public static final int ESTUDIOS_15_VOLATILE_GEN_BY_APP = 15;
+    public static final int ESTUDIOS_16_VOLATILE_SUBDIRECCION = 16;
     public static final String ESTUDIOS_ENTIDAD = "estudios";
 	
     public static final int TIPOS_PETICIONES_1_ID = 1;
@@ -165,8 +166,8 @@ public abstract class ConstantesModelo {
 
 	public static final int SERVICIOUTE_1_ID = 1;
 	public static final int SERVICIOUTE_2_NOMBRE = 2;
-	public static final int SERVICIOUTE_3_ID_TECHNOLO = 3;
-	public static final int SERVICIOUTE_4_DESCRIPC = 4;
+	public static final int SERVICIOUTE_3_DESCRIPC = 3;
+	public static final int SERVICIOUTE_4_ID_ORGANISMO = 4;
 	public static final String SERVICIOUTE_ENTIDAD = "servicioUTE";
 
 	public static final int APLICATIVO_1_ID = 1;
@@ -176,16 +177,32 @@ public abstract class ConstantesModelo {
 	public static final int APLICATIVO_2_ROCHADE = 2;
 	public static final int APLICATIVO_6_ID_TECNOLOGHY = 6;
 	public static final int APLICATIVO_7_MANTENIMIENTO_EN_PRODUC = 7;
+	public static final int APLICATIVO_8_ID_SUBDIRECCION = 8;
 	public static final String APLICATIVO_ENTIDAD = "aplicativo";
 	
 	public static final int EJERCICIO_1_EJERCICIO = 1;
 	public static final String EJERCICIO_ENTIDAD = "ejercicio";
 	
-	
-	public static final int SUBDIRECCION_3_NOMBRE = 3;
-	public static final int SUBDIRECCION_2_ORGANISMO = 2;
 	public static final int SUBDIRECCION_1_ID = 1;
+	public static final int SUBDIRECCION_2_CODIGO = 2;
+	public static final int SUBDIRECCION_3_NOMBRE = 3;
+	public static final int SUBDIRECCION_4_ORGANISMO = 4;
 	public static final String SUBDIRECCION_ENTIDAD = "subdireccion";
+	
+	public static final int PALETACOLORES_1_ID = 1;
+	public static final int PALETACOLORES_2_NOMBRE = 2;
+	public static final int PALETACOLORES_3_ORGANISMO = 3;
+	public static final int PALETACOLORES_4_COLOR_HEX_1 = 4;
+	public static final int PALETACOLORES_5_COLOR_HEX_2 = 5;
+	public static final int PALETACOLORES_6_COLOR_HEX_3 = 6;
+	public static final int PALETACOLORES_7_COLOR_HEX_4 = 7;
+	public static final int PALETACOLORES_8_COLOR_HEX_5 = 8;
+	public static final int PALETACOLORES_9_COLOR_HEX_6 = 9;
+	public static final int PALETACOLORES_10_COLOR_HEX_7 = 10;
+	public static final int PALETACOLORES_11_COLOR_HEX_8 = 11;
+	public static final int PALETACOLORES_12_COLOR_HEX_9 = 12;
+	public static final int PALETACOLORES_13_COLOR_HEX_10 = 13;
+	public static final String PALETACOLORES_ENTIDAD = "paletaColoresGraph";
 	
 	public static final int SERVICIO_2_NOMBRE = 2;
 	public static final int SERVICIO_1_ID = 1;
