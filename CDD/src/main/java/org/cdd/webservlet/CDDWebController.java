@@ -200,6 +200,9 @@ public abstract class CDDWebController extends HttpServlet {
 		}else {
 			datamap.setAttribute(PCMConstants.STYLE_MODE_SITE, "darkmode");
 		}
+		if (httpRequest.getSession().getAttribute(PCMConstants.PALETA_COLORES) != null) {
+			datamap.setAttribute(PCMConstants.PALETA_COLORES, (String[]) httpRequest.getSession().getAttribute(PCMConstants.PALETA_COLORES));
+		}
 	}
 	
 	private void transferDatabusToHttpRequest(final Datamap datamap, final HttpServletRequest httpRequest){		
@@ -223,6 +226,9 @@ public abstract class CDDWebController extends HttpServlet {
 			httpRequest.getSession().setAttribute(PCMConstants.STYLE_MODE_SITE, datamap.getAttribute(PCMConstants.STYLE_MODE_SITE));
 		}else {
 			httpRequest.getSession().setAttribute(PCMConstants.STYLE_MODE_SITE, "darkmode");			
+		}
+		if (datamap.getAttribute(PCMConstants.PALETA_COLORES) != null) {
+			httpRequest.getSession().setAttribute(PCMConstants.PALETA_COLORES, datamap.getAttribute(PCMConstants.PALETA_COLORES));
 		}
 	}
 
@@ -384,7 +390,9 @@ public abstract class CDDWebController extends HttpServlet {
 			
 			datamap.setAttribute(TITLE, this.contextApp.getResourcesConfiguration().getAppTitle());
 			datamap.setAttribute(BODY, bodyContent != null && !"".equals(bodyContent)? bodyContent.toString() : "");
-			datamap.setAttribute(MESSAGES_ALERTS, this.contextApp.getAlertMessages()== null?"":this.contextApp.getAlertMessages());
+			if (!this.contextApp.isObsoleteAlert()) {
+				datamap.setAttribute(MESSAGES_ALERTS, this.contextApp.getAlertMessages()== null?"":this.contextApp.getAlertMessages());
+			}
 			/** DATAMAP TO HTTPREQUEST **/
 			transferDatabusToHttpRequest(datamap, httpRequest);
 			

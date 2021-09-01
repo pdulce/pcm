@@ -270,7 +270,7 @@ public class BarChart extends GenericHighchartModel {
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(IS_BAR_INTERNAL_LABELED), "false");
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
 		double total_ = getTotal(listaValoresAgregados);
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {

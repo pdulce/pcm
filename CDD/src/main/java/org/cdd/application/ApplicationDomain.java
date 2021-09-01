@@ -78,7 +78,7 @@ public class ApplicationDomain implements Serializable {
 	private static Logger log = Logger.getLogger(ApplicationDomain.class.getName());	
 	
 	private static Map<String, DomainService> domainServices;
-	
+	private boolean leidasAlertas;
 	private IStats dashboard;
 	private String initService;
 	private String initEvent;
@@ -110,6 +110,14 @@ public class ApplicationDomain implements Serializable {
 	
 	public String getAlertMessages() {
 		return this.alertsMessages;
+	}
+	
+	public boolean isObsoleteAlert() {
+		return this.leidasAlertas;
+	}
+	
+	public void setObsoleteAlert(boolean leidas) {
+		this.leidasAlertas = leidas;
 	}
 	
 	public void setDashboard(final IStats dashboard_) {

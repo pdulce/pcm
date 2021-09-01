@@ -1054,7 +1054,19 @@ public final class CommonUtils {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("es numeric: " + CommonUtils.isNumeric("2810"));
+		//947855
+		Calendar inicio_ = Calendar.getInstance();
+		//5 de mayo
+		inicio_.set(Calendar.DAY_OF_MONTH, 5);
+		inicio_.set(Calendar.MONTH, 4);
+		inicio_.set(Calendar.YEAR, 2020);
+		//12 de mayo
+		Calendar fin_ = Calendar.getInstance();
+		fin_.set(Calendar.DAY_OF_MONTH, 12);
+		fin_.set(Calendar.MONTH, 4);
+		fin_.set(Calendar.YEAR, 2020);
+
+		System.out.println("jornadas duración reales: " + CommonUtils.jornadasDuracion(inicio_.getTime(), fin_.getTime()));
 		System.out.println("es numeric: " + CommonUtils.isNumeric("+23"));
 		System.out.println("es numeric: " + CommonUtils.isNumeric("-340"));
 		System.out.println("es numeric: " + CommonUtils.isNumeric("2810-09"));

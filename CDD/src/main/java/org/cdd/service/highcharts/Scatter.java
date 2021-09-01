@@ -132,7 +132,7 @@ public class Scatter extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), "<h4>".concat(title).concat("</h4>"));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "");//"<br/> " + criteria);
 		String visionado = data_.getParameter(userFilter.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
 		data_.setAttribute("width", "1180px");
 		data_.setAttribute("height", "640px");
 		data_.setAttribute("idseries", data_.getParameter("idPressed"));

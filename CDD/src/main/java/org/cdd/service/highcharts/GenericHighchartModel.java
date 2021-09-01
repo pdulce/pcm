@@ -116,7 +116,7 @@ public abstract class GenericHighchartModel implements IStats {
 			if ((categoriasAgrupacion==null || categoriasAgrupacion.length == 0) && (agregadosPor ==null || agregadosPor.length == 0)){
 				throw new Exception("Error de entrada de datos: ha de seleccionar un campo de agregación para generar este diagrama estadístico");
 			}
-			
+			//hemos de generar tantas series como agregados haya
 			Collection<FieldViewSet> fieldViewSetsForm = new ArrayList<FieldViewSet>();
 			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
 			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
@@ -174,8 +174,24 @@ public abstract class GenericHighchartModel implements IStats {
 				
 			List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados = null;
 			if (fieldsForAgrupacionesPor.length > 0){				
-				listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
-					joinFView, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, IAction.ORDEN_ASCENDENTE);
+				//generamos una serie por cada agregado (limitar esto solo a timeseries)
+				if ("timeseries".contentEquals(getScreenRendername())) {
+					listaValoresAgregados = new ArrayList<Map<FieldViewSet,Map<String,Double>>>();
+					for (int s=0;s<fieldsForAgregadoPor.length;s++) {
+						IFieldLogic[] onlyOneFieldsForAgregado = new IFieldLogic[1];
+						onlyOneFieldsForAgregado[0] = fieldsForAgregadoPor[s];
+						List<Map<FieldViewSet, Map<String,Double>>> serie_iesima = dataAccess.selectWithAggregateFuncAndGroupBy(
+								userFilter, joinFieldViewSet, joinFView, aggregateFunction, onlyOneFieldsForAgregado,
+								fieldsForAgrupacionesPor, orderByField, IAction.ORDEN_ASCENDENTE);
+						listaValoresAgregados.addAll(serie_iesima);
+					}
+				}else {
+					listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
+							joinFView, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, IAction.ORDEN_ASCENDENTE);
+
+				}
+			}else {
+				throw new RuntimeException ("ERROR: No ha definido en el gráfico una columna de agrupación (p.e. fecha_trámite, fecha_alta,...)");
 			}
 								
 			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);

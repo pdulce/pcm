@@ -146,7 +146,7 @@ public class Pie extends GenericHighchartModel {
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), entidadTraslated); 
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, entidadTraslated, agregadoTraslated));
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
 			double median = subtotalesPorCategoria.size() == 0 ? 0: total_.doubleValue()/subtotalesPorCategoria.size();

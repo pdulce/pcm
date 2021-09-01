@@ -140,7 +140,7 @@ public class Dualhistogram extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(FREQ_ACUMULATED), seriesJSONFrecAcumuladas.toJSONString());
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), minimal);
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
 		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
 			frecuenciaAcumulada = frecuenciaAcumulada/jsArrayEjeAbcisas.size();
 		}
