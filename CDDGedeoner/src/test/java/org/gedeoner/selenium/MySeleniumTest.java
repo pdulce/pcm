@@ -25,7 +25,7 @@ public class MySeleniumTest extends TestCase{
 	
 	private WebDriver driver;
 	static {
-		System.setProperty("webdriver.chrome.driver", "C:\\webtools\\chromedriver.exe");    
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\99GU3997\\webtools\\chromedriver.exe");    
 	}
 	
 	@AfterTest

@@ -180,7 +180,7 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 		
 		FileOutputStream fout = null;
 		try{
-			fout = new FileOutputStream(new File("C:\\Users\\ESDU\\constantes.java"));
+			fout = new FileOutputStream(new File("constantes.java"));
 			fout.write(constantes.toString().getBytes());
 		}catch (Throwable excdd){
 			excdd.printStackTrace();
@@ -197,7 +197,7 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 		
 		FileOutputStream fout2 = null;
 		try{
-			fout2 = new FileOutputStream(new File("C:\\Users\\ESDU\\dicc.txt"));
+			fout2 = new FileOutputStream(new File("dicc.txt"));
 			fout2.write(diccionario.toString().getBytes());
 		}catch (Throwable excdd){
 			excdd.printStackTrace();
