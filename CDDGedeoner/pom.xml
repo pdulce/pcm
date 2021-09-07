@@ -120,13 +120,18 @@
 					<container>
 						<containerId>tomcat9x</containerId>
 						<type>installed</type>
-						<home>c:/apache-tomcat-9.0.46</home>
+						<home>C:/Users/99GU3997/apache-tomcat-9.0.52</home><!-- c:/apache-tomcat-9.0.46 -->										
 					</container>
 					<configuration>
 						<type>existing</type>
-						<home>c:/apache-tomcat-9.0.46</home>
+						<home>C:/Users/99GU3997/apache-tomcat-9.0.52</home><!-- c:/apache-tomcat-9.0.46-->
+						<properties>
+							<!-- <cargo.hostname>localhost</cargo.hostname> --><!-- default -->
+			        		<cargo.servlet.port>8082</cargo.servlet.port>
+			      		</properties>						
 					</configuration>					
-				</configuration>
+				</configuration>				
+				
 				<executions>
 					<execution>
 						<id>start-container</id>
