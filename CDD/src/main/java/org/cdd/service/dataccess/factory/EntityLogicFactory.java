@@ -178,7 +178,7 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 			}
 		}// while
 		
-		FileOutputStream fout = null;
+		/*FileOutputStream fout = null;
 		try{
 			fout = new FileOutputStream(new File("constantes.java"));
 			fout.write(constantes.toString().getBytes());
@@ -193,9 +193,9 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 				e.printStackTrace();
 			}
 			
-		}
+		}*/
 		
-		FileOutputStream fout2 = null;
+		/*FileOutputStream fout2 = null;
 		try{
 			fout2 = new FileOutputStream(new File("dicc.txt"));
 			fout2.write(diccionario.toString().getBytes());
@@ -209,7 +209,7 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 	}
 
