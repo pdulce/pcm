@@ -378,7 +378,7 @@ public abstract class GenericHighchartModel implements IStats {
 			if (clave.indexOf(":") != -1) {
 				clave = clave.split(":")[1];
 			}			
-			serie.put("data", jsArray.get(0));
+			serie.put("data", serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(jsArray.get(0).toString()))));
 			serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));

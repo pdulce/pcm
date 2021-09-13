@@ -73,8 +73,7 @@ public class HalfDonut extends ColumnBar {
 		}
 
 		serie.put("data", jsArray);
-		serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(itemsOf)));
-		
+		serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(itemsOf)));			
 		serie.put("type", "pie");
 		serie.put("innerSize", "50%");
 		
