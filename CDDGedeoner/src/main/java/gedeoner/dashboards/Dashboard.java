@@ -322,10 +322,10 @@ public class Dashboard extends GenericHighchartModel {
 	
 	
 	@Override
-	protected double generateJSON(List<Map<FieldViewSet, Map<String, Double>>> listaValoresAgregados, Datamap data_,
+	protected Map<String, String> generateJSON(List<Map<FieldViewSet, Map<String, Double>>> listaValoresAgregados, Datamap data_,
 			FieldViewSet filtro_, IFieldLogic[] fieldsForAgregadoPor, IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			IFieldLogic orderByField, String aggregateFunction) throws Throwable {
-		return 0;
+		return new HashMap<String, String>();
 	}
 	
 	@Override

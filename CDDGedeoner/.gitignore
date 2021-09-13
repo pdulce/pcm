@@ -1,3 +1,6 @@
 /target/
 /.project
 /allure-results/
+/.classpath
+/constantes.java
+/dicc.txt

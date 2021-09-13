@@ -3,6 +3,7 @@
 
 <% 
 String idseries = request.getParameter("idseries")==null?(String)request.getAttribute("idseries"): request.getParameter("idseries");
+//System.out.println("id series: " +  idseries);
 String width = request.getParameter("width") == null ? (String)request.getAttribute("width"): request.getParameter("width");
 String height = request.getParameter("height") == null ? (String)request.getAttribute("height"): request.getParameter("height");
 boolean visionado3D = false;

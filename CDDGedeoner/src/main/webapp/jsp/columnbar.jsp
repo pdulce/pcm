@@ -33,6 +33,10 @@ Highcharts.chart('<%=idseries%>columnbar', {
     },
 
     title: {
+        text: '<%=request.getAttribute(idseries+"columnbartitle")%>',
+        style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
+    },
+    subtitle: {
         text: 'Dimensiones del Ciclo de Vida agrupadas por <%=request.getAttribute(idseries+"columnbaragrupadoPor")%>',
         style: {'color': fontColor, 'font-weight': 'normal', 'font-size': '10pt'}
     },

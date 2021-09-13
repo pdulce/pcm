@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -25,20 +26,22 @@ public class MySeleniumTest extends TestCase{
 	
 	private WebDriver driver;
 	static {
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\99GU3997\\webtools\\chromedriver.exe");    
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\99GU3997\\webtools\\chromedriver.exe");   //msedgedriver.exe 
 	}
 	
 	@AfterTest
 	protected void tearDown(){
-		driver.quit();
-		driver = null;
+		if (driver != null) {
+			driver.quit();
+			driver = null;
+		}
 	}
 	
 	@Test (groups = { "login", "query"})	
 	public void testQueryGedeones() {
 		
 		if (driver == null) {			
-			driver = new ChromeDriver();
+			driver = new ChromeDriver();//EdgeDriver()
 		}
 		System.out.println("testing queryGedeones WebDriver SELENIUM");		 	
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
@@ -117,7 +120,7 @@ public class MySeleniumTest extends TestCase{
 
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
 		if (driver == null) {			
-			driver = new ChromeDriver();
+			driver = new ChromeDriver();//EdgeDriver()
 		}
 		try {			
 			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
