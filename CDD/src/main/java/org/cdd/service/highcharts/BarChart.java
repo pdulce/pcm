@@ -39,18 +39,19 @@ public class BarChart extends GenericHighchartModel {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion, final IFieldLogic orderBy,
 			final String aggregateFunction) {
 		
-		//boolean sinAgregado = agregados == null || agregados[0]==null;
+		Double acumuladorTotalPointsTotal = 0.0;
+		int numCategorias = 0;
 		String lang = data_.getLanguage();
 		final Map<String, Map<String, Number>> registros = new HashMap<String, Map<String, Number>>();		
 		double minimal = 0.0;
 		Map<Serializable, Double> totalizacionbarrasHoriz = null;
-		if (!listaValoresAgregados.isEmpty()){
-			
+		if (!listaValoresAgregados.isEmpty()){			
 			if (fieldsCategoriaDeAgrupacion.length == 1){
+				numCategorias = 1;
 				totalizacionbarrasHoriz = new HashMap<Serializable, Double>(listaValoresAgregados.size());
 				/** primero: obtenemos la dimension de los values de uno de los elementos***/
 				Collection<Map<String,Double>> coleccionFirstDeAgregados = listaValoresAgregados.get(0).values();
@@ -121,15 +122,15 @@ public class BarChart extends GenericHighchartModel {
 							
 							if (valorDeNuestraDimensionParaEstaAgrupacion.doubleValue() < minimal){
 								minimal = valorDeNuestraDimensionParaEstaAgrupacion;
-							}
-							
-							//total_ += valorDeNuestraDimensionParaEstaAgrupacion.doubleValue();							
-																			
+							}							
+							acumuladorTotalPointsTotal += valorDeNuestraDimensionParaEstaAgrupacion.doubleValue();
 						}
 					}
 					registros.put(dimensionLabel.toString(), valoresDeDimensionParaAgrupacPral);
 				}
 			}else if (fieldsCategoriaDeAgrupacion.length == 2){//if agrupacion con mas de un campo
+				
+				acumuladorTotalPointsTotal = getTotal(listaValoresAgregados);
 				
 				/** primero: obtenemos la primera dimension de los campos de agrupacion ***/
 				int dimensionNamePral = fieldsCategoriaDeAgrupacion[0].getMappingTo();
@@ -165,10 +166,9 @@ public class BarChart extends GenericHighchartModel {
 						valoresDistintosDeAgregados.add(d, valueDistint42ndAgregado_serial.toString());
 					}
 				} catch (DatabaseException e) {
-					e.printStackTrace();
-					return -9999.0;
+					throw new RuntimeException(e);
 				}								
-			
+				
 				// vamos recorriendo la lista de valores, y creamos una nueva hash cada vez que cambiemos de valor de la dimension pral.
 				for (int v=0;v<listaValoresAgregados.size();v++){
 					Map<FieldViewSet, Map<String,Double>> valoresDimensiones = listaValoresAgregados.get(v);
@@ -225,25 +225,26 @@ public class BarChart extends GenericHighchartModel {
 							try {
 								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
 								IFieldLogic descField = fSetParent.getDescriptionField();
-								valorAgrupacionPralCandidato = fSetParent.getValue(descField.getMappingTo());
+								valorAgrupacionPralCandidato = fSetParent.getValue(descField.getMappingTo());								
 							} catch (DatabaseException e) {
 								e.printStackTrace();
 							}									
 						}
-						registros.put(valorAgrupacionPralCandidato.toString(), valoresDeDimensionParaAgrupacPral);
+						if (registros.get(valorAgrupacionPralCandidato.toString()) == null) {
+							registros.put(valorAgrupacionPralCandidato.toString(), valoresDeDimensionParaAgrupacPral);
+							numCategorias++;
+						}						
 					}
 				}
 				
 			}
 		}
-
 		
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 
 		/**********************/
-		boolean stack_Z = false;
-		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(registros, jsArrayEjeAbcisas, stack_Z, data_));
+		boolean stack_Z = false;		
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(fieldsCategoriaDeAgrupacion[0].getEntityDef().getName(), registros, jsArrayEjeAbcisas, stack_Z, data_));
 		JSONArray newArrayEjeAbcisas = new JSONArray();
 		for (int ejeX=0;ejeX<jsArrayEjeAbcisas.size();ejeX++){
 			String columnaTotalizada = "";
@@ -253,13 +254,18 @@ public class BarChart extends GenericHighchartModel {
 				if (totalizadoPorEjex == null){
 					totalizadoPorEjex = totalizacionbarrasHoriz.get(valorEjeX.toLowerCase());
 					if (totalizadoPorEjex != null){
-						columnaTotalizada = " ".concat("[").concat(CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(totalizadoPorEjex))).concat("]");		
+						columnaTotalizada = " ".concat("[").concat(CommonUtils.numberFormatter.format(CommonUtils.roundWith2Decimals(totalizadoPorEjex))).concat("]");
 					}
 				}
 			}
 			String ejeX_totalizado = valorEjeX + columnaTotalizada;
 			newArrayEjeAbcisas.add(ejeX_totalizado);
-		}		
+		}
+		
+		double promedioPorCategoria = CommonUtils.roundWith2Decimals(acumuladorTotalPointsTotal/(jsArrayEjeAbcisas.size()*numCategorias));
+
+		//System.out.println("BARCHART: PROMEDIO SE HA CALCULADO EN BASE A LOS DATOS COMO : " +  acumuladorTotalPoints + "/(" + jsArrayEjeAbcisas.size() + " tipos * " + numCategorias + " categorias) ==> " + promedioTotal );
+				
 		String categories_UTF8 = CommonUtils.quitarTildes(newArrayEjeAbcisas.toJSONString());
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CATEGORIES), categories_UTF8);
 		
@@ -272,12 +278,27 @@ public class BarChart extends GenericHighchartModel {
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), CommonUtils.roundDouble((minimal < 0) ? minimal - 0.9: 0, 0));
-		double total_ = getTotal(listaValoresAgregados);
-		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = listaValoresAgregados.size() == 0 ? 0 : total_/listaValoresAgregados.size();
-			total_ = median;
+		
+		String txtPromedio = "promedio por ";
+		if (fieldsCategoriaDeAgrupacion != null) {						
+			for (int a=0;a<fieldsCategoriaDeAgrupacion.length;a++) {
+				IFieldLogic agrupacion_ = fieldsCategoriaDeAgrupacion[a];
+				String nameOfCategory = "";
+				if (agrupacion_ != null) {
+					nameOfCategory = Translator.traduceDictionaryModelDefined(lang, agrupacion_.getName());
+				}
+				txtPromedio += ((a>0)?" y ": "") + CommonUtils.singularOfterm(nameOfCategory);
+			}
 		}
-		return total_;
+		txtPromedio += ": <b>" + CommonUtils.numberFormatter.format(promedioPorCategoria) + "</b>";
+		
+		String txtTotal = "total para todas las categorías: <b>" + CommonUtils.numberFormatter.format(acumuladorTotalPointsTotal) + "</b>";
+		
+		Map<String, String> retorno = new HashMap<String, String>();
+		retorno.put(txtPromedio, txtTotal);
+		
+		return retorno;
+		
 	}
 	
 	@Override

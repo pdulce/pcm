@@ -23,7 +23,7 @@ import org.json.simple.JSONObject;
 public class Pie extends GenericHighchartModel {
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final IFieldLogic orderBy, final String aggregateFunction) {
 		
@@ -31,7 +31,8 @@ public class Pie extends GenericHighchartModel {
 		String lang = data_.getLanguage();
 		IFieldLogic agrupacionInterna = fieldsCategoriaDeAgrupacion[fieldsCategoriaDeAgrupacion.length - 1];		
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>(), subtotalesPorAgregado = new HashMap<String, Number>();
-		Number total_ = Double.valueOf(0);
+		
+		Double acumuladorTotalPointsTotal = 0.0;
 		int positionClaveAgregacion = 0;
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado:valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
@@ -132,11 +133,8 @@ public class Pie extends GenericHighchartModel {
 					}
 				}
 			}
-			if (sinAgregado){//Long al contar totales
-				total_ = Long.valueOf(total_.longValue() + subTotalPorCategoria_.longValue());
-			}else{
-				total_ = Double.valueOf(total_.doubleValue() + subTotalPorCategoria_.doubleValue());
-			}
+			
+			acumuladorTotalPointsTotal = acumuladorTotalPointsTotal.doubleValue() + subTotalPorCategoria_.doubleValue();			
 						
 		}
 		
@@ -147,12 +145,26 @@ public class Pie extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), entidadTraslated); 
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, total_.doubleValue(), data_, entidadTraslated, agregadoTraslated));
-		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = subtotalesPorCategoria.size() == 0 ? 0: total_.doubleValue()/subtotalesPorCategoria.size();
-			total_ = median;
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarSeries(subtotalesPorCategoria, acumuladorTotalPointsTotal.doubleValue(), data_, entidadTraslated, agregadoTraslated));		
+		
+		double promedioPorCategoria = CommonUtils.roundWith2Decimals(acumuladorTotalPointsTotal/subtotalesPorCategoria.size());
+		String txtPromedio = "promedio por ";
+		if (fieldsCategoriaDeAgrupacion != null) {
+			String nameOfCategory = "";
+			IFieldLogic agrupacion_ = fieldsCategoriaDeAgrupacion[0];
+			if (agrupacion_ != null) {
+				nameOfCategory = Translator.traduceDictionaryModelDefined(lang, agrupacion_.getName());
+			}
+			txtPromedio += CommonUtils.singularOfterm(nameOfCategory);
 		}
-		return total_.doubleValue();
+		txtPromedio += ": <b>" + CommonUtils.numberFormatter.format(promedioPorCategoria) + "</b>";
+		
+		String txtTotal = "total para todas las categorías: <b>" + CommonUtils.numberFormatter.format(acumuladorTotalPointsTotal) + "</b>";
+		
+		Map<String, String> retorno = new HashMap<String, String>();
+		retorno.put(txtPromedio, txtTotal);
+		
+		return retorno;
 	}
 
 	/**
@@ -173,7 +185,7 @@ public class Pie extends GenericHighchartModel {
 		JSONArray seriesJSON = new JSONArray();
 
 		JSONObject serie = new JSONObject();
-		serie.put("name", itemGrafico);
+		serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), itemGrafico));
 		JSONArray jsArray = new JSONArray();
 		List<String> claves = new ArrayList<String>();
 		claves.addAll(subtotales.keySet());

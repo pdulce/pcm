@@ -26,7 +26,7 @@ public class Dualhistogram extends GenericHighchartModel {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final IFieldLogic orderByField, final String aggregateFunction) throws Throwable{
 
@@ -42,9 +42,6 @@ public class Dualhistogram extends GenericHighchartModel {
 		
 		Map<String, Double> frecuenciasAbsolutasPorPeriodos = new HashMap<String, Double>(), frecuenciasAcumuladasPorPeriodos = new HashMap<String, Double>();
 		IFieldLogic fieldForAgrupacion = fieldsForCategoriaDeAgrupacion[0];
-
-
-		jsArrayEjeAbcisas = new JSONArray();
 		fieldForAgrupacion = getUserFilterWithDateType(filtro_) == null ? filtro_.getEntityDef().searchField(
 				Integer.parseInt(data_.getParameter(filtro_.getNameSpace().concat(".").concat(ORDER_BY_FIELD_PARAM))))
 				: getUserFilterWithDateType(filtro_);
@@ -114,8 +111,7 @@ public class Dualhistogram extends GenericHighchartModel {
 				}
 			}
 			catch (DatabaseException e) {
-				e.printStackTrace();
-				return -9999;
+				throw new RuntimeException(e);
 			}
 
 		}// for
@@ -126,10 +122,7 @@ public class Dualhistogram extends GenericHighchartModel {
 		for (int i=0;i<entry_List.size();i++) {
 			Entry<String, Double> entry = entry_List.get(i);
 			Double value = entry.getValue();
-			String key = entry.getKey();
-			if (!jsArrayEjeAbcisas.contains(key)){
-				jsArrayEjeAbcisas.add(key);
-			}
+			String key = entry.getKey();			
 			Double porcentuado = Double.valueOf(((value.doubleValue() * 100) / frecuenciaAcumulada));
 			frecuenciasAcumuladasPorPeriodos.put(key, porcentuado);
 			seriesJSONFrecAcumuladas.add(CommonUtils.roundWith2Decimals(porcentuado));
@@ -141,11 +134,12 @@ public class Dualhistogram extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("minEjeRef"), minimal);
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
-		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			frecuenciaAcumulada = frecuenciaAcumulada/jsArrayEjeAbcisas.size();
-		}
+		frecuenciaAcumulada = frecuenciaAcumulada/jsArrayEjeAbcisas.size();
+		
+		Map<String, String> retorno = new HashMap<String, String>();
+		retorno.put("promedio frecuencia por " + HistogramUtils.labelOfEscalado(escalado) + ": <b>" + CommonUtils.numberFormatter.format(frecuenciaAcumulada) + "</b>", "");
+		return retorno;
 
-		return frecuenciaAcumulada;
 	}
 
 	

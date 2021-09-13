@@ -48,11 +48,13 @@ public class Scatter extends GenericHighchartModel {
 
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet userFilter, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final IFieldLogic orderBy, final String aggregateFunction) {
 
-		return 0.0;
+		Map<String, String> retorno = new HashMap<String, String>();
+		
+		return retorno;
 	}
 	
 	//@description: toma de entrada:
@@ -103,7 +105,7 @@ public class Scatter extends GenericHighchartModel {
 	
 	@Override
 	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet userFilter, final String aggregateFunction,
-			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total, final String nombreCategoriaOPeriodo, final double coefCorrelacion, final String unidadesmedicion) {
+			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String txtpromedio, final String txttotal, final String nombreCategoriaOPeriodo, final double coefCorrelacion, final String unidadesmedicion) {
 
 		IFieldValue camposAComparar = null;
 		IFieldLogic field4Classify = groupByField[0];
@@ -126,7 +128,7 @@ public class Scatter extends GenericHighchartModel {
 		String lang = data_.getLanguage();
 		String catX = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[0].getName()));
 		String catY = Translator.traduceDictionaryModelDefined(lang, userFilter.getEntityDef().getName().concat(".").concat(agregados[1].getName()));
-		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(total).intValue() + "</b> datos";
+		String title = "Diagr. de dispersion entre " + catX + " y " + catY + " para una muestra con <b>" + Double.valueOf(txttotal).intValue() + "</b> datos";
 		//String criteria = pintarCriterios(userFilter, data_);
 		title = title.concat(" (Coef. Correlacion: " + CommonUtils.roundWith2Decimals(coefCorrelacion) + ")");
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), "<h4>".concat(title).concat("</h4>"));
@@ -350,19 +352,19 @@ public class Scatter extends GenericHighchartModel {
 				}
 			}
 
-			data_.setAttribute(TITULO_EJE_X, titulo_EJE_X);
-			data_.setAttribute(TITULO_EJE_Y, titulo_EJE_Y);
-			data_.setAttribute(TOOLTIP_EJE_X, titulo_EJE_X);
-			data_.setAttribute(TOOLTIP_EJE_Y, titulo_EJE_Y);
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITULO_EJE_X), titulo_EJE_X);
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITULO_EJE_Y), titulo_EJE_Y);
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TOOLTIP_EJE_X), titulo_EJE_X);
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TOOLTIP_EJE_Y), titulo_EJE_Y);
 
 			Double coordenada_X_Mayor = Collections.max(datos_EJE_X_coll_con_Atipicos);
 			Double coordenada_Y_Mayor = Collections.max(datos_EJE_Y_coll_con_Atipicos); 
 			Double coordenada_X_Menor = Collections.min(datos_EJE_X_coll_con_Atipicos);			
 			Double 	coordenada_Y_Menor = Collections.min(datos_EJE_Y_coll_con_Atipicos);
-			data_.setAttribute("min_EJE_X", Integer.valueOf(coordenada_X_Menor.intValue()));
-			data_.setAttribute("max_EJE_X", Integer.valueOf(coordenada_X_Mayor.intValue()));
-			data_.setAttribute("min_EJE_Y", Integer.valueOf(coordenada_Y_Menor.intValue()));
-			data_.setAttribute("max_EJE_Y", Integer.valueOf(coordenada_Y_Mayor.intValue()));
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("min_EJE_X"), Integer.valueOf(coordenada_X_Menor.intValue()));
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("max_EJE_X"), Integer.valueOf(coordenada_X_Mayor.intValue()));
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("min_EJE_Y"), Integer.valueOf(coordenada_Y_Menor.intValue()));
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("max_EJE_Y"), Integer.valueOf(coordenada_Y_Mayor.intValue()));
 
 			StatsUtils varStatsForRegressionLine = new StatsUtils();
 			varStatsForRegressionLine.setDatos_variable_X(datos_EJE_X_coll_con_Atipicos);
@@ -383,19 +385,19 @@ public class Scatter extends GenericHighchartModel {
 			tupla_Destino_En_X_igualA_N.add(Double.valueOf(CommonUtils.roundWith2Decimals(coordenadaY_cuando_X_es_N)));
 			jsArrayRegressionLine.add(tupla_Destino_En_X_igualA_N);
 
-			data_.setAttribute("line", jsArrayRegressionLine.toString());//"[[0, 1.11], [5, 4.51]]"
-			data_.setAttribute("observations", seriesJSON_observations.toString());//"[1, 1.5, 2.8, 3.5, 3.9, 4.2]"
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("line"), jsArrayRegressionLine.toString());//"[[0, 1.11], [5, 4.51]]"
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("observations"), seriesJSON_observations.toString());//"[1, 1.5, 2.8, 3.5, 3.9, 4.2]"
 
 			double coeficiente_R_deCorrelacion = varStatsForRegressionLine.obtenerCoeficienteR_deCorrelacion();
 
-			data_.setAttribute(UNITS_ATTR, units);
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(UNITS_ATTR), units);
 
 			IFieldLogic[] fields4GroupBy = new IFieldLogic[1];
 			fields4GroupBy[0] = fieldForClasifyResults;
 			IFieldLogic[] agregados= new IFieldLogic[2];
 			agregados[0] = userFilter.getEntityDef().searchField(Integer.valueOf(categoriaX));
 			agregados[1] = userFilter.getEntityDef().searchField(Integer.valueOf(categoriaY));
-			setAttrsOnRequest(dataAccess, data_, userFilter, OPERATION_SUM, agregados, fields4GroupBy, tamanioMuestral_, null, coeficiente_R_deCorrelacion, units);
+			setAttrsOnRequest(dataAccess, data_, userFilter, OPERATION_SUM, agregados, fields4GroupBy, ""+tamanioMuestral, ""+tamanioMuestral_, null, coeficiente_R_deCorrelacion, units);
 
 			String summary_X_media = "", summary_X_mediana = "", summary_X_deviat = "", summary_Y_media = "", summary_Y_mediana = "", summary_Y_deviat = "", regressionInfo = "";
 
@@ -465,7 +467,7 @@ public class Scatter extends GenericHighchartModel {
 			infoSumaryAndRegression.append("</TR>");
 			infoSumaryAndRegression.append("</TABLE>");
 
-			data_.setAttribute(ADDITIONAL_INFO_ATTR, infoSumaryAndRegression.toString());
+			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(ADDITIONAL_INFO_ATTR), infoSumaryAndRegression.toString());
 						
 		}
 		catch (Throwable exc2) {

@@ -101,6 +101,26 @@ public class HistogramUtils {
 		return obtenerClaveDePeriodo(escalado, fechaCalAux);
 	}
 	
+	public static final String labelOfEscalado(final String escalado) {
+		if (escalado.contentEquals("anualy")) {
+			return "año";
+		}else if (escalado.contentEquals("6monthly")) {
+			return "semestre";
+		}else if (escalado.contentEquals("3monthly")) {
+			return "trimestre";
+		}else if (escalado.contentEquals("2monthly")) {
+			return "bimestre";
+		}else if (escalado.contentEquals("monthly")) {
+			return "mes";
+		}else if (escalado.contentEquals("weekly")) {
+			return "semana";
+		}else if (escalado.contentEquals("dayly")) {
+			return "día";
+		}else  {
+			return "mes";
+		}
+	}
+	
 	/**
 	 * ha de reconocer formatos de fecha variopintos:
 	 * 2016

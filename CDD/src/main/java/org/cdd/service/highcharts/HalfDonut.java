@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 public class HalfDonut extends ColumnBar {
 	
 	@SuppressWarnings("unchecked")
-	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
+	protected String regenerarListasSucesos(final String entityName, Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
 			boolean stack_Z, final Datamap data_) {
 
 		JSONArray seriesJSON = new JSONArray();
@@ -62,7 +62,7 @@ public class HalfDonut extends ColumnBar {
 				clavePie = "<b>" + clave + "</b>";
 			}
 			
-			tupla.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clavePie));
+			tupla.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(clavePie)));
 			
 			double y = 0.0;
 			for (int n=0;n<numSeries;n++) {
@@ -73,7 +73,7 @@ public class HalfDonut extends ColumnBar {
 		}
 
 		serie.put("data", jsArray);
-		serie.put("name", itemsOf);			
+		serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(itemsOf)));			
 		serie.put("type", "pie");
 		serie.put("innerSize", "50%");
 		

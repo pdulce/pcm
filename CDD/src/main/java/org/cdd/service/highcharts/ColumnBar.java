@@ -30,16 +30,17 @@ public class ColumnBar extends BarChart {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion, 
 			final IFieldLogic orderBy, final String aggregateFunction) {
 		
 		if (fieldsCategoriaDeAgrupacion.length> 1) {
-			return -11111;
+			throw new RuntimeException("No hay categoría de agrupación definida");
 		}
-		int numTuplas = 0;
+		String lang = data_.getLanguage();
+		Double acumuladorTotalPointsTotal = 0.0;
 		Map<Serializable, Double> totalizacionbarrasHoriz = new HashMap<Serializable, Double>(listaValoresAgregados.size());
-		double total_ = 0.0;
+		
 		final Map<String, Map<String, Number>> registros = new HashMap<String, Map<String, Number>>();
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
 		for (int k=0;k<listaValoresAgregados.size();k++) {
@@ -56,11 +57,11 @@ public class ColumnBar extends BarChart {
 					IFieldLogic descField = fSetParent.getDescriptionField();
 					valorPorElQueagrupamos = fSetParent.getValue(descField.getMappingTo()).toString();
 				} catch (DatabaseException e) {
-					e.printStackTrace();
-					return -11111;
+					throw new RuntimeException(e);
 				}
 			}
 			double totalSerie = 0.0;
+			int numTuplas = 0;
 			Map<String, Number> newDuplas = new HashMap<String, Number>();
 			Collection<Map<String,Double>> coleccionFirstDeAgregados = serieIesima.values();
 			Map<String,Double> entryMap = coleccionFirstDeAgregados.iterator().next();
@@ -77,8 +78,9 @@ public class ColumnBar extends BarChart {
 				totalSerie += value;
 				numTuplas++;
 			}
-			totalizacionbarrasHoriz.put(valorPorElQueagrupamos.toString(), totalSerie);
-			total_ += totalSerie;
+			double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE) ? (totalSerie == 0 ? 0 : totalSerie/numTuplas) : totalSerie;
+			acumuladorTotalPointsTotal += valor;
+			totalizacionbarrasHoriz.put(valorPorElQueagrupamos.toString(), valor);
 			
 			registros.put(valorPorElQueagrupamos.toString(), newDuplas);
 		}
@@ -86,7 +88,7 @@ public class ColumnBar extends BarChart {
 		String agrupadoPor = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName().concat(".").concat(fieldsCategoriaDeAgrupacion[0].getName()));
 		String itemGrafico = Translator.traduceDictionaryModelDefined(data_.getLanguage(), filtro_.getEntityDef().getName().concat(".").concat(filtro_.getEntityDef().getName()));
 		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(registros, jsArrayEjeAbcisas, false/*stack_Z*/, data_));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(fieldsCategoriaDeAgrupacion[0].getEntityDef().getName(), registros, jsArrayEjeAbcisas, false/*stack_Z*/, data_));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CATEGORIES), jsArrayEjeAbcisas.toJSONString());
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("agrupadoPor"), agrupadoPor);		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), getTitle(data_, itemGrafico));		
@@ -95,8 +97,25 @@ public class ColumnBar extends BarChart {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfgraph"), this.typeOfgraph);
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
-		return aggregateFunction.contentEquals(OPERATION_AVERAGE) ? (numTuplas == 0 ? 0 : total_/numTuplas): total_;
-
+		
+		double promedioPorCategoria = CommonUtils.roundWith2Decimals(acumuladorTotalPointsTotal/(listaValoresAgregados.size()));
+		//acumuladorTotalPointsTotal = getTotal(listaValoresAgregados);
+		//System.out.println("COLUMNBAR: PROMEDIO SE HA CALCULADO EN BASE A LOS DATOS COMO : " +  acumuladorTotalPoints + "/(" + listaValoresAgregados.size() + " series) ==> " + promedioTotal );
+		String txtPromedio = "promedio por ";
+		if (fieldsCategoriaDeAgrupacion != null) {
+			String nameOfCategory = "";
+			IFieldLogic agrupacion_ = fieldsCategoriaDeAgrupacion[0];
+			if (agrupacion_ != null) {
+				nameOfCategory = Translator.traduceDictionaryModelDefined(lang, agrupacion_.getName());
+			}
+			txtPromedio += CommonUtils.singularOfterm(nameOfCategory);
+		}
+		txtPromedio += ": <b>" + CommonUtils.numberFormatter.format(promedioPorCategoria) + "</b>";
+		
+		String txtTotal = "total para todas las categorías: <b>" + CommonUtils.numberFormatter.format(acumuladorTotalPointsTotal) + "</b>";
+		Map<String, String> retorno = new HashMap<String, String>();
+		retorno.put(txtPromedio, txtTotal);
+		return retorno;
 	}
 	
 	protected String getTitle(final Datamap data_, String itemGrafico) {

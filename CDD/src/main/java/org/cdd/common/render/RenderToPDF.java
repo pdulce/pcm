@@ -36,7 +36,7 @@ public class RenderToPDF {
     public static void main(String[] args) {
         try {
             Document document = new Document(PageSize.A4, 35, 30, 50, 50);
-            PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\ESDU\\FirstSampleiText.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\99GU3997\\FirstSampleiText.pdf"));
             document.open();
             addMetaData(document);
             addTitlePage(document);
@@ -58,7 +58,7 @@ public class RenderToPDF {
 				//guardar la factura en campo BLOB de la base de datos antes de mandarla por correo
              */
             
-            System.out.println("Creado el pdf: C:\\\\Users\\\\ESDU\\\\FirstSampleiText.pdf");
+            System.out.println("Creado el pdf: C:\\\\Users\\\\99GU3997\\\\FirstSampleiText.pdf");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -31,11 +31,11 @@ public class MapWorld extends MapEurope {
 	
 	
 	@Override
-	protected Number setMapAttributes(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+	protected Double getMapAttributes(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction, final double sumarizadorTotal, final double contabilizadasExtra) {
 		
-		Number total = Double.valueOf(0.0);
+		Double total = 0.0;
 		total = sumarizadorTotal;
 
 		String unidadesEnRegion_formated = "", unidadesTotales_formated = "";

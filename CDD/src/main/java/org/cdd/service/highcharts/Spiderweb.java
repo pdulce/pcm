@@ -19,13 +19,13 @@ import org.json.simple.JSONArray;
 public class Spiderweb extends GenericHighchartModel {
 
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] agregados, final IFieldLogic[] fieldsCategoriaDeAgrupacion,
 			final IFieldLogic orderBy, final String aggregateFunction) {
 		
 		Map<String, Number> subtotalesPorCategoria = new HashMap<String, Number>();
-		Number total_ = Double.valueOf(0.0);
-		
+		Double acumuladorTotalPointsTotal = 0.0;
+		String lang = data_.getLanguage();
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado : valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
 			Iterator<FieldViewSet> ite = registroTotalizado.keySet().iterator();
@@ -70,13 +70,9 @@ public class Spiderweb extends GenericHighchartModel {
 					e.printStackTrace();
 				}									
 			}
-			if (agregados == null){//Long al contar totales
-				total_ = Double.valueOf(total_.doubleValue() + subTotalPorCategoria.doubleValue());
-				subtotalesPorCategoria.put(agrupacion, subTotalPorCategoria.doubleValue());
-			}else{
-				total_ = Double.valueOf(total_.doubleValue() + subTotalPorCategoria.doubleValue());
-				subtotalesPorCategoria.put(agrupacion, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorCategoria.doubleValue())));
-			}
+			
+			acumuladorTotalPointsTotal = acumuladorTotalPointsTotal.doubleValue() + subTotalPorCategoria.doubleValue();
+			subtotalesPorCategoria.put(agrupacion, Double.valueOf(CommonUtils.roundWith2Decimals(subTotalPorCategoria.doubleValue())));
 			
 		}
 
@@ -93,16 +89,30 @@ public class Spiderweb extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE), "Spiderchart de " + CommonUtils.obtenerPlural(itemGrafico)); 
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, data_));
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), regenerarListasSucesos(fieldsCategoriaDeAgrupacion[0].getEntityDef().getName(), ocurrencias, jsArrayEjeAbcisas, data_));
 
 		String categories_UTF8 = CommonUtils.quitarTildes(jsArrayEjeAbcisas.toJSONString());
 
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CATEGORIES), categories_UTF8);
-		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
-			double median = total_.doubleValue()/jsArrayEjeAbcisas.size();
-			total_ = median;
+						
+		double promedioPorCategoria = CommonUtils.roundWith2Decimals(acumuladorTotalPointsTotal/jsArrayEjeAbcisas.size());
+		String txtPromedio = "promedio por ";
+		if (fieldsCategoriaDeAgrupacion != null) {
+			String nameOfCategory = "";
+			IFieldLogic agrupacion_ = fieldsCategoriaDeAgrupacion[0];
+			if (agrupacion_ != null) {
+				nameOfCategory = Translator.traduceDictionaryModelDefined(lang, agrupacion_.getName());
+			}
+			txtPromedio += CommonUtils.singularOfterm(nameOfCategory);
 		}
-		return total_.doubleValue();
+		txtPromedio += ": <b>" + CommonUtils.numberFormatter.format(promedioPorCategoria) + "</b>";
+		
+		String txtTotal = "total para todas las categorías: <b>" + CommonUtils.numberFormatter.format(acumuladorTotalPointsTotal) + "</b>";
+		
+		Map<String, String> retorno = new HashMap<String, String>();
+		retorno.put(txtPromedio, txtTotal);
+		
+		return retorno;
 	}
 
 	

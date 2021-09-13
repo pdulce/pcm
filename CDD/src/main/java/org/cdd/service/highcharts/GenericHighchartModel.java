@@ -47,7 +47,7 @@ public abstract class GenericHighchartModel implements IStats {
 	
 	protected IDataAccess _dataAccess;
 	
-	protected abstract double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
+	protected abstract Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final IFieldLogic orderByField, final String aggregateFunction) throws Throwable;
 	
@@ -196,9 +196,14 @@ public abstract class GenericHighchartModel implements IStats {
 								
 			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
 
-			double total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, aggregateFunction);			
-			
-			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, total, nombreCatAgrupacion, 0.0, units);
+			Map<String, String> promedio_y_total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, aggregateFunction);			
+			String textoPromedio = "", textoTotal = "";
+			if (!promedio_y_total.isEmpty()) {
+				Map.Entry<String, String> tuplaRetornos = promedio_y_total.entrySet().iterator().next();
+				textoPromedio = tuplaRetornos.getKey();
+				textoTotal = tuplaRetornos.getValue();
+			}
+			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, textoPromedio, textoTotal, nombreCatAgrupacion, 0.0, units);
 
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(DECIMALES), decimals);
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfSeries"), typeOfSeries);
@@ -241,7 +246,7 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 	
 	protected void setAttrsOnRequest(final IDataAccess dataAccess, final Datamap data_, final FieldViewSet filtro_, final String aggregateFunction,
-			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final double total_o_promedio, final String nombreCategoriaOPeriodo_, final double coefCorrelacion, final String units ) {
+			final IFieldLogic[] agregados, final IFieldLogic[] groupByField, final String textPromedio, final String textTotal, final String nombreCategoriaOPeriodo_, final double coefCorrelacion, final String units ) {
 		
 		//para el nombre, tomo el completo si hay uno, sino, tomo la primera parte del primer agregado, por ej. horas, facturado, etc
 		final String lang = data_.getLanguage();
@@ -269,18 +274,12 @@ public abstract class GenericHighchartModel implements IStats {
 			title = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(CHART_TITLE));
 		}
 		if (groupByField.length>0 && groupByField[0] !=null && agregados!= null && agregados[0]!=null && agregados.length==1) {
-			//String qualifiedNameAgrupacion = groupByField[0].getEntityDef().getName().concat(".").concat(groupByField[0].getName()); 
 			String qualifiedNameAgregado = agregados[0].getEntityDef().getName().concat(".").concat(agregados[0].getName());
 			title = title.concat(", dimensión [" + Translator.traduceDictionaryModelDefined(lang,qualifiedNameAgregado) + "]");
 		}
 		
-		String resumenToalizadoOpromediado_str = (total_o_promedio == Double.valueOf(total_o_promedio).intValue()) ? CommonUtils.numberFormatter.format(Double.valueOf(total_o_promedio)
-				.intValue()) : CommonUtils.numberFormatter.format(total_o_promedio);
-		String resumenToalizadoOpromediado = "<b>" + resumenToalizadoOpromediado_str + "</b>";		
-		
-		//if (groupByField.length == 1) {
-			title += (aggregateFunction.contentEquals(OPERATION_AVERAGE) ? " -> promedio:" : " -> total: ") + resumenToalizadoOpromediado;	
-		//}		
+		title += " " + textPromedio;
+		title += aggregateFunction.contentEquals(OPERATION_AVERAGE) ? "" : " ==> " + textTotal;  
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(TITLE_ATTR), title);
 
@@ -288,7 +287,12 @@ public abstract class GenericHighchartModel implements IStats {
 			subTitle = (String) data_.getAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR));
 			subTitle = subTitle.replaceAll("#", units);
 		}
-		//String crit = pintarCriterios(filtro_, data_);		
+		
+		/*** PINTAR CRITERIOS DE SELECCIÓN SI NOS APETECE:
+		 * String criteria = pintarCriterios(filtro_, data_);
+		 * 
+		 */
+		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "");//subTitle + "<br/> " + crit);
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 		data_.setAttribute("width", "1180px");
@@ -297,13 +301,13 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 
 
-	protected final String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray jsArrayEjeAbcisas,
+	protected final String regenerarListasSucesos(final String entityName, Map<String, Map<String, Number>> ocurrencias, JSONArray jsArrayEjeAbcisas,
 			final Datamap data_) {
-		return regenerarListasSucesos(ocurrencias, jsArrayEjeAbcisas, true, data_);
+		return regenerarListasSucesos(entityName, ocurrencias, jsArrayEjeAbcisas, true, data_);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
+	protected String regenerarListasSucesos(final String entityName, Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
 			boolean stack_Z, final Datamap data_) {
 
 		JSONArray seriesJSON = new JSONArray();
@@ -374,8 +378,8 @@ public abstract class GenericHighchartModel implements IStats {
 			if (clave.indexOf(":") != -1) {
 				clave = clave.split(":")[1];
 			}			
-			serie.put("data", jsArray.get(0));
-			serie.put("name", clave);
+			serie.put("data", serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(jsArray.get(0).toString()))));
+			serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}

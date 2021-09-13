@@ -30,15 +30,14 @@ public class Histogram extends GenericHighchartModel {
 	 ***/
 	@SuppressWarnings("unchecked")
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String, Double>>> seriesSQL,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String, Double>>> seriesSQL,
 			final Datamap data_, final FieldViewSet filtro_, final IFieldLogic[] agregados,
-			final IFieldLogic[] fieldsGROUPBY, final IFieldLogic orderByField, final String aggregateFunction) throws Throwable{
+			final IFieldLogic[] fieldsCategoriaDeAgrupacion, final IFieldLogic orderByField, final String aggregateFunction) throws Throwable{
 		
 		JSONArray jsArrayEjeAbcisas = new JSONArray();
-		Map<String, Map<Date, Number>> series = new HashMap<String, Map<Date, Number>>();
+		String lang = data_.getLanguage();
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
 		double minimal = 0.0;
-		int numPointsWithValue = 0;
 		
 		int numTuplas = seriesSQL.size();		
 		FieldViewSet antiguo = seriesSQL.get(0).keySet().iterator().next();
@@ -64,81 +63,10 @@ public class Histogram extends GenericHighchartModel {
 				
 		// extraemos todas las series que haya: si hay un único fieldgroupby, solo habrá una serie, si hay dos, habrá N series
 		
-		/*** INICIO EXTRACCION DE LAS SERIES ***/
-		if (fieldsGROUPBY.length == 1) {
-			int actualAggregIndex = 0;
-			IFieldLogic actualAgregado = agregados[actualAggregIndex];//comenzamos con el primer agregado, si observamos un cambio, buscamos en el siguiente, y así sucesivamente
-			//genero aqui todas las series que haya diferentes, es decir, cuando detectemos un cambio de agregado, cerramos la serie actual y creamos otra
-			for (int j=0;j<seriesSQL.size();j++) {
-				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = seriesSQL.get(j);
-				FieldViewSet registroBBDD = registroEnCrudo.keySet().iterator().next();
-				Date idSerie = (Date) registroBBDD.getValue(fieldsGROUPBY[0].getMappingTo());					
-				Map<Date, Number> volcarSeriesvalues = series.get(actualAgregado.getName());
-				if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
-					volcarSeriesvalues = new HashMap<Date, Number>();						
-				}
-				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
-				while (iteradorSerie.hasNext()) {
-					Map.Entry<String, Double> entry_ = iteradorSerie.next();
-					if (!entry_.getKey().contentEquals(actualAgregado.getName())) {
-						actualAgregado = agregados[++actualAggregIndex];
-						volcarSeriesvalues = series.get(actualAgregado.getName());
-						if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
-							volcarSeriesvalues = new HashMap<Date, Number>();						
-						}
-					}
-					volcarSeriesvalues.put(idSerie, CommonUtils.roundWith2Decimals(entry_.getValue()));					
-				}
-				series.put(actualAgregado.getName(), volcarSeriesvalues);
-			}//for			
-			
-		}else if (fieldsGROUPBY.length > 1){//2 fieldGroupBy--> N series
-			
-			Map<Date, Number> serieValuesAux = new HashMap<Date, Number>();
-			//genero aqui todas las series que hay diferentes
-			Serializable firstGroupBY_ID_Aux = null;
-			for (int j=0;j<seriesSQL.size();j++) {
-				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = seriesSQL.get(j);
-				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();
-				//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
-				Serializable firstGroupBY_id =  registroBBDD_.getValue(fieldsGROUPBY[0].getMappingTo());
-				
-				if (firstGroupBY_ID_Aux == null) {
-					firstGroupBY_ID_Aux = firstGroupBY_id;
-				}else if (!firstGroupBY_ID_Aux.toString().contentEquals(firstGroupBY_id.toString())) {
-					
-					Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
-					if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
-						volcarSeriesvalues = new HashMap<Date, Number>();						
-					}
-					volcarSeriesvalues.putAll(serieValuesAux);
-					series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
-					
-					serieValuesAux = new HashMap<Date, Number>();			
-					firstGroupBY_ID_Aux = firstGroupBY_id;
-				}
-				
-				Date secondGroupBY =  (Date) registroBBDD_.getValue(fieldsGROUPBY[1].getMappingTo());
-				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
-				while (iteradorSerie.hasNext()) {
-					Map.Entry<String, Double> entry_ = iteradorSerie.next();
-					serieValuesAux.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
-				}
-			}//for 
-			
-			//la ultima serie la grabas tomando lo previo:
-			Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
-			if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
-				volcarSeriesvalues = new HashMap<Date, Number>();						
-			}
-			volcarSeriesvalues.putAll(serieValuesAux);
-			series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
-				
-		}
+		Map<String, Map<Date, Number>> series = extraccionSeries(seriesSQL, agregados, fieldsCategoriaDeAgrupacion, orderByField);		
 		
-		/*** FIN EXTRACCION DE LAS SERIES ***/
-		
-		
+		Double acumuladorTotalPointsTotal = 0.0;
+		int numOfApariciones = 0;
 		Map<Long, String> nameSeries = new HashMap<Long, String>();
 		for (int i = 0; i < periodos.size(); i++) {
 						
@@ -148,14 +76,15 @@ public class Histogram extends GenericHighchartModel {
 			//System.out.println("Valor en EjeAbcisas: " +  valorPeriodoEjeX);
 			Iterator<Map.Entry<String, Map<Date, Number>>> iteSeries = series.entrySet().iterator();
 			while (iteSeries.hasNext()) {
+				numOfApariciones++;
 				Map.Entry<String, Map<Date, Number>> serie = iteSeries.next();				
 				Map<String, Number> newPoints = new HashMap<String, Number>();							
 				String newkey = serie.getKey();
 				//vemos si podemos traducir la key
-				if (fieldsGROUPBY.length == 2 && CommonUtils.isNumeric(newkey)) {
-					if (fieldsGROUPBY[0].getParentFieldEntities() != null && !fieldsGROUPBY[0].getParentFieldEntities().isEmpty()) {						
+				if (fieldsCategoriaDeAgrupacion.length == 2 && CommonUtils.isNumeric(newkey)) {
+					if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null && !fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().isEmpty()) {						
 						if (!nameSeries.containsKey(Long.valueOf(newkey))){
-							IFieldLogic fieldLogic = fieldsGROUPBY[0].getParentFieldEntities().iterator().next();
+							IFieldLogic fieldLogic = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().iterator().next();
 							FieldViewSet recordparent = new FieldViewSet(fieldLogic.getEntityDef());
 							recordparent.setValue(fieldLogic.getMappingTo(), Long.valueOf(newkey));
 							recordparent = this._dataAccess.searchEntityByPk(recordparent);						
@@ -181,28 +110,26 @@ public class Histogram extends GenericHighchartModel {
 						count++;
 					}
 				}
-				double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE) ?	acumulador/count: acumulador;
+				double valor =  aggregateFunction.contentEquals(OPERATION_AVERAGE) ? (acumulador == 0 ? 0 : acumulador/count) : acumulador;
 				newPoints.put(valorPeriodoEjeX, valor);
-				if (count > 0) {
-					numPointsWithValue++;
-				}
+				acumuladorTotalPointsTotal += valor;
 				
 				Map<String, Number> puntosResueltos = newSeries.get(newkey);
 				if (puntosResueltos == null || puntosResueltos.isEmpty()) {
 					puntosResueltos = new HashMap<String, Number>();
 				}
 				puntosResueltos.putAll(newPoints);
-								
 				newSeries.put(newkey, puntosResueltos);
-				
 			}
-						
 		}//FOR PERIODOS
 		
-					
-		String serieJson = regenerarListasSucesos(newSeries, ((agregados!=null && agregados[0].getAbstractField().isDecimal())?true:false));
+		double promedioPorCategoria = CommonUtils.roundWith2Decimals(acumuladorTotalPointsTotal/(numOfApariciones));
 		
-		IEntityLogic entidadGrafico = fieldsGROUPBY[0].getEntityDef();
+		/*System.out.println("PROMEDIO SE HA CALCULADO EN BASE A LOS DATOS COMO : " +  acumuladorTotalPoints + "/(" + numOfApariciones + ") ==> " + 
+				CommonUtils.roundWith2Decimals(acumuladorTotalPoints/(numOfApariciones )) );*/		
+		String serieJson = regenerarListasSucesos(data_.getLanguage(), fieldsCategoriaDeAgrupacion[0].getEntityDef().getName(), newSeries, ((agregados!=null && agregados[0].getAbstractField().isDecimal())?true:false));
+		
+		IEntityLogic entidadGrafico = fieldsCategoriaDeAgrupacion[0].getEntityDef();
 		String entidad = Translator.traduceDictionaryModelDefined(data_.getLanguage(), 
 				entidadGrafico.getName().concat(".").concat(entidadGrafico.getName()));
 		//System.out.println("serieJson with series: " + newSeries.size());
@@ -214,9 +141,114 @@ public class Histogram extends GenericHighchartModel {
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("profundidad"), agregados == null ? 15 : 10 + 5 * (agregados.length));
 		String visionado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.VISIONADO_PARAM));
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("visionado"), visionado==null?"2D": visionado);
-		double total = getTotal(seriesSQL);
-		return CommonUtils.roundWith2Decimals(aggregateFunction.contentEquals(OPERATION_AVERAGE)?
-				CommonUtils.roundWith2Decimals(total/numPointsWithValue):total);//aggregateFunction.contentEquals(OPERATION_AVERAGE) ? CommonUtils.roundWith2Decimals(total/periodos.size()): CommonUtils.roundWith2Decimals(total);
+			
+		String txtPromedio = "promedio por ";
+		if (aggregateFunction.contentEquals(OPERATION_AVERAGE)) {
+			String nameOfcategory = Translator.traduceDictionaryModelDefined(lang, fieldsCategoriaDeAgrupacion[0].getEntityDef().getName().concat(".").concat(fieldsCategoriaDeAgrupacion[0].getEntityDef().getName()));
+			txtPromedio += CommonUtils.singularOfterm(nameOfcategory) + " y ";
+		}
+		txtPromedio +=  HistogramUtils.labelOfEscalado(escalado);
+		txtPromedio += ": <b>" + CommonUtils.numberFormatter.format(promedioPorCategoria) + "</b>";
+		
+		String txtTotal = "total en todo el periodo: <b>" + CommonUtils.numberFormatter.format(acumuladorTotalPointsTotal) + "</b>";
+		
+		Map<String, String> retorno = new HashMap<String, String>();
+		retorno.put(txtPromedio, txtTotal);	
+		return retorno;
+	}
+	
+	private Map<String, Map<Date, Number>> extraccionSeries
+		(final List<Map<FieldViewSet, Map<String, Double>>> seriesSQL, final IFieldLogic[] agregados, 
+				final IFieldLogic[] fieldsGROUPBY, final IFieldLogic orderByField) {
+		
+		Map<String, Map<Date, Number>> series = new HashMap<String, Map<Date, Number>>();
+		/*** INICIO EXTRACCION DE LAS SERIES ***/
+		if (fieldsGROUPBY.length == 1) {
+			int actualAggregIndex = 0;
+			String nameOfAgregado = orderByField.getEntityDef().getName();//"peticiones"
+			IFieldLogic actualAgregado_ = agregados== null ? null : agregados[actualAggregIndex];//comenzamos con el primer agregado, si observamos un cambio, buscamos en el siguiente, y así sucesivamente
+			if (actualAgregado_ != null) {
+				nameOfAgregado = actualAgregado_.getName();
+			}
+			
+			//genero aqui todas las series que haya diferentes, es decir, cuando detectemos un cambio de agregado, cerramos la serie actual y creamos otra
+			for (int j=0;j<seriesSQL.size();j++) {
+				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = seriesSQL.get(j);
+				FieldViewSet registroBBDD = registroEnCrudo.keySet().iterator().next();
+				Date idPoint = (Date) registroBBDD.getValue(fieldsGROUPBY[0].getMappingTo());
+				Map<Date, Number> volcarSeriesvalues = series.get(nameOfAgregado);
+				if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+					volcarSeriesvalues = new HashMap<Date, Number>();						
+				}
+				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
+				while (iteradorSerie.hasNext()) {
+					Map.Entry<String, Double> entry_ = iteradorSerie.next();
+					if (!entry_.getKey().contentEquals(nameOfAgregado)) {
+						actualAgregado_ = agregados== null ? null : agregados[++actualAggregIndex];//comenzamos con el primer agregado, si observamos un cambio, buscamos en el siguiente, y así sucesivamente
+						if (actualAgregado_ != null) {
+							nameOfAgregado = actualAgregado_.getName();
+						}
+						volcarSeriesvalues = series.get(nameOfAgregado);
+						if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+							volcarSeriesvalues = new HashMap<Date, Number>();						
+						}
+					}
+					volcarSeriesvalues.put(idPoint, CommonUtils.roundWith2Decimals(entry_.getValue()));					
+				}
+				series.put(nameOfAgregado, volcarSeriesvalues);
+			}//for			
+			
+		}else if (fieldsGROUPBY.length == 2) {//1 fieldgroupby: 1 serie, N fieldGroupBy--> M series
+			Map<Date, Number> serieValuesAux = new HashMap<Date, Number>();
+			//genero aqui todas las series que hay diferentes
+			Serializable firstGroupBY_ID_Aux = null;
+			for (int j=0;j<seriesSQL.size();j++) {
+				Map<FieldViewSet, Map<String, Double>> registroEnCrudo = seriesSQL.get(j);
+				FieldViewSet registroBBDD_ = registroEnCrudo.keySet().iterator().next();
+				//Agrupamos siempre por el primero de los GROUP BY; el segundo es la fecha para la agrupación por periodos
+				Serializable firstGroupBY_id =  registroBBDD_.getValue(fieldsGROUPBY[0].getMappingTo());
+				
+				if (firstGroupBY_ID_Aux == null) {
+					firstGroupBY_ID_Aux = firstGroupBY_id;
+				}else if (!firstGroupBY_ID_Aux.toString().contentEquals(firstGroupBY_id.toString())) {
+					
+					Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
+					if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+						volcarSeriesvalues = new HashMap<Date, Number>();						
+					}
+					volcarSeriesvalues.putAll(serieValuesAux);
+					series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
+					
+					serieValuesAux = new HashMap<Date, Number>();			
+					firstGroupBY_ID_Aux = firstGroupBY_id;
+				}
+				
+				Date secondGroupBY =  (Date) registroBBDD_.getValue(fieldsGROUPBY[fieldsGROUPBY.length - 1].getMappingTo());
+				Iterator<Map.Entry<String, Double>> iteradorSerie = registroEnCrudo.values().iterator().next().entrySet().iterator();
+				while (iteradorSerie.hasNext()) {
+					Map.Entry<String, Double> entry_ = iteradorSerie.next();
+					if (serieValuesAux.get(secondGroupBY) == null) {
+						serieValuesAux.put(secondGroupBY, CommonUtils.roundWith2Decimals(entry_.getValue()));
+					}else {
+						Double previoValor = (Double) serieValuesAux.get(secondGroupBY);
+						serieValuesAux.put(secondGroupBY, CommonUtils.roundWith2Decimals(previoValor + entry_.getValue()));
+					}
+				}
+			}//for 
+			
+			//la ultima serie la grabas tomando lo previo:
+			Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
+			if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+				volcarSeriesvalues = new HashMap<Date, Number>();						
+			}
+			volcarSeriesvalues.putAll(serieValuesAux);
+			series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
+				
+		}
+		
+		/*** FIN EXTRACCION DE LAS SERIES ***/
+		return series;
+		
 	}
 	
 	private boolean estaIncluido(final Date fechaOfPoint, final String valorPeriodoEjeX, final String escalado) {
@@ -318,7 +350,7 @@ public class Histogram extends GenericHighchartModel {
 	
 	
 	@SuppressWarnings("unchecked")
-	protected String regenerarListasSucesos(Map<String, Map<String, Number>> ocurrencias, boolean pointPlacementOn) {
+	protected String regenerarListasSucesos(final String lang_, final String entidadName, Map<String, Map<String, Number>> ocurrencias, boolean pointPlacementOn) {
 
 		boolean stack_Z = true;
 		JSONArray seriesJSON = new JSONArray();
@@ -364,7 +396,7 @@ public class Histogram extends GenericHighchartModel {
 			jsArray.add(listaOcurrencias);			
 			JSONObject serie = new JSONObject();
 						
-			serie.put("name", clave);
+			serie.put("name", Translator.traduceDictionaryModelDefined(lang_, entidadName.concat(".").concat(clave)));
 			serie.put("data", jsArray.get(0));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));

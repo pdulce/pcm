@@ -12,8 +12,8 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class RenderToExistingPDFTemplate {
-    private static String INPUTFILE = "C:/Users/ESDU/FirstPdf.pdf";
-    private static String OUTPUTFILE = "C:/Users/ESDU/ReadPdf.pdf";
+    private static String INPUTFILE = "C:/Users/99GU3997/FirstPdf.pdf";
+    private static String OUTPUTFILE = "C:/Users/99GU3997/ReadPdf.pdf";
 
     public static void main(String[] args) throws DocumentException,
             IOException {

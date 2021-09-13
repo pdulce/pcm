@@ -1,8 +1,5 @@
 package org.cdd.service.dataccess.factory;
 
-//import java.io.File;
-//import java.io.FileOutputStream;
-//import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
@@ -193,9 +190,9 @@ public class EntityLogicFactory implements IEntityLogicFactory {
 				e.printStackTrace();
 			}
 			
-		}*/
+		}
 		
-		/*FileOutputStream fout2 = null;
+		FileOutputStream fout2 = null;
 		try{
 			fout2 = new FileOutputStream(new File("dicc.txt"));
 			fout2.write(diccionario.toString().getBytes());

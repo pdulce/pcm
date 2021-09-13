@@ -99,7 +99,16 @@ public final class CommonUtils {
 		return diferencia;
 	}
 	
-	private static final String pluralOfterm(final String palabra_) {
+	public static final String singularOfterm(final String palabra_) {
+		if (palabra_.endsWith("es")) {
+			return palabra_.substring(0, palabra_.length() - 2);
+		}else if (palabra_.endsWith("s")) {
+			return palabra_.substring(0, palabra_.length() - 1);
+		}
+		return palabra_;
+	}
+	
+	public static final String pluralOfterm(final String palabra_) {
 		String palabra = palabra_;
 		String plural = "";
 		if (palabra.endsWith("n")) {
@@ -1054,6 +1063,9 @@ public final class CommonUtils {
 	}
 	
 	public static void main(String[] args) {
+		System.out.println("singular de peticiones:" + CommonUtils.singularOfterm("peticiones"));
+		System.out.println("singular de naranjas:" + CommonUtils.singularOfterm("naranjas"));
+		System.out.println("singular de bermellón:" + CommonUtils.singularOfterm("bermellón"));
 		//947855
 		Calendar inicio_ = Calendar.getInstance();
 		//5 de mayo

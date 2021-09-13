@@ -32,13 +32,12 @@ public class MapEurope extends MapSpain {
 	}
 	
 	@Override
-	protected double generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+	protected Map<String, String> generateJSON(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final IFieldLogic orderBy, final String aggregateFunction) {
 
-		double sumarizadorTotal = 0.0;
-       
-		
+		Double acumuladorTotalPointsTotal = 0.0;      
+		int regiones = 0;
 		Map<String, Number> agregadosPorRegion = new HashMap<String, Number>();
 		for (Map<FieldViewSet, Map<String,Double>> registroTotalizado: valoresAgregados) {
 			/** analizamos el registro totalizado, por si tiene mos de una key (fieldviewset) ***/
@@ -52,7 +51,8 @@ public class MapEurope extends MapSpain {
 				String valor = (String) categoriaFieldSet.getValue(fieldsForCategoriaDeAgrupacion[0].getMappingTo());
 				String regionCodeISO = getAleatoryNameForRegion(valor);
 				double subTotalPorRegion = registroTotalizado.values().iterator().next().values().iterator().next().doubleValue();
-				sumarizadorTotal += subTotalPorRegion;
+				regiones++;
+				acumuladorTotalPointsTotal += subTotalPorRegion;
 				Number nuevoValor = 0.0;
 				if (agregadosPorRegion.get(regionCodeISO) != null) {
 					nuevoValor = agregadosPorRegion.get(regionCodeISO);
@@ -65,19 +65,29 @@ public class MapEurope extends MapSpain {
 		
 		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(JSON_OBJECT), generarMapa(agregadosPorRegion));
 		
-		Number total = setMapAttributes(valoresAgregados, data_, filtro_, fieldsForAgregadoPor, 
-				fieldsForCategoriaDeAgrupacion, aggregateFunction, sumarizadorTotal, 0);
+		acumuladorTotalPointsTotal = getMapAttributes(valoresAgregados, data_, filtro_, fieldsForAgregadoPor, 
+				fieldsForCategoriaDeAgrupacion, aggregateFunction, acumuladorTotalPointsTotal, 0);
 		
-		return total.doubleValue();
+		double promedioPorCategoria = CommonUtils.roundWith2Decimals(acumuladorTotalPointsTotal/regiones);
+		
+		String txtPromedio = "promedio por país";		
+		txtPromedio += ": <b>" + CommonUtils.numberFormatter.format(promedioPorCategoria)+ "</b>";
+		
+		String txtTotal = "total contabilizando todas las regiones: <b>" + CommonUtils.numberFormatter.format(acumuladorTotalPointsTotal) + "</b>";
+		
+		Map<String, String> retorno = new HashMap<String, String>();
+		retorno.put(txtPromedio, txtTotal);
+		
+		return retorno;
 
 	}
 	
 	@Override
-	protected Number setMapAttributes(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
+	protected Double getMapAttributes(final List<Map<FieldViewSet, Map<String,Double>>> valoresAgregados, final Datamap data_,
 			final FieldViewSet filtro_, final IFieldLogic[] fieldsForAgregadoPor, final IFieldLogic[] fieldsForCategoriaDeAgrupacion,
 			final String aggregateFunction, final double sumarizadorTotal, final double contabilizadasExtra) {
 		
-		Number total = Double.valueOf(0.0);
+		Double total = 0.0;
 		total = sumarizadorTotal;
 
 		String unidadesEnRegion_formated = "", unidadesTotales_formated = "";
