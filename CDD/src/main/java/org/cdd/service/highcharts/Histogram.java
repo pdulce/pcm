@@ -395,8 +395,17 @@ public class Histogram extends GenericHighchartModel {
 			JSONArray jsArray = new JSONArray();
 			jsArray.add(listaOcurrencias);			
 			JSONObject serie = new JSONObject();
-						
-			serie.put("name", entidadName == null ? clave : Translator.traduceDictionaryModelDefined(lang_, entidadName.concat(".").concat(clave)));
+			
+			String entidadTraslated = Translator.traduceDictionaryModelDefined(lang_, entidadName.concat(".").concat(entidadName));
+			String translated = Translator.traduceDictionaryModelDefined(lang_, entidadName.concat(".").concat(clave));
+			//System.out.println("entidadName: " + entidadName);
+			//System.out.println("translated: " + translated);
+			//System.out.println("clave: " + clave);
+			if (translated.startsWith(entidadTraslated)) {
+				serie.put("name", clave );
+			}else {
+				serie.put("name", translated );
+			}
 			serie.put("data", jsArray.get(0));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));

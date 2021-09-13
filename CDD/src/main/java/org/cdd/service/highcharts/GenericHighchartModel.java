@@ -307,7 +307,7 @@ public abstract class GenericHighchartModel implements IStats {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected String regenerarListasSucesos(final String entityName, Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
+	protected String regenerarListasSucesos(final String entidadName, Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
 			boolean stack_Z, final Datamap data_) {
 
 		JSONArray seriesJSON = new JSONArray();
@@ -379,7 +379,16 @@ public abstract class GenericHighchartModel implements IStats {
 				clave = clave.split(":")[1];
 			}			
 			serie.put("data", jsArray.get(0));
-			serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
+			
+			String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(entidadName));
+			String translated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(clave));
+			if (translated.startsWith(entidadTraslated)) {
+				serie.put("name", clave );
+			}else {
+				serie.put("name", translated );
+			}
+			
+			//serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}

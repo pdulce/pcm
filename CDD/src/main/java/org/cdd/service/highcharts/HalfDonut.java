@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 public class HalfDonut extends ColumnBar {
 	
 	@SuppressWarnings("unchecked")
-	protected String regenerarListasSucesos(final String entityName, Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
+	protected String regenerarListasSucesos(final String entidadName, Map<String, Map<String, Number>> ocurrencias, JSONArray _jsArrayEjeAbcisas,
 			boolean stack_Z, final Datamap data_) {
 
 		JSONArray seriesJSON = new JSONArray();
@@ -62,7 +62,15 @@ public class HalfDonut extends ColumnBar {
 				clavePie = "<b>" + clave + "</b>";
 			}
 			
-			tupla.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(clavePie)));
+			String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(entidadName));
+			String translated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(clavePie));
+			if (translated.startsWith(entidadTraslated)) {
+				tupla.put("name", clavePie );
+			}else {
+				tupla.put("name", translated );
+			}
+
+//			tupla.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(clavePie)));
 			
 			double y = 0.0;
 			for (int n=0;n<numSeries;n++) {
@@ -73,7 +81,15 @@ public class HalfDonut extends ColumnBar {
 		}
 
 		serie.put("data", jsArray);
-		serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(itemsOf)));
+		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(entidadName));
+		String translated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(itemsOf));
+		if (translated.startsWith(entidadTraslated)) {
+			serie.put("name", itemsOf );
+		}else {
+			serie.put("name", translated );
+		}
+
+		//serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(itemsOf)));
 		
 		serie.put("type", "pie");
 		serie.put("innerSize", "50%");
