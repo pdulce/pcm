@@ -1082,6 +1082,12 @@ public final class CommonUtils {
 		System.out.println("es numeric: " + CommonUtils.isNumeric("+23"));
 		System.out.println("es numeric: " + CommonUtils.isNumeric("-340"));
 		System.out.println("es numeric: " + CommonUtils.isNumeric("2810-09"));
+		
+		String trans1 = "Peticiones.";
+		String transGlobal = "Peticiones.Uts. estimadas";
+		System.out.println("trans1: " + trans1 + " englobado en " + transGlobal + "?");
+		System.out.println(transGlobal.startsWith(trans1));
+		
 	}
 
 }

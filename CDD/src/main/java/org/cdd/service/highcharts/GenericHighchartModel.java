@@ -380,15 +380,14 @@ public abstract class GenericHighchartModel implements IStats {
 			}			
 			serie.put("data", jsArray.get(0));
 			
-			String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(entidadName));
+			String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName);
 			String translated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(clave));
-			if (translated.startsWith(entidadTraslated)) {
+			if (translated.startsWith(entidadTraslated.concat(".")) || translated.startsWith(entidadName.concat("."))) {
 				serie.put("name", clave );
 			}else {
 				serie.put("name", translated );
 			}
 			
-			//serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), clave));
 			if (stack_Z) {
 				serie.put("stack", String.valueOf(claveIesima));
 			}

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.cdd.common.utils.CommonUtils;
-import org.cdd.service.component.Translator;
 import org.cdd.service.dataccess.dto.Datamap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -62,15 +61,7 @@ public class HalfDonut extends ColumnBar {
 				clavePie = "<b>" + clave + "</b>";
 			}
 			
-			String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(entidadName));
-			String translated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(clavePie));
-			if (translated.startsWith(entidadTraslated)) {
-				tupla.put("name", clavePie );
-			}else {
-				tupla.put("name", translated );
-			}
-
-//			tupla.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(clavePie)));
+			tupla.put("name", clavePie );
 			
 			double y = 0.0;
 			for (int n=0;n<numSeries;n++) {
@@ -81,15 +72,7 @@ public class HalfDonut extends ColumnBar {
 		}
 
 		serie.put("data", jsArray);
-		String entidadTraslated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(entidadName));
-		String translated = Translator.traduceDictionaryModelDefined(data_.getLanguage(), entidadName.concat(".").concat(itemsOf));
-		if (translated.startsWith(entidadTraslated)) {
-			serie.put("name", itemsOf );
-		}else {
-			serie.put("name", translated );
-		}
-
-		//serie.put("name", Translator.traduceDictionaryModelDefined(data_.getLanguage(), entityName.concat(".").concat(itemsOf)));
+		serie.put("name", itemsOf );
 		
 		serie.put("type", "pie");
 		serie.put("innerSize", "50%");
