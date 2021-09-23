@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.cdd.common.PCMConstants;
-import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.utils.CommonUtils;
 import org.cdd.service.component.Translator;
 import org.cdd.service.component.definitions.FieldViewSet;
@@ -64,9 +63,11 @@ public class Pie extends GenericHighchartModel {
 							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), registroPorCategoria.getValue(agrupacionInterna.getMappingTo()));
 							try {
 								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-								IFieldLogic descField = fSetParent.getDescriptionField();
-								valorParaCategoria1EnEsteRegistroAgregado = fSetParent.getValue(descField.getMappingTo()).toString();
-							} catch (DatabaseException e) {
+								if (fSetParent != null) {
+									IFieldLogic descField = fSetParent.getDescriptionField();
+									valorParaCategoria1EnEsteRegistroAgregado = fSetParent.getValue(descField.getMappingTo()).toString();
+								}
+							} catch (Throwable e) {
 								e.printStackTrace();
 							}
 						}

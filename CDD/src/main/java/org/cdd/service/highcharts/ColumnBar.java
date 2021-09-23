@@ -54,9 +54,11 @@ public class ColumnBar extends BarChart {
 				fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorPorElQueagrupamos);
 				try {
 					fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-					IFieldLogic descField = fSetParent.getDescriptionField();
-					valorPorElQueagrupamos = fSetParent.getValue(descField.getMappingTo()).toString();
-				} catch (DatabaseException e) {
+					if (fSetParent != null) {
+						IFieldLogic descField = fSetParent.getDescriptionField();
+						valorPorElQueagrupamos = fSetParent.getValue(descField.getMappingTo()).toString();
+					}
+				} catch (Throwable e) {
 					throw new RuntimeException(e);
 				}
 			}

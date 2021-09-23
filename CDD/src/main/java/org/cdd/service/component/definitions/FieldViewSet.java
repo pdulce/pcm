@@ -241,7 +241,6 @@ public class FieldViewSet implements Serializable {
 					 parentEntitiesMap.put(padreDeEntidadARefrescar.getName(), padreDeEntidadARefrescar);
 				 }
 			}
-			
 			final List<Map.Entry<String, List<Object>>> listOfRequestParams = new ArrayList<Map.Entry<String, List<Object>>>(valuesMemo_.entrySet());
 			Iterator<FieldViewSet> iteFieldViewSetsOfForm = fieldViewSetsForm.iterator();
 			while (iteFieldViewSetsOfForm.hasNext()) {
@@ -263,14 +262,27 @@ public class FieldViewSet implements Serializable {
 					fieldName_rank = fieldName_rank.replace(IRank.HASTA_SUFFIX, "");
 					IFieldView fView = this.getFieldView(fieldName_rank);
 					if (fView != null && keyMemorized.contains(IRank.HASTA_SUFFIX)) {
-						
 						final Rank rankHasta = new Rank(fView.getEntityField().getName(), IRank.MAYOR_EQUALS_OPE);
-						fView.setRankField(rankHasta);
-
+						if (fView.isRankField()) {
+							IFieldView fHasta = fView.copyOf();
+							fHasta.setQualifiedContextName(keyMemorized);						
+							fHasta.setRankField(rankHasta);						
+							this.fieldViews.add(fHasta);
+						}else {
+							fView.setQualifiedContextName(keyMemorized);
+							fView.setRankField(rankHasta);
+						}
 					}else if (fView != null && keyMemorized.contains(IRank.DESDE_SUFFIX)) {
-						
 						final Rank rankDesde = new Rank(fView.getEntityField().getName(), IRank.MINOR_EQUALS_OPE);
-						fView.setRankField(rankDesde);
+						if (fView.isRankField()) {
+							IFieldView fDesde = fView.copyOf();
+							fDesde.setQualifiedContextName(keyMemorized);
+							fDesde.setRankField(rankDesde);
+							this.fieldViews.add(fDesde);
+						}else {
+							fView.setQualifiedContextName(keyMemorized);
+							fView.setRankField(rankDesde);
+						}
 					}
 					
 					List<String> stringVals = new ArrayList<String>();
@@ -331,24 +343,6 @@ public class FieldViewSet implements Serializable {
 		}
 	}
 
-
-	
-	
-	/*private boolean isFieldViewRepeteated(Collection<IFieldView> col_, IFieldView candidate) {
-		int nveces = 0;
-		final List<IFieldView> _listOfFields = new ArrayList<IFieldView>(this.fieldViews);
-		for (int i=0;i<_listOfFields.size();i++) {
-			final IFieldView fView = _listOfFields.get(i);
-			if (fView.getQualifiedContextName().contentEquals(candidate.getQualifiedContextName())) {
-				nveces++;
-			}
-		}
-		if (nveces > 1) {
-			return true;
-		}else {
-			return false;
-		}
-	}*/
 	
 	public FieldViewSet copyOf() {
 		try {
@@ -362,12 +356,7 @@ public class FieldViewSet implements Serializable {
 			newFieldSet.fieldViewsValues = new HashMap<String, IFieldValue>();
 			final List<IFieldView> _listOfFields = new ArrayList<IFieldView>(this.fieldViews);
 			for (int i=0;i<_listOfFields.size();i++) {
-				final IFieldView fView = _listOfFields.get(i);
-				
-				/*if (isFieldViewRepeteated(newFieldSet.fieldViews, fView)) {
-					throw new Throwable("Error: fieldview repetido: "+ fView.getQualifiedContextName());
-				}*/
-				
+				final IFieldView fView = _listOfFields.get(i);				
 				final IFieldValue fValue = this.fieldViewsValues.get(fView.getQualifiedContextName());
 				final IFieldValue newFValue = new FieldValue();
 				newFValue.setValues(fValue == null ? new ArrayList<String>() : fValue.getValues());

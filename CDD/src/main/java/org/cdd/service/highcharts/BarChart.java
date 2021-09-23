@@ -80,14 +80,16 @@ public class BarChart extends GenericHighchartModel {
 									fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacion);
 									try {
 										fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-										IFieldLogic descField = fSetParent.getDescriptionField();
-										if (descField.getAbstractField().isInteger() || descField.getAbstractField().isLong()){
-											Number valueOfcategoriaNumber = (Number) fSetParent.getValue(descField.getMappingTo());
-											positionClaveAgregacion = valueOfcategoriaNumber.intValue();
-										}else{
-											positionClaveAgregacion = ((Number) valorAgrupacion).intValue();
+										if (fSetParent != null) {
+											IFieldLogic descField = fSetParent.getDescriptionField();
+											if (descField.getAbstractField().isInteger() || descField.getAbstractField().isLong()){
+												Number valueOfcategoriaNumber = (Number) fSetParent.getValue(descField.getMappingTo());
+												positionClaveAgregacion = valueOfcategoriaNumber.intValue();
+											}else{
+												positionClaveAgregacion = ((Number) valorAgrupacion).intValue();
+											}
 										}
-									} catch (DatabaseException e) {
+									} catch (Throwable e) {
 										e.printStackTrace();
 									}									
 								}else if (fieldsCategoriaDeAgrupacion[0].getAbstractField().isInteger() || fieldsCategoriaDeAgrupacion[0].getAbstractField().isLong()){
@@ -104,9 +106,11 @@ public class BarChart extends GenericHighchartModel {
 								fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacion);
 								try {
 									fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-									IFieldLogic descField = fSetParent.getDescriptionField();
-									valorAgrupacion = fSetParent.getValue(descField.getMappingTo()).toString();
-								} catch (DatabaseException e) {
+									if (fSetParent != null) {
+										IFieldLogic descField = fSetParent.getDescriptionField();
+										valorAgrupacion = fSetParent.getValue(descField.getMappingTo()).toString();
+									}
+								} catch (Throwable e) {
 									e.printStackTrace();
 								}
 							}
@@ -157,9 +161,11 @@ public class BarChart extends GenericHighchartModel {
 							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valueDistint42ndAgregado_serial);
 							try {
 								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-								IFieldLogic descField = fSetParent.getDescriptionField();
-								valueDistint42ndAgregado_serial = fSetParent.getValue(descField.getMappingTo());
-							} catch (DatabaseException e) {
+								if (fSetParent != null) {
+									IFieldLogic descField = fSetParent.getDescriptionField();
+									valueDistint42ndAgregado_serial = fSetParent.getValue(descField.getMappingTo());
+								}
+							} catch (Throwable e) {
 								e.printStackTrace();
 							}							
 						}
@@ -172,68 +178,75 @@ public class BarChart extends GenericHighchartModel {
 				// vamos recorriendo la lista de valores, y creamos una nueva hash cada vez que cambiemos de valor de la dimension pral.
 				for (int v=0;v<listaValoresAgregados.size();v++){
 					Map<FieldViewSet, Map<String,Double>> valoresDimensiones = listaValoresAgregados.get(v);
-										
-					Iterator<Map.Entry<FieldViewSet, Map<String,Double>>> iteradorEntrysDeValorAgrupacion = valoresDimensiones.entrySet().iterator();
-					/*** buscamos el valor del agrupado, y en el map, el valor de esa dimension ***/					
-					while (iteradorEntrysDeValorAgrupacion.hasNext()){
-						Map.Entry<FieldViewSet, Map<String,Double>> entryDeValorAgrupacion = iteradorEntrysDeValorAgrupacion.next();
-						FieldViewSet filtroConValorAgrupacion = entryDeValorAgrupacion.getKey();
-						Serializable valorAgrupacionPralCandidato = filtroConValorAgrupacion.getValue(dimensionNamePral);						
-						if (registros.get(valorAgrupacionPralCandidato.toString())!=null){
-							continue;
-						}
-						Map<String, Number> valoresDeDimensionParaAgrupacPral = new HashMap<String, Number>();
-						for (int d1=0;d1<valoresDistintosDeAgregados.size();d1++){
-							valoresDeDimensionParaAgrupacPral.put(valoresDistintosDeAgregados.get(d1), 0.0);
-						}
-						//recorremos toda la lista de valores hasta que este valor ya no aparezca
-						for (int k=0;k<listaValoresAgregados.size();k++){
-							Map<FieldViewSet, Map<String,Double>> valores = listaValoresAgregados.get(k);
-							Iterator<Map.Entry<FieldViewSet, Map<String,Double>>> iteradorEntrysDeValorAgrupacionResto = valores.entrySet().iterator();
-							while (iteradorEntrysDeValorAgrupacionResto.hasNext()){
-								Map.Entry<FieldViewSet, Map<String,Double>> entry = iteradorEntrysDeValorAgrupacionResto.next();
-								FieldViewSet filtroConValorAgrupacionPral = entry.getKey();
-								Serializable valorAgrupacionPral = filtroConValorAgrupacionPral.getValue(dimensionNamePral);
-								if (valorAgrupacionPralCandidato.equals(valorAgrupacionPral)){
-									Double valorParaEstaCombinacion = CommonUtils.roundWith2Decimals(entry.getValue().values().iterator().next());
-									//saco el valor de la segunda dimension																	
-									Serializable valorAgrupacionSecundaria = filtroConValorAgrupacionPral.getValue(dimensionNameSecundario);
-									if (fieldsCategoriaDeAgrupacion[1].getParentFieldEntities() != null){
-										IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[1].getParentFieldEntities().get(0);
-										FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-										fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacionSecundaria);
-										try {
-											fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-											IFieldLogic descField = fSetParent.getDescriptionField();
-											valorAgrupacionSecundaria = fSetParent.getValue(descField.getMappingTo());
-										} catch (DatabaseException e) {
-											e.printStackTrace();
+					try {		
+						Iterator<Map.Entry<FieldViewSet, Map<String,Double>>> iteradorEntrysDeValorAgrupacion = valoresDimensiones.entrySet().iterator();
+						/*** buscamos el valor del agrupado, y en el map, el valor de esa dimension ***/					
+						while (iteradorEntrysDeValorAgrupacion.hasNext()){
+							Map.Entry<FieldViewSet, Map<String,Double>> entryDeValorAgrupacion = iteradorEntrysDeValorAgrupacion.next();
+							FieldViewSet filtroConValorAgrupacion = entryDeValorAgrupacion.getKey();
+							Serializable valorAgrupacionPralCandidato = filtroConValorAgrupacion.getValue(dimensionNamePral);						
+							if (registros.get(valorAgrupacionPralCandidato.toString())!=null){
+								continue;
+							}
+							Map<String, Number> valoresDeDimensionParaAgrupacPral = new HashMap<String, Number>();
+							for (int d1=0;d1<valoresDistintosDeAgregados.size();d1++){
+								valoresDeDimensionParaAgrupacPral.put(valoresDistintosDeAgregados.get(d1), 0.0);
+							}
+							//recorremos toda la lista de valores hasta que este valor ya no aparezca
+							for (int k=0;k<listaValoresAgregados.size();k++){
+								Map<FieldViewSet, Map<String,Double>> valores = listaValoresAgregados.get(k);
+								Iterator<Map.Entry<FieldViewSet, Map<String,Double>>> iteradorEntrysDeValorAgrupacionResto = valores.entrySet().iterator();
+								while (iteradorEntrysDeValorAgrupacionResto.hasNext()){
+									Map.Entry<FieldViewSet, Map<String,Double>> entry = iteradorEntrysDeValorAgrupacionResto.next();
+									FieldViewSet filtroConValorAgrupacionPral = entry.getKey();
+									Serializable valorAgrupacionPral = filtroConValorAgrupacionPral.getValue(dimensionNamePral);
+									if (valorAgrupacionPralCandidato.equals(valorAgrupacionPral)){
+										Double valorParaEstaCombinacion = CommonUtils.roundWith2Decimals(entry.getValue().values().iterator().next());
+										//saco el valor de la segunda dimension																	
+										Serializable valorAgrupacionSecundaria = filtroConValorAgrupacionPral.getValue(dimensionNameSecundario);
+										if (fieldsCategoriaDeAgrupacion[1].getParentFieldEntities() != null){
+											IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[1].getParentFieldEntities().get(0);
+											FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
+											fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacionSecundaria);
+											try {
+												fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
+												if (fSetParent != null) {
+													IFieldLogic descField = fSetParent.getDescriptionField();
+													valorAgrupacionSecundaria = fSetParent.getValue(descField.getMappingTo());
+												}
+											} catch (Throwable e) {
+												e.printStackTrace();
+											}									
 										}									
-									}									
-									valoresDeDimensionParaAgrupacPral.put(valorAgrupacionSecundaria.toString(), valorParaEstaCombinacion);
-									if (valorParaEstaCombinacion.doubleValue() < minimal){
-										minimal = valorParaEstaCombinacion;
-									}									
+										valoresDeDimensionParaAgrupacPral.put(valorAgrupacionSecundaria.toString(), valorParaEstaCombinacion);
+										if (valorParaEstaCombinacion.doubleValue() < minimal){
+											minimal = valorParaEstaCombinacion;
+										}									
+									}
 								}
 							}
+							//miro si este valor de agrupacion es un FK contra otra tabla, para obtener el valor correcto, descField
+							if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
+								IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
+								FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
+								fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacionPralCandidato);
+								try {
+									fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
+									if (fSetParent != null) {
+										IFieldLogic descField = fSetParent.getDescriptionField();
+										valorAgrupacionPralCandidato = fSetParent.getValue(descField.getMappingTo());
+									}
+								} catch (Throwable e) {
+									e.printStackTrace();
+								}									
+							}
+							if (registros.get(valorAgrupacionPralCandidato.toString()) == null) {
+								registros.put(valorAgrupacionPralCandidato.toString(), valoresDeDimensionParaAgrupacPral);
+								numCategorias++;
+							}						
 						}
-						//miro si este valor de agrupacion es un FK contra otra tabla, para obtener el valor correcto, descField
-						if (fieldsCategoriaDeAgrupacion[0].getParentFieldEntities() != null){
-							IFieldLogic fieldLogicAssociated = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().get(0);
-							FieldViewSet fSetParent = new FieldViewSet(fieldLogicAssociated.getEntityDef());
-							fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), valorAgrupacionPralCandidato);
-							try {
-								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-								IFieldLogic descField = fSetParent.getDescriptionField();
-								valorAgrupacionPralCandidato = fSetParent.getValue(descField.getMappingTo());								
-							} catch (DatabaseException e) {
-								e.printStackTrace();
-							}									
-						}
-						if (registros.get(valorAgrupacionPralCandidato.toString()) == null) {
-							registros.put(valorAgrupacionPralCandidato.toString(), valoresDeDimensionParaAgrupacPral);
-							numCategorias++;
-						}						
+					}catch (Throwable eexx) {
+						eexx.printStackTrace();
 					}
 				}
 				

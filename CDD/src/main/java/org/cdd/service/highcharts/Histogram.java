@@ -87,8 +87,8 @@ public class Histogram extends GenericHighchartModel {
 							IFieldLogic fieldLogic = fieldsCategoriaDeAgrupacion[0].getParentFieldEntities().iterator().next();
 							FieldViewSet recordparent = new FieldViewSet(fieldLogic.getEntityDef());
 							recordparent.setValue(fieldLogic.getMappingTo(), Long.valueOf(newkey));
-							recordparent = this._dataAccess.searchEntityByPk(recordparent);						
-							String titleOfKey = (String) recordparent.getValue(recordparent.getDescriptionField().getMappingTo());
+							recordparent = this._dataAccess.searchEntityByPk(recordparent);
+							String titleOfKey = (String) recordparent.getValue(recordparent.getDescriptionField()==null ?9999 : recordparent.getDescriptionField().getMappingTo());
 							String newTitledKey = ("["+ newkey + "]").concat(titleOfKey);
 							nameSeries.put(Long.valueOf(newkey), newTitledKey);
 							newkey = newTitledKey;

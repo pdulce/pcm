@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.utils.CommonUtils;
 import org.cdd.service.component.Translator;
 import org.cdd.service.component.definitions.FieldViewSet;
@@ -64,9 +63,11 @@ public class Spiderweb extends GenericHighchartModel {
 				fSetParent.setValue(fieldLogicAssociated.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), agrupacion);
 				try {
 					fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-					IFieldLogic descField = fSetParent.getDescriptionField();
-					agrupacion = (String) fSetParent.getValue(descField.getMappingTo());
-				} catch (DatabaseException e) {
+					if (fSetParent != null) {
+						IFieldLogic descField = fSetParent.getDescriptionField();
+						agrupacion = (String) fSetParent.getValue(descField.getMappingTo());
+					}
+				} catch (Throwable e) {
 					e.printStackTrace();
 				}									
 			}
