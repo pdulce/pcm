@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.utils.CommonUtils;
 import org.cdd.service.component.Translator;
 import org.cdd.service.component.definitions.FieldViewSet;

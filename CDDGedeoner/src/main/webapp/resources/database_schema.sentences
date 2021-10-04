@@ -315,6 +315,7 @@ insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimi
 insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimiento) values (35,'WSCR - WS_CADUC_FSE','WSCR - WS_CADUC_FSE','WSCR',3,1);
 insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimiento) values (36,'WSPX - WS_PERMEX','WSPX - WS_PERMEX','WSPX',3,1);
 insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimiento) values (37,'WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria','WSRT - Servicio Web proveedor de Formación Marítima y Sanitaria','WSRT',4,1);
+insert into aplicativo (id,nombre,descripcion,rochade,id_tecnologia,en_mantenimiento) values (38,'WSOE - Servicio web común ISM','WSOE - Servicio web común ISM','WSOE',4,1);
 
 --del INSS
   
