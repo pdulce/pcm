@@ -77,7 +77,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 	}
 
 	protected Map<String, Integer> getEntityFilter(final FieldViewSet fieldViewSet,
-			final Collection<Map<String, Serializable>> sqlParameters_out, final boolean fecBajaActivated, final Properties auditSet) {
+			final Collection<Map<String, Serializable>> sqlParameters_out, final boolean fecBajaActivated, final Properties auditSet) throws ParseException{
 
 		final String alias = SQLUtils.getAlias(fieldViewSet.getEntityDef().getName());
 		final StringBuilder sqlWhereOfEntity = new StringBuilder();
@@ -193,7 +193,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 		return filterWithNArgs;
 	}
 
-	protected String getDateOfRightSqlExpression(final String dateFormatted, final String operator) {
+	protected String getDateOfRightSqlExpression(final String dateFormatted, final String operator) throws ParseException{
 		try {
 			final StringBuilder valuesWithOr = new StringBuilder(), newDateUnformatted = new StringBuilder();
 			final Calendar cal = Calendar.getInstance();

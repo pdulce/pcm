@@ -2,6 +2,7 @@ package org.cdd.service.dataccess;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -232,6 +233,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -242,6 +246,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -253,6 +260,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -266,6 +276,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {			
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -277,6 +290,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -288,6 +304,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -318,6 +337,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -354,6 +376,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -384,6 +409,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -422,6 +450,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -450,6 +481,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 	
@@ -495,6 +529,9 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw exc1;
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new DatabaseException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -520,6 +557,8 @@ public class DataAccess implements IDataAccess {
 		}
 		catch (final DatabaseException exc1) {
 			throw new TransactionException(exc1);
+		} catch (ParseException e) {
+			throw new TransactionException("Error parseando un dato: " + e.getMessage());
 		}
 	}
 
@@ -547,6 +586,9 @@ public class DataAccess implements IDataAccess {
 			final StringBuilder strBuilder = new StringBuilder("**** Exception detail: ");
 			strBuilder.append(exc.getCause() != null ? exc.getCause().getMessage() : exc.getMessage());
 			throw new TransactionException(strBuilder.toString(), exc);
+		} catch (ParseException e) {
+			//e.printStackTrace();
+			throw new TransactionException("Error parseando un dato: " + e.getMessage());
 		}
 		return totalUpdated;
 	}
@@ -577,6 +619,8 @@ public class DataAccess implements IDataAccess {
 			final StringBuilder strBuilder = new StringBuilder("**** Exception detail: ");
 			strBuilder.append(entityName).append(InternalErrorsConstants.CAUSE_LITERAL).append(exc.getMessage());
 			throw new TransactionException(strBuilder.toString(), exc);
+		} catch (ParseException e) {
+			throw new TransactionException("Error parseando un dato: " + e.getMessage());
 		}
 		return totalUpdated;
 	}
@@ -610,6 +654,8 @@ public class DataAccess implements IDataAccess {
 			final StringBuilder strBuilder = new StringBuilder("**** Exception detail: ");
 			strBuilder.append(entityName).append(InternalErrorsConstants.CAUSE_LITERAL).append(exc.getMessage());
 			throw new TransactionException(strBuilder.toString(), exc);
+		} catch (ParseException e) {
+			throw new TransactionException("Error parseando un dato: " + e.getMessage());
 		}
 		return totalDeleted;
 	}
@@ -641,7 +687,7 @@ public class DataAccess implements IDataAccess {
 			strBuilder.append(exc.getMessage());
 			throw new TransactionException(strBuilder.toString(), exc);
 		}catch (final Throwable exc) {
-			exc.printStackTrace();
+			throw new TransactionException("Error parseando un dato: " + exc.getMessage());
 		}
 		return totalDeleted;
 	}
@@ -666,6 +712,8 @@ public class DataAccess implements IDataAccess {
 			}
 			strBuilder.append(exc.getCause() != null ? exc.getCause().getMessage() : exc.getMessage());
 			throw new TransactionException(strBuilder.toString(), exc);
+		} catch (ParseException e) {
+			throw new TransactionException("Error parseando un dato: " + e.getMessage());
 		}
 		return totalUpdated;
 	}
@@ -689,6 +737,8 @@ public class DataAccess implements IDataAccess {
 			final StringBuilder strBuilder = new StringBuilder(" **** Exception detail: ");
 			strBuilder.append(exc.getCause() != null ? exc.getCause().getMessage() : exc.getMessage());
 			throw new TransactionException(strBuilder.toString(), exc);
+		} catch (ParseException e) {
+			throw new TransactionException("Error parseando un dato: " + e.getMessage());
 		}
 		return totalUpdated;
 	}

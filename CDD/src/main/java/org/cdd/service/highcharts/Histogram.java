@@ -39,16 +39,22 @@ public class Histogram extends GenericHighchartModel {
 		Map<String, Map<String, Number>> newSeries = new HashMap<String, Map<String,Number>>();
 		double minimal = 0.0;
 		
-		int numTuplas = seriesSQL.size();		
-		FieldViewSet antiguo = seriesSQL.get(0).keySet().iterator().next();
-		FieldViewSet reciente = seriesSQL.get(numTuplas-1).keySet().iterator().next();
-		Date fechaCalMasAntigua = (Date) antiguo.getValue(orderByField.getMappingTo());
-		Date fechaCalMasReciente = (Date) reciente.getValue(orderByField.getMappingTo());
-		String escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));			
-		if (escalado == null){
-			escalado = "automatic";
+		List<String> periodos = new ArrayList<String>();
+		String escalado = "automatic";
+		int numTuplas = seriesSQL.size();	
+		if (numTuplas > 0) {
+					
+			FieldViewSet antiguo = seriesSQL.get(0).keySet().iterator().next();
+			FieldViewSet reciente = seriesSQL.get(numTuplas-1).keySet().iterator().next();
+			Date fechaCalMasAntigua = (Date) antiguo.getValue(orderByField.getMappingTo());
+			Date fechaCalMasReciente = (Date) reciente.getValue(orderByField.getMappingTo());
+			escalado = data_.getParameter(filtro_.getNameSpace().concat(".").concat(HistogramUtils.ESCALADO_PARAM));			
+			if (escalado == null){
+				escalado = "automatic";
+			}
+			periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(fechaCalMasReciente, fechaCalMasAntigua, escalado);
 		}
-		List<String> periodos = HistogramUtils.obtenerPeriodosEjeXConEscalado(fechaCalMasReciente, fechaCalMasAntigua, escalado);
+		
 		
 		/**
 		 * Un ejemplo con dos dimensiones para el group by

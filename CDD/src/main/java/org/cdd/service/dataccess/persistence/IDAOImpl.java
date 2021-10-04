@@ -1,6 +1,7 @@
 package org.cdd.service.dataccess.persistence;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -56,33 +57,33 @@ public interface IDAOImpl {
 	public static final String SQL_EQUALS_OPERATOR = "=", SQL_MINOR_EQUALS_OPERATOR = "<=", SQL_MAYOR_EQUALS_OPERATOR = ">=",
 			SQL_MINOR_OPERATOR = "<", SQL_MAYOR_OPERATOR = ">", EMPTY_DATE = "0000-00-00";
 
-	public long countAll(final FieldViewSet entidad, final DAOConnection conn) throws DatabaseException;
+	public long countAll(final FieldViewSet entidad, final DAOConnection conn) throws DatabaseException, ParseException;
 
 	public double selectWithAggregateFunction(final FieldViewSet fieldViewSet, final String aggregateFunction, final int fieldToAggregate,
-			final DAOConnection conn) throws DatabaseException;
+			final DAOConnection conn) throws DatabaseException, ParseException;
 
 	public List<Map<FieldViewSet, Map<String,Double>>> selectWithAggregateFuncAndGroupBy(final FieldViewSet fieldViewSet,
 			final List<IEntityLogic> joinFViewSet, final List<IFieldLogic> joinFView, final String aggregateFunction_,
 			final IFieldLogic[] fieldsToAggregate, final IFieldLogic[] fieldsForGroupBy, final IFieldLogic orderByField, final String order, final DAOConnection conn)
-			throws DatabaseException;
+			throws DatabaseException, ParseException;
 
 	public List<FieldViewSet> selectWithDistinct(final FieldViewSet fieldViewSet, final int fieldForDistinct, final String order,
-			final DAOConnection conn) throws DatabaseException;
+			final DAOConnection conn) throws DatabaseException, ParseException;
 
-	public int update(final String service, final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException;
+	public int update(final String service, final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException;
 
-	public int delete(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException;
+	public int delete(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException;
 
 	public List<FieldViewSetCollection> queryWithPagination(final boolean firstOnly,
 			final List<FieldViewSetCollection> entidadesCollection, final int tamPaginacion, final int offset_,
-			final String[] orderFieldsCadena_, final String orderDirec_, final DAOConnection conn) throws DatabaseException;
+			final String[] orderFieldsCadena_, final String orderDirec_, final DAOConnection conn) throws DatabaseException, ParseException;
 
 	public List<List<Serializable>> selectWithSpecificFields(final FieldViewSet fieldViewSet, final List<Integer> fieldMappings,
-			final DAOConnection conn) throws DatabaseException;
+			final DAOConnection conn) throws DatabaseException, ParseException;
 
-	public FieldViewSet getRecordByPrimaryKey(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException;
+	public FieldViewSet getRecordByPrimaryKey(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException;
 
-	public FieldViewSet insert(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException;
+	public FieldViewSet insert(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException;
 
 	public String getSequenceExpr(final IFieldLogic field);
 

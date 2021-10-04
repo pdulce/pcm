@@ -66,54 +66,58 @@ public class ThreadSafeSimpleDateFormat {
 
 	/** posible nuevo formato: Mon May 28 00:00:00 CEST 2018 **/
 	public Date parse(final Serializable value) throws ParseException {
-		if (value instanceof Date) {
-			return (Date) value;
-		}else if (value instanceof Timestamp){
-			return (Timestamp) value;
-		}		
-		DateFormat df = null;
-		String dateFormatted = value.toString();
-		if (dateFormatted == null || "".equals(value)){
-			return null;
-		}else{//quitamos decimales que se cuelan durante las conversiones a String
-			dateFormatted = dateFormatted.replaceAll(PCMConstants.REGEXP_POINT.concat("0"), "");
-			dateFormatted = dateFormatted.replaceAll("\n", "");
-			dateFormatted = dateFormatted.replaceAll("\t", "");
-			//dateFormatted = dateFormatted.replaceAll(" ", "");
-		}
-		
-		if (dateFormatted.indexOf("CEST") != -1 || dateFormatted.indexOf("CET") != -1){
-			try{
-				DateFormatSymbols symbols = new DateFormatSymbols(new Locale("en","US"));
-				df = new SimpleDateFormat(LITERAL_DATE_FORMAT, symbols);
+		String dateFormatted = "";
+		try {
+			if (value instanceof Date) {
+				return (Date) value;
+			}else if (value instanceof Timestamp){
+				return (Timestamp) value;
+			}
+			dateFormatted = value.toString();
+			DateFormat df = null;			
+			if (dateFormatted == null || "".equals(value)){
+				return null;
+			}else{//quitamos decimales que se cuelan durante las conversiones a String
+				dateFormatted = dateFormatted.replaceAll(PCMConstants.REGEXP_POINT.concat("0"), "");
+				dateFormatted = dateFormatted.replaceAll("\n", "");
+				dateFormatted = dateFormatted.replaceAll("\t", "");
+				//dateFormatted = dateFormatted.replaceAll(" ", "");
+			}
+			
+			if (dateFormatted.indexOf("CEST") != -1 || dateFormatted.indexOf("CET") != -1){
+				try{
+					DateFormatSymbols symbols = new DateFormatSymbols(new Locale("en","US"));
+					df = new SimpleDateFormat(LITERAL_DATE_FORMAT, symbols);
+					return df.parse(dateFormatted);
+				}catch (ParseException pExc){
+					DateFormatSymbols symbols = new DateFormatSymbols(new Locale("es","ES"));
+					df = new SimpleDateFormat(LITERAL_DATE_FORMAT, symbols);
+					return df.parse(dateFormatted);
+				}
+			}else if (dateFormatted.indexOf("-") != -1 && dateFormatted.length() == 10) {
+				df = new SimpleDateFormat(SHORT_DATE_FORMAT_GUION);
+				df.setLenient(false);
 				return df.parse(dateFormatted);
-			}catch (ParseException pExc){
-				DateFormatSymbols symbols = new DateFormatSymbols(new Locale("es","ES"));
-				df = new SimpleDateFormat(LITERAL_DATE_FORMAT, symbols);
+			}else if (dateFormatted.indexOf("-") != -1 && dateFormatted.indexOf(":") != -1 && dateFormatted.length() > 10) {
+				df = new SimpleDateFormat(LONG_DATE_FORMAT_GUION);
+				df.setLenient(false);
+				return df.parse(dateFormatted.substring(0,19));
+			}else if (dateFormatted.indexOf("/") != -1 && dateFormatted.length()==8){
+				df = new SimpleDateFormat(SHORT_DATE_FORMAT_SLASH_2YEARS);
+				df.setLenient(false);
+				return df.parse(dateFormatted);
+			}else if (dateFormatted.indexOf("/") != -1 && dateFormatted.length()==10){
+				df = new SimpleDateFormat(SHORT_DATE_FORMAT_SLASH);
+				df.setLenient(false);
+				return df.parse(dateFormatted);
+			} else if (dateFormatted.indexOf("/") != -1 && dateFormatted.indexOf(":") != -1 && dateFormatted.length() > 10){
+				df = new SimpleDateFormat(LONG_DATE_FORMAT_SLASH);
+				df.setLenient(false);
 				return df.parse(dateFormatted);
 			}
-		}else if (dateFormatted.indexOf("-") != -1 && dateFormatted.length() == 10) {
-			df = new SimpleDateFormat(SHORT_DATE_FORMAT_GUION);
-			df.setLenient(false);
-			return df.parse(dateFormatted);
-		}else if (dateFormatted.indexOf("-") != -1 && dateFormatted.indexOf(":") != -1 && dateFormatted.length() > 10) {
-			df = new SimpleDateFormat(LONG_DATE_FORMAT_GUION);
-			df.setLenient(false);
-			return df.parse(dateFormatted.substring(0,19));
-		}else if (dateFormatted.indexOf("/") != -1 && dateFormatted.length()==8){
-			df = new SimpleDateFormat(SHORT_DATE_FORMAT_SLASH_2YEARS);
-			df.setLenient(false);
-			return df.parse(dateFormatted);
-		}else if (dateFormatted.indexOf("/") != -1 && dateFormatted.length()==10){
-			df = new SimpleDateFormat(SHORT_DATE_FORMAT_SLASH);
-			df.setLenient(false);
-			return df.parse(dateFormatted);
-		} else if (dateFormatted.indexOf("/") != -1 && dateFormatted.indexOf(":") != -1 && dateFormatted.length() > 10){
-			df = new SimpleDateFormat(LONG_DATE_FORMAT_SLASH);
-			df.setLenient(false);
-			return df.parse(dateFormatted);
+		}catch (java.text.ParseException parseExc) {
+			throw new ParseException("Unparseable date: " + dateFormatted, -1);
 		}
-		
 		throw new ParseException("Unparseable date: " + dateFormatted, -2);
 	}
 

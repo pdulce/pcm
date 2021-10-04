@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	}
 
 	@Override
-	public final FieldViewSet insert(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException {
+	public final FieldViewSet insert(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException {
 		final StringBuilder fieldSet = new StringBuilder();
 		final StringBuilder fieldSetValues = new StringBuilder();
 		Collection<IFieldLogic> camposConArgumentos = new ArrayList<IFieldLogic>();
@@ -175,7 +176,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	}
 
 	@Override
-	public final int update(final String service, final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException {
+	public final int update(final String service, final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException {
 
 		if (IDataAccess.ELIMINAR_ENTIDAD.equals(service)) {
 			final IFieldLogic fieldFecBaja = fieldViewSet.getEntityDef().getFieldSet()
@@ -307,7 +308,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	}
 
 	@Override
-	public final int delete(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException {
+	public final int delete(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException {
 		final StringBuilder fieldSetValues = new StringBuilder();
 		boolean first = true;
 		Iterator<IFieldLogic> iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
@@ -378,7 +379,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	}
 
 	@Override
-	public final FieldViewSet getRecordByPrimaryKey(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException {
+	public final FieldViewSet getRecordByPrimaryKey(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException, ParseException {
 		String whereClausule = SQLUtils.getWhereClausuleFKorPK(fieldViewSet);
 		final String sql = SQLUtils
 				.replaceSelectByPkSql(CONSULTA_BY_PK, fieldViewSet.getEntityDef().getName().toUpperCase(), whereClausule);
@@ -523,7 +524,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 
 	@Override
 	public final List<List<Serializable>> selectWithSpecificFields(final FieldViewSet fieldViewSet, final List<Integer> fieldMappings,
-			final DAOConnection conn) throws DatabaseException {
+			final DAOConnection conn) throws DatabaseException, ParseException {
 		// OJO: falla porque en lugar de ='' lo que hace es un like y al ser un campo de codigo, se
 		// loa
 		List<IFieldLogic> fieldCollection = new ArrayList<IFieldLogic>();
@@ -666,7 +667,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	public final List<Map<FieldViewSet, Map<String,Double>>> selectWithAggregateFuncAndGroupBy(final FieldViewSet fieldViewSet,
 			final List<IEntityLogic> joinFViewSet, final List<IFieldLogic> joinFView, final String aggregateFunction_,
 			final IFieldLogic[] fieldsToAggregate, final IFieldLogic[] fieldsForGroupBy, final IFieldLogic orderbyField, final String order, final DAOConnection conn)
-			throws DatabaseException {
+			throws DatabaseException, ParseException {
 //n
 		List<IFieldLogic> fieldCollection = new ArrayList<IFieldLogic>();
 		fieldCollection.addAll(fieldViewSet.getEntityDef().getFieldSet().values());
@@ -843,7 +844,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	
 	@Override
 	public final double selectWithAggregateFunction(final FieldViewSet fieldViewSet, final String aggregateFunction, final int fieldIndex_,
-			final DAOConnection conn) throws DatabaseException {
+			final DAOConnection conn) throws DatabaseException, ParseException {
 
 		List<IFieldLogic> fieldCollection = new ArrayList<IFieldLogic>();
 		fieldCollection.addAll(fieldViewSet.getEntityDef().getFieldSet().values());
@@ -926,7 +927,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 
 	@Override
 	public final List<FieldViewSet> selectWithDistinct(final FieldViewSet fieldViewSet, final int fieldIndex, final String order_,
-			final DAOConnection conn) throws DatabaseException {
+			final DAOConnection conn) throws DatabaseException, ParseException {
 
 		final String fieldName = fieldViewSet.getEntityDef().searchField(fieldIndex).getName();
 		List<FieldViewSet> resultados = new ArrayList<FieldViewSet>();
@@ -1029,7 +1030,8 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	}
 
 	@Override
-	public final long countAll(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException {
+	public final long countAll(final FieldViewSet fieldViewSet, final DAOConnection conn) 
+			throws DatabaseException, ParseException {
 		final StringBuilder fieldSetValues = new StringBuilder();
 		boolean first = true;
 		List<IFieldLogic> fieldCollection = new ArrayList<IFieldLogic>();
@@ -1120,7 +1122,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	@Override
 	public final List<FieldViewSetCollection> queryWithPagination(final boolean firstAndLastOnly_,
 			final List<FieldViewSetCollection> entidadesCollection_, final int tamPaginacion_, final int offset_,
-			final String[] orderFields_, final String orderDirec_, final DAOConnection conn) throws DatabaseException {
+			final String[] orderFields_, final String orderDirec_, final DAOConnection conn) throws DatabaseException, ParseException {
 		final List<FieldViewSetCollection> resultado = new ArrayList<FieldViewSetCollection>();
 		
 		String[] orderFieldsAlias_ = new String[orderFields_.length];
@@ -1654,7 +1656,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 	
 	
 	private final FieldViewSetCollection getRow(final ResultSet resultSet, final FieldViewSetCollection prototypeResult,
-			final Map<String, Map<String, String>> fieldAliases_, final StringBuilder sqlEntityFieldsToGet) throws DatabaseException {
+			final Map<String, Map<String, String>> fieldAliases_, final StringBuilder sqlEntityFieldsToGet) throws DatabaseException, ParseException {
 		
 		Collection<String> descartes = new ArrayList<String>();
 		

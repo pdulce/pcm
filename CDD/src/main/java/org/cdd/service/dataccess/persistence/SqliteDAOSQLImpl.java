@@ -85,7 +85,7 @@ public class SqliteDAOSQLImpl extends AnsiSQLAbstractDAOImpl {
 	}
 
 	@Override
-	protected String getDateOfRightSqlExpression(final String dateFormatted, final String operator) {
+	protected String getDateOfRightSqlExpression(final String dateFormatted, final String operator) throws ParseException{
 		try {
 			final StringBuilder valuesWithOr = new StringBuilder(), newDateUnformatted = new StringBuilder();
 			final Calendar cal = Calendar.getInstance();
@@ -116,7 +116,7 @@ public class SqliteDAOSQLImpl extends AnsiSQLAbstractDAOImpl {
 			return valuesWithOr.toString();
 		}
 		catch (final ParseException parseExc) {
-			return null;
+			throw parseExc;
 		}
 	}
 

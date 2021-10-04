@@ -16,9 +16,7 @@ import org.cdd.common.utils.CommonUtils;
 import org.cdd.service.DomainService;
 import org.cdd.service.component.BodyContainer;
 import org.cdd.service.component.Form;
-import org.cdd.service.component.IViewComponent;
 import org.cdd.service.component.Translator;
-import org.cdd.service.component.XmlUtils;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.IFieldView;
 import org.cdd.service.component.definitions.IRank;
@@ -171,7 +169,8 @@ public abstract class GenericHighchartModel implements IStats {
 				IFieldLogic fieldForAgrupacionPor = entidadGrafico.searchField(Integer.parseInt(categoriasAgrupacion[i]));	
 				fieldsForAgrupacionesPor[i] = fieldForAgrupacionPor;
 			}
-				
+			
+			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
 			List<Map<FieldViewSet, Map<String,Double>>> listaValoresAgregados = null;
 			if (fieldsForAgrupacionesPor.length > 0){				
 				//generamos una serie por cada agregado (limitar esto solo a timeseries)
@@ -186,16 +185,21 @@ public abstract class GenericHighchartModel implements IStats {
 						listaValoresAgregados.addAll(serie_iesima);
 					}
 				}else {
-					listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
+					try {
+						listaValoresAgregados = dataAccess.selectWithAggregateFuncAndGroupBy(userFilter, joinFieldViewSet,
 							joinFView, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, IAction.ORDEN_ASCENDENTE);
+					} catch (Throwable dataB_exc) {
+						generateJSON(new ArrayList<Map<FieldViewSet,Map<String,Double>>>(), data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, aggregateFunction);
+						setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, "", 
+								dataB_exc.getMessage()/*textoTotal*/, nombreCatAgrupacion, 0.0, units);
+						return;
+					}
 
 				}
 			}else {
 				throw new RuntimeException ("ERROR: No ha definido en el gráfico una columna de agrupación (p.e. fecha_trámite, fecha_alta,...)");
 			}
 								
-			String units = getUnits(userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, aggregateFunction, data_);
-
 			Map<String, String> promedio_y_total = generateJSON(listaValoresAgregados, data_, userFilter, fieldsForAgregadoPor, fieldsForAgrupacionesPor, orderByField, aggregateFunction);			
 			String textoPromedio = "", textoTotal = "";
 			if (!promedio_y_total.isEmpty()) {
@@ -204,16 +208,11 @@ public abstract class GenericHighchartModel implements IStats {
 				textoTotal = tuplaRetornos.getValue();
 			}
 			setAttrsOnRequest(dataAccess, data_, userFilter, aggregateFunction, fieldsForAgregadoPor, fieldsForAgrupacionesPor, textoPromedio, textoTotal, nombreCatAgrupacion, 0.0, units);
-
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(DECIMALES), decimals);
 			data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat("typeOfSeries"), typeOfSeries);
 						
 		} catch (Throwable exc10) {
-			final StringBuilder sbXml = new StringBuilder();
-			sbXml.append("<BR/><BR/><font>" + exc10.getMessage()+ "</font>");
-			sbXml.append("<UL align=\"center\" id=\"pcmUl\">");
-			sbXml.append("<LI><a onClick=\"window.history.back();\"><span>Volver</span></a></LI></UL>");
-			XmlUtils.closeXmlNode(sbXml, IViewComponent.HTML_);
+			exc10.printStackTrace();
 		}
 
 	}
@@ -288,12 +287,11 @@ public abstract class GenericHighchartModel implements IStats {
 			subTitle = subTitle.replaceAll("#", units);
 		}
 		
-		/*** PINTAR CRITERIOS DE SELECCIÓN SI NOS APETECE:
-		 * String criteria = pintarCriterios(filtro_, data_);
-		 * 
-		 */
+		/*** PINTAR CRITERIOS DE SELECCIÓN **/
+		String criteria = pintarCriterios(filtro_, data_);
+		 
 		
-		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), "");//subTitle + "<br/> " + crit);
+		data_.setAttribute(data_.getParameter("idPressed")+getScreenRendername().concat(SUBTILE_ATTR), criteria);//subTitle + "<br/> " + crit);
 		data_.setAttribute(CONTAINER, getScreenRendername().concat(".jsp"));
 		data_.setAttribute("width", "1180px");
 		data_.setAttribute("height", "640px");
