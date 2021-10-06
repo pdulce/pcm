@@ -98,9 +98,12 @@ public class ActionPagination extends AbstractAction {
 				throw new ParameterBindingException(InternalErrorsConstants.GRID_ORDERDIR_ERROR);
 			}
 		}
-		
-		boolean isColumnOrderWasPressed = datamap.getParameter(PaginationGrid.ORDENACION) != null && 
+		boolean isColumnOrderWasPressed = false;
+		if (pagGrid.getDefaultOrderFields() != null && pagGrid.getDefaultOrderFields().length > 0 && this.getDataBus().getParameter(PaginationGrid.ORDENACION)!= null) {
+			isColumnOrderWasPressed = !pagGrid.getDefaultOrderFields()[0].contentEquals(this.getDataBus().getParameter(PaginationGrid.ORDENACION)) && 
 				("0".contentEquals(datamap.getParameter(PaginationGrid.PAGE_CLICKED)) || null == datamap.getParameter(PaginationGrid.PAGE_CLICKED));
+		}
+		
 		if (isColumnOrderWasPressed) {
 			Iterator<FieldViewSet> itFsets = pagGrid.getFieldViewSets().iterator();
 			FieldViewSet fSet = itFsets.next();
