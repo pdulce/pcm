@@ -252,7 +252,7 @@
 				</fieldViewSet> 
 			</form>
 
-			<grid title="Listado peticiones" orderDirection="desc" defaultOrderField="peticiones.37"
+			<grid title="Listado peticiones" orderDirection="desc" defaultOrderField="peticiones.1"
 				eventsRegistered="detail"><!-- detail -->
 
 				<fieldViewSet entitymodel="peticiones"	nameSpace="peticiones">
