@@ -702,7 +702,7 @@ public class FieldViewSet implements Serializable {
 			}else{
 				value = fieldValue_.getValue();
 			}
-			if (value == null || "".contentEquals(value.toString())){
+			if (value == null){
 				return null;
 			}
 			IFieldAbstract fieldAbstract = null;
@@ -713,7 +713,7 @@ public class FieldViewSet implements Serializable {
 			}
 			
 			if (value != null) {
-				if (fieldAbstract.isDate()) {
+				if (fieldAbstract.isDate() && !"".contentEquals(value.toString())) {
 					try {
 						if (fieldAbstract.isTimestamp()) {
 							return new Timestamp(CommonUtils.myDateFormatter.parse(value.toString()).getTime());
