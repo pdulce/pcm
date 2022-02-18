@@ -677,7 +677,15 @@ public class FieldViewSet implements Serializable {
 	}
 	
 	public Serializable getValue(final int fieldPosition) {
-		return getValue(this.entityLogic.searchField(fieldPosition).getName());
+		IFieldLogic ifLogic = this.entityLogic.searchField(fieldPosition);
+		if (ifLogic == null) {
+			throw new RuntimeException("error en búsqueda de fieldPosition: " + fieldPosition);
+		}
+		Serializable a = this.getValue(ifLogic.getName());
+		/*if (a == null) {
+			System.out.println("error en getting value de fieldPosition: " + ifLogic.getName());	
+		}*/
+		return a;
 	}
 	
 	public Serializable getValue(final String fieldName) {
@@ -694,7 +702,7 @@ public class FieldViewSet implements Serializable {
 			}else{
 				value = fieldValue_.getValue();
 			}
-			if (value == null){
+			if (value == null || "".contentEquals(value.toString())){
 				return null;
 			}
 			IFieldAbstract fieldAbstract = null;
