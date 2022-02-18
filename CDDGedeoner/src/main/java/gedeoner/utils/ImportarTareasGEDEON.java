@@ -413,7 +413,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 								}
 							}else {
 								FieldViewSet duplicado = existenColl.iterator().next();
-								Timestamp tStampFecEstadoModifReg = (Timestamp) registro.getValue(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF);
+								Timestamp tStampFecEstadoModifReg = (Timestamp) registro.getValue(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF);								 							
 								Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF);
 								if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
 									IDs_changed.add(String.valueOf(codGEDEON));
