@@ -681,11 +681,7 @@ public class FieldViewSet implements Serializable {
 		if (ifLogic == null) {
 			throw new RuntimeException("error en búsqueda de fieldPosition: " + fieldPosition);
 		}
-		Serializable a = this.getValue(ifLogic.getName());
-		/*if (a == null) {
-			System.out.println("error en getting value de fieldPosition: " + ifLogic.getName());	
-		}*/
-		return a;
+		return this.getValue(ifLogic.getName());		
 	}
 	
 	public Serializable getValue(final String fieldName) {
@@ -712,38 +708,40 @@ public class FieldViewSet implements Serializable {
 				fieldAbstract = new FieldAbstract(fView.getType());
 			}
 			
-			if (value != null) {
-				if (fieldAbstract.isDate() && !"".contentEquals(value.toString())) {
-					try {
-						if (fieldAbstract.isTimestamp()) {
-							return new Timestamp(CommonUtils.myDateFormatter.parse(value.toString()).getTime());
-						}
-						return CommonUtils.myDateFormatter.parse(value.toString());	
-											
-					} catch (ParseException e) {
-						e.printStackTrace();
+			if (fieldAbstract.isDate()) {
+				try {
+					if ("".contentEquals(value.toString()) ){
+						 return null;
 					}
-				} else if (fieldAbstract.isLong() && value instanceof String) {
-
-					return Long.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
-
-				} else if (fieldAbstract.isInteger() && value instanceof String) {
-
-					return Integer.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
-
-				} else if (fieldAbstract.isDecimal() && value instanceof String) {
-					try {
-						return CommonUtils.numberFormatter.parse(value.toString());
-					} catch (ParseException e) {
-						e.printStackTrace();
+					if (fieldAbstract.isTimestamp()) {						 
+						return new Timestamp(CommonUtils.myDateFormatter.parse(value.toString()).getTime());
 					}
-				} else if (fieldAbstract.isBoolean() && value instanceof String) {
-					return ("1".contentEquals(value.toString()) || "true".contentEquals((value.toString()).toLowerCase()));
-				} else {
-					return value;
+					return CommonUtils.myDateFormatter.parse(value.toString());	
+					
+				} catch (ParseException e) {
+					e.printStackTrace();
 				}
+			} else if (fieldAbstract.isLong() && value instanceof String) {
+
+				return Long.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
+
+			} else if (fieldAbstract.isInteger() && value instanceof String) {
+
+				return Integer.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
+
+			} else if (fieldAbstract.isDecimal() && value instanceof String) {
+				try {
+					return CommonUtils.numberFormatter.parse(value.toString());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} else if (fieldAbstract.isBoolean() && value instanceof String) {
+				return ("1".contentEquals(value.toString()) || "true".contentEquals((value.toString()).toLowerCase()));
+			} else {
+				return value;
 			}
 		}
+		
 		if (fieldValue_ != null) {
 			return fieldValue_.getValue();
 		}
