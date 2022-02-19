@@ -34,9 +34,16 @@ xmlns:service="http://pcm.framework.org/service"
 								<option code="whitemode" title="light style"></option>
 							</optionValues>
 						</fieldView>
-						<fieldView name="paletaColores" type="select" size="3"
+						<!-- fieldView name="paletaColores" type="select" size="8"
 							required="true" persistsIn="%session%">
 							<optionValues entitymodel="paletaColoresGraph" selectionMultiple="false"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>-->
+						
+						<fieldView name="paletaColores" type="select" size="8"
+							required="true" persistsIn="%session%">
+							<optionValues codeField="1" entitymodel="paletaColoresGraph" selectionMultiple="false"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
