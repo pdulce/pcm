@@ -30,7 +30,7 @@ String alerts = (String) request.getAttribute("#MESSAGES_ALERTS#");
 	  	   String event = ((String[]) request.getAttribute("event"))[0];
 	  	   if ( event.contentEquals("Authentication.submitForm") && profile.contentEquals("")){ %>
 	  		<div class="container-fluid">
-				<span class="navbar-brand mb-0 h1">Portal CDISM</span>
+				<span class="navbar-brand mb-0 h1">Centros Desarrollo GISS - Utilidades</span>
 			</div>
 		 <%}%>
 	  	 
@@ -47,7 +47,7 @@ String alerts = (String) request.getAttribute("#MESSAGES_ALERTS#");
 		     
      		<%if ( !event.contentEquals("Authentication.submitForm") || !profile.contentEquals("")) { %>
      		  <div class="container-fluid">
-		       		<span class="navbar-brand mb-0 h1">Portal CDISM</span>
+		       		<span class="navbar-brand mb-0 h1">Centros Desarrollo GISS - Utilidades</span>
 			     
  	  		       	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			         <ul class="navbar-nav me-auto mb-lg-0">

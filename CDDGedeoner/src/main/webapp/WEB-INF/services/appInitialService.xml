@@ -36,10 +36,8 @@ xmlns:service="http://pcm.framework.org/service"
 						</fieldView>
 						<fieldView name="paletaColores" type="select" size="3"
 							required="true" persistsIn="%session%">
-							<optionValues> 
-								<option code="1" title="Paleta Colores ISM" selected="true"></option>
-								<option code="2" title="Paleta Colores INSS"></option>
-								<option code="3" title="Paleta Colores Libre"></option>
+							<optionValues entitymodel="paletaColoresGraph" selectionMultiple="false"
+								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
 						
