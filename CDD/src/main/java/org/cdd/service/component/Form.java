@@ -489,7 +489,7 @@ public class Form extends AbstractComponent {
 				
 				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
 				int indiceOpciones = 0;
-				if (!hasCodeMappingUserDefined && !fieldView.getEntityField().getAbstractField().isBoolean()) {
+				if (fieldView.getEntityField() != null && !hasCodeMappingUserDefined && !fieldView.getEntityField().getAbstractField().isBoolean()) {
 					
 					//recogemos todos los valores en esa tabla para este campo
 					String[] ascFieldOrderBy= new String[]{};
@@ -574,7 +574,7 @@ public class Form extends AbstractComponent {
 						}
 					}
 	
-				} else if (!fieldView.getEntityField().getAbstractField().isBoolean()){
+				}else if (fieldView.getEntityField() != null && hasCodeMappingUserDefined && !fieldView.getEntityField().getAbstractField().isBoolean()) {
 	
 					List<FieldViewSet> results = dataAccess.selectWithDistinct(fieldviewSetDeListaDesplegable, descrMappings[0], IAction.ORDEN_ASCENDENTE);
 					int resultsLength= results.size();
@@ -591,14 +591,33 @@ public class Form extends AbstractComponent {
 						}
 					}// for
 					
-				} else {//tratamiento con campos boolean
+				} else if (fieldView.getEntityField() != null && fieldView.getEntityField().getAbstractField().isBoolean()){//tratamiento con campos boolean
 					String val_1 = "1", val_0 = "0";
 					Option newOption_1 = new Option(val_1, val_1, valoresPorDefecto_.contains(val_1)/* selected */);				
 					listaOpciones.add(newOption_1);
 					Option newOption_0 = new Option(val_0, val_0, valoresPorDefecto_.contains(val_0)/* selected */);				
 					listaOpciones.add(newOption_0);
-				}
-			}else{//es una userDefined radio, checkbox o select
+					
+				} else if (fieldView.getEntityField()== null) {					
+					String orderField = entidadCharger.getName().concat("." + String.valueOf(fieldView.getFieldAndEntityForThisOption().getInnerCodeFieldMapping()));
+					String[] orderFields = new String[] {orderField};
+					List<FieldViewSet> results = dataAccess.searchByCriteria(new FieldViewSet(entidadCharger), orderFields, IAction.ORDEN_ASCENDENTE);
+					int resultsLength= results.size();
+					for (int i = 0; i < resultsLength; i++) {
+						FieldViewSet fSet = results.get(i);
+						String val_ = fSet.getValue(descrMappings[0]).toString();
+						String code_ = fSet.getValue(fieldView.getFieldAndEntityForThisOption().getInnerCodeFieldMapping()).toString();
+						val_ = val_ == null ? "" : val_;
+						Option newOption = new Option(code_, val_, valoresPorDefecto_.contains(val_)/* selected */);
+						if (val_.equals(firstOptionValue.toString())) {
+							listaOpciones.add(indiceOpciones, newOption);
+						} else {
+							listaOpciones.add(newOption);
+						}
+					}// for
+				}				
+				
+			}else{//es una userDefined radio, checkbox o select: NO HAY ENTIDAD DE LA QUE SACAR LOS DATOS PARA EL DESPLEGABLE
 				listaOpciones.addAll(fieldView.getFieldAndEntityForThisOption().getOptions());
 				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
 			}

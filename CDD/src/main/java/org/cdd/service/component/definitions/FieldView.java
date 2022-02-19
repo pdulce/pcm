@@ -686,9 +686,9 @@ public class FieldView implements IFieldView, Serializable {
 
 				String codeField = optionSet.getAttribute(OptionsSelection.CODE_FIELD);
 				if (codeField == null || codeField.equals("")) {
-					codeField = "-1";
+					codeField = "1";
 				}
-				this.fieldAndEntityForThisOption = new OptionsSelection(entityOptionsName, this.getEntityField().getMappingTo(),
+				this.fieldAndEntityForThisOption = new OptionsSelection(entityOptionsName, this.isUserDefined() ? 0 : this.getEntityField().getMappingTo(),
 						Integer.parseInt(codeField), descrArr);
 
 			} else {
