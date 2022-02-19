@@ -13,7 +13,7 @@
 <%	
   String visionadoSelected = "2D";
   if (request.getAttribute("visionado") != null){
-	  visionadoSelected = ((String[]) request.getAttribute("visionado"))[0];	  
+	  visionadoSelected = ((String[]) request.getAttribute("visionado"))[0];
   }
 %>
 

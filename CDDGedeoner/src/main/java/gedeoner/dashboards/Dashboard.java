@@ -46,6 +46,8 @@ public class Dashboard extends GenericHighchartModel {
 		dataMapPeticiones.copyMap(_data);
 		dataMapPeticiones.setAttribute(PCMConstants.APP_PROFILE,(String) _data.getAttribute(PCMConstants.APP_PROFILE));
 		
+		dataMapPeticiones.setParameter(nameSpaceOfButtonFieldSet.concat(".").concat(HistogramUtils.VISIONADO_PARAM), _data.getAttribute("visionado")==null?"2D":(String)_data.getAttribute("visionado"));
+		
 		dataMapPeticiones.removeParameter("idPressed");
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat(ENTIDAD_GRAFICO_PARAM));
 		dataMapPeticiones.removeParameter(nameSpaceOfButtonFieldSet.concat(".").concat("seriesType"));
