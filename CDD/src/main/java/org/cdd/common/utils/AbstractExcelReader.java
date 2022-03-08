@@ -23,7 +23,6 @@ import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
 import org.cdd.service.dataccess.definitions.IFieldLogic;
 
-
 public abstract class AbstractExcelReader {
 	
 	protected static Map<String, Integer> COLUMNSET2ENTITYFIELDSET_MAP = new HashMap<String, Integer>();
