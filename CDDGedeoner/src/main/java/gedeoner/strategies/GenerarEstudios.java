@@ -101,7 +101,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		}else if (registroEstudio.getValue(ConstantesModelo.ESTUDIOS_16_VOLATILE_SUBDIRECCION) == null){
 			Long servicioId = (Long) registroEstudio.getValue(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO);
 			registroEstudio.setValue(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO, null);
-			filtroApps.setValue(ConstantesModelo.APLICATIVO_3_ID_SERVICIO, servicioId);
+			filtroApps.setValue(ConstantesModelo.APLICATIVO_3_ID_GRUPO_ESTUDIO, servicioId);
 			List<FieldViewSet> aplicaciones = dataAccess.searchByCriteria(filtroApps);
 			for (FieldViewSet aplicacion: aplicaciones) {
 				valuesPrjs.add(String.valueOf((Long)aplicacion.getValue(ConstantesModelo.APLICATIVO_1_ID)));

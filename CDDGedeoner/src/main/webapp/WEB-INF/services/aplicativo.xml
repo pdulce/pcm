@@ -33,6 +33,11 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+						<fieldView mappingTo="10" type="select" editable="true">
+							<optionValues entitymodel="servicio" selectionMultiple="true" 
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="3" type="select" size="3" editable="true">
 							<optionValues entitymodel="servicioUTE" selectionMultiple="true"
 								descrMappingTo="2">
@@ -75,6 +80,10 @@
 							<optionValues entitymodel="subdireccion" descrMappingTo="2">
 							</optionValues>
 						</fieldView>						
+						<fieldView mappingTo="10" type="select" editable="false">
+							<optionValues entitymodel="servicio" descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="servicioUTE"
 								descrMappingTo="2">
@@ -112,6 +121,10 @@
 						</fieldView>
 							<fieldView mappingTo="8" type="select" editable="false">
 								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="10" type="select" editable="false">
+								<optionValues entitymodel="servicio" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="false">
@@ -159,6 +172,10 @@
 								<optionValues entitymodel="subdireccion" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
+							<fieldView mappingTo="10" type="select" editable="true">
+								<optionValues entitymodel="servicio" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="true">
 								<optionValues entitymodel="servicioUTE"
 									descrMappingTo="2">
@@ -204,6 +221,10 @@
 							</fieldView>
 							<fieldView mappingTo="8" type="select" editable="true">
 								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
+							<fieldView mappingTo="10" type="select" editable="true">
+								<optionValues entitymodel="servicio" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="true">

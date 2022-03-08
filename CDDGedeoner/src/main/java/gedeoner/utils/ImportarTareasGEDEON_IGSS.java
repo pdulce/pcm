@@ -286,7 +286,7 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 					}
 					Long idApp = new Long(0);
 					FieldViewSet existeProyectoDadoDeAlta = new FieldViewSet(aplicativoEntidad);
-					existeProyectoDadoDeAlta.setValue(ConstantesModelo.APLICATIVO_2_ROCHADE, rochade);
+					existeProyectoDadoDeAlta.setValue(ConstantesModelo.APLICATIVO_2_ROCHADE, rochade.length() > 4 ? rochade.substring(0,4): rochade);
 					List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
 					if (apps.isEmpty()){
 						registro.setValue(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG, Integer.valueOf(2));//"HOST"
@@ -296,6 +296,10 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 						registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, idApp);
 						Long idTecnologia = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY);
 						registro.setValue(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG, idTecnologia);
+						if (registro.getValue(ConstantesModelo.PETICIONES_10_AREA_ORIGEN) == null){
+							Long idServicio = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO);
+							registro.setValue(ConstantesModelo.PETICIONES_10_AREA_ORIGEN, idServicio);				 																							
+				    	 }
 					}
 				
 					Date fec_Alta = (Date) registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
@@ -638,8 +642,8 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 					areaOrigenFs = fSetsServicios.iterator().next();
 					valueCell =	areaOrigenFs.getValue(ConstantesModelo.SERVICIO_1_ID);
 				}else {
-					System.out.println("Dar de alta el servicio: " + valueCell);
-					throw new RuntimeException("Dar de alta el servicio: " + valueCell);							
+					//Buscamos más tarde el servicio dentro de la aplicación 
+					valueCell = "";
 				}
 			}
 			valueCell = valueCell.equals("") ? null : CommonUtils.obtenerCodigo(valueCell.toString());
@@ -648,7 +652,7 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 		}
 		return valueCell;
 	}
-
+    
 	public static void main(String[] args){
 		try{
 			if (args.length < 3){

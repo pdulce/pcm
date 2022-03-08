@@ -248,7 +248,9 @@
 	 <field mappingTo="8" name="id_subdireccion" type="long" length="11" required="false" 
 	    fkParentEntities="subdireccion" fkParentFields="1"/>
 	 <field mappingTo="9" name="id_organismo" type="long" length="11" required="true"
-	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>    
+	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>
+	 <field mappingTo="10" name="id_servicio_corporativo" type="long" length="11" required="true"
+	   	   fkParentEntities="servicio" fkParentFields="1"/>    	    	      
    </entity>
    
 
