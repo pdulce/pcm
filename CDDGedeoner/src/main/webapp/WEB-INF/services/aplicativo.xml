@@ -23,12 +23,12 @@
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="5" size="20"/>
-						<fieldView mappingTo="9" type="select" size="3" editable="true">
+						<fieldView mappingTo="9" type="select" size="5" editable="true">
 							<optionValues entitymodel="unidadOrg" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="8" type="select" size="3" editable="true">
+						<fieldView mappingTo="8" type="select" size="5" editable="true">
 							<optionValues entitymodel="subdireccion" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>
@@ -38,7 +38,7 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="3" type="select" size="3" editable="true">
+						<fieldView mappingTo="3" type="select" size="5" editable="true">
 							<optionValues entitymodel="servicioUTE" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>
@@ -84,11 +84,10 @@
 							<optionValues entitymodel="servicio" descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="3" type="select" editable="false">
-							<optionValues entitymodel="servicioUTE"
-								descrMappingTo="2">
+						<!-- <fieldView mappingTo="3" type="select" editable="false">
+							<optionValues entitymodel="servicioUTE"	descrMappingTo="3">
 							</optionValues>
-						</fieldView>
+						</fieldView>-->
 						<fieldView mappingTo="7" type="text" editable="false"/>
 					</fieldViewSet>
 				</grid>
