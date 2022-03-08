@@ -178,6 +178,7 @@ public abstract class ConstantesModelo {
 	public static final int APLICATIVO_6_ID_TECNOLOGHY = 6;
 	public static final int APLICATIVO_7_MANTENIMIENTO_EN_PRODUC = 7;
 	public static final int APLICATIVO_8_ID_SUBDIRECCION = 8;
+	public static final int APLICATIVO_9_ID_ORGANISMO = 9;
 	public static final String APLICATIVO_ENTIDAD = "aplicativo";
 	
 	public static final int EJERCICIO_1_EJERCICIO = 1;

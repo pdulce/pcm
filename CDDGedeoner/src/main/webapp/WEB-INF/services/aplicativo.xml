@@ -23,6 +23,11 @@
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="5" size="20"/>
+						<fieldView mappingTo="9" type="select" size="3" editable="true">
+							<optionValues entitymodel="unidadOrg" selectionMultiple="true"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="8" type="select" size="3" editable="true">
 							<optionValues entitymodel="subdireccion" selectionMultiple="true"
 								descrMappingTo="2">
@@ -62,6 +67,10 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+						<fieldView mappingTo="9" type="select" size="3" editable="false">
+							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 						<fieldView mappingTo="8" type="select" editable="false">
 							<optionValues entitymodel="subdireccion" descrMappingTo="2">
 							</optionValues>
@@ -97,6 +106,10 @@
 						</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							<fieldView mappingTo="9" type="select" size="3" editable="false">
+							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 							<fieldView mappingTo="8" type="select" editable="false">
 								<optionValues entitymodel="subdireccion" descrMappingTo="2">
 								</optionValues>
@@ -138,6 +151,10 @@
 							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							<fieldView mappingTo="9" type="select" size="3" editable="true">
+							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+							</optionValues>
+						</fieldView>
 							<fieldView mappingTo="8" type="select" editable="true">
 								<optionValues entitymodel="subdireccion" descrMappingTo="2">
 								</optionValues>
@@ -181,6 +198,10 @@
 							</fieldView>
 							<fieldView separator="br" />
 							<fieldView separator="br" />
+							<fieldView mappingTo="9" type="select" size="3" editable="true">
+								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+								</optionValues>
+							</fieldView>
 							<fieldView mappingTo="8" type="select" editable="true">
 								<optionValues entitymodel="subdireccion" descrMappingTo="2">
 								</optionValues>

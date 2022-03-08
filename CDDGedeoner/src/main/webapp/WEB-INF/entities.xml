@@ -246,7 +246,9 @@
 	 	 fkParentEntities="tecnologia" fkParentFields="1"/>
 	 <field mappingTo="7" name="en_mantenimiento" type="boolean" length="1" required="false"/>
 	 <field mappingTo="8" name="id_subdireccion" type="long" length="11" required="false" 
-	    fkParentEntities="subdireccion" fkParentFields="1"/>    
+	    fkParentEntities="subdireccion" fkParentFields="1"/>
+	 <field mappingTo="9" name="id_organismo" type="long" length="11" required="true"
+	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>    
    </entity>
    
 
