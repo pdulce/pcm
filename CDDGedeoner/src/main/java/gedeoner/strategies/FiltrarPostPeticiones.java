@@ -54,6 +54,8 @@ public class FiltrarPostPeticiones extends DefaultStrategyLogin {
 			if (idorganismo == null){
 				return;
 			}
+			initEntitiesFactories(datamap.getEntitiesDictionary());
+			
 			// extraemos todas las aplicaciones de un organismo
 			List<Long> idAplicativos = new ArrayList<Long>();
 			
@@ -63,9 +65,7 @@ public class FiltrarPostPeticiones extends DefaultStrategyLogin {
 			for (FieldViewSet aplicacion: aplicaciones) {
 				idAplicativos.add((Long)aplicacion.getValue(ConstantesModelo.APLICATIVO_1_ID));
 			}
-
-			initEntitiesFactories(datamap.getEntitiesDictionary());
-			
+					
 			List<FieldViewSetCollection> newCollectionResults = new ArrayList<FieldViewSetCollection>();
 			for (FieldViewSetCollection record:fieldCollectionResults) {
 				FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();											

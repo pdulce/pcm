@@ -10,8 +10,9 @@
 	name="ConsultaPeticionesGEDEON"	profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 	<action event="query" submitError="ConsultaPeticionesGEDEON.query"
-		submitSucces="ConsultaPeticionesGEDEON.query" strategy="gedeoner.strategies.FiltrarPostPeticiones">
-		<!-- strategyPre="gedeoner.strategies.FiltrarPreFormulario" -->
+		submitSucces="ConsultaPeticionesGEDEON.query">
+		<!-- strategy="gedeoner.strategies.FiltrarPostPeticiones" 
+			strategyPre="gedeoner.strategies.FiltrarPreFormulario" -->
 
 		<viewComponent>
 
@@ -342,8 +343,7 @@
 						<optionValues entitymodel="tiposPeticiones"
 							descrMappingTo="2">
 						</optionValues>
-					</fieldView>
-					<fieldView mappingTo="14" editable="false" />
+					</fieldView>					
 					<fieldView mappingTo="15" editable="false" />
 					<fieldView mappingTo="16" editable="false" />
 					<fieldView separator="br" />

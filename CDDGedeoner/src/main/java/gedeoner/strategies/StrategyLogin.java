@@ -116,6 +116,8 @@ public class StrategyLogin extends DefaultStrategyLogin {
 					req.setAttribute(PCMConstants.PALETA_COLORES, colores);
 					req.setAttribute(PCMConstants.PALETA_ID, String.valueOf(idOrganismo));
 				}
+			}else {
+				req.removeAttribute(PCMConstants.PALETA_ID);
 			}
 
 		} catch (final StrategyException ecxx) {

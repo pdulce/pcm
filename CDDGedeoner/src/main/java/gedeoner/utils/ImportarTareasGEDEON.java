@@ -521,7 +521,10 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}
 			peticionRelacionada.setValue(ConstantesModelo.PETICIONES_47_PESO_EN_VERSION, pesoEnVersion);
 			peticionRelacionada.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA, true);
-			peticionRelacionada.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, codGedeonEntrega);
+			if (codGedeonEntrega != null && 
+					!"".contentEquals(codGedeonEntrega.toString()) && !"0".contentEquals(codGedeonEntrega.toString())) {
+				peticionRelacionada.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, codGedeonEntrega);
+			}
 			
 			String estadoTrabajo = (String)	peticionRelacionada.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
 			 
