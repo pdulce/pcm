@@ -1,6 +1,7 @@
 package gedeoner.strategies;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.cdd.common.exceptions.PCMConfigurationException;
@@ -36,7 +37,9 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 	}
 
 	@Override
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
+			final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
 			PCMConfigurationException {
 		
 		try {

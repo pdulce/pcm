@@ -187,9 +187,10 @@ public class ActionPagination extends AbstractAction {
 				}
 			
 				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
-					try {
-						FieldViewSetCollection filtro = myForm.getFieldViewSetCollection();
-						executeStrategyPre(dataAccess_, filtro);// Pre-condiciones
+					try {						
+						executeStrategyPre(dataAccess_, 
+								myForm.getFieldViewSets(), 
+								myForm.getFieldViewSetCollection());// Pre-condiciones
 					} catch (final StrategyException stratExc) {
 						throw stratExc;
 					}
@@ -293,7 +294,7 @@ public class ActionPagination extends AbstractAction {
 				
 				if (!dataAccess_.getStrategies().isEmpty()) {//estrategias de POST
 					try {
-						executeStrategyPostQuery(dataAccess_, coleccion);
+						executeStrategyPostQuery(dataAccess_, myForm.getFieldViewSets(), coleccion);
 						if (coleccion != null && !coleccion.isEmpty()) {
 							coleccion.iterator().next().setTotalRecords(coleccion.size());
 						}

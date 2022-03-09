@@ -13,8 +13,12 @@ import org.cdd.service.dataccess.dto.Datamap;
 
 public interface IStrategy {
 
-	public void doBussinessStrategy(Datamap datamap, IDataAccess dataAccess, Collection<FieldViewSet> bussinessObjects) throws StrategyException, PCMConfigurationException;
+	public void doBussinessStrategy(Datamap datamap, IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
+			Collection<FieldViewSet> bussinessObjects) throws StrategyException, PCMConfigurationException;
 	
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, PCMConfigurationException;
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
+			List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, PCMConfigurationException;
 
 }

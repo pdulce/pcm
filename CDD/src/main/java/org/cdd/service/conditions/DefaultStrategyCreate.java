@@ -19,7 +19,9 @@ import org.cdd.service.event.IAction;
 
 public class DefaultStrategyCreate implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final Datamap context, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets)
+	public void doBussinessStrategy(final Datamap context, final IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
+			final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException {
 		if (fieldViewSets == null || fieldViewSets.isEmpty()) {
 			throw new StrategyException(IAction.INSERT_STRATEGY_NO_RECORDS_ERR);
@@ -34,7 +36,9 @@ public class DefaultStrategyCreate implements IStrategy {
 		}
 	}
 	
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
+			List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
 		PCMConfigurationException {
 		//nothing TO DO
 	}

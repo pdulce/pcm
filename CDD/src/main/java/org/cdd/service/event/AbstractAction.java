@@ -170,7 +170,8 @@ public abstract class AbstractAction implements IAction {
 	protected abstract void bindUserInput(IViewComponent component, List<MessageException> msgs)
 			throws ParameterBindingException;
 
-	protected void executeStrategyPre(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection)
+	protected void executeStrategyPre(final IDataAccess dataAccess, final List<FieldViewSet> criteriaForm,
+			final FieldViewSetCollection fieldCollection)
 			throws StrategyException, PCMConfigurationException {
 
 		final Iterator<String> iteStrategies = dataAccess.getPreconditionStrategies().iterator();
@@ -201,13 +202,15 @@ public abstract class AbstractAction implements IAction {
 			Collection<FieldViewSet> fieldViewSetCollection = fieldCollection != null
 					? fieldCollection.copyOf().getFieldViewSets()
 					: new ArrayList<FieldViewSet>();
-			strategy.doBussinessStrategy(this.datamap, dataAccess, fieldViewSetCollection);
+			strategy.doBussinessStrategy(this.datamap, dataAccess, criteriaForm, fieldViewSetCollection);
 			fieldCollection.getFieldViewSets().clear();
 			fieldCollection.getFieldViewSets().addAll(fieldViewSetCollection);
 		}
 	}
 
-	public void executeStrategyPostQuery(final IDataAccess dataAccess, List<FieldViewSetCollection> fieldCollectionResults)
+	public void executeStrategyPostQuery(final IDataAccess dataAccess, 
+			final List<FieldViewSet> criteriaForm,
+			final List<FieldViewSetCollection> fieldCollectionResults)
 			throws StrategyException, PCMConfigurationException {
 		final Collection<IStrategy> strategiasAEjecutar = new ArrayList<IStrategy>();
 		if (this.getStrategyFactory() != null) {
@@ -249,12 +252,14 @@ public abstract class AbstractAction implements IAction {
 		while (iteStrategies.hasNext()) {
 			final IStrategy strategy = iteStrategies.next();
 			if (strategy != null) {
-				strategy.doBussinessStrategyQuery(this.datamap, dataAccess,fieldCollectionResults);
+				strategy.doBussinessStrategyQuery(this.datamap, dataAccess, criteriaForm, fieldCollectionResults);
 			}
 		}
 	}
 
-	public void executeStrategyPost(final IDataAccess dataAccess, final FieldViewSetCollection fieldCollection)
+	public void executeStrategyPost(final IDataAccess dataAccess, 
+			final List<FieldViewSet> criteriaForm,
+			final FieldViewSetCollection fieldCollection)
 			throws StrategyException, PCMConfigurationException {
 		final Collection<IStrategy> strategiasAEjecutar = new ArrayList<IStrategy>();
 		if (this.getStrategyFactory() != null) {
@@ -297,6 +302,7 @@ public abstract class AbstractAction implements IAction {
 			final IStrategy strategy = iteStrategies.next();
 			if (strategy != null) {
 				strategy.doBussinessStrategy(this.datamap, dataAccess,
+						criteriaForm,
 						fieldCollection != null ? fieldCollection.getFieldViewSets() : new ArrayList<FieldViewSet>());
 			}
 		}

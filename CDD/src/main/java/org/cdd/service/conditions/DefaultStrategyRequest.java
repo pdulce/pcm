@@ -13,7 +13,9 @@ import org.cdd.service.dataccess.dto.Datamap;
 
 public abstract class DefaultStrategyRequest implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+	public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
+			final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 		PCMConfigurationException {
 		try {
 			this.validParameters(datamap);
@@ -23,7 +25,9 @@ public abstract class DefaultStrategyRequest implements IStrategy {
 	}
 	
 	@Override
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
+			final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
 		PCMConfigurationException {
 		//nothing TO DO
 	}

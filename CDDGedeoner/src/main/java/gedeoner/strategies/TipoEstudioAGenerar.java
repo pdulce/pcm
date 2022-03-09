@@ -38,6 +38,7 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 
 	@Override
 	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, 
+			final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
 		
