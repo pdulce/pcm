@@ -102,6 +102,7 @@ public class StrategyLogin extends DefaultStrategyLogin {
 				paletaFSet = dataAccess.searchEntityByPk(paletaFSet);
 				if (paletaFSet != null) {
 					String [] colores = new String[10];
+					Long idOrganismo = (Long) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_3_ORGANISMO);
 					colores[0] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_4_COLOR_HEX_1);
 					colores[1] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_5_COLOR_HEX_2);
 					colores[2] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_6_COLOR_HEX_3);
@@ -113,14 +114,13 @@ public class StrategyLogin extends DefaultStrategyLogin {
 					colores[8] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_12_COLOR_HEX_9);
 					colores[9] = (String) paletaFSet.getValue(ConstantesModelo.PALETACOLORES_13_COLOR_HEX_10);
 					req.setAttribute(PCMConstants.PALETA_COLORES, colores);
+					req.setAttribute(PCMConstants.PALETA_ID, String.valueOf(idOrganismo));
 				}
 			}
 
-		}
-		catch (final StrategyException ecxx) {
+		} catch (final StrategyException ecxx) {
 			throw ecxx;
-		}
-		catch (final DatabaseException ecxx1) {
+		} catch (final DatabaseException ecxx1) {
 			throw new PCMConfigurationException("Configuration error: table Administrador is possible does not exist", ecxx1);
 		} finally {
 			final String langFromUserRequest = req.getLanguage();

@@ -202,7 +202,9 @@ public abstract class CDDWebController extends HttpServlet {
 		}
 		if (httpRequest.getSession().getAttribute(PCMConstants.PALETA_COLORES) != null) {
 			datamap.setAttribute(PCMConstants.PALETA_COLORES, (String[]) httpRequest.getSession().getAttribute(PCMConstants.PALETA_COLORES));
+			datamap.setAttribute(PCMConstants.PALETA_ID, (String) httpRequest.getSession().getAttribute(PCMConstants.PALETA_ID));
 		}
+		
 	}
 	
 	private void transferDatabusToHttpRequest(final Datamap datamap, final HttpServletRequest httpRequest){		
@@ -229,6 +231,7 @@ public abstract class CDDWebController extends HttpServlet {
 		}
 		if (datamap.getAttribute(PCMConstants.PALETA_COLORES) != null) {
 			httpRequest.getSession().setAttribute(PCMConstants.PALETA_COLORES, datamap.getAttribute(PCMConstants.PALETA_COLORES));
+			httpRequest.getSession().setAttribute(PCMConstants.PALETA_ID, datamap.getAttribute(PCMConstants.PALETA_ID));
 		}
 	}
 
