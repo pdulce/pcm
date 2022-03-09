@@ -1707,7 +1707,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						if (fieldAbstract.isDate() || fieldAbstract.isTimestamp()) {
 							finalresult = getTimestamp(resultSet, alias);
 						} else if (fieldAbstract.isLong()) {
-							finalresult = Long.valueOf(resultSet.getLong(alias));
+							if ( resultSet.getObject(alias)!= null && !"".contentEquals(resultSet.getString(alias))) {
+								finalresult = Long.valueOf(resultSet.getString(alias));
+							}
 						} else if (fieldAbstract.isBoolean()) {
 							Object val_ = resultSet.getObject(alias);
 							finalresult = "true".equals(val_.toString().toLowerCase()) || "1".equals(val_.toString()) ? Boolean.TRUE : Boolean.FALSE;

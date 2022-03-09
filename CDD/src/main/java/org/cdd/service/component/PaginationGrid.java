@@ -846,7 +846,7 @@ public class PaginationGrid extends AbstractComponent {
 						&& !column.getFieldAndEntityForThisOption().getEntityFromCharge().equals(column.getEntityField().getEntityDef().getName())) {						
 						valueOfColumn = procesarFkCruzado(dict, valueOfColumn, row, column);						
 					} 
-							
+												
 					StringBuilder columna = new StringBuilder(IViewComponent.TABLE_COLUMN);
 					
 					columna.append(IViewComponent.STYLE_ATTR);
