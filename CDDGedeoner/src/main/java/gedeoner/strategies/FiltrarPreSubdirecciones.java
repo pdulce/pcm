@@ -2,11 +2,13 @@ package gedeoner.strategies;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.cdd.common.PCMConstants;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
 import org.cdd.service.component.definitions.FieldViewSet;
+import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.conditions.DefaultStrategyLogin;
 import org.cdd.service.dataccess.IDataAccess;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
@@ -40,8 +42,8 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 	}
 
 	@Override
-	public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess,
-			final Collection<FieldViewSet> fieldViewSetsCriteria, final Collection<FieldViewSet> fieldViewSetsGrid)
+	public void doBussinessStrategyQuery(final Datamap datamap, final IDataAccess dataAccess,
+			final Collection<FieldViewSet> fieldViewSetsCriteria, List<FieldViewSetCollection> fieldCollectionResults)
 			throws StrategyException, PCMConfigurationException {
 		try {
 			
@@ -56,16 +58,18 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 			initEntitiesFactories(datamap.getEntitiesDictionary());
 						
 			// accedemos al objeto grabado
-			FieldViewSet subdireccion = null;
+			FieldViewSet peticionEntidad = null;
 			Iterator<FieldViewSet> iteFieldSets = fieldViewSetsCriteria.iterator();
 			while (iteFieldSets.hasNext()) {
 				FieldViewSet fSet = iteFieldSets.next();
-				if (fSet.getEntityDef().getName().equals(ConstantesModelo.SUBDIRECCION_ENTIDAD)) {
-					subdireccion = fSet;
-				}
+				if (fSet.getEntityDef().getName().equals(ConstantesModelo.PETICIONES_ENTIDAD)) {
+					peticionEntidad = fSet;
+					//accedemos al contenido del campo: PETICIONES_9_UNIDAD_ORIGEN					
+					Collection<String> colOfUnidadesOrigen = fSet.getValues(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN);
+				}				
 			}
-			if (subdireccion == null) {
-				throw new PCMConfigurationException("Error: Objeto Subdirecc. recibido del datamap es nulo ", new Exception("null object"));
+			if (peticionEntidad == null) {
+				throw new PCMConfigurationException("Error: Objeto Peticion FSet recibido del datamap es nulo ", new Exception("null object"));
 			}
 			
 		} catch (final Throwable ecxx) {

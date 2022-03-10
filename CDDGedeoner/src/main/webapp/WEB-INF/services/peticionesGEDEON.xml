@@ -10,9 +10,10 @@
 	name="ConsultaPeticionesGEDEON"	profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 	<action event="query" submitError="ConsultaPeticionesGEDEON.query"
-		submitSucces="ConsultaPeticionesGEDEON.query"  strategyPre="gedeoner.strategies.FiltrarPreSubdirecciones">
+		submitSucces="ConsultaPeticionesGEDEON.query" >
+		<!-- strategy="gedeoner.strategies.FiltrarPreSubdirecciones"-->
 		<!-- strategy="gedeoner.strategies.FiltrarPostPeticiones" 
-			strategyPre="gedeoner.strategies.FiltrarPreFormulario" -->
+			 -->
 
 		<viewComponent>
 
