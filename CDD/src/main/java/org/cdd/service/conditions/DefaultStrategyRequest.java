@@ -1,12 +1,11 @@
 package org.cdd.service.conditions;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.Form;
 import org.cdd.service.component.definitions.FieldViewSet;
-import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.dataccess.IDataAccess;
 import org.cdd.service.dataccess.dto.Datamap;
 
@@ -26,9 +25,7 @@ public abstract class DefaultStrategyRequest implements IStrategy {
 	
 	@Override
 	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
-			final Collection<FieldViewSet> fieldViewSetsCriteria, 
-			final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
-		PCMConfigurationException {
+			final Form formulario) throws StrategyException, PCMConfigurationException {
 		//nothing TO DO
 	}
 

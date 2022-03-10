@@ -3,13 +3,11 @@ package org.cdd.service.conditions;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-
 import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.Form;
 import org.cdd.service.component.definitions.FieldViewSet;
-import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.dataccess.IDataAccess;
 import org.cdd.service.dataccess.definitions.IFieldLogic;
 import org.cdd.service.dataccess.dto.Datamap;
@@ -60,10 +58,9 @@ public class DefaultStrategyUpdate implements IStrategy {
 
 	}
 	
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
-			final Collection<FieldViewSet> fieldViewSetsCriteria, 
-			List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
-		PCMConfigurationException {
+	 @Override
+	 public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
+			final Form formulario) throws StrategyException, PCMConfigurationException {
 		//nothing TO DO
 	}
 

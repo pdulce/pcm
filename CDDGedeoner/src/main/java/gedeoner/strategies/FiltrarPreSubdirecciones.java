@@ -1,5 +1,6 @@
 package gedeoner.strategies;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 import org.cdd.common.PCMConstants;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.Form;
+import org.cdd.service.component.PaginationGrid;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.conditions.DefaultStrategyLogin;
@@ -25,15 +28,15 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 	public static IEntityLogic peticiones, aplicativos, servicios, subdirecciones;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
-		if (FiltrarPostPeticiones.peticiones == null) {
+		if (FiltrarPreSubdirecciones.peticiones == null) {
 			try {
-				FiltrarPostPeticiones.peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				FiltrarPreSubdirecciones.peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.PETICIONES_ENTIDAD);
-				FiltrarPostPeticiones.aplicativos = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				FiltrarPreSubdirecciones.aplicativos = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.APLICATIVO_ENTIDAD);
-				FiltrarPostPeticiones.servicios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				FiltrarPreSubdirecciones.servicios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SERVICIO_ENTIDAD);
-				FiltrarPostPeticiones.subdirecciones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				FiltrarPreSubdirecciones.subdirecciones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
 			} catch (PCMConfigurationException e) {
 				e.printStackTrace();
@@ -42,9 +45,9 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 	}
 
 	@Override
-	public void doBussinessStrategyQuery(final Datamap datamap, final IDataAccess dataAccess,
-			final Collection<FieldViewSet> fieldViewSetsCriteria, List<FieldViewSetCollection> fieldCollectionResults)
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final Form formulario) 
 			throws StrategyException, PCMConfigurationException {
+
 		try {
 			
 			String idorganismo = null;
@@ -59,14 +62,27 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 						
 			// accedemos al objeto grabado
 			FieldViewSet peticionEntidad = null;
-			Iterator<FieldViewSet> iteFieldSets = fieldViewSetsCriteria.iterator();
+			Iterator<FieldViewSet> iteFieldSets = formulario.getFieldViewSets().iterator();
 			while (iteFieldSets.hasNext()) {
 				FieldViewSet fSet = iteFieldSets.next();
 				if (fSet.getEntityDef().getName().equals(ConstantesModelo.PETICIONES_ENTIDAD)) {
 					peticionEntidad = fSet;
-					//accedemos al contenido del campo: PETICIONES_9_UNIDAD_ORIGEN					
-					Collection<String> colOfUnidadesOrigen = fSet.getValues(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN);
-				}				
+					//seteamos el contenido del campo: PETICIONES_9_UNIDAD_ORIGEN, tomando aquellas que sean del organismo deseado	
+					
+					Collection<String> colOfUnidadesOrigen = new ArrayList<String>();
+					
+					FieldViewSet subdireccionCriteria = new FieldViewSet(subdirecciones);
+					subdireccionCriteria.setValue(ConstantesModelo.SUBDIRECCION_4_ORGANISMO, idorganismo);
+					List<FieldViewSet> listaSubdirecciones = dataAccess.searchByCriteria(subdireccionCriteria);
+					Iterator<FieldViewSet> iteSubdirecciones = listaSubdirecciones.iterator();
+					while (iteSubdirecciones.hasNext()) {
+						FieldViewSet subdireccion = iteSubdirecciones.next();
+						colOfUnidadesOrigen.add(String.valueOf((Long)subdireccion.getValue(ConstantesModelo.SUBDIRECCION_1_ID)));
+					}
+					fSet.setValues(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN, colOfUnidadesOrigen);
+				}		
+				
+				
 			}
 			if (peticionEntidad == null) {
 				throw new PCMConfigurationException("Error: Objeto Peticion FSet recibido del datamap es nulo ", new Exception("null object"));

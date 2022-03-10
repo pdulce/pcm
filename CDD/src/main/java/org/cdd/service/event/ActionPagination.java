@@ -185,12 +185,10 @@ public class ActionPagination extends AbstractAction {
 					res.setXhtml(this.container.toXML(datamap, dataAccess_, eventSubmitted_, colErr));
 					return res;
 				}
-			
+				// SOLO HACEMOS EFECTIVO EL FILTRADO DE INFO EN EL FORMULARIO DE BUSQUEDA
 				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
 					try {						
-						executeStrategyPre(dataAccess_, 
-								myForm.getFieldViewSets(), 
-								myForm.getFieldViewSetCollection());// Pre-condiciones
+						executeStrategyPreQuery(dataAccess_, myForm);// Pre-condiciones
 					} catch (final StrategyException stratExc) {
 						throw stratExc;
 					}
@@ -290,17 +288,6 @@ public class ActionPagination extends AbstractAction {
 					}
 					coleccion.clear();
 					coleccion.addAll(newCollection);
-				}
-				
-				if (!dataAccess_.getStrategies().isEmpty()) {//estrategias de POST
-					try {
-						executeStrategyPostQuery(dataAccess_, myForm.getFieldViewSets(), coleccion);
-						if (coleccion != null && !coleccion.isEmpty()) {
-							coleccion.iterator().next().setTotalRecords(coleccion.size());
-						}
-					} catch (final StrategyException stratExc) {
-						throw stratExc;
-					}
 				}
 				
 				if (coleccion != null && !coleccion.isEmpty()) {

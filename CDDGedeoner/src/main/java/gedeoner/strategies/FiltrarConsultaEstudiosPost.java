@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.Form;
+import org.cdd.service.component.PaginationGrid;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.conditions.DefaultStrategyRequest;
@@ -37,17 +39,18 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 	}
 
 	@Override
-	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, 
-			final Collection<FieldViewSet> fieldViewSetsCriteria, 
-			final List<FieldViewSetCollection> fieldCollectionResults) throws StrategyException, 
-			PCMConfigurationException {
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final Form form)
+			throws StrategyException, PCMConfigurationException {
 		
 		try {
+			
+			final Collection<FieldViewSet> fieldViewSetsCriteria = form.getFieldViewSets(); 
+			//final List<FieldViewSetCollection> fieldCollectionResults = paginaGrid.
 			
 			initEntitiesFactories(datamap.getEntitiesDictionary());			
 			String[] idAplicativo_ = datamap.getParameterValues(PARAM_ID_APLICATIVO);
 			
-			if (idAplicativo_ !=null && idAplicativo_.length>0) {
+			/*if (idAplicativo_ !=null && idAplicativo_.length>0) {
 				List<FieldViewSetCollection> newCollectionResults = new ArrayList<FieldViewSetCollection>();
 				for (FieldViewSetCollection record:fieldCollectionResults) {
 					FieldViewSet registroBuscado = record.getFieldViewSets().iterator().next();											
@@ -60,7 +63,7 @@ public class FiltrarConsultaEstudiosPost extends DefaultStrategyRequest {
 				}
 				fieldCollectionResults.clear();
 				fieldCollectionResults.addAll(newCollectionResults);
-			}			
+			}*/			
 			
 		}catch (final Exception ecxx1) {
 			throw new PCMConfigurationException("Configuration error: table TipoEstudio is possible does not exist", ecxx1);

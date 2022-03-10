@@ -54,6 +54,7 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 	
 	private static final String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS", 
 			ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
+	static List<String> appsNotFound = new ArrayList<String>();
 	
 	static {
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID|Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_46_COD_GEDEON));
@@ -290,7 +291,10 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 					List<FieldViewSet> apps = dataAccess.searchByCriteria(existeProyectoDadoDeAlta);
 					if (apps.isEmpty()){
 						registro.setValue(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG, Integer.valueOf(2));//"HOST"
-						registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, idApp);//no existe aplicacion registrada para esta peticion
+						registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, idApp);//no existe aplicacion registrada para esta peticion						
+						if (!appsNotFound.contains(rochade)) {
+							appsNotFound.add(rochade);
+						}
 					}else{
 						idApp = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_1_ID);
 						registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, idApp);
@@ -472,6 +476,9 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 				err.printStackTrace();
 			}
 			
+			for (int j=0;j<appsNotFound.size();j++) {
+				System.out.println("Aplicación a registrar: " +  appsNotFound.get(j));
+			}
 			return mapEntradas;
 	}
 	

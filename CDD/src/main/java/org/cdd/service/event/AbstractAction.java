@@ -16,6 +16,7 @@ import org.cdd.common.exceptions.MessageException;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.ParameterBindingException;
 import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.Form;
 import org.cdd.service.component.IViewComponent;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.FieldViewSetCollection;
@@ -207,17 +208,16 @@ public abstract class AbstractAction implements IAction {
 			fieldCollection.getFieldViewSets().addAll(fieldViewSetCollection);
 		}
 	}
-
-	public void executeStrategyPostQuery(final IDataAccess dataAccess, 
-			final List<FieldViewSet> criteriaForm,
-			final List<FieldViewSetCollection> fieldCollectionResults)
+	
+	protected void executeStrategyPreQuery(final IDataAccess dataAccess, final Form formulario)
 			throws StrategyException, PCMConfigurationException {
-		final Collection<IStrategy> strategiasAEjecutar = new ArrayList<IStrategy>();
-		if (this.getStrategyFactory() != null) {
-			final Iterator<String> iteStrategies = dataAccess.getStrategies().iterator();
-			while (iteStrategies.hasNext()) {
-				final String strategyName = iteStrategies.next();
-				IStrategy strategy = null;
+
+		final Iterator<String> iteStrategies = dataAccess.getPreconditionStrategies().iterator();
+		while (iteStrategies.hasNext()) {
+			final String strategyName = iteStrategies.next();
+			IStrategy strategy = this.getStrategyFactory().getStrategy(strategyName);
+			if (strategy == null) {
+
 				try {
 					@SuppressWarnings("unchecked")
 					Class<IStrategy> classType = (Class<IStrategy>) Class.forName(strategyName);
@@ -235,28 +235,13 @@ public abstract class AbstractAction implements IAction {
 					AbstractAction.log.log(Level.SEVERE, "Error", e4);
 					throw new PCMConfigurationException("Error at IStrategy instantiation");
 				}
-
-				if (strategy != null) {
-					this.getStrategyFactory().addStrategy(strategyName, strategy);
-					strategiasAEjecutar.add(strategy);
-				}
-
+				this.getStrategyFactory().addStrategy(strategyName, strategy);
 			}
-		}
-		if (strategiasAEjecutar.isEmpty()) {
-			if ((this.getEvent().equals(IEvent.UPDATE))) {
-				strategiasAEjecutar.add(new DefaultStrategyUpdate());
-			}
-		}
-		final Iterator<IStrategy> iteStrategies = strategiasAEjecutar.iterator();
-		while (iteStrategies.hasNext()) {
-			final IStrategy strategy = iteStrategies.next();
-			if (strategy != null) {
-				strategy.doBussinessStrategyQuery(this.datamap, dataAccess, criteriaForm, fieldCollectionResults);
-			}
+			strategy.doBussinessStrategyQuery(this.datamap, dataAccess, formulario);
 		}
 	}
-
+	
+	
 	public void executeStrategyPost(final IDataAccess dataAccess, 
 			final List<FieldViewSet> criteriaForm,
 			final FieldViewSetCollection fieldCollection)
