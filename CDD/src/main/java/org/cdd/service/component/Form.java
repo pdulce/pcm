@@ -817,8 +817,8 @@ public class Form extends AbstractComponent {
 						
 						fillCheckAndSelection(dataAccess_, control, fkValuesUnformatted, 
 								AbstractAction.isQueryEvent(this.event) && control.getFieldView().getDefaultFirstOfOptions() != null ? 
-										control.getFieldView().getDefaultFirstOfOptions().toString() : "");
-						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, fkValuesUnformatted));
+										control.getFieldView().getDefaultFirstOfOptions().toString() : "");						
+						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, isFilteredValues() ? new ArrayList<String>(): fkValuesUnformatted));
 					} else {
 						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, values_));
 					}
