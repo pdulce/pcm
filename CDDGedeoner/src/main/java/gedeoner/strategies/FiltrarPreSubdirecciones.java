@@ -83,7 +83,7 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					}
 					IFieldValue fValuesSubd = new FieldValue();
 					fValuesSubd.setValues(colOfUnidadesOrigen);
-					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN).getName(), fValuesSubd);
+					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN).getName(), fValuesSubd);
 					
 					Collection<String> colOfServicios = new ArrayList<String>();
 					FieldViewSet serviciosCriteria = new FieldViewSet(servicios);
@@ -97,7 +97,7 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					
 					IFieldValue fValuesServices = new FieldValue();
 					fValuesServices.setValues(colOfServicios);
-					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO).getName(), fValuesServices);
+					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN).getName(), fValuesServices);
 					
 					Collection<String> colOfAplicativos = new ArrayList<String>();
 					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);

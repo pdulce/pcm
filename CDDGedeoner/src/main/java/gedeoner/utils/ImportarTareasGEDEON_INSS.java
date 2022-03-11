@@ -66,10 +66,10 @@ public class ImportarTareasGEDEON_INSS extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Estado", Integer.valueOf(ConstantesModelo.PETICIONES_7_ESTADO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Entidad origen", Integer.valueOf(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
 		
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN));
 		
 		//--analizar valores de esta columna en las Excel y meterlos en la tabla SERVICIO
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
@@ -177,7 +177,7 @@ public class ImportarTareasGEDEON_INSS extends AbstractExcelReader{
 			if (centroDestino.contentEquals(DG_Factory)){
 				servicioAtiendePeticion = ORIGEN_FROM_AT_TO_DESARR_GESTINADO;
 			}else if (centroDestino.startsWith("Centro de Desarrollo del")){
-				final long idUnidadOrigen = (Long) registro.getValue(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN);
+				final long idUnidadOrigen = (Long) registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN);
 				FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
 				fsetUnidadOrigen.setValue(ConstantesModelo.SUBDIRECCION_1_ID, idUnidadOrigen);
 				fsetUnidadOrigen = dataAccess.searchEntityByPk(fsetUnidadOrigen);
@@ -620,7 +620,7 @@ public class ImportarTareasGEDEON_INSS extends AbstractExcelReader{
 				}
 			}
 		} else if (fLogic.getAbstractField().isLong()) {
-			if (positionOfEntityField == ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN){
+			if (positionOfEntityField == ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN){
 				//mapeamos al id (su FK_ID correspondiente)
 				FieldViewSet unidadOrigenFs = new FieldViewSet(subdireccionEntidad);
 				unidadOrigenFs.setValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE,	valueCell);
@@ -632,7 +632,7 @@ public class ImportarTareasGEDEON_INSS extends AbstractExcelReader{
 					System.out.println("Dar de alta la subdirección: " + valueCell);
 					throw new RuntimeException("Dar de alta la subdirección: " + valueCell);							
 				}
-			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_10_SERVICIO){
+			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN){
 				//mapeamos al id (su FK_ID correspondiente)
 				FieldViewSet areaOrigenFs = new FieldViewSet(servicioEntidad);
 				areaOrigenFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell);
