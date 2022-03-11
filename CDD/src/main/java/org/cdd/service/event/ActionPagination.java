@@ -167,6 +167,11 @@ public class ActionPagination extends AbstractAction {
 						break;
 					}
 				}
+				//LIMPIAMOS ANTIGUOS DATOS de ANTERIORES BUsquedas ANTS DEL BINDING
+				List<FieldViewSet> fieldViewSets = myForm.getFieldViewSets();
+				for (int k=0;k<fieldViewSets.size();k++) {
+					fieldViewSets.get(k).resetFieldValuesMap();
+				}
 				// SOLO HACEMOS EFECTIVO EL FILTRADO DE INFO EN EL FORMULARIO DE BUSQUEDA ANTES DEL BINDING
 				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
 					try {						

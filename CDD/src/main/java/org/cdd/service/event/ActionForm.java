@@ -409,9 +409,6 @@ public class ActionForm extends AbstractAction {
 				if (fieldViewSet == null) {
 					continue;
 				}
-				// limpiamos antiguos valores del filtro, formulario
-				fieldViewSet.resetFieldValuesMap();
-
 				final Iterator<IFieldView> fieldViewsIterador = fieldViewSet.getFieldViews().iterator();
 				while (fieldViewsIterador.hasNext()) {
 					final IFieldView fieldView = fieldViewsIterador.next();
