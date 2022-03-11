@@ -70,7 +70,7 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN));
 		
 		//--analizar valores de esta columna en las Excel y meterlos en la tabla SERVICIO
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
@@ -300,9 +300,9 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 						registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, idApp);
 						Long idTecnologia = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY);
 						registro.setValue(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG, idTecnologia);
-						if (registro.getValue(ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN) == null){
+						if (registro.getValue(ConstantesModelo.PETICIONES_10_SERVICIO) == null){
 							Long idServicio = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO);
-							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN, idServicio);				 																							
+							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, idServicio);				 																							
 				    	 }
 					}
 				
@@ -643,7 +643,7 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 					System.out.println("Dar de alta la subdirección: " + valueCell);
 					throw new RuntimeException("Dar de alta la subdirección: " + valueCell);							
 				}
-			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN){
+			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_10_SERVICIO){
 				//mapeamos al id (su FK_ID correspondiente)
 				FieldViewSet areaOrigenFs = new FieldViewSet(servicioEntidad);
 				areaOrigenFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell);

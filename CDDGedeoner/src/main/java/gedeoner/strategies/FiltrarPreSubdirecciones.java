@@ -97,7 +97,7 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					
 					IFieldValue fValuesServices = new FieldValue();
 					fValuesServices.setValues(colOfServicios);
-					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN).getName(), fValuesServices);
+					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO).getName(), fValuesServices);
 					
 					Collection<String> colOfAplicativos = new ArrayList<String>();
 					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);

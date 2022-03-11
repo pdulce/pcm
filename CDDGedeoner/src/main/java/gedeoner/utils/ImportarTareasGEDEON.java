@@ -65,7 +65,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Estado", Integer.valueOf(ConstantesModelo.PETICIONES_7_ESTADO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Entidad origen", Integer.valueOf(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Unidad origen|Unidad", Integer.valueOf(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
@@ -621,7 +621,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					unidadOrigenFs = fSetsUnidadesOrigen.iterator().next();
 					valueCell =	unidadOrigenFs.getValue(ConstantesModelo.SUBDIRECCION_1_ID);
 				}
-			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_10_SERVICIO_ORIGEN){
+			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_10_SERVICIO){
 				//mapeamos al id (su FK_ID correspondiente)
 				FieldViewSet areaOrigenFs = new FieldViewSet(servicioEntidad);
 				areaOrigenFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell);
