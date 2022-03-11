@@ -167,6 +167,14 @@ public class ActionPagination extends AbstractAction {
 						break;
 					}
 				}
+				// SOLO HACEMOS EFECTIVO EL FILTRADO DE INFO EN EL FORMULARIO DE BUSQUEDA ANTES DEL BINDING
+				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
+					try {						
+						executeStrategyPreQuery(dataAccess_, myForm);// Pre-condiciones
+					} catch (final StrategyException stratExc) {
+						throw stratExc;
+					}
+				}
 
 				int pageSize = datamap.getPageSize();
 				FieldViewSet detailGridElement = null;				
@@ -185,14 +193,7 @@ public class ActionPagination extends AbstractAction {
 					res.setXhtml(this.container.toXML(datamap, dataAccess_, eventSubmitted_, colErr));
 					return res;
 				}
-				// SOLO HACEMOS EFECTIVO EL FILTRADO DE INFO EN EL FORMULARIO DE BUSQUEDA
-				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
-					try {						
-						executeStrategyPreQuery(dataAccess_, myForm);// Pre-condiciones
-					} catch (final StrategyException stratExc) {
-						throw stratExc;
-					}
-				}
+				
 				if (paginationGrid.getDefaultOrderFields() == null || paginationGrid.getDefaultOrderFields().length==0){
 					throw new PCMConfigurationException(InternalErrorsConstants.MUST_DEFINE_ORDER_FIELD);
 				}

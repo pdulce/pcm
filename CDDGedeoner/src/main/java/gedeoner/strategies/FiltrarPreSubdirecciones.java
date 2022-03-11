@@ -2,6 +2,7 @@ package gedeoner.strategies;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,13 +10,13 @@ import org.cdd.common.PCMConstants;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
 import org.cdd.service.component.Form;
-import org.cdd.service.component.PaginationGrid;
 import org.cdd.service.component.definitions.FieldViewSet;
-import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.conditions.DefaultStrategyLogin;
 import org.cdd.service.dataccess.IDataAccess;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
 import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.dataccess.dto.FieldValue;
+import org.cdd.service.dataccess.dto.IFieldValue;
 import org.cdd.service.dataccess.factory.EntityLogicFactory;
 
 import gedeoner.common.ConstantesModelo;
@@ -59,8 +60,9 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 				return;
 			}
 			initEntitiesFactories(datamap.getEntitiesDictionary());
-						
-			// accedemos al objeto grabado
+			
+			HashMap<String, IFieldValue> newValuesFiltered = new HashMap<String, IFieldValue>();
+
 			FieldViewSet peticionEntidad = null;
 			Iterator<FieldViewSet> iteFieldSets = formulario.getFieldViewSets().iterator();
 			while (iteFieldSets.hasNext()) {
@@ -79,11 +81,31 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 						FieldViewSet subdireccion = iteSubdirecciones.next();
 						colOfUnidadesOrigen.add(String.valueOf((Long)subdireccion.getValue(ConstantesModelo.SUBDIRECCION_1_ID)));
 					}
-					fSet.setValues(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN, colOfUnidadesOrigen);
-				}		
-				
-				
-			}
+					IFieldValue fValuesSubd = new FieldValue();
+					fValuesSubd.setValues(colOfUnidadesOrigen);
+					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_9_UNIDAD_ORIGEN).getName(), fValuesSubd);
+					
+					
+					Collection<String> colOfAplicativos = new ArrayList<String>();
+					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);
+					aplicativosCriteria.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, idorganismo);
+					List<FieldViewSet> listaAplicativos = dataAccess.searchByCriteria(aplicativosCriteria);
+					Iterator<FieldViewSet> iteAplicativos = listaAplicativos.iterator();
+					while (iteAplicativos.hasNext()) {
+						FieldViewSet aplic = iteAplicativos.next();
+						colOfAplicativos.add(String.valueOf((Long)aplic.getValue(ConstantesModelo.APLICATIVO_1_ID)));
+					}
+					
+					IFieldValue fValuesApp = new FieldValue();
+					fValuesApp.setValues(colOfAplicativos);
+					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), fValuesApp);
+					
+				}
+
+			}//for 
+			
+			formulario.refreshValues(newValuesFiltered);
+			
 			if (peticionEntidad == null) {
 				throw new PCMConfigurationException("Error: Objeto Peticion FSet recibido del datamap es nulo ", new Exception("null object"));
 			}
@@ -91,15 +113,6 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 		} catch (final Throwable ecxx) {
 			ecxx.printStackTrace();
 		}
-		/*} catch (final StrategyException ecxx) {
-			throw ecxx;
-		} catch (final DatabaseException ecxx1) {
-			throw new PCMConfigurationException("Configuration error: table Administrador is possible does not exist", ecxx1);
-		} finally {
-			final String langFromUserRequest = datamap.getLanguage();
-			if (langFromUserRequest != null) {
-				datamap.setAttribute(PCMConstants.LANGUAGE, langFromUserRequest);
-			}
-		}*/
+		
 	}
 }
