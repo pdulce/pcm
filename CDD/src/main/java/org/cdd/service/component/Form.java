@@ -58,7 +58,7 @@ public class Form extends AbstractComponent {
 
 	private int columnsNumber, numberOfElements;
 	
-	private boolean bindedPk, editableForm;
+	private boolean bindedPk, editableForm, filteredValues;
 
 	private String entityName, title, align, formRenderedTemplate;
 
@@ -90,7 +90,15 @@ public class Form extends AbstractComponent {
 	public Form(String event_) {
 		this.event = event_;
 	}
+	
+	public boolean isFilteredValues() {
+		return filteredValues;
+	}
 
+	public void setFilteredValues(boolean filteredValues_) {
+		this.filteredValues = filteredValues_;
+	}
+	
 	public boolean isBindedPk() {
 		return bindedPk;
 	}
@@ -150,6 +158,7 @@ public class Form extends AbstractComponent {
 		newV.title = this.title;
 		newV.align = this.align;
 		newV.bindedPk = this.bindedPk;
+		newV.filteredValues = this.filteredValues;
 		newV.nameContext = this.nameContext;
 		newV.columnsNumber = this.columnsNumber;
 		newV.formRenderedTemplate = this.formRenderedTemplate;
@@ -404,7 +413,7 @@ public class Form extends AbstractComponent {
 				final ICtrl control = AbstractCtrl.getInstance(fieldView);
 				if (!fieldView.isHidden()) {
 					if (control.isSelection() || control.isCheckBoxGroup() || control.isRadioButtonGroup()) {
-						fillCheckAndSelection(dataAccess, fieldView, null, null);
+						fillCheckAndSelection(dataAccess, control, null, null);
 						this.visibleControls.get(fieldset).add(AbstractCtrl.getInstance(fieldView));
 					} else {
 						if (!fieldView.isUserDefined() && fieldView.getEntityField().getAbstractField().isBlob()) {
@@ -438,7 +447,7 @@ public class Form extends AbstractComponent {
 				if ((_control.isCheckBoxGroup() || _control.isRadioButtonGroup() || _control.isSelection()) &&
 						!_control.getFieldView().isUserDefined()){
 					try {
-						fillCheckAndSelection(dataAccess_, _control.getFieldView(), null, null /*valoresPorDef, firstOptionValue_*/);
+						fillCheckAndSelection(dataAccess_, _control, null, null /*valoresPorDef, firstOptionValue_*/);
 						newControls.add(AbstractCtrl.getInstance(_control.getFieldView()));
 					} catch (PCMConfigurationException e) {
 						// TODO Auto-generated catch block
@@ -453,11 +462,12 @@ public class Form extends AbstractComponent {
 		return newVisibleGroup;
 	}
 
-	private final void fillCheckAndSelection(final IDataAccess dataAccess, final IFieldView fieldView, 
-				Collection<String> valoresPorDef, final String firstOptionValue_) throws PCMConfigurationException {
+	private final void fillCheckAndSelection(final IDataAccess dataAccess, final ICtrl ctrl,
+			Collection<String> valoresPorDef, final String firstOptionValue_) throws PCMConfigurationException {
 		try {
-			final String firstOptionValue = firstOptionValue_ == null ? "": firstOptionValue_;
-			ICtrl ctrl = AbstractCtrl.getInstance(fieldView);
+			final IFieldView fieldView = ctrl.getFieldView();
+			final IFieldValue fieldValue_ = this.getValueOfField(fieldView.getQualifiedContextName());
+			final String firstOptionValue = firstOptionValue_ == null ? "": firstOptionValue_;			
 			List<String> valoresPorDefecto_ = new ArrayList<String>();
 			List<Option> listaOpciones = new ArrayList<Option>();
 			if (valoresPorDef != null) {
@@ -618,12 +628,28 @@ public class Form extends AbstractComponent {
 				}				
 				
 			}else{//es una userDefined radio, checkbox o select: NO HAY ENTIDAD DE LA QUE SACAR LOS DATOS PARA EL DESPLEGABLE
-				listaOpciones.addAll(fieldView.getFieldAndEntityForThisOption().getOptions());
 				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
+				listaOpciones.addAll(fieldView.getFieldAndEntityForThisOption().getOptions());				
 			}
 			
 			if (ctrl.isSelection() && listaOpciones.size() < ICtrl.MAX_FOR_OPTIONS_IN_SELECT){
 				((SelectCtrl)ctrl).setSize(listaOpciones.size());
+			}
+			//truncamos esa lista de opciones que serían values selected, y los pones a de-selected
+			if (isFilteredValues() && fieldValue_ != null && !fieldValue_.getValues().isEmpty()) {
+				List<Option> newListaOpciones = new ArrayList<Option>();
+				Iterator<Option> iteOptions = listaOpciones.iterator();
+				while (iteOptions.hasNext()) {
+					Option option = iteOptions.next();
+					if (fieldValue_.getValues().contains(option.getCode().substring(option.getCode().indexOf("=")+1)) ){
+						//System.out.println("option.getCode(): " + option.getCode() + " SI está entre los valores filtrados");
+						option.setSelected(false);
+						newListaOpciones.add(option);
+					}
+				}
+				listaOpciones.clear();
+				listaOpciones.addAll(newListaOpciones);
+				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
 			}
 			fieldView.getFieldAndEntityForThisOption().getOptions().addAll(listaOpciones);
 			ctrl.resetOptions(listaOpciones);
@@ -676,7 +702,18 @@ public class Form extends AbstractComponent {
 		try {
 			// long miliseconds1 = System.nanoTime();
 			final String lang = datamap.getLanguage();
-
+			
+			if (isFilteredValues() && getFieldViewSets() != null && getFieldViewSets().size()> 0 && 
+					getFieldViewSets().get(0).getEntityDef() != null && 
+					getFieldViewSets().get(0).getEntityDef().getName().contentEquals("peticiones")) {
+				/*Collection<String> values = getFieldViewSets().get(0).getValues(26);
+				Iterator<String> valueIte = values.iterator();
+				while (valueIte.hasNext()) {
+					String val = valueIte.next();
+					System.out.println("FORM: value of idaplicativo: " + val);
+				}*/
+			}
+			
 			recreateControls4FieldViewSets(getFieldViewSets(), this.visibleControls, this.hiddenControls);
 
 			String newXmlToPaint = this.formRenderedTemplate.replaceFirst(PCMConstants.TITLE_PREFFIX,
@@ -778,7 +815,7 @@ public class Form extends AbstractComponent {
 							}
 						}
 						
-						fillCheckAndSelection(dataAccess_, control.getFieldView(), fkValuesUnformatted, 
+						fillCheckAndSelection(dataAccess_, control, fkValuesUnformatted, 
 								AbstractAction.isQueryEvent(this.event) && control.getFieldView().getDefaultFirstOfOptions() != null ? 
 										control.getFieldView().getDefaultFirstOfOptions().toString() : "");
 						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, fkValuesUnformatted));
@@ -850,7 +887,7 @@ public class Form extends AbstractComponent {
 								}
 
 								if (control.isSelection() || control.isCheckBoxGroup() || control.isRadioButtonGroup()) {	
-									fillCheckAndSelection(dataAccess_, control.getFieldView(), values_, control.getFieldView()
+									fillCheckAndSelection(dataAccess_, control, values_, control.getFieldView()
 											.getDefaultFirstOfOptions() != null ? control.getFieldView().getDefaultFirstOfOptions().toString() : "");
 									buttonsStrBuilder.append(control.getInnerHTML(lang, values_));
 								} else if (!control.getFieldView().isSeparator()) {

@@ -25,7 +25,7 @@ public interface PCMConstants {
 			DOWNLOAD_DIR = "downloadDir", LOG_APPFILE = "logAppFile", UPLOAD_DIR = "uploadDir", APPURI_ = "uri", PAGESIZE = "pageSize",
 			APP_PROFILE = "profile", STYLE_MODE_SITE = "style", PALETA_COLORES = "paletaColores", 
 					PALETA_ID = "paleta_id", 
-			SERVLET_MAPPING = "servletMapping", AUDITON_APP = "auditActivated",
+			SERVLET_MAPPING = "servletMapping", AUDITON_APP = "auditActivated", FIRST_CHARGE_FILTER_BY = "queryFiltered",
 			DATA_SOURCE_TYPE = "datasourceAccess", DATASOURCE_FACTORY_IMPL = "datasourceFactoryImpl",
 			DSOURCE_IMPLEMENTATION = "datasourceImpl", SOURCE_DRIVER = "driver", DB_PREFFIX = "dbPreffix",
 			DB_RESOURCE_NAME = "dbResourceName", JNDI_PREFFIX = "jndiPreffix", JNDI_RESOURCE_NAME = "jndiName",

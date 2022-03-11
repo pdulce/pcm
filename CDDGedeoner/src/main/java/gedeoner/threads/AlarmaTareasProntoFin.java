@@ -155,7 +155,7 @@ public class AlarmaTareasProntoFin extends Thread {
 					strBuilder.append("</ul>");
 				}
 			}
-			return strBuilder.toString();
+			return "";//strBuilder.toString();
 			
 		} catch (DatabaseException e) {
 			throw new RuntimeException(e.getMessage(), e);

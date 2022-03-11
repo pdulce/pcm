@@ -247,6 +247,9 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 
 	protected final IFieldValue getValueOfField(final String qualifiedName, final int recordPosition) {
 		try {
+			if (this.fieldViewSetCollection == null) {
+				return null;
+			}
 			final List<FieldViewSetCollection> collectionsOfFieldSets = new ArrayList<FieldViewSetCollection>();
 			collectionsOfFieldSets.addAll(this.fieldViewSetCollection);
 			final FieldViewSetCollection collectionOfFieldSets = collectionsOfFieldSets.get(recordPosition);
@@ -261,7 +264,7 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 				}// while
 			}// if
 		}
-		catch (final Throwable exc) {
+		catch (final RuntimeException exc) {
 			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_VALUE_ERROR, exc);
 		}
 		return new FieldValue();

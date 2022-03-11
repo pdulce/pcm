@@ -98,5 +98,9 @@ public class Option implements Serializable {
 		cad.append(Option.OPTION_END);
 		return cad.toString();
 	}
+	
+	public void setSelected (final boolean b) {
+		this.selected = b;
+	}
 
 }

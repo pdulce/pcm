@@ -69,10 +69,8 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 				FieldViewSet fSet = iteFieldSets.next();
 				if (fSet.getEntityDef().getName().equals(ConstantesModelo.PETICIONES_ENTIDAD)) {
 					peticionEntidad = fSet;
-					//seteamos el contenido del campo: PETICIONES_9_UNIDAD_ORIGEN, tomando aquellas que sean del organismo deseado	
 					
-					Collection<String> colOfUnidadesOrigen = new ArrayList<String>();
-					
+					Collection<String> colOfUnidadesOrigen = new ArrayList<String>();					
 					FieldViewSet subdireccionCriteria = new FieldViewSet(subdirecciones);
 					subdireccionCriteria.setValue(ConstantesModelo.SUBDIRECCION_4_ORGANISMO, idorganismo);
 					List<FieldViewSet> listaSubdirecciones = dataAccess.searchByCriteria(subdireccionCriteria);
@@ -87,14 +85,13 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					
 					Collection<String> colOfServicios = new ArrayList<String>();
 					FieldViewSet serviciosCriteria = new FieldViewSet(servicios);
-					serviciosCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo);
+					serviciosCriteria.setValue(ConstantesModelo.SERVICIO_3_UNIDAD_ORG, idorganismo);
 					List<FieldViewSet> listaServicios = dataAccess.searchByCriteria(serviciosCriteria);
 					Iterator<FieldViewSet> iteServicios = listaServicios.iterator();
 					while (iteServicios.hasNext()) {
 						FieldViewSet servic = iteServicios.next();
 						colOfServicios.add(String.valueOf((Long)servic.getValue(ConstantesModelo.SERVICIO_1_ID)));
-					}
-					
+					}					
 					IFieldValue fValuesServices = new FieldValue();
 					fValuesServices.setValues(colOfServicios);
 					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO).getName(), fValuesServices);
@@ -107,8 +104,7 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					while (iteAplicativos.hasNext()) {
 						FieldViewSet aplic = iteAplicativos.next();
 						colOfAplicativos.add(String.valueOf((Long)aplic.getValue(ConstantesModelo.APLICATIVO_1_ID)));
-					}
-					
+					}					
 					IFieldValue fValuesApp = new FieldValue();
 					fValuesApp.setValues(colOfAplicativos);
 					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), fValuesApp);

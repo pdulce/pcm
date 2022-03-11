@@ -20,7 +20,7 @@ public class CheckButton extends GenericInput {
 
 	private String internalValue = PCMConstants.EMPTY_, description = null;
 	private boolean checkedByDefault = false;
-
+	
 	public boolean isCheckedByDefault() {
 		return checkedByDefault;
 	}

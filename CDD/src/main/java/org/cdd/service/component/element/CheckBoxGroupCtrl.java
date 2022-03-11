@@ -29,9 +29,12 @@ public class CheckBoxGroupCtrl extends AbstractCtrl {
 			if (this.fieldView.getStyleCss() != null && !"".equals(this.fieldView.getStyleCss()) && !this.fieldView.isEditable()) {
 				checkB.setStyle(this.fieldView.getStyleCss());
 			}
-			checkB.setValue(option.getCode());
 			checkB.setInternalValue(option.getCode());
+			if (option.isDefaultSelected()) {
+				checkB.setValue(option.getCode());					
+			}
 			checkB.setCheckedByDefault(!isSelectionMultiple() ? option.isDefaultSelected() : false);
+			checkB.setValue(option.isDefaultSelected()?"":checkB.getInternalValue());
 			this.checks.add(checkB);
 		}
 	}

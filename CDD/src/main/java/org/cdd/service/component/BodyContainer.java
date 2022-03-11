@@ -237,6 +237,10 @@ public class BodyContainer implements IBodyContainer {
 						Form formOfContainer = (Form) iteForms.next();
 						if (formOfContainer.getUniqueName().equals(idOfForm) && !idFormsPainted.contains(idOfForm)) {
 							idFormsPainted.add(idOfForm);
+							if (datamap.getAttribute(PCMConstants.FIRST_CHARGE_FILTER_BY) != null) {
+								datamap.removeAttribute(PCMConstants.FIRST_CHARGE_FILTER_BY);
+								formOfContainer.setFilteredValues(true);
+							}
 							sbXML.append(formOfContainer.toXHTML(datamap, dataAccess_, submitted));
 							break;
 						}
