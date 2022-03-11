@@ -15,7 +15,7 @@ public abstract class ConstantesModelo {
 	
 	public static final int PETICIONES_VOLATILE_27_PROYECTO_NAME = 27;
 	public static final int PETICIONES_26_ID_APLICATIVO = 26;
-	public static final int PETICIONES_10_AREA_ORIGEN = 10;
+	public static final int PETICIONES_10_SERVICIO = 10;
 	public static final int PETICIONES_4_OBSERVACIONES = 4;
 	public static final int PETICIONES_12_AREA_DESTINO = 12;
 	public static final int PETICIONES_5_USUARIO_CREADOR = 5;
