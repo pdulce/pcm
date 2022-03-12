@@ -73,7 +73,7 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO));
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_AREA_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.PETICIONES_16_PRIORIDAD));
@@ -302,8 +302,8 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 						registro.setValue(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG, idTecnologia);
 						if (registro.getValue(ConstantesModelo.PETICIONES_10_SERVICIO) == null){
 							Long idServicio = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO);
-							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, idServicio);				 																							
-				    	 }
+							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, idServicio);				 							
+				    	}						
 					}
 				
 					Date fec_Alta = (Date) registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
@@ -651,6 +651,18 @@ public class ImportarTareasGEDEON_IGSS extends AbstractExcelReader{
 				if (!fSetsServicios.isEmpty()){
 					areaOrigenFs = fSetsServicios.iterator().next();
 					valueCell =	areaOrigenFs.getValue(ConstantesModelo.SERVICIO_1_ID);
+				}else {
+					//Buscamos más tarde el servicio dentro de la aplicación 
+					valueCell = "";
+				}
+			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO){
+				//mapeamos al id (su FK_ID correspondiente)
+				FieldViewSet areaDestinoFs = new FieldViewSet(servicioEntidad);
+				areaDestinoFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell);
+				List<FieldViewSet> fSetsServicios = dataAccess.searchByCriteria(areaDestinoFs);
+				if (!fSetsServicios.isEmpty()){
+					areaDestinoFs = fSetsServicios.iterator().next();
+					valueCell =	areaDestinoFs.getValue(ConstantesModelo.SERVICIO_1_ID);
 				}else {
 					//Buscamos más tarde el servicio dentro de la aplicación 
 					valueCell = "";

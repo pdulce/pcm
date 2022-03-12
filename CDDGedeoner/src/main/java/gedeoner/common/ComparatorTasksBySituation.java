@@ -33,12 +33,12 @@ public final class ComparatorTasksBySituation implements Comparator<FieldViewSet
 		final String situac_2 = (String) obj2.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
 		int situa1 = -1, situa2 = -1;
 		boolean sPeticionADG_1 = false;
-		String areaDestino = (String) obj1.getValue(ConstantesModelo.PETICIONES_12_AREA_DESTINO);      								
+		String areaDestino = (String) obj1.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO);      								
 		if (areaDestino.startsWith("Desarrollo Gestionado")){
 			sPeticionADG_1 = true;
 		}
 		boolean sPeticionADG_2 = false;
-		areaDestino = (String) obj2.getValue(ConstantesModelo.PETICIONES_12_AREA_DESTINO);      								
+		areaDestino = (String) obj2.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO);      								
 		if (areaDestino.startsWith("Desarrollo Gestionado")){
 			sPeticionADG_2 = true;
 		}

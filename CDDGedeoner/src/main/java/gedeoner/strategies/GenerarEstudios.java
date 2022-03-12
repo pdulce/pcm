@@ -45,7 +45,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 	
 	private static final String DG_Factory_INSS = "FACTDG05", DG_Factory_ISM = "FACTDG07";
 	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, peticionesEntidad, tipoPeriodo, resumenPeticionEntidad, servicioUTEEntidad,
-	 	aplicativoEntidad, tiposPeticionesEntidad, tareaEntidad, subdireccionEntidad;
+	 	aplicativoEntidad, tiposPeticionesEntidad, tareaEntidad, subdireccionEntidad, servicioEntidad;
 	
 	private static final Double PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD = 0.12;	
 	
@@ -54,6 +54,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			try {
 				subdireccionEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
+				servicioEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.SERVICIO_ENTIDAD);
 				servicioUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SERVICIOUTE_ENTIDAD);
 				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
@@ -1023,7 +1025,11 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}else {
 					peticionBBDDAnalysis = existenColl.iterator().next();
 					String centroDestino = (String) peticionBBDDAnalysis.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
-					String areaDestino = (String) peticionBBDDAnalysis.getValue(ConstantesModelo.PETICIONES_12_AREA_DESTINO);
+					Long idAreaDestino = (Long) peticionBBDDAnalysis.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO);
+					FieldViewSet servicio = new FieldViewSet(servicioEntidad);
+					servicio.setValue(ConstantesModelo.SERVICIO_1_ID, idAreaDestino);									
+					servicio = dataAccess.searchEntityByPk(servicio);					
+					String areaDestino = (String) servicio.getValue(ConstantesModelo.SERVICIO_2_NOMBRE);
 					if (areaDestino.indexOf("Desarrollo Gestionado ") == -1 &&
 							centroDestino.indexOf("Centro de Desarrollo") != -1) {
 						return peticionBBDDAnalysis;

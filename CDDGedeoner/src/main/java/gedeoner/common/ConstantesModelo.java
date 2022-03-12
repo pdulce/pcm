@@ -17,7 +17,7 @@ public abstract class ConstantesModelo {
 	public static final int PETICIONES_26_ID_APLICATIVO = 26;
 	public static final int PETICIONES_10_SERVICIO = 10;
 	public static final int PETICIONES_4_OBSERVACIONES = 4;
-	public static final int PETICIONES_12_AREA_DESTINO = 12;
+	public static final int PETICIONES_12_SERVICIO_DESTINO = 12;
 	public static final int PETICIONES_5_USUARIO_CREADOR = 5;
 	public static final int PETICIONES_16_PRIORIDAD = 16;
 	public static final int PETICIONES_25_DES_FECHA_REAL_FIN = 25;

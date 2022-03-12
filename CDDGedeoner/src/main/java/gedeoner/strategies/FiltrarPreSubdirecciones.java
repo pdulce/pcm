@@ -96,6 +96,19 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					fValuesServices.setValues(colOfServicios);
 					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO).getName(), fValuesServices);
 					
+					Collection<String> colOfServiciosDest = new ArrayList<String>();
+					FieldViewSet serviciosDestCriteria = new FieldViewSet(servicios);
+					serviciosDestCriteria.setValue(ConstantesModelo.SERVICIO_3_UNIDAD_ORG, idorganismo);
+					List<FieldViewSet> listaServiciosDest = dataAccess.searchByCriteria(serviciosDestCriteria);
+					Iterator<FieldViewSet> iteServiciosDest = listaServiciosDest.iterator();
+					while (iteServiciosDest.hasNext()) {
+						FieldViewSet servic = iteServiciosDest.next();
+						colOfServiciosDest.add(String.valueOf((Long)servic.getValue(ConstantesModelo.SERVICIO_1_ID)));
+					}					
+					IFieldValue fValuesServicesDest = new FieldValue();
+					fValuesServicesDest.setValues(colOfServiciosDest);
+					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO).getName(), fValuesServicesDest);
+														
 					Collection<String> colOfAplicativos = new ArrayList<String>();
 					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);
 					aplicativosCriteria.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, idorganismo);

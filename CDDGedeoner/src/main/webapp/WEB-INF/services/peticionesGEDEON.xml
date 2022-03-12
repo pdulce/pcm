@@ -163,9 +163,6 @@
 						
 						<!-- segunda fila -->
 						<fieldView mappingTo="10" editable="true" type="checkbox" size="4">
-							<!-- optionValues selectionMultiple="true" entitymodel="peticiones"
-								descrMappingTo="12" codeField="12">
-							</optionValues>-->
 							<optionValues selectionMultiple="true" entitymodel="servicio"
 								descrMappingTo="2">
 							</optionValues>
@@ -173,6 +170,12 @@
 						
 						<fieldView separator="br" />
 						<fieldView separator="br" />
+						
+						<fieldView mappingTo="12" editable="true" type="checkbox" size="4">
+							<optionValues selectionMultiple="true" entitymodel="servicio"
+								descrMappingTo="2">
+							</optionValues>
+						</fieldView>						
 						
 						<!-- tercera fila -->
 						

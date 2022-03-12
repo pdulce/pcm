@@ -19,7 +19,8 @@
     <field mappingTo="10" name="Area_origen" type="long" length="11" required="false"
     	fkParentEntities="servicio" fkParentFields="1"/>
     <field mappingTo="11" name="Centro_destino" type="string" length="100" required="false"/>
-    <field mappingTo="12" name="Area_destino" type="string" length="100" required="false"/>    
+    <field mappingTo="12" name="Area_destino" type="long" length="11" required="false"
+    	fkParentEntities="servicio" fkParentFields="1"/>
     <field mappingTo="13" name="Tipo" type="long" length="11" required="false" 
 	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>       
     <field mappingTo="14" name="Tipo_inicial" type="string" length="50" required="false"/>
