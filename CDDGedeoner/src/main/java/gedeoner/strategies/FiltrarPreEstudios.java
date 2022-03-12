@@ -25,15 +25,15 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 
 	public static final String PALETA_PARAM = "entryForm.paletaColores";
 
-	public static IEntityLogic estudios, aplicativos, servicios, subdirecciones;
+	public static IEntityLogic estudios, agrupacionesEstudios;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (FiltrarPreEstudios.estudios == null) {
 			try {
 				FiltrarPreEstudios.estudios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ESTUDIOS_ENTIDAD);
-				FiltrarPreEstudios.aplicativos = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.APLICATIVO_ENTIDAD);
+				FiltrarPreEstudios.agrupacionesEstudios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.SERVICIOUTE_ENTIDAD);
 			} catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -62,18 +62,18 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 			while (iteFieldSets.hasNext()) {
 				FieldViewSet fSet = iteFieldSets.next();
 				if (fSet.getEntityDef().getName().equals(ConstantesModelo.ESTUDIOS_ENTIDAD)) {
-					Collection<String> colOfAplicativos = new ArrayList<String>();
-					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);
-					aplicativosCriteria.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, idorganismo);
-					List<FieldViewSet> listaAplicativos = dataAccess.searchByCriteria(aplicativosCriteria);
-					Iterator<FieldViewSet> iteAplicativos = listaAplicativos.iterator();
-					while (iteAplicativos.hasNext()) {
-						FieldViewSet aplic = iteAplicativos.next();
-						colOfAplicativos.add(String.valueOf((Long)aplic.getValue(ConstantesModelo.APLICATIVO_1_ID)));
+					Collection<String> colOfAgrupaciones = new ArrayList<String>();
+					FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
+					agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo);
+					List<FieldViewSet> listaAgrupaciones = dataAccess.searchByCriteria(agrupCriteria);
+					Iterator<FieldViewSet> iteAgrupaciones = listaAgrupaciones.iterator();
+					while (iteAgrupaciones.hasNext()) {
+						FieldViewSet agrupacion = iteAgrupaciones.next();
+						colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.SERVICIOUTE_1_ID)));
 					}					
 					IFieldValue fValuesApp = new FieldValue();
-					fValuesApp.setValues(colOfAplicativos);
-					newValuesFiltered.put(estudios.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName(), fValuesApp);
+					fValuesApp.setValues(colOfAgrupaciones);
+					newValuesFiltered.put(estudios.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName(), fValuesApp);
 					
 				}
 
