@@ -266,7 +266,11 @@
 					<fieldView mappingTo="1" hidden="true" />
 					<fieldView mappingTo="46" editable="false" styleCss="font-weight: bold;"/><!-- Peticion -->
 					<fieldView mappingTo="37" editable="false" />
-					<fieldView mappingTo="12" editable="false" styleCss="font-style: italic;"/>
+					<fieldView mappingTo="12" editable="false" type="checkbox" size="1">
+						<optionValues selectionMultiple="true" entitymodel="servicio"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
 					<fieldView mappingTo="26" type="checkbox" size="1" editable="false">
 							<optionValues entitymodel="aplicativo"
 								descrMappingTo="2">
@@ -337,7 +341,11 @@
 					</fieldView>
 					<fieldView mappingTo="10" editable="false" />
 					<fieldView mappingTo="11" editable="false" />
-					<fieldView mappingTo="12" editable="false" />
+					<fieldView mappingTo="12" editable="false" type="checkbox" size="1">
+						<optionValues selectionMultiple="true" entitymodel="servicio"
+							descrMappingTo="2">
+						</optionValues>
+					</fieldView>
 					<fieldView separator="br" />
 					<fieldView separator="br" />
 					<fieldView mappingTo="28" editable="false" />
