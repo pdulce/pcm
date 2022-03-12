@@ -10,7 +10,9 @@ xmlns:service="http://pcm.framework.org/service"
 	<service name="EstudioEntregas" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="EstudioEntregas.query"
-			submitSucces="EstudioEntregas.query" strategy="gedeoner.strategies.FiltrarConsultaEstudiosPost">
+			submitSucces="EstudioEntregas.query" 
+			strategyPre="gedeoner.strategies.FiltrarPreEstudios" 
+			strategy="gedeoner.strategies.FiltrarConsultaEstudiosPost">
 
 			<viewComponent>
 

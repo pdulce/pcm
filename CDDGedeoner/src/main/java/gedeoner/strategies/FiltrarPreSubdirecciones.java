@@ -23,8 +23,7 @@ import gedeoner.common.ConstantesModelo;
 
 public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 
-	public static final String MY_USER_PARAM = "entryForm.user", MY_PASSWD_PARAM = "entryForm.password",
-			STYLE_PARAM = "entryForm.style", PALETA_PARAM = "entryForm.paletaColores";
+	public static final String PALETA_PARAM = "entryForm.paletaColores";
 
 	public static IEntityLogic peticiones, aplicativos, servicios, subdirecciones;
 
@@ -63,13 +62,11 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 			
 			HashMap<String, IFieldValue> newValuesFiltered = new HashMap<String, IFieldValue>();
 
-			FieldViewSet peticionEntidad = null;
 			Iterator<FieldViewSet> iteFieldSets = formulario.getFieldViewSets().iterator();
 			while (iteFieldSets.hasNext()) {
 				FieldViewSet fSet = iteFieldSets.next();
 				if (fSet.getEntityDef().getName().equals(ConstantesModelo.PETICIONES_ENTIDAD)) {
-					peticionEntidad = fSet;
-					
+										
 					Collection<String> colOfUnidadesOrigen = new ArrayList<String>();					
 					FieldViewSet subdireccionCriteria = new FieldViewSet(subdirecciones);
 					subdireccionCriteria.setValue(ConstantesModelo.SUBDIRECCION_4_ORGANISMO, idorganismo);
@@ -114,11 +111,12 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 
 			}//for 
 			
-			formulario.refreshValues(newValuesFiltered);
-			
-			if (peticionEntidad == null) {
+			if (newValuesFiltered.isEmpty()) {
 				throw new PCMConfigurationException("Error: Objeto Peticion FSet recibido del datamap es nulo ", new Exception("null object"));
 			}
+			
+			formulario.refreshValues(newValuesFiltered);
+			
 			
 		} catch (final Throwable ecxx) {
 			ecxx.printStackTrace();
