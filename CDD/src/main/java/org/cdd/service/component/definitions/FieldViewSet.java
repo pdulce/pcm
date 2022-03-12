@@ -452,31 +452,41 @@ public class FieldViewSet implements Serializable {
 			final Iterator<Map.Entry<String, IFieldValue>> iteEntries = newValues_.entrySet().iterator();
 			while (iteEntries.hasNext()) {
 				final Map.Entry<String, IFieldValue> entry = iteEntries.next();
-				Collection<Map<String, Boolean>> values = this.fieldViewsValues.get(entry.getKey()) == null ? new ArrayList<Map<String, Boolean>>(): this.fieldViewsValues.get(entry.getKey()).getAllValues();
-				String valorASetear = entry.getValue().getValue();
-				if (valorASetear == null) {
-					continue;
+				if (this.fieldViewsValues.get(entry.getKey()) == null) {
+					IFieldValue f = new FieldValue();
+					this.fieldViewsValues.put(entry.getKey(), f);
 				}
-				if (values.isEmpty()) {
+				Collection<Map<String, Boolean>> valuesPrevios = this.fieldViewsValues.get(entry.getKey()).getAllValues();
+				Iterator<Map<String, Boolean>> iteNuevosValores = entry.getValue().getAllValues().iterator();
+				while (iteNuevosValores.hasNext()) {
+					Map.Entry<String, Boolean> mapValue = iteNuevosValores.next().entrySet().iterator().next();
+					
+					String valorASetear = mapValue.getKey();
+					Boolean valorASetear_ = mapValue.getValue();
+					if (valorASetear == null) {
+						continue;
+					}
 					Map<String, Boolean> valor = new HashMap<String, Boolean>();
-					valor.put(valorASetear, Boolean.TRUE);
-					values.add(valor);
-				} else {
-					Iterator<Map<String, Boolean>> iteEntris = values.iterator();
-					while (iteEntris.hasNext()) {
-						Map<String, Boolean> entryPrevious = iteEntris.next();
-						Iterator<Map.Entry<String, Boolean>> entriIte2 = entryPrevious.entrySet().iterator();
-						while (entriIte2.hasNext()) {
-							Map.Entry<String, Boolean> entry1 = entriIte2.next();
-							String[] split = entry1.getKey().toString().toUpperCase().split(PCMConstants.EQUALS);
-							String valueOption = "";
-							if (split.length == 1) {
-								valueOption = split[0];
-							} else if (split.length == 2) {
-								valueOption = split[1];
-							}
-							if (valueOption.equals(valorASetear.toString().toUpperCase())) {
-								entry1.setValue(Boolean.TRUE);
+					valor.put(valorASetear, valorASetear_);
+					if (!valuesPrevios.contains(valor)) {						
+						valuesPrevios.add(valor);
+					} else {
+						Iterator<Map<String, Boolean>> iteEntris = valuesPrevios.iterator();
+						while (iteEntris.hasNext()) {
+							Map<String, Boolean> entryPrevious = iteEntris.next();
+							Iterator<Map.Entry<String, Boolean>> entriIte2 = entryPrevious.entrySet().iterator();
+							while (entriIte2.hasNext()) {
+								Map.Entry<String, Boolean> entry1 = entriIte2.next();
+								String[] split = entry1.getKey().toString().toUpperCase().split(PCMConstants.EQUALS);
+								String valueOption = "";
+								if (split.length == 1) {
+									valueOption = split[0];
+								} else if (split.length == 2) {
+									valueOption = split[1];
+								}
+								if (valueOption.equals(valorASetear.toString().toUpperCase())) {
+									entry1.setValue(valorASetear_);
+								}
 							}
 						}
 					}
