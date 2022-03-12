@@ -91,17 +91,19 @@ public class Dashboard extends GenericHighchartModel {
 	
 	private void setFilterGroup(final IDataAccess dataAccess_, final Datamap _data, final String entidad_) throws DatabaseException {
 		
-		FieldViewSet appFieldViewSet = new FieldViewSet(aplicativoEntidad);
+		FieldViewSet appFieldViewSet = new FieldViewSet(aplicativoEntidad);		
 		if (_data.getAttribute(PCMConstants.PALETA_ID) != null ) {			
 			String idorganismo = (String) _data.getAttribute(PCMConstants.PALETA_ID);							
 			appFieldViewSet.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, Long.valueOf(idorganismo));
 		}
 		List<FieldViewSet> aplicativos_ = dataAccess_.searchByCriteria(appFieldViewSet, new String []{aplicativoEntidad.getName() + ".id"}, "asc");
-		
-		FieldViewSetCollection col_ = new FieldViewSetCollection();
-		col_.getFieldViewSets().addAll(aplicativos_);
+				
 		Collection<FieldViewSetCollection> aplicativos = new ArrayList<FieldViewSetCollection>();
-		aplicativos.add(col_);
+		for (int i=0;i<aplicativos_.size();i++) {
+			FieldViewSetCollection col_ = new FieldViewSetCollection();
+			col_.getFieldViewSets().add(aplicativos_.get(i));		
+			aplicativos.add(col_);
+		}
 		_data.setAttribute("aplicativo_all", aplicativos);
 		
 		FieldViewSet tecnologiaFieldViewSet = new FieldViewSet(tecnologiaEntidad);
@@ -110,33 +112,34 @@ public class Dashboard extends GenericHighchartModel {
 		if (entidad_.contentEquals(detailCicloVidaEntrega.getName()) || entidad_.contentEquals(detailCicloVidaPeticion.getName())) {
 			FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
 			if (_data.getAttribute(PCMConstants.PALETA_ID) != null ) {			
-				String idorganismo = (String) _data.getAttribute(PCMConstants.PALETA_ID);							
+				String idorganismo_ = (String) _data.getAttribute(PCMConstants.PALETA_ID);							
 				
 				Collection<String> colOfAgrupaciones = new ArrayList<String>();
 				FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
-				agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo);
+				agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo_);
 				List<FieldViewSet> listaAgrupaciones = dataAccess.searchByCriteria(agrupCriteria);
 				Iterator<FieldViewSet> iteAgrupaciones = listaAgrupaciones.iterator();
 				while (iteAgrupaciones.hasNext()) {
 					FieldViewSet agrupacion = iteAgrupaciones.next();
 					colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.SERVICIOUTE_1_ID)));
 				}					
-				IFieldValue fValuesApp = new FieldValue();
-				fValuesApp.setValues(colOfAgrupaciones);
+				IFieldValue fValuesServices = new FieldValue();
+				fValuesServices.setValues(colOfAgrupaciones);
 				
 				HashMap<String, IFieldValue> mapOfValues = new HashMap<String, IFieldValue>();
-				String qualifiedName_Id = agrupacionesEstudios.getName().concat(".").concat(agrupacionesEstudios.searchField(ConstantesModelo.SERVICIOUTE_1_ID).getName());
-				mapOfValues.put(qualifiedName_Id, fValuesApp);
+				String qualifiedName_Id = estudiosFieldViewSet.getContextName().concat(".").concat(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
+				mapOfValues.put(qualifiedName_Id, fValuesServices);
 				
 				estudiosFieldViewSet.setNamedValues(mapOfValues);
 			}
 			List<FieldViewSet> estudiosLista = dataAccess_.searchByCriteria(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
-			FieldViewSetCollection col_Estudios = new FieldViewSetCollection();
-			col_Estudios.getFieldViewSets().addAll(estudiosLista);
 			
-			Collection<FieldViewSetCollection> estudios = new ArrayList<FieldViewSetCollection>();
-			estudios.add(col_Estudios);
-			
+			Collection<FieldViewSetCollection> estudios = new ArrayList<FieldViewSetCollection>();			
+			for (int i=0;i<estudiosLista.size();i++) {
+				FieldViewSetCollection col_Estudios = new FieldViewSetCollection();	
+				col_Estudios.getFieldViewSets().add(estudiosLista.get(i));
+				estudios.add(col_Estudios);
+			}			
 			_data.setAttribute("estudio_all", estudios);
 		}
 			
