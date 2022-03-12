@@ -452,7 +452,7 @@ public class FieldViewSet implements Serializable {
 			final Iterator<Map.Entry<String, IFieldValue>> iteEntries = newValues_.entrySet().iterator();
 			while (iteEntries.hasNext()) {
 				final Map.Entry<String, IFieldValue> entry = iteEntries.next();
-				Collection<Map<String, Boolean>> values = this.fieldViewsValues.get(entry.getKey()).getAllValues();
+				Collection<Map<String, Boolean>> values = this.fieldViewsValues.get(entry.getKey()) == null ? new ArrayList<Map<String, Boolean>>(): this.fieldViewsValues.get(entry.getKey()).getAllValues();
 				String valorASetear = entry.getValue().getValue();
 				if (valorASetear == null) {
 					continue;

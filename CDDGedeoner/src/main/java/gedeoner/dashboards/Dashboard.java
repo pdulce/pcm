@@ -1,7 +1,9 @@
 package gedeoner.dashboards;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,8 @@ import org.cdd.service.dataccess.IDataAccess;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
 import org.cdd.service.dataccess.definitions.IFieldLogic;
 import org.cdd.service.dataccess.dto.Datamap;
+import org.cdd.service.dataccess.dto.FieldValue;
+import org.cdd.service.dataccess.dto.IFieldValue;
 import org.cdd.service.dataccess.factory.EntityLogicFactory;
 import org.cdd.service.event.SceneResult;
 import org.cdd.service.highcharts.BarChart;
@@ -34,7 +38,7 @@ import gedeoner.common.ConstantesModelo;
 public class Dashboard extends GenericHighchartModel {
 	
 	public static IEntityLogic aplicativoEntidad, tecnologiaEntidad, 
-	estudiosEntidad, detailCicloVidaEntrega, detailCicloVidaPeticion, peticiones;
+	estudiosEntidad, detailCicloVidaEntrega, detailCicloVidaPeticion, peticiones, agrupacionesEstudios;
 	
 	private String entity;
 	private IDataAccess dataAccess;
@@ -88,7 +92,16 @@ public class Dashboard extends GenericHighchartModel {
 	private void setFilterGroup(final IDataAccess dataAccess_, final Datamap _data, final String entidad_) throws DatabaseException {
 		
 		FieldViewSet appFieldViewSet = new FieldViewSet(aplicativoEntidad);
-		Collection<FieldViewSetCollection> aplicativos = dataAccess_.searchAll(appFieldViewSet, new String []{aplicativoEntidad.getName() + ".id"}, "asc");
+		if (_data.getAttribute(PCMConstants.PALETA_ID) != null ) {			
+			String idorganismo = (String) _data.getAttribute(PCMConstants.PALETA_ID);							
+			appFieldViewSet.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, Long.valueOf(idorganismo));
+		}
+		List<FieldViewSet> aplicativos_ = dataAccess_.searchByCriteria(appFieldViewSet, new String []{aplicativoEntidad.getName() + ".id"}, "asc");
+		
+		FieldViewSetCollection col_ = new FieldViewSetCollection();
+		col_.getFieldViewSets().addAll(aplicativos_);
+		Collection<FieldViewSetCollection> aplicativos = new ArrayList<FieldViewSetCollection>();
+		aplicativos.add(col_);
 		_data.setAttribute("aplicativo_all", aplicativos);
 		
 		FieldViewSet tecnologiaFieldViewSet = new FieldViewSet(tecnologiaEntidad);
@@ -96,7 +109,34 @@ public class Dashboard extends GenericHighchartModel {
 		_data.setAttribute("tecnologia_all", tecnologias);
 		if (entidad_.contentEquals(detailCicloVidaEntrega.getName()) || entidad_.contentEquals(detailCicloVidaPeticion.getName())) {
 			FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
-			Collection<FieldViewSetCollection> estudios = dataAccess_.searchAll(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
+			if (_data.getAttribute(PCMConstants.PALETA_ID) != null ) {			
+				String idorganismo = (String) _data.getAttribute(PCMConstants.PALETA_ID);							
+				
+				Collection<String> colOfAgrupaciones = new ArrayList<String>();
+				FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
+				agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo);
+				List<FieldViewSet> listaAgrupaciones = dataAccess.searchByCriteria(agrupCriteria);
+				Iterator<FieldViewSet> iteAgrupaciones = listaAgrupaciones.iterator();
+				while (iteAgrupaciones.hasNext()) {
+					FieldViewSet agrupacion = iteAgrupaciones.next();
+					colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.SERVICIOUTE_1_ID)));
+				}					
+				IFieldValue fValuesApp = new FieldValue();
+				fValuesApp.setValues(colOfAgrupaciones);
+				
+				HashMap<String, IFieldValue> mapOfValues = new HashMap<String, IFieldValue>();
+				String qualifiedName_Id = agrupacionesEstudios.getName().concat(".").concat(agrupacionesEstudios.searchField(ConstantesModelo.SERVICIOUTE_1_ID).getName());
+				mapOfValues.put(qualifiedName_Id, fValuesApp);
+				
+				estudiosFieldViewSet.setNamedValues(mapOfValues);
+			}
+			List<FieldViewSet> estudiosLista = dataAccess_.searchByCriteria(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
+			FieldViewSetCollection col_Estudios = new FieldViewSetCollection();
+			col_Estudios.getFieldViewSets().addAll(estudiosLista);
+			
+			Collection<FieldViewSetCollection> estudios = new ArrayList<FieldViewSetCollection>();
+			estudios.add(col_Estudios);
+			
 			_data.setAttribute("estudio_all", estudios);
 		}
 			
@@ -122,6 +162,8 @@ public class Dashboard extends GenericHighchartModel {
 						ConstantesModelo.DETAILCICLO_VIDA_PETICION_ENTIDAD);
 				peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
 						ConstantesModelo.PETICIONES_ENTIDAD);						
+				agrupacionesEstudios = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
+						ConstantesModelo.SERVICIOUTE_ENTIDAD);
 			}catch (PCMConfigurationException e) {
 				throw new RuntimeException("error charging entities", e);
 			}
