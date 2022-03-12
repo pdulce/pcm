@@ -162,7 +162,7 @@
 						<fieldView separator="br" />
 						
 						<!-- segunda fila -->
-						<fieldView mappingTo="10" editable="true" type="checkbox" size="4">
+						<fieldView mappingTo="10" editable="true" type="checkbox" size="8">
 							<optionValues selectionMultiple="true" entitymodel="servicio"
 								descrMappingTo="2">
 							</optionValues>
@@ -171,15 +171,18 @@
 						<fieldView separator="br" />
 						<fieldView separator="br" />
 						
-						<fieldView mappingTo="12" editable="true" type="checkbox" size="4">
+						<fieldView mappingTo="12" editable="true" type="checkbox" size="8">
 							<optionValues selectionMultiple="true" entitymodel="servicio"
 								descrMappingTo="2">
 							</optionValues>
-						</fieldView>						
+						</fieldView>				
+							
+						<fieldView separator="br" />
+						<fieldView separator="br" />	
 						
 						<!-- tercera fila -->
 						
-						<fieldView mappingTo="41" type="checkbox" size="6">
+						<fieldView mappingTo="41" type="checkbox" size="12">
 							<optionValues selectionMultiple="true" entitymodel="tecnologia"
 								descrMappingTo="2">
 							</optionValues>
