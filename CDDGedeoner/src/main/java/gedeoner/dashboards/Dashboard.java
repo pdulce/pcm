@@ -129,13 +129,19 @@ public class Dashboard extends GenericHighchartModel {
 			if (_data.getAttribute(PCMConstants.PALETA_ID) != null && entidad_.contentEquals(detailCicloVidaPeticion.getName()) ){
 				String newQualifiedname = detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_2_ID_ESTUDIO).getName());
 				IFieldValue fvalues = new FieldValue();
+				if (idsOfEstudios.isEmpty()) {
+					idsOfEstudios.add("-9999");
+				}
 				fvalues.setValues(idsOfEstudios);				
-				_data.setAttribute(newQualifiedname, fvalues/*idsOfEstudios*/);
+				_data.setAttribute(newQualifiedname, fvalues);
 			}else if (_data.getAttribute(PCMConstants.PALETA_ID) != null && entidad_.contentEquals(detailCicloVidaEntrega.getName()) ){
 				String newQualifiedname = detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_2_ID_ESTUDIO).getName());
 				IFieldValue fvalues = new FieldValue();
+				if (idsOfEstudios.isEmpty()) {
+					idsOfEstudios.add("-9999");
+				}
 				fvalues.setValues(idsOfEstudios);
-				_data.setAttribute(newQualifiedname, fvalues/*idsOfEstudios*/);
+				_data.setAttribute(newQualifiedname, fvalues);
 			}
 			
 						
