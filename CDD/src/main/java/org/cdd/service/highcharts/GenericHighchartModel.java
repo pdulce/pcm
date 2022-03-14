@@ -437,6 +437,9 @@ public abstract class GenericHighchartModel implements IStats {
 						fSetParent.setValue(fSetParent.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), val);
 						try {
 							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
+							if (fSetParent == null) {
+								continue;
+							}
 							descFields = fSetParent.getDescriptionFieldList();
 							StringBuilder strBuf = new StringBuilder();
 							for (int i=0;i<descFields.size();i++){			

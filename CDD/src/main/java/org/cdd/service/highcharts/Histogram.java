@@ -241,7 +241,7 @@ public class Histogram extends GenericHighchartModel {
 					}
 				}
 			}//for 
-			
+			firstGroupBY_ID_Aux = firstGroupBY_ID_Aux == null ? "" : firstGroupBY_ID_Aux;
 			//la ultima serie la grabas tomando lo previo:
 			Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
 			if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
@@ -249,7 +249,7 @@ public class Histogram extends GenericHighchartModel {
 			}
 			volcarSeriesvalues.putAll(serieValuesAux);
 			series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
-				
+			
 		}
 		
 		/*** FIN EXTRACCION DE LAS SERIES ***/
