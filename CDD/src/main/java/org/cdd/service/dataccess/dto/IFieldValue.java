@@ -1,5 +1,6 @@
 package org.cdd.service.dataccess.dto;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
  * @since 2014-03-31
  */
 
-public interface IFieldValue {
+public interface IFieldValue extends Serializable{
 
 	public Collection<Map<String, Boolean>> getAllValues();
 

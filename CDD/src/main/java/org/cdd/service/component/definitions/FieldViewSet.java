@@ -441,7 +441,13 @@ public class FieldViewSet implements Serializable {
 		}
 		return this.fieldViewsValues;
 	}
-
+	
+	public void setNamedValue(final String qualifiedname, IFieldValue newIFieldValue) {
+		Map<String, IFieldValue> newValues_ = new HashMap<String, IFieldValue>();
+		newValues_.put(qualifiedname, newIFieldValue);
+		setNamedValues(newValues_);
+	}
+	
 	public void setNamedValues(final Map<String, IFieldValue> newValues_) {
 		if (newValues_ == null) {
 			this.fieldViewsValues = new HashMap<String, IFieldValue>();

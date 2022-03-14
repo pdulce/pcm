@@ -117,6 +117,7 @@ public abstract class GenericHighchartModel implements IStats {
 			//hemos de generar tantas series como agregados haya
 			Collection<FieldViewSet> fieldViewSetsForm = new ArrayList<FieldViewSet>();
 			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
+			
 			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
 			
 			if (domainService != null) {

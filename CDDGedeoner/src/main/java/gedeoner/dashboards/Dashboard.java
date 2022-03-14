@@ -112,34 +112,33 @@ public class Dashboard extends GenericHighchartModel {
 		if (entidad_.contentEquals(detailCicloVidaEntrega.getName()) || entidad_.contentEquals(detailCicloVidaPeticion.getName())) {
 			FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
 			if (_data.getAttribute(PCMConstants.PALETA_ID) != null ) {			
-				String idorganismo_ = (String) _data.getAttribute(PCMConstants.PALETA_ID);							
-				
-				Collection<String> colOfAgrupaciones = new ArrayList<String>();
-				FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
-				agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo_);
-				List<FieldViewSet> listaAgrupaciones = dataAccess.searchByCriteria(agrupCriteria);
-				Iterator<FieldViewSet> iteAgrupaciones = listaAgrupaciones.iterator();
-				while (iteAgrupaciones.hasNext()) {
-					FieldViewSet agrupacion = iteAgrupaciones.next();
-					colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.SERVICIOUTE_1_ID)));
-				}					
-				IFieldValue fValuesServices = new FieldValue();
-				fValuesServices.setValues(colOfAgrupaciones);
-				
-				HashMap<String, IFieldValue> mapOfValues = new HashMap<String, IFieldValue>();
-				String qualifiedName_Id = estudiosFieldViewSet.getContextName().concat(".").concat(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
-				mapOfValues.put(qualifiedName_Id, fValuesServices);
-				
-				estudiosFieldViewSet.setNamedValues(mapOfValues);
+				String qualifiedName_Id = estudiosEntidad.getName().concat(".").concat(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
+				IFieldValue fValuesServices = (IFieldValue) _data.getAttribute(qualifiedName_Id);
+				estudiosFieldViewSet.setNamedValue(qualifiedName_Id, fValuesServices);				
 			}
+			Collection<String> idsOfEstudios = new ArrayList<String>();
 			List<FieldViewSet> estudiosLista = dataAccess_.searchByCriteria(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");
-			
 			Collection<FieldViewSetCollection> estudios = new ArrayList<FieldViewSetCollection>();			
 			for (int i=0;i<estudiosLista.size();i++) {
+				idsOfEstudios.add(estudiosLista.get(i).getFieldvalue(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_1_ID)).getValue());
 				FieldViewSetCollection col_Estudios = new FieldViewSetCollection();	
 				col_Estudios.getFieldViewSets().add(estudiosLista.get(i));
 				estudios.add(col_Estudios);
-			}			
+			}
+			
+			if (_data.getAttribute(PCMConstants.PALETA_ID) != null && entidad_.contentEquals(detailCicloVidaPeticion.getName()) ){
+				String newQualifiedname = detailCicloVidaPeticion.getName().concat(".").concat(detailCicloVidaPeticion.searchField(ConstantesModelo.DETAILCICLO_VIDA_PETICION_2_ID_ESTUDIO).getName());
+				IFieldValue fvalues = new FieldValue();
+				fvalues.setValues(idsOfEstudios);				
+				_data.setAttribute(newQualifiedname, /*fvalues*/idsOfEstudios);
+			}else if (_data.getAttribute(PCMConstants.PALETA_ID) != null && entidad_.contentEquals(detailCicloVidaEntrega.getName()) ){
+				String newQualifiedname = detailCicloVidaEntrega.getName().concat(".").concat(detailCicloVidaEntrega.searchField(ConstantesModelo.DETAILCICLO_VIDA_ENTREGA_2_ID_ESTUDIO).getName());
+				IFieldValue fvalues = new FieldValue();
+				fvalues.setValues(idsOfEstudios);
+				_data.setAttribute(newQualifiedname, /*fvalues*/idsOfEstudios);
+			}
+			
+						
 			_data.setAttribute("estudio_all", estudios);
 		}
 			
@@ -176,7 +175,24 @@ public class Dashboard extends GenericHighchartModel {
 			//coincidir en ambas porque estamos mostrando info de dos entidades detail
 			
 			String entitiesParamValue = _data.getParameter("entities");
-			String fields4GroupBY = "";			
+			String fields4GroupBY = "";
+			
+			if (_data.getAttribute(PCMConstants.PALETA_ID) != null ) {			
+				String idorganismo_ = (String) _data.getAttribute(PCMConstants.PALETA_ID);							
+				
+				Collection<String> colOfAgrupaciones = new ArrayList<String>();
+				FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
+				agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo_);
+				Iterator<FieldViewSet> iteAgrupaciones = dataAccess.searchByCriteria(agrupCriteria).iterator();				
+				while (iteAgrupaciones.hasNext()) {
+					colOfAgrupaciones.add(String.valueOf((Long)iteAgrupaciones.next().getValue(ConstantesModelo.SERVICIOUTE_1_ID)));
+				}					
+				IFieldValue fValuesServices = new FieldValue();
+				fValuesServices.setValues(colOfAgrupaciones);
+				
+				String qualifiedName_Id = estudiosEntidad.getName().concat(".").concat(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
+				_data.setAttribute(qualifiedName_Id, fValuesServices);
+			}
 			
 			setFilterGroup(dataAccess_, _data, entitiesParamValue);
 			

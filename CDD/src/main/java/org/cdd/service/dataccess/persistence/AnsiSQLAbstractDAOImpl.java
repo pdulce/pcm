@@ -273,9 +273,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			}// for
 
 			// OK
-			for (int j1=0;j1< valueObjectsPk.size();j1++) {
+			for (int jk1=0;jk1< valueObjectsPk.size();jk1++) {
 				
-				Serializable value = valueObjectsPk.get(j1); 
+				Serializable value = valueObjectsPk.get(jk1); 
 				if (value == null || "".equals(value.toString())) {
 					continue;
 				}
@@ -383,7 +383,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		String whereClausule = SQLUtils.getWhereClausuleFKorPK(fieldViewSet);
 		final String sql = SQLUtils
 				.replaceSelectByPkSql(CONSULTA_BY_PK, fieldViewSet.getEntityDef().getName().toUpperCase(), whereClausule);
-		int numberOfParams = SQLUtils.countParams(whereClausule, "=");
+		int numberOfParams = SQLUtils.countParams(whereClausule);
 
 		FieldViewSet resultado = null;
 		PreparedStatement pstmt = null;
