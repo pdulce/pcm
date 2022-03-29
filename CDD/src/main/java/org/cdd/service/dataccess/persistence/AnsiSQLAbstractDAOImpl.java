@@ -273,9 +273,9 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 			}// for
 
 			// OK
-			for (int jk1=0;jk1< valueObjectsPk.size();jk1++) {
+			for (int j1=0;j1< valueObjectsPk.size();j1++) {
 				
-				Serializable value = valueObjectsPk.get(jk1); 
+				Serializable value = valueObjectsPk.get(j1); 
 				if (value == null || "".equals(value.toString())) {
 					continue;
 				}
@@ -383,7 +383,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 		String whereClausule = SQLUtils.getWhereClausuleFKorPK(fieldViewSet);
 		final String sql = SQLUtils
 				.replaceSelectByPkSql(CONSULTA_BY_PK, fieldViewSet.getEntityDef().getName().toUpperCase(), whereClausule);
-		int numberOfParams = SQLUtils.countParams(whereClausule);
+		int numberOfParams = SQLUtils.countParams(whereClausule, "=");
 
 		FieldViewSet resultado = null;
 		PreparedStatement pstmt = null;
@@ -1185,7 +1185,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				}// while
 			}// while			
 			
-			// el prototipo siempre es el oltimo FieldViewSetCollection
+			// el prototipo siempre es el ultimo FieldViewSetCollection
 			FieldViewSetCollection prototypeResult = new FieldViewSetCollection();
 			prototypeResult.getFieldViewSets().addAll((entidadesCollection_.get(entidadesCollection_.size() - 1).getFieldViewSets()));
 			Iterator<FieldViewSet> iteEntitiesPattern = todosLosFieldViewSet.iterator();
@@ -1194,7 +1194,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 				boolean esta = false;
 				for (int k = 0; k < prototypeResult.getFieldViewSets().size() && !esta; k++) {
 					FieldViewSet fSet = prototypeResult.getFieldViewSets().get(k);
-					if (fSetCandidate.getEntityDef().getName().equals(fSet.getEntityDef().getName())) {
+					if (fSetCandidate.getEntityDef().getName().contentEquals(fSet.getEntityDef().getName())) {
 						esta = true;
 						// miramos si hemos de incluir en fSet algon FieldView de este
 						// fSetCandidate que no esto ya metido
@@ -1209,7 +1209,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 								List<IFieldView> nuevaListaFViews = new ArrayList<IFieldView>();
 								while (iteFieldViewsOfset.hasNext()) {
 									IFieldView fieldViewOfSet = iteFieldViewsOfset.next();
-									if (!(fieldViewOfSet.getEntityField().getName().equals(fieldViewCandidate.getEntityField().getName()) && fieldViewOfSet
+									if (!(fieldViewOfSet.getEntityField().getName().contentEquals(fieldViewCandidate.getEntityField().getName()) && fieldViewOfSet
 											.isRankField())) {
 										nuevaListaFViews.add(fieldViewOfSet);
 									}
@@ -1340,7 +1340,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 									String idFK_tablaPadre = idFK_tablaPadre_arr[k];
 									String idFK = idFK_tablaPadre.split(":")[0];
 									String tablaPadre = idFK_tablaPadre.split(":")[1];
-									if (tablaPadre.equals(aliasTablePadre) && idFKIesimo.equals(idFK)){
+									if (tablaPadre.contentEquals(aliasTablePadre) && idFKIesimo.contentEquals(idFK)){
 										break;
 									}else if (!idFKIesimo.equals(idFK) && tablaPadre.equals(aliasTablePadre)){
 										//aoadimos esta entidad al prototipo, dado que se trata de otra ocurrencia de relacion entre estas dos entidades
@@ -1368,7 +1368,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 							sqlEntityFieldsToGet.append(aliasTablePadre).append(PCMConstants.POINT).append(fieldNameFK)
 									.append(PCMConstants.STRING_SPACE).append(aliasForField_FK);
 							String aliasesInThisleftJoin = aliasTablePadre.concat(" ").concat(aliasTableDetail);
-							if (!leftsJoins.contains(aliasesInThisleftJoin) && !aliasTablePadre.equals(aliasTableDetail)) {
+							if (!leftsJoins.contains(aliasesInThisleftJoin) && !aliasTablePadre.contentEquals(aliasTableDetail)) {
 								tablesInQuery.append(LEFT_JOIN_).append(entityFK.getName()).append(PCMConstants.STRING_SPACE)
 										.append(aliasTablePadre).append(ON_);
 								final Collection<FieldViewSet> leftJoin = new ArrayList<FieldViewSet>();

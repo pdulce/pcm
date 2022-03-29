@@ -167,7 +167,7 @@ public class ActionPagination extends AbstractAction {
 						break;
 					}
 				}
-				datamap.removeAttribute(PCMConstants.FIRST_CHARGE_FILTER_BY);
+				
 				//LIMPIAMOS ANTIGUOS DATOS de ANTERIORES BUsquedas ANTS DEL BINDING
 				List<FieldViewSet> fieldViewSets = myForm.getFieldViewSets();
 				for (int k=0;k<fieldViewSets.size();k++) {
@@ -177,11 +177,7 @@ public class ActionPagination extends AbstractAction {
 				if (!dataAccess_.getPreconditionStrategies().isEmpty()) {
 					try {						
 						executeStrategyPreQuery(dataAccess_, myForm);// Pre-condiciones
-						if (datamap.getParameter("userCriteria") == null) {
-							//System.out.println("criteria: " + datamap.getParameter("userCriteria"));
-							datamap.setAttribute(PCMConstants.FIRST_CHARGE_FILTER_BY, "true");
-						}
-						
+						//ajusto a un conjunto concreto de valores las listas de elementos del formulario de busqueda
 					} catch (final StrategyException stratExc) {
 						throw stratExc;
 					}
@@ -283,18 +279,6 @@ public class ActionPagination extends AbstractAction {
 						paginationGrid.getFieldViewSetCollection(), pageSize, paginationGrid.getCurrentPage(),
 						noCriteriaOrder ? paginationGrid.getDefaultOrderFields() : paginationGrid.getOrdenationFieldSel(), 
 								"".equals(paginationGrid.getOrdenacionDirectionSel()) ? paginationGrid.getDefaultOrderDirection() : paginationGrid.getOrdenacionDirectionSel());
-				
-				/*if (myForm.getFieldViewSets() != null &&
-						myForm.getFieldViewSets().size() > 0 && 
-						myForm.getFieldViewSets().get(0).getEntityDef().getName().contentEquals("peticiones")) {
-					//Collection<String> values = myForm.getFieldViewSets().get(0).getValues(26);
-					Iterator<String> valueIte = values.iterator();
-					while (valueIte.hasNext()) {
-						String val = valueIte.next();
-						System.out.println("ACTIONPAGI: value of idaplicativo: " + val);
-					}
-				}*/
-				
 				
 				if (paginationGrid.getFilterField() != null) {
 					Collection<FieldViewSetCollection> newCollection = new ArrayList<FieldViewSetCollection>();

@@ -888,9 +888,8 @@ public class PaginationGrid extends AbstractComponent {
 						input.setDisabled(true);
 						input.setName(this.headerLabels.get(i).getName());
 						input.setId(this.headerLabels.get(i).getName());
-						final Collection<String> values_ = new ArrayList<String>();
 						input.setCheckedByDefault(valueOfColumn.equals("true"));
-						rowXML.append(input.toHTML(values_));
+						rowXML.append(input.toHTML(new ArrayList<String>()));
 						
 					} else if (column.getEntityField().isPassword()) {
 						
@@ -977,7 +976,7 @@ public class PaginationGrid extends AbstractComponent {
 		FieldViewSet fieldViewSetOfThisFK = row.getFieldViewSet(columnNameOfPk, fkValueOfColumn);
 		
 		if (fieldViewSetOfThisFK == null){
-			newValue4Column = "not found master record in " + parentEntity.getName();
+			newValue4Column = "...not found master record in " + parentEntity.getName();
 		}else{
 			newValue4Column = "";
 			int[] descrMappings = options.getFieldDescrMappingTo();

@@ -117,6 +117,14 @@ public abstract class GenericHighchartModel implements IStats {
 			//hemos de generar tantas series como agregados haya
 			Collection<FieldViewSet> fieldViewSetsForm = new ArrayList<FieldViewSet>();
 			FieldViewSet userFilter = new FieldViewSet(entidadGrafico);
+			//anyadimos posibles filtros de estrategias PRE que existan para este filedviewSet en el area de datos de transferencia
+			Iterator<String> iteAttrNames = data_.getAttributeNames().iterator();
+			while (iteAttrNames.hasNext()) {
+				String attrName = iteAttrNames.next();
+				if (attrName.startsWith(entidadGrafico.getName().concat(".")) ){
+					userFilter.setNamedValue(attrName, (IFieldValue) data_.getAttribute(attrName));
+				}
+			}
 			
 			userFilter.setNameSpace(nameSpaceOfButtonFieldSet);
 			
@@ -437,9 +445,6 @@ public abstract class GenericHighchartModel implements IStats {
 						fSetParent.setValue(fSetParent.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), val);
 						try {
 							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-							if (fSetParent == null) {
-								continue;
-							}
 							descFields = fSetParent.getDescriptionFieldList();
 							StringBuilder strBuf = new StringBuilder();
 							for (int i=0;i<descFields.size();i++){			

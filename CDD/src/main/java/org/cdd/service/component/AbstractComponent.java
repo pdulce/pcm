@@ -128,6 +128,22 @@ public abstract class AbstractComponent implements IViewComponent, Serializable 
 			return null;
 		}
 	}
+	
+	@Override
+	public final IFieldView getFieldView(final String qualifedName) {
+		try {
+			final Iterator<FieldViewSet> fieldViewSetIte = this.getFieldViewSets().iterator();
+			if (fieldViewSetIte.hasNext()) {
+				final FieldViewSet fieldSet = fieldViewSetIte.next();
+				return fieldSet.getFieldView(qualifedName);
+			}
+			return null;
+		}
+		catch (final Throwable exc) {
+			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_ERROR, exc);
+			return null;
+		}
+	}
 
 	protected final Map<String, IViewComponent> getSubComponents() {
 		final Map<String, IViewComponent> map = new HashMap<String, IViewComponent>();

@@ -21,12 +21,10 @@ import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.component.definitions.IFieldView;
 import org.cdd.service.component.definitions.IRank;
-import org.cdd.service.component.definitions.Option;
 import org.cdd.service.component.definitions.Rank;
 import org.cdd.service.component.element.AbstractCtrl;
 import org.cdd.service.component.element.FieldsetControl;
 import org.cdd.service.component.element.ICtrl;
-import org.cdd.service.component.element.SelectCtrl;
 import org.cdd.service.component.element.html.LinkButton;
 import org.cdd.service.component.factory.IBodyContainer;
 import org.cdd.service.dataccess.IDataAccess;
@@ -34,13 +32,10 @@ import org.cdd.service.dataccess.comparator.ComparatorFieldLogicSet;
 import org.cdd.service.dataccess.comparator.ComparatorFieldset;
 import org.cdd.service.dataccess.comparator.ComparatorIdButtons;
 import org.cdd.service.dataccess.definitions.EntityLogic;
-import org.cdd.service.dataccess.definitions.FieldCompositePK;
 import org.cdd.service.dataccess.definitions.IFieldLogic;
 import org.cdd.service.dataccess.dto.Datamap;
-import org.cdd.service.dataccess.dto.IFieldValue;
 import org.cdd.service.dataccess.factory.EntityLogicFactory;
 import org.cdd.service.event.AbstractAction;
-import org.cdd.service.event.IAction;
 import org.cdd.service.event.IEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -58,7 +53,7 @@ public class Form extends AbstractComponent {
 
 	private int columnsNumber, numberOfElements;
 	
-	private boolean bindedPk, editableForm, filteredValues;
+	private boolean bindedPk, editableForm;
 
 	private String entityName, title, align, formRenderedTemplate;
 
@@ -90,15 +85,7 @@ public class Form extends AbstractComponent {
 	public Form(String event_) {
 		this.event = event_;
 	}
-	
-	public boolean isFilteredValues() {
-		return filteredValues;
-	}
-
-	public void setFilteredValues(boolean filteredValues_) {
-		this.filteredValues = filteredValues_;
-	}
-	
+		
 	public boolean isBindedPk() {
 		return bindedPk;
 	}
@@ -150,7 +137,35 @@ public class Form extends AbstractComponent {
 	public final boolean isGrid() {
 		return false;
 	}
+	
+	public ICtrl getControlByQname(final String qualifiedName){ 		
+		Iterator<ICtrl> iteCtrl = getAllControls().iterator();
+		while (iteCtrl.hasNext()) {
+			ICtrl ctrl = iteCtrl.next();
+			if (ctrl.getQName() != null && ctrl.getQName().contentEquals(qualifiedName)) {
+				return ctrl;
+			}
+		}
+		return null;
+	}
+	
+	public Collection<ICtrl> getAllControls(){ 
+		List<ICtrl> allCtrls = new ArrayList<ICtrl>();
+		Iterator<ICtrl> iteKeys = this.visibleControls.keySet().iterator();
+		while (iteKeys.hasNext()) {
+			ICtrl keyCtrl = iteKeys.next();
+			allCtrls.addAll(visibleControls.get(keyCtrl));
+		}
+		allCtrls.addAll(hiddenControls);
+		return allCtrls;
+	}
 
+	public void setAllvaluesForControl(final IDataAccess dataAccess, final String qualifiedName, final Collection<String> values) {
+		ICtrl ctrl = getControlByQname(qualifiedName);		
+		ctrl.setValues(qualifiedName, values, dataAccess, null);
+
+	}
+	
 	@Override
 	public final IViewComponent copyOf(final IDataAccess dataAccess) throws PCMConfigurationException, ClonePcmException {
 		final Form newV = new Form();
@@ -158,7 +173,6 @@ public class Form extends AbstractComponent {
 		newV.title = this.title;
 		newV.align = this.align;
 		newV.bindedPk = this.bindedPk;
-		newV.filteredValues = this.filteredValues;
 		newV.nameContext = this.nameContext;
 		newV.columnsNumber = this.columnsNumber;
 		newV.formRenderedTemplate = this.formRenderedTemplate;
@@ -413,7 +427,7 @@ public class Form extends AbstractComponent {
 				final ICtrl control = AbstractCtrl.getInstance(fieldView);
 				if (!fieldView.isHidden()) {
 					if (control.isSelection() || control.isCheckBoxGroup() || control.isRadioButtonGroup()) {
-						fillCheckAndSelection(dataAccess, control, null, null);
+						control.fillCheckAndSelection(dataAccess, this.getValueOfField(fieldView.getQualifiedContextName()), null, null);
 						this.visibleControls.get(fieldset).add(AbstractCtrl.getInstance(fieldView));
 					} else {
 						if (!fieldView.isUserDefined() && fieldView.getEntityField().getAbstractField().isBlob()) {
@@ -447,11 +461,12 @@ public class Form extends AbstractComponent {
 				if ((_control.isCheckBoxGroup() || _control.isRadioButtonGroup() || _control.isSelection()) &&
 						!_control.getFieldView().isUserDefined()){
 					try {
-						fillCheckAndSelection(dataAccess_, _control, null, null /*valoresPorDef, firstOptionValue_*/);
+						_control.fillCheckAndSelection(dataAccess_, 
+								this.getValueOfField(_control.getFieldView().getQualifiedContextName()), 
+								null, null /*valoresPorDef, firstOptionValue_*/);
 						newControls.add(AbstractCtrl.getInstance(_control.getFieldView()));
 					} catch (PCMConfigurationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new RuntimeException("Error fillCheckAndSelection a control");
 					}					
 				}else {
 					newControls.add(_control);
@@ -461,208 +476,11 @@ public class Form extends AbstractComponent {
 		}
 		return newVisibleGroup;
 	}
-
-	private final void fillCheckAndSelection(final IDataAccess dataAccess, final ICtrl ctrl,
-			Collection<String> valoresPorDef, final String firstOptionValue_) throws PCMConfigurationException {
-		try {
-			final IFieldView fieldView = ctrl.getFieldView();
-			final IFieldValue fieldValue_ = this.getValueOfField(fieldView.getQualifiedContextName());
-			final String firstOptionValue = firstOptionValue_ == null ? "": firstOptionValue_;			
-			List<String> valoresPorDefecto_ = new ArrayList<String>();
-			List<Option> listaOpciones = new ArrayList<Option>();
-			if (valoresPorDef != null) {
-				valoresPorDefecto_.addAll(valoresPorDef);
-			}			
-			if (fieldView.getFieldAndEntityForThisOption().getEntityFromCharge() != null){
-				final EntityLogic entidadCharger = EntityLogicFactory.getFactoryInstance().getEntityDef(
-						dataAccess.getDictionaryName(), fieldView.getFieldAndEntityForThisOption().getEntityFromCharge());
-				final Collection<IFieldView> fieldsDescriptivosForDesplegable = new ArrayList<IFieldView>();
-				int[] descrMappings = fieldView.getFieldAndEntityForThisOption().getFieldDescrMappingTo();
-				boolean hasCodeMappingUserDefined = descrMappings.length == 1
-						&& descrMappings[0] == fieldView.getFieldAndEntityForThisOption().getInnerCodeFieldMapping();
 	
-				final FieldViewSet fieldviewSetDeListaDesplegable = new FieldViewSet(entidadCharger);
-				fieldviewSetDeListaDesplegable.setEntityDef(entidadCharger);
-				int descrMappingsLength= descrMappings.length;
-				for (int i = 0; i < descrMappingsLength; i++) {
-					fieldsDescriptivosForDesplegable.add(new FieldView(entidadCharger.searchField(descrMappings[i])));
-				}
 	
-				fieldviewSetDeListaDesplegable.getFieldViews().add(
-						new FieldView(entidadCharger.getFieldKey().getCompositePK().iterator().next()));
 	
-				if (fieldView.hasField4Filter()) {
-					IFieldLogic fLogic = fieldView.getField4Filter();
-					String valueForFilter = fieldView.getFieldValue4Filter().toString();
-					fieldviewSetDeListaDesplegable.setValue(fLogic.getMappingTo(), valueForFilter);
-				}
-				
-				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
-				int indiceOpciones = 0;
-				if (fieldView.getEntityField() != null && !hasCodeMappingUserDefined && !fieldView.getEntityField().getAbstractField().isBoolean()) {
-					
-					//recogemos todos los valores en esa tabla para este campo
-					String[] ascFieldOrderBy= new String[]{};
-					if (fieldView.getEntityField().getEntityDef().getName().equals(fieldView.getFieldAndEntityForThisOption().getEntityFromCharge())){
-						IFieldLogic fDesc = fieldView.getEntityField().getEntityDef().searchField(descrMappings[0]);
-						ascFieldOrderBy = new String[]{fieldView.getEntityField().getEntityDef().getName().concat(String.valueOf(FieldViewSet.FIELD_SEPARATOR)).concat(fDesc.getName())};
-					}else{
-						IFieldLogic fieldPk = fieldviewSetDeListaDesplegable.getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
-						ascFieldOrderBy = new String[]{new StringBuilder(fieldPk.getEntityDef().getName()).append(FieldViewSet.FIELD_SEPARATOR).append(fieldPk.getName()).toString()};
-					}				
-					Collection<FieldViewSetCollection> allRecords = dataAccess.searchAll(fieldviewSetDeListaDesplegable,
-							ascFieldOrderBy, IAction.ORDEN_ASCENDENTE);			
-					
-					final Iterator<FieldViewSetCollection> iteratorAllRecords = allRecords.iterator();
-					while (iteratorAllRecords.hasNext()) {
-						final FieldViewSetCollection fieldAllRecords = iteratorAllRecords.next();
-						if (!fieldAllRecords.getFieldViewSets().isEmpty()) {
-							final FieldViewSet entidadResultado = fieldAllRecords.getFieldViewSets().get(0);
-							final FieldCompositePK codeFieldCompositePK = new FieldCompositePK();
-							String pkCode = "";
-							StringBuilder descrFields = new StringBuilder();
-							if (fieldView.persistsInRequest() || fieldView.persistsInSession()) {
-								pkCode = entidadResultado.getFieldvalue(fieldView.getEntityField()).getValue().toString();
-							} else {
-								codeFieldCompositePK.setCompositePK(fieldView.getEntityField());
-								StringBuilder valueXpression = new StringBuilder();
-								valueXpression.append(new StringBuilder(fieldView.getContextName() == null ? "" : fieldView.getContextName())
-										.append(FieldViewSet.FIELD_SEPARATOR).append(fieldView.getEntityField().getName()).toString());
-								valueXpression.append(PCMConstants.EQUALS);
-								Iterator<IFieldView> fieldViewsEntidadCharger = entidadResultado.getFieldViews().iterator();
-								while (fieldViewsEntidadCharger.hasNext()) {
-									
-									IFieldView fieldFormEntityCharger = fieldViewsEntidadCharger.next();
-									
-									if (fieldView.getEntityField().getParentFieldEntities() != null	&& 
-											!fieldView.getEntityField().getEntityDef().getName().equals(fieldFormEntityCharger.getEntityField().getEntityDef().getName())) {
-										//busco el valor de la FK en la otra tabla relacionada
-										Iterator<IFieldLogic> fks = fieldView.getEntityField().getParentFieldEntities().iterator();
-										while (fks.hasNext()) {
-											IFieldLogic fieldLogic_FK = fks.next();
-											if (fieldLogic_FK.getEntityDef().getName().equals(entidadCharger.getName())
-													&& fieldLogic_FK.getMappingTo() == fieldFormEntityCharger.getEntityField().getMappingTo()) {
-												IFieldValue fValue = entidadResultado.getFieldvalue(fieldFormEntityCharger.getEntityField());
-												pkCode = valueXpression.append(fValue.getValue()).toString();
-												break;
-											}
-										}
-										if (!"".equals(pkCode)) {
-											break;
-										}
-									}else if (fieldView.getEntityField().getEntityDef().getName().equals(fieldFormEntityCharger.getEntityField().getEntityDef().getName())){
-										//busco el valor del campo en la propia tabla
-										IFieldLogic fieldPk = fieldView.getEntityField().getEntityDef().getFieldKey().getPkFieldSet().iterator().next();
-										IFieldValue fValue = entidadResultado.getFieldvalue(fieldPk);
-										pkCode = valueXpression.append(fValue.getValue()).toString();
-										break;
-									}
-								}
-							}
-							
-							Iterator<IFieldView> iteDescrFields = fieldsDescriptivosForDesplegable.iterator();
-							while (iteDescrFields.hasNext()) {
-								IFieldView descrField_ = iteDescrFields.next();
-								descrFields.append(entidadResultado.getFieldvalue(descrField_.getEntityField()).getValue().toString());
-								if (iteDescrFields.hasNext()) {
-									descrFields.append(", ");
-								}
-							}
 	
-							String valueOfPkOption = pkCode.split(PCMConstants.EQUALS)[1];
-							boolean selected = valoresPorDefecto_.contains(valueOfPkOption);
-							Option newOption = new Option(pkCode, descrFields.toString(), selected);
-							if (selected && fieldView.isActivatedOnlySelectedToShow()){
-								listaOpciones.add(newOption);
-							}else if (!fieldView.isActivatedOnlySelectedToShow()){
-								if (valueOfPkOption.equals(firstOptionValue.toString())) {
-									listaOpciones.add(indiceOpciones, newOption);
-								} else {
-									listaOpciones.add(newOption);
-								}
-							}
-						}
-					}
 	
-				}else if (fieldView.getEntityField() != null && hasCodeMappingUserDefined && !fieldView.getEntityField().getAbstractField().isBoolean()) {
-	
-					List<FieldViewSet> results = dataAccess.selectWithDistinct(fieldviewSetDeListaDesplegable, descrMappings[0], IAction.ORDEN_ASCENDENTE);
-					int resultsLength= results.size();
-					for (int i = 0; i < resultsLength; i++) {
-						FieldViewSet fSet = results.get(i);
-						String val_ = fSet.getValue(descrMappings[0]).toString();
-						val_ = val_ == null ? "" : val_;
-						String valorString = String.valueOf(val_);
-						Option newOption = new Option(valorString, valorString, valoresPorDefecto_.contains(valorString)/* selected */);
-						if (valorString.equals(firstOptionValue.toString())) {
-							listaOpciones.add(indiceOpciones, newOption);
-						} else {
-							listaOpciones.add(newOption);
-						}
-					}// for
-					
-				} else if (fieldView.getEntityField() != null && fieldView.getEntityField().getAbstractField().isBoolean()){//tratamiento con campos boolean
-					String val_1 = "1", val_0 = "0";
-					Option newOption_1 = new Option(val_1, val_1, valoresPorDefecto_.contains(val_1)/* selected */);				
-					listaOpciones.add(newOption_1);
-					Option newOption_0 = new Option(val_0, val_0, valoresPorDefecto_.contains(val_0)/* selected */);				
-					listaOpciones.add(newOption_0);
-					
-				} else if (fieldView.getEntityField()== null) {					
-					String orderField = entidadCharger.getName().concat("." + String.valueOf(fieldView.getFieldAndEntityForThisOption().getInnerCodeFieldMapping()));
-					String[] orderFields = new String[] {orderField};
-					List<FieldViewSet> results = dataAccess.searchByCriteria(new FieldViewSet(entidadCharger), orderFields, IAction.ORDEN_ASCENDENTE);
-					int resultsLength= results.size();
-					for (int i = 0; i < resultsLength; i++) {
-						FieldViewSet fSet = results.get(i);
-						String val_ = fSet.getValue(descrMappings[0]).toString();
-						String code_ = fSet.getValue(fieldView.getFieldAndEntityForThisOption().getInnerCodeFieldMapping()).toString();
-						val_ = val_ == null ? "" : val_;
-						Option newOption = new Option(code_, val_, valoresPorDefecto_.contains(val_)/* selected */);
-						if (val_.equals(firstOptionValue.toString())) {
-							listaOpciones.add(indiceOpciones, newOption);
-						} else {
-							listaOpciones.add(newOption);
-						}
-					}// for
-				}				
-				
-			}else{//es una userDefined radio, checkbox o select: NO HAY ENTIDAD DE LA QUE SACAR LOS DATOS PARA EL DESPLEGABLE
-				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
-				listaOpciones.addAll(fieldView.getFieldAndEntityForThisOption().getOptions());				
-			}
-			
-			if (ctrl.isSelection() && listaOpciones.size() < ICtrl.MAX_FOR_OPTIONS_IN_SELECT){
-				((SelectCtrl)ctrl).setSize(listaOpciones.size());
-			}
-			//truncamos esa lista de opciones que serían values selected, y los pones a de-selected
-			if (isFilteredValues() && fieldValue_ != null && !fieldValue_.getValues().isEmpty()) {
-				List<Option> newListaOpciones = new ArrayList<Option>();
-				Iterator<Option> iteOptions = listaOpciones.iterator();
-				while (iteOptions.hasNext()) {
-					Option option = iteOptions.next();
-					if (fieldValue_.getValues().contains(option.getCode().substring(option.getCode().indexOf("=")+1)) ){
-						//System.out.println("option.getCode(): " + option.getCode() + " SI está entre los valores filtrados");
-						option.setSelected(false);
-						newListaOpciones.add(option);
-					}
-				}
-				listaOpciones.clear();
-				listaOpciones.addAll(newListaOpciones);
-				fieldView.getFieldAndEntityForThisOption().getOptions().clear();
-			}
-			fieldView.getFieldAndEntityForThisOption().getOptions().addAll(listaOpciones);
-			ctrl.resetOptions(listaOpciones);
-			
-		} catch (final PCMConfigurationException cfgExc1) {
-			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, cfgExc1);
-			throw new PCMConfigurationException(InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, cfgExc1);
-		} catch (final Throwable exc2) {
-			AbstractComponent.log.log(Level.SEVERE, InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, exc2);
-			throw new PCMConfigurationException(InternalErrorsConstants.FIELDVIEWSETS_CHARGE_OPTS_ERROR, exc2);
-		}
-	}
-
 	
 	private final void recreateControls4FieldViewSets(List<FieldViewSet> fViewSets, Map<ICtrl, List<ICtrl>> visibleControls_,
 			List<ICtrl> hiddenControls_) {
@@ -695,24 +513,24 @@ public class Form extends AbstractComponent {
 			}
 		}
 	}
-
+	
+	private List<Integer> getCriteriaFields(final Datamap datamap){
+		
+		List<Integer> arr = new ArrayList<Integer>();
+		final String[] criterias = ((String)datamap.getAttribute("userCriteria")).split(",");
+		for (int j=0;j<criterias.length;j++){
+			arr.add(Integer.valueOf(criterias[j]));
+		}
+		return arr;
+	}
+			
+			
 	
 	@Override
 	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException {
 		try {
 			// long miliseconds1 = System.nanoTime();
 			final String lang = datamap.getLanguage();
-			
-			if (isFilteredValues() && getFieldViewSets() != null && getFieldViewSets().size()> 0 && 
-					getFieldViewSets().get(0).getEntityDef() != null && 
-					getFieldViewSets().get(0).getEntityDef().getName().contentEquals("peticiones")) {
-				/*Collection<String> values = getFieldViewSets().get(0).getValues(26);
-				Iterator<String> valueIte = values.iterator();
-				while (valueIte.hasNext()) {
-					String val = valueIte.next();
-					System.out.println("FORM: value of idaplicativo: " + val);
-				}*/
-			}
 			
 			recreateControls4FieldViewSets(getFieldViewSets(), this.visibleControls, this.hiddenControls);
 
@@ -814,11 +632,14 @@ public class Form extends AbstractComponent {
 								fkValuesUnformatted.add(val);
 							}
 						}
-						
-						fillCheckAndSelection(dataAccess_, control, fkValuesUnformatted, 
+						boolean criterioNoSeleccionadoPorUser = datamap.getAttribute("userCriteria") == null || 
+								control.getFieldView().getEntityField() == null	||
+								!getCriteriaFields(datamap).contains(new Integer(control.getFieldView().getEntityField().getMappingTo()));
+								 	
+						control.fillCheckAndSelection(dataAccess_, this.getValueOfField(control.getFieldView().getQualifiedContextName()), fkValuesUnformatted, 
 								AbstractAction.isQueryEvent(this.event) && control.getFieldView().getDefaultFirstOfOptions() != null ? 
 										control.getFieldView().getDefaultFirstOfOptions().toString() : "");						
-						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, isFilteredValues() ? new ArrayList<String>(): fkValuesUnformatted));
+						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, criterioNoSeleccionadoPorUser ? new ArrayList<String>(): fkValuesUnformatted));
 					} else {
 						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, values_));
 					}
@@ -887,7 +708,7 @@ public class Form extends AbstractComponent {
 								}
 
 								if (control.isSelection() || control.isCheckBoxGroup() || control.isRadioButtonGroup()) {	
-									fillCheckAndSelection(dataAccess_, control, values_, control.getFieldView()
+									control.fillCheckAndSelection(dataAccess_, this.getValueOfField(control.getFieldView().getQualifiedContextName()), values_, control.getFieldView()
 											.getDefaultFirstOfOptions() != null ? control.getFieldView().getDefaultFirstOfOptions().toString() : "");
 									buttonsStrBuilder.append(control.getInnerHTML(lang, values_));
 								} else if (!control.getFieldView().isSeparator()) {

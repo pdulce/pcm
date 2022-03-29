@@ -8,6 +8,7 @@ import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.FieldViewSetCollection;
+import org.cdd.service.component.definitions.IFieldView;
 import org.cdd.service.dataccess.IDataAccess;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
 import org.cdd.service.dataccess.dto.Datamap;
@@ -139,6 +140,8 @@ public interface IViewComponent {
 	public String toXHTML(final Datamap datamap, final IDataAccess dataAccess_, boolean submitted) throws DatabaseException;
 
 	public IFieldValue getValueOfField(String qualifiedName);
+	
+	public IFieldView getFieldView(final String qualifedName);
 
 	public void refreshValues(final HashMap<String, IFieldValue> valuesMemo);
 	

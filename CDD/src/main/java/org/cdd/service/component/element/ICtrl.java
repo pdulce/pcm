@@ -1,10 +1,14 @@
 package org.cdd.service.component.element;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.service.component.definitions.IFieldView;
 import org.cdd.service.component.definitions.Option;
 import org.cdd.service.component.element.html.Label;
+import org.cdd.service.dataccess.IDataAccess;
+import org.cdd.service.dataccess.dto.IFieldValue;
 
 
 public interface ICtrl {
@@ -18,10 +22,19 @@ public interface ICtrl {
 	
 	public static final int MAX_FOR_OPTIONS_IN_SELECT = 3;
 	
+	public void fillCheckAndSelection(final IDataAccess dataAccess, 
+			final IFieldValue fieldValue_,
+			Collection<String> valoresPorDef_, 
+			final String firstOptionValue_) throws PCMConfigurationException;
+	
+	public List<Option> getListOfOptions();
+
 	public String getInnerHTML(String lang, String innerContent);
 
 	public String getInnerHTML(String lang, Collection<String> values_);
 
+	public void setQName(String qname_);
+	
 	public String getQName();
 
 	public boolean isSelectionMultiple();
@@ -35,12 +48,12 @@ public interface ICtrl {
 	public IFieldView getFieldView();
 
 	public void setFieldView(IFieldView fV);
+		
+	public void setValues(final String qualifiedName, final Collection<String> values, 
+			final IDataAccess dataAccess, 
+			final IFieldValue fieldValue_);
 
 	public void resetOptions(Collection<Option> newOptions);
-
-	public String getQname();
-
-	public void setQName(String qname_);
 
 	public String getDictionaryName();
 

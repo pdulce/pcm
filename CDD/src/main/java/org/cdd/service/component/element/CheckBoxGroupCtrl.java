@@ -34,9 +34,25 @@ public class CheckBoxGroupCtrl extends AbstractCtrl {
 				checkB.setValue(option.getCode());					
 			}
 			checkB.setCheckedByDefault(!isSelectionMultiple() ? option.isDefaultSelected() : false);
-			checkB.setValue(option.isDefaultSelected()?"":checkB.getInternalValue());
+			checkB.setValue(checkB.getInternalValue());
 			this.checks.add(checkB);
 		}
+	}
+	
+	public List<CheckButton> getChecks(){
+		return this.checks;
+	}
+	
+	public List<Option> getListOfOptions(){
+		List<Option> listaOpciones = new ArrayList<Option>();
+		List<CheckButton> checkList = this.getChecks();
+		for (int i=0;i<checkList.size();i++) {
+			CheckButton chkButton = checkList.get(i);
+			Option opt = new Option(chkButton.getInternalValue(), chkButton.getDescription());
+			opt.setSelected(false);
+			listaOpciones.add(opt);
+		}
+		return listaOpciones;
 	}
 	
 	@Override

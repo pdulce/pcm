@@ -153,7 +153,7 @@ public class FieldView implements IFieldView, Serializable {
 			this.fieldAndEntityForThisOption = new OptionsSelection(this.getEntityField().getEntityDef().getName(), this.getEntityField()
 					.getMappingTo(), -1, new int[] { this.getEntityField().getMappingTo() });
 			this.fieldAndEntityForThisOption.setOptions(FieldView.BOOL_OPTIONS);
-		} else if (this.getEntityField().getAbstractField().getMaxLength() > 250) {
+		} else if (this.getEntityField().getAbstractField().getMaxLength() > 250 && this.getUserDefSize() >= 50) {
 			this.setType(ICtrl.TEXTAREA_TYPE);
 		} else if (this.getEntityField().getAbstractField().isBlob()) {
 			this.setType(ICtrl.FILE_TYPE);
@@ -175,7 +175,7 @@ public class FieldView implements IFieldView, Serializable {
 			this.fieldAndEntityForThisOption = new OptionsSelection(this.getEntityField().getEntityDef().getName(), this.getEntityField()
 					.getMappingTo(), -1, new int[] { this.getEntityField().getMappingTo() });
 			this.fieldAndEntityForThisOption.setOptions(FieldView.BOOL_OPTIONS);
-		} else if (this.getEntityField().getAbstractField().getMaxLength() > 250) {
+		} else if (this.getEntityField().getAbstractField().getMaxLength() > 250 && this.getUserDefSize() >= 50) {
 			this.setType(ICtrl.TEXTAREA_TYPE);
 		} else {
 			this.setType(ICtrl.TEXT_TYPE);
@@ -735,7 +735,7 @@ public class FieldView implements IFieldView, Serializable {
 				this.fieldAndEntityForThisOption.setOptions(FieldView.BOOL_OPTIONS);
 			} else if (this.getEntityField().getAbstractField().isBlob()) {
 				this.setType(ICtrl.FILE_TYPE);
-			} else if (this.getEntityField().getAbstractField().getMaxLength() > 250) {
+			} else if (this.getEntityField().getAbstractField().getMaxLength() > 250 && this.getUserDefSize() >= 50) {
 				this.setType(ICtrl.TEXTAREA_TYPE);
 			} else {
 				this.setType(ICtrl.TEXT_TYPE);

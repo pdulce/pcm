@@ -80,6 +80,9 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					fValuesSubd.setValues(colOfUnidadesOrigen);
 					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN).getName(), fValuesSubd);
 					
+					String qualifiedNameSubd = peticiones.getName().concat(".").concat(peticiones.searchField(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameSubd, colOfUnidadesOrigen);
+					
 					Collection<String> colOfServicios = new ArrayList<String>();
 					FieldViewSet serviciosCriteria = new FieldViewSet(servicios);
 					serviciosCriteria.setValue(ConstantesModelo.SERVICIO_3_UNIDAD_ORG, idorganismo);
@@ -93,6 +96,12 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					fValuesServices.setValues(colOfServicios);
 					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO).getName(), fValuesServices);
 					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO).getName(), fValuesServices);
+					String qualifiedNameServicioOrigen = peticiones.getName().concat(".").concat(peticiones.searchField(ConstantesModelo.PETICIONES_10_SERVICIO).getName());
+					String qualifiedNameServicioDestino = peticiones.getName().concat(".").concat(peticiones.searchField(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO).getName());
+					
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameServicioOrigen, colOfServicios);
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameServicioDestino, colOfServicios);
+
 														
 					Collection<String> colOfAplicativos = new ArrayList<String>();
 					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);
@@ -106,6 +115,8 @@ public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 					IFieldValue fValuesApp = new FieldValue();
 					fValuesApp.setValues(colOfAplicativos);
 					newValuesFiltered.put(peticiones.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName(), fValuesApp);
+					String qualifiedNameApp = peticiones.getName().concat(".").concat(peticiones.searchField(ConstantesModelo.PETICIONES_26_ID_APLICATIVO).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameApp, colOfAplicativos);
 					
 				}
 

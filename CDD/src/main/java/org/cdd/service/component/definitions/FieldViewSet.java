@@ -223,7 +223,6 @@ public class FieldViewSet implements Serializable {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public final void refreshUserFilter(final Collection<FieldViewSet> fieldViewSetsForm,  final IDataAccess dataAccess, 
 			final Map<String, List<Object>> valuesMemo_) {
 		
@@ -288,13 +287,7 @@ public class FieldViewSet implements Serializable {
 					
 					List<String> stringVals = new ArrayList<String>();
 					for (Object val: values) {
-						if (val instanceof IFieldValue) {
-							stringVals.addAll( ((IFieldValue)val).getValues());
-						}else if (val instanceof List) {
-							stringVals.addAll( ((List<String>)val));
-						}else if (val instanceof Collection) {
-							stringVals.addAll( ((Collection<String>)val));
-						}else if (!"".equals(val.toString())){
+						if (!"".equals(val.toString())){
 							stringVals.add(val.toString());
 						}
 					}

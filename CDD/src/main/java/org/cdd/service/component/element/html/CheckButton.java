@@ -35,10 +35,16 @@ public class CheckButton extends GenericInput {
 	}
 
 	public String getInternalValue() {
+		if (internalValue.contentEquals("")) {
+			throw new RuntimeException("Excepcion retornando valor vacio del internal value of checkbutton");
+		}
 		return this.internalValue;
 	}
 
 	public void setInternalValue(final String internalValue) {
+		if (internalValue.contentEquals("")) {
+			throw new RuntimeException("Excepcion dando valor vacio al internal value of checkbutton");
+		}
 		this.internalValue = internalValue;
 	}
 
@@ -51,6 +57,9 @@ public class CheckButton extends GenericInput {
 	}
 
 	public void setValue(final String value) {
+		if (value.contentEquals("")) {
+			throw new RuntimeException("Excepcion dando valor vacio al internal value of checkbutton");
+		}
 		this.internalValue = value;
 	}
 
@@ -68,7 +77,9 @@ public class CheckButton extends GenericInput {
 	 */
 	public String toHTML(final String descrTraduced_, final Collection<String> values_) {
 		
-		
+		if (this.internalValue.contentEquals("") && !descrTraduced_.contentEquals("")) {
+			throw new RuntimeException("Excepcion dando valor vacio al internal value of checkbutton");			
+		}
 		final StringBuilder cad = new StringBuilder("<label class=\"checkboxcontainer\">");
 		cad.append(descrTraduced_).append("&nbsp;&nbsp;");
 		
@@ -79,8 +90,7 @@ public class CheckButton extends GenericInput {
 		String valueOfOption = this.internalValue.indexOf(PCMConstants.EQUALS) == -1 ? this.internalValue : this.internalValue.split(PCMConstants.EQUALS)[1];
 		boolean isChecked = values_.isEmpty() ? this.isCheckedByDefault(): values_.contains(valueOfOption);
 		input.append(this.getDisabled()).append(isChecked ? CheckButton.CHECKED_ATTR_VALUE : PCMConstants.EMPTY_);
-		input.append(this.getOnClick()).append(this.getOnMouseOut()).append(this.getOnDbClick()).append(this.getOnMouseOver()).append(">");
-		
+		input.append(this.getOnClick()).append(this.getOnMouseOut()).append(this.getOnDbClick()).append(this.getOnMouseOver()).append(">");		
 		cad.append(input);
 		
 		cad.append("<span").append(this.getClassId()).append("></span>").

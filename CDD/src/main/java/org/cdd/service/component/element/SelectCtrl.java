@@ -3,6 +3,7 @@ package org.cdd.service.component.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.cdd.service.component.definitions.Option;
 import org.cdd.service.component.element.html.Select;
@@ -17,8 +18,18 @@ public class SelectCtrl extends AbstractCtrl {
 		return true;// para traducir onicamente los valores 'Select'
 	}
 
-	public SelectCtrl() {
-
+	public SelectCtrl() {}
+	
+	
+	public Select getSelect() {
+		return this.select;
+	}
+	
+	public List<Option> getListOfOptions(){
+		List<Option> listaOpciones = new ArrayList<Option>();		
+		Select selection = this.getSelect();
+		listaOpciones.addAll(selection.getOptions());
+		return listaOpciones;	
 	}
 
 	public void setSize(int size_) {

@@ -216,7 +216,7 @@ public abstract class AbstractDAOImpl implements IDAOImpl {
 
 	protected final int deleteByPk(final FieldViewSet fieldViewSet, final DAOConnection conn) throws DatabaseException {
 		String whereClausule = SQLUtils.getWhereClausuleFKorPK(fieldViewSet);
-		int numberOfWhereParams = SQLUtils.countParams(whereClausule);
+		int numberOfWhereParams = SQLUtils.countParams(whereClausule, "=");
 		PreparedStatement pstmt = null;
 		int res = 0;
 		try {

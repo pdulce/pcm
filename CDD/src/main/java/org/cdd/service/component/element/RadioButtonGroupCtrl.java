@@ -34,6 +34,24 @@ public class RadioButtonGroupCtrl extends AbstractCtrl {
 			this.radios.add(radio);
 		}
 	}
+	
+	public List<RadioButton> getRadios(){
+		return this.radios;
+	}
+	
+	public List<Option> getListOfOptions(){
+		List<Option> listaOpciones = new ArrayList<Option>();
+		List<RadioButton> radioList = this.getRadios();
+		for (int i=0;i<radioList.size();i++) {
+			RadioButton radioButton = radioList.get(i);
+			Option opt = new Option(radioButton.getInternalValue(), radioButton.getDescription());
+			opt.setSelected(false);
+			listaOpciones.add(opt);
+		}
+		return listaOpciones;	
+	}
+	
+	
 
 	@Override
 	public String getInnerHtml(final String lang, final Collection<String> values_) {

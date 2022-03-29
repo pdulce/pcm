@@ -225,8 +225,8 @@
 						
 							<fieldView mappingTo="46" editable="true" size="10" />
 							<fieldView mappingTo="35" editable="true" size="10" />
-							<fieldView mappingTo="2" editable="true" />
-							<fieldView mappingTo="3" editable="true" />
+							<fieldView mappingTo="2" editable="true" size="20"/>
+							<fieldView mappingTo="3" editable="true" size="20"/>
 							<fieldView mappingTo="16" type="checkbox">
 								<optionValues selectionMultiple="true" entitymodel="peticiones"
 									descrMappingTo="16" codeField="16">

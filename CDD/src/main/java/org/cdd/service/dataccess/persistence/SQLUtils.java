@@ -157,8 +157,9 @@ public class SQLUtils {
 			final byte[] byteArr = entityName.getBytes(IViewComponent.UTF_8);
 			for (final byte element : byteArr) {
 				numero += (char) element;
-			}
-			return new StringBuilder(entityName.substring(0, 1)).append(String.valueOf(numero % 100)).toString();
+			}			
+			String semilla = CommonUtils.addLeftZeros(String.valueOf(numero % 100), 2);
+			return new StringBuilder(entityName.substring(0, 1)).append(semilla).toString();
 		}
 		catch (final UnsupportedEncodingException exc) {
 			return IDAOImpl.ALIAS_;
@@ -236,52 +237,27 @@ public class SQLUtils {
 
 	protected static String getWhereClausuleFKorPK(final FieldViewSet fieldViewSet) {
 
-		int numberOfPKFields = fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().size();		
+		int numberOfPKFields = fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().size();
 		Iterator<IFieldLogic> iteratorCampos = fieldViewSet.getEntityDef().getFieldKey().getPkFieldSet().iterator();
 		while (iteratorCampos.hasNext()) {
 			IFieldLogic campo = iteratorCampos.next();
 			if (campo.belongsPK() && numberOfPKFields == 1) {
-				Collection<String> values = fieldViewSet.getValues(campo.getMappingTo());				
-				if (values != null && !values.isEmpty()) {
-					String expression = new String();
-					expression = expression.concat(campo.getName().toUpperCase().concat(PCMConstants.IN_ANSISQL));
-					expression = expression.concat("(");
-					Iterator<String> valuesIte = values.iterator();
-					while (valuesIte.hasNext()) {
-						valuesIte.next();
-						expression = expression.concat(IDAOImpl.ARG);
-						if (valuesIte.hasNext()) {
-							expression = expression.concat(", ");
-						}
-					}
-					expression = expression.concat(")");
-					return expression;
+				Serializable value = fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(campo.getMappingTo()).getName());
+				if (value != null) {
+					return campo.getName().toUpperCase().concat(PCMConstants.EQUALS).concat(IDAOImpl.ARG);
 				}
-			}			
+			}
 		}
 
-		List<String> whereArr = new ArrayList<String>();		
+		List<String> whereArr = new ArrayList<String>();
 		iteratorCampos = fieldViewSet.getEntityDef().getFieldSet().values().iterator();
 		while (iteratorCampos.hasNext()) {
 			IFieldLogic campo = iteratorCampos.next();
 			if ((campo.getParentFieldEntities() != null && !campo.getParentFieldEntities().isEmpty())) {
-				Collection<String> values = fieldViewSet.getValues(campo.getMappingTo());
-				String expression = new String();
-				if (values != null && !values.isEmpty()) {
-					expression = new String();
-					expression = expression.concat(campo.getName().toUpperCase().concat(PCMConstants.IN_ANSISQL));
-					expression = expression.concat("(");
-					Iterator<String> valuesIte = values.iterator();
-					while (valuesIte.hasNext()) {
-						valuesIte.next();
-						expression = expression.concat(IDAOImpl.ARG);
-						if (valuesIte.hasNext()) {
-							expression = expression.concat(", ");
-						}
-					}
-					expression = expression.concat(")");					
+				Serializable value = fieldViewSet.getValue(fieldViewSet.getEntityDef().searchField(campo.getMappingTo()).getName());
+				if (value != null) {
+					whereArr.add(campo.getName().toUpperCase().concat(PCMConstants.EQUALS).concat(IDAOImpl.ARG));
 				}
-				whereArr.add(expression);
 			}
 		}
 
@@ -520,8 +496,7 @@ public class SQLUtils {
 		return null;
 	}
 
-	protected static int countParams(String clausule) {
-		final String paramSimbol = "?"; 
+	protected static int countParams(String clausule, String paramSimbol) {
 		int apariciones = 0;
 		String cadena = clausule;
 		int index = -1;
