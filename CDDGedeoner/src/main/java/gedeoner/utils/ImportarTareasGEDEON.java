@@ -319,7 +319,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 						registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, idApp);
 						Long idTecnologia = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_6_ID_TECNOLOGHY);
 						registro.setValue(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG, idTecnologia);
-						if (registro.getValue(ConstantesModelo.PETICIONES_10_SERVICIO) == null){
+						if (registro.getValue(ConstantesModelo.PETICIONES_10_SERVICIO) == null && apps.get(0).getValue(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO) != null){
 							Long idServicio = (Long) apps.get(0).getValue(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO);
 							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, idServicio);				 							
 				    	}						
