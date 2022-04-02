@@ -687,9 +687,9 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 					throw new RuntimeException("Dar de alta la servicio destino: " + valueCell);							
 				}
 			}
-			valueCell = valueCell.equals("") ? null : CommonUtils.obtenerCodigo(valueCell.toString());
+			valueCell = valueCell.toString().contentEquals("") ? null : CommonUtils.obtenerCodigo(valueCell.toString());
 		} else if (fLogic.getAbstractField().isDecimal()) {
-			valueCell = valueCell.equals("") ? null : CommonUtils.numberFormatter.parse(valueCell);
+			valueCell = valueCell.toString().contentEquals("") ? null : CommonUtils.numberFormatter.parse(valueCell.toString());
 		}
 		return valueCell;
 	}
