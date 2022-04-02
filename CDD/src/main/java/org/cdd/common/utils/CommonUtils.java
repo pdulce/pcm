@@ -3,6 +3,7 @@ package org.cdd.common.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -768,7 +769,46 @@ public final class CommonUtils {
 		}
 		return nameOfFile.substring(nameOfFile.lastIndexOf(PCMConstants.CHAR_POINT) + 1, nameOfFile.length());
 	}
-
+	
+	public static String[] getStringArrayOfFile(final File uploadFile) {
+		FileReader reader = null;
+		String[] lineas = new String[2500];
+		char[] charbuffer = new char[256000];
+		try {
+			int numLineasFichero = 0;
+			reader = new FileReader(uploadFile);
+			int c = reader.read(charbuffer);
+			StringBuffer brf = new StringBuffer();
+			for (int i=0;i<c;i++){
+				String char1 = Character.toString(charbuffer[i]);
+				if (char1.charAt(0) == '\n') {
+					lineas[numLineasFichero++] = brf.toString();
+					brf = new StringBuffer();
+				}else {
+					brf.append(char1);
+				}
+			}
+			
+			
+		}
+		catch (final FileNotFoundException fileExc) {
+			return null;
+		}
+		catch (final IOException ioExc) {
+			return null;
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			}
+			catch (final IOException excc) {
+				return null;
+			}
+		}
+		return lineas;		
+	}
+	
 	public static byte[] getPrimitiveByteArrayFromUploadedFile(final File uploadFile) {
 		InputStream input = null;
 		byte[] bufferFinal = null;
