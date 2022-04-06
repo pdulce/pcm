@@ -26,6 +26,7 @@ import org.cdd.service.dataccess.definitions.IFieldLogic;
 public abstract class AbstractExcelReader {
 	
 	protected static Map<String, Integer> COLUMNSET2ENTITYFIELDSET_MAP = new HashMap<String, Integer>();
+	protected static int UNIQUE_COLUMN = -1;
 	
 	protected static Logger log = Logger.getLogger(AbstractExcelReader.class.getName());
 	
@@ -108,6 +109,9 @@ public abstract class AbstractExcelReader {
 					AbstractExcelReader.log.log(Level.SEVERE, "Exception thrown in processing column " + columnName + " while importing numbered row " + nrow);
 				}
 			}// for
+			if (fila.getValue(UNIQUE_COLUMN) == null ) {
+				break;
+			}
 			filas.add(fila);
 		}
 

@@ -220,16 +220,16 @@
    <entity>
 	    <entityname>subdireccion</entityname>
 	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-	   	<field mappingTo="2" name="codigo" type="string" length="10" required="true"/>
+	   	<field mappingTo="2" name="codigo" type="string" length="50" required="true"/>
 	    <field mappingTo="3" name="nombre" type="string" length="150" required="true"/>
-	    	<field mappingTo="4" name="id_organismo" type="long" length="11" required="false" 
+	   	<field mappingTo="4" name="id_organismo" type="long" length="11" required="false" 
 	     fkParentEntities="unidadOrg" fkParentFields="1"/>	    
    </entity>
    
    <entity>
     	<entityname>servicio</entityname>
 	    <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
-	    <field mappingTo="2" name="nombre" type="string" length="50" required="true"/>    
+	    <field mappingTo="2" name="nombre" type="string" length="100" required="true"/>    
 	    <field mappingTo="3" name="unidadOrg" type="long" length="11" required="true"
 	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>
 	    <field mappingTo="4" name="subdireccion" type="long" length="11" required="false"

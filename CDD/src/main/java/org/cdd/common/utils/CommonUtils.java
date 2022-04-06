@@ -792,9 +792,15 @@ public final class CommonUtils {
 			
 		}
 		catch (final FileNotFoundException fileExc) {
+			fileExc.printStackTrace();
 			return null;
-		}
+		}		
 		catch (final IOException ioExc) {
+			ioExc.printStackTrace();
+			return null;
+		} 
+		catch (final Throwable exc) {
+			exc.printStackTrace();
 			return null;
 		} finally {
 			try {

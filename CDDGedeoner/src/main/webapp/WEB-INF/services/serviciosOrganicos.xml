@@ -19,7 +19,7 @@
 						<fieldset legend="Servicio">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="2"/>
+							<fieldView mappingTo="2" size="60"  maxlength="100"/>
 							<fieldView mappingTo="3" type="select" editable="true">
 								<optionValues entitymodel="unidadOrg" selectionMultiple="true" 
 									descrMappingTo="2">
@@ -39,13 +39,13 @@
 					<fieldViewSet entitymodel="servicio"
 						nameSpace="servicio">
 						<fieldView mappingTo="1" hidden="true"/>
-						<fieldView mappingTo="2" />
+						<fieldView mappingTo="2" size="60"/>
 						<fieldView mappingTo="3" type="select" editable="true">
 							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 							</optionValues>
 						</fieldView>		
 						<fieldView mappingTo="4" type="select" editable="true">
-							<optionValues entitymodel="subdireccion" descrMappingTo="2">
+							<optionValues entitymodel="subdireccion" descrMappingTo="3">
 							</optionValues>
 						</fieldView>														
 					</fieldViewSet>
@@ -63,14 +63,14 @@
 						<fieldset legend="Servicio">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="1" editable="false" />
-							<fieldView mappingTo="2" editable="false" />
+							<fieldView mappingTo="1" editable="false" size="10"/>
+							<fieldView mappingTo="2" editable="false" size="60"  maxlength="100"/>
 							<fieldView mappingTo="3" type="select" editable="false">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" type="select" editable="false">
-								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								<optionValues entitymodel="subdireccion" descrMappingTo="3">
 								</optionValues>
 							</fieldView>							
 							<fieldView separator="br" />
@@ -90,13 +90,13 @@
 						<fieldViewSet entitymodel="servicio"	nameSpace="servicio">
 							<fieldset legend="Servicio">
 								<fieldView separator="br" />						
-								<fieldView mappingTo="2" editable="true" />
+								<fieldView mappingTo="2" editable="true" size="60"  maxlength="100"/>
 								<fieldView mappingTo="3" type="select" editable="true">
 									<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 									</optionValues>
 								</fieldView>
 								<fieldView mappingTo="4" type="select" editable="true">
-									<optionValues entitymodel="subdireccion" descrMappingTo="2">
+									<optionValues entitymodel="subdireccion" descrMappingTo="3">
 									</optionValues>
 								</fieldView>								
 								<fieldView separator="br" />	
@@ -117,13 +117,13 @@
 						<fieldset legend="Servicio">
 							<fieldView separator="br" />	
 							<fieldView mappingTo="1" hidden="true" />
-							<fieldView mappingTo="2" editable="true" />
+							<fieldView mappingTo="2" editable="true" size="60" maxlength="100" />
 							<fieldView mappingTo="3" type="select" editable="true">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" type="select" editable="true">
-								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								<optionValues entitymodel="subdireccion" descrMappingTo="3">
 								</optionValues>
 							</fieldView>							
 							<fieldView separator="br" />

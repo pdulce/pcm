@@ -4,7 +4,6 @@
 package gedeoner.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -24,27 +23,19 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.usermodel.Cell;
 
 import org.cdd.common.exceptions.DatabaseException;
-import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.TransactionException;
 import org.cdd.common.utils.AbstractExcelReader;
 import org.cdd.common.utils.CommonUtils;
 import org.cdd.service.component.definitions.FieldViewSet;
-import org.cdd.service.dataccess.DataAccess;
 import org.cdd.service.dataccess.IDataAccess;
-import org.cdd.service.dataccess.comparator.ComparatorByFilename;
 import org.cdd.service.dataccess.comparator.ComparatorFieldViewSet;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
 import org.cdd.service.dataccess.definitions.IFieldLogic;
 import org.cdd.service.dataccess.factory.EntityLogicFactory;
-import org.cdd.service.dataccess.factory.IEntityLogicFactory;
-import org.cdd.service.dataccess.persistence.SqliteDAOSQLImpl;
-import org.cdd.service.dataccess.persistence.datasource.IPCMDataSource;
-import org.cdd.service.dataccess.persistence.datasource.PCMDataSourceFactory;
-
 import gedeoner.common.ConstantesModelo;
 
 
-public class ImportarTareasGEDEON extends AbstractExcelReader{
+public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 	
 	protected static IEntityLogic peticionesEntidad, subdireccionEntidad, servicioEntidad, aplicativoEntidad, tiposPeticionEntidad;
 	protected static String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS", 
@@ -101,35 +92,14 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Ult Modif",
 				Integer.valueOf(ConstantesModelo.PETICIONES_44_FECHA_ULTIMA_MODIFCACION));
 		
+		UNIQUE_COLUMN = ConstantesModelo.PETICIONES_46_COD_GEDEON;
+		
 	}
 	
 	private IDataAccess dataAccess;
 	private static List<String> appsNotFound = new ArrayList<String>();
 		
-	protected String getDGFactory () {
-		return "FACTDG07";
-	}
-	
-	protected String getORIGEN_FROM_SG_TO_CD () {
-		return "ISM";
-	}
-	
-	protected String getORIGEN_FROM_CD_TO_AT () {
-		return "CDISM";
-	}
-	
-	protected String getORIGEN_FROM_AT_TO_DESARR_GESTINADO () {
-		return "SDG";
-	}
-	
-	protected String getCD () {
-		return "Centro de Desarrollo del ISM";
-	}
-	
-	protected String getCONTRATO_DG () {
-		return "Desarrollo Gestionado 7201/21";
-	}
-	
+
 	protected void initEntities(final String entitiesDictionary) {
 		if (peticionesEntidad == null) {
 			try {
@@ -144,10 +114,23 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		}
 	}
 	
-	public ImportarTareasGEDEON(IDataAccess dataAccess_) {
+	public ImportarTareasGEDEON(IDataAccess dataAccess_){
 		this.dataAccess = dataAccess_;
 		initEntities(dataAccess.getDictionaryName());
 	}
+	
+	protected abstract String getDGFactory ();
+	
+	protected abstract String getORIGEN_FROM_SG_TO_CD ();
+	
+	protected abstract String getORIGEN_FROM_CD_TO_AT ();
+	
+	protected abstract String getORIGEN_FROM_AT_TO_DESARR_GESTINADO ();
+	
+	protected abstract String getCD ();
+	
+	protected abstract String getCONTRATO_DG ();
+	
 	
 	private int linkarPeticionesDeSGD_a_CD(FieldViewSet peticionPadre, final List<String> idsHijas_) throws DatabaseException, TransactionException{
 		int contador = 0;
@@ -653,7 +636,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			if (positionOfEntityField == ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN){
 				//mapeamos al id (su FK_ID correspondiente)
 				FieldViewSet unidadOrigenFs = new FieldViewSet(subdireccionEntidad);
-				unidadOrigenFs.setValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE,	valueCell);
+				unidadOrigenFs.setValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE,	valueCell.toString().concat("%"));
 				List<FieldViewSet> fSetsUnidadesOrigen = dataAccess.searchByCriteria(unidadOrigenFs);
 				if (!fSetsUnidadesOrigen.isEmpty()){
 					unidadOrigenFs = fSetsUnidadesOrigen.iterator().next();
@@ -665,7 +648,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_10_SERVICIO){
 				//mapeamos al id (su FK_ID correspondiente)
 				FieldViewSet areaOrigenFs = new FieldViewSet(servicioEntidad);
-				areaOrigenFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell);
+				areaOrigenFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell.toString().concat("%"));
 				List<FieldViewSet> fSetsServicios = dataAccess.searchByCriteria(areaOrigenFs);
 				if (!fSetsServicios.isEmpty()){
 					areaOrigenFs = fSetsServicios.iterator().next();
@@ -677,7 +660,7 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 			}else if (positionOfEntityField == ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO){
 				//mapeamos al id (su FK_ID correspondiente)
 				FieldViewSet areaDestinoFs = new FieldViewSet(servicioEntidad);
-				areaDestinoFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell);
+				areaDestinoFs.setValue(ConstantesModelo.SERVICIO_2_NOMBRE, valueCell.toString().concat("%"));
 				List<FieldViewSet> fSetsServicios = dataAccess.searchByCriteria(areaDestinoFs);
 				if (!fSetsServicios.isEmpty()){
 					areaDestinoFs = fSetsServicios.iterator().next();
@@ -694,84 +677,6 @@ public class ImportarTareasGEDEON extends AbstractExcelReader{
 		return valueCell;
 	}
     
-	public static void main(String[] args){
-		try{
-			if (args.length < 3){
-				System.out.println("Debe indicar los argumentos necesarios, con un mínimo tres argumentos; path ficheros Excel a escanear, path de BBDD y database namefile");
-				return;
-			}
-			
-			final String pathDirExcel2Scan = args[0];
-			File dir_importacion = new File(pathDirExcel2Scan);
-			if (!dir_importacion.exists() || !dir_importacion.isDirectory()){
-				System.out.println("El directorio con los ficheros Excel a escanear " + pathDirExcel2Scan + " no existe");
-			}
-			
-			final String basePathBBDD = args[1];
-			if (!new File(basePathBBDD).exists()){
-				System.out.println("El directorio de BBDD " + basePathBBDD + " no existe");
-				return;
-			}		
-			
-			final String fileDatabase = args[2];
-			if (!new File(basePathBBDD.concat("//".concat(fileDatabase))).exists()){
-				System.out.println("El nombre de fichero de BBDD " + fileDatabase + " no existe");
-				return;
-			}			
-
-
-			final String url_ = "jdbc:sqlite:".concat(basePathBBDD.concat("//".concat(fileDatabase)));
-			final String driverJDBC = "org.sqlite.JDBC";
-			final String entityDefinition = basePathBBDD.concat("//entities.xml");
 	
-			IPCMDataSource dsourceFactory = PCMDataSourceFactory.getDataSourceInstance("JDBC");
-			dsourceFactory.initDataSource(url_, "", "", driverJDBC);
-			final IDataAccess dataAccess_ = new DataAccess(entityDefinition, new SqliteDAOSQLImpl(), dsourceFactory.getConnection(), dsourceFactory, false/*auditOn*/);
-			
-			/*** Inicializamos la factoroa de Acceso Logico a DATOS **/		
-			final IEntityLogicFactory entityFactory = EntityLogicFactory.getFactoryInstance();
-			entityFactory.initEntityFactory(entityDefinition, new FileInputStream(entityDefinition));
-			
-			final ImportarTareasGEDEON_IGSS importadorGEDEONes = new ImportarTareasGEDEON_IGSS(dataAccess_);
-			
-			File[] filesScanned = dir_importacion.listFiles();
-			List<File> listaOrdenada = new ArrayList<File>();
-			for (int i=0;i<filesScanned.length;i++){
-				listaOrdenada.add(filesScanned[i]);
-			}
-			Collections.sort(listaOrdenada, new ComparatorByFilename());
-			long millsInicio = Calendar.getInstance().getTimeInMillis();
-			for (int i=0;i<listaOrdenada.size();i++){
-				File fileScanned = listaOrdenada.get(i);
-				if (!fileScanned.getName().endsWith(".xlsx")){
-					continue;
-				}
-				System.out.println("Comenzando importación del fichero " + fileScanned.getName() + " ...");
-				importadorGEDEONes.importarExcel2BBDD(fileScanned.getAbsolutePath());
-				System.out.println("...Importación realizada con éxito del fichero " + fileScanned.getName() + ".");
-			}
-			
-			dataAccess_.freeConnection();
-			
-			long millsFin = Calendar.getInstance().getTimeInMillis();
-			String tiempoTranscurrido = "";
-			long segundos = (millsFin - millsInicio)/1000;
-			if (segundos > 60){
-				long minutos = segundos/60;
-				long segundosResto = segundos%60;
-				tiempoTranscurrido = minutos + " minutos y " +  segundosResto + " segundos";
-			}else{
-				tiempoTranscurrido = segundos + " segundos";
-			}
-			System.out.println("*** FIN Importación global, tiempo empleado: " + tiempoTranscurrido + "***");
-			
-			
-		} catch (PCMConfigurationException e1) {
-			e1.printStackTrace();
-		} catch (Throwable e2) {
-			e2.printStackTrace();
-		}
-		
-	}
 
 }
