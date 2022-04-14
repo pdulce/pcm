@@ -38,13 +38,14 @@
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
+									
+						<fieldView separator="br" />
+						<fieldView separator="br" />
 						<fieldView mappingTo="3" type="select" size="5" editable="true">
 							<optionValues entitymodel="agrupacionEstudio" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>
-						</fieldView>							
-						<fieldView separator="br" />
-						<fieldView separator="br" />
+						</fieldView>			
 						<fieldView mappingTo="6" type="select" size="3" editable="true">
 							<optionValues entitymodel="tecnologia" selectionMultiple="true"
 								descrMappingTo="2">

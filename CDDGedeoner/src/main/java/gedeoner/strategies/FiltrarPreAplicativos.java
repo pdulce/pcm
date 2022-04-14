@@ -62,7 +62,16 @@ public class FiltrarPreAplicativos extends DefaultStrategyLogin {
 			while (iteFieldSets.hasNext()) {
 				FieldViewSet fSet = iteFieldSets.next();
 				if (fSet.getEntityDef().getName().equals(ConstantesModelo.APLICATIVO_ENTIDAD)) {
-										
+					
+					Collection<String> organismosCol = new ArrayList<String>();
+					organismosCol.add(idorganismo);
+					IFieldValue fValues = new FieldValue();
+					fValues.setValues(organismosCol);
+					newValuesFiltered.put(aplicativos.searchField(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO).getName(), fValues);
+					
+					String qualifiedNameOrg = aplicativos.getName().concat(".").concat(aplicativos.searchField(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameOrg, organismosCol);					
+					
 					Collection<String> colOfUnidadesOrigen = new ArrayList<String>();					
 					FieldViewSet subdireccionCriteria = new FieldViewSet(subdirecciones);
 					subdireccionCriteria.setValue(ConstantesModelo.SUBDIRECCION_4_ORGANISMO, idorganismo);
@@ -94,6 +103,22 @@ public class FiltrarPreAplicativos extends DefaultStrategyLogin {
 					
 					String qualifiedNameServicioOrigen = aplicativos.getName().concat(".").concat(aplicativos.searchField(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO).getName());
 					formulario.setAllvaluesForControl(dataAccess, qualifiedNameServicioOrigen, colOfServicios);
+					
+					// filtramos el combo de los ROCHADES
+					Collection<String> colOfAplicativos = new ArrayList<String>();
+					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);
+					aplicativosCriteria.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, idorganismo);
+					List<FieldViewSet> listaAplicativos = dataAccess.searchByCriteria(aplicativosCriteria);
+					Iterator<FieldViewSet> iteAplicativos = listaAplicativos.iterator();
+					while (iteAplicativos.hasNext()) {
+						FieldViewSet aplic = iteAplicativos.next();
+						colOfAplicativos.add((String)aplic.getValue(ConstantesModelo.APLICATIVO_2_ROCHADE));
+					}					
+					IFieldValue fValuesApp = new FieldValue();
+					fValuesApp.setValues(colOfAplicativos);
+					newValuesFiltered.put(aplicativos.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName(), fValuesApp);
+					String qualifiedNameApp = aplicativos.getName().concat(".").concat(aplicativos.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameApp, colOfAplicativos);					
 					
 				}
 

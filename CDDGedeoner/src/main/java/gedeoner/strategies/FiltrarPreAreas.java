@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-
 import org.cdd.common.PCMConstants;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
@@ -21,17 +19,15 @@ import org.cdd.service.dataccess.factory.EntityLogicFactory;
 
 import gedeoner.common.ConstantesModelo;
 
-public class FiltrarPreSubAreas extends DefaultStrategyLogin {
+public class FiltrarPreAreas extends DefaultStrategyLogin {
 
-	public static IEntityLogic subdirecciones, servicios;
+	public static IEntityLogic subdirecciones;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (subdirecciones == null) {
-			try {
+			try {				
 				subdirecciones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
-				servicios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.SERVICIO_ENTIDAD);
 			} catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -59,39 +55,23 @@ public class FiltrarPreSubAreas extends DefaultStrategyLogin {
 			Iterator<FieldViewSet> iteFieldSets = formulario.getFieldViewSets().iterator();
 			while (iteFieldSets.hasNext()) {
 				FieldViewSet fSet = iteFieldSets.next();
-				if (fSet.getEntityDef().getName().equals(ConstantesModelo.SERVICIO_ENTIDAD)) {
-					
+				if (fSet.getEntityDef().getName().equals(ConstantesModelo.SUBDIRECCION_ENTIDAD)) {
+														
 					Collection<String> organismosCol = new ArrayList<String>();
 					organismosCol.add(idorganismo);
 					IFieldValue fValues = new FieldValue();
 					fValues.setValues(organismosCol);
-					newValuesFiltered.put(servicios.searchField(ConstantesModelo.SERVICIO_3_UNIDAD_ORG).getName(), fValues);
+					newValuesFiltered.put(subdirecciones.searchField(ConstantesModelo.SUBDIRECCION_4_ORGANISMO).getName(), fValues);
 					
-					String qualifiedNameOrg = servicios.getName().concat(".").concat(servicios.searchField(ConstantesModelo.SERVICIO_3_UNIDAD_ORG).getName());
-					formulario.setAllvaluesForControl(dataAccess, qualifiedNameOrg, organismosCol);										
-										
-					Collection<String> colOfUnidadesOrigen = new ArrayList<String>();					
-					FieldViewSet subdireccionCriteria = new FieldViewSet(subdirecciones);
-					subdireccionCriteria.setValue(ConstantesModelo.SUBDIRECCION_4_ORGANISMO, idorganismo);
-					List<FieldViewSet> listaSubdirecciones = dataAccess.searchByCriteria(subdireccionCriteria);
-					Iterator<FieldViewSet> iteSubdirecciones = listaSubdirecciones.iterator();
-					while (iteSubdirecciones.hasNext()) {
-						FieldViewSet subdireccion = iteSubdirecciones.next();
-						colOfUnidadesOrigen.add(String.valueOf((Long)subdireccion.getValue(ConstantesModelo.SUBDIRECCION_1_ID)));
-					}
-					IFieldValue fValuesSubd = new FieldValue();
-					fValuesSubd.setValues(colOfUnidadesOrigen);
-					newValuesFiltered.put(servicios.searchField(ConstantesModelo.SERVICIO_4_SUBDIRECCION_ID).getName(), fValuesSubd);
-					
-					String qualifiedNameSubd = servicios.getName().concat(".").concat(servicios.searchField(ConstantesModelo.SERVICIO_4_SUBDIRECCION_ID).getName());
-					formulario.setAllvaluesForControl(dataAccess, qualifiedNameSubd, colOfUnidadesOrigen);					
+					String qualifiedNameSubd = subdirecciones.getName().concat(".").concat(subdirecciones.searchField(ConstantesModelo.SUBDIRECCION_4_ORGANISMO).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameSubd, organismosCol);					
 					
 				}
 
 			}//for 
 			
 			if (newValuesFiltered.isEmpty()) {
-				throw new PCMConfigurationException("Error: Objeto Servicio orgánico recibido del datamap es nulo ", new Exception("null object"));
+				throw new PCMConfigurationException("Error: Objeto Subdirección recibido del datamap es nulo ", new Exception("null object"));
 			}
 			
 			formulario.refreshValues(newValuesFiltered);
