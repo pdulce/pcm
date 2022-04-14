@@ -6,37 +6,38 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://pcm.framework.org/service services.xsd">
 
-    <service name="GestionSubdirecciones" profile="ADMINISTRADOR, CONSULTOR_UTE">
+    <service name="GestionAgrupaEstudios" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
-		<action event="query" submitError="GestionSubdirecciones.query"
-			submitSucces="GestionSubdirecciones.query">
+		<action event="query" submitError="GestionAgrupaEstudios.query"
+			submitSucces="GestionAgrupaEstudios.query">
 
 			<viewComponent>
 
-				<form columns="3" title="Consulta 햞eas">
+				<form columns="3" title="Consulta Grupos">
 
-					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
-						<fieldset legend="subdireccion">
+					<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupador">
+						<fieldset legend="Servicio">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="2"  size="25"/>							
-							<fieldView mappingTo="3"  size="45"/>
+							<fieldView mappingTo="2"/>
+							<fieldView mappingTo="3"/>
 							<fieldView mappingTo="4" type="select" editable="true">
 								<optionValues entitymodel="unidadOrg" selectionMultiple="true" 
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView separator="br" />
+							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
 				</form>
 
-				<grid title="Listado 햞eas" orderDirection="asc" eventsRegistered="update, create, delete">
-					<fieldViewSet entitymodel="subdireccion"
-						nameSpace="subdireccion">
+				<grid title="Listado Grupos" orderDirection="asc" eventsRegistered="update, create, delete">
+					<fieldViewSet entitymodel="agrupacionEstudio"
+						nameSpace="agrupador">
 						<fieldView mappingTo="1" hidden="true"/>
 						<fieldView mappingTo="2" />
-						<fieldView mappingTo="3" />						
+						<fieldView mappingTo="3" />
 						<fieldView mappingTo="4" type="select" editable="true">
 							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 							</optionValues>
@@ -47,22 +48,23 @@
 			</viewComponent>
 		</action>
 
-		<action event="delete" submitError="GestionSubdirecciones.query"
-			submitSucces="GestionSubdirecciones.delete">
+		<action event="delete" submitError="GestionAgrupaEstudios.query"
+			submitSucces="GestionAgrupaEstudios.delete">
 
 			<viewComponent>
-				<form columns="2" title="햞ea">
-					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
-						<fieldset legend="subdireccion">
+				<form columns="2" title="Grupo">
+					<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupador">
+						<fieldset legend="Servicio">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
-							<fieldView mappingTo="1" editable="false"   size="15"/>
-							<fieldView mappingTo="2" editable="false"   size="25"/>
-							<fieldView mappingTo="3" editable="false"   size="45"/>
+							<fieldView mappingTo="1" editable="false" />
+							<fieldView mappingTo="2" editable="false" />
+							<fieldView mappingTo="3" editable="false" />
 							<fieldView mappingTo="4" type="select" editable="false">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
+							<fieldView separator="br" />
 							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
@@ -70,22 +72,23 @@
 			</viewComponent>
 		</action>
 		
-		<action event="create" submitError="GestionSubdirecciones.create"
-			submitSucces="GestionSubdirecciones.create">
+		<action event="create" submitError="GestionAgrupaEstudios.create"
+			submitSucces="GestionAgrupaEstudios.create">
 
 			<viewComponent>
-				<form columns="2" title="햞ea">
+				<form columns="2" title="Grupo">
 				
 					
-						<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
-							<fieldset legend="subdireccion">
+						<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupador">
+							<fieldset legend="Servicio">
 								<fieldView separator="br" />						
-								<fieldView mappingTo="2" editable="true"   size="25"/>
-								<fieldView mappingTo="3" editable="true"   size="45"/>
+								<fieldView mappingTo="2" editable="true" />
+								<fieldView mappingTo="3" editable="true" />
 								<fieldView mappingTo="4" type="select" editable="true">
 									<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 									</optionValues>
 								</fieldView>
+								<fieldView separator="br" />
 								<fieldView separator="br" />	
 							</fieldset>
 						</fieldViewSet>
@@ -94,29 +97,30 @@
 			</viewComponent>
 		</action>
 		
-		<action event="update" submitError="GestionSubdirecciones.update"
-			submitSucces="GestionSubdirecciones.update">
+		<action event="update" submitError="GestionAgrupaEstudios.update"
+			submitSucces="GestionAgrupaEstudios.update">
 
 			<viewComponent>
-				<form columns="2" title="햞ea">
-					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccForm">
+				<form columns="2" title="Grupo">
+					<fieldViewSet entitymodel="agrupacionEstudio" nameSpace="agrupadorForm">
 					
-						<fieldset legend="subdireccion">
+						<fieldset legend="Servicio">
 							<fieldView separator="br" />	
 							<fieldView mappingTo="1" hidden="true" />
-							<fieldView mappingTo="2" editable="true"   size="25"/>
-							<fieldView mappingTo="3" editable="true"   size="45"/>
+							<fieldView mappingTo="2" editable="true" />
+							<fieldView mappingTo="3" editable="true" />
 							<fieldView mappingTo="4" type="select" editable="true">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView separator="br" />
+							<fieldView separator="br" />
 						</fieldset>
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Aplicaciones" dependsOf="subdireccForm" orderDirection="asc"
-					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionSubdirecciones">
+				<grid title="Aplicaciones en cartera" dependsOf="agrupadorForm" orderDirection="asc"
+					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionAgrupaEstudios">
 				
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
 						<fieldView mappingTo="1" hidden="true" />					
@@ -127,7 +131,6 @@
 					
 				</grid>
 				
-								
 			</viewComponent>
 		</action>
 

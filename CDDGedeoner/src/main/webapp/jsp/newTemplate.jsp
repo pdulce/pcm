@@ -72,7 +72,7 @@ String alerts = (String) request.getAttribute("#MESSAGES_ALERTS#");
 					             <%} %>				                 					              
 					             <li><a class="dropdown-item" href="dispatch?event=GestionEntidades.query&entityName=unidadOrg">Organismos</a></li>
 					             <li><a class="dropdown-item" href="dispatch?event=GestionPaletasColores.query">Paletas Colores</a></li>
-					             <li><a class="dropdown-item" href="dispatch?event=GestionServiciosUTE.query">Agrupaciones estudios</a></li>
+					             <li><a class="dropdown-item" href="dispatch?event=GestionAgrupaEstudios.query">Agrupaciones estudios</a></li>
  				             	 <li><a class="dropdown-item" href="dispatch?event=GestionSubdirecciones.query">Subdirecciones</a></li>
  				             	 <li><a class="dropdown-item" href="dispatch?event=GestionServicios.query">Servicios</a></li>
 					             <li><a class="dropdown-item" href="dispatch?event=GestionApps.query">Aplicativos</a></li>		

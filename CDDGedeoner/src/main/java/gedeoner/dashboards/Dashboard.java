@@ -171,7 +171,7 @@ public class Dashboard extends GenericHighchartModel {
 				peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
 						ConstantesModelo.PETICIONES_ENTIDAD);						
 				agrupacionesEstudios = EntityLogicFactory.getFactoryInstance().getEntityDef(dataAccess.getDictionaryName(),
-						ConstantesModelo.SERVICIOUTE_ENTIDAD);
+						ConstantesModelo.AGRUPACION_ESTUDIO_ENTIDAD);
 			}catch (PCMConfigurationException e) {
 				throw new RuntimeException("error charging entities", e);
 			}
@@ -188,10 +188,10 @@ public class Dashboard extends GenericHighchartModel {
 				
 				Collection<String> colOfAgrupaciones = new ArrayList<String>();
 				FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
-				agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo_);
+				agrupCriteria.setValue(ConstantesModelo.AGRUPACION_ESTUDIO_4_ID_ORGANISMO, idorganismo_);
 				Iterator<FieldViewSet> iteAgrupaciones = dataAccess.searchByCriteria(agrupCriteria).iterator();				
 				while (iteAgrupaciones.hasNext()) {
-					colOfAgrupaciones.add(String.valueOf((Long)iteAgrupaciones.next().getValue(ConstantesModelo.SERVICIOUTE_1_ID)));
+					colOfAgrupaciones.add(String.valueOf((Long)iteAgrupaciones.next().getValue(ConstantesModelo.AGRUPACION_ESTUDIO_1_ID)));
 				}					
 				IFieldValue fValuesServices = new FieldValue();
 				fValuesServices.setValues(colOfAgrupaciones);

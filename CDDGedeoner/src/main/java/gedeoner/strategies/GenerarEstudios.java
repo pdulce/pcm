@@ -44,7 +44,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			FECHA_FIN_PARAM = "estudios.fecha_fin_estudio";
 	
 	private static final String DG_Factory_INSS = "FACTDG05", DG_Factory_ISM = "FACTDG07";
-	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, peticionesEntidad, tipoPeriodo, resumenPeticionEntidad, servicioUTEEntidad,
+	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, peticionesEntidad, tipoPeriodo, resumenPeticionEntidad, AGRUPACION_ESTUDIOEntidad,
 	 	aplicativoEntidad, tiposPeticionesEntidad, tareaEntidad, subdireccionEntidad, servicioEntidad;
 	
 	private static final Double PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD = 0.12;	
@@ -56,8 +56,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
 				servicioEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SERVICIO_ENTIDAD);
-				servicioUTEEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.SERVICIOUTE_ENTIDAD);
+				AGRUPACION_ESTUDIOEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.AGRUPACION_ESTUDIO_ENTIDAD);
 				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ESTUDIOS_ENTIDAD);
 				tareaEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
@@ -108,11 +108,11 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			for (FieldViewSet aplicacion: aplicaciones) {
 				valuesPrjs.add(String.valueOf((Long)aplicacion.getValue(ConstantesModelo.APLICATIVO_1_ID)));
 			}
-			FieldViewSet servicioEnBBDD = new FieldViewSet(servicioUTEEntidad);
-			servicioEnBBDD.setValue(ConstantesModelo.SERVICIOUTE_1_ID, servicioId);
+			FieldViewSet servicioEnBBDD = new FieldViewSet(AGRUPACION_ESTUDIOEntidad);
+			servicioEnBBDD.setValue(ConstantesModelo.AGRUPACION_ESTUDIO_1_ID, servicioId);
 			servicioEnBBDD = dataAccess.searchEntityByPk(servicioEnBBDD);
-			String servicio = (String) servicioEnBBDD.getValue(ConstantesModelo.SERVICIOUTE_2_NOMBRE);
-			idOrganismo = (Long) servicioEnBBDD.getValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO);
+			String servicio = (String) servicioEnBBDD.getValue(ConstantesModelo.AGRUPACION_ESTUDIO_2_NOMBRE);
+			idOrganismo = (Long) servicioEnBBDD.getValue(ConstantesModelo.AGRUPACION_ESTUDIO_4_ID_ORGANISMO);
 			newTitle.append(servicio);
 		}else {
 			Long idSubdireccion = (Long) registroEstudio.getValue(ConstantesModelo.ESTUDIOS_16_VOLATILE_SUBDIRECCION);

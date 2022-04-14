@@ -27,7 +27,7 @@
 							</fieldView>							
 							<fieldView mappingTo="4" type="select" editable="true">
 								<optionValues entitymodel="subdireccion" selectionMultiple="true" 
-									descrMappingTo="2">
+									descrMappingTo="3">
 								</optionValues>
 							</fieldView>							
 							<fieldView separator="br" />
@@ -130,7 +130,17 @@
 						</fieldset>
 					</fieldViewSet>
 				</form>
-								
+				<grid title="Aplicaciones del subárea" dependsOf="servicioForm" orderDirection="asc"
+					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionServicios">
+				
+					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
+						<fieldView mappingTo="1" hidden="true" />					
+						<fieldView mappingTo="2" editable="false"  />
+						<fieldView mappingTo="5" editable="false"  />
+						<fieldView mappingTo="3" hidden="true" />
+					</fieldViewSet>
+					
+				</grid>								
 			</viewComponent>
 		</action>
 

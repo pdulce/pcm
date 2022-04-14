@@ -164,11 +164,11 @@ public abstract class ConstantesModelo {
 	public static final int TECHNOLOGY_3_DESCRIPC = 3;
 	public static final String TECHNOLOGY_ENTIDAD = "tecnologia";
 
-	public static final int SERVICIOUTE_1_ID = 1;
-	public static final int SERVICIOUTE_2_NOMBRE = 2;
-	public static final int SERVICIOUTE_3_DESCRIPC = 3;
-	public static final int SERVICIOUTE_4_ID_ORGANISMO = 4;
-	public static final String SERVICIOUTE_ENTIDAD = "servicioUTE";
+	public static final int AGRUPACION_ESTUDIO_1_ID = 1;
+	public static final int AGRUPACION_ESTUDIO_2_NOMBRE = 2;
+	public static final int AGRUPACION_ESTUDIO_3_DESCRIPC = 3;
+	public static final int AGRUPACION_ESTUDIO_4_ID_ORGANISMO = 4;
+	public static final String AGRUPACION_ESTUDIO_ENTIDAD = "agrupacionEstudio";
 
 	public static final int APLICATIVO_1_ID = 1;
 	public static final int APLICATIVO_5_NOMBRE = 5;

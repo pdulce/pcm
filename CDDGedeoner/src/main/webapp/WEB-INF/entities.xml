@@ -97,7 +97,7 @@
 	    fkParentEntities="tiposPeticiones" fkParentFields="1"/>
 	<field mappingTo="10" name="fec_lanzado_estudio" type="timestamp" length="19" required="false"/>	    
 	<field mappingTo="11" name="id_servicio" type="long" length="11" required="false" 
-	    fkParentEntities="servicioUTE" fkParentFields="1"/>
+	    fkParentEntities="agrupacionEstudio" fkParentFields="1"/>
    	<field mappingTo="12" name="volatile_min_uts" type="double" length="6" required="false" /> 
    	<field mappingTo="13" name="volatile_max_uts" type="double" length="6" required="false" />
    	<field mappingTo="14" name="volatile_automatico_mes" type="boolean" length="1" required="false" />
@@ -237,7 +237,7 @@
     </entity>
     
   <entity>
-    <entityname>servicioUTE</entityname><!-- agrupacion para estudios-->
+    <entityname>agrupacionEstudio</entityname><!-- agrupacion para estudios-->
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
     <field mappingTo="2" name="nombre" type="string" length="100" required="false"/>
 	<field mappingTo="3" name="descripcion" type="string" length="250" required="false"/>
@@ -250,7 +250,7 @@
     <field mappingTo="1" name="id" type="long" length="11" belongsPK="true" required="true" autoinc="true"/>
 	<field mappingTo="2" name="rochade" type="string" length="20" required="false"/>
     <field mappingTo="3" name="id_servicio" type="long" length="11" required="false" 
-	    fkParentEntities="servicioUTE" fkParentFields="1"/>    
+	    fkParentEntities="agrupacionEstudio" fkParentFields="1"/>    
 	 <field mappingTo="4" name="descripcion" type="string" length="250" required="false"/>
      <field mappingTo="5" name="nombre" type="string" length="100" required="false"/>
 	 <field mappingTo="6" name="id_tecnologia" type="long" length="11" required="false" 
@@ -261,7 +261,7 @@
 	 <field mappingTo="9" name="id_organismo" type="long" length="11" required="true"
 	    	   fkParentEntities="unidadOrg" fkParentFields="1"/>
 	 <field mappingTo="10" name="id_servicio_corporativo" type="long" length="11" required="false"
-	   	   fkParentEntities="servicio" fkParentFields="1"/>    	    	      
+	   	   fkParentEntities="servicio" fkParentFields="1"/>     
    </entity>
    
       

@@ -33,7 +33,7 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 				FiltrarPreEstudios.estudios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ESTUDIOS_ENTIDAD);
 				FiltrarPreEstudios.agrupacionesEstudios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.SERVICIOUTE_ENTIDAD);
+						ConstantesModelo.AGRUPACION_ESTUDIO_ENTIDAD);
 			} catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -64,12 +64,12 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 				if (fSet.getEntityDef().getName().equals(ConstantesModelo.ESTUDIOS_ENTIDAD)) {
 					Collection<String> colOfAgrupaciones = new ArrayList<String>();
 					FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
-					agrupCriteria.setValue(ConstantesModelo.SERVICIOUTE_4_ID_ORGANISMO, idorganismo);
+					agrupCriteria.setValue(ConstantesModelo.AGRUPACION_ESTUDIO_4_ID_ORGANISMO, idorganismo);
 					List<FieldViewSet> listaAgrupaciones = dataAccess.searchByCriteria(agrupCriteria);
 					Iterator<FieldViewSet> iteAgrupaciones = listaAgrupaciones.iterator();
 					while (iteAgrupaciones.hasNext()) {
 						FieldViewSet agrupacion = iteAgrupaciones.next();
-						colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.SERVICIOUTE_1_ID)));
+						colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.AGRUPACION_ESTUDIO_1_ID)));
 					}					
 					IFieldValue fValuesApp = new FieldValue();
 					fValuesApp.setValues(colOfAgrupaciones);
