@@ -9,19 +9,19 @@
     <service name="GestionAgrupaEstudios" profile="ADMINISTRADOR, CONSULTOR_UTE">
 
 		<action event="query" submitError="GestionAgrupaEstudios.query"
-			submitSucces="GestionAgrupaEstudios.query">
+			submitSucces="GestionAgrupaEstudios.query" strategyPre="gedeoner.strategies.FiltrarPreAgrupaciones">
 
 			<viewComponent>
 
 				<form columns="3" title="Consulta Grupos">
 
-					<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupador">
+					<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupacionEstudio">
 						<fieldset legend="Servicio">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="2"/>
 							<fieldView mappingTo="3"/>
-							<fieldView mappingTo="4" type="select" editable="true">
+							<fieldView mappingTo="4" type="select" editable="true" size="6">
 								<optionValues entitymodel="unidadOrg" selectionMultiple="true" 
 									descrMappingTo="2">
 								</optionValues>
@@ -34,7 +34,7 @@
 
 				<grid title="Listado Grupos" orderDirection="asc" eventsRegistered="update, create, delete">
 					<fieldViewSet entitymodel="agrupacionEstudio"
-						nameSpace="agrupador">
+						nameSpace="agrupacionEstudio">
 						<fieldView mappingTo="1" hidden="true"/>
 						<fieldView mappingTo="2" />
 						<fieldView mappingTo="3" />
@@ -53,14 +53,14 @@
 
 			<viewComponent>
 				<form columns="2" title="Grupo">
-					<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupador">
+					<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupacionEstudio">
 						<fieldset legend="Servicio">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="1" editable="false" />
 							<fieldView mappingTo="2" editable="false" />
 							<fieldView mappingTo="3" editable="false" />
-							<fieldView mappingTo="4" type="select" editable="false">
+							<fieldView mappingTo="4" type="select" editable="false"  size="6">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -79,12 +79,12 @@
 				<form columns="2" title="Grupo">
 				
 					
-						<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupador">
+						<fieldViewSet entitymodel="agrupacionEstudio"	nameSpace="agrupacionEstudio">
 							<fieldset legend="Servicio">
 								<fieldView separator="br" />						
 								<fieldView mappingTo="2" editable="true" />
 								<fieldView mappingTo="3" editable="true" />
-								<fieldView mappingTo="4" type="select" editable="true">
+								<fieldView mappingTo="4" type="select" editable="true"  size="6">
 									<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 									</optionValues>
 								</fieldView>
@@ -102,14 +102,14 @@
 
 			<viewComponent>
 				<form columns="2" title="Grupo">
-					<fieldViewSet entitymodel="agrupacionEstudio" nameSpace="agrupadorForm">
+					<fieldViewSet entitymodel="agrupacionEstudio" nameSpace="agrupacionEstudioForm">
 					
 						<fieldset legend="Servicio">
 							<fieldView separator="br" />	
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" editable="true" />
 							<fieldView mappingTo="3" editable="true" />
-							<fieldView mappingTo="4" type="select" editable="true">
+							<fieldView mappingTo="4" type="select" editable="true"  size="6">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -119,7 +119,7 @@
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Aplicaciones en cartera" dependsOf="agrupadorForm" orderDirection="asc"
+				<grid title="Aplicaciones en cartera" dependsOf="agrupacionEstudioForm" orderDirection="asc"
 					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionAgrupaEstudios">
 				
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
