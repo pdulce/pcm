@@ -73,7 +73,7 @@
 		</action>
 		
 		<action event="create" submitError="GestionAgrupaEstudios.create"
-			submitSucces="GestionAgrupaEstudios.create">
+			submitSucces="GestionAgrupaEstudios.create" strategyPre="gedeoner.strategies.FiltrarPreAgrupaciones">
 
 			<viewComponent>
 				<form columns="2" title="Grupo">
@@ -98,7 +98,7 @@
 		</action>
 		
 		<action event="update" submitError="GestionAgrupaEstudios.update"
-			submitSucces="GestionAgrupaEstudios.update">
+			submitSucces="GestionAgrupaEstudios.update" strategyPre="gedeoner.strategies.FiltrarPreAgrupaciones">
 
 			<viewComponent>
 				<form columns="2" title="Grupo">

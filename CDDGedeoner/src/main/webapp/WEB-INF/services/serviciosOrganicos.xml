@@ -81,7 +81,7 @@
 		</action>
 		
 		<action event="create" submitError="GestionServicios.create"
-			submitSucces="GestionServicios.create">
+			submitSucces="GestionServicios.create" strategyPre="gedeoner.strategies.FiltrarPreSubAreas">
 
 			<viewComponent>
 				<form columns="2" title="Servicio">
@@ -108,7 +108,7 @@
 		</action>
 		
 		<action event="update" submitError="GestionServicios.update"
-			submitSucces="GestionServicios.update">
+			submitSucces="GestionServicios.update" strategyPre="gedeoner.strategies.FiltrarPreSubAreas">
 
 			<viewComponent>
 				<form columns="2" title="Servicio">

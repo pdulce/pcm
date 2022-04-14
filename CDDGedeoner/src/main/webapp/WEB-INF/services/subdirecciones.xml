@@ -71,7 +71,7 @@
 		</action>
 		
 		<action event="create" submitError="GestionSubdirecciones.create"
-			submitSucces="GestionSubdirecciones.create">
+			submitSucces="GestionSubdirecciones.create"  strategyPre="gedeoner.strategies.FiltrarPreAreas">
 
 			<viewComponent>
 				<form columns="2" title="Área">
@@ -95,7 +95,7 @@
 		</action>
 		
 		<action event="update" submitError="GestionSubdirecciones.update"
-			submitSucces="GestionSubdirecciones.update">
+			submitSucces="GestionSubdirecciones.update" strategyPre="gedeoner.strategies.FiltrarPreAreas">
 
 			<viewComponent>
 				<form columns="2" title="Área">
