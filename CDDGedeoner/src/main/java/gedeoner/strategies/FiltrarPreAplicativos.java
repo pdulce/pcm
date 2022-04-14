@@ -104,40 +104,7 @@ public class FiltrarPreAplicativos extends DefaultStrategyLogin {
 					newValuesFiltered.put(aplicativos.searchField(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO).getName(), fValuesServices);
 					
 					String qualifiedNameServicioOrigen = aplicativos.getName().concat(".").concat(aplicativos.searchField(ConstantesModelo.APLICATIVO_10_ID_SERVICIO_CORPORATIVO).getName());
-					formulario.setAllvaluesForControl(dataAccess, qualifiedNameServicioOrigen, colOfServicios);
-					
-					// filtramos el combo de los ROCHADES
-					Collection<String> colOfAplicativos = new ArrayList<String>();
-					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);
-					aplicativosCriteria.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, idorganismo);
-					List<FieldViewSet> listaAplicativos = dataAccess.searchByCriteria(aplicativosCriteria);
-					Iterator<FieldViewSet> iteAplicativos = listaAplicativos.iterator();
-					while (iteAplicativos.hasNext()) {
-						FieldViewSet aplic = iteAplicativos.next();
-						colOfAplicativos.add((String)aplic.getValue(ConstantesModelo.APLICATIVO_2_ROCHADE));
-					}					
-					IFieldValue fValuesApp = new FieldValue();
-					fValuesApp.setValues(colOfAplicativos);
-					newValuesFiltered.put(aplicativos.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName(), fValuesApp);
-					String qualifiedNameApp = aplicativos.getName().concat(".").concat(aplicativos.searchField(ConstantesModelo.APLICATIVO_2_ROCHADE).getName());
-					formulario.setAllvaluesForControl(dataAccess, qualifiedNameApp, colOfAplicativos);					
-					
-					// agrupaciones
-					Collection<String> colOfAgrupaciones = new ArrayList<String>();
-					FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
-					agrupCriteria.setValue(ConstantesModelo.AGRUPACION_ESTUDIO_4_ID_ORGANISMO, idorganismo);
-					List<FieldViewSet> listaAgrup = dataAccess.searchByCriteria(agrupCriteria);
-					Iterator<FieldViewSet> iteAgrup = listaAgrup.iterator();
-					while (iteAgrup.hasNext()) {
-						FieldViewSet agrup = iteAgrup.next();
-						colOfAgrupaciones.add(String.valueOf((Long)agrup.getValue(ConstantesModelo.AGRUPACION_ESTUDIO_1_ID)));
-					}					
-					IFieldValue fValuesAgrup = new FieldValue();
-					fValuesServices.setValues(colOfAgrupaciones);
-					newValuesFiltered.put(aplicativos.searchField(ConstantesModelo.APLICATIVO_3_ID_GRUPO_ESTUDIO).getName(), fValuesAgrup);
-					
-					String qualifiedNameAgrupacion = aplicativos.getName().concat(".").concat(aplicativos.searchField(ConstantesModelo.APLICATIVO_3_ID_GRUPO_ESTUDIO).getName());
-					formulario.setAllvaluesForControl(dataAccess, qualifiedNameAgrupacion, colOfAgrupaciones);
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameServicioOrigen, colOfServicios);														
 					
 				}
 
