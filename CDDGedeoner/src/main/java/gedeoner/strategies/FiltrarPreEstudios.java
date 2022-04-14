@@ -23,7 +23,7 @@ import gedeoner.common.ConstantesModelo;
 
 public class FiltrarPreEstudios extends DefaultStrategyLogin {
 
-	public static IEntityLogic estudios, agrupacionesEstudios;
+	public static IEntityLogic estudios, agrupacionesEstudios, aplicativos;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
 		if (estudios == null) {
@@ -32,6 +32,8 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 						ConstantesModelo.ESTUDIOS_ENTIDAD);
 				agrupacionesEstudios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.AGRUPACION_ESTUDIO_ENTIDAD);
+				aplicativos = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.APLICATIVO_ENTIDAD);
 			} catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -69,16 +71,34 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 						FieldViewSet agrupacion = iteAgrupaciones.next();
 						colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.AGRUPACION_ESTUDIO_1_ID)));
 					}					
+					IFieldValue fValuesAgrup = new FieldValue();
+					fValuesAgrup.setValues(colOfAgrupaciones);
+					newValuesFiltered.put(estudios.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName(), fValuesAgrup);
+					
+					String qualifiedNameEstudios = estudios.getName().concat(".").concat(estudios.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameEstudios, colOfAgrupaciones);
+					
+					Collection<String> colOfAplicativos = new ArrayList<String>();
+					FieldViewSet aplicativosCriteria = new FieldViewSet(aplicativos);
+					aplicativosCriteria.setValue(ConstantesModelo.APLICATIVO_9_ID_ORGANISMO, idorganismo);
+					List<FieldViewSet> listaAplicativos = dataAccess.searchByCriteria(aplicativosCriteria);
+					Iterator<FieldViewSet> iteAplicativos = listaAplicativos.iterator();
+					while (iteAplicativos.hasNext()) {
+						FieldViewSet aplic = iteAplicativos.next();
+						colOfAplicativos.add(String.valueOf((Long)aplic.getValue(ConstantesModelo.APLICATIVO_1_ID)));
+					}					
 					IFieldValue fValuesApp = new FieldValue();
-					fValuesApp.setValues(colOfAgrupaciones);
-					newValuesFiltered.put(estudios.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName(), fValuesApp);
+					fValuesApp.setValues(colOfAplicativos);
+					newValuesFiltered.put(estudios.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName(), fValuesApp);
+					String qualifiedNameApp = estudios.getName().concat(".").concat(estudios.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameApp, colOfAplicativos);
 					
 				}
 
 			}//for 
 			
 			if (newValuesFiltered.isEmpty()) {
-				throw new PCMConfigurationException("Error: Objeto Estudio FSet recibido del datamap es nulo ", new Exception("null object"));
+				throw new PCMConfigurationException("Error: Objeto Estudio recibido del datamap es nulo ", new Exception("null object"));
 			}
 			
 			formulario.refreshValues(newValuesFiltered);

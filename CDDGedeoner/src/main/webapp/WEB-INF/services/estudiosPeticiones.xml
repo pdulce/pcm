@@ -82,7 +82,7 @@ xmlns:service="http://pcm.framework.org/service"
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="11" type="select" editable="true">
-								<optionValues entitymodel="servicioUTE" selectionMultiple="true"
+								<optionValues entitymodel="agrupacionEstudio" selectionMultiple="true"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -113,7 +113,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="11" type="select" editable="false">
-							<optionValues entitymodel="servicioUTE"
+							<optionValues entitymodel="agrupacionEstudio"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
@@ -376,7 +376,7 @@ xmlns:service="http://pcm.framework.org/service"
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="11" type="select" editable="false">
-							<optionValues entitymodel="servicioUTE"
+							<optionValues entitymodel="agrupacionEstudio"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
