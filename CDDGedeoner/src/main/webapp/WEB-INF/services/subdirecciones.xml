@@ -99,7 +99,7 @@
 
 			<viewComponent>
 				<form columns="2" title="Área">
-					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccForm">
+					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
 					
 						<fieldset legend="subdireccion">
 							<fieldView separator="br" />	
@@ -115,7 +115,7 @@
 					</fieldViewSet>
 				</form>
 				
-				<grid title="Subáreas" dependsOf="subdireccForm" orderDirection="asc"
+				<grid title="Subáreas" dependsOf="subdireccion" orderDirection="asc"
 					defaultOrderField="servicio.2" eventsRegistered="" serviceRef="GestionSubdirecciones">
 				
 					<fieldViewSet entitymodel="servicio" nameSpace="servicio">

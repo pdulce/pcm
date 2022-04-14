@@ -112,7 +112,7 @@
 
 			<viewComponent>
 				<form columns="2" title="Servicio">
-					<fieldViewSet entitymodel="servicio"	nameSpace="servicioForm">
+					<fieldViewSet entitymodel="servicio" nameSpace="servicio">
 					
 						<fieldset legend="Servicio">
 							<fieldView separator="br" />	
@@ -130,7 +130,7 @@
 						</fieldset>
 					</fieldViewSet>
 				</form>
-				<grid title="Aplicaciones del subárea" dependsOf="servicioForm" orderDirection="asc"
+				<grid title="Aplicaciones del subárea" dependsOf="servicio" orderDirection="asc"
 					defaultOrderField="aplicativo.1" eventsRegistered="" serviceRef="GestionServicios">
 				
 					<fieldViewSet entitymodel="aplicativo" nameSpace="aplicativo">
