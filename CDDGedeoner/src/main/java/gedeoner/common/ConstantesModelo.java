@@ -209,6 +209,7 @@ public abstract class ConstantesModelo {
 	public static final int SERVICIO_2_NOMBRE = 2;
 	public static final int SERVICIO_1_ID = 1;
 	public static final int SERVICIO_3_UNIDAD_ORG = 3;
+	public static final int SERVICIO_4_SUBDIRECCION_ID = 4;
 	public static final String SERVICIO_ENTIDAD = "servicio";
 		
 	public static final int TIPOAPP_1_ID = 1;

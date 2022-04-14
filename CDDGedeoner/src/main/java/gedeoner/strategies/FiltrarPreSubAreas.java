@@ -21,17 +21,17 @@ import org.cdd.service.dataccess.factory.EntityLogicFactory;
 
 import gedeoner.common.ConstantesModelo;
 
-public class FiltrarPreEstudios extends DefaultStrategyLogin {
+public class FiltrarPreSubAreas extends DefaultStrategyLogin {
 
-	public static IEntityLogic estudios, agrupacionesEstudios;
+	public static IEntityLogic subdirecciones, servicios;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
-		if (estudios == null) {
+		if (subdirecciones == null) {
 			try {
-				estudios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.ESTUDIOS_ENTIDAD);
-				agrupacionesEstudios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
-						ConstantesModelo.AGRUPACION_ESTUDIO_ENTIDAD);
+				subdirecciones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.SUBDIRECCION_ENTIDAD);
+				servicios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+						ConstantesModelo.SERVICIO_ENTIDAD);
 			} catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}
@@ -59,26 +59,30 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 			Iterator<FieldViewSet> iteFieldSets = formulario.getFieldViewSets().iterator();
 			while (iteFieldSets.hasNext()) {
 				FieldViewSet fSet = iteFieldSets.next();
-				if (fSet.getEntityDef().getName().equals(ConstantesModelo.ESTUDIOS_ENTIDAD)) {
-					Collection<String> colOfAgrupaciones = new ArrayList<String>();
-					FieldViewSet agrupCriteria = new FieldViewSet(agrupacionesEstudios);
-					agrupCriteria.setValue(ConstantesModelo.AGRUPACION_ESTUDIO_4_ID_ORGANISMO, idorganismo);
-					List<FieldViewSet> listaAgrupaciones = dataAccess.searchByCriteria(agrupCriteria);
-					Iterator<FieldViewSet> iteAgrupaciones = listaAgrupaciones.iterator();
-					while (iteAgrupaciones.hasNext()) {
-						FieldViewSet agrupacion = iteAgrupaciones.next();
-						colOfAgrupaciones.add(String.valueOf((Long)agrupacion.getValue(ConstantesModelo.AGRUPACION_ESTUDIO_1_ID)));
-					}					
-					IFieldValue fValuesApp = new FieldValue();
-					fValuesApp.setValues(colOfAgrupaciones);
-					newValuesFiltered.put(estudios.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName(), fValuesApp);
+				if (fSet.getEntityDef().getName().equals(ConstantesModelo.SERVICIO_ENTIDAD)) {
+										
+					Collection<String> colOfUnidadesOrigen = new ArrayList<String>();					
+					FieldViewSet subdireccionCriteria = new FieldViewSet(subdirecciones);
+					subdireccionCriteria.setValue(ConstantesModelo.SUBDIRECCION_4_ORGANISMO, idorganismo);
+					List<FieldViewSet> listaSubdirecciones = dataAccess.searchByCriteria(subdireccionCriteria);
+					Iterator<FieldViewSet> iteSubdirecciones = listaSubdirecciones.iterator();
+					while (iteSubdirecciones.hasNext()) {
+						FieldViewSet subdireccion = iteSubdirecciones.next();
+						colOfUnidadesOrigen.add(String.valueOf((Long)subdireccion.getValue(ConstantesModelo.SUBDIRECCION_1_ID)));
+					}
+					IFieldValue fValuesSubd = new FieldValue();
+					fValuesSubd.setValues(colOfUnidadesOrigen);
+					newValuesFiltered.put(servicios.searchField(ConstantesModelo.SERVICIO_4_SUBDIRECCION_ID).getName(), fValuesSubd);
+					
+					String qualifiedNameSubd = servicios.getName().concat(".").concat(servicios.searchField(ConstantesModelo.SERVICIO_4_SUBDIRECCION_ID).getName());
+					formulario.setAllvaluesForControl(dataAccess, qualifiedNameSubd, colOfUnidadesOrigen);					
 					
 				}
 
 			}//for 
 			
 			if (newValuesFiltered.isEmpty()) {
-				throw new PCMConfigurationException("Error: Objeto Estudio FSet recibido del datamap es nulo ", new Exception("null object"));
+				throw new PCMConfigurationException("Error: Objeto Servicio orgánico recibido del datamap es nulo ", new Exception("null object"));
 			}
 			
 			formulario.refreshValues(newValuesFiltered);

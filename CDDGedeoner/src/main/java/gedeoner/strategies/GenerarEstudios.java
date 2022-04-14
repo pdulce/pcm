@@ -44,7 +44,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			FECHA_FIN_PARAM = "estudios.fecha_fin_estudio";
 	
 	private static final String DG_Factory_INSS = "FACTDG05", DG_Factory_ISM = "FACTDG07";
-	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, peticionesEntidad, tipoPeriodo, resumenPeticionEntidad, AGRUPACION_ESTUDIOEntidad,
+	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, peticionesEntidad, tipoPeriodo, resumenPeticionEntidad, agrupacionEstudioEntidad,
 	 	aplicativoEntidad, tiposPeticionesEntidad, tareaEntidad, subdireccionEntidad, servicioEntidad;
 	
 	private static final Double PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD = 0.12;	
@@ -56,7 +56,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
 				servicioEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SERVICIO_ENTIDAD);
-				AGRUPACION_ESTUDIOEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				agrupacionEstudioEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.AGRUPACION_ESTUDIO_ENTIDAD);
 				estudiosEntidad = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ESTUDIOS_ENTIDAD);
@@ -108,7 +108,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			for (FieldViewSet aplicacion: aplicaciones) {
 				valuesPrjs.add(String.valueOf((Long)aplicacion.getValue(ConstantesModelo.APLICATIVO_1_ID)));
 			}
-			FieldViewSet servicioEnBBDD = new FieldViewSet(AGRUPACION_ESTUDIOEntidad);
+			FieldViewSet servicioEnBBDD = new FieldViewSet(agrupacionEstudioEntidad);
 			servicioEnBBDD.setValue(ConstantesModelo.AGRUPACION_ESTUDIO_1_ID, servicioId);
 			servicioEnBBDD = dataAccess.searchEntityByPk(servicioEnBBDD);
 			String servicio = (String) servicioEnBBDD.getValue(ConstantesModelo.AGRUPACION_ESTUDIO_2_NOMBRE);

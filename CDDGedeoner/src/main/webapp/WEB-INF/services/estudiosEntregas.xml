@@ -11,8 +11,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 		<action event="query" submitError="EstudioEntregas.query"
 			submitSucces="EstudioEntregas.query" 
-			strategyPre="gedeoner.strategies.FiltrarPreEstudios" 
-			strategy="gedeoner.strategies.FiltrarConsultaEstudiosPost">
+			strategyPre="gedeoner.strategies.FiltrarPreEstudios" >
 
 			<viewComponent>
 

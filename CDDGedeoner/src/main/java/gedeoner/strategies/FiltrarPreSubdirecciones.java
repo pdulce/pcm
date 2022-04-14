@@ -23,20 +23,18 @@ import gedeoner.common.ConstantesModelo;
 
 public class FiltrarPreSubdirecciones extends DefaultStrategyLogin {
 
-	public static final String PALETA_PARAM = "entryForm.paletaColores";
-
 	public static IEntityLogic peticiones, aplicativos, servicios, subdirecciones;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
-		if (FiltrarPreSubdirecciones.peticiones == null) {
+		if (peticiones == null) {
 			try {
-				FiltrarPreSubdirecciones.peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				peticiones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.PETICIONES_ENTIDAD);
-				FiltrarPreSubdirecciones.aplicativos = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				aplicativos = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.APLICATIVO_ENTIDAD);
-				FiltrarPreSubdirecciones.servicios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				servicios = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SERVICIO_ENTIDAD);
-				FiltrarPreSubdirecciones.subdirecciones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				subdirecciones = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.SUBDIRECCION_ENTIDAD);
 			} catch (PCMConfigurationException e) {
 				e.printStackTrace();

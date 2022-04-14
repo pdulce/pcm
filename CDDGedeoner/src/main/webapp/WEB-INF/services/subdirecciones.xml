@@ -15,13 +15,13 @@
 
 				<form columns="3" title="Consulta Áreas">
 
-					<fieldViewSet entitymodel="subdireccion"	nameSpace="subdireccion">
+					<fieldViewSet entitymodel="subdireccion" nameSpace="subdireccion">
 						<fieldset legend="subdireccion">
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="2"  size="25"/>							
 							<fieldView mappingTo="3"  size="45"/>
-							<fieldView mappingTo="4" type="select" editable="true">
+							<fieldView mappingTo="4" type="select" editable="true" size="6">
 								<optionValues entitymodel="unidadOrg" selectionMultiple="true" 
 									descrMappingTo="2">
 								</optionValues>
@@ -59,7 +59,7 @@
 							<fieldView mappingTo="1" editable="false"   size="15"/>
 							<fieldView mappingTo="2" editable="false"   size="25"/>
 							<fieldView mappingTo="3" editable="false"   size="45"/>
-							<fieldView mappingTo="4" type="select" editable="false">
+							<fieldView mappingTo="4" type="select" editable="false" size="6">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -82,7 +82,7 @@
 								<fieldView separator="br" />						
 								<fieldView mappingTo="2" editable="true"   size="25"/>
 								<fieldView mappingTo="3" editable="true"   size="45"/>
-								<fieldView mappingTo="4" type="select" editable="true">
+								<fieldView mappingTo="4" type="select" editable="true" size="6">
 									<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 									</optionValues>
 								</fieldView>
@@ -106,7 +106,7 @@
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" editable="true"   size="25"/>
 							<fieldView mappingTo="3" editable="true"   size="45"/>
-							<fieldView mappingTo="4" type="select" editable="true">
+							<fieldView mappingTo="4" type="select" editable="true" size="6">
 								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
 								</optionValues>
 							</fieldView>

@@ -39,7 +39,7 @@
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="3" type="select" size="5" editable="true">
-							<optionValues entitymodel="servicioUTE" selectionMultiple="true"
+							<optionValues entitymodel="agrupacionEstudio" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>							
@@ -85,7 +85,7 @@
 							</optionValues>
 						</fieldView>
 						<!-- <fieldView mappingTo="3" type="select" editable="false">
-							<optionValues entitymodel="servicioUTE"	descrMappingTo="3">
+							<optionValues entitymodel="agrupacionEstudio"	descrMappingTo="3">
 							</optionValues>
 						</fieldView>-->
 						<fieldView mappingTo="7" type="text" editable="false"/>
@@ -127,7 +127,7 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="3" type="select" editable="false">
-								<optionValues entitymodel="servicioUTE"
+								<optionValues entitymodel="agrupacionEstudio"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -178,7 +178,7 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="3" type="select" size="6" editable="true">
-								<optionValues entitymodel="servicioUTE"
+								<optionValues entitymodel="agrupacionEstudio"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -232,7 +232,7 @@
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="3" type="select" size="6" editable="true">
-								<optionValues entitymodel="servicioUTE"	descrMappingTo="2" >
+								<optionValues entitymodel="agrupacionEstudio"	descrMappingTo="2" >
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" size="30" editable="true" />

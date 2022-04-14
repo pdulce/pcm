@@ -25,13 +25,13 @@ public class StrategyLogin extends DefaultStrategyLogin {
 	public static IEntityLogic administrators, roles, paletaColores;
 
 	protected void initEntitiesFactories(final String entitiesDictionary) {
-		if (StrategyLogin.administrators == null) {
+		if (administrators == null) {
 			try {
-				StrategyLogin.administrators = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				administrators = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ADMINISTRADOR_ENTIDAD);
-				StrategyLogin.roles = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				roles = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.ROL_ENTIDAD);
-				StrategyLogin.paletaColores = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
+				paletaColores = EntityLogicFactory.getFactoryInstance().getEntityDef(entitiesDictionary,
 						ConstantesModelo.PALETACOLORES_ENTIDAD);
 
 			}

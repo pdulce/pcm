@@ -10,8 +10,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 		<action event="query" submitError="EstudioPeticiones.query"
 			submitSucces="EstudioPeticiones.query" 
-			strategyPre="gedeoner.strategies.FiltrarPreEstudios"
-			strategy="gedeoner.strategies.FiltrarConsultaEstudiosPost">
+			strategyPre="gedeoner.strategies.FiltrarPreEstudios">
 
 			<viewComponent>
 
