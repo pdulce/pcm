@@ -17,23 +17,23 @@
 
 					<fieldViewSet entitymodel="aplicativo"
 						nameSpace="aplicativo">
-						<fieldView mappingTo="2" type="select" size="5" editable="true">
+						<fieldView mappingTo="2" type="select" size="8" editable="true">
 							<optionValues entitymodel="aplicativo" selectionMultiple="true"
 								descrMappingTo="2" codeField="2">
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="5" size="20"/>
-						<fieldView mappingTo="9" type="select" size="5" editable="true">
+						<fieldView mappingTo="9" type="select" size="6" editable="true">
 							<optionValues entitymodel="unidadOrg" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="8" type="select" size="5" editable="true">
+						<fieldView mappingTo="8" type="select" size="8" editable="true">
 							<optionValues entitymodel="subdireccion" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>
 						</fieldView>
-						<fieldView mappingTo="10" type="select" editable="true">
+						<fieldView mappingTo="10" type="select" editable="true" size="8">
 							<optionValues entitymodel="servicio" selectionMultiple="true" 
 								descrMappingTo="2">
 							</optionValues>
@@ -41,7 +41,7 @@
 									
 						<fieldView separator="br" />
 						<fieldView separator="br" />
-						<fieldView mappingTo="3" type="select" size="5" editable="true">
+						<fieldView mappingTo="3" type="select" size="6" editable="true">
 							<optionValues entitymodel="agrupacionEstudio" selectionMultiple="true"
 								descrMappingTo="2">
 							</optionValues>

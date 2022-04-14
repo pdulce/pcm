@@ -636,7 +636,7 @@ public class Form extends AbstractComponent {
 								control.getFieldView().getEntityField() == null	||
 								!getCriteriaFields(datamap).contains(new Integer(control.getFieldView().getEntityField().getMappingTo()));
 								 	
-						control.fillCheckAndSelection(dataAccess_, this.getValueOfField(control.getFieldView().getQualifiedContextName()), fkValuesUnformatted, 
+						control.fillCheckAndSelection(dataAccess_, criterioNoSeleccionadoPorUser ? null : this.getValueOfField(control.getFieldView().getQualifiedContextName()), criterioNoSeleccionadoPorUser? new ArrayList<String>(): fkValuesUnformatted, 
 								AbstractAction.isQueryEvent(this.event) && control.getFieldView().getDefaultFirstOfOptions() != null ? 
 										control.getFieldView().getDefaultFirstOfOptions().toString() : "");						
 						innerHTMLFieldsSetInterno.append(control.getInnerHTML(lang, criterioNoSeleccionadoPorUser ? new ArrayList<String>(): fkValuesUnformatted));
