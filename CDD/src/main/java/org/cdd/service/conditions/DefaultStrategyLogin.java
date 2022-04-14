@@ -19,7 +19,7 @@ public class DefaultStrategyLogin extends DefaultStrategyRequest {
 	protected void validParameters(final Datamap req) throws StrategyException {
 		final Map<String, String> securityProps = AppCacheFactory.getFactoryInstance().getAppCache();
 		// guardo las credenciales en sesion en el caso de que no vengan ya en sesion
-		if (req.getAttribute(USER_) != null && req.getParameter(USER_) == null) {
+		if (req.getAttribute(PCMConstants.APP_PROFILE) != null) {
 			return;// un retorno
 		}
 		final StringBuilder userPattern = new StringBuilder(PCMConstants.SIMPLE_COMILLA);

@@ -68,7 +68,7 @@
 							</optionValues>
 						</fieldView>
 						<fieldView mappingTo="8" type="select" editable="false">
-							<optionValues entitymodel="subdireccion" descrMappingTo="2">
+							<optionValues entitymodel="subdireccion" descrMappingTo="3">
 							</optionValues>
 						</fieldView>						
 						<fieldView mappingTo="10" type="select" editable="false">
@@ -135,7 +135,7 @@
 		</action>
 		
 		<action event="create" submitError="GestionApps.create"
-			submitSucces="GestionApps.create">
+			submitSucces="GestionApps.create"  strategyPre="gedeoner.strategies.FiltrarPreAplicativos">
 
 			<viewComponent>
 				<form columns="3" title="Aplicativo">
@@ -153,19 +153,17 @@
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="9" type="select" size="6" editable="true">
-							<optionValues entitymodel="unidadOrg" descrMappingTo="2">
-							</optionValues>
-						</fieldView>
-							<fieldView mappingTo="8" type="select" size="6" editable="true">
-								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+								<optionValues entitymodel="unidadOrg" selectionMultiple="true"
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
-							<fieldView mappingTo="10" type="select" size="6" editable="true">
-								<optionValues entitymodel="servicio" descrMappingTo="2">
+							<fieldView mappingTo="8" type="select" size="8" editable="true">
+								<optionValues entitymodel="subdireccion" selectionMultiple="true"
+									descrMappingTo="3">
 								</optionValues>
 							</fieldView>
-							<fieldView mappingTo="3" type="select" size="6" editable="true">
-								<optionValues entitymodel="agrupacionEstudio"
+							<fieldView mappingTo="10" type="select" editable="true" size="8">
+								<optionValues entitymodel="servicio" selectionMultiple="true" 
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
@@ -188,7 +186,7 @@
 		</action>
 		
 		<action event="update" submitError="GestionApps.update"
-			submitSucces="GestionApps.update">
+			submitSucces="GestionApps.update" strategyPre="gedeoner.strategies.FiltrarPreAplicativos">
 
 			<viewComponent>
 				<form columns="3" title="Aplicativo">
@@ -207,19 +205,18 @@
 							<fieldView separator="br" />
 							<fieldView separator="br" />
 							<fieldView mappingTo="9" type="select" size="6" editable="true">
-								<optionValues entitymodel="unidadOrg" descrMappingTo="2">
+								<optionValues entitymodel="unidadOrg" selectionMultiple="true"
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
-							<fieldView mappingTo="8" type="select" size="6" editable="true">
-								<optionValues entitymodel="subdireccion" descrMappingTo="2">
+							<fieldView mappingTo="8" type="select" size="8" editable="true">
+								<optionValues entitymodel="subdireccion" selectionMultiple="true"
+									descrMappingTo="3">
 								</optionValues>
 							</fieldView>
-							<fieldView mappingTo="10" type="select" size="6" editable="true">
-								<optionValues entitymodel="servicio" descrMappingTo="2">
-								</optionValues>
-							</fieldView>
-							<fieldView mappingTo="3" type="select" size="6" editable="true">
-								<optionValues entitymodel="agrupacionEstudio"	descrMappingTo="2" >
+							<fieldView mappingTo="10" type="select" editable="true" size="8">
+								<optionValues entitymodel="servicio" selectionMultiple="true" 
+									descrMappingTo="2">
 								</optionValues>
 							</fieldView>
 							<fieldView mappingTo="4" size="30" editable="true" />

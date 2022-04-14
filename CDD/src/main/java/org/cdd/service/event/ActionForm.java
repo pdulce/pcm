@@ -542,7 +542,7 @@ public class ActionForm extends AbstractAction {
 					
 					if (!dataAccess.getPreconditionStrategies().isEmpty()) {
 						try {
-							executeStrategyPre(dataAccess, form_.getFieldViewSets(), fCollectionIesimo);
+							executeStrategyPre(dataAccess, form_, fCollectionIesimo);
 							form_.getFieldViewSetCollection();
 						} catch (final StrategyException stratExc) {
 							if (this.isTransactional() && stratExc.getNivelError() == MessageException.ERROR) {
@@ -558,7 +558,7 @@ public class ActionForm extends AbstractAction {
 						if (!dataAccess.getStrategies().isEmpty()) {//estrategias de POST
 							dataAccess.setAutocommit(false);
 							try{
-								this.executeStrategyPost(dataAccess, form_.getFieldViewSets(), fCollectionIesimo);
+								this.executeStrategyPost(dataAccess, form_, fCollectionIesimo);
 								dataAccess.commit();
 							} catch (final StrategyException stratPostExc) {
 								if (stratPostExc.getNivelError() == MessageException.ERROR) {

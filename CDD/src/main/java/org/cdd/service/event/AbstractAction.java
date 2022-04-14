@@ -171,7 +171,7 @@ public abstract class AbstractAction implements IAction {
 	protected abstract void bindUserInput(IViewComponent component, List<MessageException> msgs)
 			throws ParameterBindingException;
 
-	protected void executeStrategyPre(final IDataAccess dataAccess, final List<FieldViewSet> criteriaForm,
+	protected void executeStrategyPre(final IDataAccess dataAccess, final Form form_,
 			final FieldViewSetCollection fieldCollection)
 			throws StrategyException, PCMConfigurationException {
 
@@ -203,7 +203,8 @@ public abstract class AbstractAction implements IAction {
 			Collection<FieldViewSet> fieldViewSetCollection = fieldCollection != null
 					? fieldCollection.copyOf().getFieldViewSets()
 					: new ArrayList<FieldViewSet>();
-			strategy.doBussinessStrategy(this.datamap, dataAccess, criteriaForm, fieldViewSetCollection);
+			strategy.doBussinessStrategy(this.datamap, dataAccess, form_.getFieldViewSets(), fieldViewSetCollection);
+			strategy.doBussinessStrategyQuery(this.datamap, dataAccess, form_);
 			fieldCollection.getFieldViewSets().clear();
 			fieldCollection.getFieldViewSets().addAll(fieldViewSetCollection);
 		}
@@ -243,7 +244,7 @@ public abstract class AbstractAction implements IAction {
 	
 	
 	public void executeStrategyPost(final IDataAccess dataAccess, 
-			final List<FieldViewSet> criteriaForm,
+			final Form form_,
 			final FieldViewSetCollection fieldCollection)
 			throws StrategyException, PCMConfigurationException {
 		final Collection<IStrategy> strategiasAEjecutar = new ArrayList<IStrategy>();
@@ -287,7 +288,7 @@ public abstract class AbstractAction implements IAction {
 			final IStrategy strategy = iteStrategies.next();
 			if (strategy != null) {
 				strategy.doBussinessStrategy(this.datamap, dataAccess,
-						criteriaForm,
+						form_.getFieldViewSets(),
 						fieldCollection != null ? fieldCollection.getFieldViewSets() : new ArrayList<FieldViewSet>());
 			}
 		}
