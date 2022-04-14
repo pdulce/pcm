@@ -392,7 +392,8 @@ public abstract class AbstractCtrl implements ICtrl {
 			List<Option> listaOpciones = new ArrayList<Option>();
 			while (optionsSelect.hasNext()) {
 				Option opt =  optionsSelect.next();
-				if (values.contains( opt.getCode())) {					
+				String optValue = opt.getCode().split("=").length == 2 ? opt.getCode().split("=")[1]: opt.getCode().split("=")[0];
+				if (values.contains( optValue)) {					
 					listaOpciones.add(opt);
 				}
 			}
