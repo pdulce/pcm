@@ -374,7 +374,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		
 		Map<FieldViewSet,Collection<FieldViewSet>> peticionesEvolutivosEntrega = new HashMap<FieldViewSet, Collection<FieldViewSet>>();
 		
-		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\entregasEstudio.log");
+		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Desktop\\MARTE 2025\\Oferta IGSS 2022\\entregasEstudio.log");
 		FileOutputStream out = null;
 		
 		try {
