@@ -503,8 +503,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 	protected void aplicarEstudioPorPeticion(final IDataAccess dataAccess, final Long idEstudio, 
 			final Map<FieldViewSet, Collection<FieldViewSet>> filas_, final Collection<String> idsTiposSelected) throws StrategyException{
 		
-		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\peticionesEstudio.log");
-		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Documents\\ESTUDIO SERVICIO MTO.2017-2021\\resources\\datosModeloHrsAnalysis.mlr");
+		File f= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Desktop\\MARTE 2025\\Oferta IGSS 2022\\peticionesEstudio.log");
+		File fModelo= new File("C:\\Users\\pedro.dulce\\OneDrive - BABEL\\Desktop\\MARTE 2025\\Oferta IGSS 2022\\datosModeloHrsAnalysis.mlr");
 		FileOutputStream out = null, dataset4MLR = null;//, dataset4MLR_Ana = null, dataset4MLR_Pru = null;
 		
 		try {
