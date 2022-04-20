@@ -72,7 +72,7 @@ xmlns:service="http://pcm.framework.org/service"
 						
 						<fieldset legend="Filtrar por datos del estudio">
 							<fieldView mappingTo="2" editable="true" />
-							<fieldView mappingTo="3" type="select" editable="true">
+							<fieldView mappingTo="3" type="select" editable="true" size="10">
 								<optionValues entitymodel="aplicativo" selectionMultiple="true"
 									descrMappingTo="2">
 								</optionValues>
@@ -188,7 +188,7 @@ xmlns:service="http://pcm.framework.org/service"
 
 						<fieldset legend="Escoja Aplicación">											
 														
-							<fieldView mappingTo="3" type="select" editable="true">
+							<fieldView mappingTo="3" type="select" editable="true" size="10">
 								<optionValues entitymodel="aplicativo"
 									descrMappingTo="2">
 								</optionValues>
@@ -198,12 +198,12 @@ xmlns:service="http://pcm.framework.org/service"
 									descrMappingTo="2">
 								</optionValues>
 							</fieldView>							
-							<!--  <fieldView mappingTo="16" type="select" editable="true">
+							<!-- <fieldView mappingTo="16" type="select" editable="true">
 								<optionValues entitymodel="subdireccion"
 									descrMappingTo="2">
 								</optionValues>
-							</fieldView>-->
-							<fieldView mappingTo="16" editable="true" />
+							</fieldView> -->
+							<!-- fieldView mappingTo="16" editable="true" />-->
 							
 							<fieldView mappingTo="8" type="select" editable="true" size="10">
 								<optionValues entitymodel="tiposPeticiones" selectionMultiple="true"

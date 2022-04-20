@@ -8,6 +8,7 @@ import org.cdd.common.PCMConstants;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
 import org.cdd.common.utils.CommonUtils;
+import org.cdd.service.component.Form;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.conditions.DefaultStrategyRequest;
 import org.cdd.service.dataccess.IDataAccess;
@@ -35,7 +36,18 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 			}			
 		}
 	}
-
+	
+	@Override
+	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final Form formulario) 
+			throws StrategyException, PCMConfigurationException {
+		
+		if (AbstractAction.isTransactionalEvent(datamap.getParameter(PCMConstants.EVENT))){				
+			return;
+		}
+		FiltrarPreEstudios filtraEstudios = new FiltrarPreEstudios();
+		filtraEstudios.doBussinessStrategyQuery(datamap, dataAccess, formulario);
+	}
+	
 	@Override
 	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, 
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
@@ -45,7 +57,7 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 		try {
 			initEntitiesFactories(req.getEntitiesDictionary());
 			
-			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
+			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){				
 				return;
 			}
 						
@@ -61,7 +73,6 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 			
 			Date fecIniEstudio = (Date) estudioFSet.getValue(ConstantesModelo.ESTUDIOS_4_FECHA_INICIO);
 			Date fecFinEstudio = (Date) estudioFSet.getValue(ConstantesModelo.ESTUDIOS_5_FECHA_FIN);				
-			Long aplicativoId = (Long) estudioFSet.getValue(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO);			
 			
 			int mesesEstudio = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
 			if (fecIniEstudio.compareTo(fecFinEstudio)>0) {
@@ -73,11 +84,6 @@ public class TipoEstudioAGenerar extends DefaultStrategyRequest {
 				final Collection<Object> messageArguments = new ArrayList<Object>();
 				throw new StrategyException("ERR_ESTUDIO_MESES_MENOR_QUE_1", messageArguments);
 			}
-			
-			if (aplicativoId ==null) {
-				final Collection<Object> messageArguments = new ArrayList<Object>();
-				throw new StrategyException("ERR_NO_SERVICIO_NO_APP_PARA_ESTUDIO", messageArguments);
-			}							
 			
 		}catch(StrategyException exA) {
 			throw exA;

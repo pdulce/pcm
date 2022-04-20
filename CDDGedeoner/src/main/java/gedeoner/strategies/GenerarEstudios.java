@@ -43,7 +43,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 	public static final String FECHA_INI_PARAM = "estudios.fecha_inicio_estudio", 
 			FECHA_FIN_PARAM = "estudios.fecha_fin_estudio";
 	
-	private static final String DG_Factory_INSS = "FACTDG05", DG_Factory_ISM = "FACTDG07";
+	private static final String DG_Factory_INSS = "FACTDG05", DG_Factory_ISM = "FACTDG07", DG_Factory_TGSS = "FACTDG09", DG_Factory_IGSS = "FACTDG06", DG_Factory_GISS = "FACTDG08";
 	public static IEntityLogic estudiosEntidad, resumenEntregaEntidad, peticionesEntidad, tipoPeriodo, resumenPeticionEntidad, agrupacionEstudioEntidad,
 	 	aplicativoEntidad, tiposPeticionesEntidad, tareaEntidad, subdireccionEntidad, servicioEntidad;
 	
@@ -78,6 +78,23 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			}catch (PCMConfigurationException e) {
 				e.printStackTrace();
 			}			
+		}
+	}
+	
+	protected String getCentroDG(final int idorganismo) {
+		switch (idorganismo) {
+			case 1: //
+			    return DG_Factory_INSS;
+			case 2: //
+				return DG_Factory_ISM;
+			case 3: //
+				return DG_Factory_TGSS;			  
+			case 4: //
+				return DG_Factory_IGSS;
+			case 5: //
+				return DG_Factory_GISS;
+		    default:
+		    	return "unknown organismo";
 		}
 	}
 	
@@ -134,6 +151,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		List<String> situaciones = new ArrayList<String>();
 		situaciones.add("Entrega no conforme");
 		situaciones.add("Petición finalizada");
+		situaciones.add("Soporte finalizado");
+		situaciones.add("Petición de trabajo finalizado");
 		situaciones.add("Petición de Entrega finalizada");
 		
 		final Collection<IFieldView> fieldViews4FilterFecAndUts_ = new ArrayList<IFieldView>();
@@ -165,7 +184,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		Collection<String> fieldValues = registroEstudio.getValues(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES);
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_13_ID_TIPO, fieldValues);
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_7_ESTADO, situaciones); 
-		filterPeticiones.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, (idOrganismo.longValue() == 1? DG_Factory_INSS: DG_Factory_ISM));
+		filterPeticiones.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, getCentroDG(idOrganismo.intValue()));
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, valuesPrjs);
 		
 		int mesesInferidoPorfechas = CommonUtils.obtenerDifEnMeses(fecIniEstudio, fecFinEstudio);
