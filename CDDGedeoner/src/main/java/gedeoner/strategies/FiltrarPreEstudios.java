@@ -87,7 +87,7 @@ public class FiltrarPreEstudios extends DefaultStrategyLogin {
 						FieldViewSet aplic = iteAplicativos.next();
 						colOfAplicativos.add(String.valueOf((Long)aplic.getValue(ConstantesModelo.APLICATIVO_1_ID)));
 					}					
-					//IFieldValue fValuesApp = new FieldValue();
+					//IFieldValue fValuesApp = new FieldValue(); Esto lo comentamos para poder listar estudios por idgrupacionEstudio
 					//fValuesApp.setValues(colOfAplicativos);
 					//newValuesFiltered.put(estudios.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName(), fValuesApp);
 					String qualifiedNameApp = estudios.getName().concat(".").concat(estudios.searchField(ConstantesModelo.ESTUDIOS_3_ID_APLICATIVO).getName());

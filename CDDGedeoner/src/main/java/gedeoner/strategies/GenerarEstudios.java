@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,6 +27,7 @@ import org.cdd.service.component.definitions.IRank;
 import org.cdd.service.component.definitions.Rank;
 import org.cdd.service.conditions.DefaultStrategyRequest;
 import org.cdd.service.dataccess.IDataAccess;
+import org.cdd.service.dataccess.comparator.ComparatorFieldViewSet;
 import org.cdd.service.dataccess.definitions.IEntityLogic;
 import org.cdd.service.dataccess.definitions.IFieldLogic;
 import org.cdd.service.dataccess.dto.Datamap;
@@ -151,7 +153,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		List<String> situaciones = new ArrayList<String>();
 		situaciones.add("Entrega no conforme");
 		situaciones.add("Petición finalizada");
-		situaciones.add("Soporte finalizado");
+		situaciones.add("Soporte finalizado");		
 		situaciones.add("Petición de trabajo finalizado");
 		situaciones.add("Petición de Entrega finalizada");
 		
@@ -285,7 +287,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				
 				FieldViewSet filterPeticiones = prepararFiltroPeticiones(nuevoRegistroEstudio, fecInicio.getTime(), fecFin.getTime(), dataAccess);
 				
-				final Collection<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
+				final List<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 				if (listadoPeticiones.isEmpty()) {
 					dataAccess.deleteEntity(nuevoRegistroEstudio);
 					dataAccess.commit();
@@ -295,7 +297,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					}
 					continue;
 				}
-				
+				Collections.sort(listadoPeticiones, new ComparatorFieldViewSet());
 				Long idEstudio = (Long) nuevoRegistroEstudio.getValue(ConstantesModelo.ESTUDIOS_1_ID);
 				Map<FieldViewSet,Collection<FieldViewSet>> idPeticionesEvolutivosEstudio = aplicarEstudioEntregas(dataAccess, idEstudio, listadoPeticiones, utsMin, utsMax);
 				
@@ -334,43 +336,53 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 	}
 	
 	private Map<Double, Collection<FieldViewSet>> obtenerPeticionesEntrega(final IDataAccess dataAccess, 
-			final String peticiones, Double utsMin, Double utsMax) throws DatabaseException{
+			final FieldViewSet peticionEntrega_BBDD, Double utsMin, Double utsMax) throws DatabaseException{
+		String peticiones = (String) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
+		final Long codGedeonEntrega = (Long) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);			
 		double numUtsEntrega = 0.0;
 		Map<Double,Collection<FieldViewSet>> retorno = new HashMap<Double, Collection<FieldViewSet>>();
+    	Collection<FieldViewSet> petsEntregaResultado = new ArrayList<FieldViewSet>();
     	Collection<FieldViewSet> petsEntrega = new ArrayList<FieldViewSet>();
-		
+    	/*if (codGedeonEntrega == 1123318) {
+    		System.out.println("found la entrega");
+    	}*/
 		if (peticiones != null && !"".contentEquals(peticiones)) {				
 			Collection<String> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
 			FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
 			peticionDG.setValues(ConstantesModelo.PETICIONES_46_COD_GEDEON, codigosPeticiones);
-			Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionDG);
-			
-			// haz solo un buscar por criteria y luego recorres la lista sin invocar a BBDD
-			Iterator<FieldViewSet> itePeticionesA_DG = existenColl.iterator();
-			while (itePeticionesA_DG.hasNext()) {
-				peticionDG  = itePeticionesA_DG.next();																	
-				Double utsEstimadas = (Double) peticionDG.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
-				if (utsEstimadas == 0) {
-					Double utsReales = (Double) peticionDG.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES);
-					if (utsReales.doubleValue() < utsMin.doubleValue() || utsReales.doubleValue() > utsMax.doubleValue()) {
-						continue;
-					}
-					numUtsEntrega += utsReales;
-				}else {
-					if (utsEstimadas.doubleValue() < utsMin.doubleValue() || utsEstimadas.doubleValue() > utsMax.doubleValue()) {
-						continue;
-					}
-					numUtsEntrega += utsEstimadas;
-				}
-				petsEntrega.add(peticionDG);
-			}
+			petsEntrega = dataAccess.searchByCriteria(peticionDG);			
+		}else {
+			//buscamos peticiones que tengan como id_entrega-asociada la que llega a este método
+			FieldViewSet filtroPeticionesADG = new FieldViewSet(peticionesEntidad);
+			filtroPeticionesADG.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, codGedeonEntrega);
+			petsEntrega = dataAccess.searchByCriteria(filtroPeticionesADG);			
 		}
-		retorno.put(new Double(numUtsEntrega), petsEntrega);
+		
+		// haz solo un buscar por criteria y luego recorres la lista sin invocar a BBDD
+		Iterator<FieldViewSet> itePeticionesA_DG = petsEntrega.iterator();
+		while (itePeticionesA_DG.hasNext()) {
+			FieldViewSet peticionDG  = itePeticionesA_DG.next();																	
+			Double utsEstimadas = (Double) peticionDG.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
+			if (utsEstimadas == 0) {
+				Double utsReales = (Double) peticionDG.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES);
+				if (utsReales.doubleValue() < utsMin.doubleValue() || utsReales.doubleValue() > utsMax.doubleValue()) {
+					continue;
+				}
+				numUtsEntrega += utsReales;
+			}else {
+				if (utsEstimadas.doubleValue() < utsMin.doubleValue() || utsEstimadas.doubleValue() > utsMax.doubleValue()) {
+					continue;
+				}
+				numUtsEntrega += utsEstimadas;
+			}
+			petsEntregaResultado.add(peticionDG);
+		}
+		retorno.put(new Double(numUtsEntrega), petsEntregaResultado);
     	return retorno;
     }
 				
 	protected Map<FieldViewSet,Collection<FieldViewSet>> aplicarEstudioEntregas(final IDataAccess dataAccess, final Long idEstudio, 
-			final Collection<FieldViewSet> filas, final Double utsMin, final Double utsMax) throws StrategyException{
+			final List<FieldViewSet> filas, final Double utsMin, final Double utsMax) throws StrategyException{
 		
 		Map<FieldViewSet,Collection<FieldViewSet>> peticionesEvolutivosEntrega = new HashMap<FieldViewSet, Collection<FieldViewSet>>();
 		
@@ -381,8 +393,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			out = new FileOutputStream(f);
 			dataAccess.setAutocommit(false);
 						
-			for (final FieldViewSet peticionEntrega_BBDD : filas) {
-				
+			for (int f1=(filas.size() - 1);f1>=0;f1--) {
+				final FieldViewSet peticionEntrega_BBDD = filas.get(f1); 
 				Long idPeticionEntrega = (Long) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE);
 				Long _codGEDEON_entrega = (Long) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);					
 				Long tipoEntrega = (Long) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_13_ID_TIPO);					
@@ -398,13 +410,15 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Date fechaTramite = (Date) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
 				Date fechaFinalizacion = (Date) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION);							
 				
-				String peticiones = (String) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
-				Map<Double, Collection<FieldViewSet>> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticiones, utsMin, utsMax);
+				Map<Double, Collection<FieldViewSet>> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticionEntrega_BBDD, utsMin, utsMax);
 				Map.Entry<Double, Collection<FieldViewSet>> entry = peticionesEntrega.entrySet().iterator().next();
 				double utsEntrega = entry.getKey();				
 				peticionesEvolutivosEntrega.put(peticionEntrega_BBDD, entry.getValue());
 				
 				int numPeticionesEntrega= entry.getValue().size();
+				if (numPeticionesEntrega == 0) {
+					continue;
+				}
 				int numRechazos = 0;				
 				if (peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_43_FECHA_VALIDADA_EN_CD) == null) {
 					numRechazos++;

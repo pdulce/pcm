@@ -365,7 +365,7 @@ xmlns:service="http://pcm.framework.org/service"
 				</userbuttons>
 				
 				<fieldViewSet entitymodel="estudios"
-					nameSpace="estudiosForm">
+					nameSpace="estudios">
 					<fieldset legend="Resumen Estudio">
 						<fieldView mappingTo="1" hidden="true" />
 						<fieldView mappingTo="2" editable="false"/>
@@ -401,7 +401,7 @@ xmlns:service="http://pcm.framework.org/service"
 				</fieldViewSet>
 			</form>
 			
-			<grid title="Peticiones del Estudio" dependsOf="estudiosForm" orderDirection="asc"
+			<grid title="Peticiones del Estudio" dependsOf="estudios" orderDirection="asc"
 					defaultOrderField="detailCicloVidaPeticion.3" eventsRegistered="detail" serviceRef="DetailCicloVidaPeticion">
 				
 				<fieldViewSet entitymodel="detailCicloVidaPeticion" nameSpace="detailCicloVidaPeticion">

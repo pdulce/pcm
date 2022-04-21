@@ -139,7 +139,7 @@ xmlns:service="http://pcm.framework.org/service"
 			submitSucces="EstudioEntregas.query" strategyPre="gedeoner.strategies.BorrarResumenes">
 			<viewComponent>
 				<form columns="3" title="Borrar Estudio Ciclo Vida Entregas">
-					<fieldViewSet entitymodel="estudios" nameSpace="estudiosForm">
+					<fieldViewSet entitymodel="estudios" nameSpace="estudios">
 						<fieldset legend="Resumen Estudio">
 							<fieldView mappingTo="1" hidden="true" />
 							<fieldView mappingTo="2" editable="false"/>
@@ -442,17 +442,16 @@ xmlns:service="http://pcm.framework.org/service"
 						
 					</userbuttons>
 					
-					<fieldViewSet entitymodel="estudios"
-					nameSpace="estudiosForm">
+					<fieldViewSet entitymodel="estudios" nameSpace="estudios">
 					<fieldset legend="Resumen Estudio">
 						<fieldView mappingTo="1" hidden="true" />
 						<fieldView mappingTo="2" editable="false"/>
 						<fieldView mappingTo="10" editable="false" />						
-						<fieldView mappingTo="3" type="select" editable="false">
+						<!-- fieldView mappingTo="3" type="select" editable="false">
 							<optionValues entitymodel="aplicativo"
 								descrMappingTo="2">
 							</optionValues>
-						</fieldView>
+						</fieldView> -->
 						<fieldView mappingTo="11" type="select" editable="false">
 							<optionValues entitymodel="agrupacionEstudio"
 								descrMappingTo="2">
@@ -480,7 +479,7 @@ xmlns:service="http://pcm.framework.org/service"
 					
 				</form>
 			
-				<grid title="Entregas del Estudio" dependsOf="estudiosForm" orderDirection="asc"
+				<grid title="Entregas del Estudio" dependsOf="estudios" orderDirection="asc"
 						defaultOrderField="detailCicloVidaEntrega.3" eventsRegistered="detail" serviceRef="DetailCicloVidaEntrega">
 					
 					<fieldViewSet entitymodel="detailCicloVidaEntrega" nameSpace="detailCicloVidaEntrega">
