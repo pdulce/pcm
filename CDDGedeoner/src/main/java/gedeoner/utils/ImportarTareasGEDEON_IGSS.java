@@ -46,7 +46,7 @@ public class ImportarTareasGEDEON_IGSS extends ImportarTareasGEDEON{
 	}
 	
 	protected String getCD () {
-		return "Centro de Desarrollo del IGSS";
+		return "Centro de Desarrollo de Intervención";
 	}
 	
 	protected String getCONTRATO_DG () {

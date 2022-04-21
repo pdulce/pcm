@@ -57,7 +57,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 		//--analizar valores de esta columna en las Excel y meterlos en la tabla SERVICIO
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área origen", Integer.valueOf(ConstantesModelo.PETICIONES_10_SERVICIO));
 		
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino|Área Destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE));
@@ -177,9 +177,10 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
     	String servicioAtiendePeticion = ""; 
 		final String centroDestino = (String) registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);								
 		if (centroDestino != null) {
-			if (centroDestino.contentEquals(getDGFactory())){
+			if (centroDestino.contentEquals(getDGFactory()) || 
+					centroDestino.contains("Servicio Gestión de Proyectos") ){
 				servicioAtiendePeticion = getORIGEN_FROM_AT_TO_DESARR_GESTINADO();
-			}else if (centroDestino.startsWith("Centro de Desarrollo del")){
+			}else if (centroDestino.contains("Centro de Desarrollo de")){
 				final long idUnidadOrigen = (Long) registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN);
 				FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
 				fsetUnidadOrigen.setValue(ConstantesModelo.SUBDIRECCION_1_ID, idUnidadOrigen);
@@ -188,7 +189,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					servicioAtiendePeticion = getORIGEN_FROM_SG_TO_CD();
 				}else{
 					final String nombreUnidadOrigen = (String) fsetUnidadOrigen.getValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE);
-					if (nombreUnidadOrigen.startsWith("Centro de Desarrollo del")){//viene de la Subdirecc.
+					if (nombreUnidadOrigen.startsWith("Centro de Desarrollo de")){//viene de la Subdirecc.
 						servicioAtiendePeticion = getORIGEN_FROM_SG_TO_CD();
 					}else{
 						//peticion interna de soporte del CD a AT

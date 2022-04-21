@@ -100,7 +100,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		}
 	}
 	
-	private FieldViewSet prepararFiltroPeticiones(final FieldViewSet registroEstudio, 
+	private FieldViewSet prepararFiltroEntregas(final FieldViewSet registroEstudio, 
 			final Date fecIniEstudio, final Date fecFinEstudio, final IDataAccess dataAccess) throws DatabaseException, TransactionException, SQLException {
 		
 		StringBuilder newTitle = new StringBuilder();
@@ -181,10 +181,16 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 			filterPeticiones.setValue(fViewMayorFecTram.getEntityField().getMappingTo(), fecFinEstudio);
 		}else {
 			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
-		}		
-					
-		Collection<String> fieldValues = registroEstudio.getValues(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES);
-		filterPeticiones.setValues(ConstantesModelo.PETICIONES_13_ID_TIPO, fieldValues);
+		}	
+		
+		FieldViewSet entregaFilter = new  FieldViewSet(tiposPeticionesEntidad);
+		entregaFilter.setValue(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE, "Entrega");
+		entregaFilter = dataAccess.searchByCriteria(entregaFilter).get(0);
+		
+		Collection<String> fieldValuesEntregas = new ArrayList<String>();
+		fieldValuesEntregas.add(((Long) entregaFilter.getValue(ConstantesModelo.TIPOS_PETICIONES_1_ID)).toString());//entrega: '6'
+
+		filterPeticiones.setValues(ConstantesModelo.PETICIONES_13_ID_TIPO, fieldValuesEntregas);
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_7_ESTADO, situaciones); 
 		filterPeticiones.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, getCentroDG(idOrganismo.intValue()));
 		filterPeticiones.setValues(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, valuesPrjs);
@@ -285,7 +291,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 					nuevoRegistroEstudio = dataAccess.searchLastInserted(nuevoRegistroEstudio);
 				}
 				
-				FieldViewSet filterPeticiones = prepararFiltroPeticiones(nuevoRegistroEstudio, fecInicio.getTime(), fecFin.getTime(), dataAccess);
+				FieldViewSet filterPeticiones = prepararFiltroEntregas(nuevoRegistroEstudio, fecInicio.getTime(), fecFin.getTime(), dataAccess);
 				
 				final List<FieldViewSet> listadoPeticiones = dataAccess.searchByCriteria(filterPeticiones);
 				if (listadoPeticiones.isEmpty()) {
@@ -299,10 +305,10 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				}
 				Collections.sort(listadoPeticiones, new ComparatorFieldViewSet());
 				Long idEstudio = (Long) nuevoRegistroEstudio.getValue(ConstantesModelo.ESTUDIOS_1_ID);
-				Map<FieldViewSet,Collection<FieldViewSet>> idPeticionesEvolutivosEstudio = aplicarEstudioEntregas(dataAccess, idEstudio, listadoPeticiones, utsMin, utsMax);
+				Map<FieldViewSet,Collection<FieldViewSet>> entregasYEvolutivos = aplicarEstudioEntregas(dataAccess, idEstudio, listadoPeticiones, utsMin, utsMax);
 				
 				Collection<String> fieldValues = nuevoRegistroEstudio.getValues(ConstantesModelo.ESTUDIOS_8_VOLATILE_TIPOS_PETICIONES);
-				aplicarEstudioPorPeticion(dataAccess, idEstudio, idPeticionesEvolutivosEstudio, fieldValues);
+				aplicarEstudioPorPeticion(dataAccess, idEstudio, entregasYEvolutivos, fieldValues);
 				
 				nuevoRegistroEstudio.setValue(ConstantesModelo.ESTUDIOS_6_NUM_MESES, mesesEstudio);
 				nuevoRegistroEstudio.setValue(ConstantesModelo.ESTUDIOS_10_FECHA_LANZAMIENTO, Calendar.getInstance().getTime());
@@ -410,8 +416,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 				Date fechaTramite = (Date) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
 				Date fechaFinalizacion = (Date) peticionEntrega_BBDD.getValue(ConstantesModelo.PETICIONES_21_FECHA_DE_FINALIZACION);							
 				
-				Map<Double, Collection<FieldViewSet>> peticionesEntrega = obtenerPeticionesEntrega(dataAccess, peticionEntrega_BBDD, utsMin, utsMax);
-				Map.Entry<Double, Collection<FieldViewSet>> entry = peticionesEntrega.entrySet().iterator().next();
+				Map<Double, Collection<FieldViewSet>> trabajosDeLaEntrega = obtenerPeticionesEntrega(dataAccess, peticionEntrega_BBDD, utsMin, utsMax);
+				Map.Entry<Double, Collection<FieldViewSet>> entry = trabajosDeLaEntrega.entrySet().iterator().next();
 				double utsEntrega = entry.getKey();				
 				peticionesEvolutivosEntrega.put(peticionEntrega_BBDD, entry.getValue());
 				
@@ -603,7 +609,24 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 										
 					FieldViewSet peticionBBDDAnalysis = obtenerPeticionAnalysis(dataAccess, peticionDG_BBDD);
 					if (peticionBBDDAnalysis == null) {
-						continue;
+						peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
+						peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, -1);
+						peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_7_ESTADO, "Petición de trabajo finalizado");
+						peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, "9999999");
+						Calendar fechaInicioRealAnalysis_ = Calendar.getInstance();
+						fechaInicioRealAnalysis_.setTime(fechaTramite);
+						int diasAnalisis = Double.valueOf((utsEstimadas_/8.8)/3.0).intValue();
+						fechaInicioRealAnalysis_.add(Calendar.DAY_OF_MONTH, -diasAnalisis-1);
+						fechaInicioRealAnalysis = fechaInicioRealAnalysis_.getTime();
+						peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_24_DES_FECHA_REAL_INICIO, fechaInicioRealAnalysis);
+						Calendar fechaFinRealAnalysis_ = Calendar.getInstance();
+						fechaFinRealAnalysis_.setTime(fechaTramite);
+						fechaFinRealAnalysis_.add(Calendar.DAY_OF_MONTH, -1);
+						fechaFinRealAnalysis = fechaFinRealAnalysis_.getTime();
+						peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN, fechaFinRealAnalysis);
+						//continue;
+					}else {
+						System.out.println("Hay petición de análisis asociada a esta de DG");
 					}
 					
 					String estadoPetAna = (String) peticionBBDDAnalysis.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
