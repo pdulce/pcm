@@ -35,9 +35,9 @@ public class OrdenarLineasLexico {
 			if (string_ == null) {
 				break;
 			}
-			if (string_.contains("SYS_")){
+			/*if (string_.contains("SYS_")){
 				continue;
-			}
+			}*/
 			System.out.println(" " + string_.trim());
 			//System.out.println("DESC " + string_.trim() + ";");
 			//System.out.println("SELECT * FROM " + string_.trim() + ";");
@@ -51,9 +51,9 @@ public class OrdenarLineasLexico {
 		
 		for (int i=0;i<filesScanned.length;i++){
 			String filename_ = filesScanned[i].getName().toUpperCase();
-			if (filesScanned[i].isDirectory() || filename_.length() < 5 || !filename_.endsWith("XLSX")) {
+			/*if (filesScanned[i].isDirectory() || filename_.length() < 5 || !filename_.endsWith("XLSX")) {
 				continue;
-			}
+			}*/
 			System.out.println("SELECT * FROM FOM2" + filename_.substring(0, filename_.length() - 5) + ";");
 		}
 		
@@ -78,7 +78,7 @@ public class OrdenarLineasLexico {
 		
 		//String[] stringArray = CommonUtils.getStringArrayOfFile(new File ("C:\\Temp\\procs.txt"));
 		//String[] stringArray = CommonUtils.getStringArrayOfFile(new File ("O:\\externos\\PROSA\\FOM2\\ESTUDIO BASES DE DATOS\\2do. estudio tablas maestras y campos tablas\\TBA_DATA_fromExcelPath_TBA.sql"));
-		String[] stringArray = CommonUtils.getStringArrayOfFile(new File ("O:\\externos\\PROSA\\FOM2\\ESTUDIO BASES DE DATOS\\2do. estudio tablas maestras y campos tablas\\tablas_all.sql"));
+		String[] stringArray = CommonUtils.getStringArrayOfFile(new File ("C:\\Users\\pedro.dulce\\Documents\\apps-noexisten.txt"));
 		if (stringArray == null || stringArray.length == 0) {
 			throw new RuntimeException("Error reading input file");
 		}
@@ -92,10 +92,11 @@ public class OrdenarLineasLexico {
 			if (stringArray[i] ==  null || stringArray[i].contentEquals("")) {
 				break;
 			}
-			String tableName = stringArray[i];
-			tableName = tableName.substring(0,tableName.length()-1);			
+			String linea = stringArray[i];
+			System.out.print(linea);
+			/*tableName = tableName.substring(0,tableName.length()-1);			
 			System.out.println("select table_name from all_tables where table_name like '" + tableName + "';");
-			System.out.println("DESC " + tableName + ";");
+			System.out.println("DESC " + tableName + ";");*/
 		}
 
 	}

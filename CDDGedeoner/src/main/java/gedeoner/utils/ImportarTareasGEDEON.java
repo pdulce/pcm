@@ -177,23 +177,28 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
     	String servicioAtiendePeticion = ""; 
 		final String centroDestino = (String) registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);								
 		if (centroDestino != null) {
-			if (centroDestino.contentEquals(getDGFactory()) || 
-					centroDestino.contains("Servicio Gestión de Proyectos") ){
+			if (centroDestino.contentEquals(getDGFactory()) ){
 				servicioAtiendePeticion = getORIGEN_FROM_AT_TO_DESARR_GESTINADO();
-			}else if (centroDestino.contains("Centro de Desarrollo de")){
-				final long idUnidadOrigen = (Long) registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN);
-				FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
-				fsetUnidadOrigen.setValue(ConstantesModelo.SUBDIRECCION_1_ID, idUnidadOrigen);
-				fsetUnidadOrigen = dataAccess.searchEntityByPk(fsetUnidadOrigen);
-				if (fsetUnidadOrigen == null){
-					servicioAtiendePeticion = getORIGEN_FROM_SG_TO_CD();
-				}else{
-					final String nombreUnidadOrigen = (String) fsetUnidadOrigen.getValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE);
-					if (nombreUnidadOrigen.startsWith("Centro de Desarrollo de")){//viene de la Subdirecc.
+			}else if (centroDestino.contains("Centro de Desarrollo de") || 
+					centroDestino.contains("Servicio Gestión de Proyectos")){				
+				if (registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN) == null ) {
+					//peticion interna de soporte del CD a AT
+					servicioAtiendePeticion = getORIGEN_FROM_CD_TO_AT();
+				}else {
+					final long idUnidadOrigen = (Long) registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN);
+					FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
+					fsetUnidadOrigen.setValue(ConstantesModelo.SUBDIRECCION_1_ID, idUnidadOrigen);
+					fsetUnidadOrigen = dataAccess.searchEntityByPk(fsetUnidadOrigen);
+					if (fsetUnidadOrigen == null){
 						servicioAtiendePeticion = getORIGEN_FROM_SG_TO_CD();
 					}else{
-						//peticion interna de soporte del CD a AT
-						servicioAtiendePeticion = getORIGEN_FROM_CD_TO_AT();
+						final String nombreUnidadOrigen = (String) fsetUnidadOrigen.getValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE);
+						if (nombreUnidadOrigen.startsWith("Centro de Desarrollo de")){//viene de la Subdirecc.
+							servicioAtiendePeticion = getORIGEN_FROM_SG_TO_CD();
+						}else{
+							//peticion interna de soporte del CD a AT
+							servicioAtiendePeticion = getORIGEN_FROM_CD_TO_AT();
+						}
 					}
 				}
 			}
@@ -246,9 +251,9 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					Long codGEDEON = (Long) registro.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);					
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionesEntidad);
 					peticionEnBBDD.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, codGEDEON);
-					Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionEnBBDD);
-					if (existenColl != null && !existenColl.isEmpty()){
-						peticionEnBBDD = existenColl.iterator().next();
+					Collection<FieldViewSet> peticionListEnBBDD = dataAccess.searchByCriteria(peticionEnBBDD);
+					if (peticionListEnBBDD != null && !peticionListEnBBDD.isEmpty()){
+						peticionEnBBDD = peticionListEnBBDD.iterator().next();
 						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
 						String centroDestinoPadre = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
 						String idsHijas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
@@ -323,6 +328,10 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 						}
 						
 						Date fecAlta = (Date) registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
+						if (fecAlta == null) {							
+							System.out.println("Error en petición sin FECHA de ALTA");
+							continue;
+						}
 						Calendar dateFec = Calendar.getInstance();
 						dateFec.setTime(fecAlta);
 	
@@ -423,15 +432,15 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 							
 							FieldViewSet registroExistente = new FieldViewSet(peticionesEntidad);
 							registroExistente.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, codGEDEON);
-							existenColl = dataAccess.searchByCriteria(registroExistente);
-							if (existenColl.isEmpty()){
+							peticionListEnBBDD = dataAccess.searchByCriteria(registroExistente);
+							if (peticionListEnBBDD.isEmpty()){
 								IDs_changed.add(String.valueOf(codGEDEON));
 								int ok = this.dataAccess.insertEntity(registro);
 								if (ok != 1) {
 									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
 								}
 							}else {
-								FieldViewSet duplicado = existenColl.iterator().next();
+								FieldViewSet duplicado = peticionListEnBBDD.iterator().next();
 								Timestamp tStampFecEstadoModifReg = (Timestamp) registro.getValue(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF);
 								Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF);
 								if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
