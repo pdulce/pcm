@@ -286,7 +286,7 @@ public class FieldViewSet implements Serializable {
 					}
 					
 					List<String> stringVals = new ArrayList<String>();
-					for (Object val: values) {
+					for (Object val: values) {						
 						if (!"".equals(val.toString())){
 							stringVals.add(val.toString());
 						}
@@ -469,7 +469,7 @@ public class FieldViewSet implements Serializable {
 					
 					String valorASetear = mapValue.getKey();
 					Boolean valorASetear_ = mapValue.getValue();
-					if (valorASetear == null) {
+					if (valorASetear == null || valorASetear_== false) {
 						continue;
 					}
 					Map<String, Boolean> valor = new HashMap<String, Boolean>();

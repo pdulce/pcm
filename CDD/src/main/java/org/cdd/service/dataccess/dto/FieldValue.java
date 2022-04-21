@@ -127,6 +127,11 @@ public class FieldValue implements IFieldValue, Serializable {
 			return null;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return getValue();
+	}
 
 	@Override
 	public String getValue() {

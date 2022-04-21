@@ -18,7 +18,9 @@ import java.util.Map;
 public interface IFieldValue extends Serializable{
 
 	public Collection<Map<String, Boolean>> getAllValues();
-
+	
+	public String toString();
+	
 	public String getValue();
 
 	public Collection<String> getValues();
