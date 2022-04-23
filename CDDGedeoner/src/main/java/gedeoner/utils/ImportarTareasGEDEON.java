@@ -343,7 +343,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					if (apps.isEmpty()){
 						registro.setValue(ConstantesModelo.PETICIONES_41_ENTORNO_TECNOLOG, Integer.valueOf(2));//"HOST"
 						registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, idApp);//no existe aplicacion registrada para esta peticion						
-						if (!appsNotFound.contains(rochade)) {
+						if (CommonUtils.allLettersAreInUpperCase(rochade) && !appsNotFound.contains(rochade)) {
 							appsNotFound.add(rochade);
 						}
 					}else{

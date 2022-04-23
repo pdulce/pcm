@@ -412,6 +412,16 @@ public final class CommonUtils {
 		return -1;
 	}
 
+	public static final boolean allLettersAreInUpperCase(final String word){
+		int numOfletters = word == null ? 0: word.length();
+		for (int i=0;i<numOfletters;i++){
+			String c = word.substring(i,i+1);
+			if (!c.toUpperCase().contentEquals(c)){
+				return false;
+			}
+		}
+		return true;		
+	}
 	
 	public static final String firstLetterInUppercase(final String frase){
 		String[] words_ = frase.split(" ");
@@ -1133,6 +1143,15 @@ public final class CommonUtils {
 		String transGlobal = "Peticiones.Uts. estimadas";
 		System.out.println("trans1: " + trans1 + " englobado en " + transGlobal + "?");
 		System.out.println(transGlobal.startsWith(trans1));
+		
+		boolean areAllInUpperCase1 = CommonUtils.allLettersAreInUpperCase("hhede");
+		System.out.println("areAllInUpperCase1: " + areAllInUpperCase1);
+		boolean areAllInUpperCase2 = CommonUtils.allLettersAreInUpperCase("SICOSS");
+		System.out.println("areAllInUpperCase2: " + areAllInUpperCase2);
+		boolean areAllInUpperCase3 = CommonUtils.allLettersAreInUpperCase("Alber");
+		System.out.println("areAllInUpperCase3: " + areAllInUpperCase3);
+		boolean areAllInUpperCase4 = CommonUtils.allLettersAreInUpperCase("aAAA");
+		System.out.println("areAllInUpperCase4: " + areAllInUpperCase4);
 		
 	}
 
