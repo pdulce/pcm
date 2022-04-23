@@ -10,7 +10,7 @@ xmlns:service="http://pcm.framework.org/service"
 	<service name="Authentication" profile="ADMINISTRADOR">
 
 		<action event="submitForm" submitError="Authentication.submitForm"
-			transactional="false" strategyPre="gedeoner.strategies.StrategyLogin">
+			transactional="false" strategy="gedeoner.strategies.StrategyLogin">
 			<viewComponent>
 				<form align="center" columns="1" title="Authentication">
 					<fieldViewSet nameSpace="entryForm">

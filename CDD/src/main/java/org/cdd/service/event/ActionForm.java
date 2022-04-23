@@ -554,18 +554,20 @@ public class ActionForm extends AbstractAction {
 					if (this.isTransactional()) {	
 						this.doTransaction(form_, dataAccess, isAuditOn);
 						dataAccess.commit();
-						if (!dataAccess.getStrategies().isEmpty()) {//estrategias de POST
-							dataAccess.setAutocommit(false);
-							try{
-								this.executeStrategyPost(dataAccess, form_, fCollectionIesimo);
-								dataAccess.commit();
-							} catch (final StrategyException stratPostExc) {
-								if (stratPostExc.getNivelError() == MessageException.ERROR) {
-									dataAccess.rollback();
-								}
-								throw stratPostExc;
+					}
+					if (!dataAccess.getStrategies().isEmpty()) {//estrategias de POST
+						dataAccess.setAutocommit(false);
+						try{
+							this.executeStrategyPost(dataAccess, form_, fCollectionIesimo);
+							dataAccess.commit();
+						} catch (final StrategyException stratPostExc) {
+							if (stratPostExc.getNivelError() == MessageException.ERROR) {
+								dataAccess.rollback();
 							}
+							throw stratPostExc;
 						}
+					}
+					if (this.isTransactional()) {
 						final Iterator<FieldViewSet> iterador = fCollectionIesimo.getFieldViewSets().iterator();
 						while (iterador.hasNext()) {
 							final FieldViewSet fieldViewSet = iterador.next();

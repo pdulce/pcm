@@ -40,12 +40,19 @@ public class StrategyLogin extends DefaultStrategyLogin {
 			}
 		}
 	}
+	
+	@Override
+	protected void validParameters(Datamap req) throws StrategyException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 	@Override
 	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, 
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
-			final Collection<FieldViewSet> fieldViewSets)
-			throws StrategyException, PCMConfigurationException {
+			final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
+			PCMConfigurationException {
 		try {
 			String userReq = req.getParameter(MY_USER_PARAM);
 			String passReq = req.getParameter(MY_PASSWD_PARAM);

@@ -167,6 +167,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				idsRelacionadasEnPadre_.add(idHija);
 			}
 			peticionPadre.setValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS, CommonUtils.serialize(idsRelacionadasEnPadre_));
+			System.out.println("Petición linkada de AT a DG");
     	}
     	return contador;
     }
