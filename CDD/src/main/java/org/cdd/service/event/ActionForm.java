@@ -517,10 +517,21 @@ public class ActionForm extends AbstractAction {
 
 		Iterator<IViewComponent> iteFCollections = collForms.iterator();
 		while (iteFCollections.hasNext()) {
- 			Form form_ = (Form) iteFCollections.next();
+ 			Form form_ = (Form) iteFCollections.next(); 			
 			try {
 				msgs = this.bindingPhase(realEvent, form_, dataAccess, eventSubmitted_);
 				FieldViewSetCollection fCollectionIesimo = form_.getFieldViewSetCollection();
+				if (!dataAccess.getPreconditionStrategies().isEmpty()) {
+					try {
+						executeStrategyPre(dataAccess, form_, fCollectionIesimo);
+						form_.getFieldViewSetCollection();
+					} catch (final StrategyException stratExc) {
+						if (this.isTransactional() && stratExc.getNivelError() == MessageException.ERROR) {
+							dataAccess.rollback();
+						}
+						throw stratExc;
+					}
+				}
 				if (eventSubmitted_) {
 					if (this.isTransactional()) {
 						final Iterator<FieldViewSet> iteratorfSet = fCollectionIesimo.getFieldViewSets().iterator();
@@ -537,18 +548,6 @@ public class ActionForm extends AbstractAction {
 						dataAccess.setAutocommit(false);
 						if (isDeleteEvent(getEvent()) ){											
 							dataAccess.getPreconditionStrategies().add("org.cdd.service.conditions.DefaultStrategyDelete");
-						}
-					}
-					
-					if (!dataAccess.getPreconditionStrategies().isEmpty()) {
-						try {
-							executeStrategyPre(dataAccess, form_, fCollectionIesimo);
-							form_.getFieldViewSetCollection();
-						} catch (final StrategyException stratExc) {
-							if (this.isTransactional() && stratExc.getNivelError() == MessageException.ERROR) {
-								dataAccess.rollback();
-							}
-							throw stratExc;
 						}
 					}
 					

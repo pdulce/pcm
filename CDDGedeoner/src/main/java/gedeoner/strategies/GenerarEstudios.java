@@ -624,9 +624,9 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						fechaFinRealAnalysis_.add(Calendar.DAY_OF_MONTH, -1);
 						fechaFinRealAnalysis = fechaFinRealAnalysis_.getTime();
 						peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN, fechaFinRealAnalysis);
-						//continue;
+						System.out.println("NO HAY petición de análisis asociada a esta de DG");
 					}else {
-						System.out.println("Hay petición de análisis asociada a esta de DG");
+						System.out.println("SI HAY petición de análisis asociada a esta de DG");
 					}
 					
 					String estadoPetAna = (String) peticionBBDDAnalysis.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
