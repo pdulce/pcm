@@ -128,7 +128,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 	protected abstract String getORIGEN_FROM_AT_TO_DESARR_GESTINADO ();
 	
 	protected abstract String getCD ();
-	
+		
 	protected abstract String getCONTRATO_DG ();
 	
 	
@@ -255,13 +255,56 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					if (peticionListEnBBDD != null && !peticionListEnBBDD.isEmpty()){
 						peticionEnBBDD = peticionListEnBBDD.iterator().next();
 						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
-						String centroDestinoPadre = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
-						String idsHijas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
-						List<String> idsHijas_ = CommonUtils.obtenerCodigos(idsHijas);
-						if ( getCD().equals(centroDestinoPadre)){
-							numImportadas += linkarPeticionesDeSGD_a_CD(peticionEnBBDD, idsHijas_);
-						}else if ( centroDestinoPadre.contains(getCONTRATO_DG())){
-							numImportadas += linkarPeticionesDeCD_A_DG(peticionEnBBDD, idsHijas_);
+						String centroDestinoPeticion = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
+						String idsAsociadas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
+						List<String> idsAsociadas_ = CommonUtils.obtenerCodigos(idsAsociadas);
+						
+						if ( !idsAsociadas_.isEmpty() && 
+								(centroDestinoPeticion.contains(getCONTRATO_DG()) || centroDestinoPeticion.contains(getDGFactory()))){//la actual es una petición a DG
+							//buscamos las peticiones que son de AT entre las asociadas
+							for (int cont=0;cont < idsAsociadas_.size();cont++) {
+								FieldViewSet peticionPadre = new FieldViewSet(peticionesEntidad);
+								peticionPadre.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadas_.get(cont));
+								Collection<FieldViewSet> peticionPadreBBDD = dataAccess.searchByCriteria(peticionPadre);
+								if (peticionPadreBBDD.isEmpty()) {
+									continue;
+								}
+								peticionPadre = peticionPadreBBDD.iterator().next();
+								String centroDestinoBBDDPadre = (String) peticionPadre.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
+								if (getCD().equals(centroDestinoBBDDPadre)){//si no es padre, es entrega
+									List<String> hijaActual = new ArrayList<String>();
+									hijaActual.add(String.valueOf(codGEDEON));
+									numImportadas += linkarPeticionesDeCD_A_DG(peticionPadre, hijaActual);		
+								}
+							}//for
+														
+						}else if ( !idsAsociadas_.isEmpty() && getCD().equals(centroDestinoPeticion)){
+							//miramos si entre las asociadas hay hijas (a DG) o padres
+														
+							for (int cont=0;cont < idsAsociadas_.size();cont++) {
+								FieldViewSet peticionHija = new FieldViewSet(peticionesEntidad);
+								peticionHija.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadas_.get(cont));
+								Collection<FieldViewSet> peticionHijaBBDD = dataAccess.searchByCriteria(peticionHija);
+								if (peticionHijaBBDD.isEmpty()) {
+									continue;
+								}
+								peticionHija = peticionHijaBBDD.iterator().next();
+								String centroDestinoBBDDHija = (String) peticionHija.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
+								if (!getCD().equals(centroDestinoBBDDHija) && !centroDestinoBBDDHija.contains(getCONTRATO_DG()) && 
+										!centroDestinoBBDDHija.contains(getDGFactory())){
+									//la asociada es padre, una Subdireccion
+									List<String> hijaActual = new ArrayList<String>();
+									hijaActual.add(String.valueOf(codGEDEON));
+									numImportadas += linkarPeticionesDeSGD_a_CD(peticionEnBBDD, hijaActual);
+								}else if ( centroDestinoBBDDHija.contains(getCONTRATO_DG()) || centroDestinoBBDDHija.contains(getDGFactory())){
+									//la asociada es hija
+									List<String> hijaActual = new ArrayList<String>();
+									hijaActual.add(idsAsociadas_.get(cont));
+									numImportadas += linkarPeticionesDeCD_A_DG(peticionEnBBDD, hijaActual);	
+								}
+								
+							}//for
+														
 						}
 					}
 					
