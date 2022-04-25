@@ -1,4 +1,4 @@
-package gedeoner.utils;
+package ism.utils;
 
 public class SeparadorApellidos {
 
@@ -37,6 +37,9 @@ public class SeparadorApellidos {
 		System.out.println("GARCIA DEL HORNO--> 1er apellido: " + c2[0] + ", 2o apellido: " + c2[1]);
 		System.out.println("RODRIGUEZ DE LA OCA--> 1er apellido: " + c3[0] + ", 2o apellido: " + c3[1]);
 		System.out.println("DE LOS CABALLEROS ALONSO--> 1er apellido: " + c4[0] + ", 2o apellido: " + c4[1]);
+		
+		String a = "C:\\\\Temp\\\\LOGS BASE DATOS\\\\2022_04_05_DATOS-MAESTROS_DS10.log";
+		System.out.println("a vale: " + a.replaceFirst(".log", ".txt"));		
 	}
 	
 }
