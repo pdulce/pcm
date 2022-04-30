@@ -1,6 +1,7 @@
 package org.cdd.service.component.definitions;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -726,13 +727,19 @@ public class FieldViewSet implements Serializable {
 			
 			if (fieldAbstract.isDate()) {
 				try {
-					if ("".contentEquals(value.toString()) ){
+					if (value instanceof String && "".contentEquals(value.toString()) ){
 						 return null;
-					}
-					if (fieldAbstract.isTimestamp()) {						 
+					} else if (fieldAbstract.isTimestamp() && value instanceof String) {						 
 						return new Timestamp(CommonUtils.myDateFormatter.parse(value.toString()).getTime());
+					}else if (fieldAbstract.isTimestamp() && value instanceof Timestamp) {						 
+						return value;
+					}else if (fieldAbstract.isDate() && value instanceof Date) {
+						return value;
+					}else if (fieldAbstract.isDate() && value instanceof Timestamp) {
+						return new Date(((Timestamp)value).getTime());
+					}else if (fieldAbstract.isDate() && value instanceof String) {
+						return CommonUtils.myDateFormatter.parse(value.toString());
 					}
-					return CommonUtils.myDateFormatter.parse(value.toString());	
 					
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -824,7 +831,8 @@ public class FieldViewSet implements Serializable {
 	
 	public void setValues(final int fieldPosition_, final Collection<String> values) {
 		setValues(this.entityLogic.searchField(fieldPosition_).getName(), values);
-	}	
+	}
+	
 	public void setValues(final String qualifiedName_, final Collection<String> values) {
 		if (values == null) {
 			return;
@@ -861,15 +869,99 @@ public class FieldViewSet implements Serializable {
 		this.fieldViewsValues.put(qualifiedName, fieldValue);
 	}
 	
+	public void setSerializedValues(final String qualifiedName_, final Collection<Serializable> values) {		
+		if (values == null) {
+			return;
+		}
+		String qualifiedName = qualifiedName_;
+		if (qualifiedName != null && qualifiedName.indexOf(FieldViewSet.FIELD_SEPARATOR) != -1) {
+			if (!qualifiedName.substring(0, qualifiedName.indexOf(FieldViewSet.FIELD_SEPARATOR)).toUpperCase()
+					.equals(this.contextName.toUpperCase())) {
+				return;
+			}
+		}
+				
+		if (!this.isUserDefined() && qualifiedName.indexOf(FieldViewSet.FIELD_SEPARATOR) == -1) {
+			final StringBuilder nameQ = new StringBuilder(this.getContextName()).append(FieldViewSet.FIELD_SEPARATOR);
+			nameQ.append(qualifiedName);
+			qualifiedName = nameQ.toString();
+		}
+		IFieldView fieldView = this.getFieldView(qualifiedName);
+		if (fieldView == null) {
+			fieldView = this.getEntityDef() != null ? new FieldView(this.getEntityDef().searchByName(qualifiedName)) : new FieldView("");
+			fieldView.setQualifiedContextName(qualifiedName);
+			this.fieldViews.add(fieldView);
+		}
+		
+		Collection<String> _values = new ArrayList<String>();
+		Iterator<Serializable> iteValues = values.iterator();
+		while (iteValues.hasNext()){
+			Serializable val_ = iteValues.next();
+			if (val_ instanceof String && val_.toString().indexOf(qualifiedName.concat("=")) != -1) {
+				val_ = val_.toString().replaceFirst(qualifiedName.concat("="), "");
+			}
+			IFieldAbstract fieldAbstract = null;
+			if (!isUserDefined()){
+				fieldAbstract = fieldView.getEntityField().getAbstractField();
+			}else{
+				fieldAbstract = new FieldAbstract(fieldView.getType());
+			}
+			
+			if (fieldAbstract.isDate()) {
+				try {
+					if (val_ instanceof String && "".contentEquals(val_.toString()) ){
+						 //nothing
+					}else if (fieldAbstract.isTimestamp() && val_ instanceof String) {						 
+						val_ = new Timestamp(CommonUtils.myDateFormatter.parse(val_.toString()).getTime());
+					}else if (fieldAbstract.isTimestamp() && val_ instanceof Timestamp) {						 
+						//nothing
+					}else if (fieldAbstract.isDate() && val_ instanceof Date) {
+						//nothing
+					}else if (fieldAbstract.isDate() && val_ instanceof Timestamp) {
+						val_ = new Date(((Timestamp)val_).getTime());
+					}else if (fieldAbstract.isDate() && val_ instanceof String) {
+						val_ = CommonUtils.myDateFormatter.parse(val_.toString());
+					}
+					
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} else if (fieldAbstract.isLong() && val_ instanceof String) {
+
+				val_ = (val_==null || val_.toString().contentEquals("")) ? "": Long.valueOf(val_.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
+
+			} else if (fieldAbstract.isInteger() && val_ instanceof String) {
+
+				val_ = (val_==null || val_.toString().contentEquals("")) ? "": Integer.valueOf(val_.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
+
+			} else if (fieldAbstract.isDecimal() && val_ instanceof String) {
+				try {
+					val_ = (val_==null || val_.toString().contentEquals("")) ? "": CommonUtils.numberFormatter.parse(val_.toString());
+				} catch (ParseException e) {
+					throw new RuntimeException("Error parsing value decimal: " + e.getMessage());
+				}
+			} else if (fieldAbstract.isBoolean() && val_ instanceof String) {
+				val_ =  ("1".contentEquals(val_.toString()) || "true".contentEquals((val_.toString()).toLowerCase()));
+			}
+			
+			_values.add(val_==null?"":val_.toString());
+		}
+		
+		IFieldValue fieldValue = this.getFieldvalue(qualifiedName);		
+		fieldValue.setValues(_values);
+		this.fieldViewsValues.put(qualifiedName, fieldValue);
+	}
+	
 	public void setValue(final int fieldPosition, final Serializable value_) {		
 		setValue(this.entityLogic.searchField(fieldPosition).getName(), value_);
-	}	
+	}
+	
 	public void setValue(final String qualifiedName_, final Serializable value_) {
 		if (value_ != null) {
-			final Collection<String> values = new ArrayList<String>();
-			values.add(value_.toString());
+			final Collection<Serializable> values = new ArrayList<Serializable>();
+			values.add(value_);
 			String qName_ = getContextName() !=null && !qualifiedName_.contains(getContextName())?getContextName().concat(PCMConstants.POINT).concat(qualifiedName_):qualifiedName_;
-			this.setValues(qName_, values);
+			this.setSerializedValues(qName_, values);
 		} else {
 			setNull(qualifiedName_);
 		}
