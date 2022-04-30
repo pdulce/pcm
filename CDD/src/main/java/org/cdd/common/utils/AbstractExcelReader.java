@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -98,9 +99,15 @@ public abstract class AbstractExcelReader {
 					}
 
 					valueCell = getFieldOfColumnValue(entidad, positionOfEntityField, cell, valueCell);
-					Serializable val = fila.getValue(positionOfEntityField.intValue());
-					if (val == null || "".equals(val.toString().trim())){					
+					Collection<String> valuesPrevios = fila.getValues(positionOfEntityField.intValue());
+					if (valuesPrevios == null || valuesPrevios.isEmpty() || valuesPrevios.iterator().next().toString().contentEquals("")){					
 						fila.setValue(positionOfEntityField.intValue(), valueCell);
+					}else {
+						//acumulo: ver si solo para algunos campos...
+						if (!valueCell.toString().contentEquals(valuesPrevios.iterator().next().toString())) {
+							valuesPrevios.add(valueCell.toString());
+							fila.setValues(positionOfEntityField.intValue(), valuesPrevios);
+						}
 					}
 					
 				}
