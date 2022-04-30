@@ -43,7 +43,10 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 	
 	static {
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID|Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_46_COD_GEDEON));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Peticiones Relacionadas|Pets. relacionadas", Integer.valueOf(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS));		
+		/*** Campos a relacionar **/
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Id. Hija|Petición Padre|Petición(es) Hija(s)|Peticiones Relacionadas|Pets. relacionadas|Peticiones que relacionan a ésta", 
+				Integer.valueOf(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS));
+		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Título", Integer.valueOf(ConstantesModelo.PETICIONES_2_TITULO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Descripción", Integer.valueOf(ConstantesModelo.PETICIONES_3_DESCRIPCION));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Observaciones", Integer.valueOf(ConstantesModelo.PETICIONES_4_OBSERVACIONES));
@@ -97,6 +100,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 	}
 	
 	private IDataAccess dataAccess;
+	private int linkadas = 0;
 	private static List<String> appsNotFound = new ArrayList<String>();
 		
 
@@ -167,7 +171,8 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				idsRelacionadasEnPadre_.add(idHija);
 			}
 			peticionPadre.setValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS, CommonUtils.serialize(idsRelacionadasEnPadre_));
-			System.out.println("Petición linkada de AT a DG");
+			//System.out.println("Petición linkada de AT a DG");
+			linkadas++;			
     	}
     	return contador;
     }
@@ -226,7 +231,10 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				wb.close();
 			}
 
-			return importarInterno(Calendar.getInstance().getTime(), filas);
+			Map<Integer, String> retorno = importarInterno(Calendar.getInstance().getTime(), filas);
+			
+			System.out.println(linkadas + " peticiones linkadas de AT a DG");
+			return retorno;
 		}
 
 
@@ -265,7 +273,24 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 							//buscamos las peticiones que son de AT entre las asociadas
 							for (int cont=0;cont < idsAsociadas_.size();cont++) {
 								FieldViewSet peticionPadre = new FieldViewSet(peticionesEntidad);
-								peticionPadre.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadas_.get(cont));
+								Collection<String> idsAsociadasCol= new ArrayList<String>();
+								String cadena = idsAsociadas_.get(cont);
+								if (cadena.indexOf(";") != -1) {
+									String[] tokenizer =  cadena.split(";");
+									for (int j=0;j<tokenizer.length;j++) {
+										idsAsociadasCol.add(tokenizer[j].trim());
+									}
+								}else if (cadena.indexOf(",") != -1) {
+									if (cadena.indexOf(",") != -1) {
+										String[] tokenizer =  cadena.split(",");
+										for (int j=0;j<tokenizer.length;j++) {
+											idsAsociadasCol.add(tokenizer[j].trim());
+										}
+									}
+								}else {
+									idsAsociadasCol.add(cadena);
+								}
+								peticionPadre.setValues(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadasCol);
 								Collection<FieldViewSet> peticionPadreBBDD = dataAccess.searchByCriteria(peticionPadre);
 								if (peticionPadreBBDD.isEmpty()) {
 									continue;
@@ -284,7 +309,24 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 														
 							for (int cont=0;cont < idsAsociadas_.size();cont++) {
 								FieldViewSet peticionHija = new FieldViewSet(peticionesEntidad);
-								peticionHija.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadas_.get(cont));
+								Collection<String> idsAsociadasCol= new ArrayList<String>();
+								String cadena = idsAsociadas_.get(cont);
+								if (cadena.indexOf(";") != -1) {
+									String[] tokenizer =  cadena.split(";");
+									for (int j=0;j<tokenizer.length;j++) {
+										idsAsociadasCol.add(tokenizer[j].trim());
+									}
+								}else if (cadena.indexOf(",") != -1) {
+									if (cadena.indexOf(",") != -1) {
+										String[] tokenizer =  cadena.split(",");
+										for (int j=0;j<tokenizer.length;j++) {
+											idsAsociadasCol.add(tokenizer[j].trim());
+										}
+									}
+								}else {
+									idsAsociadasCol.add(cadena);
+								}
+								peticionHija.setValues(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadasCol);
 								Collection<FieldViewSet> peticionHijaBBDD = dataAccess.searchByCriteria(peticionHija);
 								if (peticionHijaBBDD.isEmpty()) {
 									continue;
@@ -724,6 +766,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					throw new RuntimeException("Dar de alta la servicio destino: " + valueCell);							
 				}
 			}
+			
 			valueCell = valueCell.toString().contentEquals("") ? null : CommonUtils.obtenerCodigo(valueCell.toString());
 		} else if (fLogic.getAbstractField().isDecimal()) {
 			valueCell = valueCell.toString().contentEquals("") ? null : CommonUtils.numberFormatter.parse(valueCell.toString());
