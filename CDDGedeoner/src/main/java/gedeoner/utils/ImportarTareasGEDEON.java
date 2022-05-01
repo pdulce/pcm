@@ -40,6 +40,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 	protected static IEntityLogic peticionesEntidad, subdireccionEntidad, servicioEntidad, aplicativoEntidad, tiposPeticionEntidad;
 	protected static String ERR_FICHERO_EXCEL_FORMATO_XLS = "ERR_FICHERO_EXCEL_FORMATO_XLS", 
 			ERR_IMPORTANDO_FICHERO_EXCEL = "ERR_IMPORTANDO_FICHERO_EXCEL";
+	private static Collection<String> appsFiscalConta = new ArrayList<String>();
 	
 	static {
 		COLUMNSET2ENTITYFIELDSET_MAP.put("ID|Id. Gestión", Integer.valueOf(ConstantesModelo.PETICIONES_46_COD_GEDEON));
@@ -62,7 +63,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Centro destino|Servicio destino|Área Destino",	Integer.valueOf(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Área desarrollo", Integer.valueOf(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO));
-		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
+		COLUMNSET2ENTITYFIELDSET_MAP.put("Tipo|Tipo petición|Tipo de mantenimiento", Integer.valueOf(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Urgente", Integer.valueOf(ConstantesModelo.PETICIONES_15_URGENTE));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Prioridad", Integer.valueOf(ConstantesModelo.PETICIONES_16_PRIORIDAD));
 		COLUMNSET2ENTITYFIELDSET_MAP.put("Fecha de alta", Integer.valueOf(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA));
@@ -96,6 +97,18 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				Integer.valueOf(ConstantesModelo.PETICIONES_44_FECHA_ULTIMA_MODIFCACION));
 		
 		UNIQUE_COLUMN = ConstantesModelo.PETICIONES_46_COD_GEDEON;
+		
+		
+		appsFiscalConta.add("REIG");
+		appsFiscalConta.add("GEXI");
+		appsFiscalConta.add("AEEL");
+		appsFiscalConta.add("GEXW");
+		appsFiscalConta.add("CORE");
+		appsFiscalConta.add("SICO");
+		appsFiscalConta.add("SICE");
+		appsFiscalConta.add("SIIC");
+		appsFiscalConta.add("SIFA");
+		appsFiscalConta.add("SIPD");
 		
 	}
 	
@@ -150,53 +163,81 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 			}
 			
 			String idsRelacionadasEnHija = (String) peticionHija.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
-			List<String> idsRelacionadasEnHija_ = CommonUtils.obtenerCodigos(idsRelacionadasEnHija);
-			if (!idsRelacionadasEnHija_.contains(String.valueOf(idPadreGestion))){
-				idsRelacionadasEnHija_.add(String.valueOf(idPadreGestion));				
+			List<Long> idsRelacionadasEnHija_ = CommonUtils.obtenerCodigosGEDEON(idsRelacionadasEnHija);
+			if (!idsRelacionadasEnHija_.contains(idPadreGestion)){
+				idsRelacionadasEnHija_.add(idPadreGestion);				
 			}
-			peticionHija.setValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS,		CommonUtils.serialize(idsRelacionadasEnHija_));
+			peticionHija.setValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS,	CommonUtils.serialize(idsRelacionadasEnHija_));
 			dataAccess.modifyEntity(peticionHija);
 			contador++;
 		}
 		return contador;
 	}
+
 	
-    private int linkarPeticionesDeCD_A_DG(FieldViewSet peticionPadre, final List<String> idsHijas_) throws TransactionException{
+    private int linkarPeticionesDeCD_A_DG(FieldViewSet peticionPadre, final List<Long> idsHijas_) throws TransactionException{
     	int contador = 0;
-    	for (String idHija: idsHijas_){    		
+    	for (Long codGedeonHija: idsHijas_){    		
     		String idsRelacionadasEnPadre = (String) peticionPadre.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
-			List<String> idsRelacionadasEnPadre_ = CommonUtils.obtenerCodigos(idsRelacionadasEnPadre);
-			if (!idsRelacionadasEnPadre_.contains(idHija)){
+			List<Long> idsRelacionadasEnPadre_ = CommonUtils.obtenerCodigosGEDEON(idsRelacionadasEnPadre);
+			if (!idsRelacionadasEnPadre_.contains(codGedeonHija)){
 				contador++;
-				idsRelacionadasEnPadre_.add(idHija);
+				idsRelacionadasEnPadre_.add(codGedeonHija);
 			}
 			peticionPadre.setValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS, CommonUtils.serialize(idsRelacionadasEnPadre_));
-			//System.out.println("Petición linkada de AT a DG");
-			linkadas++;			
-    	}
+			Long proyectoId = (Long) peticionPadre.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO);
+			Long codGedeonPadre = (Long) peticionPadre.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);			
+			FieldViewSet proyectoBean = new FieldViewSet(aplicativoEntidad);
+			proyectoBean.setValue(ConstantesModelo.APLICATIVO_1_ID, proyectoId);
+			try {
+				proyectoBean = dataAccess.searchFirstByPK(proyectoBean);
+				String nameProy = proyectoBean == null ? "unknown" : (String) proyectoBean.getValue(ConstantesModelo.APLICATIVO_2_ROCHADE);
+				Date fecTram = (Date)peticionPadre.getValue(ConstantesModelo.PETICIONES_18_FECHA_DE_TRAMITACION);
+				Calendar ini2021= Calendar.getInstance(), fin2021= Calendar.getInstance();
+				ini2021.set(Calendar.YEAR, 2021);
+				ini2021.set(Calendar.MONTH, 1);
+				ini2021.set(Calendar.DATE, 1);
+				fin2021.set(Calendar.YEAR, 2021);
+				fin2021.set(Calendar.MONTH, 12);
+				fin2021.set(Calendar.DATE, 31);
+				if (appsFiscalConta.contains(nameProy) && fecTram.before(fin2021.getTime()) && fecTram.after(ini2021.getTime())) {
+					String fechaTramite = (CommonUtils.convertDateToLiteral(fecTram));					
+					System.out.println("Petición linkada AT(" +  codGedeonPadre + ") <--> DG(" + codGedeonHija + "), proyecto "+ nameProy + " tramitada el " + fechaTramite );
+					linkadas++;
+				}				
+							
+			} catch (DatabaseException e) {
+				throw new TransactionException(e);
+			}			
+    	}    	
+		int m = dataAccess.modifyEntity(peticionPadre);
+		if (m < 1 ) {
+			throw new TransactionException("Error modificando instancia petición AT padre");
+		}
+		
     	return contador;
     }
     
     
     
-    private String destinoPeticion(FieldViewSet registro) throws DatabaseException{
+    private String destinoPeticion(FieldViewSet registroVivo, FieldViewSet registroEnBBDD) throws DatabaseException{
     	String servicioAtiendePeticion = ""; 
-		final String centroDestino = (String) registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);								
+		String centroDestino = (String) registroVivo.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);								
 		if (centroDestino != null) {
 			if (centroDestino.contentEquals(getDGFactory()) ){
-				servicioAtiendePeticion = getORIGEN_FROM_AT_TO_DESARR_GESTINADO();
+				return getORIGEN_FROM_AT_TO_DESARR_GESTINADO();
 			}else if (centroDestino.contains("Centro de Desarrollo de") || 
 					centroDestino.contains("Servicio Gestión de Proyectos")){				
-				if (registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN) == null ) {
+				if (registroVivo.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN) == null ) {
 					//peticion interna de soporte del CD a AT
-					servicioAtiendePeticion = getORIGEN_FROM_CD_TO_AT();
+					return getORIGEN_FROM_CD_TO_AT();
 				}else {
-					final long idUnidadOrigen = (Long) registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN);
+					final long idUnidadOrigen = (Long) registroVivo.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN);
 					FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
 					fsetUnidadOrigen.setValue(ConstantesModelo.SUBDIRECCION_1_ID, idUnidadOrigen);
 					fsetUnidadOrigen = dataAccess.searchEntityByPk(fsetUnidadOrigen);
 					if (fsetUnidadOrigen == null){
-						servicioAtiendePeticion = getORIGEN_FROM_SG_TO_CD();
+						return getORIGEN_FROM_SG_TO_CD();
 					}else{
 						final String nombreUnidadOrigen = (String) fsetUnidadOrigen.getValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE);
 						if (nombreUnidadOrigen.startsWith("Centro de Desarrollo de")){//viene de la Subdirecc.
@@ -204,6 +245,35 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 						}else{
 							//peticion interna de soporte del CD a AT
 							servicioAtiendePeticion = getORIGEN_FROM_CD_TO_AT();
+						}
+					}
+				}
+			}
+		}else {
+			centroDestino = (String) registroEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);								
+			if (centroDestino != null) {
+				if (centroDestino.contentEquals(getDGFactory()) ){
+					return getORIGEN_FROM_AT_TO_DESARR_GESTINADO();
+				}else if (centroDestino.contains("Centro de Desarrollo de") || 
+						centroDestino.contains("Servicio Gestión de Proyectos")){				
+					if (registroEnBBDD.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN) == null ) {
+						//peticion interna de soporte del CD a AT
+						return getORIGEN_FROM_CD_TO_AT();
+					}else {
+						final long idUnidadOrigen = (Long) registroEnBBDD.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN);
+						FieldViewSet fsetUnidadOrigen = new FieldViewSet(subdireccionEntidad);
+						fsetUnidadOrigen.setValue(ConstantesModelo.SUBDIRECCION_1_ID, idUnidadOrigen);
+						fsetUnidadOrigen = dataAccess.searchEntityByPk(fsetUnidadOrigen);
+						if (fsetUnidadOrigen == null){
+							return getORIGEN_FROM_SG_TO_CD();
+						}else{
+							final String nombreUnidadOrigen = (String) fsetUnidadOrigen.getValue(ConstantesModelo.SUBDIRECCION_3_NOMBRE);
+							if (nombreUnidadOrigen.startsWith("Centro de Desarrollo de")){//viene de la Subdirecc.
+								servicioAtiendePeticion = getORIGEN_FROM_SG_TO_CD();
+							}else{
+								//peticion interna de soporte del CD a AT
+								servicioAtiendePeticion = getORIGEN_FROM_CD_TO_AT();
+							}
 						}
 					}
 				}
@@ -239,7 +309,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 
 
 			
-		public Map<Integer, String> importarInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
+	public Map<Integer, String> importarInterno(final Date fecExportacion, final List<FieldViewSet> filas) throws Throwable {
 			
 			int numImportadas = 0;
 			
@@ -261,72 +331,51 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionesEntidad);
 					peticionEnBBDD.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, codGEDEON);
 					Collection<FieldViewSet> peticionListEnBBDD = dataAccess.searchByCriteria(peticionEnBBDD);
+					
 					if (peticionListEnBBDD != null && !peticionListEnBBDD.isEmpty()){
 						peticionEnBBDD = peticionListEnBBDD.iterator().next();
 						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
 						String centroDestinoPeticion = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
 						String idsAsociadas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
-						List<String> idsAsociadas_ = CommonUtils.obtenerCodigos(idsAsociadas);
+						List<Long> idsAsociadasdeRegistro = CommonUtils.obtenerCodigosGEDEON(idsAsociadas);
 						
-						if ( !idsAsociadas_.isEmpty() && 
+						if ( !idsAsociadasdeRegistro.isEmpty() && 
 								(centroDestinoPeticion.contains(getCONTRATO_DG()) || centroDestinoPeticion.contains(getDGFactory()))){//la actual es una petición a DG
 							//buscamos las peticiones que son de AT entre las asociadas
-							for (int cont=0;cont < idsAsociadas_.size();cont++) {
-								FieldViewSet peticionPadre = new FieldViewSet(peticionesEntidad);
-								Collection<String> idsAsociadasCol= new ArrayList<String>();
-								String cadena = idsAsociadas_.get(cont);
-								if (cadena.indexOf(";") != -1) {
-									String[] tokenizer =  cadena.split(";");
-									for (int j=0;j<tokenizer.length;j++) {
-										idsAsociadasCol.add(tokenizer[j].trim());
-									}
-								}else if (cadena.indexOf(",") != -1) {
-									if (cadena.indexOf(",") != -1) {
-										String[] tokenizer =  cadena.split(",");
-										for (int j=0;j<tokenizer.length;j++) {
-											idsAsociadasCol.add(tokenizer[j].trim());
-										}
-									}
-								}else {
-									idsAsociadasCol.add(cadena);
-								}
-								peticionPadre.setValues(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadasCol);
+							for (int cont=0;cont < idsAsociadasdeRegistro.size();cont++) {
+								FieldViewSet peticionPadre = new FieldViewSet(peticionesEntidad);								
+								peticionPadre.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadasdeRegistro.get(cont));
 								Collection<FieldViewSet> peticionPadreBBDD = dataAccess.searchByCriteria(peticionPadre);
 								if (peticionPadreBBDD.isEmpty()) {
 									continue;
-								}
+								}//if
 								peticionPadre = peticionPadreBBDD.iterator().next();
 								String centroDestinoBBDDPadre = (String) peticionPadre.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
 								if (getCD().equals(centroDestinoBBDDPadre)){//si no es padre, es entrega
-									List<String> hijaActual = new ArrayList<String>();
-									hijaActual.add(String.valueOf(codGEDEON));
-									numImportadas += linkarPeticionesDeCD_A_DG(peticionPadre, hijaActual);		
-								}
+									List<Long> hijaActual = new ArrayList<Long>();
+									hijaActual.add(codGEDEON);
+									numImportadas += linkarPeticionesDeCD_A_DG(peticionPadre, hijaActual);
+									//actualizamos la referencia a la padre en la hija
+									String petsRelacionadas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
+									List<Long> idsRelacionadas_ = new ArrayList<Long>();
+									if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {
+										idsRelacionadas_ =CommonUtils.obtenerCodigosGEDEON(petsRelacionadas);
+									}
+									Long codGedeonPadre= (Long) peticionPadre.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
+									if (!idsRelacionadas_.contains(codGedeonPadre)) {
+										idsRelacionadas_.add(codGedeonPadre);
+									}					
+									registro.setValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS, CommonUtils.serialize(idsRelacionadas_));
+									
+								}//if
 							}//for
 														
-						}else if ( !idsAsociadas_.isEmpty() && getCD().equals(centroDestinoPeticion)){
+						}else if ( !idsAsociadasdeRegistro.isEmpty() && getCD().equals(centroDestinoPeticion)){
 							//miramos si entre las asociadas hay hijas (a DG) o padres
 														
-							for (int cont=0;cont < idsAsociadas_.size();cont++) {
-								FieldViewSet peticionHija = new FieldViewSet(peticionesEntidad);
-								Collection<String> idsAsociadasCol= new ArrayList<String>();
-								String cadena = idsAsociadas_.get(cont);
-								if (cadena.indexOf(";") != -1) {
-									String[] tokenizer =  cadena.split(";");
-									for (int j=0;j<tokenizer.length;j++) {
-										idsAsociadasCol.add(tokenizer[j].trim());
-									}
-								}else if (cadena.indexOf(",") != -1) {
-									if (cadena.indexOf(",") != -1) {
-										String[] tokenizer =  cadena.split(",");
-										for (int j=0;j<tokenizer.length;j++) {
-											idsAsociadasCol.add(tokenizer[j].trim());
-										}
-									}
-								}else {
-									idsAsociadasCol.add(cadena);
-								}
-								peticionHija.setValues(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadasCol);
+							for (int cont=0;cont < idsAsociadasdeRegistro.size();cont++) {
+								FieldViewSet peticionHija = new FieldViewSet(peticionesEntidad);																
+								peticionHija.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, idsAsociadasdeRegistro.get(cont));
 								Collection<FieldViewSet> peticionHijaBBDD = dataAccess.searchByCriteria(peticionHija);
 								if (peticionHijaBBDD.isEmpty()) {
 									continue;
@@ -341,20 +390,21 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 									numImportadas += linkarPeticionesDeSGD_a_CD(peticionEnBBDD, hijaActual);
 								}else if ( centroDestinoBBDDHija.contains(getCONTRATO_DG()) || centroDestinoBBDDHija.contains(getDGFactory())){
 									//la asociada es hija
-									List<String> hijaActual = new ArrayList<String>();
-									hijaActual.add(idsAsociadas_.get(cont));
+									List<Long> hijaActual = new ArrayList<Long>();
+									hijaActual.add(idsAsociadasdeRegistro.get(cont));
 									numImportadas += linkarPeticionesDeCD_A_DG(peticionEnBBDD, hijaActual);	
 								}
 								
 							}//for
 														
-						}
-					}
-					
-					String servicioAtiendePeticion = destinoPeticion(registro);
+						}//else
+					}//if existe en BBDD, normalizo
+															
+					String servicioAtiendePeticion = destinoPeticion(registro, peticionEnBBDD);
 					if (!servicioAtiendePeticion.contentEquals("")) {
 						registro.setValue(ConstantesModelo.PETICIONES_33_SERVICIO_ATIENDE_PETICION,	servicioAtiendePeticion);
-					}else {
+					}else {						
+						System.out.println ("No actualizamos/insertamos petición GEDEON " + codGEDEON);
 						continue;//es peticion hija
 					}
 					String situacion = (String) registro.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
@@ -364,6 +414,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					String title = (String) registro.getValue(ConstantesModelo.PETICIONES_2_TITULO);
 					if ( (nombreAplicacionDePeticion_ == null || "".contentEquals(nombreAplicacionDePeticion_) || nombreAplicacionDePeticion_.length() < 4) &&
 							(title == null || "".contentEquals(title) || title.length() < 4)	) {
+						System.out.println ("No actualizamos/insertamos petición GEDEON " + codGEDEON);
 						continue;
 					}
 					if (nombreAplicacionDePeticion_ != null && nombreAplicacionDePeticion_.length() > 4) {
@@ -372,6 +423,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 						rochade = title.substring(0,4).trim();
 					}
 					if (situacion.contentEquals("") && rochade.contentEquals("") && title.contentEquals("")){
+						System.out.println ("No actualizamos/insertamos petición GEDEON " + codGEDEON);
 						break;
 					}
 					
@@ -402,20 +454,21 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				
 					Date fec_Alta = (Date) registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
 					if (fec_Alta == null) {
-						registro.setValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA,	registro.getValue(ConstantesModelo.PETICIONES_22_DES_FECHA_PREVISTA_INICIO));
+						registro.setValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA,	peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA));
+						fec_Alta = (Date) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
 					}
 										
 					try {
 						FieldViewSet tipoPeticionFset = new FieldViewSet(tiposPeticionEntidad);
 						Serializable tipoPeticion = registro.getValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO);
 						if (tipoPeticion == null || tipoPeticion.equals("")) {
-							registro.setValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO, "Mejora desarrollo");
-							tipoPeticion = "Mejora desarrollo";
+							registro.setValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
+							tipoPeticion = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO);
 						}
 						
 						Date fecAlta = (Date) registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
 						if (fecAlta == null) {							
-							System.out.println("Error en petición sin FECHA de ALTA");
+							System.out.println("Error en petición "+ codGEDEON + " en FECHA de ALTA");
 							continue;
 						}
 						Calendar dateFec = Calendar.getInstance();
@@ -516,10 +569,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 							
 							registro.setValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME, null);							
 							
-							FieldViewSet registroExistente = new FieldViewSet(peticionesEntidad);
-							registroExistente.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, codGEDEON);
-							peticionListEnBBDD = dataAccess.searchByCriteria(registroExistente);
-							if (peticionListEnBBDD.isEmpty()){
+							if (peticionEnBBDD== null || peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE)  == null){
 								IDs_changed.add(String.valueOf(codGEDEON));
 								int ok = this.dataAccess.insertEntity(registro);
 								if (ok != 1) {
@@ -537,6 +587,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 								if (ok < 1) {
 									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
 								}
+								System.out.println ("SI Actualizamos petición GEDEON " + codGEDEON);
 							}
 							numImportadas++;
 							if (numImportadas%50 == 0){
@@ -588,7 +639,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 	    	Collection<FieldViewSet> petsEntrega = new ArrayList<FieldViewSet>();
 			
 			if (peticiones != null && !"".contentEquals(peticiones)) {				
-				Collection<String> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
+				List<String> codigosPeticiones = CommonUtils.obtenerCodigosGEDEONStr(peticiones);
 				FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
 				peticionDG.setValues(ConstantesModelo.PETICIONES_46_COD_GEDEON, codigosPeticiones);
 				Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionDG);

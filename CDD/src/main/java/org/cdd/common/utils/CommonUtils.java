@@ -171,33 +171,58 @@ public final class CommonUtils {
 		
 	}
 	
-	public static List<String> obtenerCodigos(String pets){
+	public static List<Long> obtenerCodigosGEDEON(String pets){
 		
-		List<String> arr = new ArrayList<String>();	
+		List<Long> arr = new ArrayList<Long>();	
 		if (pets == null){
 			return arr;
 		}
 		
-		String[] splitter = pets.split(",");
+		String[] splitter = pets.indexOf(",")!=-1?pets.split(","):pets.split(";");
 		int length_ = splitter.length;
 		for (int i=0;i<length_;i++){
 			try {
 				if (splitter[i] != null && !splitter[i].trim().contentEquals("")) {
-					String num = String.valueOf(splitter[i]);
-					arr.add(num);
+					String num = cleanWhitespaces(splitter[i]);
+					arr.add(Double.valueOf(num).longValue());
 				}
 			}catch (Throwable excx) {
 				excx.printStackTrace();
+				return null;
 			}
 		}
 			
 		return arr;
 	}
 	
-	public static String serialize(List<String> codigos){
+	public static List<String> obtenerCodigosGEDEONStr(String pets){
+		
+		List<String> arr = new ArrayList<String>();	
+		if (pets == null){
+			return arr;
+		}
+		
+		String[] splitter = pets.indexOf(",")!=-1?pets.split(","):pets.split(";");
+		int length_ = splitter.length;
+		for (int i=0;i<length_;i++){
+			try {
+				if (splitter[i] != null && !splitter[i].trim().contentEquals("")) {
+					String num = cleanWhitespaces(splitter[i]);
+					arr.add(String.valueOf(Double.valueOf(num).longValue()));
+				}
+			}catch (Throwable excx) {
+				excx.printStackTrace();
+				return null;
+			}
+		}
+			
+		return arr;
+	}
+	
+	public static String serialize(List<Long> codigos){
 		final StringBuilder strB = new StringBuilder();
 		for (int i=0;i< codigos.size();i++){
-			String idPet = codigos.get(i);
+			Long idPet = codigos.get(i);
 			strB.append(String.valueOf(idPet));
 			if (i < (codigos.size() - 1)){
 				strB.append(",");

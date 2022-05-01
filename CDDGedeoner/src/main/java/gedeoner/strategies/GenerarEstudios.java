@@ -353,7 +353,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
     		System.out.println("found la entrega");
     	}*/
 		if (peticiones != null && !"".contentEquals(peticiones)) {				
-			Collection<String> codigosPeticiones = CommonUtils.obtenerCodigos(peticiones);
+			List<String> codigosPeticiones = CommonUtils.obtenerCodigosGEDEONStr(peticiones);
 			FieldViewSet peticionDG = new FieldViewSet(peticionesEntidad);
 			peticionDG.setValues(ConstantesModelo.PETICIONES_46_COD_GEDEON, codigosPeticiones);
 			petsEntrega = dataAccess.searchByCriteria(peticionDG);			
@@ -624,7 +624,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 						fechaFinRealAnalysis_.add(Calendar.DAY_OF_MONTH, -1);
 						fechaFinRealAnalysis = fechaFinRealAnalysis_.getTime();
 						peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_25_DES_FECHA_REAL_FIN, fechaFinRealAnalysis);
-						System.out.println("NO HAY petición de análisis asociada a esta de DG");
+						Long codGedeonDG = (Long) peticionDG_BBDD.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
+						System.out.println("NO HAY petición de análisis asociada a esta de DG (" + codGedeonDG + ")");
 					}else {
 						System.out.println("SI HAY petición de análisis asociada a esta de DG");
 					}
@@ -1068,11 +1069,11 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		
 		String petsRelacionadas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);		
 		if (petsRelacionadas != null && !"".contentEquals(petsRelacionadas)) {				
-			List<String> peticionesAnalisis = CommonUtils.obtenerCodigos(petsRelacionadas);
+			List<Long> peticionesAnalisis = CommonUtils.obtenerCodigosGEDEON(petsRelacionadas);
 			
 			
 			for (int i=0;i<peticionesAnalisis.size();i++) {
-				String candidataPeticionAT = peticionesAnalisis.get(i);
+				Long candidataPeticionAT = peticionesAnalisis.get(i);
 				FieldViewSet peticionBBDDAnalysis = new FieldViewSet(peticionesEntidad);
 				peticionBBDDAnalysis.setValue(ConstantesModelo.PETICIONES_46_COD_GEDEON, candidataPeticionAT);									
 				Collection<FieldViewSet> existenColl = dataAccess.searchByCriteria(peticionBBDDAnalysis);
