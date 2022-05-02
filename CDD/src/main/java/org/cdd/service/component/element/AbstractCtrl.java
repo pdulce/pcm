@@ -1,5 +1,6 @@
 package org.cdd.service.component.element;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -264,10 +265,10 @@ public abstract class AbstractCtrl implements ICtrl {
 				int resultsLength= results.size();
 				for (int i = 0; i < resultsLength; i++) {
 					FieldViewSet fSet = results.get(i);
-					String val_ = fSet.getValue(descrMappings[0]).toString();
+					Serializable val_ = fSet.getValue(descrMappings[0]);
 					String code_ = fSet.getValue(fieldView.getFieldAndEntityForThisOption().getInnerCodeFieldMapping()).toString();
 					val_ = val_ == null ? "" : val_;
-					Option newOption = new Option(code_, val_, valoresPorDef_.contains(val_)/* selected */);
+					Option newOption = new Option(code_, val_.toString(), valoresPorDef_.contains(val_)/* selected */);
 					if (val_.equals(firstOptionValue_ == null ? "" : firstOptionValue_.toString())) {
 						listaOpciones.add(indiceOpciones, newOption);
 					} else {

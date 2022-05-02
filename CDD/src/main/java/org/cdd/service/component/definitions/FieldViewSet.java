@@ -1,12 +1,12 @@
 package org.cdd.service.component.definitions;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -907,24 +907,37 @@ public class FieldViewSet implements Serializable {
 				fieldAbstract = new FieldAbstract(fieldView.getType());
 			}
 			
-			if (fieldAbstract.isDate()) {
+			if (fieldAbstract.isDate()) {				
 				try {
-					if (val_ instanceof String && "".contentEquals(val_.toString()) ){
-						 //nothing
-					}else if (fieldAbstract.isTimestamp() && val_ instanceof String) {						 
-						val_ = new Timestamp(CommonUtils.myDateFormatter.parse(val_.toString()).getTime());
-					}else if (fieldAbstract.isTimestamp() && val_ instanceof Timestamp) {						 
-						//nothing
-					}else if (fieldAbstract.isDate() && val_ instanceof Date) {
-						//nothing
-					}else if (fieldAbstract.isDate() && val_ instanceof Timestamp) {
-						val_ = new Date(((Timestamp)val_).getTime());
-					}else if (fieldAbstract.isDate() && val_ instanceof String) {
-						val_ = CommonUtils.myDateFormatter.parse(val_.toString());
+					if (fieldAbstract.isTimestamp() && val_ instanceof String){
+						if (val_!=null && !"".contentEquals(val_.toString())) {
+							val_ = CommonUtils.myDateFormatter.format(new Timestamp(CommonUtils.myDateFormatter.parse(val_.toString()).getTime()));
+						}
+					}else if (fieldAbstract.isDate() && val_ instanceof String){
+						if (val_!=null  && !"".contentEquals(val_.toString())) {
+							val_ = CommonUtils.myDateFormatter.format(new Date(CommonUtils.myDateFormatter.parse(val_.toString()).getTime()));
+						}
+					}else if (fieldAbstract.isTimestamp() && val_ instanceof Timestamp){
+						if (val_!=null) {
+							val_ = CommonUtils.myDateFormatter.format((Timestamp) val_);
+						}
+					}else if (fieldAbstract.isDate() && val_ instanceof Date){
+						if (val_!=null) {
+							val_ = CommonUtils.myDateFormatter.format((Date) val_);
+						}
+					}else if (fieldAbstract.isTimestamp() && val_ instanceof Date){	
+						long time_ = ((Date) val_).getTime();
+						if (val_!=null) {
+							val_ = CommonUtils.myDateFormatter.format(new Timestamp(time_));
+						}
+					}else if (fieldAbstract.isDate() && val_ instanceof Timestamp){
+						long time_ = ((Timestamp) val_).getTime();
+						if (val_!=null) {
+							val_ = CommonUtils.myDateFormatter.format(new Date(time_));
+						}
 					}
-					
 				} catch (ParseException e) {
-					e.printStackTrace();
+					throw new RuntimeException("Error parsing value datetype: " + e.getMessage());
 				}
 			} else if (fieldAbstract.isLong() && val_ instanceof String) {
 
@@ -938,7 +951,7 @@ public class FieldViewSet implements Serializable {
 				try {
 					val_ = (val_==null || val_.toString().contentEquals("")) ? "": CommonUtils.numberFormatter.parse(val_.toString());
 				} catch (ParseException e) {
-					throw new RuntimeException("Error parsing value decimal: " + e.getMessage());
+					throw new RuntimeException("Error parsing value doubletype: " + e.getMessage());
 				}
 			} else if (fieldAbstract.isBoolean() && val_ instanceof String) {
 				val_ =  ("1".contentEquals(val_.toString()) || "true".contentEquals((val_.toString()).toLowerCase()));

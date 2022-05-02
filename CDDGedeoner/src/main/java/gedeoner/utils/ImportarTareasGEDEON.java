@@ -691,16 +691,17 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 	    }
 	
 	private void linkarPeticionesAEntrega(final FieldViewSet peticionDeEntrega) throws Throwable{
-			
+		
+		Long codGedeonEntrega = (Long) peticionDeEntrega.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
 		String peticionesRelacionadas = (String) peticionDeEntrega.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
 		Map<Double, Collection<FieldViewSet>> petsYoTotalEntrega = obtenerPeticionesEntrega(this.dataAccess, peticionesRelacionadas, 0.0, Double.MAX_VALUE);
 		Map.Entry<Double, Collection<FieldViewSet>> entryOfEntrega = petsYoTotalEntrega.entrySet().iterator().next();
 		Double total_uts_entrega = entryOfEntrega.getKey();
 		Collection<FieldViewSet> peticionesEntrega = entryOfEntrega.getValue();
 		
-		Long codGedeonEntrega = (Long) peticionDeEntrega.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
+		
 		for (FieldViewSet peticionRelacionada : peticionesEntrega){
-			
+			//Long codGedeon = (Long) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
 			Double uts_estimadas = (Double) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
 			if (uts_estimadas == 0.0) {
 				uts_estimadas = (Double) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES);
@@ -711,9 +712,9 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 			}
 			peticionRelacionada.setValue(ConstantesModelo.PETICIONES_47_PESO_EN_VERSION, pesoEnVersion);
 			peticionRelacionada.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA, true);
-			if (codGedeonEntrega != null && 
-					!"".contentEquals(codGedeonEntrega.toString()) && !"0".contentEquals(codGedeonEntrega.toString())) {
+			if (codGedeonEntrega != null) {
 				peticionRelacionada.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, codGedeonEntrega);
+				peticionDeEntrega.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, peticionRelacionada.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO));
 			}
 			
 			String estadoTrabajo = (String)	peticionRelacionada.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
