@@ -334,6 +334,22 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					
 					if (peticionListEnBBDD != null && !peticionListEnBBDD.isEmpty()){
 						peticionEnBBDD = peticionListEnBBDD.iterator().next();
+						if (registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA) == null) {
+							registro.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
+							registro.setValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN));
+							registro.setValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
+							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_10_SERVICIO));
+							registro.setValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO));
+							//registro.setValue(ConstantesModelo.PETICIONES_7_ESTADO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_7_ESTADO));
+							registro.setValue(ConstantesModelo.PETICIONES_13_ID_TIPO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_13_ID_TIPO));
+							registro.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA));
+							if (peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON) != null && !"".contentEquals(peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON).toString())) {
+								registro.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON));
+							}
+							registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO));
+							registro.setValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME));
+						}
+						registro.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE));
 						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
 						String centroDestinoPeticion = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
 						String idsAsociadas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
@@ -464,6 +480,9 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 						if (tipoPeticion == null || tipoPeticion.equals("")) {
 							registro.setValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO));
 							tipoPeticion = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_45_VOLATILE_TIPO);
+							if (tipoPeticion == null) {
+								tipoPeticion = "Mejora desarrollo";
+							}
 						}
 						
 						Date fecAlta = (Date) registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
@@ -582,7 +601,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 								if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
 									IDs_changed.add(String.valueOf(codGEDEON));
 								}
-								registro.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, duplicado.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE));
+								//registro.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, duplicado.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE));
 								int ok = this.dataAccess.modifyEntity(registro);
 								if (ok < 1) {
 									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
@@ -737,7 +756,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					"Trabajo instalado (en PreExpl.)");
 			} else if (situacionEntrega.toString().toLowerCase().indexOf("finalizada") != -1){
 				String estadoPetAsociada = (String) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_7_ESTADO);
-				if (!estadoPetAsociada.equals("Petición de trabajo finalizado") && !estadoPetAsociada.equals("Soporte finalizado") && !estadoPetAsociada.equals("Trabajo anulado")){
+				if (!estadoPetAsociada.contentEquals("Petición de trabajo finalizado") && !estadoPetAsociada.contentEquals("Soporte finalizado") && !estadoPetAsociada.contentEquals("Trabajo anulado")){
 					peticionRelacionada.setValue(ConstantesModelo.PETICIONES_7_ESTADO,	estadoPetAsociada);
 				}
 			}
