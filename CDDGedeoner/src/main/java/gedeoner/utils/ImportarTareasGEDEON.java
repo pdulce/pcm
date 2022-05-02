@@ -666,7 +666,10 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				// haz solo un buscar por criteria y luego recorres la lista sin invocar a BBDD
 				Iterator<FieldViewSet> itePeticionesA_DG = existenColl.iterator();
 				while (itePeticionesA_DG.hasNext()) {
-					peticionDG  = itePeticionesA_DG.next();																	
+					peticionDG  = itePeticionesA_DG.next();		
+					if (peticionDG.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES) == null) {
+						continue;
+					}
 					Double utsEstimadas = (Double) peticionDG.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
 					if (utsEstimadas == 0) {
 						Double utsReales = (Double) peticionDG.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES);

@@ -746,15 +746,15 @@ public class FieldViewSet implements Serializable {
 				}
 			} else if (fieldAbstract.isLong() && value instanceof String) {
 
-				return Long.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
+				return "".contentEquals(value.toString()) ? null : Long.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
 
 			} else if (fieldAbstract.isInteger() && value instanceof String) {
 
-				return Integer.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
+				return "".contentEquals(value.toString()) ? null : Integer.valueOf(value.toString().replaceAll(PCMConstants.REGEXP_POINT, ""));
 
 			} else if (fieldAbstract.isDecimal() && value instanceof String) {
 				try {
-					return CommonUtils.numberFormatter.parse(value.toString());
+					return "".contentEquals(value.toString()) ? null : CommonUtils.numberFormatter.parse(value.toString());
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
