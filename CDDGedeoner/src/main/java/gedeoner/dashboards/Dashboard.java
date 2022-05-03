@@ -113,8 +113,8 @@ public class Dashboard extends GenericHighchartModel {
 			FieldViewSet estudiosFieldViewSet = new FieldViewSet(estudiosEntidad);
 			if (_data.getAttribute(PCMConstants.PALETA_ID) != null ) {			
 				String qualifiedName_Id = estudiosEntidad.getName().concat(".").concat(estudiosEntidad.searchField(ConstantesModelo.ESTUDIOS_11_ID_SERVICIO).getName());
-				IFieldValue fValuesServices = (IFieldValue) _data.getAttribute(qualifiedName_Id);
-				estudiosFieldViewSet.setNamedValue(qualifiedName_Id, fValuesServices);				
+				Collection<String> fValuesServices = ((IFieldValue) _data.getAttribute(qualifiedName_Id)).getValues();
+				estudiosFieldViewSet.setValues(qualifiedName_Id, fValuesServices);				
 			}
 			Collection<String> idsOfEstudios = new ArrayList<String>();
 			List<FieldViewSet> estudiosLista = dataAccess_.searchByCriteria(estudiosFieldViewSet, new String []{estudiosEntidad.getName() + ".id"}, "asc");

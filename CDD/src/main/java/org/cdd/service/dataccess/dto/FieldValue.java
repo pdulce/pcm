@@ -129,11 +129,6 @@ public class FieldValue implements IFieldValue, Serializable {
 	}
 	
 	@Override
-	public String toString() {
-		return getValue();
-	}
-
-	@Override
 	public String getValue() {
 		if (this.values == null) {
 			this.values = new ArrayList<Map<String, Boolean>>();

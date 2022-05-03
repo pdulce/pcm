@@ -288,8 +288,12 @@ public class FieldViewSet implements Serializable {
 					
 					List<String> stringVals = new ArrayList<String>();
 					for (Object val: values) {						
-						if (!"".equals(val.toString())){
-							stringVals.add(val.toString());
+						if (!"".contentEquals(val.toString())){
+							if (val instanceof FieldValue) {
+								stringVals.addAll(((FieldValue)val).getValues());
+							}else {
+								stringVals.add(val.toString());
+							}
 						}
 					}
 					
