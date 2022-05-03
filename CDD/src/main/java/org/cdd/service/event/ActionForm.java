@@ -551,7 +551,7 @@ public class ActionForm extends AbstractAction {
 						}
 					}
 					
-					if (this.isTransactional()) {	
+					if (this.isTransactional()) {						
 						this.doTransaction(form_, dataAccess, isAuditOn);
 						dataAccess.commit();
 					}
@@ -567,6 +567,7 @@ public class ActionForm extends AbstractAction {
 							throw stratPostExc;
 						}
 					}
+					
 					if (this.isTransactional()) {
 						final Iterator<FieldViewSet> iterador = fCollectionIesimo.getFieldViewSets().iterator();
 						while (iterador.hasNext()) {

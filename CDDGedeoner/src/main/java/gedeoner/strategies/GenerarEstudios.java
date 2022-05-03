@@ -228,6 +228,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		try {
 			initEntitiesFactories(req.getEntitiesDictionary());
 			
+			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, null);
+			
 			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
 				return;
 			}
@@ -903,6 +905,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							// aplicamos la reduccion por soportes al CD que se hayan realizado en este proyecto y se tengan datos
 							soporteAlCD += CommonUtils.roundWith2Decimals(jornadasPruebasCD*PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD);
 							jornadasPruebasCD = CommonUtils.roundWith2Decimals(jornadasPruebasCD*(1.0 - PORCENTAJE_DEDICACION_A_SOPORTE_AL_CD));//valor entre 0 y 1
+							pesoEnEntrega = pesoEnEntrega==null? 1.0: pesoEnEntrega;							
 							jornadasPruebasRestoVersion = jornadasPruebasCD*(1.0 - pesoEnEntrega);
 							jornadasPruebasCD = jornadasPruebasCD*(pesoEnEntrega);
 							
@@ -956,7 +959,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 							resumenPorPeticion.setValue(ConstantesModelo.DETAILCICLO_VIDA_PETICION_25_FECHA_FIN_PRUEBASCD, fechaFinPruebasCD);
 							
 							jornadasPruebasCD = CommonUtils.jornadasDuracion(fechaInicioPruebasCD, fechaFinPruebasCD);
-							
+							pesoEnEntrega = pesoEnEntrega==null?1.0: pesoEnEntrega;
 							jornadasPruebasRestoVersion = jornadasPruebasCD*(1.0 - pesoEnEntrega);
 							jornadasPruebasCD = jornadasPruebasCD*(pesoEnEntrega);							
 						

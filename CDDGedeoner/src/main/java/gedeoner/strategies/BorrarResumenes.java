@@ -47,12 +47,17 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
+		
 		try {
+			
+			initEntitiesFactories(req.getEntitiesDictionary());
+			
+			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, null);
 			
 			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
 				return;
 			}
-			initEntitiesFactories(req.getEntitiesDictionary());
+			
 			
 			this.validParameters(req);
 			
