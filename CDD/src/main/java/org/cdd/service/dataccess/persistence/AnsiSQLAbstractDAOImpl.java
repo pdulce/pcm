@@ -127,7 +127,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 							pstmt.setDate(contador++, null);
 						}
 					} else if (field.getAbstractField().isBoolean()) {
-						pstmt.setInt(contador++, "1".equals(value.toString()) || "true".equals(value.toString()) ? 1 : 0);
+						pstmt.setInt(contador++, (value!=null && ("1".equals(value.toString()) || "true".equals(value.toString()))) ? 1 : 0);
 					} else if (!field.getAbstractField().isBlob()) {
 						pstmt.setObject(contador++, value);
 					} else if (field.getAbstractField().isBlob()) {
@@ -251,7 +251,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 						pstmt.setDate(contadorArgs, null);
 					}
 				} else if (field.getAbstractField().isBoolean()) {
-					pstmt.setInt(contadorArgs, "1".equals(value.toString()) || "true".equals(value.toString()) ? 1 : 0);
+					pstmt.setInt(contadorArgs, (value != null && ("1".equals(value.toString()) || "true".equals(value.toString()))) ? 1 : 0);
 				} else if (!field.getAbstractField().isBlob()) {
 					pstmt.setObject(contadorArgs, value);
 				} else if (field.getAbstractField().isString()) {
@@ -1488,7 +1488,7 @@ public abstract class AnsiSQLAbstractDAOImpl extends AbstractDAOImpl implements 
 									pstmt_.setObject(((contadorArgumentos + 1) + nArgs_), val_);
 								}
 							} else if (fieldAbstract.isBoolean()) {//OJO: que puede venir un 1...
-								pstmt_.setInt(contadorArgumentos + 1, Integer.valueOf(val_).intValue());
+								pstmt_.setInt(contadorArgumentos+1, (val_!=null && ("1".equals(val_.toString()) || "true".equals(val_.toString()))) ? 1 : 0);
 								if (!hasCounterSQLEmbbeded() && offset_ != -1) {
 									pstmt_.setInt(contadorArgumentos + 1, Integer.valueOf(val_).intValue());
 								} else if (hasCounterSQLEmbbeded() && hasDuplicatedCriteriaInEmbbededCounterSQL() && offset_ != -1) {

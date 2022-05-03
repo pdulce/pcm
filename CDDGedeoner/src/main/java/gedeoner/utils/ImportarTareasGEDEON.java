@@ -334,19 +334,36 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					
 					if (peticionListEnBBDD != null && !peticionListEnBBDD.isEmpty()){
 						peticionEnBBDD = peticionListEnBBDD.iterator().next();
-						if (registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA) == null) {
+						
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN));
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_10_SERVICIO));
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO));
-							//registro.setValue(ConstantesModelo.PETICIONES_7_ESTADO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_7_ESTADO));
+						}							
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_13_ID_TIPO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_13_ID_TIPO));
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA));
-							if (peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON) != null && !"".contentEquals(peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON).toString())) {
-								registro.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON));
-							}
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null 
+								&& peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON) != null && !"".contentEquals(peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON).toString())) {
+							registro.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON));
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO));
+						}
+						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
 							registro.setValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME));
 						}
 						registro.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE));
@@ -442,7 +459,9 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 						System.out.println ("No actualizamos/insertamos petición GEDEON " + codGEDEON);
 						break;
 					}
-					
+					//System.out.println("estim: actuales" + registro.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES));
+					//System.out.println("estim: iniciales" + registro.getValue(ConstantesModelo.PETICIONES_42_HORAS_ESTIMADAS_INICIALES));
+					//System.out.println("estim: horas reales" + registro.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES));
 					if (title == null) {
 						registro.setValue(ConstantesModelo.PETICIONES_2_TITULO,
 								registro.getValue(ConstantesModelo.PETICIONES_3_DESCRIPCION));
@@ -507,7 +526,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 							registro.setValue(ConstantesModelo.PETICIONES_13_ID_TIPO, tipoPeticionBBDD.getValue(ConstantesModelo.TIPOS_PETICIONES_1_ID));
 						}
 						
-						registro.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA,false);
+						//registro.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA,false);
 						if (tipoPeticion.toString().indexOf("Pequeño evolutivo") != -1){						
 							Double UTs_estimadas = (Double) registro.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
 							Double UTs_realizadas = (Double) registro.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES);
