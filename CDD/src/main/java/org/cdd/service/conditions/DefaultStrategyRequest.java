@@ -12,7 +12,7 @@ import org.cdd.service.dataccess.dto.Datamap;
 
 public abstract class DefaultStrategyRequest implements IStrategy {
 	@Override
-	public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess, 
+	public void doBussinessStrategy(final Datamap datamap, final IDataAccess dataAccess, final Form formulario,
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 		PCMConfigurationException {

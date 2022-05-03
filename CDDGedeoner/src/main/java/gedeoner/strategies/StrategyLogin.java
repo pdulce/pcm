@@ -7,6 +7,7 @@ import org.cdd.common.PCMConstants;
 import org.cdd.common.exceptions.DatabaseException;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.Form;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.conditions.DefaultStrategyLogin;
 import org.cdd.service.dataccess.IDataAccess;
@@ -49,7 +50,7 @@ public class StrategyLogin extends DefaultStrategyLogin {
 	
 
 	@Override
-	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, 
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Form formulario,
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {

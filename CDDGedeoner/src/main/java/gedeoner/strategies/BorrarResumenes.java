@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.cdd.common.PCMConstants;
 import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
+import org.cdd.service.component.Form;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.FieldViewSetCollection;
 import org.cdd.service.conditions.DefaultStrategyRequest;
@@ -44,6 +45,7 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 	
 	@Override
 	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, 
+			final Form formulario,
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			final Collection<FieldViewSet> fieldViewSets) throws StrategyException,
 			PCMConfigurationException {
@@ -52,7 +54,7 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			
 			initEntitiesFactories(req.getEntitiesDictionary());
 			
-			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, null);
+			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, formulario);
 			
 			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
 				return;

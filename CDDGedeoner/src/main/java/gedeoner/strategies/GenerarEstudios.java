@@ -21,6 +21,7 @@ import org.cdd.common.exceptions.PCMConfigurationException;
 import org.cdd.common.exceptions.StrategyException;
 import org.cdd.common.exceptions.TransactionException;
 import org.cdd.common.utils.CommonUtils;
+import org.cdd.service.component.Form;
 import org.cdd.service.component.definitions.FieldViewSet;
 import org.cdd.service.component.definitions.IFieldView;
 import org.cdd.service.component.definitions.IRank;
@@ -220,7 +221,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 	}
 	
 	@Override
-	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess,
+	public void doBussinessStrategy(final Datamap req, final IDataAccess dataAccess, final Form formulario,
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException, PCMConfigurationException {
@@ -228,7 +229,7 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		try {
 			initEntitiesFactories(req.getEntitiesDictionary());
 			
-			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, null);
+			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, formulario);
 			
 			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
 				return;

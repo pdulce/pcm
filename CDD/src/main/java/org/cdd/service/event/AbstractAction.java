@@ -203,7 +203,7 @@ public abstract class AbstractAction implements IAction {
 			Collection<FieldViewSet> fieldViewSetCollection = fieldCollection != null
 					? fieldCollection.copyOf().getFieldViewSets()
 					: new ArrayList<FieldViewSet>();
-			strategy.doBussinessStrategy(this.datamap, dataAccess, form_.getFieldViewSets(), fieldViewSetCollection);
+			strategy.doBussinessStrategy(this.datamap, dataAccess, form_, form_.getFieldViewSets(), fieldViewSetCollection);
 			strategy.doBussinessStrategyQuery(this.datamap, dataAccess, form_);
 			fieldCollection.getFieldViewSets().clear();
 			fieldCollection.getFieldViewSets().addAll(fieldViewSetCollection);
@@ -287,7 +287,7 @@ public abstract class AbstractAction implements IAction {
 		while (iteStrategies.hasNext()) {
 			final IStrategy strategy = iteStrategies.next();
 			if (strategy != null) {
-				strategy.doBussinessStrategy(this.datamap, dataAccess,
+				strategy.doBussinessStrategy(this.datamap, dataAccess, form_,
 						form_.getFieldViewSets(),
 						fieldCollection != null ? fieldCollection.getFieldViewSets() : new ArrayList<FieldViewSet>());
 			}

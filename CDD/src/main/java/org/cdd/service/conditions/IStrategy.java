@@ -13,7 +13,7 @@ import org.cdd.service.dataccess.dto.Datamap;
 public interface IStrategy {
 	
 	
-	public void doBussinessStrategy(Datamap datamap, IDataAccess dataAccess, final Collection<FieldViewSet> fieldViewSetsCriteria, 
+	public void doBussinessStrategy(Datamap datamap, IDataAccess dataAccess, final Form formulario, final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			Collection<FieldViewSet> bussinessObjects)	throws StrategyException, PCMConfigurationException;
 	
 	public void doBussinessStrategyQuery(Datamap datamap, IDataAccess dataAccess, final Form formulario) 

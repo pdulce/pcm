@@ -19,7 +19,7 @@ import org.cdd.service.event.IAction;
 public class DefaultStrategyCreate implements IStrategy {
 	
 	@Override
-	public void doBussinessStrategy(final Datamap context, final IDataAccess dataAccess, 
+	public void doBussinessStrategy(final Datamap context, final IDataAccess dataAccess, final Form formulario,
 			final Collection<FieldViewSet> fieldViewSetsCriteria, 
 			final Collection<FieldViewSet> fieldViewSets)
 			throws StrategyException {
