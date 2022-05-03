@@ -97,7 +97,10 @@ public class ImportarTareasGEDEON_IGSS extends ImportarTareasGEDEON{
 			
 			File[] filesScanned = dir_importacion.listFiles();
 			List<File> listaOrdenada = new ArrayList<File>();
-			for (int i=0;i<filesScanned.length;i++){
+			for (int i=filesScanned.length-1;i>=0;i--){
+				if (filesScanned[i].getName().startsWith("~$")) {
+					continue;
+				}
 				listaOrdenada.add(filesScanned[i]);
 			}
 			Collections.sort(listaOrdenada, new ComparatorByFilename());

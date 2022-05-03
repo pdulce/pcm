@@ -325,7 +325,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				
 				this.dataAccess.setAutocommit(false);
 				// grabamos cada fila en BBDD
-				for (final FieldViewSet registro : filas) {
+				for (FieldViewSet registro : filas) {
 					
 					Long codGEDEON = (Long) registro.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);					
 					FieldViewSet peticionEnBBDD = new FieldViewSet(peticionesEntidad);
@@ -334,39 +334,47 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 					
 					if (peticionListEnBBDD != null && !peticionListEnBBDD.isEmpty()){
 						peticionEnBBDD = peticionListEnBBDD.iterator().next();
+						Date fechaAlta = (Date) registro.getValue(ConstantesModelo.PETICIONES_17_FECHA_DE_ALTA);
+						if (fechaAlta == null) {
+							//clono el registro, excepto el campo 
+							String peticionesRelacionadas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
+							registro = peticionListEnBBDD.iterator().next();
+							registro.setValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS, peticionesRelacionadas);
+						}else {
 						
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
+							if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO));
+							}
+							if (registro.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN));
+							}
+							if (registro.getValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
+							}
+							if (registro.getValue(ConstantesModelo.PETICIONES_10_SERVICIO) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_10_SERVICIO));
+							}
+							if (registro.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO));
+							}							
+							if (registro.getValue(ConstantesModelo.PETICIONES_13_ID_TIPO) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_13_ID_TIPO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_13_ID_TIPO));
+							}
+							if (registro.getValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA));
+							}
+							if (peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON) != null && !"".contentEquals(peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON).toString())) {
+								registro.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON));
+							}
+							if (registro.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO));
+							}
+							if (registro.getValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME) == null) {
+								registro.setValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME));
+							}
+							registro.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE));
 						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_9_SUBDIRECCION_ORIGEN));
-						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_8_ENTIDAD_ORIGEN));
-						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_10_SERVICIO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_10_SERVICIO));
-						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_12_SERVICIO_DESTINO));
-						}							
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_13_ID_TIPO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_13_ID_TIPO));
-						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_34_CON_ENTREGA));
-						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null 
-								&& peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON) != null && !"".contentEquals(peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON).toString())) {
-							registro.setValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_35_ID_ENTREGA_GEDEON));
-						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_26_ID_APLICATIVO));
-						}
-						if (registro.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO) == null) {
-							registro.setValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_VOLATILE_27_PROYECTO_NAME));
-						}
-						registro.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE));
+						
 						/**** linkar padres e hijos: hay dos tipos de enganche, de abuelo(SGD) a padre(AT), y de padre(AT) a hijos(DG)**/
 						String centroDestinoPeticion = (String) peticionEnBBDD.getValue(ConstantesModelo.PETICIONES_11_CENTRO_DESTINO);
 						String idsAsociadas = (String) registro.getValue(ConstantesModelo.PETICIONES_36_PETS_RELACIONADAS);
@@ -431,6 +439,17 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 							}//for
 														
 						}//else
+						
+						if (fechaAlta == null) {
+							int ok = this.dataAccess.modifyEntity(registro);
+							if (ok < 1) {
+								throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
+							}
+							dataAccess.commit();
+							System.out.println ("Actualizamos petición GEDEON solo a nivel de referencias a padres-hijos" + codGEDEON);
+							continue;
+						}
+						
 					}//if existe en BBDD, normalizo
 															
 					String servicioAtiendePeticion = destinoPeticion(registro, peticionEnBBDD);
@@ -619,18 +638,18 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 								Timestamp tStampFecEstadoModifEnBBDD = (Timestamp) duplicado.getValue(ConstantesModelo.PETICIONES_37_FEC_ESTADO_MODIF);
 								if (tStampFecEstadoModifReg != null && (tStampFecEstadoModifEnBBDD == null || tStampFecEstadoModifReg.after(tStampFecEstadoModifEnBBDD))){//ha sido modificado, lo incluyo en la lista de IDs modificados
 									IDs_changed.add(String.valueOf(codGEDEON));
-								}
-								//registro.setValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE, duplicado.getValue(ConstantesModelo.PETICIONES_1_ID_SEQUENCE));
+								}								
 								int ok = this.dataAccess.modifyEntity(registro);
 								if (ok < 1) {
 									throw new Throwable(ERR_IMPORTANDO_FICHERO_EXCEL);
 								}
 								System.out.println ("SI Actualizamos petición GEDEON " + codGEDEON);
 							}
+							this.dataAccess.commit();
 							numImportadas++;
-							if (numImportadas%50 == 0){
+							/*if (numImportadas%50 == 0){
 								this.dataAccess.commit();
-							}
+							}*/
 						}
 						
 					} catch (Throwable excc11) {
@@ -720,7 +739,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 		
 		
 		for (FieldViewSet peticionRelacionada : peticionesEntrega){
-			//Long codGedeon = (Long) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
+			Long codGedeonHija = (Long) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_46_COD_GEDEON);
 			Double uts_estimadas = (Double) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_28_HORAS_ESTIMADAS_ACTUALES);
 			if (uts_estimadas == 0.0) {
 				uts_estimadas = (Double) peticionRelacionada.getValue(ConstantesModelo.PETICIONES_29_HORAS_REALES);
@@ -784,7 +803,7 @@ public abstract class ImportarTareasGEDEON extends AbstractExcelReader{
 				}
 			}
 			
-			//System.out.println("peso adjudicado");
+			System.out.println("actualizando peticion hija: " + codGedeonHija + " con la id-entrega: "+ codGedeonEntrega);
 							
 			int updatedHija = this.dataAccess.modifyEntity(peticionRelacionada);
 			if (updatedHija != 1) {
