@@ -176,16 +176,8 @@ public class GenerarEstudios extends DefaultStrategyRequest {
 		fieldViews4FilterFecAndUts_.add(fViewMayorFecTram);
 		
 		FieldViewSet filterPeticiones = new FieldViewSet(dataAccess.getDictionaryName(), peticionesEntidad.getName(), fieldViews4FilterFecAndUts_);
-		if (fViewMinorFecTram.getEntityField() != null) {											
-			filterPeticiones.setValue(fViewMinorFecTram.getEntityField().getMappingTo(), fecIniEstudio);
-		}else {
-			filterPeticiones.setValue(fViewMinorFecTram.getQualifiedContextName(), fecIniEstudio);
-		}
-		if (fViewMayorFecTram.getEntityField() != null) {											
-			filterPeticiones.setValue(fViewMayorFecTram.getEntityField().getMappingTo(), fecFinEstudio);
-		}else {
-			filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
-		}	
+		filterPeticiones.setValue(fViewMinorFecTram.getQualifiedContextName(), fecIniEstudio);
+		filterPeticiones.setValue(fViewMayorFecTram.getQualifiedContextName(), fecFinEstudio);
 		
 		FieldViewSet entregaFilter = new  FieldViewSet(tiposPeticionesEntidad);
 		entregaFilter.setValue(ConstantesModelo.TIPOS_PETICIONES_2_NOMBRE, "Entrega");
