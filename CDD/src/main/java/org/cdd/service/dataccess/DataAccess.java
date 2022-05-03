@@ -498,8 +498,15 @@ public class DataAccess implements IDataAccess {
 			filter.addFieldView(fieldId);
 			String[] orderByColumns= {fieldId.getQualifiedContextName()};
 			List<FieldViewSetCollection> collectionOfResults = searchAll(filter, orderByColumns, IAction.ORDEN_DESCENDENTE, 1);//tomo el primero porque he ordenado de forma conveniente
-			if (!collectionOfResults.isEmpty()) {
-				return collectionOfResults.iterator().next().getFieldViewSets().get(0);
+			Iterator<FieldViewSetCollection> iteFSets = collectionOfResults.iterator();
+			while (iteFSets.hasNext()) {
+				Iterator<FieldViewSet> fsetColIterator = iteFSets.next().getFieldViewSets().iterator();
+				while (fsetColIterator.hasNext()) {
+					FieldViewSet fSet = fsetColIterator.next();
+					if (fSet.getEntityDef().getName().contentEquals(fieldId.getEntityField().getEntityDef().getName())) {
+						return fSet;
+					}
+				}
 			}
 			
 		}

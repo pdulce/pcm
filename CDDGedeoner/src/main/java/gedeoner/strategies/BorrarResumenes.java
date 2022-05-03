@@ -53,9 +53,7 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 		try {
 			
 			initEntitiesFactories(req.getEntitiesDictionary());
-			
-			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, formulario);
-			
+						
 			if (!AbstractAction.isTransactionalEvent(req.getParameter(PCMConstants.EVENT))){
 				return;
 			}
@@ -86,6 +84,8 @@ public class BorrarResumenes extends DefaultStrategyRequest{
 			FieldViewSetCollection fsetColl2 = new FieldViewSetCollection();
 			fsetColl2.getFieldViewSets().add(resumenes2Filter);
 			dataAccess.deleteEntities(fsetColl2);
+			
+			new FiltrarPreEstudios().doBussinessStrategyQuery(req, dataAccess, formulario);			
 
 			
 		} catch (final StrategyException ecxx) {
