@@ -107,6 +107,7 @@ public class StrategyLogin extends DefaultStrategyLogin {
 			//recogemos el id de paleta, y vamos a BBDD a por cada uno de los colores hexadecimales de esta paleta
 			String paletaID = req.getParameter(PALETA_PARAM);
 			if (paletaID !=null && !"".contentEquals(req.getParameter(PALETA_PARAM))) {
+				req.removeAttribute(PCMConstants.PALETA_ID);
 				FieldViewSet paletaFSet = new FieldViewSet(StrategyLogin.paletaColores);
 				paletaFSet.setValue(ConstantesModelo.PALETACOLORES_1_ID, paletaID);				
 				paletaFSet = dataAccess.searchEntityByPk(paletaFSet);
