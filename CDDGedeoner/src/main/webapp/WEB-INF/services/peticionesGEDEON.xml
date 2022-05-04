@@ -316,11 +316,18 @@
 					<fieldView mappingTo="1" hidden="true" />
 					<fieldView mappingTo="46" editable="false" />					
 					<fieldView mappingTo="2" editable="false" />
+					<fieldView mappingTo="34" editable="false" />
+					<fieldView mappingTo="35" editable="false" />
 					<fieldView separator="br" />
 					<fieldView separator="br" />
 					<fieldView mappingTo="26" type="select" editable="false">
 						<optionValues entitymodel="aplicativo"
 								descrMappingTo="2">
+						</optionValues>
+					</fieldView>
+					<fieldView mappingTo="13" type="checkbox" editable="false" size="8">
+						<optionValues entitymodel="tiposPeticiones"
+							descrMappingTo="2">
 						</optionValues>
 					</fieldView>
 					
@@ -330,7 +337,10 @@
 					<fieldView separator="br" />
 					<fieldView separator="br" />
 					<fieldView mappingTo="4" editable="false" />
+					<fieldView separator="br" />
+					<fieldView separator="br" />
 					<fieldView mappingTo="36" editable="false" />
+					<fieldView separator="br" />
 					<fieldView separator="br" />
 					<fieldView mappingTo="5" editable="false" />
 					<fieldView mappingTo="6" editable="false" />
@@ -338,13 +348,13 @@
 					<fieldView mappingTo="8" editable="false" />
 					<fieldView separator="br" />
 					<fieldView separator="br" />					
-					<fieldView mappingTo="9" type="select" editable="false"><!-- Subdireccion Origen de la peticion -->
+					<fieldView mappingTo="9" type="select" editable="false" size="1"><!-- Subdireccion Origen de la peticion -->
 						<optionValues entitymodel="subdireccion" descrMappingTo="3">
 						</optionValues>
 					</fieldView>
 					<fieldView mappingTo="10" editable="false" />
 					<fieldView mappingTo="11" editable="false" />
-					<fieldView mappingTo="12" type="select" editable="false" size="15">
+					<fieldView mappingTo="12" type="select" editable="false" size="1">
 						<optionValues entitymodel="servicio"
 							descrMappingTo="2">
 						</optionValues>
@@ -354,11 +364,7 @@
 					<fieldView mappingTo="28" editable="false" />
 					<fieldView mappingTo="29" editable="false" />
 					<fieldView mappingTo="32" editable="false" />
-					<fieldView mappingTo="13" type="checkbox" editable="false" size="8">
-						<optionValues entitymodel="tiposPeticiones"
-							descrMappingTo="2">
-						</optionValues>
-					</fieldView>					
+										
 					<fieldView mappingTo="15" editable="false" />
 					<fieldView mappingTo="16" editable="false" />
 					<fieldView separator="br" />
@@ -374,8 +380,7 @@
 					<fieldView mappingTo="23" editable="false" />
 					<fieldView mappingTo="24" editable="false" />
 					<fieldView mappingTo="25" editable="false" />					
-					<fieldView mappingTo="34" editable="false" />
-					<fieldView mappingTo="35" editable="false" />
+					
 				</fieldViewSet>
 			</form>
 			
