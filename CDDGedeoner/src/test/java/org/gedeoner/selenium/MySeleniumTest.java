@@ -36,17 +36,74 @@ public class MySeleniumTest extends TestCase{
 			driver = null;
 		}
 	}
+		
+	
+	@Test (groups = { "login"})	
+	public void testLoginErrUser() {
+		makeAccessWithData("testLoginErrUser");
+	}
+	
+	@Test (groups = { "login"})	
+	public void testLoginErrPass() {
+		makeAccessWithData("testLoginErrPass");
+	}
+	
+	@Test (groups = { "login"})	
+	public void testLoginSucess() {
+		makeAccessWithData("testLoginSucess");
+	}
+	
+	
+	
+	private void makeAccessWithData(String testMethod) {
+
+		MemoryData memoryData =  MemoryData.getUniqueInstance();
+		
+		try {			
+			if (driver == null) {			
+				driver = new ChromeDriver();//EdgeDriver()
+			}
+			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
+			
+			driver.get(memoryData.getURL());
+			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
+			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(By.id("entryForm.user")));
+			WebElement entryUserForm = waitForTree.until(presenceOfElementLocated(By.id("entryForm.user")));
+			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
+
+			entryUserForm.sendKeys(datatest.get("entryForm.user"));
+			entryPaswdForm.sendKeys(datatest.get("entryForm.password"));
+
+			WebElement submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
+			submitFormElement.click();
+
+			WebDriverWait waitForDivErrMsg = new WebDriverWait(driver, Long.valueOf(10));
+			String expression = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
+			waitForDivErrMsg.until(ExpectedConditions
+					.visibilityOfElementLocated(expression.startsWith("/") ? By.xpath(expression) : By.id(expression)));
+			WebElement labelErr = waitForDivErrMsg.until(
+					presenceOfElementLocated(expression.startsWith("/") ? By.xpath(expression) : By.id(expression)));
+
+			Assert.assertTrue(labelErr.getText().contentEquals(datatest.get(MemoryData.VALUE_2_EVALUATE)));
+
+		} catch (Throwable exc) {
+			Assert.fail("Error in " + testMethod + ": " + exc.getMessage());
+		}finally {
+			tearDown();
+		}
+	}
 	
 	@Test (groups = { "login", "query"})	
 	public void testQueryGedeones() {
 		
-		if (driver == null) {			
-			driver = new ChromeDriver();//EdgeDriver()
-		}
 		System.out.println("testing queryGedeones WebDriver SELENIUM");		 	
 		MemoryData memoryData =  MemoryData.getUniqueInstance();
 		
-		try {			
+		try {
+			if (driver == null) {			
+				driver = new ChromeDriver();//EdgeDriver()
+			}
+
 			/*** BLOQUE PARA VALIDARTE CON EXITO ***/
 			Map<String, String> datatest = new HashMap<String, String>();
 			datatest.putAll(memoryData.getDatosEscenarioTest("testLoginSucess"));
@@ -99,58 +156,4 @@ public class MySeleniumTest extends TestCase{
 		}
 	}
 	
-	@Test (groups = { "login"})	
-	public void testLoginErrUser() {
-		makeAccessWithData("testLoginErrUser");
-	}
-	
-	@Test (groups = { "login"})	
-	public void testLoginErrPass() {
-		makeAccessWithData("testLoginErrPass");
-	}
-	
-	@Test (groups = { "login"})	
-	public void testLoginSucess() {
-		makeAccessWithData("testLoginSucess");
-	}
-
-	
-	
-	private void makeAccessWithData(String testMethod) {
-
-		MemoryData memoryData =  MemoryData.getUniqueInstance();
-		if (driver == null) {			
-			driver = new ChromeDriver();//EdgeDriver()
-		}
-		try {			
-			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
-			
-			driver.get(memoryData.getURL());
-			WebDriverWait waitForTree = new WebDriverWait(driver, Long.valueOf(10));
-			waitForTree.until(ExpectedConditions.visibilityOfElementLocated(By.id("entryForm.user")));
-			WebElement entryUserForm = waitForTree.until(presenceOfElementLocated(By.id("entryForm.user")));
-			WebElement entryPaswdForm = driver.findElement(By.name("entryForm.password"));
-
-			entryUserForm.sendKeys(datatest.get("entryForm.user"));
-			entryPaswdForm.sendKeys(datatest.get("entryForm.password"));
-
-			WebElement submitFormElement = driver.findElement(By.id(datatest.get(MemoryData.SUBMIT_ELEMENT)));
-			submitFormElement.click();
-
-			WebDriverWait waitForDivErrMsg = new WebDriverWait(driver, Long.valueOf(10));
-			String expression = datatest.get(MemoryData.ELEMENT_2_EVALUATE);
-			waitForDivErrMsg.until(ExpectedConditions
-					.visibilityOfElementLocated(expression.startsWith("/") ? By.xpath(expression) : By.id(expression)));
-			WebElement labelErr = waitForDivErrMsg.until(
-					presenceOfElementLocated(expression.startsWith("/") ? By.xpath(expression) : By.id(expression)));
-
-			Assert.assertTrue(labelErr.getText().contentEquals(datatest.get(MemoryData.VALUE_2_EVALUATE)));
-
-		} catch (Throwable exc) {
-			Assert.fail("Error in " + testMethod + ": " + exc.getMessage());
-		}finally {
-			tearDown();
-		}
-	}
-
 }
