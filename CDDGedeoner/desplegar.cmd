@@ -1,2 +1,4 @@
 cd C:\Users\pedro.dulce\git\pcm\CDDGedeoner
-mvn clean install
+cd allure-results
+del *.json
+mvn clean install cargo:run
