@@ -12,4 +12,5 @@
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="CDDGedeoner"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="C:\\Users\\99GU3997\\exports\\ARTEMIS C:\\Users\\99GU3997\\apache-tomcat-9.0.52\\data\\sqlite factUTEDBlite.db"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="CDDGedeoner"/>
+    <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>
