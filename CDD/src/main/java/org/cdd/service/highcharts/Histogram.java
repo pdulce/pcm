@@ -241,15 +241,15 @@ public class Histogram extends GenericHighchartModel {
 					}
 				}
 			}//for 
-			
-			//la ultima serie la grabas tomando lo previo:
-			Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
-			if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
-				volcarSeriesvalues = new HashMap<Date, Number>();						
+			if (seriesSQL.size() > 0) {
+				//la ultima serie la grabas tomando lo previo:
+				Map<Date, Number> volcarSeriesvalues = series.get(firstGroupBY_ID_Aux.toString());
+				if (volcarSeriesvalues == null || volcarSeriesvalues.isEmpty()) {
+					volcarSeriesvalues = new HashMap<Date, Number>();
+				}
+				volcarSeriesvalues.putAll(serieValuesAux);
+				series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
 			}
-			volcarSeriesvalues.putAll(serieValuesAux);
-			series.put(firstGroupBY_ID_Aux.toString(), volcarSeriesvalues);
-				
 		}
 		
 		/*** FIN EXTRACCION DE LAS SERIES ***/

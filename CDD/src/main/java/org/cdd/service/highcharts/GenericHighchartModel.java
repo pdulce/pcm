@@ -443,28 +443,30 @@ public abstract class GenericHighchartModel implements IStats {
 						Map<String,Boolean> mapa1 = iteMapSerializable.next();
 						String val = mapa1.keySet().iterator().next();
 						fSetParent.setValue(fSetParent.getEntityDef().getFieldKey().getPkFieldSet().iterator().next().getMappingTo(), val);
-						try {
-							fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
-							descFields = fSetParent.getDescriptionFieldList();
-							StringBuilder strBuf = new StringBuilder();
-							for (int i=0;i<descFields.size();i++){			
-								if (!strBuf.toString().equals("")){
-									strBuf.append(", ");
-									if (countOfMapavalues==0){
-										nombreCampoTraducido.append(", ");
+						if (!val.contentEquals("-9999") ) {
+							try {
+								fSetParent = this._dataAccess.searchEntityByPk(fSetParent);
+								descFields = fSetParent.getDescriptionFieldList();
+								StringBuilder strBuf = new StringBuilder();
+								for (int i = 0; i < descFields.size(); i++) {
+									if (!strBuf.toString().equals("")) {
+										strBuf.append(", ");
+										if (countOfMapavalues == 0) {
+											nombreCampoTraducido.append(", ");
+										}
 									}
-								}
-								strBuf.append(fSetParent.getValue(descFields.get(i).getMappingTo()));
-								if (countOfMapavalues==0){
-									nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(data_.getLanguage(), fSetParent.getEntityDef().getName().concat(".").concat(descFields.get(i).getName())));
-								}
-							}//for
-							countOfMapavalues++;
-							valoresDescriptivos.add(strBuf.toString().replaceAll(",", " - "));
-						} catch (DatabaseException e) {
-							e.printStackTrace();
+									strBuf.append(fSetParent.getValue(descFields.get(i).getMappingTo()));
+									if (countOfMapavalues == 0) {
+										nombreCampoTraducido.append(Translator.traduceDictionaryModelDefined(data_.getLanguage(), fSetParent.getEntityDef().getName().concat(".").concat(descFields.get(i).getName())));
+									}
+								}//for
+								countOfMapavalues++;
+								valoresDescriptivos.add(strBuf.toString().replaceAll(",", " - "));
+							} catch (DatabaseException e) {
+								e.printStackTrace();
+							}
 						}
-					}//end of while
+					}
 					fValues.setValues(valoresDescriptivos);					
 				}
 				if (!nombreCampoTraducido.toString().equals("")){
