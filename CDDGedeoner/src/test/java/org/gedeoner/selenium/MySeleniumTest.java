@@ -26,7 +26,7 @@ public class MySeleniumTest extends TestCase{
 	
 	private WebDriver driver;
 	static {
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\99GU3997\\webtools\\chromedriver.exe");   //msedgedriver.exe 
+		System.setProperty("webdriver.chrome.driver", "C:\\GISS-MAD\\webdriver\\chromedriver.exe");
 	}
 	
 	@AfterTest
@@ -61,7 +61,7 @@ public class MySeleniumTest extends TestCase{
 		
 		try {			
 			if (driver == null) {			
-				driver = new ChromeDriver();//EdgeDriver()
+				driver = new ChromeDriver();
 			}
 			Map<String, String> datatest = memoryData.getDatosEscenarioTest(testMethod);
 			
