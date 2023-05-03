@@ -48,10 +48,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>7.4.0</version>
-			<scope>test</scope>
+			<groupId>backport-util-concurrent</groupId>
+			<artifactId>backport-util-concurrent</artifactId>
+			<version>3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>io.qameta.allure</groupId>
