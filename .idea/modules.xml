@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CDD/CDD.iml" filepath="$PROJECT_DIR$/CDD/CDD.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CDDGedeoner/gedeoner.iml" filepath="$PROJECT_DIR$/CDDGedeoner/gedeoner.iml" />
       <module fileurl="file://$PROJECT_DIR$/pcm.iml" filepath="$PROJECT_DIR$/pcm.iml" />
     </modules>
   </component>

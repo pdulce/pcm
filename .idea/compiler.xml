@@ -10,9 +10,5 @@
         <module name="CDD" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="CDD" target="1.8" />
-      <module name="gedeoner" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
